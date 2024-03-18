@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { NvmAccount } from '../../src/nevermined'
 import { Nevermined } from '../../src/nevermined'
-import { getSignatureOfMethod } from '../../src/nevermined/utils/BlockchainEthersUtils'
+import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainEthersUtils'
 import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'
@@ -53,9 +53,9 @@ describe('ContractWrapperBase', () => {
     })
   })
 
-  describe('#getSignatureOfMethod()', () => {
+  describe('#getSignatureOfFunction()', () => {
     it('should a signature of the function', async () => {
-      const sig = getSignatureOfMethod(wrappedContract.interface, 'name')
+      const sig = getSignatureOfFunction(wrappedContract.interface, 'name')
       assert(sig)
       assert(typeof sig === 'string')
     })

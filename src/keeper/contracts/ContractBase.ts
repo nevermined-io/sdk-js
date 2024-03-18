@@ -1,8 +1,8 @@
 import {
   NvmAccount,
   estimateGas,
-  getInputsOfMethodFormatted,
-  getSignatureOfMethod,
+  getInputsOfFunctionFormatted,
+  getSignatureOfFunction,
 } from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
@@ -102,7 +102,7 @@ export abstract class ContractBase extends Instantiable {
     contract: ethers.BaseContract,
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
-    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
     // Uncomment to debug contract calls
     // console.debug(`Making contract call ....: ${name} - ${from}`)
     // console.debug(`With args - ${JSON.stringify(args)}`)
@@ -113,7 +113,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sending',
-        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         method: name,
         from,
         value,
@@ -130,7 +130,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sent',
-        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         transactionResponse,
         method: name,
         from,
@@ -146,7 +146,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'receipt',
-        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         transactionReceipt,
         method: name,
         from,
@@ -168,7 +168,7 @@ export abstract class ContractBase extends Instantiable {
     contract: ethers.BaseContract,
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
-    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
     // Uncomment to debug contract calls
     // console.debug(`Making contract call ....: ${name} - ${from}`)
     // console.debug(`With args - ${JSON.stringify(args)}`)
@@ -179,7 +179,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sending',
-        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         method: name,
         from,
         value,
@@ -196,7 +196,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sent',
-        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         transactionResponse,
         method: name,
         from,
@@ -213,7 +213,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'receipt',
-        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         transactionReceipt,
         method: name,
         from,
@@ -235,13 +235,13 @@ export abstract class ContractBase extends Instantiable {
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
     const { gasLimit, value } = txparams
-    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
 
     // make the call
     if (progress) {
       progress({
         stage: 'sending',
-        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         method: name,
         from,
         value,
@@ -260,7 +260,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sent',
-        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         hash,
         method: name,
         from,
@@ -278,7 +278,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'receipt',
-        args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         receipt,
         method: name,
         from,
@@ -326,7 +326,7 @@ export abstract class ContractBase extends Instantiable {
       return await this.internalSend(name, from, args, paramsFixed, contract, params.progress)
     }
 
-    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
 
     // get signer
     const signer = await this.nevermined.accounts.findSigner(from)
@@ -340,7 +340,7 @@ export abstract class ContractBase extends Instantiable {
       if (params.progress) {
         params.progress({
           stage: 'estimateGas',
-          args: getInputsOfMethodFormatted(this.contract.interface, name, args),
+          args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
           method: name,
           from,
           value,
@@ -368,7 +368,7 @@ export abstract class ContractBase extends Instantiable {
       }
       return await this.internalSend(name, from, args, txparams, contract, params.progress)
     } catch (err) {
-      const mappedArgs = getInputsOfMethodFormatted(this.contract.interface, name, args)
+      const mappedArgs = getInputsOfFunctionFormatted(this.contract.interface, name, args)
       throw new KeeperError(`
                 ${'-'.repeat(40)}\n
                 Sending transaction "${name}" on contract "${this.contractName}" at ${
@@ -383,7 +383,7 @@ export abstract class ContractBase extends Instantiable {
   }
 
   public async call<T>(name: string, args: any[], from?: string): Promise<T> {
-    const methodSignature = getSignatureOfMethod(this.contract.interface, name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
     try {
       return await this.contract[methodSignature](...args, { from })
     } catch (err) {

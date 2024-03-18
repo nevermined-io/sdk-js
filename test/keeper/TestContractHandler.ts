@@ -11,7 +11,7 @@ import {
   getWeb3EthersProvider,
   getWeb3ViemClients,
 } from '../../src'
-import { getSignatureOfMethod } from '../../src/nevermined/utils/BlockchainEthersUtils'
+import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainEthersUtils'
 
 export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<string> {
@@ -73,7 +73,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     )
     const contract = token.connect(signer)
     const args = [TestContractHandler.minter, await dispenser.getAddress()]
-    const methodSignature = getSignatureOfMethod(contract.interface, 'grantRole', args)
+    const methodSignature = getSignatureOfFunction(contract.interface, 'grantRole', args)
     let transactionResponse: ContractTransactionResponse = await contract[methodSignature](...args)
     let contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
     if (contractReceipt.status !== 1) {
@@ -449,7 +449,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     await contractInstance.waitForDeployment()
 
     if (isZos) {
-      const methodSignature = getSignatureOfMethod(contractInstance.interface, 'initialize', args)
+      const methodSignature = getSignatureOfFunction(contractInstance.interface, 'initialize', args)
       const contract = contractInstance.connect(signer)
       const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
         ...args,

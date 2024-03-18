@@ -55,7 +55,7 @@ export class BlockchainEthersUtils extends Instantiable {
     }
 
     if (isZos) {
-      const methodSignature = getSignatureOfMethod(baseContract.interface, 'initialize', args)
+      const methodSignature = getSignatureOfFunction(baseContract.interface, 'initialize', args)
 
       const contract = baseContract.connect(signer)
 
@@ -88,6 +88,14 @@ export class BlockchainEthersUtils extends Instantiable {
   ): Promise<ethers.Contract> {
     await this.checkExists(contractAddress)
     return new ethers.Contract(contractAddress, abi, this.web3)
+  }
+
+  /**
+   * Returns true of contract exists else it throws.
+   * @returns {@link true} if the contract exists.
+   */
+  public async checkExists(address: string): Promise<boolean> {
+    return checkContractExists(address, this.web3)
   }
 
   // NETWORK FEEs
@@ -169,14 +177,6 @@ export class BlockchainEthersUtils extends Instantiable {
       gasPrice: feeData.gasPrice,
     }
   }
-
-  /**
-   * Returns true of contract exists else it throws.
-   * @returns {@link true} if the contract exists.
-   */
-  public async checkExists(address: string): Promise<boolean> {
-    return checkContractExists(address, this.web3)
-  }
 }
 
 //////////////////////////
@@ -203,9 +203,10 @@ export async function checkContractExists(
     // if the storage is empty, check if there is no code for this contract,
     // if so we can be sure it does not exist
     const code = await web3Provider.getCode(address)
-    if (code === '0x0') {
+    if (code === '0x0' || code === '0x') {
       // no contract in the blockchain dude
-      throw new Error(`No contract deployed at address ${address}, sorry.`)
+      //throw new Error(`No contract deployed at address ${address}, sorry.`)
+      return false
     }
   }
 
@@ -229,7 +230,7 @@ export function searchAbiFunction(
   return foundMethod
 }
 
-export function getSignatureOfMethod(
+export function getSignatureOfFunction(
   iface: ethers.Interface,
   funcName: string,
   args: any[] = [],
@@ -238,14 +239,14 @@ export function getSignatureOfMethod(
   return foundMethod.format()
 }
 
-export function getInputsOfMethod(
+export function getInputsOfFunction(
   iface: ethers.Interface,
   funcName: string,
 ): ReadonlyArray<ethers.ParamType> {
   return searchAbiFunction(iface, funcName).inputs
 }
 
-export function getInputsOfMethodFormatted(
+export function getInputsOfFunctionFormatted(
   iface: ethers.Interface,
   funcName: string,
   args: any[] = [],
@@ -257,6 +258,8 @@ export function getInputsOfMethodFormatted(
     }
   })
 }
+
+//////// UTILS
 
 export function getAddress(address: string): string {
   return ethers.getAddress(address)
@@ -314,31 +317,6 @@ function getWalletsFromHDNode(node: HDNodeWallet, numAccounts: number): ethers.W
   return accounts
 }
 
-/////// ZERO DEV
-
-// zerodev ethersV6 compatibility
-export function convertEthersV6SignerToAccountSigner(signer: Signer | Wallet): SmartAccountSigner {
-  return {
-    signerType: '',
-    getAddress: async () => Promise.resolve((await signer.getAddress()) as `0x${string}`),
-    signMessage: async (msg: Uint8Array | string) =>
-      (await signer.signMessage(msg)) as `0x${string}`,
-    signTypedData: async (params: SignTypedDataParams) => {
-      if (!isWalletEthersV6(signer)) {
-        throw Error('signTypedData method not implemented in signer')
-      }
-      return (await signer.signTypedData(
-        params.domain!,
-        params.types as unknown as Record<string, TypedDataField[]>,
-        params.message,
-      )) as Hex
-    },
-  }
-}
-
-const isWalletEthersV6 = (signer: any): signer is Wallet =>
-  signer && signer.signTypedData !== undefined
-
 /////// HASHES
 
 export function keccak256(message: string): string {
@@ -379,6 +357,24 @@ export const parseUnits = (value: string, decimals: string | Numeric = 18): bigi
 }
 
 /**
+ * Returns a string representation of value formatted with _decimal_ digits.
+ *
+ * @param value - The value to format.
+ * @returns The string of the formatted value
+ *
+ * @example
+ * ```ts
+ * const oneEther = 1000000000000000000n
+ *
+ * formatUnits(oneEther, 18)
+ * // '1.0'
+ * ```
+ */
+export const formatUnits = (value: BigNumberish, decimals = 18): string => {
+  return ethers.formatUnits(value, decimals)
+}
+
+/**
  * Converts a ether _value_ into _wei_.
  *
  * @param value - The string value to convert
@@ -415,23 +411,30 @@ export const formatEther = (value: BigNumberish): string => {
   return ethers.formatEther(value)
 }
 
-/**
- * Returns a string representation of value formatted with _decimal_ digits.
- *
- * @param value - The value to format.
- * @returns The string of the formatted value
- *
- * @example
- * ```ts
- * const oneEther = 1000000000000000000n
- *
- * formatUnits(oneEther, 18)
- * // '1.0'
- * ```
- */
-export const formatUnits = (value: BigNumberish, decimals = 18): string => {
-  return ethers.formatUnits(value, decimals)
+/////// ZERO DEV
+
+// zerodev ethersV6 compatibility
+export function convertEthersV6SignerToAccountSigner(signer: Signer | Wallet): SmartAccountSigner {
+  return {
+    signerType: '',
+    getAddress: async () => Promise.resolve((await signer.getAddress()) as `0x${string}`),
+    signMessage: async (msg: Uint8Array | string) =>
+      (await signer.signMessage(msg)) as `0x${string}`,
+    signTypedData: async (params: SignTypedDataParams) => {
+      if (!isWalletEthersV6(signer)) {
+        throw Error('signTypedData method not implemented in signer')
+      }
+      return (await signer.signTypedData(
+        params.domain!,
+        params.types as unknown as Record<string, TypedDataField[]>,
+        params.message,
+      )) as Hex
+    },
+  }
 }
+
+const isWalletEthersV6 = (signer: any): signer is Wallet =>
+  signer && signer.signTypedData !== undefined
 
 export const estimateGas = async (
   contract: ethers.BaseContract,
