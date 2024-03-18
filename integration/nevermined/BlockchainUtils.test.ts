@@ -32,7 +32,7 @@ describe('Blockchain Utils', () => {
     assert.isDefined(userAccount)
   })
 
-  describe.skip('Class tests', () => {
+  describe('Class tests', () => {
     it(`Should deploy an ABI`, async () => {
       const networkName = await nvm.keeper.getNetworkName()
       const erc1155ABI = await ContractHandler.getABIArtifact(
@@ -74,7 +74,7 @@ describe('Blockchain Utils', () => {
     })
   })
 
-  describe.skip('ABI functions', () => {
+  describe('ABI functions', () => {
     const iface = new ethers.Interface(Token.ERC20_ABI)
 
     it(`Should not find a function if doesnt exist`, async () => {
@@ -103,7 +103,7 @@ describe('Blockchain Utils', () => {
     // 0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0
   })
 
-  describe.skip('Utility functions', () => {
+  describe('Utility functions', () => {
     const testAddress = '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
 
     it(`Get Address`, async () => {
@@ -127,7 +127,7 @@ describe('Blockchain Utils', () => {
     })
   })
 
-  describe.skip('Make Wallets', () => {
+  describe('Make Wallets', () => {
     const TEST_SEED_WORDS =
       'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'
 
@@ -138,7 +138,7 @@ describe('Blockchain Utils', () => {
     })
   })
 
-  describe.skip('Hashes', () => {
+  describe('Hashes', () => {
     it(`keccak256`, async () => {
       const hash = keccak256('0x1234')
       console.log('Hash:', hash)
