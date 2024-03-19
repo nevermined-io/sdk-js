@@ -47,7 +47,7 @@ import { EventHandler } from '../events/EventHandler'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors'
 import { NeverminedInitializationOptions } from '../models'
-import { isAddress } from 'ethers'
+import { isAddress } from '../sdk'
 
 /**
  * Interface with Nevermined contracts.
@@ -75,12 +75,8 @@ export class Keeper extends Instantiable {
         token: undefined, // Optional
         curveRoyalties: undefined, // Optional
         // CORE Contracts
-        nvmConfig: initOptions.loadCore
-          ? NeverminedConfig.getInstance(this.instanceConfig)
-          : undefined,
-        didRegistry: initOptions.loadCore
-          ? DIDRegistry.getInstance(this.instanceConfig)
-          : undefined,
+        nvmConfig: NeverminedConfig.getInstance(this.instanceConfig),
+        didRegistry: DIDRegistry.getInstance(this.instanceConfig),
         // ServiceAgrements Manager Contracts
         templateStoreManager: initOptions.loadServiceAgreements
           ? TemplateStoreManager.getInstance(this.instanceConfig)
@@ -213,7 +209,9 @@ export class Keeper extends Instantiable {
         `Keeper could not connect to ${await this.getNetworkName()} - ${err.message} ${err.stack}`,
       )
     }
-    const chainId = Number((await this.web3.getNetwork()).chainId)
+
+    // const chainId = Number((await this.web3.getNetwork()).chainId)
+    const chainId = await this.publicClient.getChainId()
 
     if (KeeperUtils.isTestnet(chainId)) {
       this.instances.dispenser = initOptions.loadDispenser

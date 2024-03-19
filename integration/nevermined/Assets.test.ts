@@ -3,26 +3,19 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getAssetPrice, getMetadata } from '../utils'
-import {
-  Nevermined,
-  Account,
-  MetaData,
-  DDO,
-  AssetPrice,
-  AssetAttributes,
-  ProvenanceMethod,
-} from '../../src'
+import { Nevermined, MetaData, DDO, AssetPrice, AssetAttributes, ProvenanceMethod } from '../../src'
 import { generateId } from '../../src/utils'
 import {
   PublishMetadataOptions,
   DIDResolvePolicy,
   PublishOnChainOptions,
+  NvmAccount,
 } from '../../src/nevermined'
 import { rejects } from 'assert'
 import * as fs from 'fs'
 
 let nevermined: Nevermined
-let publisher: Account
+let publisher: NvmAccount
 let metadata: MetaData
 let createdMetadata: MetaData
 let assetPrice: AssetPrice

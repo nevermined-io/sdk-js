@@ -1,7 +1,7 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils'
 import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 
 export interface AccessConditionContext extends ConditionContext {
@@ -54,7 +54,7 @@ export class TransferDIDOwnershipCondition extends ProviderCondition<AccessCondi
     agreementId: string,
     did: string,
     receiver: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(agreementId, [didZeroX(did), zeroX(receiver)], from, txParams)

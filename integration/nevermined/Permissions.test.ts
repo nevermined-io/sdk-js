@@ -1,11 +1,11 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, NewPermission, PermissionType } from '../../src'
+import { Nevermined, NvmAccount, NewPermission, PermissionType } from '../../src'
 
 describe('Permissions', () => {
   let nevermined: Nevermined
-  let account1: Account
-  let account2: Account
+  let account1: NvmAccount
+  let account2: NvmAccount
   let newPermission: NewPermission
   let id: string
 

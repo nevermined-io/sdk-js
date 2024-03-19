@@ -3,7 +3,7 @@ import { BaseTemplate } from './BaseTemplate.abstract'
 import { DDO, ServiceAccess, ServiceType, ValidationParams } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
-import { Account } from '../../../sdk'
+import { NvmAccount } from '../../../sdk'
 import { AccessCondition, EscrowPaymentCondition, LockPaymentCondition } from '../conditions'
 
 export interface AccessTemplateParams {
@@ -40,7 +40,7 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAc
     return accessTemplateServiceAgreementTemplate()
   }
 
-  public params(consumer: Account, serviceType: ServiceType = 'access'): AccessTemplateParams {
+  public params(consumer: NvmAccount, serviceType: ServiceType = 'access'): AccessTemplateParams {
     return {
       consumerId: consumer.getId(),
       serviceType,

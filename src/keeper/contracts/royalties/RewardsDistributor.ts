@@ -1,6 +1,6 @@
 import ContractBase, { TxParameters as txParams } from '../ContractBase'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 import { didZeroX, zeroX } from '../../../utils'
 
 export class RewardsDistributor extends ContractBase {
@@ -13,7 +13,7 @@ export class RewardsDistributor extends ContractBase {
       config.logger.warn('Cannot load optional contract RewardsDistributor')
     }
   }
-  public setReceivers(did: string, addr: string[], from?: Account, params?: txParams) {
+  public setReceivers(did: string, addr: string[], from?: NvmAccount, params?: txParams) {
     return this.sendFrom('setReceivers', [didZeroX(did), addr], from, params)
   }
   public claimReward(
@@ -26,7 +26,7 @@ export class RewardsDistributor extends ContractBase {
     tokenAddress: string,
     lockCondition: string,
     releaseConditions: string[],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: txParams,
   ) {
     const amountsString = amounts.map((v) => v.toString())

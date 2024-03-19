@@ -10,10 +10,9 @@ import { DDO, ServiceAgreementTemplate, Service, ServiceType } from '../../../dd
 import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { AssetPrice, BabyjubPublicKey } from '../../../models'
-import { Account, OrderProgressStep } from '../../../nevermined'
+import { NvmAccount, OrderProgressStep, isAddress } from '../../../nevermined'
 import { CustomToken } from '../CustomToken'
 import { Token } from '../Token'
-import { isAddress } from 'ethers'
 
 export interface AgreementConditionsStatus {
   [condition: string]: {
@@ -29,7 +28,7 @@ export type ParameterType =
   | string
   | number
   | number[]
-  | Account
+  | NvmAccount
   | BabyjubPublicKey
   | Service
   | ServiceType
@@ -95,7 +94,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     timeLocks: number[],
     timeOuts: number[],
     extraArgs: any[],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom(
@@ -125,7 +124,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     tokenAddress: string,
     amounts: bigint[],
     receivers: string[],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom(
@@ -230,8 +229,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     agreementIdSeed: string,
     ddo: DDO,
     parameters: Params,
-    consumer: Account,
-    from: Account,
+    consumer: NvmAccount,
+    from: NvmAccount,
     timeOuts?: number[],
     txParams?: TxParameters,
   ): Promise<string> {
@@ -261,8 +260,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     ddo: DDO,
     serviceReference: ServiceType | number,
     parameters: Params,
-    consumer: Account,
-    from: Account,
+    consumer: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
     observer?: (orderProgressStep: OrderProgressStep) => void,
   ): Promise<string> {
@@ -401,7 +400,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   public async lockTokens(
     tokenAddress,
     amounts,
-    from: Account,
+    from: NvmAccount,
     txParams: TxParameters,
   ): Promise<void> {
     let token: Token

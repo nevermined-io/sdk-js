@@ -1,19 +1,24 @@
 import { ContractHandler } from '../../src/keeper'
-import { Web3Provider } from '../../src/keeper'
 import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
 import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
 import fs from 'fs'
-import { NeverminedOptions } from '../../src'
+import {
+  NeverminedOptions,
+  Web3Clients,
+  getWeb3EthersProvider,
+  getWeb3ViemClients,
+} from '../../src'
+import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainEthersUtils'
 
 export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<string> {
     await TestContractHandler.setConfig(config)
 
     const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
-    TestContractHandler.networkId = Number((await TestContractHandler.web3.getNetwork()).chainId)
+    TestContractHandler.networkId = await TestContractHandler.client.public.getChainId() //TestContractHandler.web3 //Number((await TestContractHandler.web3.getNetwork()).chainId)
     TestContractHandler.minter = ethers.encodeBytes32String('minter')
 
     // deploy contracts
@@ -25,10 +30,12 @@ export default abstract class TestContractHandler extends ContractHandler {
   private static minter: string
   private static config = config
   private static web3: ethers.JsonRpcProvider | ethers.BrowserProvider
+  private static client: Web3Clients
 
   public static async setConfig(config) {
     TestContractHandler.config = config
-    TestContractHandler.web3 = await Web3Provider.getWeb3(TestContractHandler.config)
+    TestContractHandler.web3 = await getWeb3EthersProvider(TestContractHandler.config)
+    TestContractHandler.client = getWeb3ViemClients(TestContractHandler.config)
   }
 
   private static async deployContracts(deployerAddress: string) {
@@ -66,7 +73,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     )
     const contract = token.connect(signer)
     const args = [TestContractHandler.minter, await dispenser.getAddress()]
-    const methodSignature = ContractHandler.getSignatureOfMethod(contract, 'grantRole', args)
+    const methodSignature = getSignatureOfFunction(contract.interface, 'grantRole', args)
     let transactionResponse: ContractTransactionResponse = await contract[methodSignature](...args)
     let contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
     if (contractReceipt.status !== 1) {
@@ -442,11 +449,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     await contractInstance.waitForDeployment()
 
     if (isZos) {
-      const methodSignature = TestContractHandler.getSignatureOfMethod(
-        contractInstance,
-        'initialize',
-        args,
-      )
+      const methodSignature = getSignatureOfFunction(contractInstance.interface, 'initialize', args)
       const contract = contractInstance.connect(signer)
       const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
         ...args,

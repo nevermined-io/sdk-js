@@ -1,4 +1,4 @@
-import { Nevermined, MetaData, Account, DDO } from '../src'
+import { Nevermined, MetaData, NvmAccount, DDO } from '../src'
 import { AssetAttributes } from '../src/models/AssetAttributes'
 import { AssetPrice } from '../src/models/AssetPrice'
 import { generateId } from '../src/utils'
@@ -10,7 +10,7 @@ import * as fs from 'fs'
 
 const generateDatasetDDO = async (
     nevermined: Nevermined,
-    publisher: Account,
+    publisher: NvmAccount,
     price: AssetPrice,
     userId: string,
     destination: string
@@ -60,7 +60,7 @@ const generateDatasetDDO = async (
 
 const generateNftDDO = async (
     nevermined: Nevermined,
-    publisher: Account,
+    publisher: NvmAccount,
     price: AssetPrice,
     userId: string,
     destination: string
@@ -125,7 +125,7 @@ const generateNftDDO = async (
 
 const generateAlgorithmDDO = async (
     nevermined: Nevermined,
-    publisher: Account,
+    publisher: NvmAccount,
     price: AssetPrice,
     userId: string,
     destination: string
@@ -187,7 +187,7 @@ const generateAlgorithmDDO = async (
 
 const generateWorkflowDDO = async (
     nevermined: Nevermined,
-    publisher: Account,
+    publisher: NvmAccount,
     price: AssetPrice,
     userId: string,
     destination: string
@@ -255,7 +255,7 @@ const generateWorkflowDDO = async (
 
 const generateComputeDDO = async (
     nevermined: Nevermined,
-    publisher: Account,
+    publisher: NvmAccount,
     price: AssetPrice,
     userId: string,
     destination: string

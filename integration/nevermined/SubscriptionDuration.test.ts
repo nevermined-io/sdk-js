@@ -1,12 +1,19 @@
 import { assert } from 'chai'
-import { Account, AssetPrice, DDO, NFTAttributes, Nevermined, SubscriptionNFTApi } from '../../src'
+import {
+  NvmAccount,
+  AssetPrice,
+  DDO,
+  NFTAttributes,
+  Nevermined,
+  SubscriptionNFTApi,
+} from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
 describe('Subscription Durations', () => {
-  let publisher: Account
-  let subscriber: Account
+  let publisher: NvmAccount
+  let subscriber: NvmAccount
   let nevermined: Nevermined
 
   before(async () => {
@@ -25,7 +32,7 @@ describe('Subscription Durations', () => {
     let agreementId: string
 
     it('The publisher publishes the subscription', async () => {
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )
@@ -119,7 +126,7 @@ describe('Subscription Durations', () => {
     let agreementId: string
 
     it('The publisher publishes the subscription', async () => {
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )
@@ -212,7 +219,7 @@ describe('Subscription Durations', () => {
     let agreementId: string
 
     it('The publisher publishes the subscription', async () => {
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )

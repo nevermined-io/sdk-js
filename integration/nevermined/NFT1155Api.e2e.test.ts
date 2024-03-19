@@ -1,7 +1,7 @@
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, DDO, Nevermined, AssetPrice } from '../../src'
+import { NvmAccount, DDO, Nevermined, AssetPrice, ZeroAddress, getAddress } from '../../src'
 import {
   EscrowPaymentCondition,
   TransferNFTCondition,
@@ -17,7 +17,6 @@ import {
   PublishMetadataOptions,
   RoyaltyKind,
 } from '../../src/nevermined/api/AssetsApi'
-import { ethers, ZeroAddress } from 'ethers'
 import '../globals'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { NFTAttributes } from '../../src/models/NFTAttributes'
@@ -26,10 +25,10 @@ chai.use(chaiAsPromised)
 
 function makeTest(isCustom) {
   describe(`NFTs 1155 Api End-to-End (${isCustom ? 'custom' : 'builtin'} token)`, () => {
-    let artist: Account
-    let collector1: Account
-    let collector2: Account
-    let gallery: Account
+    let artist: NvmAccount
+    let collector1: NvmAccount
+    let collector2: NvmAccount
+    let gallery: NvmAccount
 
     let nevermined: Nevermined
     let token: Token
@@ -96,13 +95,13 @@ function makeTest(isCustom) {
 
       if (isCustom) {
         const networkName = await nevermined.keeper.getNetworkName()
-        const erc1155ABI = await ContractHandler.getABI(
+        const erc1155ABI = await ContractHandler.getABIArtifact(
           'NFT1155Upgradeable',
           config.artifactsFolder,
           networkName,
         )
 
-        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
+        const nft = await nevermined.utils.blockchain.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
           'NFT1155',
@@ -118,7 +117,7 @@ function makeTest(isCustom) {
 
         await nevermined.contracts.loadNft1155(nftContract.address)
 
-        const nftContractOwner = new Account(artist.getId())
+        const nftContractOwner = new NvmAccount(artist.getId())
         await nftContract.grantOperatorRole(transferNftCondition.address, nftContractOwner)
       }
 
@@ -203,7 +202,7 @@ function makeTest(isCustom) {
 
       it('Should set the Node as a provider by default', async () => {
         const providers = await nevermined.assets.providers.list(ddo.id)
-        assert.deepEqual(providers, [ethers.getAddress(config.neverminedNodeAddress)])
+        assert.deepEqual(providers, [getAddress(config.neverminedNodeAddress)])
       })
     })
 
@@ -481,13 +480,13 @@ function makeTest(isCustom) {
     describe('Node should not be able to transfer the nft without the operator role', () => {
       it('should create the subscription NFT without granting Nevermined the operator role', async () => {
         const networkName = await nevermined.keeper.getNetworkName()
-        const erc1155ABI = await ContractHandler.getABI(
+        const erc1155ABI = await ContractHandler.getABIArtifact(
           'NFT1155Upgradeable',
           config.artifactsFolder,
           networkName,
         )
 
-        const nft = await nevermined.utils.contractHandler.deployAbi(erc1155ABI, artist, [
+        const nft = await nevermined.utils.blockchain.deployAbi(erc1155ABI, artist, [
           artist.getId(),
           nevermined.keeper.didRegistry.address,
           'NFT1155',

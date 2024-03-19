@@ -2,7 +2,7 @@ import ContractBase, { TxParameters } from '../ContractBase'
 import { ConditionState } from '../conditions'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 
 export interface ConditionData {
   typeRef: string
@@ -26,7 +26,7 @@ export class ConditionStoreManager extends ContractBase {
   public async createCondition(
     id: string,
     typeRef: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.send('createCondition', from && from.getId(), [zeroX(id), zeroX(typeRef)], txParams)

@@ -5,6 +5,8 @@ import { Files } from '../Files'
 import { TokenUtils } from '../Token'
 import { Versions } from '../Versions'
 import { JwtUtils, ServiceAgreement, SignatureUtils, WebServiceConnector } from '../utils'
+import { BlockchainEthersUtils } from '../utils/BlockchainEthersUtils'
+import { BlockchainViemUtils } from '../utils/BlockchainViemUtils'
 
 /**
  * Nevermined Utils API
@@ -29,6 +31,12 @@ export class UtilsApi extends Instantiable {
    * Jwt utils.
    */
   public jwt: JwtUtils
+
+  /**
+   * Blockchain utils.
+   */
+  public blockchain: BlockchainEthersUtils
+  public viem: BlockchainViemUtils
 
   /**
    * Signature utils.
@@ -68,6 +76,8 @@ export class UtilsApi extends Instantiable {
     if (initOptions.loadCore) {
       this.token = new TokenUtils(config)
       this.contractHandler = new ContractHandler(config)
+      this.blockchain = new BlockchainEthersUtils(config)
+      this.viem = new BlockchainViemUtils(config)
     }
   }
 }

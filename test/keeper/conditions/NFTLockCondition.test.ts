@@ -1,7 +1,7 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import {
-  Account,
+  NvmAccount,
   ConditionState,
   Nevermined,
   NeverminedNFT1155Type,
@@ -26,8 +26,8 @@ describe('NFTLockCondition', () => {
   let conditionStoreManager: ConditionStoreManager
   let didRegistry: DIDRegistry
   let nftUpgradeable: Nft1155Contract
-  let rewardAddress: Account
-  let owner: Account
+  let rewardAddress: NvmAccount
+  let owner: NvmAccount
 
   let agreementId: string
   let checksum: string

@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, Nevermined, NFTAttributes, AssetPrice } from '../../src'
+import { NvmAccount, DDO, Nevermined, NFTAttributes, AssetPrice } from '../../src'
 import {
   EscrowPaymentCondition,
   TransferNFT721Condition,
@@ -14,10 +14,10 @@ import { ethers } from 'ethers'
 import '../globals'
 
 describe('NFTs721 Api End-to-End', () => {
-  let nftContractOwner: Account
-  let artist: Account
-  let collector1: Account
-  let gallery: Account
+  let nftContractOwner: NvmAccount
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let gallery: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -48,13 +48,13 @@ describe('NFTs721 Api End-to-End', () => {
     ;[, artist, collector1, , gallery] = await nevermined.accounts.list()
 
     const networkName = await nevermined.keeper.getNetworkName()
-    const erc721ABI = await ContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABIArtifact(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
-    nft = await nevermined.utils.contractHandler.deployAbi(erc721ABI, artist, [
+    nft = await nevermined.utils.blockchain.deployAbi(erc721ABI, artist, [
       artist.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
@@ -71,7 +71,7 @@ describe('NFTs721 Api End-to-End', () => {
 
     await nevermined.contracts.loadNft721(nftContract.address)
 
-    nftContractOwner = new Account((await nftContract.owner()) as string)
+    nftContractOwner = new NvmAccount((await nftContract.owner()) as string)
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 

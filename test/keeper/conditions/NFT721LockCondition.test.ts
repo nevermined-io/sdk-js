@@ -1,7 +1,7 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Nevermined } from '../../../src/nevermined'
-import { Account, ConditionState } from '../../../src'
+import { NvmAccount, ConditionState } from '../../../src'
 import { NFT721LockCondition, ConditionStoreManager } from '../../../src/keeper'
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
@@ -20,8 +20,8 @@ describe('NFT721LockCondition', () => {
   let nftContractAddress: string
   let _nftContract: BaseContract
   let nft721Wrapper: NFT721Api
-  let lockAddress: Account
-  let owner: Account
+  let lockAddress: NvmAccount
+  let owner: NvmAccount
   let did: string
   let didSeed: string
 

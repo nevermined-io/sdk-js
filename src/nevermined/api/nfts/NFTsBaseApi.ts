@@ -2,7 +2,7 @@ import { DDO, ServiceType } from '../../../ddo'
 import { getConditionsByParams, zeroX } from '../../../utils'
 import { AssetPrice, Babysig, ERCType } from '../../../models'
 import { RoyaltyKind } from '../AssetsApi'
-import { Account } from '../../Account'
+import { NvmAccount } from '../../NvmAccount'
 import { Token, TxParameters } from '../../../keeper'
 import { ServiceSecondary } from '../../../ddo'
 import { NFTError } from '../../../errors'
@@ -264,7 +264,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     nftTransfer: boolean,
     provider: string,
     token: Token,
-    owner: Account,
+    owner: NvmAccount,
   ): Promise<string> {
     const serviceType: ServiceType = 'nft-sales'
     const { nftSalesTemplate } = this.nevermined.keeper.templates
@@ -339,7 +339,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * Thrown if there is an error buying the NFT.
    */
   public async buySecondaryMarketNft(
-    consumer: Account,
+    consumer: NvmAccount,
     nftAmount = 1n,
     agreementIdSeed: string,
     conditionsTimeout: number[] = [86400, 86400, 86400],
@@ -357,7 +357,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     // has no privkeys, so we can't sign
     let currentNftHolder
     try {
-      currentNftHolder = new Account(DDO.getNftHolderFromService(service))
+      currentNftHolder = new NvmAccount(DDO.getNftHolderFromService(service))
     } catch (_e) {
       currentNftHolder = undefined
     }
@@ -418,7 +418,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    */
   public async access(
     did: string,
-    consumer: Account,
+    consumer: NvmAccount,
     destination?: string,
     fileIndex?: number,
     agreementId = '0x',
@@ -476,7 +476,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    *
    * @returns {@link SubscriptionToken}
    */
-  public async getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
+  public async getSubscriptionToken(did: string, account: NvmAccount): Promise<SubscriptionToken> {
     return this.nevermined.services.node.getSubscriptionToken(did, account)
   }
 }

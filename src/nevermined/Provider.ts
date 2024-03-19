@@ -1,4 +1,4 @@
-import { Account } from './Account'
+import { NvmAccount } from './NvmAccount'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper'
 
@@ -23,7 +23,7 @@ export class Providers extends Instantiable {
   public async add(
     did: string,
     address: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.addProvider(did, address, from.getId(), txParams)
@@ -41,7 +41,7 @@ export class Providers extends Instantiable {
   public async remove(
     did: string,
     address: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.removeProvider(did, address, from.getId(), txParams)

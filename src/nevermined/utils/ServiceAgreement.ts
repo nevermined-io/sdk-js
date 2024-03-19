@@ -1,8 +1,8 @@
 import { ServiceAgreementTemplateCondition, DDO, ServiceAccess, ServiceType } from '../../ddo'
-import { Account } from '../Account'
+import { NvmAccount } from '../NvmAccount'
 import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { ethers } from 'ethers'
+import { getBytes, keccak256Packed } from './BlockchainEthersUtils'
 
 export class ServiceAgreement extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -15,7 +15,7 @@ export class ServiceAgreement extends Instantiable {
     serviceType: ServiceType,
     serviceAgreementId: string,
     agreementConditionsIds: string[],
-    consumer: Account,
+    consumer: NvmAccount,
   ): Promise<string> {
     const service = ddo.findServiceByType(serviceType) as ServiceAccess
     const timelockValues: number[] = this.getTimeValuesFromService(service, 'timelock')
@@ -45,7 +45,7 @@ export class ServiceAgreement extends Instantiable {
     valueHashes: string[],
     timelockValues: number[],
     timeoutValues: number[],
-    consumer: Account,
+    consumer: NvmAccount,
   ): Promise<string> {
     const serviceAgreementHash = this.hashServiceAgreement(
       templateId,
@@ -56,7 +56,7 @@ export class ServiceAgreement extends Instantiable {
     )
 
     const serviceAgreementHashSignature = await this.nevermined.utils.signature.signText(
-      ethers.getBytes(serviceAgreementHash),
+      getBytes(serviceAgreementHash),
       consumer.getId(),
     )
 
@@ -77,7 +77,7 @@ export class ServiceAgreement extends Instantiable {
       { type: 'uint256[]', value: timeouts },
       { type: 'bytes32', value: zeroX(serviceAgreementId) },
     ]
-    return ethers.solidityPackedKeccak256(
+    return keccak256Packed(
       args.map((arg: { type: string }) => arg.type),
       args.map((arg: { value: any }) => arg.value),
     )

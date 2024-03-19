@@ -1,6 +1,6 @@
-import { Hex, SignTypedDataParams, SmartAccountSigner } from '@alchemy/aa-core'
-import { Signer, TypedDataField, Wallet, ethers } from 'ethers'
+import { Chain, arbitrum, arbitrumSepolia, aurora, auroraTestnet, base, celo, celoAlfajores, gnosis, mainnet, optimism, polygon, polygonMumbai } from 'viem/chains'
 import { KeeperError } from '../errors'
+import { defineChain } from 'viem'
 
 export async function getNetworkName(networkId: number): Promise<string> {
   switch (networkId) {
@@ -130,6 +130,53 @@ export function isTestnet(networkId: number): boolean {
       throw new KeeperError(`Network with id ${networkId} not supported.`)
   }
 }
+
+export function getChain(networkId: number): Chain {
+  switch (networkId) {
+    case 1:
+      return mainnet
+    case 10:
+      return optimism as Chain
+    case 100:
+      return gnosis            
+    case 137:
+      return polygon
+    case 8453:
+      return base as Chain
+    case 42161:
+      return arbitrum   
+    case 42220:
+      return celo as Chain
+    case 44787:
+      return celoAlfajores as Chain
+    case 80001:
+      return polygonMumbai      
+    case 421614:
+      return arbitrumSepolia                        
+    case 1313161554:
+      return aurora      
+    case 1313161555:
+      return auroraTestnet
+    case 8996 || 8997 || 31337:
+      return defineChain({
+        id: networkId,
+        name: 'geth-localnet',
+        nativeCurrency: {
+          name: 'ETH',
+          symbol: 'ETH',
+          decimals: 18
+        },
+        rpcUrls: {
+          default: {
+            http: ['http://contracts.nevermined.localnet'],
+            webSocket: []
+          }
+        }
+      })
+    default:
+      throw new KeeperError(`Network with id ${networkId} not supported.`)
+  }
+}
 // Wrapper for implementing web3 provider. Needed for OpenGSN
 export interface JsonRpcPayload {
   jsonrpc: string
@@ -143,46 +190,4 @@ export interface JsonRpcResponse {
   id: number
   result?: any
   error?: string
-}
-
-export class Web3ProviderWrapper {
-  provider: ethers.JsonRpcProvider | ethers.BrowserProvider
-
-  constructor(provider: ethers.JsonRpcProvider | ethers.BrowserProvider) {
-    this.provider = provider
-  }
-  send(
-    payload: JsonRpcPayload,
-    callback: (error: Error | null, result?: JsonRpcResponse) => void,
-  ): void {
-    const id = typeof payload.id === 'string' ? parseInt(payload.id) : payload.id
-    this.provider
-      .send(payload.method, payload.params)
-      .then((result) => callback(null, { jsonrpc: payload.jsonrpc, id, result }))
-  }
-}
-
-const isWalletEthersV6 = (signer: any): signer is Wallet =>
-  signer && signer.signTypedData !== undefined
-
-// zerodev ethersV6 compatibility
-export const convertEthersV6SignerToAccountSigner = (
-  signer: Signer | Wallet,
-): SmartAccountSigner => {
-  return {
-    signerType: '',
-    getAddress: async () => Promise.resolve((await signer.getAddress()) as `0x${string}`),
-    signMessage: async (msg: Uint8Array | string) =>
-      (await signer.signMessage(msg)) as `0x${string}`,
-    signTypedData: async (params: SignTypedDataParams) => {
-      if (!isWalletEthersV6(signer)) {
-        throw Error('signTypedData method not implemented in signer')
-      }
-      return (await signer.signTypedData(
-        params.domain!,
-        params.types as unknown as Record<string, TypedDataField[]>,
-        params.message,
-      )) as Hex
-    },
-  }
 }

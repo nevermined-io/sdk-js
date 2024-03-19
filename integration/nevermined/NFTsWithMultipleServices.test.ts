@@ -4,7 +4,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import {
   Nevermined,
-  Account,
+  NvmAccount,
   MetaData,
   DDO,
   AssetPrice,
@@ -18,8 +18,8 @@ import { ethers } from 'ethers'
 import { repeat } from '../utils/utils'
 
 let nevermined: Nevermined
-let publisher: Account
-let collector1: Account
+let publisher: NvmAccount
+let collector1: NvmAccount
 let metadata: MetaData
 let assetPrice1: AssetPrice
 let assetPrice2: AssetPrice
@@ -45,13 +45,13 @@ describe('E2E Flow for NFTs with multiple services', () => {
     neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
     const networkName = await nevermined.keeper.getNetworkName()
-    const erc721ABI = await ContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABIArtifact(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
-    nft = await nevermined.utils.contractHandler.deployAbi(erc721ABI, publisher, [
+    nft = await nevermined.utils.blockchain.deployAbi(erc721ABI, publisher, [
       publisher.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',

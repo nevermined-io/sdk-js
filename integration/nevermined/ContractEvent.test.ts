@@ -1,25 +1,26 @@
-import { Account, Nevermined, generateId } from '../../src'
+import { NvmAccount, Nevermined, generateId, getAddress } from '../../src'
 import { config } from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { ContractEvent } from '../../src/events'
 import { mineBlocks, awaitTimeout } from '../utils/utils'
-import { ethers } from 'ethers'
 
 chai.use(chaiAsPromised)
 
 describe('ContractEvent', () => {
-  let account: Account
+  let account: NvmAccount
+  let account2: NvmAccount
+  let account3: NvmAccount
+  let account4: NvmAccount
+  let account5: NvmAccount
+  let account6: NvmAccount
   let nevermined: Nevermined
-  let executeTransaction: () => Promise<any>
 
   before(async () => {
     nevermined = await Nevermined.getInstance({ ...config, graphHttpUri: undefined })
-    ;[account] = await nevermined.accounts.list()
+    ;[account, account2, account3, account4, account5, account6] = await nevermined.accounts.list()
 
-    await nevermined.keeper.dispenser.requestTokens(1, account.getId())
-
-    executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account.getId())
+    await account.requestTokens(1)
   })
 
   it('should get a ContractEvent instance', async () => {
@@ -37,10 +38,7 @@ describe('ContractEvent', () => {
       },
       eventName: 'Transfer',
     })
-    assert.strictEqual(
-      ethers.getAddress(response.pop().args.to),
-      ethers.getAddress(account.getId()),
-    )
+    assert.strictEqual(getAddress(response.pop().args.to), getAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {
@@ -65,11 +63,14 @@ describe('ContractEvent', () => {
       )
     })
 
-    await Promise.all([executeTransaction()])
+    // await Promise.all([executeTransaction()])
+
+    await account2.requestTokens(1)
 
     validResolve = true
 
-    await Promise.all([executeTransaction()])
+    await account3.requestTokens(1)
+    // await Promise.all([executeTransaction()])
 
     await waitUntilEvent
 
@@ -98,10 +99,10 @@ describe('ContractEvent', () => {
       )
     })
 
-    await executeTransaction()
+    await account4.requestTokens(1)
     canBeRejected = true
 
-    await executeTransaction()
+    await account5.requestTokens(1)
 
     await waitUntilEvent
   })
@@ -114,7 +115,8 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
       filterJsonRpc: { to },
     })
-    await executeTransaction()
+    await account6.requestTokens(1)
+    // await executeTransaction()
 
     await waitUntilEvent
   })

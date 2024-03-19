@@ -1,7 +1,7 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils'
 import { Condition, ConditionContext, ProviderCondition } from '../conditions/Condition.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 
 export interface NFT721LockConditionContext extends ConditionContext {
   lockAddress: string
@@ -59,7 +59,7 @@ export class NFT721LockCondition extends ProviderCondition<NFT721LockConditionCo
     lockAddress: string,
     amount: number,
     nftContractAddress: string,
-    from?: Account,
+    from?: NvmAccount,
   ) {
     return super.fulfillPlain(
       agreementId,

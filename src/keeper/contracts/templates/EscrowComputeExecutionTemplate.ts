@@ -4,7 +4,7 @@ import { DDO, ServiceCompute, ServiceType, ValidationParams } from '../../../ddo
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 
 import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
-import { Account } from '../../../sdk'
+import { NvmAccount } from '../../../sdk'
 import {
   ComputeExecutionCondition,
   EscrowPaymentCondition,
@@ -95,7 +95,7 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<
     return 'compute'
   }
 
-  public params(consumer: Account): EscrowComputeExecutionParams {
+  public params(consumer: NvmAccount): EscrowComputeExecutionParams {
     return { consumerId: consumer.getId() }
   }
 

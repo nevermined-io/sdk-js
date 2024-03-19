@@ -2,13 +2,13 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, AssetAttributes } from '../../src'
+import { Nevermined, NvmAccount, DDO, AssetAttributes } from '../../src'
 import { generateId } from '../../src/utils'
 
 describe('Search Asset', () => {
   let nevermined: Nevermined
   let neverminedOffline: Nevermined
-  let account: Account
+  let account: NvmAccount
   let appId: string
   let userId: string
 

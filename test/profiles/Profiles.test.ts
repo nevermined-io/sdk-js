@@ -1,7 +1,7 @@
 import { assert, spy, use } from 'chai'
 import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
-import { Nevermined, Account, NewProfile, Profile, State } from '../../src'
+import { Nevermined, NvmAccount, NewProfile, Profile, State } from '../../src'
 import config from '../config'
 import { Profiles } from '../../src/services'
 
@@ -15,7 +15,7 @@ const reponsify = async (data) => ({
 describe('Profiles', () => {
   let nevermined: Nevermined
   let profiles: Profiles
-  let account: Account
+  let account: NvmAccount
 
   let newProfile: NewProfile
 

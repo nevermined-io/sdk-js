@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, Nevermined, NFTAttributes, AssetAttributes, AssetPrice } from '../../src'
+import { DDO, Nevermined, NFTAttributes, AssetAttributes, AssetPrice } from '../../src'
 import { CustomToken } from '../../src/keeper'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
-import { generateId, parseUnits } from '../../src/utils'
+import { getRoyaltyAttributes, NvmAccount, parseUnits, RoyaltyKind } from '../../src/nevermined'
+import { generateId } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
@@ -13,8 +13,8 @@ describe('Assets Query by Price', () => {
   let price2: bigint
   let royalties: bigint
   let payload: JWTPayload
-  let account: Account
-  let account2: Account
+  let account: NvmAccount
+  let account2: NvmAccount
   let appId: string
   let token: CustomToken
   let ddoAccess: DDO

@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 
-import { Account, Nevermined } from '../../src'
+import { NvmAccount, Nevermined } from '../../src'
 import { config } from '../config'
 
 describe('SignatureUtils', () => {
@@ -8,7 +8,7 @@ describe('SignatureUtils', () => {
   const signature =
     '0xb76f14f0a1664d14a667a7647baee471f76796cff97a6e78f2884bed352dea2c11b89286811ccd5640bfdc8a567a7151e4450ad6bf889ed37d971a4f39ea79cb1b'
   let nevermined: Nevermined
-  let account: Account
+  let account: NvmAccount
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)

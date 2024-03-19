@@ -8,7 +8,7 @@ import {
 import { Nevermined } from '../../../src/nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { Account, AssetPrice } from '../../../src'
+import { NvmAccount, AssetPrice } from '../../../src'
 import { generateId, ZeroAddress } from '../../../src/utils'
 
 let conditionStoreManager: ConditionStoreManager
@@ -17,9 +17,9 @@ let escrowPaymentCondition: EscrowPaymentCondition
 let assetPrice: AssetPrice
 let token: Token
 
-let owner: Account
-let buyer: Account
-let seller: Account
+let owner: NvmAccount
+let buyer: NvmAccount
+let seller: NvmAccount
 
 describe('LockPaymentCondition', () => {
   const amount = 15n

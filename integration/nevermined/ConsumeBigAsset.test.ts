@@ -5,14 +5,14 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, Account, DDO, MetaData, Logger, AssetAttributes } from '../../src'
+import { Nevermined, DDO, MetaData, Logger, AssetAttributes, NvmAccount } from '../../src'
 
 // Ensure that your network is fast enough and you have some free ram before run it.
 describe.skip('Consume Asset (Large size)', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let ddo: DDO
   let agreementId: string

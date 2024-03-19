@@ -2,13 +2,13 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import {
-  Account,
   Nevermined,
   MetaData,
   AssetAttributes,
   DDO,
   didZeroX,
   generateId,
+  NvmAccount,
 } from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
@@ -18,8 +18,8 @@ chai.use(chaiAsPromised)
 
 describe('Agreement Store Manager', () => {
   let nevermined: Nevermined
-  let account1: Account
-  let account2: Account
+  let account1: NvmAccount
+  let account2: NvmAccount
   let newMetadata: (token: string) => MetaData
   let agreementId: string
   let ddo: DDO

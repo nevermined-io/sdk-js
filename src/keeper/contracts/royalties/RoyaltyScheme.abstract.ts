@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from '../ContractBase'
 import { didZeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 
 export abstract class RoyaltyScheme extends ContractBase {
   public static async getInstance(
@@ -19,7 +19,7 @@ export abstract class RoyaltyScheme extends ContractBase {
     }
   }
 
-  public setRoyalty(did: string, amount: number, from?: Account, txParams?: TxParameters) {
+  public setRoyalty(did: string, amount: number, from?: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('setRoyalty', [didZeroX(did), amount], from, txParams)
   }
 

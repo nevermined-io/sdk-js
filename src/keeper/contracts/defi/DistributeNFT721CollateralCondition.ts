@@ -1,7 +1,7 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../../utils'
 import { Condition, ConditionContext, ProviderCondition } from '../conditions/Condition.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 
 export interface DistributeNFTCollateralConditionContext extends ConditionContext {
@@ -60,7 +60,7 @@ export class DistributeNFTCollateralCondition extends ProviderCondition<Distribu
     did: string,
     vaultAddress: string,
     nftContractAddress: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(

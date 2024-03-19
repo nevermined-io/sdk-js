@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters as txParams } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { ContractTransactionReceipt, ethers } from 'ethers'
+import { ContractTransactionReceipt } from 'ethers'
 import { NFTAttributes } from '../../models'
 import { AssetError } from '../../errors/AssetError'
 import {
@@ -11,6 +11,7 @@ import {
   ProvenanceMethod,
   ProvenanceRegistry,
 } from './Provenance'
+import { zeroPadValue } from '../../nevermined/utils/BlockchainEthersUtils'
 
 export class DIDRegistry extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
@@ -117,7 +118,7 @@ export class DIDRegistry extends ContractBase {
           ? String(nftAttributes.royaltyAttributes?.amount)
           : '0',
         nftAttributes.preMint,
-        ethers.zeroPadValue(zeroX(activityId), 32),
+        zeroPadValue(zeroX(activityId), 32),
         nftAttributes.nftMetadataUrl || '',
         immutableUrl,
       ],
@@ -164,7 +165,7 @@ export class DIDRegistry extends ContractBase {
           ? String(nftAttributes.royaltyAttributes?.amount)
           : '0',
         nftAttributes.preMint,
-        ethers.zeroPadValue(zeroX(activityId), 32),
+        zeroPadValue(zeroX(activityId), 32),
         immutableUrl,
       ],
       txParams,

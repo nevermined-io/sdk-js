@@ -1,5 +1,6 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ethers } from 'ethers'
+import { keccak256 } from './BlockchainEthersUtils'
 
 export class SignatureUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -24,6 +25,6 @@ export class SignatureUtils extends Instantiable {
   }
 
   static hash(seed: string): string {
-    return ethers.keccak256(ethers.toUtf8Bytes(seed)).replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
+    return keccak256(seed).replace(/^0x([a-f0-9]{64})(:!.+)?$/i, '0x$1')
   }
 }

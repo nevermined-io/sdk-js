@@ -1,12 +1,13 @@
 import { assert } from 'chai'
-import { Account } from '../../src/nevermined'
+import { NvmAccount } from '../../src/nevermined'
 import { Nevermined } from '../../src/nevermined'
+import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainEthersUtils'
 import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'
 
 let wrappedContract: ContractBaseMock
-let accounts: Account[]
+let accounts: NvmAccount[]
 
 describe('ContractWrapperBase', () => {
   before(async () => {
@@ -52,9 +53,9 @@ describe('ContractWrapperBase', () => {
     })
   })
 
-  describe('#getSignatureOfMethod()', () => {
+  describe('#getSignatureOfFunction()', () => {
     it('should a signature of the function', async () => {
-      const sig = wrappedContract.getSignatureOfMethod('name')
+      const sig = getSignatureOfFunction(wrappedContract.interface, 'name')
       assert(sig)
       assert(typeof sig === 'string')
     })

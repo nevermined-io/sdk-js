@@ -2,7 +2,7 @@ import chai, { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
 import {
-  Account,
+  NvmAccount,
   DDO,
   Nevermined,
   generateId,
@@ -21,19 +21,25 @@ import {
   NFTSalesTemplate,
   Token,
 } from '../../src/keeper'
-import { formatUnits, getConditionsByParams, parseUnits } from '../../src/utils'
+import { getConditionsByParams } from '../../src/utils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
+import {
+  formatUnits,
+  getRoyaltyAttributes,
+  parseUnits,
+  RoyaltyAttributes,
+  RoyaltyKind,
+} from '../../src/nevermined'
 
 chai.use(chaiAsPromised)
 
 describe('Secondary Markets', () => {
-  let owner: Account
-  let artist: Account
-  let collector1: Account
-  let collector2: Account
-  let gallery: Account
+  let owner: NvmAccount
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let collector2: NvmAccount
+  let gallery: NvmAccount
 
   let nevermined: Nevermined
   let token: Token

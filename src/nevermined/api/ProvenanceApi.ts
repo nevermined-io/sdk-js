@@ -1,8 +1,8 @@
-import { Account } from '../Account'
+import { NvmAccount } from '../NvmAccount'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, ProvenanceMethod } from '../../keeper'
-import { ethers } from 'ethers'
 import { zeroX } from '../../utils'
+import { zeroPadValue } from '../utils/BlockchainEthersUtils'
 
 /**
  * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry
@@ -48,14 +48,14 @@ export class ProvenanceApi extends Instantiable {
     activityId: string,
     signature: string,
     attributes: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.used(
       provenanceId,
       did,
       agentId,
-      ethers.zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(zeroX(activityId), 32),
       signature,
       attributes,
       from.getId(),
@@ -83,7 +83,7 @@ export class ProvenanceApi extends Instantiable {
     agentId: string,
     activityId: string,
     attributes: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.wasDerivedFrom(
@@ -91,7 +91,7 @@ export class ProvenanceApi extends Instantiable {
       newEntityDid,
       usedEntityDid,
       agentId,
-      ethers.zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(zeroX(activityId), 32),
       attributes,
       from.getId(),
       txParams,
@@ -116,14 +116,14 @@ export class ProvenanceApi extends Instantiable {
     agentId: string,
     activityId: string,
     attributes: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.wasAssociatedWith(
       provenanceId,
       did,
       agentId,
-      ethers.zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(zeroX(activityId), 32),
       attributes,
       from.getId(),
       txParams,
@@ -152,7 +152,7 @@ export class ProvenanceApi extends Instantiable {
     activityId: string,
     signature: string,
     attributes: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.actedOnBehalf(
@@ -160,7 +160,7 @@ export class ProvenanceApi extends Instantiable {
       did,
       delegateAgentId,
       responsibleAgentId,
-      ethers.zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(zeroX(activityId), 32),
       signature,
       attributes,
       from.getId(),
@@ -180,7 +180,7 @@ export class ProvenanceApi extends Instantiable {
   public async addDidProvenanceDelegate(
     did: string,
     delegated: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.addDidProvenanceDelegate(
@@ -203,7 +203,7 @@ export class ProvenanceApi extends Instantiable {
   public async removeDidProvenanceDelegate(
     did: string,
     delegated: string,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.removeDidProvenanceDelegate(

@@ -17,7 +17,7 @@ export const buildQuery = (url: string, query: SearchQuery) => {
 
 export const getCircularReplacer = () => {
   const seen = new WeakSet()
-  return (key, value) => {
+  return (_key, value) => {
     if (typeof value === 'object' && value !== null) {
       if (seen.has(value)) {
         return
@@ -28,7 +28,7 @@ export const getCircularReplacer = () => {
   }
 }
 
-export const jsonReplacer = (key, value) => {
+export const jsonReplacer = (_key, value) => {
   // Modify the value or return undefined to exclude the property
   return typeof value === 'bigint' ? value.toString() : value
 }

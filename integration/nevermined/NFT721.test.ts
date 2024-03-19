@@ -2,9 +2,9 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, NFTAttributes, AssetPrice } from '../../src'
-import { generateId, parseEther, ZeroAddress, zeroX } from '../../src/utils'
-import { TokenUtils } from '../../src/nevermined'
+import { Nevermined, NvmAccount, DDO, NFTAttributes, AssetPrice } from '../../src'
+import { generateId, ZeroAddress, zeroX } from '../../src/utils'
+import { parseEther, TokenUtils } from '../../src/nevermined'
 import { ethers } from 'ethers'
 import { ContractHandler, Nft721Contract, TransferNFT721Condition } from '../../src/keeper'
 
@@ -15,9 +15,9 @@ describe('Nfts721 operations', async () => {
   let nft: ethers.BaseContract
   let nftContract: Nft721Contract
 
-  let deployer: Account
-  let artist: Account
-  let collector: Account
+  let deployer: NvmAccount
+  let artist: NvmAccount
+  let collector: NvmAccount
   let ddo: DDO
 
   let token: TokenUtils
@@ -30,14 +30,14 @@ describe('Nfts721 operations', async () => {
     ;[deployer, artist, collector] = await nevermined.accounts.list()
 
     const networkName = await nevermined.keeper.getNetworkName()
-    const erc721ABI = await ContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABIArtifact(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
     // deploy a nft contract we can use
-    nft = await nevermined.utils.contractHandler.deployAbi(erc721ABI, deployer, [
+    nft = await nevermined.utils.blockchain.deployAbi(erc721ABI, deployer, [
       artist.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
@@ -57,7 +57,7 @@ describe('Nfts721 operations', async () => {
 
     ;({ transferNft721Condition } = nevermined.keeper.conditions)
 
-    const nftOwner = new Account((await nftContract.owner()) as string)
+    const nftOwner = new NvmAccount((await nftContract.owner()) as string)
     nftContract.grantOperatorRole(transferNft721Condition.address, nftOwner)
 
     await nevermined.services.marketplace.login(clientAssertion)

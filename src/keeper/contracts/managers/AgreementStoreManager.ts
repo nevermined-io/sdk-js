@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from '../ContractBase'
 import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 import { KeeperError } from '../../../errors'
 
 export interface AgreementData {
@@ -84,7 +84,7 @@ export class AgreementStoreManager extends ContractBase {
     conditionIds: string[],
     timeLocks: number[],
     timeOuts: number[],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.send(

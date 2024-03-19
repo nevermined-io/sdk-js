@@ -17,16 +17,20 @@ export interface NeverminedInitializationOptions {
 }
 
 export class NeverminedOptions {
-  /**
-   * The Nevermined App URL.
-   */
-  public appUrl?: string
+
+  public chainId?: number
   /**
    * Ethereum Web3 Provider URL. This Url allows the SDK to connect to a blockchain.
    * This provider depends on the network where you want to connect (Ethereum Mainnet, Rinkeby, Polygon Matic, etc).
    * It's possible to use a public available provider or a private/paid one like Infura, Alchemy, etc.
    */
   public web3ProviderUri?: string
+
+  /**
+   * The Nevermined App URL.
+   */
+  public appUrl?: string
+
   /**
    * URL to the MarketPlace API use to record some Nevermined assets metadata. In a Nevermined network there could be
    * multiple Marketplace API instances. Each of them typically records the metadata of a specific domain/vertical deployed on a Nevermined network.

@@ -1,11 +1,11 @@
 import { assert } from 'chai'
-import { Account, parseUnits } from '../../src'
+import { NvmAccount, parseUnits } from '../../src'
 import { Nevermined } from '../../src/nevermined'
 import config from '../config'
 import TestContractHandler from '../keeper/TestContractHandler'
 
 let nevermined: Nevermined
-let accounts: Account[]
+let accounts: NvmAccount[]
 
 describe('Account', () => {
   before(async () => {
@@ -39,7 +39,7 @@ describe('Account', () => {
   describe('#getEthBalance()', () => {
     it('should get initial ether balance', async () => {
       // eslint-disable-next-line prefer-destructuring
-      const account: Account = accounts[9]
+      const account: NvmAccount = accounts[9]
       const balanceEth = await account.getEtherBalance()
 
       console.log(`Balance ${balanceEth} should be ${parseUnits('1000')}`)
@@ -50,7 +50,7 @@ describe('Account', () => {
   describe('#getBalance()', () => {
     it('should get initial balance', async () => {
       // eslint-disable-next-line prefer-destructuring
-      const account: Account = accounts[9]
+      const account: NvmAccount = accounts[9]
       const balance = await account.getBalance()
 
       assert.equal(balance.eth, parseUnits('1000'))
@@ -62,7 +62,7 @@ describe('Account', () => {
     it('should return the amount of tokens granted', async () => {
       const tokens = '5'
       // eslint-disable-next-line prefer-destructuring
-      const account: Account = accounts[7]
+      const account: NvmAccount = accounts[7]
       const tokensGranted: string = await account.requestTokens(tokens)
 
       assert.equal(tokensGranted, tokens)

@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import {
-  Account,
+  NvmAccount,
   DDO,
   Nevermined,
   AssetPrice,
@@ -23,17 +23,22 @@ import {
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { ZeroAddress, parseEther } from '../../src/utils'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
+import { ZeroAddress } from '../../src/utils'
+import {
+  getRoyaltyAttributes,
+  parseEther,
+  RoyaltyAttributes,
+  RoyaltyKind,
+} from '../../src/nevermined'
 import { EventLog } from 'ethers'
 
 describe('NFTTemplates With Ether E2E', async () => {
-  let artist: Account
-  let collector1: Account
-  let collector2: Account
-  let gallery: Account
-  let sender: Account
-  let governor: Account
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let collector2: NvmAccount
+  let gallery: NvmAccount
+  let sender: NvmAccount
+  let governor: NvmAccount
 
   let nevermined: Nevermined
   let conditionStoreManager: ConditionStoreManager
@@ -240,7 +245,9 @@ describe('NFTTemplates With Ether E2E', async () => {
         )
 
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment[1])).state,
@@ -366,7 +373,9 @@ describe('NFTTemplates With Ether E2E', async () => {
           [collector1.getId()],
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdNFTAccess[1])).state,

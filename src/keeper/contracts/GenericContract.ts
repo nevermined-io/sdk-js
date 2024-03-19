@@ -23,7 +23,7 @@ export class GenericContract extends ContractBase {
   protected async init(config: InstantiableConfig, optional = false) {
     this.setInstanceConfig(config)
 
-    this.contract = await this.nevermined.utils.contractHandler.get(
+    this.contract = await this.nevermined.utils.contractHandler.getContractFromArtifacts(
       this.contractName,
       optional,
       config.artifactsFolder,

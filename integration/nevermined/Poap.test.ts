@@ -1,4 +1,4 @@
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
+import { NvmAccount, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
 import POAPUpgradeable from '../../test/resources/artifacts/NFT721SubscriptionUpgradeable.json'
@@ -11,8 +11,8 @@ import { decodeJwt } from 'jose'
 describe('POAPs with Assets', () => {
   let nevermined: Nevermined
   let poapContract: ethers.BaseContract
-  let editor: Account
-  let user: Account
+  let editor: NvmAccount
+  let user: NvmAccount
   let gatewayAddress: string
   let poapDDO: DDO
   let agreementId: string
@@ -35,7 +35,7 @@ describe('POAPs with Assets', () => {
 
   it('should deploy the contract', async () => {
     TestContractHandler.setConfig(config)
-    poapContract = await nevermined.utils.contractHandler.deployAbi(POAPUpgradeable, editor, [
+    poapContract = await nevermined.utils.blockchain.deployAbi(POAPUpgradeable, editor, [
       editor.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',

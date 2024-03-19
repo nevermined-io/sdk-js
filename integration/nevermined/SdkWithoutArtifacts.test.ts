@@ -1,11 +1,11 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, SearchQuery, Account, makeAccounts } from '../../src'
+import { Nevermined, SearchQuery, NvmAccount, makeWallets } from '../../src'
 
 describe('Sdk working without artifacts', () => {
   let nevermined: Nevermined
-  let account: Account
+  let account: NvmAccount
   let configCopy
 
   before(async () => {
@@ -19,7 +19,7 @@ describe('Sdk working without artifacts', () => {
   })
 
   it('should login to metamask without artifacts', async () => {
-    configCopy.accounts = makeAccounts(process.env.SEED_WORDS)
+    configCopy.accounts = makeWallets(process.env.SEED_WORDS)
     nevermined = await Nevermined.getInstance(configCopy)
 
     // Accounts

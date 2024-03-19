@@ -3,24 +3,44 @@ import { Balance } from '../models'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { TxParameters } from '../keeper'
 import { KeeperError } from '../errors'
-import { BigNumberish } from '../sdk'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
+
+export interface NvmAccountType {
+  accountType: 'viem' | 'zerodev'
+  isZeroDev: boolean
+}
 
 /**
  * Account information.
  */
-export class Account extends Instantiable {
+export class NvmAccount extends Instantiable {
   private password?: string
   public babyX?: string
   public babyY?: string
   public babySecret?: string
+  private account?: NvmAccount
   public zeroDevSigner: ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider
+  public accountType: NvmAccountType = { accountType: 'viem', isZeroDev: false }
 
   constructor(private id: string = '0x0', config?: InstantiableConfig) {
     super()
     if (config) {
       this.setInstanceConfig(config)
     }
+    this.setId(id)
+  }
+
+  public getAccountSigner() {
+    return this.accountType.isZeroDev ? this.zeroDevSigner : this.account
+  }
+
+  public async getWalletAccount() {
+    if (!this.account) await this.nevermined.accounts.findAccount(this.id)
+    return this.account
+  }
+
+  public getZeroDevSigner() {
+    return this.zeroDevSigner
   }
 
   /**
@@ -31,10 +51,11 @@ export class Account extends Instantiable {
    */
   static async fromZeroDevSigner(
     signer: ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
-  ): Promise<Account> {
+  ): Promise<NvmAccount> {
     const address = await signer.getAddress()
-    const account = new Account(address)
+    const account = new NvmAccount(address)
     account.zeroDevSigner = signer
+    account.accountType = { accountType: 'zerodev', isZeroDev: true }
     return account
   }
 
@@ -105,14 +126,17 @@ export class Account extends Instantiable {
    * @param txParams - Transaction parameters
    * @returns
    */
-  public async requestTokens(amount: BigNumberish, txParams?: TxParameters): Promise<string> {
+  public async requestTokens(
+    amount: string | number | bigint,
+    txParams?: TxParameters,
+  ): Promise<string> {
     if (!this.nevermined.keeper.dispenser) {
       throw new KeeperError('Dispenser not available on this network.')
     }
     try {
       await this.nevermined.keeper.dispenser.requestTokens(amount, this.id, txParams)
     } catch (e) {
-      throw new KeeperError(`Error requesting tokens: ${e}`)
+      throw new KeeperError(`Error requesting tokens - receiver[${this.id}]: ${e}`)
     }
     return amount.toString()
   }

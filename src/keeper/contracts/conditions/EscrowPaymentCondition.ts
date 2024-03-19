@@ -6,7 +6,7 @@ import {
 } from './Condition.abstract'
 import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 import { TxParameters } from '../ContractBase'
 import { DDO } from '../../../ddo'
 
@@ -67,7 +67,7 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
     tokenAddress: string,
     lockCondition: string,
     releaseCondition: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     const amountsString = amounts.map((v) => v.toString())

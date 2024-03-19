@@ -1,6 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined, Account, ConditionState } from '../../../src'
+import { Nevermined, NvmAccount, ConditionState } from '../../../src'
 import { DIDRegistry } from '../../../src/keeper'
 import {
   AgreementStoreManager,
@@ -28,8 +28,8 @@ describe('NFT721AccessTemplate', () => {
   let conditionIdSeeds: string[]
   let timeLocks: number[]
   let timeOuts: number[]
-  let sender: Account
-  let receiver: Account
+  let sender: NvmAccount
+  let receiver: NvmAccount
   let didSeed: string
   let checksum: string
   const url = 'https://nevermined.io/did/nevermined/test-attr-example.txt'

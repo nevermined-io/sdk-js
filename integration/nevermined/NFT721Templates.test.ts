@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import {
-  Account,
+  NvmAccount,
   DDO,
   Nevermined,
   generateId,
@@ -30,12 +30,12 @@ import { EventLog } from 'ethers'
 import { repeat } from '../utils/utils'
 
 describe('NFT721Templates E2E', () => {
-  let nftContractOwner: Account
-  let owner: Account
-  let artist: Account
-  let collector1: Account
-  let collector2: Account
-  let gallery: Account
+  let nftContractOwner: NvmAccount
+  let owner: NvmAccount
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let collector2: NvmAccount
+  let gallery: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -91,14 +91,14 @@ describe('NFT721Templates E2E', () => {
     ;[owner, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
 
     const networkName = await nevermined.keeper.getNetworkName()
-    const erc721ABI = await ContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABIArtifact(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
     // deploy a nft contract we can use
-    const nftContract = await nevermined.utils.contractHandler.deployAbi(erc721ABI, artist, [
+    const nftContract = await nevermined.utils.blockchain.deployAbi(erc721ABI, artist, [
       artist.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
@@ -117,7 +117,7 @@ describe('NFT721Templates E2E', () => {
 
     // load the nft contract at given address
     nft = await nevermined.contracts.loadNft721(await nftContract.getAddress())
-    nftContractOwner = new Account((await nft.nftContract.owner()) as string)
+    nftContractOwner = new NvmAccount((await nft.nftContract.owner()) as string)
 
     // components
     ;({ conditionStoreManager, token } = nevermined.keeper)
@@ -277,7 +277,9 @@ describe('NFT721Templates E2E', () => {
           collector1,
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdEscrow[1])).state,
           ConditionState.Unfulfilled,
@@ -391,7 +393,9 @@ describe('NFT721Templates E2E', () => {
           collector1,
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdNFTAccess[1])).state,
@@ -491,7 +495,9 @@ describe('NFT721Templates E2E', () => {
           collector2,
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment2[1])).state,
@@ -618,13 +624,13 @@ describe('NFT721Templates E2E', () => {
       )
 
       const networkName = await nevermined.keeper.getNetworkName()
-      const erc721ABI = await ContractHandler.getABI(
+      const erc721ABI = await ContractHandler.getABIArtifact(
         'NFT721Upgradeable',
         config.artifactsFolder,
         networkName,
       )
 
-      const nftContract = await nevermined.utils.contractHandler.deployAbi(erc721ABI, artist, [
+      const nftContract = await nevermined.utils.blockchain.deployAbi(erc721ABI, artist, [
         artist.getId(),
         nevermined.keeper.didRegistry.address,
         'NFT721',
@@ -635,7 +641,7 @@ describe('NFT721Templates E2E', () => {
       ])
       nft = await nevermined.contracts.loadNft721(await nftContract.getAddress())
 
-      nftContractOwner = new Account((await nft.nftContract.owner()) as string)
+      nftContractOwner = new NvmAccount((await nft.nftContract.owner()) as string)
       await nft.nftContract.grantOperatorRole(transferNft721Condition.address, nftContractOwner)
 
       await collector1.requestTokens(nftPrice / scale)

@@ -1,5 +1,5 @@
 import { generateId } from '../../utils'
-import { Account } from '../Account'
+import { NvmAccount } from '../NvmAccount'
 import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ConditionsApi } from './ConditionsApi'
@@ -45,7 +45,7 @@ export class AgreementsApi extends Instantiable {
   public async prepareSignature(
     did: string,
     serviceType: ServiceType,
-    consumer: Account,
+    consumer: NvmAccount,
   ): Promise<AgreementPrepareResult> {
     const ddo = await this.nevermined.assets.resolve(did)
     const agreementIdSeed: string = zeroX(generateId())
@@ -89,8 +89,8 @@ export class AgreementsApi extends Instantiable {
     agreementIdSeed: string,
     serviceType: ServiceType,
     agreementParams: any,
-    consumer: Account,
-    publisher: Account,
+    consumer: NvmAccount,
+    publisher: NvmAccount,
     params?: TxParameters,
   ) {
     const ddo = await this.nevermined.assets.resolve(did)
@@ -170,7 +170,7 @@ export class AgreementsApi extends Instantiable {
     agreementId: string,
     did: string,
     consumerAddress: string,
-    account: Account,
+    account: NvmAccount,
   ): Promise<boolean> {
     const { accessConsumer } =
       await this.nevermined.keeper.templates.accessTemplate.getAgreementData(agreementId)

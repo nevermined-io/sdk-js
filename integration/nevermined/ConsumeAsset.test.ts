@@ -9,20 +9,19 @@ import { repeat } from '../utils/utils'
 import {
   Nevermined,
   DDO,
-  Account,
   ConditionState,
   MetaData,
   Logger,
   AssetPrice,
   AssetAttributes,
 } from '../../src'
-import { AgreementPrepareResult } from '../../src/nevermined'
+import { AgreementPrepareResult, NvmAccount } from '../../src/nevermined'
 
 describe('Consume Asset', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let metadata: MetaData
 

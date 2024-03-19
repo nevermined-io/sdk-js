@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from '../ContractBase'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 import { AssetPrice } from '../../../models'
 import { Service, DDO } from '../../../ddo'
 import { ContractTransactionReceipt } from 'ethers'
@@ -43,7 +43,8 @@ export const conditionStateNames = ['Uninitialized', 'Unfulfilled', 'Fulfilled',
 
 export abstract class ConditionSmall extends ContractBase {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public static async getInstance<Ctx extends ConditionContext, Extra>(
+  // public static async getInstance<Ctx extends ConditionContext, Extra>(
+  public static async getInstance(
     config: InstantiableConfig,
     conditionName: string,
     conditionsClass: any,
@@ -63,7 +64,7 @@ export abstract class ConditionSmall extends ContractBase {
   public fulfillPlain(
     agreementId: string,
     args: any[],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
     method: ConditionMethod = 'fulfill',
   ) {
@@ -85,7 +86,7 @@ export abstract class ConditionSmall extends ContractBase {
     return [valueHash, await this.call<string>('generateId', [zeroX(agreementId), valueHash])]
   }
 
-  public abortByTimeOut(conditionId: string, from?: Account, params?: TxParameters) {
+  public abortByTimeOut(conditionId: string, from?: NvmAccount, params?: TxParameters) {
     return this.sendFrom('abortByTimeOut', [zeroX(conditionId)], from, params)
   }
 
@@ -150,11 +151,11 @@ export abstract class Condition<
   public async fulfillInstance(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
     method: ConditionMethod = 'fulfill',
   ) {
-    const _params = await cond.params(method, additionalParams)
+    await cond.params(method, additionalParams)
 
     return this.sendFrom(
       method,
@@ -167,7 +168,7 @@ export abstract class Condition<
   public abstract fulfillWithNode(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ): Promise<ContractTransactionReceipt | void>
 
@@ -194,7 +195,7 @@ export abstract class ProviderCondition<
   public async fulfillWithNode(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom(
@@ -217,7 +218,7 @@ export abstract class ConsumerCondition<
   public async fulfillWithNode(
     _cond: ConditionInstance<Extra>,
     _additionalParams: Extra,
-    _from?: Account,
+    _from?: NvmAccount,
     _txParams?: TxParameters,
   ) {
     return

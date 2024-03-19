@@ -6,7 +6,8 @@ import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { Logger, LogLevel } from '../../src/utils'
 import { ContractTransactionReceipt, ethers, EventLog } from 'ethers'
-import { TxParameters, Web3Provider } from '../../src/keeper'
+import { TxParameters } from '../../src/keeper'
+import { getWeb3EthersProvider } from '../../src'
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
@@ -34,7 +35,9 @@ describe('DIDRegistry', () => {
       )
       assert.equal(contractReceipt.status, 1)
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'DIDAttributeRegistered'),
+        (contractReceipt.logs as EventLog[]).some(
+          (e: EventLog) => e.eventName === 'DIDAttributeRegistered',
+        ),
       )
     })
 
@@ -42,7 +45,7 @@ describe('DIDRegistry', () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const did = generateId()
       const data = 'hola hola'
-      const provider = await Web3Provider.getWeb3(config)
+      const provider = await getWeb3EthersProvider(config)
       const txCount = await provider.getTransactionCount(ownerAccount.getId(), 'pending')
       const txParams: TxParameters = { nonce: txCount }
 
@@ -56,7 +59,9 @@ describe('DIDRegistry', () => {
       )
       assert.equal(contractReceipt.status, 1)
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'DIDAttributeRegistered'),
+        (contractReceipt.logs as EventLog[]).some(
+          (e: EventLog) => e.eventName === 'DIDAttributeRegistered',
+        ),
       )
     })
   })

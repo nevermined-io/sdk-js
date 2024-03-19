@@ -4,19 +4,19 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import {
   Nevermined,
-  Account,
   MetaData,
   DDO,
   AssetPrice,
   AssetAttributes,
   ConditionState,
   Token,
+  NvmAccount,
 } from '../../src'
 import { repeat } from '../utils/utils'
 
 let nevermined: Nevermined
-let publisher: Account
-let consumer: Account
+let publisher: NvmAccount
+let consumer: NvmAccount
 let metadata: MetaData
 let createdMetadata: MetaData
 let assetPrice1: AssetPrice

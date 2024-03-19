@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
 import {
-  Account,
+  NvmAccount,
   DDO,
   MetaData,
   Nevermined,
@@ -15,8 +15,7 @@ import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../sr
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { ethers, ZeroAddress } from 'ethers'
-import { didZeroX } from '../../src/utils'
+import { didZeroX, ZeroAddress } from '../../src/utils'
 import { EventOptions } from '../../src/events'
 import {
   getRoyaltyAttributes,
@@ -24,14 +23,15 @@ import {
   RoyaltyKind,
   NFT721Api,
   SubscriptionNFTApi,
+  getAddress,
 } from '../../src/nevermined'
 
 chai.use(chaiAsPromised)
 
 describe('Subscriptions using NFT ERC-721 End-to-End', () => {
-  let editor: Account
-  let subscriber: Account
-  let reseller: Account
+  let editor: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
 
@@ -62,7 +62,6 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
   let initialBalances: any
   let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: NFT721Api
   let neverminedNodeAddress
 
@@ -119,7 +118,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         // 'NFT721SubscriptionUpgradeable',
         `NFT721SubscriptionUpgradeable.${await nevermined.keeper.getNetworkName()}`,
         './artifacts/',
@@ -275,7 +274,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getAddress(eventValues._receiver), subscriber.getId())
     })
   })
 
@@ -302,7 +301,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )

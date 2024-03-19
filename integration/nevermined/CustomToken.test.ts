@@ -1,10 +1,10 @@
 import { assert } from 'chai'
-import { Account, Nevermined } from '../../src'
+import { NvmAccount, Nevermined } from '../../src'
 import { CustomToken } from '../../src/keeper'
 import { config } from '../config'
 
 describe('CustomToken', () => {
-  let account: Account
+  let account: NvmAccount
   let nevermined: Nevermined
   let erc20TokenAddress: string
   let customErc20Token: CustomToken

@@ -1,6 +1,6 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { Account } from '../../nevermined'
+import { NvmAccount } from '../../nevermined'
 import { formatEther } from '../../sdk'
 
 export class Token extends ContractBase {
@@ -24,12 +24,12 @@ export class Token extends ContractBase {
     return token
   }
 
-  public async approve(to: string, price: bigint, from?: Account, txParams?: TxParameters) {
+  public async approve(to: string, price: bigint, from?: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('approve', [to, price.toString()], from, txParams)
   }
 
   public async decimals(): Promise<number> {
-    return this.call('decimals', [])
+    return this.call('decimals', []) as Promise<number>
   }
 
   public async balanceOfConverted(address: string): Promise<bigint> {

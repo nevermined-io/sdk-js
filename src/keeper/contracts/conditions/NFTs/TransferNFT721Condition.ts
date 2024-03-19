@@ -7,7 +7,7 @@ import {
   ConditionParameters,
   ProviderCondition,
 } from '../Condition.abstract'
-import { Account } from '../../../../nevermined'
+import { NvmAccount } from '../../../../nevermined'
 import { TxParameters } from '../../ContractBase'
 import { DDO } from '../../../../ddo/DDO'
 
@@ -150,7 +150,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     lockPaymentCondition: string,
     nftTokenAddress: string,
     willBeTransferred = true,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(

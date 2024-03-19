@@ -1,7 +1,7 @@
 import ContractBase, { TxParameters } from '../ContractBase'
 import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../nevermined'
 
 export enum TemplateState {
   Uninitialized = 0,
@@ -32,7 +32,7 @@ export class TemplateStoreManager extends ContractBase {
 
   public async proposeTemplate(
     address: string,
-    from?: Account,
+    from?: NvmAccount,
     ignoreExists?: boolean,
     txParams?: TxParameters,
   ) {
@@ -49,7 +49,7 @@ export class TemplateStoreManager extends ContractBase {
 
   public async approveTemplate(
     address: string,
-    from?: Account,
+    from?: NvmAccount,
     ignoreApproved?: boolean,
     txParams?: TxParameters,
   ) {
@@ -64,7 +64,7 @@ export class TemplateStoreManager extends ContractBase {
     }
   }
 
-  public revokeTemplate(address: string, from?: Account, txParams?: TxParameters) {
+  public revokeTemplate(address: string, from?: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('revokeTemplate', [zeroX(address)], from, txParams)
   }
 

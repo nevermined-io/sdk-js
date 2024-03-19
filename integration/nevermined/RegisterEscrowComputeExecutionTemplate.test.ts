@@ -3,7 +3,7 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import {
   Nevermined,
-  Account,
+  NvmAccount,
   Keeper,
   DDO,
   Logger,
@@ -31,10 +31,10 @@ describe('Register Escrow Compute Execution Template', () => {
   const totalAmount = 12n
   const amounts = [10n, 2n]
 
-  let templateManagerOwner: Account
-  let publisher: Account
-  let consumer: Account
-  let provider: Account
+  let templateManagerOwner: NvmAccount
+  let publisher: NvmAccount
+  let consumer: NvmAccount
+  let provider: NvmAccount
   let receivers: string[]
 
   let lockPaymentCondition: LockPaymentCondition
@@ -207,7 +207,7 @@ describe('Register Escrow Compute Execution Template', () => {
       )
 
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
+        (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -221,7 +221,7 @@ describe('Register Escrow Compute Execution Template', () => {
       )
 
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
+        (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })
@@ -241,7 +241,7 @@ describe('Register Escrow Compute Execution Template', () => {
       )
 
       assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
+        (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled'),
         'Not Fulfilled event.',
       )
     })

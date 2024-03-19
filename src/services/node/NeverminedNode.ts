@@ -1,5 +1,5 @@
 import { ServiceType, DDO, ImmutableBackends, MetaDataExternalResource } from '../../ddo'
-import { Account } from '../../nevermined'
+import { NvmAccount } from '../../nevermined'
 import { noZeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ReadStream } from 'fs'
@@ -173,7 +173,7 @@ export class NeverminedNode extends Instantiable {
     did: string,
     agreementId: string,
     serviceEndpoint: string,
-    account: Account,
+    account: NvmAccount,
     files: MetaDataExternalResource[],
     destination: string,
     index = -1,
@@ -265,7 +265,11 @@ export class NeverminedNode extends Instantiable {
     return 'success'
   }
 
-  public async execute(agreementId: string, workflowDid: string, account: Account): Promise<any> {
+  public async execute(
+    agreementId: string,
+    workflowDid: string,
+    account: NvmAccount,
+  ): Promise<any> {
     const { jwt } = this.nevermined.utils
     let accessToken: string
     const cacheKey = jwt.generateCacheKey(account.getId(), agreementId, workflowDid)
@@ -304,7 +308,7 @@ export class NeverminedNode extends Instantiable {
   public async computeLogs(
     agreementId: string,
     executionId: string,
-    account: Account,
+    account: NvmAccount,
   ): Promise<any> {
     const { jwt } = this.nevermined.utils
     let accessToken: string
@@ -339,7 +343,7 @@ export class NeverminedNode extends Instantiable {
   public async computeStatus(
     agreementId: string,
     executionId: string,
-    account: Account,
+    account: NvmAccount,
   ): Promise<any> {
     const { jwt } = this.nevermined.utils
     let accessToken: string
@@ -486,7 +490,7 @@ export class NeverminedNode extends Instantiable {
     return response.json()
   }
 
-  public async getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
+  public async getSubscriptionToken(did: string, account: NvmAccount): Promise<SubscriptionToken> {
     const { jwt } = this.nevermined.utils
     let accessToken: string
     const cacheKey = jwt.generateCacheKey(account.getId())

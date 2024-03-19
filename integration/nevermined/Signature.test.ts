@@ -1,13 +1,13 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, DDO } from '../../src'
+import { Nevermined, NvmAccount, DDO } from '../../src'
 import { Service } from '../../src/ddo'
 
 // WARN: not integration test. It has been done here because constant values
 // depends on the first account on localnet (only accessible from integration test)
 describe('Signature', () => {
   let nevermined: Nevermined
-  let consumer: Account
+  let consumer: NvmAccount
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)

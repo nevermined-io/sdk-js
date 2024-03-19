@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import {
-  Account,
+  NvmAccount,
   DDO,
   Nevermined,
   generateId,
@@ -28,11 +28,11 @@ import { getMetadata } from '../utils'
 import { EventLog } from 'ethers'
 
 describe('NFTTemplates E2E', () => {
-  let owner: Account
-  let artist: Account
-  let collector1: Account
-  let collector2: Account
-  let gallery: Account
+  let owner: NvmAccount
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let collector2: NvmAccount
+  let gallery: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -245,7 +245,9 @@ describe('NFTTemplates E2E', () => {
           collector1,
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment[1])).state,
@@ -381,7 +383,9 @@ describe('NFTTemplates E2E', () => {
           collector1,
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdNFTAccess[1])).state,
@@ -477,7 +481,9 @@ describe('NFTTemplates E2E', () => {
           collector2,
         )
         assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.isTrue(
+          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
+        )
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment2[1])).state,

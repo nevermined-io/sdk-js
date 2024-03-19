@@ -1,15 +1,19 @@
-import { Account } from '../../nevermined'
+import {
+  NvmAccount,
+  estimateGas,
+  getInputsOfFunctionFormatted,
+  getSignatureOfFunction,
+} from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
 import {
   ContractTransactionReceipt,
   ContractTransactionResponse,
-  FunctionFragment,
   TransactionReceipt,
   ethers,
 } from 'ethers'
-import { jsonReplacer, parseUnits } from '../../sdk'
+import { jsonReplacer } from '../../sdk'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
 export interface TxParameters {
   value?: string
@@ -37,19 +41,9 @@ export abstract class ContractBase extends Instantiable {
     this.contractName = contractName
   }
 
-  public getSignatureOfMethod(methodName: string, args: any[] = []): string {
-    const foundMethod = this.searchMethod(methodName, args)
-    return foundMethod.format()
-  }
-
-  public getInputsOfMethod(methodName: string): ReadonlyArray<ethers.ParamType> {
-    const foundMethod = this.searchMethod(methodName)
-    return foundMethod.inputs
-  }
-
   protected async init(config: InstantiableConfig, optional = false) {
     this.setInstanceConfig(config)
-    this.contract = await this.nevermined.utils.contractHandler.get(
+    this.contract = await this.nevermined.utils.contractHandler.getContractFromArtifacts(
       this.contractName,
       optional,
       config.artifactsFolder,
@@ -89,7 +83,7 @@ export abstract class ContractBase extends Instantiable {
   public async sendFrom(
     name: string,
     args: any[],
-    from?: Account,
+    from?: NvmAccount,
     value?: TxParameters,
   ): Promise<ContractTransactionReceipt> {
     const fromAddress = await this.getFromAddress(from && from.getId())
@@ -108,7 +102,7 @@ export abstract class ContractBase extends Instantiable {
     contract: ethers.BaseContract,
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
     // Uncomment to debug contract calls
     // console.debug(`Making contract call ....: ${name} - ${from}`)
     // console.debug(`With args - ${JSON.stringify(args)}`)
@@ -119,7 +113,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sending',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         method: name,
         from,
         value,
@@ -136,7 +130,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sent',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         transactionResponse,
         method: name,
         from,
@@ -152,7 +146,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'receipt',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         transactionReceipt,
         method: name,
         from,
@@ -174,7 +168,7 @@ export abstract class ContractBase extends Instantiable {
     contract: ethers.BaseContract,
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
     // Uncomment to debug contract calls
     // console.debug(`Making contract call ....: ${name} - ${from}`)
     // console.debug(`With args - ${JSON.stringify(args)}`)
@@ -185,7 +179,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sending',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         method: name,
         from,
         value,
@@ -202,7 +196,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sent',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         transactionResponse,
         method: name,
         from,
@@ -219,7 +213,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'receipt',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         transactionReceipt,
         method: name,
         from,
@@ -241,13 +235,13 @@ export abstract class ContractBase extends Instantiable {
     progress: (data: any) => void,
   ): Promise<ContractTransactionReceipt> {
     const { gasLimit, value } = txparams
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
 
     // make the call
     if (progress) {
       progress({
         stage: 'sending',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         method: name,
         from,
         value,
@@ -266,7 +260,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sent',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         hash,
         method: name,
         from,
@@ -284,7 +278,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'receipt',
-        args: this.searchMethodInputs(name, args),
+        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
         receipt,
         method: name,
         from,
@@ -332,7 +326,7 @@ export abstract class ContractBase extends Instantiable {
       return await this.internalSend(name, from, args, paramsFixed, contract, params.progress)
     }
 
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
 
     // get signer
     const signer = await this.nevermined.accounts.findSigner(from)
@@ -346,7 +340,7 @@ export abstract class ContractBase extends Instantiable {
       if (params.progress) {
         params.progress({
           stage: 'estimateGas',
-          args: this.searchMethodInputs(name, args),
+          args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
           method: name,
           from,
           value,
@@ -356,18 +350,11 @@ export abstract class ContractBase extends Instantiable {
       }
 
       if (!gasLimit) {
-        gasLimit = await this.estimateGas(
-          contract,
-          methodSignature,
-          args,
-          from,
-          value,
-          gasMultiplier,
-        )
+        gasLimit = await estimateGas(contract, methodSignature, args, from, value, gasMultiplier)
       }
 
       // get correct fee data
-      const feeData = await this.nevermined.utils.contractHandler.getFeeData(
+      const feeData = await this.nevermined.utils.blockchain.getFeeData(
         gasPrice && BigInt(gasPrice),
         maxFeePerGas && BigInt(maxFeePerGas),
         maxPriorityFeePerGas && BigInt(maxPriorityFeePerGas),
@@ -381,12 +368,7 @@ export abstract class ContractBase extends Instantiable {
       }
       return await this.internalSend(name, from, args, txparams, contract, params.progress)
     } catch (err) {
-      const mappedArgs = this.searchMethod(name, args).inputs.map((input, i) => {
-        return {
-          name: input.name,
-          value: args[i],
-        }
-      })
+      const mappedArgs = getInputsOfFunctionFormatted(this.contract.interface, name, args)
       throw new KeeperError(`
                 ${'-'.repeat(40)}\n
                 Sending transaction "${name}" on contract "${this.contractName}" at ${
@@ -401,7 +383,7 @@ export abstract class ContractBase extends Instantiable {
   }
 
   public async call<T>(name: string, args: any[], from?: string): Promise<T> {
-    const methodSignature = this.getSignatureOfMethod(name, args)
+    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
     try {
       return await this.contract[methodSignature](...args, { from })
     } catch (err) {
@@ -409,49 +391,6 @@ export abstract class ContractBase extends Instantiable {
         `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args} - ${err}`,
       )
     }
-  }
-
-  private searchMethod(methodName: string, args: any[] = []) {
-    const methods = this.contract.interface.fragments.filter(
-      (f: FunctionFragment) => f.name === methodName,
-    )
-    const foundMethod = methods.find((f) => f.inputs.length === args.length) || methods[0]
-    if (!foundMethod) {
-      throw new KeeperError(`Method "${methodName}" is not part of contract "${this.contractName}"`)
-    }
-    return foundMethod
-  }
-
-  private searchMethodInputs(methodName: string, args: any[] = []) {
-    return this.searchMethod(methodName, args).inputs.map((input, i) => {
-      return {
-        name: input.name,
-        value: args[i],
-      }
-    })
-  }
-
-  private async estimateGas(
-    contract: ethers.BaseContract,
-    methodSignature: string,
-    args: any[],
-    from: string,
-    value: string,
-    gasMultiplier?: number,
-  ): Promise<bigint> {
-    let gasLimit: bigint = await contract[methodSignature].estimateGas(...args, {
-      from,
-      value,
-    })
-    if (value) gasLimit = gasLimit + 21500n
-
-    gasMultiplier = gasMultiplier || this.config.gasMultiplier
-    if (gasMultiplier) {
-      const gasMultiplierParsed = parseUnits(gasMultiplier.toString(), 2)
-      gasLimit = (gasLimit * gasMultiplierParsed) / 100n
-    }
-
-    return gasLimit
   }
 }
 

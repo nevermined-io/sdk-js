@@ -1,11 +1,11 @@
 import { assert } from 'chai'
 import { config } from '../config'
-import { Nevermined, Account, Logger, NewProfile, State } from '../../src'
+import { Nevermined, NvmAccount, Logger, NewProfile, State } from '../../src'
 import { faker } from '@faker-js/faker'
 
 describe('User Profiles', () => {
   let nevermined: Nevermined
-  let account3: Account
+  let account3: NvmAccount
   let newProfile: NewProfile
   let userId: string
 

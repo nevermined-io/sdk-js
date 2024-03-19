@@ -1,14 +1,14 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import { config } from '../config'
-import { Nevermined, Account, DDO, AssetAttributes } from '../../src'
+import { Nevermined, NvmAccount, DDO, AssetAttributes } from '../../src'
 import fs from 'fs'
 import { getMetadata } from '../utils'
 import '../globals'
 
 describe.skip('Filecoin Integration', () => {
   let nevermined: Nevermined
-  let publisher: Account
+  let publisher: NvmAccount
   const metadata = getMetadata()
   let ddo: DDO
   let userId: string

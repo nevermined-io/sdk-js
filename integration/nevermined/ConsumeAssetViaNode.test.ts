@@ -7,22 +7,22 @@ import { getMetadata } from '../utils'
 
 import {
   Nevermined,
-  Account,
   DDO,
   ConditionState,
   MetaData,
   Logger,
   AssetPrice,
   AssetAttributes,
+  getAddress,
+  NvmAccount,
 } from '../../src'
 import { repeat } from '../utils/utils'
-import { ethers } from 'ethers'
 
 describe('Consume Asset (Nevermined Node)', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let ddo: DDO
   let agreementId: string
@@ -82,7 +82,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 12])
 
     const assetProviders = await nevermined.assets.providers.list(ddo.id)
-    assert.deepEqual(assetProviders, [ethers.getAddress(config.neverminedNodeAddress)])
+    assert.deepEqual(assetProviders, [getAddress(config.neverminedNodeAddress)])
   })
 
   it('should order the asset', async () => {

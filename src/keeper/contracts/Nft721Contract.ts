@@ -1,8 +1,7 @@
 import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { didZeroX, zeroX } from '../../utils'
-import { Account } from '../../nevermined'
-import { ethers } from 'ethers'
+import { NvmAccount, getContractInstance } from '../../nevermined'
 import { ContractEvent, EventHandler } from '../../events'
 import { NFTContractsBase } from './NFTContractsBase'
 import { ContractHandler } from '../ContractHandler'
@@ -22,11 +21,14 @@ export class Nft721Contract extends NFTContractsBase {
     const eventEmitter = new EventHandler()
     nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
 
-    const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
+    const solidityABI = await ContractHandler.getABIArtifact(
+      contractName,
+      artifactsFolder,
+      networkName,
+    )
 
     console.log(`Checking Address =${address}=`)
-    await new ContractHandler(config).checkExists(address)
-    nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+    nft.contract = await getContractInstance(address, solidityABI.abi, nft.web3)
     nft.address = await nft.contract.getAddress()
 
     return nft
@@ -45,8 +47,7 @@ export class Nft721Contract extends NFTContractsBase {
     const eventEmitter = new EventHandler()
     nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
 
-    await new ContractHandler(config).checkExists(address)
-    nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
+    nft.contract = await getContractInstance(address, solidityABI.abi, nft.web3)
     nft.address = await nft.contract.getAddress()
 
     return nft
@@ -69,7 +70,7 @@ export class Nft721Contract extends NFTContractsBase {
     uri: string,
     cap: bigint,
     operators: string[] = [],
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this._createClone(721, name, symbol, uri, cap, operators, from, txParams)
@@ -83,7 +84,7 @@ export class Nft721Contract extends NFTContractsBase {
     to: string,
     did: string,
     url: string,
-    from?: Account,
+    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom('mint', [to, didZeroX(did), url], from, txParams)
@@ -97,7 +98,7 @@ export class Nft721Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(tokenId: string, from?: Account, txParams?: TxParameters) {
+  public async burn(tokenId: string, from?: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('burn', [zeroX(tokenId)], from, txParams)
   }
 

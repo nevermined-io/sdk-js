@@ -2,7 +2,7 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
+import { NvmAccount, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import { Token, TransferNFTCondition } from '../../src/keeper'
 import { config } from '../config'
 import { generateSubscriptionMetadata, getMetadata } from '../utils'
@@ -21,9 +21,9 @@ import { sleep } from '@opengsn/provider'
 chai.use(chaiAsPromised)
 
 describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
-  let publisher: Account
-  let subscriber: Account
-  let reseller: Account
+  let publisher: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -69,7 +69,6 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   let salesServices
   let accessServices
 
-  // let nft: ethers.Contract
   let subscriptionNFT: SubscriptionCreditsNFTApi
   let neverminedNodeAddress
 
@@ -144,7 +143,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         `NFT1155SubscriptionUpgradeable.${await nevermined.keeper.getNetworkName()}`,
         './artifacts/',
       )

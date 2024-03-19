@@ -1,4 +1,5 @@
-import { NeverminedOptions, LogLevel, makeAccounts } from '../src'
+import { NeverminedOptions, LogLevel } from '../src'
+import { makeWallets } from '../src/nevermined/utils'
 import { LoggerInstance } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
@@ -21,7 +22,7 @@ const config = {
 } as NeverminedOptions
 
 if (process.env.SEED_WORDS) {
-  config.accounts = makeAccounts(process.env.SEED_WORDS)
+  config.accounts = makeWallets(process.env.SEED_WORDS)
 }
 
 export default config

@@ -1,6 +1,6 @@
 import { DDO, MetaData } from '../../ddo'
 import { AssetAttributes } from '../../models'
-import { Account } from '../../nevermined'
+import { NvmAccount } from '../../nevermined'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters } from '../../keeper'
 import { SubscribablePromise } from '../../utils'
@@ -42,7 +42,7 @@ export class ComputeApi extends RegistryBaseApi {
    */
   public create(
     assetAttributes: AssetAttributes,
-    publisherAccount: Account,
+    publisherAccount: NvmAccount,
     publicationOptions: AssetPublicationOptions = {
       metadata: PublishMetadataOptions.OnlyMetadataAPI,
       did: PublishOnChainOptions.DIDRegistry,
@@ -87,7 +87,7 @@ export class ComputeApi extends RegistryBaseApi {
   public update(
     did: string,
     metadata: MetaData,
-    publisherAccount: Account,
+    publisherAccount: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -104,7 +104,7 @@ export class ComputeApi extends RegistryBaseApi {
    */
   public order(
     did: string,
-    consumerAccount: Account,
+    consumerAccount: NvmAccount,
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return this.orderAsset(did, 'compute', consumerAccount, txParams)
@@ -120,7 +120,7 @@ export class ComputeApi extends RegistryBaseApi {
   public async execute(
     agreementId: string,
     workflowDid: string,
-    consumerAccount: Account,
+    consumerAccount: NvmAccount,
   ): Promise<string> {
     const { node } = this.nevermined.services
 
@@ -134,7 +134,7 @@ export class ComputeApi extends RegistryBaseApi {
    * @param consumerAccount - The account of the user triggering the computation
    * @returns The logs resulted of the execution of the job
    */
-  public async logs(agreementId: string, executionId: string, consumerAccount: Account) {
+  public async logs(agreementId: string, executionId: string, consumerAccount: NvmAccount) {
     return await this.nevermined.services.node.computeLogs(
       agreementId,
       executionId,
@@ -149,7 +149,7 @@ export class ComputeApi extends RegistryBaseApi {
    * @param consumerAccount - The account of the user triggering the computation
    * @returns The status of the job
    */
-  public async status(agreementId: string, executionId: string, consumerAccount: Account) {
+  public async status(agreementId: string, executionId: string, consumerAccount: NvmAccount) {
     return (
       await this.nevermined.services.node.computeStatus(agreementId, executionId, consumerAccount)
     ).workflowStatus
