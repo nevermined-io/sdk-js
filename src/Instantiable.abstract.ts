@@ -1,8 +1,8 @@
-import { NeverminedOptions } from './'
+import { getChain, NeverminedOptions } from './'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import { Nevermined } from './nevermined'
 import { ethers } from 'ethers'
-import { createPublicClient, createWalletClient, http, PublicClient, WalletClient } from 'viem'
+import { Chain, createPublicClient, createWalletClient, getContract, http, PublicClient, WalletClient } from 'viem'
 
 export interface InstantiableConfig {
   nevermined: Nevermined
@@ -17,6 +17,7 @@ export interface InstantiableConfig {
 export interface Web3Clients {
   public: PublicClient
   wallet: WalletClient
+  chain?: Chain
 }
 
 export async function generateInstantiableConfigFromConfig(
@@ -28,30 +29,41 @@ export async function generateInstantiableConfigFromConfig(
       ? config.verbose
         ? LogLevel.Log
         : LogLevel.None
-      : (config.verbose as LogLevel)
+      : (config.verbose as LogLevel)  
+  
   return {
     config,
     web3: loadCore ? await getWeb3EthersProvider(config) : undefined,
-    client: loadCore ? getWeb3ViemClients(config) : undefined,
+    client: loadCore ? await getWeb3ViemClients(config) : undefined,
     logger: new Logger(logLevel),
     artifactsFolder: config.artifactsFolder,
     circuitsFolder: config.circuitsFolder,
   }
 }
 
-export function getWeb3ViemClients(config: Partial<NeverminedOptions> = {}): Web3Clients {
-  const publicClient = createPublicClient({
-    cacheTime: 0,
-    transport: http(config.web3ProviderUri),
-  })
-  const walletClient = createWalletClient({
-    cacheTime: 0,
-    transport: http(config.web3ProviderUri),
-  })
+export async function getWeb3ViemClients(config: Partial<NeverminedOptions> = {}): Promise<Web3Clients> {
+  const chain = getChain(config.chainId)
+  const providerTransport = config.web3ProviderUri ? http(config.web3ProviderUri) : http()
 
+  const publicClient = createPublicClient({
+    // cacheTime: 0,
+    chain,
+    transport: providerTransport,
+  }) as Omit<typeof publicClient, 'cacheTime'>
+  
+  const walletClient = createWalletClient({
+    // cacheTime: 0 as number,
+    chain,
+    transport: providerTransport,
+  })
+  getContract({
+    address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+    client: { public: publicClient }
+  })
   return {
     public: publicClient,
     wallet: walletClient,
+    chain
   } as Web3Clients
 }
 

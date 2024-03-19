@@ -368,7 +368,7 @@ export class AssetsApi extends RegistryBaseApi {
     updatedDDO._nvm.versions = versions
     updatedDDO.updated = ddoVersion.updated
 
-    const _storedDdo = await this.nevermined.services.metadata.updateDDO(did, updatedDDO)
+    await this.nevermined.services.metadata.updateDDO(did, updatedDDO)
 
     return this.nevermined.keeper.didRegistry.transferDIDOwnership(
       did,

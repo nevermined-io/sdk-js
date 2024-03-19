@@ -43,7 +43,8 @@ export const conditionStateNames = ['Uninitialized', 'Unfulfilled', 'Fulfilled',
 
 export abstract class ConditionSmall extends ContractBase {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public static async getInstance<Ctx extends ConditionContext, Extra>(
+  // public static async getInstance<Ctx extends ConditionContext, Extra>(
+  public static async getInstance(
     config: InstantiableConfig,
     conditionName: string,
     conditionsClass: any,
@@ -154,7 +155,7 @@ export abstract class Condition<
     txParams?: TxParameters,
     method: ConditionMethod = 'fulfill',
   ) {
-    const _params = await cond.params(method, additionalParams)
+    await cond.params(method, additionalParams)
 
     return this.sendFrom(
       method,
