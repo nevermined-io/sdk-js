@@ -1,9 +1,9 @@
-import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { Account } from '../Account'
-import { ethers } from 'ethers'
-import { Babysig } from '../../models'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
+import { ethers } from 'ethers'
+import { JWSHeaderParameters, SignJWT, decodeJwt, importJWK } from 'jose'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { Babysig } from '../../models'
+import { Account } from '../Account'
 
 export interface Eip712Data {
   message: string
@@ -397,6 +397,18 @@ export class JwtUtils extends Instantiable {
       return accessToken
     } else {
       return this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+    }
+  }
+
+  public isTokenValid(token: string): boolean {
+    const decodedToken = decodeJwt(token)
+    if (!decodedToken) {
+      return false
+    }
+    const expiry = decodedToken.exp
+    if (expiry) {
+      const now = new Date()
+      return now.getTime() < Number(expiry) * 1000
     }
   }
 }
