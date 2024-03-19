@@ -1,4 +1,4 @@
-import { ZeroDevAccountSigner } from '@zerodev/sdk'
+import { ZeroDevAccountSigner, ZeroDevEthersProvider } from '@zerodev/sdk'
 import { isAddress } from 'ethers'
 import {
   Account,
@@ -16,6 +16,7 @@ import {
   SubscriptionToken,
   SubscriptionType,
   Web3Error,
+  convertEthersV6SignerToAccountSigner,
 } from '../sdk'
 import {
   AppDeploymentArbitrum,
@@ -114,7 +115,8 @@ export class NvmApp {
   }
 
   public async connect(
-    account: string | ZeroDevAccountSigner<'ECDSA'> | Account,
+    account: string | Account,
+    message?: string,
     config?: NeverminedOptions,
     initOptions?: NeverminedInitializationOptions,
   ) {
@@ -123,9 +125,17 @@ export class NvmApp {
       : NvmApp.defaultAppInitializationOptions
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
-    if (account instanceof ZeroDevAccountSigner) {
-      this.userAccount = await Account.fromZeroDevSigner(account)
-      this.zeroDevSignerAccount = account
+    if (config && config.zeroDevProjectId) {
+      const signer = await this.fullSDK.accounts.findSigner(account as string)
+
+      const zerodevProvider = await ZeroDevEthersProvider.init('ECDSA', {
+        projectId: config.zeroDevProjectId,
+        owner: convertEthersV6SignerToAccountSigner(signer),
+      })
+
+      const zerodevAccountSigner = zerodevProvider.getAccountSigner()
+      this.userAccount = await Account.fromZeroDevSigner(zerodevAccountSigner)
+      this.zeroDevSignerAccount = zerodevAccountSigner
       this.useZeroDevSigner = true
     } else if (account instanceof Account) {
       this.userAccount = account
@@ -133,9 +143,19 @@ export class NvmApp {
       this.userAccount = this.fullSDK.accounts.getAccount(account)
     }
 
-    const clientAssertion = await this.fullSDK.utils.jwt.generateClientAssertion(this.userAccount)
-
-    this.loginCredentials = await this.fullSDK.services.marketplace.login(clientAssertion)
+    if (
+      config &&
+      config.marketplaceAuthToken &&
+      this.fullSDK.utils.jwt.isTokenValid(config.marketplaceAuthToken)
+    ) {
+      this.loginCredentials = config.marketplaceAuthToken
+    } else {
+      const clientAssertion = await this.fullSDK.utils.jwt.generateClientAssertion(
+        this.userAccount,
+        message,
+      )
+      this.loginCredentials = await this.fullSDK.services.marketplace.login(clientAssertion)
+    }
 
     const nodeInfo = await this.fullSDK.services.node.getNeverminedNodeInfo()
     this.assetProviders = [nodeInfo['provider-address']]
@@ -156,6 +176,11 @@ export class NvmApp {
     this.sdk.contracts.loadNft1155(this.subscriptionNFTContractAddress)
     this.networkFeeReceiver = await this.fullSDK.keeper.nvmConfig.getFeeReceiver()
     this.networkFee = await this.fullSDK.keeper.nvmConfig.getNetworkFee()
+    return {
+      marketplaceAuthToken: this.loginCredentials,
+      userAccount: this.userAccount,
+      zeroDevSignerAccount: this.zeroDevSignerAccount,
+    }
   }
 
   public async disconnect() {

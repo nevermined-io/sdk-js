@@ -9,11 +9,11 @@ jobs:
     steps:
       - name: Reclaim some disk space
         run: docker system prune --all --volumes -f
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: nevermined-io/node
           path: node
@@ -64,7 +64,7 @@ jobs:
           yarn integration:all
 
       - name: Upload node logs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: node-output
