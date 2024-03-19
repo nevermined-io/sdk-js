@@ -125,7 +125,7 @@ export class NvmApp {
       : NvmApp.defaultAppInitializationOptions
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
-    if (config.zeroDevProjectId) {
+    if (config && config.zeroDevProjectId) {
       const signer = await this.fullSDK.accounts.findSigner(account as string)
 
       const zerodevProvider = await ZeroDevEthersProvider.init('ECDSA', {
@@ -144,6 +144,7 @@ export class NvmApp {
     }
 
     if (
+      config &&
       config.marketplaceAuthToken &&
       this.fullSDK.utils.jwt.isTokenValid(config.marketplaceAuthToken)
     ) {
