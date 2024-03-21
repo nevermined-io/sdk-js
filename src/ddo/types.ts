@@ -268,6 +268,7 @@ export interface MetaDataMain {
     | 'model'
     | 'file'
     | 'other'
+    | 'assistant'
 
   /**
    * Sub type asssociated to the main type of the asset. This subtype is open so final users are not restricted to use anything they need.
@@ -513,7 +514,7 @@ export interface PublicKey {
 
 /**
  * Nevermined Config DDO section
- * 
+ *
  * @example
  * ```ts
  * "_nvm": {
