@@ -4,6 +4,7 @@ import {
   Account,
   AssetPrice,
   ContractHandler,
+  CreateProgressStep,
   DDO,
   MetaData,
   NFTAttributes,
@@ -13,6 +14,8 @@ import {
   PublishMetadataOptions,
   PublishOnChainOptions,
   SearchApi,
+  ServicesApi,
+  SubscribablePromise,
   SubscriptionToken,
   SubscriptionType,
   Web3Error,
@@ -209,6 +212,10 @@ export class NvmApp {
     return this.searchSDK.search
   }
 
+  public get services(): ServicesApi {
+    return this.searchSDK.services
+  }
+
   public get sdk(): Nevermined {
     if (!this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
@@ -219,11 +226,11 @@ export class NvmApp {
     return { receiver: this.networkFeeReceiver, fee: this.networkFee }
   }
 
-  public async createTimeSubscription(
+  public createTimeSubscription(
     susbcriptionMetadata: MetaData,
     subscriptionPrice: AssetPrice,
     duration: number,
-  ): Promise<DDO> {
+  ): SubscribablePromise<CreateProgressStep, DDO> {
     if (!this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
@@ -255,7 +262,7 @@ export class NvmApp {
       preMint: false,
     })
 
-    return await this.fullSDK.nfts1155.create(
+    return this.fullSDK.nfts1155.create(
       nftAttributes,
       this.userAccount,
       {
@@ -266,11 +273,19 @@ export class NvmApp {
     )
   }
 
-  public async createCreditsSubscription(
+  public async createTimeSubscriptionAsync(
+    susbcriptionMetadata: MetaData,
+    subscriptionPrice: AssetPrice,
+    duration: number,
+  ): Promise<DDO> {
+    return await this.createTimeSubscription(susbcriptionMetadata, subscriptionPrice, duration)
+  }
+
+  public createCreditsSubscription(
     susbcriptionMetadata: MetaData,
     subscriptionPrice: AssetPrice,
     numberCredits: bigint,
-  ): Promise<DDO> {
+  ): SubscribablePromise<CreateProgressStep, DDO> {
     if (!this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
@@ -300,7 +315,7 @@ export class NvmApp {
       preMint: false,
     })
 
-    return await this.fullSDK.nfts1155.create(
+    return this.fullSDK.nfts1155.create(
       nftAttributes,
       this.userAccount,
       {
@@ -308,6 +323,18 @@ export class NvmApp {
         did: PublishOnChainOptions.DIDRegistry,
       },
       { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
+    )
+  }
+
+  public async createCreditsSubscriptionAsync(
+    susbcriptionMetadata: MetaData,
+    subscriptionPrice: AssetPrice,
+    numberCredits: bigint,
+  ): Promise<DDO> {
+    return await this.createCreditsSubscriptionAsync(
+      susbcriptionMetadata,
+      subscriptionPrice,
+      numberCredits,
     )
   }
 
@@ -409,13 +436,13 @@ export class NvmApp {
     }
   }
 
-  public async registerServiceAsset(
+  public registerServiceAsset(
     metadata: MetaData,
     subscriptionDid: string,
     costInCredits = 1n,
     minCreditsToCharge = 1n,
     maxCreditsToCharge = 1n,
-  ): Promise<DDO> {
+  ): SubscribablePromise<CreateProgressStep, DDO> {
     if (!this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
@@ -433,6 +460,7 @@ export class NvmApp {
             tokenId: subscriptionDid,
             amount: costInCredits,
             maxCreditsToCharge,
+            minCreditsRequired: minCreditsToCharge,
             minCreditsToCharge,
             nftTransfer: false,
           },
@@ -443,7 +471,7 @@ export class NvmApp {
       preMint: false,
     })
 
-    return await this.fullSDK.nfts1155.create(
+    return this.fullSDK.nfts1155.create(
       nftAttributes,
       this.userAccount,
       {
@@ -454,11 +482,27 @@ export class NvmApp {
     )
   }
 
-  public async registerFileAsset(
+  public async registerServiceAssetAsync(
     metadata: MetaData,
     subscriptionDid: string,
     costInCredits = 1n,
+    minCreditsToCharge = 1n,
+    maxCreditsToCharge = 1n,
   ): Promise<DDO> {
+    return await this.registerServiceAsset(
+      metadata,
+      subscriptionDid,
+      costInCredits,
+      minCreditsToCharge,
+      maxCreditsToCharge,
+    )
+  }
+
+  public registerFileAsset(
+    metadata: MetaData,
+    subscriptionDid: string,
+    costInCredits = 1n,
+  ): SubscribablePromise<CreateProgressStep, DDO> {
     if (!this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
@@ -484,7 +528,7 @@ export class NvmApp {
       preMint: false,
     })
 
-    return await this.fullSDK.nfts1155.create(
+    return this.fullSDK.nfts1155.create(
       nftAttributes,
       this.userAccount,
       {
@@ -493,6 +537,14 @@ export class NvmApp {
       },
       { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
     )
+  }
+
+  public async registerFileAssetAsync(
+    metadata: MetaData,
+    subscriptionDid: string,
+    costInCredits = 1n,
+  ): Promise<DDO> {
+    return await this.registerFileAsset(metadata, subscriptionDid, costInCredits)
   }
 
   public addNetworkFee(price: AssetPrice): AssetPrice {
