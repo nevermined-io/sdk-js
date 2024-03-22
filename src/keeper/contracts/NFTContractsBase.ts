@@ -1,7 +1,6 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { didZeroX, zeroX } from '../../utils'
 import { NvmAccount } from '../../nevermined'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
 import { KeeperError } from '../../errors'
 
 export interface MintedEntry {
@@ -42,7 +41,7 @@ export class NFTContractsBase extends ContractBase {
     txParams?: TxParameters,
   ) {
     try {
-      const contractReceipt: ContractTransactionReceipt = await this.sendFrom(
+      const txReceipt = await this.sendFrom(
         'createClone',
         ercType === 721
           ? [name, symbol, uri, String(cap), operators]
@@ -50,10 +49,21 @@ export class NFTContractsBase extends ContractBase {
         from,
         txParams,
       )
-      const event = (contractReceipt.logs as EventLog[]).find(
-        (e: EventLog) => e.eventName === 'NFTCloned',
-      ) as EventLog
-      return event.args._newAddress
+      // const tx = await this.client.public.getTransaction({hash: txReceipt.transactionHash})
+      //const logs = parseEventLogs({ abi: this.contract.interface.abi, logs: txReceipt.logs, eventName: 'NFTCloned', strict: false })
+      const logs = this.getTransactionLogs(txReceipt, 'NFTCloned')
+      logs.some((e: any) => {
+        return e.args['_newAddress'] // = decodeEventLog({ abi: this.contract.interface.abi, data: e.data, topics: e.topics })
+      })
+      throw new KeeperError(
+        `Unable to get address of the cloned contract: ${txReceipt.transactionHash}`,
+      )
+      // logs.find((e) => e. === 'NFTCloned')
+      // txReceipt.logs.find((e) => e.)
+      // const event = txReceipt.logs.find(
+      //   (e: EventLog) => e.eventName === 'NFTCloned',
+      // ) as EventLog
+      // return event.args._newAddress
     } catch (error) {
       throw new KeeperError(`Unable to clone contract: ${(error as Error).message}`)
     }

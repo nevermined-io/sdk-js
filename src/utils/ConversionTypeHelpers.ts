@@ -1,7 +1,7 @@
 import { LoggerInstance } from './Logger'
 
 // Ox transformer
-export const zeroX = (input: string) => zeroXTransformer(input, true)
+export const zeroX = (input: string) => zeroXTransformer(input, true) as `0x${string}`
 export const noZeroX = (input: string) => zeroXTransformer(input, false)
 
 export function zeroXTransformer(input = '', zeroOutput: boolean) {

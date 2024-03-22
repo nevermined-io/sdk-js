@@ -25,7 +25,10 @@ describe('SignatureUtils', () => {
 
   describe('#verifyText', () => {
     it('should recover the privateKey of a signed message', async () => {
-      const verifiedPublicKey = await nevermined.utils.signature.verifyText(text, signature)
+      const verifiedPublicKey = await nevermined.utils.signature.recoverSignerAddress(
+        text,
+        signature,
+      )
 
       assert.equal(account.getId(), verifiedPublicKey)
     })

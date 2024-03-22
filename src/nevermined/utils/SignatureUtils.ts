@@ -1,6 +1,9 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { ethers } from 'ethers'
-import { keccak256 } from './BlockchainEthersUtils'
+import { keccak256 } from './BlockchainViemUtils'
+import { LocalAccount, recoverAddress, toHex } from 'viem'
+import { NvmAccountError } from '../../errors/NvmAccountError'
+import { NvmAccount } from '../NvmAccount'
+import { TypedDataDomain, TypedDataTypes } from './JwtUtils'
 
 export class SignatureUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -9,19 +12,70 @@ export class SignatureUtils extends Instantiable {
   }
 
   public async signText(text: string | Uint8Array, address: string): Promise<string> {
-    const signer = await this.nevermined.accounts.findSigner(address)
-    try {
-      return await signer.signMessage(text)
-    } catch (e) {
-      // Possibly the provider does not support personal_sign
-      // Fallback to eth_sign
-      this.logger.warn(`Trying legacy sign: ${e}`)
-      return (signer as any)._legacySignMessage(text)
+    const message = typeof text === 'string' ? text : toHex(text)
+    const account = await this.nevermined.accounts.getAccount(address)
+
+    if (account.isZeroDev()) {
+      // TODO: Implement ZeroDev signing
+      return `0x`
+    } else if (account.accountType.signerType === 'local') {
+      return (account.accountSigner as LocalAccount).signMessage({
+        message: message as `0x${string}`,
+      })
+    } else if (account.accountType.signerType === 'json-rpc') {
+      const result = this.nevermined.accounts.signTextWithRemoteAccount(text, address)
+      return result
+    } else {
+      throw new NvmAccountError('The account type is not supported for signing')
     }
   }
 
-  public async verifyText(text: string, signature: string): Promise<string> {
-    return ethers.verifyMessage(text, signature)
+  public async signTypedData(
+    domain: TypedDataDomain,
+    types: TypedDataTypes,
+    value: Record<string, any>,
+    account: NvmAccount,
+  ): Promise<string> {
+    if (account.isZeroDev()) {
+      // TODO: Implement ZeroDev signing
+      return `0x`
+    } else if (account.accountType.signerType === 'local') {
+      return await (account.accountSigner as LocalAccount).signTypedData({
+        domain,
+        types: types as any,
+        message: value,
+        primaryType: '',
+      })
+    } else if (account.accountType.signerType === 'json-rpc') {
+      return await this.nevermined.accounts.signTypedData(
+        domain,
+        types,
+        value,
+        account.getAddress(),
+      )
+    } else {
+      throw new NvmAccountError('The account type is not supported for typed signing')
+    }
+  }
+
+  public async verifyIsSigner(
+    text: string,
+    signature: string,
+    signerAddress: string,
+  ): Promise<boolean> {
+    return this.client.public.verifyMessage({
+      message: text,
+      signature: signature as `0x${string}`,
+      address: signerAddress as `0x${string}`,
+    })
+  }
+
+  static async recoverSignerAddress(hash: string, signature: string): Promise<string> {
+    const message = typeof hash === 'string' ? hash : toHex(hash)
+    return recoverAddress({
+      hash: message as `0x${string}`,
+      signature: signature as `0x${string}`,
+    })
   }
 
   static hash(seed: string): string {

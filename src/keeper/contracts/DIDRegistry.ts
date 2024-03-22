@@ -1,7 +1,6 @@
 import ContractBase, { TxParameters as txParams } from './ContractBase'
 import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { ContractTransactionReceipt } from 'ethers'
 import { NFTAttributes } from '../../models'
 import { AssetError } from '../../errors/AssetError'
 import {
@@ -11,7 +10,7 @@ import {
   ProvenanceMethod,
   ProvenanceRegistry,
 } from './Provenance'
-import { zeroPadValue } from '../../nevermined/utils/BlockchainEthersUtils'
+import { zeroPadValue } from '../../nevermined/utils/BlockchainViemUtils'
 
 export class DIDRegistry extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
@@ -118,7 +117,7 @@ export class DIDRegistry extends ContractBase {
           ? String(nftAttributes.royaltyAttributes?.amount)
           : '0',
         nftAttributes.preMint,
-        zeroPadValue(zeroX(activityId), 32),
+        zeroPadValue(activityId as `0x${string}`, 32),
         nftAttributes.nftMetadataUrl || '',
         immutableUrl,
       ],
@@ -165,7 +164,7 @@ export class DIDRegistry extends ContractBase {
           ? String(nftAttributes.royaltyAttributes?.amount)
           : '0',
         nftAttributes.preMint,
-        zeroPadValue(zeroX(activityId), 32),
+        zeroPadValue(activityId as `0x${string}`, 32),
         immutableUrl,
       ],
       txParams,
@@ -260,7 +259,7 @@ export class DIDRegistry extends ContractBase {
   }
 
   public async getDIDOwner(did: string): Promise<string> {
-    return this.call('getDIDOwner', [didZeroX(did)])
+    return this.call('getDIDOwner', [didZeroX(did)]) as Promise<string>
   }
 
   public async getBlockNumberUpdated(did: string): Promise<number> {
@@ -268,7 +267,7 @@ export class DIDRegistry extends ContractBase {
   }
 
   public async isDIDProvider(did: string, provider: string): Promise<string> {
-    return this.call('isDIDProvider', [didZeroX(did), zeroX(provider)])
+    return this.call('isDIDProvider', [didZeroX(did), zeroX(provider)]) as Promise<string>
   }
 
   public async getAttributesByOwner(owner: string): Promise<string[]> {
@@ -354,7 +353,7 @@ export class DIDRegistry extends ContractBase {
   }
 
   public async getPermission(did: string, grantee: string): Promise<boolean> {
-    return this.call('getPermission', [didZeroX(did), zeroX(grantee)])
+    return this.call('getPermission', [didZeroX(did), zeroX(grantee)]) as Promise<boolean>
   }
 
   public async transferDIDOwnership(
@@ -362,7 +361,7 @@ export class DIDRegistry extends ContractBase {
     newOwnerAddress: string,
     ownerAddress: string,
     params?: txParams,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     return this.send(
       'transferDIDOwnership',
       ownerAddress,

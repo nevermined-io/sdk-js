@@ -289,60 +289,6 @@ export default abstract class TestContractHandler extends ContractHandler {
       await transferNft721Condition.getAddress(),
       await escrowPaymentCondition.getAddress(),
     ])
-
-    const aaveCollateralDepositCondition = await TestContractHandler.deployContract(
-      'AaveCollateralDepositCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress()],
-    )
-    const aaveBorrowCondition = await TestContractHandler.deployContract(
-      'AaveBorrowCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress()],
-    )
-    const aaveRepayCondition = await TestContractHandler.deployContract(
-      'AaveRepayCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress()],
-    )
-    const aaveCollateralWithdrawCondition = await TestContractHandler.deployContract(
-      'AaveCollateralWithdrawCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress()],
-    )
-    const nft721LockCondition = await TestContractHandler.deployContract(
-      'NFT721LockCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress()],
-    )
-    const distributeNFTCollateralCondition = await TestContractHandler.deployContract(
-      'DistributeNFTCollateralCondition',
-      deployerAddress,
-      [
-        deployerAddress,
-        await conditionStoreManager.getAddress(),
-        await nft721LockCondition.getAddress(),
-      ],
-    )
-    const vaultLibrary = await TestContractHandler.deployContract(
-      'AaveCreditVault',
-      deployerAddress,
-      [],
-      {},
-      false,
-    )
-
-    await TestContractHandler.deployContract('AaveCreditTemplate', deployerAddress, [
-      deployerAddress,
-      await agreementStoreManager.getAddress(),
-      await nft721LockCondition.getAddress(),
-      await aaveCollateralDepositCondition.getAddress(),
-      await aaveBorrowCondition.getAddress(),
-      await aaveRepayCondition.getAddress(),
-      await aaveCollateralWithdrawCondition.getAddress(),
-      await distributeNFTCollateralCondition.getAddress(),
-      await vaultLibrary.getAddress(),
-    ])
   }
 
   public static async findSignerStatic(

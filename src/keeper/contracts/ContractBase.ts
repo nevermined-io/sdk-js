@@ -1,20 +1,10 @@
-import {
-  NvmAccount,
-  estimateGas,
-  getInputsOfFunctionFormatted,
-  getSignatureOfFunction,
-} from '../../nevermined'
+import { NvmAccount } from '../../nevermined'
 import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors'
-import {
-  ContractTransactionReceipt,
-  ContractTransactionResponse,
-  TransactionReceipt,
-  ethers,
-} from 'ethers'
-import { jsonReplacer } from '../../sdk'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
+import { getInputsOfFunctionFormatted } from '../../nevermined/utils/BlockchainViemUtils'
+import { TransactionReceipt, parseEventLogs } from 'viem'
 export interface TxParameters {
   value?: string
   gasLimit?: bigint
@@ -22,7 +12,8 @@ export interface TxParameters {
   gasPrice?: string
   maxPriorityFeePerGas?: string
   maxFeePerGas?: string
-  signer?: ethers.Signer
+
+  nvmAccount?: NvmAccount
   zeroDevSigner?: ZeroDevAccountSigner<'ECDSA'>
   sessionKeyProvider?: SessionKeyProvider
   nonce?: number
@@ -31,10 +22,10 @@ export interface TxParameters {
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
-  public contract: ethers.BaseContract = null
+  public contract
   public events: ContractEvent | SubgraphEvent = null
   public version: string
-  public address: string
+  public address: `0x${string}`
 
   constructor(contractName: string) {
     super()
@@ -68,7 +59,7 @@ export abstract class ContractBase extends Instantiable {
         await this.nevermined.keeper.getNetworkName(),
       )
     } else {
-      this.events = ContractEvent.getInstance(this, eventEmitter, config.nevermined, this.web3)
+      this.events = ContractEvent.getInstance(this, eventEmitter, config.nevermined, this.client)
     }
   }
 
@@ -80,18 +71,140 @@ export abstract class ContractBase extends Instantiable {
     return from
   }
 
+  public getTransactionLogs(txReceipt: TransactionReceipt, eventName: string) {
+    return parseEventLogs({
+      abi: this.contract.interface.abi,
+      logs: txReceipt.logs,
+      eventName,
+      strict: false,
+    })
+  }
+
   public async sendFrom(
-    name: string,
+    functionName: string,
     args: any[],
     from?: NvmAccount,
     value?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     const fromAddress = await this.getFromAddress(from && from.getId())
-    const receipt = await this.send(name, fromAddress, args, value)
+    const receipt = await this.send(functionName, fromAddress, args, value)
     if (!receipt.status) {
-      this.logger.error('Transaction failed!', this.contractName, name, args, fromAddress)
+      this.logger.error('Transaction failed!', this.contractName, functionName, args, fromAddress)
     }
     return receipt
+  }
+
+  public async send(functionName: string, from: string, args: any[], params: TxParameters = {}) {
+    // TODO: Enable ZeroDev & Session Key Provider setup
+    // if (params.zeroDevSigner) {
+    //   const paramsFixed = { ...params, signer: undefined }
+    //   const contract = this.contract.connect(params.zeroDevSigner as any)
+    //   return await this.internalSendZeroDev(
+    //     name,
+    //     from,
+    //     args,
+    //     paramsFixed,
+    //     contract,
+    //     params.progress,
+    //   )
+    // } else if (params.sessionKeyProvider) {
+    //   const paramsFixed = { ...params, signer: undefined }
+    //   return await this.internalSendSessionKeyProvider(
+    //     name,
+    //     from,
+    //     args,
+    //     paramsFixed,
+    //     params.progress,
+    //   )
+    // }
+
+    // if (params.signer) {
+    //   const paramsFixed = { ...params, signer: undefined }
+    //   const contract = this.contract.connect(params.signer)
+    //   return await this.internalEthersSend(name, from, args, paramsFixed, contract, params.progress)
+    // }
+
+    if (params.nvmAccount) {
+      return await this.internalSend(functionName, from, args, params, params.progress)
+    }
+
+    // const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
+
+    // get signer
+    // const _nvmAccount = await this.nevermined.accounts.findAccount(from)
+    // const contract = this.contract.connect(nvmAccount)
+
+    // calculate gas cost
+    // let { gasLimit } = params
+    // const { value, gasPrice, maxFeePerGas, maxPriorityFeePerGas, nonce } = params
+
+    // try {
+    //   if (params.progress) {
+    //     params.progress({
+    //       stage: 'estimateGas',
+    //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+    //       method: name,
+    //       from,
+    //       value,
+    //       contractName: this.contractName,
+    //       contractAddress: this.address,
+    //     })
+    //   }
+
+    //   if (!gasLimit) {
+    //     gasLimit = await this.client.public.estimateContractGas({
+    //       address: this.address,
+    //       abi: this.contract.abi,
+    //       functionName: name,
+    //       account: from as `0x${string}`,
+    //       args
+    //     })
+    //   }
+
+    //   // get correct fee data
+    //   const feeData = await this.nevermined.utils.viem.getFeeData(
+    //     gasPrice && BigInt(gasPrice),
+    //     maxFeePerGas && BigInt(maxFeePerGas),
+    //     maxPriorityFeePerGas && BigInt(maxPriorityFeePerGas),
+    //   )
+
+    //   const txparams = {
+    //     value,
+    //     gasLimit,
+    //     nonce,
+    //     ...feeData,
+    //   }
+    //   return await this.internalSend(name, from, args, txparams, params.progress)
+    // } catch (err) {
+    //   const mappedArgs = getInputsOfFunctionFormatted(this.contract.interface, name, args)
+    //   throw new KeeperError(`
+    //             ${'-'.repeat(40)}\n
+    //             Sending transaction "${name}" on contract "${this.contractName}" at ${
+    //     this.address
+    //   } failed.\n
+    //             Error: ${err}\n
+    //             From: ${from}\n
+    //             Parameters: ${JSON.stringify(mappedArgs, jsonReplacer, 2)}\n
+    //             ${'-'.repeat(40)}
+    //         `)
+    // }
+  }
+
+  public async call<T>(functionName: string, args: any[], from?: string): Promise<T> {
+    try {
+      return (await this.client.public.readContract({
+        address: this.address,
+        abi: this.contract.abi,
+        functionName,
+        args,
+        ...(from && { account: from as `0x${string}` }),
+      })) as T
+      //return await this.contract[functionSignature](...args, { from })
+    } catch (err) {
+      throw new KeeperError(
+        `Calling method "${functionName}" on contract "${this.contractName}" failed. Args: ${args} - ${err}`,
+      )
+    }
   }
 
   private async internalSend(
@@ -99,10 +212,10 @@ export abstract class ContractBase extends Instantiable {
     from: string,
     args: any[],
     txparams: any,
-    contract: ethers.BaseContract,
     progress: (data: any) => void,
-  ): Promise<ContractTransactionReceipt> {
-    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
+  ) {
+    const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
+    // const functionSignature = getSignatureOfFunction(this.contract.interface, name, args)
     // Uncomment to debug contract calls
     // console.debug(`Making contract call ....: ${name} - ${from}`)
     // console.debug(`With args - ${JSON.stringify(args)}`)
@@ -113,7 +226,7 @@ export abstract class ContractBase extends Instantiable {
     if (progress) {
       progress({
         stage: 'sending',
-        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+        args: functionInputs,
         method: name,
         from,
         value,
@@ -122,146 +235,20 @@ export abstract class ContractBase extends Instantiable {
         gasLimit,
       })
     }
-
-    const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
-      ...args,
-      txparams,
-    )
-    if (progress) {
-      progress({
-        stage: 'sent',
-        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-        transactionResponse,
-        method: name,
-        from,
-        value,
-        contractName: this.contractName,
-        contractAddress: this.address,
-        gasLimit,
-      })
-    }
-
-    const transactionReceipt: ContractTransactionReceipt = await transactionResponse.wait()
-
-    if (progress) {
-      progress({
-        stage: 'receipt',
-        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-        transactionReceipt,
-        method: name,
-        from,
-        value,
-        contractName: this.contractName,
-        contractAddress: this.address,
-        gasLimit,
-      })
-    }
-
-    return transactionReceipt
-  }
-
-  private async internalSendZeroDev(
-    name: string,
-    from: string,
-    args: any[],
-    txparams: any,
-    contract: ethers.BaseContract,
-    progress: (data: any) => void,
-  ): Promise<ContractTransactionReceipt> {
-    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
-    // Uncomment to debug contract calls
-    // console.debug(`Making contract call ....: ${name} - ${from}`)
-    // console.debug(`With args - ${JSON.stringify(args)}`)
-    // console.debug(`And signature - ${methodSignature}`)
-
-    const { gasLimit, value } = txparams
-    // make the call
-    if (progress) {
-      progress({
-        stage: 'sending',
-        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-        method: name,
-        from,
-        value,
-        contractName: this.contractName,
-        contractAddress: this.address,
-        gasLimit,
-      })
-    }
-
-    const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
-      ...args,
-      txparams,
-    )
-    if (progress) {
-      progress({
-        stage: 'sent',
-        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-        transactionResponse,
-        method: name,
-        from,
-        value,
-        contractName: this.contractName,
-        contractAddress: this.address,
-        gasLimit,
-      })
-    }
-
-    const transactionReceipt: TransactionReceipt =
-      await transactionResponse.provider.waitForTransaction(transactionResponse.hash)
-
-    if (progress) {
-      progress({
-        stage: 'receipt',
-        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-        transactionReceipt,
-        method: name,
-        from,
-        value,
-        contractName: this.contractName,
-        contractAddress: this.address,
-        gasLimit,
-      })
-    }
-
-    return transactionReceipt as ContractTransactionReceipt
-  }
-
-  private async internalSendSessionKeyProvider(
-    name: string,
-    from: string,
-    args: any[],
-    txparams: any,
-    progress: (data: any) => void,
-  ): Promise<ContractTransactionReceipt> {
-    const { gasLimit, value } = txparams
-    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
-
-    // make the call
-    if (progress) {
-      progress({
-        stage: 'sending',
-        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-        method: name,
-        from,
-        value,
-        contractName: this.contractName,
-        contractAddress: this.address,
-        gasLimit,
-      })
-    }
-
-    // Send the transaction
-    const { hash } = await txparams.sessionKeyProvider.sendUserOperation({
-      target: this.address,
-      data: this.contract.interface.encodeFunctionData(methodSignature, args),
+    const { request } = await this.client.public.simulateContract({
+      address: this.address,
+      abi: this.contract.abi,
+      functionName: name,
+      args,
+      account: from as `0x${string}`,
     })
+    const txHash = await this.client.wallet.writeContract(request)
 
     if (progress) {
       progress({
         stage: 'sent',
-        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-        hash,
+        args: functionInputs,
+        txHash,
         method: name,
         from,
         value,
@@ -270,16 +257,14 @@ export abstract class ContractBase extends Instantiable {
         gasLimit,
       })
     }
-
-    await txparams.sessionKeyProvider.waitForUserOperationTransaction(hash as `0x${string}`)
-    const userOperationReceipt = await txparams.sessionKeyProvider.getUserOperationReceipt(hash)
-    const receipt = userOperationReceipt.receipt
+    // const nonce = await this.client.public.getTransactionCount({address: txHash.from})
+    const txReceipt = await await this.client.public.getTransactionReceipt({ hash: txHash })
 
     if (progress) {
       progress({
         stage: 'receipt',
-        args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-        receipt,
+        args: functionInputs,
+        txReceipt,
         method: name,
         from,
         value,
@@ -289,109 +274,207 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    return receipt
+    return txReceipt
   }
 
-  public async send(
-    name: string,
-    from: string,
-    args: any[],
-    params: TxParameters = {},
-  ): Promise<ContractTransactionReceipt> {
-    if (params.zeroDevSigner) {
-      const paramsFixed = { ...params, signer: undefined }
-      const contract = this.contract.connect(params.zeroDevSigner as any)
-      return await this.internalSendZeroDev(
-        name,
-        from,
-        args,
-        paramsFixed,
-        contract,
-        params.progress,
-      )
-    } else if (params.sessionKeyProvider) {
-      const paramsFixed = { ...params, signer: undefined }
-      return await this.internalSendSessionKeyProvider(
-        name,
-        from,
-        args,
-        paramsFixed,
-        params.progress,
-      )
-    }
+  // private async internalEthersSend(
+  //   name: string,
+  //   from: string,
+  //   args: any[],
+  //   txparams: any,
+  //   contract: ethers.BaseContract,
+  //   progress: (data: any) => void,
+  // ): Promise<ContractTransactionReceipt> {
+  //   const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
+  //   // Uncomment to debug contract calls
+  //   // console.debug(`Making contract call ....: ${name} - ${from}`)
+  //   // console.debug(`With args - ${JSON.stringify(args)}`)
+  //   // console.debug(`And signature - ${methodSignature}`)
 
-    if (params.signer) {
-      const paramsFixed = { ...params, signer: undefined }
-      const contract = this.contract.connect(params.signer)
-      return await this.internalSend(name, from, args, paramsFixed, contract, params.progress)
-    }
+  //   const { gasLimit, value } = txparams
+  //   // make the call
+  //   if (progress) {
+  //     progress({
+  //       stage: 'sending',
+  //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+  //       method: name,
+  //       from,
+  //       value,
+  //       contractName: this.contractName,
+  //       contractAddress: this.address,
+  //       gasLimit,
+  //     })
+  //   }
 
-    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
+  //   const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
+  //     ...args,
+  //     txparams,
+  //   )
+  //   if (progress) {
+  //     progress({
+  //       stage: 'sent',
+  //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+  //       transactionResponse,
+  //       method: name,
+  //       from,
+  //       value,
+  //       contractName: this.contractName,
+  //       contractAddress: this.address,
+  //       gasLimit,
+  //     })
+  //   }
 
-    // get signer
-    const signer = await this.nevermined.accounts.findSigner(from)
-    const contract = this.contract.connect(signer)
+  //   const transactionReceipt: ContractTransactionReceipt = await transactionResponse.wait()
 
-    // calculate gas cost
-    let { gasLimit } = params
-    const { gasMultiplier, value, gasPrice, maxFeePerGas, maxPriorityFeePerGas, nonce } = params
+  //   if (progress) {
+  //     progress({
+  //       stage: 'receipt',
+  //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+  //       transactionReceipt,
+  //       method: name,
+  //       from,
+  //       value,
+  //       contractName: this.contractName,
+  //       contractAddress: this.address,
+  //       gasLimit,
+  //     })
+  //   }
 
-    try {
-      if (params.progress) {
-        params.progress({
-          stage: 'estimateGas',
-          args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-          method: name,
-          from,
-          value,
-          contractName: this.contractName,
-          contractAddress: this.address,
-        })
-      }
+  //   return transactionReceipt
+  // }
 
-      if (!gasLimit) {
-        gasLimit = await estimateGas(contract, methodSignature, args, from, value, gasMultiplier)
-      }
+  // TODO: Re-enable ZeroDev
+  // private async internalSendZeroDev(
+  //   name: string,
+  //   from: string,
+  //   args: any[],
+  //   txparams: any,
+  //   contract: ethers.BaseContract,
+  //   progress: (data: any) => void,
+  // ): Promise<ContractTransactionReceipt> {
+  //   const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
+  //   // Uncomment to debug contract calls
+  //   // console.debug(`Making contract call ....: ${name} - ${from}`)
+  //   // console.debug(`With args - ${JSON.stringify(args)}`)
+  //   // console.debug(`And signature - ${methodSignature}`)
 
-      // get correct fee data
-      const feeData = await this.nevermined.utils.blockchain.getFeeData(
-        gasPrice && BigInt(gasPrice),
-        maxFeePerGas && BigInt(maxFeePerGas),
-        maxPriorityFeePerGas && BigInt(maxPriorityFeePerGas),
-      )
+  //   const { gasLimit, value } = txparams
+  //   // make the call
+  //   if (progress) {
+  //     progress({
+  //       stage: 'sending',
+  //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+  //       method: name,
+  //       from,
+  //       value,
+  //       contractName: this.contractName,
+  //       contractAddress: this.address,
+  //       gasLimit,
+  //     })
+  //   }
 
-      const txparams = {
-        value,
-        gasLimit,
-        nonce,
-        ...feeData,
-      }
-      return await this.internalSend(name, from, args, txparams, contract, params.progress)
-    } catch (err) {
-      const mappedArgs = getInputsOfFunctionFormatted(this.contract.interface, name, args)
-      throw new KeeperError(`
-                ${'-'.repeat(40)}\n
-                Sending transaction "${name}" on contract "${this.contractName}" at ${
-        this.address
-      } failed.\n
-                Error: ${err}\n
-                From: ${from}\n
-                Parameters: ${JSON.stringify(mappedArgs, jsonReplacer, 2)}\n
-                ${'-'.repeat(40)}
-            `)
-    }
-  }
+  //   const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
+  //     ...args,
+  //     txparams,
+  //   )
+  //   if (progress) {
+  //     progress({
+  //       stage: 'sent',
+  //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+  //       transactionResponse,
+  //       method: name,
+  //       from,
+  //       value,
+  //       contractName: this.contractName,
+  //       contractAddress: this.address,
+  //       gasLimit,
+  //     })
+  //   }
 
-  public async call<T>(name: string, args: any[], from?: string): Promise<T> {
-    const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
-    try {
-      return await this.contract[methodSignature](...args, { from })
-    } catch (err) {
-      throw new KeeperError(
-        `Calling method "${name}" on contract "${this.contractName}" failed. Args: ${args} - ${err}`,
-      )
-    }
-  }
+  //   const transactionReceipt: TransactionReceipt =
+  //     await transactionResponse.provider.waitForTransaction(transactionResponse.hash)
+
+  //   if (progress) {
+  //     progress({
+  //       stage: 'receipt',
+  //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+  //       transactionReceipt,
+  //       method: name,
+  //       from,
+  //       value,
+  //       contractName: this.contractName,
+  //       contractAddress: this.address,
+  //       gasLimit,
+  //     })
+  //   }
+
+  //   return transactionReceipt as ContractTransactionReceipt
+  // }
+
+  // private async internalSendSessionKeyProvider(
+  //   name: string,
+  //   from: string,
+  //   args: any[],
+  //   txparams: any,
+  //   progress: (data: any) => void,
+  // ): Promise<ContractTransactionReceipt> {
+  //   const { gasLimit, value } = txparams
+  //   const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
+
+  //   // make the call
+  //   if (progress) {
+  //     progress({
+  //       stage: 'sending',
+  //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+  //       method: name,
+  //       from,
+  //       value,
+  //       contractName: this.contractName,
+  //       contractAddress: this.address,
+  //       gasLimit,
+  //     })
+  //   }
+
+  //   // Send the transaction
+  //   const { hash } = await txparams.sessionKeyProvider.sendUserOperation({
+  //     target: this.address,
+  //     data: this.contract.interface.encodeFunctionData(methodSignature, args),
+  //   })
+
+  //   if (progress) {
+  //     progress({
+  //       stage: 'sent',
+  //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+  //       hash,
+  //       method: name,
+  //       from,
+  //       value,
+  //       contractName: this.contractName,
+  //       contractAddress: this.address,
+  //       gasLimit,
+  //     })
+  //   }
+
+  //   await txparams.sessionKeyProvider.waitForUserOperationTransaction(hash as `0x${string}`)
+  //   const userOperationReceipt = await txparams.sessionKeyProvider.getUserOperationReceipt(hash)
+  //   const receipt = userOperationReceipt.receipt
+
+  //   if (progress) {
+  //     progress({
+  //       stage: 'receipt',
+  //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
+  //       receipt,
+  //       method: name,
+  //       from,
+  //       value,
+  //       contractName: this.contractName,
+  //       contractAddress: this.address,
+  //       gasLimit,
+  //     })
+  //   }
+
+  //   return receipt
+  // }
 }
 
 export default ContractBase

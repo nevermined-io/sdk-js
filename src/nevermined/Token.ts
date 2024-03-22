@@ -72,7 +72,7 @@ export class TokenUtils extends Instantiable {
    */
   public async request(account: NvmAccount, amount: number, params?: txParams): Promise<boolean> {
     try {
-      await account.requestTokens(amount, params)
+      await this.nevermined.accounts.requestTokens(account, amount, params)
       return true
     } catch (e) {
       return false

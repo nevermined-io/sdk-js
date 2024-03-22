@@ -1,4 +1,18 @@
-import { Chain, arbitrum, arbitrumSepolia, aurora, auroraTestnet, base, celo, celoAlfajores, gnosis, mainnet, optimism, polygon, polygonMumbai } from 'viem/chains'
+import {
+  Chain,
+  arbitrum,
+  arbitrumSepolia,
+  aurora,
+  auroraTestnet,
+  base,
+  celo,
+  celoAlfajores,
+  gnosis,
+  mainnet,
+  optimism,
+  polygon,
+  polygonMumbai,
+} from 'viem/chains'
 import { KeeperError } from '../errors'
 import { defineChain } from 'viem'
 
@@ -138,40 +152,42 @@ export function getChain(networkId: number): Chain {
     case 10:
       return optimism as Chain
     case 100:
-      return gnosis            
+      return gnosis
     case 137:
       return polygon
     case 8453:
       return base as Chain
     case 42161:
-      return arbitrum   
+      return arbitrum
     case 42220:
       return celo as Chain
     case 44787:
       return celoAlfajores as Chain
     case 80001:
-      return polygonMumbai      
+      return polygonMumbai
     case 421614:
-      return arbitrumSepolia                        
+      return arbitrumSepolia
     case 1313161554:
-      return aurora      
+      return aurora
     case 1313161555:
       return auroraTestnet
-    case 8996 || 8997 || 31337:
+    case 1337:
+    case 8996:
+    case 8997:
       return defineChain({
         id: networkId,
         name: 'geth-localnet',
         nativeCurrency: {
           name: 'ETH',
           symbol: 'ETH',
-          decimals: 18
+          decimals: 18,
         },
         rpcUrls: {
           default: {
             http: ['http://contracts.nevermined.localnet'],
-            webSocket: []
-          }
-        }
+            webSocket: [],
+          },
+        },
       })
     default:
       throw new KeeperError(`Network with id ${networkId} not supported.`)

@@ -1,5 +1,6 @@
 import { Token } from './Token'
 import { InstantiableConfig } from '../../Instantiable.abstract'
+import { parseAbi } from 'viem'
 
 export class CustomToken extends Token {
   public static async getInstanceByAddress(
@@ -9,7 +10,10 @@ export class CustomToken extends Token {
     const token: CustomToken = new Token(process.env.TOKEN_CONTRACT_NAME || 'Custom-Token')
     token.setInstanceConfig(config)
 
-    token.contract = await token.nevermined.utils.blockchain.loadContract(address, Token.ERC20_ABI)
+    token.contract = await token.nevermined.utils.blockchain.loadContract(
+      address,
+      parseAbi(Token.ERC20_ABI),
+    )
 
     token.address = await token.contract.getAddress()
 

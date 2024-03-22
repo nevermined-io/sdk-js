@@ -34,7 +34,7 @@ export class SubscriptionCreditsNFTApi extends NFT1155Api {
     const nftContract = await contractHandler.deployAbi(contractABI, from, args)
     return SubscriptionCreditsNFTApi.getInstanceUsingABI(
       instanceConfig,
-      await nftContract.getAddress(),
+      nftContract.address,
       contractABI,
     )
   }

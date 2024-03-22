@@ -1,14 +1,14 @@
 import { assert } from 'chai'
 import { ContractHandler, Nevermined, NvmAccount, didZeroX, generateId, zeroX } from '../../src'
 import { config } from '../config'
-import { Signer, Transaction, ethers } from 'ethers'
+import { Transaction, ethers } from 'ethers'
 import { sleep } from '../utils/utils'
 
 describe.skip('Lazy registration of assets', () => {
   let publisher: NvmAccount
   let relayer: NvmAccount
-  let publisherSigner: Signer
-  let relayerSigner: Signer
+  let publisherSigner: NvmAccount
+  let relayerSigner: NvmAccount
   let nevermined: Nevermined
   let didRegistryAbi
   let registryContract: ethers.Contract
@@ -25,8 +25,8 @@ describe.skip('Lazy registration of assets', () => {
     nevermined = await Nevermined.getInstance(config)
     ;[publisher, relayer] = await nevermined.accounts.list()
 
-    publisherSigner = await nevermined.accounts.findSigner(publisher.getId())
-    relayerSigner = await nevermined.accounts.findSigner(relayer.getId())
+    publisherSigner = await nevermined.accounts.findAccount(publisher.getId())
+    relayerSigner = await nevermined.accounts.findAccount(relayer.getId())
 
     const networkName = await nevermined.keeper.getNetworkName()
     didRegistryAbi = await ContractHandler.getABIArtifact(

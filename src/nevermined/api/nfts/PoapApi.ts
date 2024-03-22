@@ -32,10 +32,6 @@ export default class PoapNFTApi extends NFT721Api {
     const contractHandler = new ContractHandler(instanceConfig)
 
     const nftContract = await contractHandler.deployAbi(contractABI, from, args)
-    return PoapNFTApi.getInstanceUsingABI(
-      instanceConfig,
-      await nftContract.getAddress(),
-      contractABI,
-    )
+    return PoapNFTApi.getInstanceUsingABI(instanceConfig, nftContract.address, contractABI)
   }
 }

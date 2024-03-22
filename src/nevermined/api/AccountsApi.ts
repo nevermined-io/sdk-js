@@ -1,8 +1,8 @@
 import { Balance } from '../../models'
-import { NvmAccount } from '../../nevermined'
+import { NvmAccount, TypedDataDomain, TypedDataTypes } from '../../nevermined'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters as txParams } from '../../keeper'
-import { ethers } from 'ethers'
+import { toHex } from 'viem'
 
 /**
  * Nevermined Accounts API. It allows execute operations related with Ethereum accounts.
@@ -25,7 +25,7 @@ export class AccountsApi extends Instantiable {
    * @returns The list of accounts.
    */
   public async list(): Promise<NvmAccount[]> {
-    return (await this.addresses()).map((address) => new NvmAccount(address, this.instanceConfig))
+    return (await this.addresses()).map((address) => new NvmAccount(address))
   }
 
   /**
@@ -35,16 +35,46 @@ export class AccountsApi extends Instantiable {
    * @returns The account
    */
   public getAccount(address: string): NvmAccount {
-    return new NvmAccount(address, this.instanceConfig)
+    return new NvmAccount(address)
   }
 
-  /**
-   * Return account balance.
-   * @param account - Account instance.
-   * @returns Ether and Nevermined Token balance.
-   */
-  public balance(account: NvmAccount): Promise<Balance> {
-    return account.getBalance()
+  public async findAccount(from: string): Promise<NvmAccount> {
+    for (const acc of this.config.accounts || []) {
+      const addr = await acc.getAddress()
+      if (addr.toLowerCase() === from.toLowerCase()) {
+        return acc
+      }
+    }
+  }
+
+  public async addresses(): Promise<string[]> {
+    return await Promise.all((this.config.accounts || []).map((a) => a.getAddress()))
+  }
+
+  public async signTextWithRemoteAccount(
+    text: string | Uint8Array,
+    from: string,
+  ): Promise<`0x${string}`> {
+    const message = typeof text === 'string' ? text : toHex(text)
+    return await this.walletClient.signMessage({
+      account: from as `0x${string}`,
+      message: message as `0x${string}`,
+    })
+  }
+
+  public async signTypedData(
+    domain: TypedDataDomain,
+    types: TypedDataTypes,
+    value: Record<string, any>,
+    from: string,
+  ): Promise<`0x${string}`> {
+    return await this.walletClient.signTypedData({
+      domain,
+      types: types as any,
+      message: value,
+      primaryType: '',
+      account: from as `0x${string}`,
+    })
   }
 
   /**
@@ -57,41 +87,47 @@ export class AccountsApi extends Instantiable {
   public async requestTokens(
     account: NvmAccount,
     amount: number,
-    params?: txParams,
+    txParams?: txParams,
   ): Promise<boolean> {
     try {
-      await account.requestTokens(amount, params)
+      if (!this.nevermined.keeper.dispenser) {
+        this.logger.log('Dispenser not available on this network.')
+        return false
+      }
+      await this.nevermined.keeper.dispenser.requestTokens(amount, account.getId(), txParams)
       return true
     } catch (e) {
+      this.logger.log(`Error requesting tokens - receiver[${account.getId()}]: ${e}`)
       return false
     }
   }
 
-  public async findSigner(from: string): Promise<ethers.Signer> {
-    for (const acc of this.config.accounts || []) {
-      const addr = await acc.getAddress()
-      if (addr.toLowerCase() === from.toLowerCase()) {
-        return acc.connect(this.web3)
-      }
+  /**
+   * Balance of Nevermined Token.
+   * @returns
+   */
+  public async getNeverminedBalance(address: string): Promise<bigint> {
+    const { token } = this.nevermined.keeper
+    if (!token) return 0n
+    return ((await token.balanceOf(address)) / 10n) * BigInt(await token.decimals())
+  }
+
+  /**
+   * Balance of Ether.
+   * @returns
+   */
+  public async getEtherBalance(address: string): Promise<bigint> {
+    return this.client.public.getBalance({ address: address as `0x${string}` })
+  }
+
+  /**
+   * Balances of Ether and Nevermined Token.
+   * @returns
+   */
+  public async getBalance(address: string): Promise<Balance> {
+    return {
+      eth: await this.getEtherBalance(address),
+      nevermined: await this.getNeverminedBalance(address),
     }
-    return this.web3.getSigner(from)
-  }
-
-  public async findAccount(from: string): Promise<ethers.Signer> {
-    return this.findSigner(from)
-  }
-
-  public async findSignerStatic(from: string): Promise<ethers.Signer> {
-    for (const acc of this.config.accounts || []) {
-      const addr = await acc.getAddress()
-      if (addr.toLowerCase() === from.toLowerCase()) {
-        return acc.connect(this.web3)
-      }
-    }
-    return this.web3.getSigner(from)
-  }
-
-  public async addresses(): Promise<string[]> {
-    return await Promise.all((this.config.accounts || []).map((a) => a.getAddress()))
   }
 }

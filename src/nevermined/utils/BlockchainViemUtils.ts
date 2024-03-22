@@ -1,23 +1,24 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import {
-  BigNumberish,
-  BrowserProvider,
-  HDNodeWallet,
-  InterfaceAbi,
-  JsonRpcProvider,
-  Mnemonic,
-  Numeric,
-  ParamType,
-  Signer,
-  TypedDataField,
-  Wallet,
-  ethers,
-  getIndexedAccountPath,
-} from 'ethers'
 import { NvmAccount, KeeperError } from '../../sdk'
-import { Hex, SignTypedDataParams, SmartAccountSigner } from '@alchemy/aa-core'
-import { Abi, AbiFunction, getAbiItem, getContract, getContractAddress } from 'viem'
-
+import {
+  Abi,
+  AbiFunction,
+  PublicClient,
+  encodeAbiParameters,
+  getAbiItem,
+  getAddress,
+  getContract,
+  getContractAddress,
+  isAddress,
+  pad,
+  formatUnits as viemFormatUnits,
+  parseUnits as viemParseUnits,
+  formatEther as viemFormatEther,
+  parseEther as viemParseEther,
+  stringToBytes,
+  toHex,
+} from 'viem'
+import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
 
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -30,17 +31,21 @@ export class BlockchainViemUtils extends Instantiable {
     from: NvmAccount,
     args: string[] = [],
   ) {
-    
     this.logger.debug(`Deploying abi using account: ${from.getId()}`)
     let isZos
     try {
       const initializeFunc = searchAbiFunction(artifact.abi, 'initialize')
       isZos = initializeFunc ? true : false
+      this.logger.debug(`Initialize function: ${JSON.stringify(initializeFunc)}`)
+      this.logger.debug(JSON.stringify(args))
     } catch (error) {
       isZos = false
     }
-    
 
+    this.logger.debug(`Is ZOS: ${isZos}`)
+
+    const addresses = await this.walletClient.getAddresses()
+    addresses.map((address) => this.logger.debug(`Address: ${address}`))
     const txHash = await this.client.wallet.deployContract({
       abi: artifact.abi,
       account: from.getId(),
@@ -48,32 +53,37 @@ export class BlockchainViemUtils extends Instantiable {
       chain: this.client.chain,
       // args
     })
-    const tx = await this.client.public.waitForTransactionReceipt({ hash: txHash})
-    const nonce = await this.client.public.getTransactionCount({address: tx.from})
+
+    this.logger.debug(`Contract deployed, TX Hash: ${txHash}`)
+
+    const tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    const nonce = await this.client.public.getTransactionCount({ address: tx.from })
     const contractAddress = getContractAddress({
       from: tx.from,
       nonce: BigInt(nonce),
     }) as `0x${string}`
 
-
-    const contract = getContract({ 
-      abi: artifact.abi, 
-      address: contractAddress,      
-      client: { wallet: this.client.wallet } //{ wallet: this.client.wallet , public: this.client.public }
+    const contract = getContract({
+      abi: artifact.abi,
+      address: contractAddress,
+      // @ts-expect-error "viem, wtf?"
+      client: { wallet: this.client.wallet, public: this.client.public },
     })
+    return contract
 
+    // const initArgs = isZos ? [] : args
+    // if (isZos) {
+    //   // @ts-expect-error "viem, wtf?"
+    //   await contract.write.initialize(...initArgs)
 
-    
-    const initArgs = isZos ? [] : args
-    if (isZos) {
-      await contract.write.initialize(...initArgs)
+    // }
 
-    }
+    //// ETHERS
+
     // const signer = await this.nevermined.accounts.findSigner(from.getId())
     // const contract = new ethers.ContractFactory(artifact.abi, artifact.bytecode, signer)
     // const isZos = contract.interface.hasFunction('initialize')
 
-    
     // let baseContract: ethers.BaseContract
 
     // try {
@@ -118,12 +128,15 @@ export class BlockchainViemUtils extends Instantiable {
     // return baseContract
   }
 
-  public async loadContract(
-    contractAddress: string,
-    abi: ethers.InterfaceAbi,
-  ): Promise<ethers.Contract> {
+  public async loadContract(contractAddress: string, abi: Abi) {
     await this.checkExists(contractAddress)
-    return new ethers.Contract(contractAddress, abi, this.web3)
+    const contract = getContract({
+      abi: abi,
+      address: contractAddress as `0x${string}`,
+      // @ts-expect-error "viem, wtf?"
+      client: { wallet: this.client.wallet, public: this.client.public },
+    })
+    return contract
   }
 
   /**
@@ -131,88 +144,88 @@ export class BlockchainViemUtils extends Instantiable {
    * @returns {@link true} if the contract exists.
    */
   public async checkExists(address: string): Promise<boolean> {
-    return checkContractExists(address, this.web3)
+    return checkContractExists(address, this.client.public)
   }
 
   // NETWORK FEEs
-  public async getFeeData(gasPrice?: bigint, maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint) {
-    // Custom gas fee for polygon networks
-    const chainId = await this.nevermined.keeper.getNetworkId()
-    if (chainId === 137 || chainId === 80001) {
-      return this.getFeeDataPolygon(chainId)
-    }
+  // public async getFeeData(gasPrice?: bigint, maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint) {
+  //   // Custom gas fee for polygon networks
+  //   const chainId = await this.nevermined.keeper.getNetworkId()
+  //   if (chainId === 137 || chainId === 80001) {
+  //     return this.getFeeDataPolygon(chainId)
+  //   }
 
-    // arbitrum
-    if (chainId === 42161 || chainId === 421613 || chainId === 421614) {
-      return this.getFeeDataArbitrum()
-    }
+  //   // arbitrum
+  //   if (chainId === 42161 || chainId === 421613 || chainId === 421614) {
+  //     return this.getFeeDataArbitrum()
+  //   }
 
-    const feeData = await this.web3.getFeeData()
+  //   const feeData = await this.web3.getFeeData()
 
-    // EIP-1559 fee parameters
-    if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
-      return {
-        maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
-        maxPriorityFeePerGas: maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
-        type: 2,
-      }
-    }
+  //   // EIP-1559 fee parameters
+  //   if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
+  //     return {
+  //       maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
+  //       maxPriorityFeePerGas: maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
+  //       type: 2,
+  //     }
+  //   }
 
-    // Non EIP-1559 fee parameters
-    return {
-      gasPrice: gasPrice || feeData.gasPrice,
-    }
-  }
+  //   // Non EIP-1559 fee parameters
+  //   return {
+  //     gasPrice: gasPrice || feeData.gasPrice,
+  //   }
+  // }
 
-  private async getFeeDataPolygon(networkId: number) {
-    // Calculating the right fees in polygon networks has always been a problem
-    // This workaround is based on https://github.com/ethers-io/ethers.js/issues/2828#issuecomment-1073423774
-    let gasStationUri = this.config.gasStationUri
-    if (!gasStationUri) {
-      if (networkId === 137) {
-        gasStationUri = 'https://gasstation.polygon.technology/v2'
-      } else if (networkId === 80001) {
-        gasStationUri = 'https://gasstation-testnet.polygon.technology/v2'
-      } else {
-        throw new KeeperError(
-          'Using polygon gas station is only available in networks with id `137` and `80001`',
-        )
-      }
-    }
+  // private async getFeeDataPolygon(networkId: number) {
+  //   // Calculating the right fees in polygon networks has always been a problem
+  //   // This workaround is based on https://github.com/ethers-io/ethers.js/issues/2828#issuecomment-1073423774
+  //   let gasStationUri = this.config.gasStationUri
+  //   if (!gasStationUri) {
+  //     if (networkId === 137) {
+  //       gasStationUri = 'https://gasstation.polygon.technology/v2'
+  //     } else if (networkId === 80001) {
+  //       gasStationUri = 'https://gasstation-testnet.polygon.technology/v2'
+  //     } else {
+  //       throw new KeeperError(
+  //         'Using polygon gas station is only available in networks with id `137` and `80001`',
+  //       )
+  //     }
+  //   }
 
-    // get max fees from gas station
-    let maxFeePerGas = 40000000000n // fallback to 40 gwei
-    let maxPriorityFeePerGas = 40000000000n // fallback to 40 gwei
-    try {
-      const response = await this.nevermined.utils.fetch.get(gasStationUri)
-      const data = await response.json()
-      maxFeePerGas = parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
-      maxPriorityFeePerGas = parseUnits(Math.ceil(data.fast.maxPriorityFee) + '', 'gwei')
-    } catch (error) {
-      this.logger.warn(`Failed to ges gas price from gas station ${gasStationUri}: ${error}`)
-    }
+  //   // get max fees from gas station
+  //   let maxFeePerGas = 40000000000n // fallback to 40 gwei
+  //   let maxPriorityFeePerGas = 40000000000n // fallback to 40 gwei
+  //   try {
+  //     const response = await this.nevermined.utils.fetch.get(gasStationUri)
+  //     const data = await response.json()
+  //     maxFeePerGas = parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
+  //     maxPriorityFeePerGas = parseUnits(Math.ceil(data.fast.maxPriorityFee) + '', 'gwei')
+  //   } catch (error) {
+  //     this.logger.warn(`Failed to ges gas price from gas station ${gasStationUri}: ${error}`)
+  //   }
 
-    return {
-      maxFeePerGas: maxFeePerGas,
-      maxPriorityFeePerGas: maxPriorityFeePerGas,
-      type: 2,
-    }
-  }
+  //   return {
+  //     maxFeePerGas: maxFeePerGas,
+  //     maxPriorityFeePerGas: maxPriorityFeePerGas,
+  //     type: 2,
+  //   }
+  // }
 
-  private async getFeeDataArbitrum() {
-    /**
-     * See https://docs.arbitrum.io/arbos/gas
-     *
-     * The sequencer prioritizes transactions on a first-come first-served basis.
-     * Because tips do not make sense in this model, they are ignored.
-     * Arbitrum users always just pay the basefee regardless of the tip they choose.
-     */
-    const feeData = await this.web3.getFeeData()
+  // private async getFeeDataArbitrum() {
+  //   /**
+  //    * See https://docs.arbitrum.io/arbos/gas
+  //    *
+  //    * The sequencer prioritizes transactions on a first-come first-served basis.
+  //    * Because tips do not make sense in this model, they are ignored.
+  //    * Arbitrum users always just pay the basefee regardless of the tip they choose.
+  //    */
+  //   const feeData = await this.web3.getFeeData()
 
-    return {
-      gasPrice: feeData.gasPrice,
-    }
-  }
+  //   return {
+  //     gasPrice: feeData.gasPrice,
+  //   }
+  // }
 }
 
 //////////////////////////
@@ -220,25 +233,22 @@ export class BlockchainViemUtils extends Instantiable {
 //////////////////////////
 
 ///// CONTRACTS
-export async function getContractInstance(
-  address: string,
-  abi: InterfaceAbi,
-  web3Provider: JsonRpcProvider | BrowserProvider,
-): Promise<ethers.Contract> {
-  await checkContractExists(address, web3Provider)
-  return new ethers.Contract(address, abi, web3Provider)
+export async function getContractInstance(address: string, abi: Abi) {
+  return getContract({
+    abi,
+    address: address as `0x${string}`,
+    // @ts-expect-error "viem, wtf?"
+    client: { wallet: this.client.wallet, public: this.client.public },
+  })
 }
 
-export async function checkContractExists(
-  address: string,
-  web3Provider: JsonRpcProvider | BrowserProvider,
-): Promise<boolean> {
-  const storage = await web3Provider.getStorage(address, 0)
+export async function checkContractExists(address: string, client: PublicClient): Promise<boolean> {
+  const storage = await client.getStorageAt({ address: address as `0x${string}`, slot: toHex(0) })
   // check if storage is 0x0 at position 0, this is the case most of the cases
   if (storage === '0x0000000000000000000000000000000000000000000000000000000000000000') {
     // if the storage is empty, check if there is no code for this contract,
     // if so we can be sure it does not exist
-    const code = await web3Provider.getCode(address)
+    const code = await client.getBytecode({ address: address as `0x${string}` })
     if (code === '0x0' || code === '0x') {
       // no contract in the blockchain dude
       //throw new Error(`No contract deployed at address ${address}, sorry.`)
@@ -251,39 +261,23 @@ export async function checkContractExists(
 
 ///// ABIs
 
-export function searchAbiFunction(
-  abi: Abi,
-  funcName: string,
-  args: any[] = [],
-): AbiFunction {
-  const func = getAbiItem({ abi, name: funcName, args }) 
+export function searchAbiFunction(abi: Abi, funcName: string, args: any[] = []): AbiFunction {
+  const func = getAbiItem({ abi, name: funcName, args })
   if (!func) {
     throw new KeeperError(`Method "${funcName}" is not part of contract`)
   }
   return func as AbiFunction
 }
 
-export function getSignatureOfFunction(
-  abi: Abi,
-  funcName: string,
-  args: any[] = [],
-): AbiFunction {
+export function getSignatureOfFunction(abi: Abi, funcName: string, args: any[] = []): AbiFunction {
   return searchAbiFunction(abi, funcName, args)
 }
 
-export function getInputsOfFunction(
-  abi: Abi,
-  funcName: string,
-  args: any[] = [],
-) {
+export function getInputsOfFunction(abi: Abi, funcName: string, args: any[] = []) {
   return searchAbiFunction(abi, funcName, args).inputs
 }
 
-export function getInputsOfFunctionFormatted(
-  abi: Abi,
-  funcName: string,
-  args: any[] = [],
-) {
+export function getInputsOfFunctionFormatted(abi: Abi, funcName: string, args: any[] = []) {
   return searchAbiFunction(abi, funcName, args).inputs.map((input, i) => {
     return {
       name: input.name,
@@ -294,78 +288,63 @@ export function getInputsOfFunctionFormatted(
 
 //////// UTILS
 
-export function getAddress(address: string): string {
-  return ethers.getAddress(address)
+export function getChecksumAddress(address: string): string {
+  return getAddress(address)
 }
 
-export function isAddress(address: string): boolean {
-  return ethers.isAddress(address)
+export function isValidAddress(address: string): boolean {
+  return isAddress(address)
 }
 
 export function getBytes(message: string): Uint8Array {
-  return ethers.getBytes(message)
+  return stringToBytes(message)
 }
 
-export function zeroPadValue(value: ethers.BytesLike, length: number): string {
-  return ethers.zeroPadValue(value, length)
+export function zeroPadValue(value: `0x${string}` | Uint8Array, length: number): string {
+  return pad(value, { size: length }) as `0x${string}`
 }
 
 ////// ACCOUNTS
 
-export function makeWallets(seedphrase: string, numAccounts = 10): ethers.Wallet[] {
-  const mnemonic = Mnemonic.fromPhrase(seedphrase)
-  const node = ethers.HDNodeWallet.fromSeed(mnemonic.computeSeed())
-  return getWalletsFromHDNode(node, numAccounts)
+export function makeWallet(seedphrase: string, addressIndex: number = 0) {
+  return mnemonicToAccount(seedphrase, { addressIndex })
 }
 
-export function makeWalletFromEncryptedJson(json: string, password: string): ethers.Wallet {
-  return ethers.Wallet.fromEncryptedJsonSync(json, password) as ethers.Wallet
-}
-
-export function makeWallet(seedphrase: string, accountIndex: number = 0): ethers.Wallet {
-  const mnemonic = Mnemonic.fromPhrase(seedphrase)
-  const node = ethers.HDNodeWallet.fromSeed(mnemonic.computeSeed())
-
-  const acc = node.derivePath(getIndexedAccountPath(accountIndex))
-  return new ethers.Wallet(acc.privateKey)
-}
-
-export function makeRandomWallet(): ethers.Wallet {
-  return makeRandomWallets(1)[0]
-}
-
-export function makeRandomWallets(numAccounts = 10): ethers.Wallet[] {
-  const node = ethers.Wallet.createRandom()
-  return getWalletsFromHDNode(node, numAccounts)
-}
-
-function getWalletsFromHDNode(node: HDNodeWallet, numAccounts: number): ethers.Wallet[] {
-  const accounts: ethers.Wallet[] = []
-
+export function makeWallets(seedphrase: string, numAccounts = 10) {
+  const accounts = []
   for (let i = 0; i < numAccounts; i++) {
-    const acc = node.derivePath(getIndexedAccountPath(i))
-    const wallet = new ethers.Wallet(acc.privateKey)
-    accounts.push(wallet)
+    accounts.push(makeWallet(seedphrase, i))
   }
   return accounts
 }
 
+export function makeRandomWallet() {
+  const mnemonic = generateMnemonic(english)
+  return makeWallet(mnemonic)
+}
+
+export function makeRandomWallets(numAccounts = 10) {
+  const mnemonic = generateMnemonic(english)
+  return makeWallets(mnemonic, numAccounts)
+}
+
 /////// HASHES
 
-export function keccak256(message: string): string {
-  return ethers.keccak256(ethers.toUtf8Bytes(message))
+export function keccak256(seed: string): string {
+  return keccak256(toHex(seed))
 }
 
 export function keccak256WithEncode(
-  types: ReadonlyArray<string | ParamType>,
+  types: ReadonlyArray<string>,
   values: ReadonlyArray<any>,
 ): string {
-  const abiCoder = ethers.AbiCoder.defaultAbiCoder()
-  return ethers.keccak256(abiCoder.encode(types, values))
+  const encoded = encodeAbiParameters(types, values as never)
+  return keccak256(encoded)
 }
 
 export function keccak256Packed(types: string[], values: any[]): string {
-  return ethers.solidityPackedKeccak256(types, values)
+  //return ethers.solidityPackedKeccak256(types, values)
+  return keccak256WithEncode(types, values)
 }
 //// UNITS
 
@@ -385,8 +364,8 @@ export function keccak256Packed(types: string[], values: any[]): string {
  * // 121000000000n
  * ```
  */
-export const parseUnits = (value: string, decimals: string | Numeric = 18): bigint => {
-  return ethers.parseUnits(value, decimals)
+export const parseUnits = (value: string, decimals = 18): bigint => {
+  return viemParseUnits(value, decimals)
 }
 
 /**
@@ -403,8 +382,8 @@ export const parseUnits = (value: string, decimals: string | Numeric = 18): bigi
  * // '1.0'
  * ```
  */
-export const formatUnits = (value: BigNumberish, decimals = 18): string => {
-  return ethers.formatUnits(value, decimals)
+export const formatUnits = (value: bigint, decimals = 18): string => {
+  return viemFormatUnits(value, decimals)
 }
 
 /**
@@ -423,7 +402,7 @@ export const formatUnits = (value: BigNumberish, decimals = 18): string => {
  * ```
  */
 export const parseEther = (value: string): bigint => {
-  return ethers.parseEther(value)
+  return viemParseEther(value)
 }
 
 /**
@@ -440,55 +419,53 @@ export const parseEther = (value: string): bigint => {
  * // '1.0'
  * ```
  */
-export const formatEther = (value: BigNumberish): string => {
-  return ethers.formatEther(value)
+export const formatEther = (value: bigint): string => {
+  return viemFormatEther(value)
 }
 
 /////// ZERO DEV
 
 // zerodev ethersV6 compatibility
-export function convertEthersV6SignerToAccountSigner(signer: Signer | Wallet): SmartAccountSigner {
-  return {
-    signerType: '',
-    getAddress: async () => Promise.resolve((await signer.getAddress()) as `0x${string}`),
-    signMessage: async (msg: Uint8Array | string) =>
-      (await signer.signMessage(msg)) as `0x${string}`,
-    signTypedData: async (params: SignTypedDataParams) => {
-      if (!isWalletEthersV6(signer)) {
-        throw Error('signTypedData method not implemented in signer')
-      }
-      return (await signer.signTypedData(
-        params.domain!,
-        params.types as unknown as Record<string, TypedDataField[]>,
-        params.message,
-      )) as Hex
-    },
-  }
-}
+// export function convertEthersV6SignerToAccountSigner(signer: Signer | Wallet): SmartAccountSigner {
+//   return {
+//     signerType: '',
+//     getAddress: async () => Promise.resolve((await signer.getAddress()) as `0x${string}`),
+//     signMessage: async (msg: Uint8Array | string) =>
+//       (await signer.signMessage(msg)) as `0x${string}`,
+//     signTypedData: async (params: SignTypedDataParams) => {
+//       if (!isWalletEthersV6(signer)) {
+//         throw Error('signTypedData method not implemented in signer')
+//       }
+//       return (await signer.signTypedData(
+//         params.domain!,
+//         params.types as unknown as Record<string, TypedDataField[]>,
+//         params.message,
+//       )) as Hex
+//     },
+//   }
+// }
 
-const isWalletEthersV6 = (signer: any): signer is Wallet =>
-  signer && signer.signTypedData !== undefined
+// const isWalletEthersV6 = (signer: any): signer is Wallet =>
+//   signer && signer.signTypedData !== undefined
 
-export const estimateGas = async (
-  contract: ethers.BaseContract,
-  methodSignature: string,
-  args: any[],
-  from: string,
-  value: string,
-  gasMultiplier?: number,
-): Promise<bigint> => {
-  let gasLimit: bigint = await contract[methodSignature].estimateGas(...args, {
-    from,
-    value,
-  })
-  if (value) gasLimit = gasLimit + 21500n
+// export const estimateGas = async (
+//   contract: ethers.BaseContract,
+//   methodSignature: string,
+//   args: any[],
+//   from: string,
+//   value: string,
+//   gasMultiplier?: number,
+// ): Promise<bigint> => {
+//   let gasLimit: bigint = await contract[methodSignature].estimateGas(...args, {
+//     from,
+//     value,
+//   })
+//   if (value) gasLimit = gasLimit + 21500n
 
-  if (gasMultiplier) {
-    const gasMultiplierParsed = parseUnits(gasMultiplier.toString(), 2)
-    gasLimit = (gasLimit * gasMultiplierParsed) / 100n
-  }
+//   if (gasMultiplier) {
+//     const gasMultiplierParsed = parseUnits(gasMultiplier.toString(), 2)
+//     gasLimit = (gasLimit * gasMultiplierParsed) / 100n
+//   }
 
-  return gasLimit
-}
-
-
+//   return gasLimit
+// }

@@ -5,7 +5,6 @@ import {
   NeverminedNode,
   Profiles,
   Permissions,
-  AaveCredit,
   Bookmarks,
 } from '../../services'
 
@@ -44,11 +43,6 @@ export class ServicesApi extends Instantiable {
   public bookmarks: Bookmarks
 
   /**
-   * Aave instance.
-   */
-  public aave: AaveCredit
-
-  /**
    * Creates a new ServicesApi
    * @param config - Configuration of the Nevermined instance
    * @returns {@link ServicesApi}
@@ -63,9 +57,5 @@ export class ServicesApi extends Instantiable {
     this.profiles = new Profiles(config)
     this.bookmarks = new Bookmarks(config)
     this.permissions = new Permissions(config)
-  }
-
-  public async initializeAave() {
-    this.aave = await AaveCredit.getInstance(this.instantiableConfig)
   }
 }

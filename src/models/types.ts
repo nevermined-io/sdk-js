@@ -1,11 +1,3 @@
-export interface AaveConfig {
-  lendingPoolAddress: string
-  dataProviderAddress: string
-  wethAddress: string
-  treasuryAddress: string
-  agreementFee: number
-}
-
 export enum AccessStatus {
   Requested,
   Committed,

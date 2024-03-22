@@ -4,7 +4,6 @@ import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { NvmAccount } from '../../../nevermined'
 import { AssetPrice } from '../../../models'
 import { Service, DDO } from '../../../ddo'
-import { ContractTransactionReceipt } from 'ethers'
 
 export enum ConditionState {
   Uninitialized = 0,
@@ -55,8 +54,8 @@ export abstract class ConditionSmall extends ContractBase {
     return condition
   }
 
-  public hashValues(...args: any[]): Promise<string> {
-    return this.call('hashValues', args)
+  public async hashValues(...args: any[]): Promise<string> {
+    return (await this.call('hashValues', args)) as string
   }
 
   public abstract fulfill(agreementId: string, ...args: any[])
@@ -76,14 +75,17 @@ export abstract class ConditionSmall extends ContractBase {
   }
 
   public generateId(agreementId: string, valueHash: string) {
-    return this.call<string>('generateId', [zeroX(agreementId), valueHash])
+    return this.call('generateId', [zeroX(agreementId), valueHash])
   }
 
   public async generateIdWithSeed(
     agreementId: string,
     valueHash: string,
   ): Promise<[string, string]> {
-    return [valueHash, await this.call<string>('generateId', [zeroX(agreementId), valueHash])]
+    return [valueHash, await this.call('generateId', [zeroX(agreementId), valueHash])] as [
+      string,
+      string,
+    ]
   }
 
   public abortByTimeOut(conditionId: string, from?: NvmAccount, params?: TxParameters) {
@@ -170,7 +172,7 @@ export abstract class Condition<
     additionalParams: Extra,
     from?: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt | void>
+  )
 
   public async instance(
     agreementId: string,
@@ -181,7 +183,7 @@ export abstract class Condition<
       condition: this.contractName,
       seed: valueHash,
       agreementId,
-      id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
+      id: (await this.call('generateId', [zeroX(agreementId), valueHash])) as string,
       list: params.list,
       params: params.params,
     }

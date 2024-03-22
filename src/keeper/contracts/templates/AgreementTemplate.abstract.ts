@@ -10,7 +10,7 @@ import { DDO, ServiceAgreementTemplate, Service, ServiceType } from '../../../dd
 import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { AssetPrice, BabyjubPublicKey } from '../../../models'
-import { NvmAccount, OrderProgressStep, isAddress } from '../../../nevermined'
+import { NvmAccount, OrderProgressStep, isValidAddress } from '../../../nevermined'
 import { CustomToken } from '../CustomToken'
 import { Token } from '../Token'
 
@@ -167,7 +167,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       this._conditions = []
       const conditionTypes = await this.getConditionTypes()
       conditionTypes
-        .filter((address) => isAddress(address))
+        .filter((address) => isValidAddress(address))
         .map((address) => {
           this.logger.bypass(`Getting Condition by Address: ${address}`)
           this._conditions.push(this.nevermined.keeper.getConditionByAddress(address))
@@ -413,7 +413,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       token = await CustomToken.getInstanceByAddress(
         {
           nevermined: this.nevermined,
-          web3: this.web3,
+          client: this.client,
           logger: this.logger,
           config: this.config,
         },

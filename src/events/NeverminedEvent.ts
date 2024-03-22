@@ -9,12 +9,12 @@ export interface EventOptions {
   filterJsonRpc?: Filter
   filterSubgraph?: Record<string, unknown>
   result?: Record<string, unknown>
-  fromBlock?: number | string
-  toBlock?: number | string
+  fromBlock?: bigint | string
+  toBlock?: bigint | string
 }
 
 export interface EventEmitter {
-  subscribe: (callback: () => Promise<void>, arg1: () => Promise<number>) => void
+  subscribe: (callback: () => Promise<void>, arg1: () => Promise<bigint>) => void
   unsubscribe: (arg0: () => Promise<void>) => void
 }
 
@@ -29,7 +29,7 @@ export abstract class NeverminedEvent extends Instantiable {
   protected contract: ContractBase = null
   public abstract getEventData(options: EventOptions): EventResult
   public abstract getPastEvents(options: EventOptions): EventResult
-  public abstract getBlockNumber(...args: any[]): Promise<number>
+  public abstract getBlockNumber(...args: any[]): Promise<bigint>
 
   protected constructor(contract: ContractBase, eventEmitter: EventEmitter) {
     super()

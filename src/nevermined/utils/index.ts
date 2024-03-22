@@ -1,5 +1,5 @@
 export * from './JwtUtils'
 export * from './ServiceAgreement'
 export * from './SignatureUtils'
-export * from './BlockchainEthersUtils'
+export * from './BlockchainViemUtils'
 export * from './WebServiceConnector'

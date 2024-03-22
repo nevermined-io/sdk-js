@@ -1,6 +1,5 @@
 import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { ContractTransactionReceipt, ethers } from 'ethers'
 
 export class GenericContract extends ContractBase {
   protected fixedAddress: string
@@ -35,16 +34,11 @@ export class GenericContract extends ContractBase {
     return super.call(name, args, from)
   }
 
-  public async send(
-    name: string,
-    from: string,
-    args: any[],
-    params: TxParameters = {},
-  ): Promise<ContractTransactionReceipt> {
+  public async send(name: string, from: string, args: any[], params: TxParameters = {}) {
     return super.send(name, from, args, params)
   }
 
-  public getContract(): ethers.BaseContract {
+  public getContract() {
     return this.contract
   }
 }

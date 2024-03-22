@@ -13,12 +13,7 @@ import {
   TransferDIDOwnershipCondition,
   TransferNFT721Condition,
   NFT721HolderCondition,
-  AaveBorrowCondition,
-  AaveCollateralDepositCondition,
-  AaveCollateralWithdrawCondition,
-  AaveRepayCondition,
   NFT721LockCondition,
-  DistributeNFTCollateralCondition,
   ConditionSmall,
   DIDRegistry,
   Dispenser,
@@ -30,7 +25,6 @@ import {
   NFT721AccessTemplate,
   NFTSalesTemplate,
   NFT721SalesTemplate,
-  AaveCreditTemplate,
   TemplateStoreManager,
   AgreementStoreManager,
   ConditionStoreManager,
@@ -47,7 +41,7 @@ import { EventHandler } from '../events/EventHandler'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors'
 import { NeverminedInitializationOptions } from '../models'
-import { isAddress } from '../sdk'
+import { isValidAddress } from '../nevermined/utils/BlockchainViemUtils'
 
 /**
  * Interface with Nevermined contracts.
@@ -158,14 +152,6 @@ export class Keeper extends Instantiable {
           ? DIDSalesTemplate.getInstance(this.instanceConfig)
           : undefined,
 
-        // Aave instances are optional
-        aaveBorrowCondition: undefined,
-        aaveCollateralDepositCondition: undefined,
-        aaveCollateralWithdrawCondition: undefined,
-        aaveRepayCondition: undefined,
-        aaveCreditTemplate: undefined,
-        distributeNftCollateralCondition: undefined,
-
         // Royalties & Rewards
         standardRoyalties: initOptions.loadRoyalties
           ? StandardRoyalties.getInstance(this.instanceConfig)
@@ -245,12 +231,7 @@ export class Keeper extends Instantiable {
       transferNftCondition: this.instances.transferNftCondition,
       transferNft721Condition: this.instances.transferNft721Condition,
       transferDidOwnershipCondition: this.instances.transferDidOwnershipCondition,
-      aaveBorrowCondition: undefined,
-      aaveCollateralDepositCondition: undefined,
-      aaveCollateralWithdrawCondition: undefined,
-      aaveRepayCondition: undefined,
       nft721LockCondition: this.instances.nft721LockCondition,
-      distributeNftCollateralCondition: this.instances.distributeNftCollateralCondition,
     }
     this.conditionsList = Object.values(this.conditions).filter(
       (condition) => condition !== undefined,
@@ -264,7 +245,6 @@ export class Keeper extends Instantiable {
       nft721AccessTemplate: this.instances.nft721AccessTemplate,
       nftSalesTemplate: this.instances.nftSalesTemplate,
       nft721SalesTemplate: this.instances.nft721SalesTemplate,
-      // aaveCreditTemplate: undefined,
     }
     if (initOptions.loadServiceAgreements) {
       this.templateList = Object.values(this.templates).filter((template) => template !== undefined)
@@ -344,11 +324,6 @@ export class Keeper extends Instantiable {
     transferNft721Condition: TransferNFT721Condition
     transferDidOwnershipCondition: TransferDIDOwnershipCondition
     nft721LockCondition: NFT721LockCondition
-    aaveCollateralDepositCondition: AaveCollateralDepositCondition
-    aaveBorrowCondition: AaveBorrowCondition
-    aaveRepayCondition: AaveRepayCondition
-    aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition
-    distributeNftCollateralCondition: DistributeNFTCollateralCondition
   }
 
   public conditionsList: ConditionSmall[]
@@ -365,7 +340,6 @@ export class Keeper extends Instantiable {
     nft721AccessTemplate: NFT721AccessTemplate
     nftSalesTemplate: NFTSalesTemplate
     nft721SalesTemplate: NFT721SalesTemplate
-    aaveCreditTemplate?: AaveCreditTemplate
   }
 
   public royalties: {
@@ -415,7 +389,7 @@ export class Keeper extends Instantiable {
    */
   public getConditionByAddress(address: string): ConditionSmall {
     return this.conditionsList
-      .filter((condition) => condition.address && isAddress(condition.address))
+      .filter((condition) => condition.address && isValidAddress(condition.address))
       .find((condition) => condition.address === address)
   }
 
@@ -446,7 +420,7 @@ export class Keeper extends Instantiable {
   public async getNetworkId(): Promise<number> {
     if (!this.network.chainId) {
       this.network.loading = false
-      this.network.chainId = Number((await this.web3.getNetwork()).chainId)
+      this.network.chainId = this.client.chain.id
     }
 
     while (!this.network.chainId) {
@@ -487,29 +461,6 @@ export class Keeper extends Instantiable {
 
   public getAllInstances() {
     return this.instances
-  }
-
-  public async loadAaveInstances() {
-    if (this.instances.aaveCreditTemplate) return this
-
-    this.logger.debug('Loading Aave contracts')
-    this.instances.aaveBorrowCondition = await AaveBorrowCondition.getInstance(this.instanceConfig)
-    this.instances.aaveCollateralDepositCondition =
-      await AaveCollateralDepositCondition.getInstance(this.instanceConfig)
-    this.instances.aaveCollateralWithdrawCondition =
-      await AaveCollateralWithdrawCondition.getInstance(this.instanceConfig)
-    this.instances.aaveRepayCondition = await AaveRepayCondition.getInstance(this.instanceConfig)
-
-    this.conditions.aaveBorrowCondition = this.instances.aaveBorrowCondition
-    this.conditions.aaveCollateralDepositCondition = this.instances.aaveCollateralDepositCondition
-    this.conditions.aaveCollateralWithdrawCondition = this.instances.aaveCollateralWithdrawCondition
-    this.conditions.aaveRepayCondition = this.instances.aaveRepayCondition
-    this.conditionsList = Object.values(this.conditions)
-
-    this.instances.aaveCreditTemplate = await AaveCreditTemplate.getInstance(this.instanceConfig)
-    this.templates.aaveCreditTemplate = this.instances.aaveCreditTemplate
-    this.agreementStoreManager.addTemplate('AaveCreditTemplate', this.instances.aaveCreditTemplate)
-    return this
   }
 
   public async loadCurveRoyaltiesInstance() {

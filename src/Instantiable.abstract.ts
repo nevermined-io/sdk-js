@@ -1,13 +1,19 @@
 import { getChain, NeverminedOptions } from './'
 import { Logger, LoggerInstance, LogLevel } from './utils'
 import { Nevermined } from './nevermined'
-import { ethers } from 'ethers'
-import { Chain, createPublicClient, createWalletClient, getContract, http, PublicClient, WalletClient } from 'viem'
+import {
+  Chain,
+  createPublicClient,
+  createWalletClient,
+  http,
+  PublicClient,
+  WalletClient,
+} from 'viem'
 
 export interface InstantiableConfig {
   nevermined: Nevermined
   config?: NeverminedOptions
-  web3?: ethers.JsonRpcProvider | ethers.BrowserProvider
+  // web3?: ethers.JsonRpcProvider | ethers.BrowserProvider
   client?: Web3Clients
   logger?: Logger
   artifactsFolder?: string
@@ -29,11 +35,11 @@ export async function generateInstantiableConfigFromConfig(
       ? config.verbose
         ? LogLevel.Log
         : LogLevel.None
-      : (config.verbose as LogLevel)  
-  
+      : (config.verbose as LogLevel)
+
   return {
     config,
-    web3: loadCore ? await getWeb3EthersProvider(config) : undefined,
+    // web3: loadCore ? await getWeb3EthersProvider(config) : undefined,
     client: loadCore ? await getWeb3ViemClients(config) : undefined,
     logger: new Logger(logLevel),
     artifactsFolder: config.artifactsFolder,
@@ -41,54 +47,58 @@ export async function generateInstantiableConfigFromConfig(
   }
 }
 
-export async function getWeb3ViemClients(config: Partial<NeverminedOptions> = {}): Promise<Web3Clients> {
+export async function getWeb3ViemClients(
+  config: Partial<NeverminedOptions> = {},
+): Promise<Web3Clients> {
   const chain = getChain(config.chainId)
   const providerTransport = config.web3ProviderUri ? http(config.web3ProviderUri) : http()
 
   const publicClient = createPublicClient({
     // cacheTime: 0,
     chain,
-    transport: providerTransport,
-  }) as Omit<typeof publicClient, 'cacheTime'>
-  
+    transport: http(), //providerTransport,
+  }) // as PublicClient<Transport, Chain> // as Omit<PublicClient<Transport, Chain>, 'cacheTime'>
+
   const walletClient = createWalletClient({
     // cacheTime: 0 as number,
     chain,
     transport: providerTransport,
   })
-  getContract({
-    address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
-    client: { public: publicClient }
-  })
+  // getContract({
+  //   address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+  //   abi: [],
+  //   // @ts-expect-error "viem, wtf?"
+  //   client: { public: publicClient }
+  // })
   return {
     public: publicClient,
     wallet: walletClient,
-    chain
+    chain,
   } as Web3Clients
 }
 
-export async function getWeb3EthersProvider(
-  config: Partial<NeverminedOptions> = {},
-): Promise<ethers.JsonRpcProvider | ethers.BrowserProvider> {
-  if (config.web3Provider) {
-    return new ethers.BrowserProvider(config.web3Provider)
-  }
+// export async function getWeb3EthersProvider(
+//   config: Partial<NeverminedOptions> = {},
+// ): Promise<ethers.JsonRpcProvider | ethers.BrowserProvider> {
+//   if (config.web3Provider) {
+//     return new ethers.BrowserProvider(config.web3Provider)
+//   }
 
-  // disabling the cache since this will lead to duplicated nonces on test networks
-  // See https://docs.ethers.org/v6/api/providers/abstract-provider/#AbstractProviderOptions
-  let provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {
-    cacheTimeout: -1,
-  })
+//   // disabling the cache since this will lead to duplicated nonces on test networks
+//   // See https://docs.ethers.org/v6/api/providers/abstract-provider/#AbstractProviderOptions
+//   let provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {
+//     cacheTimeout: -1,
+//   })
 
-  // Adding the static network prevents ethers from calling eth_chainId with every call
-  const network = await provider.getNetwork()
-  provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {
-    cacheTimeout: -1,
-    staticNetwork: network,
-  })
+//   // Adding the static network prevents ethers from calling eth_chainId with every call
+//   const network = await provider.getNetwork()
+//   provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {
+//     cacheTimeout: -1,
+//     staticNetwork: network,
+//   })
 
-  return provider
-}
+//   return provider
+// }
 
 export abstract class Instantiable {
   protected get nevermined() {
@@ -98,13 +108,13 @@ export abstract class Instantiable {
     return this._instantiableConfig.nevermined
   }
 
-  public get web3() {
-    if (!this._instantiableConfig?.web3) {
-      this.logger.error('Web3 Provider not initialized')
-      throw new Error('Web3 Provider not initialized')
-    }
-    return this._instantiableConfig.web3
-  }
+  // public get web3() {
+  //   if (!this._instantiableConfig?.web3) {
+  //     this.logger.error('Web3 Provider not initialized')
+  //     throw new Error('Web3 Provider not initialized')
+  //   }
+  //   return this._instantiableConfig.web3
+  // }
 
   public get client() {
     if (!this._instantiableConfig?.client) {
@@ -162,8 +172,8 @@ export abstract class Instantiable {
   }
 
   protected get instanceConfig(): InstantiableConfig {
-    const { nevermined, web3, config, logger, artifactsFolder, circuitsFolder } = this
-    return { nevermined, web3, config, logger, artifactsFolder, circuitsFolder }
+    const { nevermined, client, config, logger, artifactsFolder, circuitsFolder } = this
+    return { nevermined, client, config, logger, artifactsFolder, circuitsFolder }
   }
 
   public static getInstance(..._args: any): any {

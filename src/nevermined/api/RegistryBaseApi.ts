@@ -9,7 +9,7 @@ import {
 } from '../../ddo'
 import { AssetAttributes, AssetPrice, NFTAttributes } from '../../models'
 import { NvmAccount, CreateProgressStep, DID, formatUnits } from '../../nevermined'
-import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
+import { TxParameters, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
 import { SubscribablePromise, zeroX, generateId, ZeroAddress } from '../../utils'
 import {
   AssetPublicationOptions,
@@ -621,8 +621,6 @@ export abstract class RegistryBaseApi extends Instantiable {
       compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
       'nft-sales': new NFTSalesService(config),
       'nft-access': new NFTAccessService(config),
-      'aave-credit': config.nevermined.keeper.templates
-        .aaveCreditTemplate as ServicePlugin<ServiceAaveCredit>,
     }
   }
 

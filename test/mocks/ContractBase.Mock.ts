@@ -11,7 +11,7 @@ export default class ContractBaseMock extends ContractBase {
             this,
             eventEmitter,
             this.nevermined,
-            this.web3
+            
         )
         this.interface = new ethers.Interface(['function name() view returns (string)'])
     }

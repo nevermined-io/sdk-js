@@ -11,8 +11,7 @@ import { SubscribablePromise, didZeroX } from '../../utils'
 import { InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, RoyaltyScheme } from '../../keeper'
 import { AssetError, DDOError } from '../../errors'
-import { Nevermined, apiPath } from '../../sdk'
-import { ContractTransactionReceipt } from 'ethers'
+import { Nevermined, SignatureUtils, apiPath } from '../../sdk'
 import { RegistryBaseApi } from './RegistryBaseApi'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { Providers } from '../Provider'
@@ -307,7 +306,7 @@ export class AssetsApi extends RegistryBaseApi {
     const ddo = await this.resolve(did)
     const checksum = ddo.checksum(didZeroX(did))
     const { creator, signatureValue } = ddo.proof
-    const signer = await this.nevermined.utils.signature.verifyText(checksum, signatureValue)
+    const signer = await SignatureUtils.recoverSignerAddress(checksum, signatureValue)
 
     if (signer.toLowerCase() !== creator.toLowerCase()) {
       this.logger.warn(
@@ -334,7 +333,7 @@ export class AssetsApi extends RegistryBaseApi {
    * @param owner - Account owning the DID and doing the transfer of ownership
    * @param newUserId - User Id of the new user getting the ownership of the asset
    * @param txParams - Transaction parameters
-   * @returns Returns ethers transaction receipt.
+   * @returns Returns transaction receipt.
    */
   public async transferOwnership(
     did: string,
@@ -342,7 +341,7 @@ export class AssetsApi extends RegistryBaseApi {
     owner: string | NvmAccount,
     newUserId?: string,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     // const owner = await this.nevermined.assets.owner(did)
     const ownerAddress = owner instanceof NvmAccount ? owner.getId() : owner
     const ddo = await this.resolveAsset(did)

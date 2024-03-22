@@ -2,19 +2,19 @@ import { EventEmitter, EventOptions, EventResult, Filter, NeverminedEvent } from
 import { ContractBase } from '../keeper'
 import { KeeperError } from '../errors'
 import { Nevermined } from '../nevermined'
-import { ethers } from 'ethers'
+import { Web3Clients } from '../sdk'
 
 export class ContractEvent extends NeverminedEvent {
   public static getInstance(
     contract: ContractBase,
     eventEmitter: EventEmitter,
     nevermined: Nevermined,
-    web3: ethers.JsonRpcProvider | ethers.BrowserProvider,
+    client: Web3Clients,
   ): ContractEvent {
     const instance = new ContractEvent(contract, eventEmitter)
     instance.setInstanceConfig({
       nevermined,
-      web3,
+      client,
     })
 
     return instance
@@ -35,14 +35,14 @@ export class ContractEvent extends NeverminedEvent {
   public async getPastEvents(options: EventOptions): EventResult {
     try {
       const chainId = await this.nevermined.keeper.getNetworkId()
-      options.fromBlock = 0
+      options.fromBlock = 0n
       options.toBlock = 'latest'
 
       // Temporary workaround to work with mumbai
       // Infura as a 1000 blocks limit on their api
       if (chainId === 80001 || chainId === 42) {
-        const latestBlock = await this.web3.getBlockNumber()
-        options.fromBlock = latestBlock - 99
+        const latestBlock = await this.client.public.getBlockNumber()
+        options.fromBlock = latestBlock - 99n
       }
       return await this.getEventData(options)
     } catch (error) {
@@ -50,8 +50,8 @@ export class ContractEvent extends NeverminedEvent {
     }
   }
 
-  public async getBlockNumber(): Promise<number> {
-    return this.web3.getBlockNumber()
+  public async getBlockNumber(): Promise<bigint> {
+    return this.client.public.getBlockNumber()
   }
 
   private eventExists(eventName: string): boolean {

@@ -57,7 +57,8 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
     service: ServiceNFTSales,
   ): Promise<NFTSalesTemplateParams> {
     const duration = DDO.getDurationFromService(service) || 0
-    const expiration = duration > 0 ? (await this.nevermined.web3.getBlockNumber()) + duration : 0
+    const expiration =
+      duration > 0 ? Number(await this.nevermined.client.public.getBlockNumber()) + duration : 0
     const nftTransfer = DDO.getNFTTransferFromService(service)
     return {
       consumerId,

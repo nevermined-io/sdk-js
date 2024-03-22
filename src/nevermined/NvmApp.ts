@@ -15,7 +15,7 @@ import {
   SubscriptionToken,
   SubscriptionType,
   Web3Error,
-  isAddress,
+  isValidAddress,
 } from '../sdk'
 import {
   AppDeploymentArbitrum,
@@ -140,7 +140,7 @@ export class NvmApp {
     const nodeInfo = await this.fullSDK.services.node.getNeverminedNodeInfo()
     this.assetProviders = [nodeInfo['provider-address']]
 
-    if (!isAddress(this.configNVM.nftContractAddress)) {
+    if (!isValidAddress(this.configNVM.nftContractAddress)) {
       const contractABI = await ContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
         this.configNVM.artifactsFolder,
@@ -150,7 +150,7 @@ export class NvmApp {
     } else {
       this.subscriptionNFTContractAddress = this.configNVM.nftContractAddress
     }
-    if (!isAddress(this.subscriptionNFTContractAddress)) {
+    if (!isValidAddress(this.subscriptionNFTContractAddress)) {
       throw new Web3Error('Invalid Subscription NFT contract address')
     }
     this.sdk.contracts.loadNft1155(this.subscriptionNFTContractAddress)

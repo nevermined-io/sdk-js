@@ -9,7 +9,7 @@ import {
   ServiceType,
   ValidationParams,
 } from '../../../ddo'
-import { NvmAccount, Condition, MetaData, NFTAttributes, isAddress } from '../../../sdk'
+import { NvmAccount, Condition, MetaData, NFTAttributes, isValidAddress } from '../../../sdk'
 import { TxParameters } from '../ContractBase'
 import { ConditionInstance, ConditionState } from '../conditions'
 
@@ -40,7 +40,7 @@ export abstract class BaseTemplate<Params, S extends Service>
   ): S {
     const assetPrice = serviceAttributes.price
     let tokenAddress = undefined
-    if (assetPrice && isAddress(assetPrice.getTokenAddress()))
+    if (assetPrice && isValidAddress(assetPrice.getTokenAddress()))
       tokenAddress = assetPrice.getTokenAddress()
     else if (this.nevermined.keeper.token) {
       tokenAddress = this.nevermined.keeper.token.address

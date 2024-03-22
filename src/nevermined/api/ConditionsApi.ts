@@ -5,13 +5,29 @@ import { ZeroAddress } from '../../utils'
 import { Token, CustomToken, TxParameters as txParams } from '../../keeper'
 import { AssetPrice } from '../../models'
 import { KeeperError } from '../../errors/KeeperError'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
+import { Abi, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
 /**
  * Nevermined Conditions API. It the interaction with the Smart Contracts building the conditions attached
  * to the Nevermined Service Execution Agreements.
  */
 export class ConditionsApi extends Instantiable {
+  static GENERIC_EVENT_FULFILLED_ABI = parseAbi([
+    'event Fulfilled(bytes32 indexed _agreementId, bytes32 indexed _documentId, address indexed grantee, bytes32 _conditionId)',
+  ])
+  static LOCK_PAYMENT_EVENT_FULFILLED_ABI = parseAbi([
+    'event Fulfilled(bytes32 indexed _agreementId, bytes32 indexed _did, bytes32 indexed _conditionId, address _rewardAddress, address _tokenAddress, address[] _receivers, uint256[] _amounts)',
+  ])
+  static ESCROW_EVENT_FULFILLED_ABI = parseAbi([
+    'event Fulfilled(bytes32 indexed _agreementId, address indexed _tokenAddress, address[] _receivers, bytes32 _conditionId, uint256[] _amounts)',
+  ])
+  static NFT_HOLDER_EVENT_FULFILLED_ABI = parseAbi([
+    'event Fulfilled(bytes32 indexed _agreementId, bytes32 indexed _did, address indexed _address, bytes32 _conditionId, uint256 _amount)',
+  ])
+  static TRANSFER_NFT_EVENT_FULFILLED_ABI = parseAbi([
+    'event Fulfilled(bytes32 indexed _agreementId, bytes32 indexed _did, address indexed _receiver, uint256 _amount, bytes32 _conditionId, address _contract)',
+  ])
+
   /**
    * Creates a new ConditionsApi
    * @param config - Configuration of the Nevermined instance
@@ -54,7 +70,7 @@ export class ConditionsApi extends Instantiable {
       token = await CustomToken.getInstanceByAddress(
         {
           nevermined: this.nevermined,
-          web3: this.web3,
+          client: this.client,
           logger: this.logger,
           config: this.config,
         },
@@ -69,7 +85,7 @@ export class ConditionsApi extends Instantiable {
       await token.approve(lockPaymentCondition.address, totalAmount, from, txParams)
     }
 
-    const contractReceipt: ContractTransactionReceipt = await lockPaymentCondition.fulfill(
+    const txReceipt = await lockPaymentCondition.fulfill(
       agreementId,
       did,
       escrowPaymentCondition.address,
@@ -86,7 +102,7 @@ export class ConditionsApi extends Instantiable {
       },
     )
 
-    return this.isFulfilled(contractReceipt)
+    return this.isFulfilled(txReceipt, ConditionsApi.LOCK_PAYMENT_EVENT_FULFILLED_ABI)
   }
 
   /**
@@ -107,14 +123,8 @@ export class ConditionsApi extends Instantiable {
     try {
       const { accessCondition } = this.nevermined.keeper.conditions
 
-      const contractReceipt: ContractTransactionReceipt = await accessCondition.fulfill(
-        agreementId,
-        did,
-        grantee,
-        from,
-        txParams,
-      )
-      return this.isFulfilled(contractReceipt)
+      const txReceipt = await accessCondition.fulfill(agreementId, did, grantee, from, txParams)
+      return this.isFulfilled(txReceipt, ConditionsApi.GENERIC_EVENT_FULFILLED_ABI)
     } catch (e) {
       throw new KeeperError(e)
     }
@@ -138,14 +148,14 @@ export class ConditionsApi extends Instantiable {
     try {
       const { computeExecutionCondition } = this.nevermined.keeper.conditions
 
-      const contractReceipt: ContractTransactionReceipt = await computeExecutionCondition.fulfill(
+      const txReceipt = await computeExecutionCondition.fulfill(
         agreementId,
         did,
         grantee,
         from,
         params,
       )
-      return this.isFulfilled(contractReceipt)
+      return this.isFulfilled(txReceipt, ConditionsApi.GENERIC_EVENT_FULFILLED_ABI)
     } catch (e) {
       throw new KeeperError(e)
     }
@@ -189,7 +199,7 @@ export class ConditionsApi extends Instantiable {
         token = await CustomToken.getInstanceByAddress(
           {
             nevermined: this.nevermined,
-            web3: this.web3,
+            client: this.client,
           },
           erc20TokenAddress,
         )
@@ -199,7 +209,7 @@ export class ConditionsApi extends Instantiable {
         agreementId,
       )
       storedAgreement.conditionIds
-      const contractReceipt: ContractTransactionReceipt = await escrowPaymentCondition.fulfill(
+      const txReceipt = await escrowPaymentCondition.fulfill(
         agreementId,
         did,
         amounts,
@@ -212,7 +222,7 @@ export class ConditionsApi extends Instantiable {
         from,
         txParams,
       )
-      return this.isFulfilled(contractReceipt)
+      return this.isFulfilled(txReceipt, ConditionsApi.ESCROW_EVENT_FULFILLED_ABI)
     } catch (e) {
       throw new KeeperError(e)
     }
@@ -250,19 +260,19 @@ export class ConditionsApi extends Instantiable {
     )
 
     const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-    const contractReceipt: ContractTransactionReceipt =
-      await escrowPaymentCondition.fulfillInstance(
-        instance.instances[2] as any,
-        {},
-        from || publisher,
-        txParams,
-      )
+    const txReceipt = await escrowPaymentCondition.fulfillInstance(
+      instance.instances[2] as any,
+      {},
+      from || publisher,
+      txParams,
+    )
 
-    if (!this.isFulfilled(contractReceipt)) {
-      this.logger.error('Failed to fulfill escrowPaymentCondition', contractReceipt)
+    const isFulfilled = this.isFulfilled(txReceipt, ConditionsApi.ESCROW_EVENT_FULFILLED_ABI)
+    if (!isFulfilled) {
+      this.logger.error('Failed to fulfill escrowPaymentCondition', txReceipt)
     }
 
-    return this.isFulfilled(contractReceipt)
+    return isFulfilled
   }
 
   /**
@@ -295,19 +305,19 @@ export class ConditionsApi extends Instantiable {
     )
 
     const { escrowPaymentCondition } = this.nevermined.keeper.conditions
-    const contractReceipt: ContractTransactionReceipt =
-      await escrowPaymentCondition.fulfillInstance(
-        instance.instances[2] as any,
-        {},
-        from || publisher,
-        txParams,
-      )
+    const txReceipt = await escrowPaymentCondition.fulfillInstance(
+      instance.instances[2] as any,
+      {},
+      from || publisher,
+      txParams,
+    )
 
-    if (!this.isFulfilled(contractReceipt)) {
-      this.logger.error('Failed to fulfill escrowPaymentCondition', contractReceipt)
+    const isFulfilled = this.isFulfilled(txReceipt, ConditionsApi.ESCROW_EVENT_FULFILLED_ABI)
+    if (!isFulfilled) {
+      this.logger.error('Failed to fulfill escrowPaymentCondition', txReceipt)
     }
 
-    return this.isFulfilled(contractReceipt)
+    return isFulfilled
   }
 
   /**
@@ -331,8 +341,8 @@ export class ConditionsApi extends Instantiable {
     params?: txParams,
   ) {
     const { nftHolderCondition } = this.nevermined.keeper.conditions
-    ContractTransactionReceipt
-    const contractReceipt: ContractTransactionReceipt = await nftHolderCondition.fulfill(
+
+    const txReceipt = await nftHolderCondition.fulfill(
       agreementId,
       did,
       holder,
@@ -341,7 +351,7 @@ export class ConditionsApi extends Instantiable {
       from,
       params,
     )
-    return this.isFulfilled(contractReceipt)
+    return this.isFulfilled(txReceipt, ConditionsApi.NFT_HOLDER_EVENT_FULFILLED_ABI)
   }
 
   /**
@@ -365,8 +375,8 @@ export class ConditionsApi extends Instantiable {
     const accessService = ddo.findServiceByType('nft-access')
 
     const holder = DDO.findServiceConditionByName(accessService, 'nftHolder')
-    ContractTransactionReceipt
-    const contractReceipt: ContractTransactionReceipt = await nft721HolderCondition.fulfill(
+
+    const txReceipt = await nft721HolderCondition.fulfill(
       agreementId,
       ddo.shortId(),
       holderAddress,
@@ -375,7 +385,7 @@ export class ConditionsApi extends Instantiable {
       params,
     )
 
-    return this.isFulfilled(contractReceipt)
+    return this.isFulfilled(txReceipt, ConditionsApi.NFT_HOLDER_EVENT_FULFILLED_ABI)
   }
 
   /**
@@ -395,15 +405,9 @@ export class ConditionsApi extends Instantiable {
     params?: txParams,
   ) {
     const { nftAccessCondition } = this.nevermined.keeper.conditions
-    ContractTransactionReceipt
-    const contractReceipt: ContractTransactionReceipt = await nftAccessCondition.fulfill(
-      agreementId,
-      did,
-      grantee,
-      from,
-      params,
-    )
-    return this.isFulfilled(contractReceipt)
+
+    const txReceipt = await nftAccessCondition.fulfill(agreementId, did, grantee, from, params)
+    return this.isFulfilled(txReceipt, ConditionsApi.GENERIC_EVENT_FULFILLED_ABI)
   }
 
   /**
@@ -434,7 +438,7 @@ export class ConditionsApi extends Instantiable {
     const nftTranfer = DDO.getNFTTransferFromService(service)
     const duration = DDO.getDurationFromService(service)
     const expirationBlock =
-      duration > 0 ? (await this.nevermined.keeper.web3.getBlockNumber()) + duration : 0
+      duration > 0 ? Number(await this.client.public.getBlockNumber()) + duration : 0
     console.log(`ConditionsApi :: transferNft with expiration block = ${expirationBlock}`)
 
     const params = template.params(
@@ -454,14 +458,14 @@ export class ConditionsApi extends Instantiable {
       serviceIndex,
     )
 
-    const contractReceipt: ContractTransactionReceipt = await transferNftCondition.fulfillInstance(
+    const txReceipt = await transferNftCondition.fulfillInstance(
       instance.instances[1] as any,
       {},
       from,
       txParams,
     )
 
-    return this.isFulfilled(contractReceipt)
+    return this.isFulfilled(txReceipt, ConditionsApi.TRANSFER_NFT_EVENT_FULFILLED_ABI)
   }
 
   /**
@@ -492,7 +496,7 @@ export class ConditionsApi extends Instantiable {
     const nftAddress = DDO.getNftContractAddressFromService(service as ServiceNFTSales)
     const duration = DDO.getDurationFromService(service) || 0
     const expirationBlock =
-      duration > 0 ? (await this.nevermined.keeper.web3.getBlockNumber()) + duration : 0
+      duration > 0 ? Number(await this.client.public.getBlockNumber()) + duration : 0
     console.log(
       `ConditionsApi :: transferNftForDelegate with expiration block = ${expirationBlock}`,
     )
@@ -515,22 +519,21 @@ export class ConditionsApi extends Instantiable {
     )
     const [did, nftHolder, nftReceiver, _nftAmount, lockPaymentCondition, , transferAsset] =
       instance.instances[1].list
-    const contractReceipt: ContractTransactionReceipt =
-      await transferNftCondition.fulfillForDelegate(
-        agreementId,
-        did,
-        nftHolder,
-        nftReceiver,
-        _nftAmount,
-        lockPaymentCondition,
-        nftAddress,
-        transferAsset,
-        BigInt(expirationBlock),
-        from,
-        txParams,
-      )
+    const txReceipt = await transferNftCondition.fulfillForDelegate(
+      agreementId,
+      did,
+      nftHolder,
+      nftReceiver,
+      _nftAmount,
+      lockPaymentCondition,
+      nftAddress,
+      transferAsset,
+      BigInt(expirationBlock),
+      from,
+      txParams,
+    )
 
-    return this.isFulfilled(contractReceipt)
+    return this.isFulfilled(txReceipt, ConditionsApi.TRANSFER_NFT_EVENT_FULFILLED_ABI)
   }
 
   /**
@@ -566,20 +569,29 @@ export class ConditionsApi extends Instantiable {
 
     await nft.setApprovalForAll(transferNft721Condition.address, true, publisher, txParams)
 
-    const contractReceipt: ContractTransactionReceipt =
-      await transferNft721Condition.fulfillInstance(
-        instance.instances[1] as any,
-        {},
-        publisher,
-        txParams,
-      )
+    const txReceipt = await transferNft721Condition.fulfillInstance(
+      instance.instances[1] as any,
+      {},
+      publisher,
+      txParams,
+    )
 
     await nft.setApprovalForAll(transferNft721Condition.address, false, publisher, txParams)
 
-    return this.isFulfilled(contractReceipt)
+    return this.isFulfilled(txReceipt, ConditionsApi.TRANSFER_NFT_EVENT_FULFILLED_ABI)
   }
 
-  private isFulfilled(contractReceipt: ContractTransactionReceipt): boolean {
-    return (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled')
+  // private isFulfilled(contractReceipt: ContractTransactionReceipt): boolean {
+  //   return (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled')
+  // }
+
+  private isFulfilled(txReceipt: TransactionReceipt, eventAbi: Abi): boolean {
+    const eventLogs = parseEventLogs({
+      abi: eventAbi,
+      logs: txReceipt.logs,
+      eventName: 'Fulfilled',
+      strict: false,
+    })
+    return eventLogs.length > 0
   }
 }

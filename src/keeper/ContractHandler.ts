@@ -2,8 +2,8 @@ import fs from 'fs'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import { KeeperError } from '../errors/KeeperError'
 import { ApiError } from '../errors/ApiError'
-import { ethers } from 'ethers'
 import { NvmAccount } from '../nevermined'
+import { Abi } from 'viem'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -20,7 +20,7 @@ export class ContractHandler extends Instantiable {
   protected static setContract(
     what: string,
     networkId: number,
-    contractInstance: ethers.BaseContract,
+    contractInstance: any,
     address?: string,
   ) {
     ContractHandler.contracts.set(this.getHash(what, networkId, address), contractInstance)
@@ -30,9 +30,9 @@ export class ContractHandler extends Instantiable {
     return ContractHandler.contracts.has(this.getHash(what, networkId, address))
   }
 
-  private static contracts: Map<string, ethers.BaseContract> = new Map<
+  private static contracts: Map<string, any> = new Map<
     string,
-    ethers.BaseContract
+    any //ethers.BaseContract
   >()
 
   private static getHash(what: string, networkId: number, address?: string): string {
@@ -65,10 +65,10 @@ export class ContractHandler extends Instantiable {
   }
 
   public async deployAbi(
-    artifact: { name?: string; abi: ethers.InterfaceAbi; bytecode: string },
+    artifact: { name?: string; abi: Abi; bytecode: `0x${string}` },
     from: NvmAccount,
     args: string[] = [],
-  ): Promise<ethers.BaseContract> {
+  ) {
     return this.nevermined.utils.blockchain.deployAbi(artifact, from, args)
   }
 
@@ -78,7 +78,7 @@ export class ContractHandler extends Instantiable {
     networkId: number,
     artifactsFolder: string,
     address?: string,
-  ): Promise<ethers.BaseContract> {
+  ) {
     this.logger.debug(`Loading ${what} from ${where} and folder ${artifactsFolder}`)
     let artifact
     if (artifactsFolder.startsWith('http'))
@@ -106,7 +106,7 @@ export class ContractHandler extends Instantiable {
     optional = false,
     artifactsFolder: string,
     address?: string,
-  ): Promise<ethers.BaseContract> {
+  ) {
     const chainId = await this.nevermined.keeper.getNetworkId()
     const where = await this.nevermined.keeper.getNetworkName()
     try {

@@ -1,8 +1,7 @@
 import { NvmAccount } from '../NvmAccount'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { TxParameters, ProvenanceMethod } from '../../keeper'
-import { zeroX } from '../../utils'
-import { zeroPadValue } from '../utils/BlockchainEthersUtils'
+import { zeroPadValue } from '../utils/BlockchainViemUtils'
 
 /**
  * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry
@@ -55,7 +54,7 @@ export class ProvenanceApi extends Instantiable {
       provenanceId,
       did,
       agentId,
-      zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(activityId as `0x${string}`, 32),
       signature,
       attributes,
       from.getId(),
@@ -91,7 +90,7 @@ export class ProvenanceApi extends Instantiable {
       newEntityDid,
       usedEntityDid,
       agentId,
-      zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(activityId as `0x${string}`, 32),
       attributes,
       from.getId(),
       txParams,
@@ -123,7 +122,7 @@ export class ProvenanceApi extends Instantiable {
       provenanceId,
       did,
       agentId,
-      zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(activityId as `0x${string}`, 32),
       attributes,
       from.getId(),
       txParams,
@@ -160,7 +159,7 @@ export class ProvenanceApi extends Instantiable {
       did,
       delegateAgentId,
       responsibleAgentId,
-      zeroPadValue(zeroX(activityId), 32),
+      zeroPadValue(activityId as `0x${string}`, 32),
       signature,
       attributes,
       from.getId(),

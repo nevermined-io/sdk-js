@@ -65,7 +65,7 @@ export class SubgraphEvent extends NeverminedEvent {
     return this.getEventData(options)
   }
 
-  public async getBlockNumber(): Promise<number> {
+  public async getBlockNumber(): Promise<bigint> {
     const result = await this.subgraph.query({
       query: gql`
         query {

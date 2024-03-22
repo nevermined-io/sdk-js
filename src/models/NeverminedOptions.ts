@@ -1,6 +1,5 @@
-import { ethers } from 'ethers'
 import { LogLevel } from '../utils'
-import { AaveConfig } from './'
+import { NvmAccount } from '../nevermined'
 
 export interface NeverminedInitializationOptions {
   loadCore: boolean // NVMConfig, DIDRegistry
@@ -17,7 +16,6 @@ export interface NeverminedInitializationOptions {
 }
 
 export class NeverminedOptions {
-
   public chainId?: number
   /**
    * Ethereum Web3 Provider URL. This Url allows the SDK to connect to a blockchain.
@@ -77,8 +75,6 @@ export class NeverminedOptions {
    */
   public graphHttpUri?: string
 
-  public aaveConfig?: AaveConfig
-
   /**
    * The folder where the nevermined contract artifacts are located.
    */
@@ -88,7 +84,7 @@ export class NeverminedOptions {
    */
   public circuitsFolder?: string
 
-  public accounts?: ethers.Signer[]
+  public accounts?: NvmAccount[]
 
   /**
    * IPFS variables enable the resolution of DDOs (via `assets.resolve`) from CID urls

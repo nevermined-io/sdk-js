@@ -10,10 +10,9 @@ import {
   PublishOnChainOptions,
 } from '../AssetsApi'
 import { NFTError } from '../../../errors/NFTError'
-import { ContractTransactionReceipt } from 'ethers'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { CreateProgressStep, OrderProgressStep } from '../../ProgressSteps'
-import { keccak256WithEncode } from '../../utils/BlockchainEthersUtils'
+import { keccak256WithEncode } from '../../utils/BlockchainViemUtils'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.
@@ -315,13 +314,9 @@ export class NFT721Api extends NFTsBaseApi {
    * @param did - The Decentralized Identifier of the NFT asset.
    * @param publisher - The account of the minter
    * @param txParams - Optional transaction parameters.
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
-  public async mint(
-    did: string,
-    publisher: NvmAccount,
-    txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  public async mint(did: string, publisher: NvmAccount, txParams?: TxParameters) {
     return await this.nftContract.mint(did, publisher.getId(), txParams)
   }
 
@@ -343,7 +338,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @param account - The account of the publisher of the NFT.
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
   public async burn(tokenId: string, account: NvmAccount, txParams?: TxParameters) {
     return await this.nftContract.burn(tokenId, account, txParams)
@@ -363,7 +358,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @param url - The URL with NFT metadata
    * @param from - The account of the minter
    * @param txParams - Optional transaction parameters.
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
   public async mintWithURL(
     to: string,
@@ -371,7 +366,7 @@ export class NFT721Api extends NFTsBaseApi {
     url: string,
     from?: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     return await this.nftContract.mintWithURL(to, did, url, from, txParams)
   }
 
@@ -391,14 +386,14 @@ export class NFT721Api extends NFTsBaseApi {
    * @param approved - Give or remove transfer rights from the operator.
    * @param from - The account that wants to give transfer rights to the operator.
    * @param txParams - Optional transaction parameters.
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
   public async setApprovalForAll(
     target: string,
     approved: boolean,
     from: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     return await this.nftContract.setApprovalForAll(target, approved, from.getId(), txParams)
   }
 
@@ -578,13 +573,13 @@ export class NFT721Api extends NFTsBaseApi {
    * @param from - The account giving operator permissions
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
   public async grantOperatorRole(
     operatorAddress: string,
     from?: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     return this.nftContract.grantOperatorRole(operatorAddress, from, txParams)
   }
 
@@ -604,13 +599,13 @@ export class NFT721Api extends NFTsBaseApi {
    * @param from - The account revoking operator permissions
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
   public async revokeOperatorRole(
     operatorAddress: string,
     from?: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)
   }
 

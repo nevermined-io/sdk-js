@@ -1,4 +1,4 @@
-import { AaveConditionType, ServiceAaveCredit, TxParameters } from '../keeper'
+import { TxParameters } from '../keeper'
 import { NvmAccount } from '../sdk'
 import {
   ERCType,
@@ -597,12 +597,7 @@ export interface NvmConfigVersions {
   immutableBackend?: ImmutableBackends
 }
 
-export type ConditionType =
-  | 'lockPayment'
-  | 'escrowPayment'
-  | 'nftHolder'
-  | 'transferNFT'
-  | AaveConditionType
+export type ConditionType = 'lockPayment' | 'escrowPayment' | 'nftHolder' | 'transferNFT'
 
 export type ServiceType =
   | 'authorization'
@@ -612,7 +607,6 @@ export type ServiceType =
   | 'workflow'
   | 'nft-access'
   | 'nft-sales'
-  | 'aave-credit'
   | 'nft-sales-proof'
 
 export const serviceIndex = {
@@ -626,7 +620,6 @@ export const serviceIndex = {
   'nft-sales': 6,
   'nft721-access': 9,
   'nft721-sales': 8,
-  'aave-credit': 11,
   'nft-access-proof': 12,
   'nft-sales-proof': 13,
   'nft721-access-proof': 14,
@@ -775,8 +768,6 @@ export type Service<T extends ServiceType | 'default' = 'default'> = T extends '
   ? ServiceAccess
   : T extends 'compute'
   ? ServiceCompute
-  : T extends 'aave-credit'
-  ? ServiceAaveCredit
   : T extends 'default'
   ? ServiceCommon
   : ServiceCommon
