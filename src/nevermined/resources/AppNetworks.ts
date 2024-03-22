@@ -7,7 +7,7 @@ export class NeverminedAppOptions extends NeverminedOptions {
 }
 
 export class AppDeploymentLocal extends NeverminedAppOptions {
-  instanceName = 'localnet'  
+  instanceName = 'localnet'
   appUrl = 'http://localhost:3000'
   chainId = 1337
   web3ProviderUri = 'http://contracts.nevermined.localnet'

@@ -36,7 +36,7 @@ describe('Accounts', () => {
         eth: 1n,
         nevermined: 5n,
       }))
-      const balance = await accounts.balance(account)
+      const balance = await accounts.getBalance(account)
 
       assert.deepEqual(balance, {
         eth: 1n,

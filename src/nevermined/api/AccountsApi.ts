@@ -124,10 +124,11 @@ export class AccountsApi extends Instantiable {
    * Balances of Ether and Nevermined Token.
    * @returns
    */
-  public async getBalance(address: string): Promise<Balance> {
+  public async getBalance(address: string | NvmAccount): Promise<Balance> {
+    const accountAddress = address instanceof NvmAccount ? address.getId() : address
     return {
-      eth: await this.getEtherBalance(address),
-      nevermined: await this.getNeverminedBalance(address),
+      eth: await this.getEtherBalance(accountAddress),
+      nevermined: await this.getNeverminedBalance(accountAddress),
     }
   }
 }
