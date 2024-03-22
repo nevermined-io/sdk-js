@@ -18,6 +18,7 @@ import {
   SubscribablePromise,
   SubscriptionToken,
   SubscriptionType,
+  UpdateProgressStep,
   Web3Error,
   convertEthersV6SignerToAccountSigner,
 } from '../sdk'
@@ -331,11 +332,31 @@ export class NvmApp {
     subscriptionPrice: AssetPrice,
     numberCredits: bigint,
   ): Promise<DDO> {
-    return await this.createCreditsSubscriptionAsync(
+    return await this.createCreditsSubscription(
       susbcriptionMetadata,
       subscriptionPrice,
       numberCredits,
     )
+  }
+
+  public updateAsset(
+    did: string,
+    metadata: MetaData,
+  ): SubscribablePromise<UpdateProgressStep, DDO> {
+    if (!this.isWeb3Connected())
+      throw new Web3Error('Web3 not connected, try calling the connect method first')
+
+    return this.fullSDK.assets.update(
+      did,
+      metadata,
+      this.userAccount,
+      PublishMetadataOptions.OnlyMetadataAPI,
+      { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
+    )
+  }
+
+  public async updateAssetAsync(did: string, metadata: MetaData): Promise<DDO> {
+    return await this.updateAsset(did, metadata)
   }
 
   public async orderSubscription(
