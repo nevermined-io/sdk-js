@@ -11,6 +11,7 @@ import {
   Nevermined,
   NeverminedInitializationOptions,
   NeverminedOptions,
+  OrderProgressStep,
   PublishMetadataOptions,
   PublishOnChainOptions,
   SearchApi,
@@ -359,7 +360,7 @@ export class NvmApp {
     return await this.updateAsset(did, metadata)
   }
 
-  public async orderSubscription(
+  public async orderSubscriptionAsync(
     subscriptionDid: string,
     agreementId?: string,
   ): Promise<OperationResult> {
@@ -392,11 +393,60 @@ export class NvmApp {
         subscriptionDid,
         serviceIndex,
       )
+      if (!transferResult) {
+        throw new Error(`Error claiming the NFT of the subscription with agreement ${agreementId}`)
+      }
     } catch (error) {
       throw new Web3Error(`Error ordering subscription: ${error.message}`)
     }
 
     return { agreementId, success: transferResult }
+  }
+
+  public orderSubscription(
+    subscriptionDid: string,
+    numberCredits: bigint,
+    serviceIndex?: number,
+  ): SubscribablePromise<OrderProgressStep, string> {
+    if (!this.isWeb3Connected())
+      throw new Web3Error('Web3 not connected, try calling the connect method first')
+
+    try {
+      return this.fullSDK.nfts1155.order(
+        subscriptionDid,
+        numberCredits,
+        this.userAccount,
+        serviceIndex,
+        { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
+      )
+    } catch (error) {
+      throw new Web3Error(`Error ordering subscription: ${error.message}`)
+    }
+  }
+
+  public async claimSubscription(
+    agreementId: string,
+    subscriptionDid: string,
+    numberCredits: bigint,
+    serviceIndex?: number,
+  ): Promise<boolean> {
+    if (!this.isWeb3Connected())
+      throw new Web3Error('Web3 not connected, try calling the connect method first')
+    try {
+      const subscriptionOwner = await this.fullSDK.assets.owner(subscriptionDid)
+      return this.fullSDK.nfts1155.claim(
+        agreementId,
+        subscriptionOwner,
+        this.userAccount.getId(),
+        numberCredits,
+        subscriptionDid,
+        serviceIndex,
+      )
+    } catch (error) {
+      throw new Web3Error(
+        `Error claiming the NFT of the subscription with agreement ${agreementId}`,
+      )
+    }
   }
 
   public async getBalance(
@@ -440,15 +490,16 @@ export class NvmApp {
 
   public async downloadFiles(
     fileAssetDid: string,
-    agreementId: string,
-    destinationPath: string,
+    fileIndex?: number,
+    destinationPath?: string,
+    agreementId?: string,
   ): Promise<OperationResult> {
     try {
       const result = await this.fullSDK.nfts1155.access(
         fileAssetDid,
         this.userAccount,
         destinationPath,
-        undefined,
+        fileIndex,
         agreementId,
       )
       return { agreementId, success: result }
