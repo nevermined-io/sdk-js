@@ -23,7 +23,7 @@ import {
   RoyaltyKind,
   SubscriptionCreditsNFTApi,
   NFT1155Api,
-  getAddress,
+  getChecksumAddress,
 } from '../../src/nevermined'
 import { sleep } from '../utils/utils'
 
@@ -222,7 +222,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice / scale)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)    
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
       assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
@@ -317,7 +317,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getChecksumAddress(eventValues._receiver), subscriber.getId())
     })
 
     it('the subscriber can check the balance with the new NFTs received', async () => {
@@ -370,7 +370,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
     })
 
     it('The subscriber can top-up', async () => {
-      await subscriber.requestTokens(subscriptionPrice / scale)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)    
 
       agreementId = await nevermined.nfts1155.order(
         subscriptionDDO.id,

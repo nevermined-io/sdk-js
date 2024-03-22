@@ -14,7 +14,6 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
-import { ethers } from 'ethers'
 import '../globals'
 
 chai.use(chaiAsPromised)
@@ -24,7 +23,7 @@ describe('NFT1155 End-to-End', () => {
   let publisher: NvmAccount
   let someone: NvmAccount
   let minter: NvmAccount
-  let nftContract: ethers.BaseContract
+  let nftContract
 
   let nevermined: Nevermined
   let ddo: DDO

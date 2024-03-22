@@ -1,4 +1,4 @@
-import { NvmAccount, Nevermined, generateId, getAddress } from '../../src'
+import { NvmAccount, Nevermined, generateId, getChecksumAddress } from '../../src'
 import { config } from '../config'
 import { assert } from 'chai'
 import { awaitTimeout, mineBlocks, sleep } from '../utils/utils'
@@ -40,7 +40,7 @@ describe('SubgraphEvent', () => {
     })
 
     const event = response[0]
-    assert.strictEqual(getAddress(event.to), getAddress(account.getId()))
+    assert.strictEqual(getChecksumAddress(event.to), getChecksumAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {

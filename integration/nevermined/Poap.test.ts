@@ -3,14 +3,13 @@ import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { config } from '../config'
 import POAPUpgradeable from '../../test/resources/artifacts/NFT721SubscriptionUpgradeable.json'
 import { assert } from 'chai'
-import { ethers } from 'ethers'
 import { getMetadata } from '../utils'
 import { getRoyaltyAttributes, NFT721Api, RoyaltyKind } from '../../src/nevermined'
 import { decodeJwt } from 'jose'
 
 describe('POAPs with Assets', () => {
   let nevermined: Nevermined
-  let poapContract: ethers.BaseContract
+  let poapContract
   let editor: NvmAccount
   let user: NvmAccount
   let gatewayAddress: string
@@ -54,7 +53,7 @@ describe('POAPs with Assets', () => {
       nevermined.keeper.conditions.transferNft721Condition.address,
       editor,
     )
-    assert.equal(response.status, 1)
+    assert.equal(response.status, 'success')
 
     // INFO: We allow the gateway to fulfill the transfer condition in behalf of the user
     // Typically this only needs to happen once per NFT contract

@@ -159,7 +159,7 @@ describe('Register Escrow Access Template', () => {
         publisher,
       )
 
-      assert.equal(agreement.status, 1)
+      assert.equal(agreement.status, 'success')
     })
 
     it('should not grant the access to the consumer', async () => {
@@ -170,7 +170,7 @@ describe('Register Escrow Access Template', () => {
 
     it('should fulfill LockPaymentCondition', async () => {
       try {
-        await consumer.requestTokens(totalAmount)
+        await nevermined.accounts.requestTokens(consumer, totalAmount)
       } catch (error) {
         Logger.error(error)
       }
@@ -287,7 +287,7 @@ describe('Register Escrow Access Template', () => {
 
     it('should fulfill the conditions from consumer side', async () => {
       try {
-        await consumer.requestTokens(totalAmount)
+        await nevermined.accounts.requestTokens(consumer, totalAmount)
       } catch (error) {
         Logger.error(error)
       }

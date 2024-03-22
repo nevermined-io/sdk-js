@@ -254,7 +254,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     let agreementId: string
 
     it('I can order and claim the subscription', async () => {
-      await subscriber.requestTokens(subscriptionBronzePrice)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionBronzePrice)
 
       const bronzeSalesService = timeSubscriptionDDO.getServicesByType('nft-sales')[0]
       console.log(
@@ -309,7 +309,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         subscriber.getId(),
         timeSubscriptionDDO.shortId(),
       )
-      console.log(`Current Block Number: ${await nevermined.web3.getBlockNumber()}`)
+      console.log(`Current Block Number: ${await nevermined.client.public.getBlockNumber()}`)
       console.log(`Minted entries: ${minted.length}`)
       minted.map((m) =>
         console.log(
@@ -435,7 +435,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     let agreementId: string
 
     it('I can order and claim the subscription', async () => {
-      await subscriber.requestTokens(subscriptionSilverPrice)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionSilverPrice)
 
       const silverSalesService = creditSubscriptionDDO.getServicesByType('nft-sales')[0]
       console.log(
@@ -537,7 +537,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
 
       console.log(`Balance Before Topup: ${balanceBeforeTopup}`)
 
-      await subscriber.requestTokens(subscriptionGoldPrice)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionGoldPrice)
 
       const goldSalesService = creditSubscriptionDDO.getServicesByType('nft-sales')[1]
       console.log(
@@ -577,7 +577,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         subscriber.getId(),
         creditSubscriptionDDO.shortId(),
       )
-      console.log(`Current Block Number: ${await nevermined.web3.getBlockNumber()}`)
+      console.log(`Current Block Number: ${await nevermined.client.public.getBlockNumber()}`)
       console.log(`Minted entries: ${minted.length}`)
       minted.map((m) =>
         console.log(
@@ -616,7 +616,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         subscriber.getId(),
         creditSubscriptionDDO.shortId(),
       )
-      console.log(`Current Block Number: ${await nevermined.web3.getBlockNumber()}`)
+      console.log(`Current Block Number: ${await nevermined.client.public.getBlockNumber()}`)
       console.log(`Minted entries: ${minted.length}`)
       minted.map((m) =>
         console.log(

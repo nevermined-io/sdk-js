@@ -230,7 +230,8 @@ describe('Secondary Markets', () => {
       })
 
       it('I am locking the payment', async () => {
-        await collector1.requestTokens(formatUnits(nftPrice, decimals))
+        
+        await nevermined.accounts.requestTokens(collector1, BigInt(formatUnits(nftPrice, decimals)))
 
         const collector1BalanceBefore = await token.balanceOf(collector1.getId())
         assert.equal(collector1BalanceBefore, initialBalances.collector1 + nftPrice)
@@ -410,7 +411,7 @@ describe('Secondary Markets', () => {
       it('As collector2 I am locking the payment', async () => {
         // Collector2 gets the price from some marketplace
         // (query the service agreements from the metadata)
-        await collector2.requestTokens(formatUnits(nftPrice2, decimals))
+        await nevermined.accounts.requestTokens(collector2, BigInt(formatUnits(nftPrice2, decimals)))
 
         const collector2BalanceBefore = await token.balanceOf(collector2.getId())
         assert.equal(collector2BalanceBefore, initialBalances.collector2 + nftPrice2)
@@ -578,7 +579,7 @@ describe('Secondary Markets', () => {
       })
 
       it('As collector1 I buy the secondary market NFT', async () => {
-        await collector1.requestTokens(formatUnits(nftPrice2, decimals))
+        await nevermined.accounts.requestTokens(collector1, BigInt(formatUnits(nftPrice2, decimals)))
 
         nftBalanceCollector1Before = await nftUpgradeable.balance(collector1.getId(), ddo.id)
         nftBalanceCollector2Before = await nftUpgradeable.balance(collector2.getId(), ddo.id)

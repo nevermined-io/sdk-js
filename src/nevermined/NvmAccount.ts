@@ -74,11 +74,11 @@ export class NvmAccount {
   }
 
   public getAddress() {
-    return this.id
+    return this.id as `0x${string}`
   }
 
   public getId() {
-    return this.id
+    return this.id as `0x${string}`
   }
 
   public setId(id) {

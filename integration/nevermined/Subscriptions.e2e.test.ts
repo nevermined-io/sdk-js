@@ -23,7 +23,7 @@ import {
   RoyaltyKind,
   NFT721Api,
   SubscriptionNFTApi,
-  getAddress,
+  getChecksumAddress,
 } from '../../src/nevermined'
 
 chai.use(chaiAsPromised)
@@ -195,7 +195,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice / scale)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
       assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
@@ -274,7 +274,7 @@ describe('Subscriptions using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getChecksumAddress(eventValues._receiver), subscriber.getId())
     })
   })
 

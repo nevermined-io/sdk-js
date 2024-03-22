@@ -116,7 +116,7 @@ describe('NFT721Templates E2E', () => {
     receivers2 = [collector1.getId(), artist.getId()]
 
     // load the nft contract at given address
-    nft = await nevermined.contracts.loadNft721(await nftContract.getAddress())
+    nft = await nevermined.contracts.loadNft721(await nftContract.address)
     nftContractOwner = new NvmAccount((await nft.nftContract.owner()) as string)
 
     // components
@@ -252,7 +252,7 @@ describe('NFT721Templates E2E', () => {
           ),
         )
 
-        await collector1.requestTokens(nftPrice / scale)
+        await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
         const collector1BalanceBefore = await token.balanceOf(collector1.getId())
         assert.equal(initialBalances.collector1 + nftPrice, collector1BalanceBefore)
 
@@ -276,7 +276,7 @@ describe('NFT721Templates E2E', () => {
           receivers,
           collector1,
         )
-        assert.equal(result.status, 1)
+        assert.equal(result.status, 'success')
         assert.isTrue(
           (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
         )
@@ -392,7 +392,7 @@ describe('NFT721Templates E2E', () => {
           [collector1.getId()],
           collector1,
         )
-        assert.equal(result.status, 1)
+        assert.equal(result.status, 'success')
         assert.isTrue(
           (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
         )
@@ -494,7 +494,7 @@ describe('NFT721Templates E2E', () => {
           [collector2.getId()],
           collector2,
         )
-        assert.equal(result.status, 1)
+        assert.equal(result.status, 'success')
         assert.isTrue(
           (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
         )
@@ -639,7 +639,7 @@ describe('NFT721Templates E2E', () => {
         '0',
         nevermined.keeper.nvmConfig.address,
       ])
-      nft = await nevermined.contracts.loadNft721(await nftContract.getAddress())
+      nft = await nevermined.contracts.loadNft721(await nftContract.address)
 
       nftContractOwner = new NvmAccount((await nft.nftContract.owner()) as string)
       await nft.nftContract.grantOperatorRole(transferNft721Condition.address, nftContractOwner)
@@ -833,7 +833,7 @@ describe('NFT721Templates E2E', () => {
       })
 
       it('As collector2 I am locking the payment', async () => {
-        await collector2.requestTokens(nftPrice2 / scale)
+        await nevermined.accounts.requestTokens(collector2, nftPrice2 / scale)
 
         const collector2BalanceBefore = await token.balanceOf(collector2.getId())
         assert.equal(collector2BalanceBefore, initialBalances.collector2 + nftPrice2)

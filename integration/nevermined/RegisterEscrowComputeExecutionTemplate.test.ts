@@ -175,7 +175,7 @@ describe('Register Escrow Compute Execution Template', () => {
         publisher,
       )
 
-      assert.equal(agreement.status, 1)
+      assert.equal(agreement.status, 'success')
     })
 
     it('should not trigger the compute', async () => {
@@ -189,7 +189,7 @@ describe('Register Escrow Compute Execution Template', () => {
 
     it('should fulfill LockPaymentCondition', async () => {
       try {
-        await consumer.requestTokens(totalAmount)
+        await nevermined.accounts.requestTokens(consumer, totalAmount)
       } catch (error) {
         Logger.error(error)
       }

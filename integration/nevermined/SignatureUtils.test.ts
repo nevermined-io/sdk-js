@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 
-import { NvmAccount, Nevermined } from '../../src'
+import { NvmAccount, Nevermined, SignatureUtils } from '../../src'
 import { config } from '../config'
 
 describe('SignatureUtils', () => {
@@ -25,7 +25,7 @@ describe('SignatureUtils', () => {
 
   describe('#verifyText', () => {
     it('should recover the privateKey of a signed message', async () => {
-      const verifiedPublicKey = await nevermined.utils.signature.recoverSignerAddress(
+      const verifiedPublicKey = await SignatureUtils.recoverSignerAddress(
         text,
         signature,
       )

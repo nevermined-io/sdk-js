@@ -1,4 +1,4 @@
-import { NvmAccount, Nevermined, generateId, getAddress } from '../../src'
+import { NvmAccount, Nevermined, generateId, getChecksumAddress } from '../../src'
 import { config } from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
@@ -20,7 +20,7 @@ describe('ContractEvent', () => {
     nevermined = await Nevermined.getInstance({ ...config, graphHttpUri: undefined })
     ;[account, account2, account3, account4, account5, account6] = await nevermined.accounts.list()
 
-    await account.requestTokens(1)
+    await nevermined.accounts.requestTokens(account, 1n)    
   })
 
   it('should get a ContractEvent instance', async () => {
@@ -38,7 +38,7 @@ describe('ContractEvent', () => {
       },
       eventName: 'Transfer',
     })
-    assert.strictEqual(getAddress(response.pop().args.to), getAddress(account.getId()))
+    assert.strictEqual(getChecksumAddress(response.pop().args.to), getChecksumAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {
@@ -57,7 +57,7 @@ describe('ContractEvent', () => {
         {
           eventName: 'Transfer',
           filterJsonRpc: { to: account.getId() },
-          fromBlock: 0,
+          fromBlock: 0n,
           toBlock: 'latest',
         },
       )
@@ -65,11 +65,12 @@ describe('ContractEvent', () => {
 
     // await Promise.all([executeTransaction()])
 
-    await account2.requestTokens(1)
+    await nevermined.accounts.requestTokens(account2, 1n)    
+
 
     validResolve = true
 
-    await account3.requestTokens(1)
+    await nevermined.accounts.requestTokens(account3, 1n)    
     // await Promise.all([executeTransaction()])
 
     await waitUntilEvent
@@ -99,10 +100,10 @@ describe('ContractEvent', () => {
       )
     })
 
-    await account4.requestTokens(1)
+    await nevermined.accounts.requestTokens(account4, 1n)    
     canBeRejected = true
 
-    await account5.requestTokens(1)
+    await nevermined.accounts.requestTokens(account5, 1n)    
 
     await waitUntilEvent
   })
@@ -115,7 +116,7 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
       filterJsonRpc: { to },
     })
-    await account6.requestTokens(1)
+    await nevermined.accounts.requestTokens(account6, 1n)    
     // await executeTransaction()
 
     await waitUntilEvent

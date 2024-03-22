@@ -1,7 +1,7 @@
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { NvmAccount, DDO, Nevermined, AssetPrice, ZeroAddress, getAddress } from '../../src'
+import { NvmAccount, DDO, Nevermined, AssetPrice, ZeroAddress, getChecksumAddress } from '../../src'
 import {
   EscrowPaymentCondition,
   TransferNFTCondition,
@@ -112,7 +112,7 @@ function makeTest(isCustom) {
 
         const nftContract = await Nft1155Contract.getInstance(
           (nevermined.keeper as any).instanceConfig,
-          await nft.getAddress(),
+          await nft.address,
         )
 
         await nevermined.contracts.loadNft1155(nftContract.address)
@@ -141,7 +141,7 @@ function makeTest(isCustom) {
       }
       nftPrice = amounts.reduce((a, b) => a + b, 0n)
       assetPrice1 = new AssetPrice(new Map(lst))
-      await collector1.requestTokens(nftPrice / scale)
+      await nevermined.accounts.requestTokens(collector1, nftPrice / scale)      
 
       console.debug(
         `Contract balance (initial) ${await token.balanceOf(escrowPaymentCondition.address)}`,
@@ -202,7 +202,7 @@ function makeTest(isCustom) {
 
       it('Should set the Node as a provider by default', async () => {
         const providers = await nevermined.assets.providers.list(ddo.id)
-        assert.deepEqual(providers, [getAddress(config.neverminedNodeAddress)])
+        assert.deepEqual(providers, [getChecksumAddress(config.neverminedNodeAddress)])
       })
     })
 
@@ -362,7 +362,7 @@ function makeTest(isCustom) {
       })
 
       it('The collector orders the nft', async () => {
-        await collector1.requestTokens(nftPrice / scale)
+        await nevermined.accounts.requestTokens(collector1, nftPrice / scale)              
 
         agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
         assert.isDefined(agreementId)
@@ -437,7 +437,7 @@ function makeTest(isCustom) {
       })
 
       it('Collector1 orders the nft', async () => {
-        await collector1.requestTokens(nftPrice / scale)
+        await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
 
         agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
         assert.isDefined(agreementId)
@@ -464,7 +464,7 @@ function makeTest(isCustom) {
       })
 
       it('Collector 2 setups a service agreement to buy the nft', async () => {
-        await collector2.requestTokens(nftPrice / scale)
+        await nevermined.accounts.requestTokens(collector2, nftPrice / scale)
 
         agreementId2 = await nevermined.nfts1155.order(ddo.id, numberEditions, collector2)
         assert.isDefined(agreementId2)
@@ -497,7 +497,7 @@ function makeTest(isCustom) {
 
         const nftContract = await Nft1155Contract.getInstance(
           (nevermined.keeper as any).instanceConfig,
-          await nft.getAddress(),
+          await nft.address,
         )
 
         await nevermined.contracts.loadNft1155(nftContract.address)

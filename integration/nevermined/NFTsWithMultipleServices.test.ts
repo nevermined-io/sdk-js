@@ -14,7 +14,6 @@ import {
   NFTAttributes,
   ConditionState,
 } from '../../src'
-import { ethers } from 'ethers'
 import { repeat } from '../utils/utils'
 
 let nevermined: Nevermined
@@ -29,7 +28,7 @@ let token: Token
 let service
 let agreementId
 let neverminedNodeAddress
-let nft: ethers.BaseContract
+let nft
 let nftContract: Nft721Contract
 let salesServices
 const totalAmount1 = '100'
@@ -82,7 +81,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
     assetPrice2 = new AssetPrice(publisher.getId(), BigInt(totalAmount2))
 
     try {
-      await collector1.requestTokens(BigInt(totalAmount1) * 10n)
+      await nevermined.accounts.requestTokens(collector1, BigInt(totalAmount1) * 10n)
     } catch (error) {
       console.error(error)
     }

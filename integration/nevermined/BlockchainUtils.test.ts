@@ -2,40 +2,22 @@ import { config } from '../config'
 import { ContractHandler, KeeperError, Nevermined, NvmAccount, Token } from '../../src'
 import { assert } from 'chai'
 import {
-  searchAbiFunction as ethersSearchAbiFunction,
-  getAddress as ethersGetAddress,
-  isAddress as ethersIsAddress,
-  getSignatureOfFunction as ethersGetSignatureOfFunction,
-  getInputsOfFunction as ethersGetInputsOfFunction,
-  getInputsOfFunctionFormatted as ethersGetInputsOfFunctionFormatted,
-  getBytes as ethersGetBytes,
-  zeroPadValue as ethersZeroPadValue,
-  makeWallets as ethersMakeWallets,
-  keccak256 as ethersKeccak256,
-  keccak256Packed as ethersKeccak256Packed,
-  parseUnits as ethersParseUnits,
-  formatUnits as ethersFormatUnits,
-  parseEther as ethersParseEther,
-  formatEther as ethersFormatEther,
-} from '../../src/nevermined/utils/BlockchainEthersUtils'
-import {
   searchAbiFunction,
-  // getAddress,
-  // isAddress,
+  getChecksumAddress,
+  isValidAddress,
   getSignatureOfFunction,
   getInputsOfFunction,
   getInputsOfFunctionFormatted,
-  // getBytes,
-  // zeroPadValue,
-  // makeWallets,
-  // keccak256,
-  // keccak256Packed,
-  // parseUnits,
-  // formatUnits,
-  // parseEther,
-  // formatEther,
+  getBytes,
+  zeroPadValue,
+  makeWallets,
+  keccak256,
+  keccak256Packed,
+  parseUnits,
+  formatUnits,
+  parseEther,
+  formatEther,
 } from '../../src/nevermined/utils/BlockchainViemUtils'
-import { ethers } from 'ethers'
 import { parseAbi } from 'viem'
 
 describe('Blockchain Utils', () => {
@@ -139,27 +121,27 @@ describe('Blockchain Utils', () => {
   })
 
   describe.skip('ETHERS ABI functions', () => {
-    const iface = new ethers.Interface(Token.ERC20_ABI)
+    const abi = parseAbi(Token.ERC20_ABI)
     it(`Should not find a function if doesnt exist`, async () => {
-      assert.throws(() => ethersSearchAbiFunction(iface, 'transferXXX'), KeeperError)
+      assert.throws(() => searchAbiFunction(abi, 'transferXXX'), KeeperError)
     })
 
     it(`Should find an existing function`, async () => {
-      const func = ethersSearchAbiFunction(iface, 'transfer')
+      const func = searchAbiFunction(abi, 'transfer')
       assert.isDefined(func)
     })
 
     it(`Should get a function signature`, async () => {
-      const signature = ethersGetSignatureOfFunction(iface, 'balanceOf', [userAccount.getId()])
+      const signature = getSignatureOfFunction(abi, 'balanceOf', [userAccount.getId()])
       // console.log('Signature:', signature)
       assert.isDefined(signature)
     })
 
     it(`Should get the function inputs`, async () => {
-      const inputs = ethersGetInputsOfFunction(iface, 'approve')
+      const inputs = getSignatureOfFunction(abi, 'approve')
       assert.isDefined(inputs)
 
-      const inputsFormatted = ethersGetInputsOfFunctionFormatted(iface, 'approve')
+      const inputsFormatted = getInputsOfFunction(abi, 'approve')
       // console.log('Inputs Formatted:', inputsFormatted)
       assert.isDefined(inputsFormatted)
     })
@@ -198,21 +180,21 @@ describe('Blockchain Utils', () => {
     const testAddress = '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
 
     it(`Get Address`, async () => {
-      assert.strictEqual(ethersGetAddress(testAddress.toLowerCase()), testAddress)
+      assert.strictEqual(getChecksumAddress(testAddress.toLowerCase()), testAddress)
     })
 
     it(`Is Address`, async () => {
-      assert.isTrue(ethersIsAddress(testAddress))
-      assert.isFalse(ethersIsAddress('0x222222'))
+      assert.isTrue(isValidAddress(testAddress))
+      assert.isFalse(isValidAddress('0x222222'))
     })
 
     it(`Get Bytes`, async () => {
-      assert.isTrue(ethersGetBytes('0x1234').length > 0)
+      assert.isTrue(getBytes('0x1234').length > 0)
     })
 
     it(`ZeroPad`, async () => {
       assert.strictEqual(
-        ethersZeroPadValue('0x', 32),
+        zeroPadValue('0x', 32),
         '0x0000000000000000000000000000000000000000000000000000000000000000',
       )
     })
@@ -223,7 +205,7 @@ describe('Blockchain Utils', () => {
       'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'
 
     it(`Make Wallets`, async () => {
-      const wallets = ethersMakeWallets(TEST_SEED_WORDS, 5)
+      const wallets = makeWallets(TEST_SEED_WORDS, 5)
       assert.isDefined(wallets)
       assert.strictEqual(wallets.length, 5)
     })
@@ -231,7 +213,7 @@ describe('Blockchain Utils', () => {
 
   describe.skip('Hashes', () => {
     it(`keccak256`, async () => {
-      const hash = ethersKeccak256('0x1234')
+      const hash = keccak256('0x1234')
       console.log('Hash:', hash)
       assert.isDefined(hash)
       assert.isTrue(hash.startsWith('0x'))
@@ -240,12 +222,12 @@ describe('Blockchain Utils', () => {
     it(`keccak256Packed`, async () => {
       const args: any = [
         { type: 'address', value: userAccount.getId() },
-        { type: 'bytes32[]', value: [ethersKeccak256('0x1234')] },
+        { type: 'bytes32[]', value: [keccak256('0x1234')] },
         { type: 'uint256[]', value: [0, 1, 0] },
         { type: 'uint256[]', value: [1, 0, 1] },
-        { type: 'bytes32', value: ethersKeccak256('0x1234') },
+        { type: 'bytes32', value: keccak256('0x1234') },
       ]
-      const hash = ethersKeccak256Packed(
+      const hash = keccak256Packed(
         args.map((arg: { type: string }) => arg.type),
         args.map((arg: { value: any }) => arg.value),
       )
@@ -258,21 +240,21 @@ describe('Blockchain Utils', () => {
   describe.skip('Units', () => {
     it(`Parse & Format Units`, async () => {
       const amount = '2.5'
-      const units = ethersParseUnits(amount, 6)
+      const units = parseUnits(amount, 6)
       console.log('Units:', units)
       assert.isTrue(units === 2500000n)
 
-      const formatted = ethersFormatUnits(units, 6)
+      const formatted = formatUnits(units, 6)
       console.log('Formatted:', formatted)
       assert.strictEqual(formatted, '2.5')
     })
 
     it(`Parse & Format Ether`, async () => {
       const amount = '1.5'
-      const units = ethersParseEther(amount)
+      const units = parseEther(amount)
       assert.isTrue(units === 1500000000000000000n)
 
-      const formatted = ethersFormatEther(units)
+      const formatted = formatEther(units)
       console.log('Formatted:', formatted)
       assert.strictEqual(formatted, '1.5')
     })

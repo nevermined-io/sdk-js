@@ -5,14 +5,13 @@ import { getMetadata } from '../utils'
 import { Nevermined, NvmAccount, DDO, NFTAttributes, AssetPrice } from '../../src'
 import { generateId, ZeroAddress, zeroX } from '../../src/utils'
 import { parseEther, TokenUtils } from '../../src/nevermined'
-import { ethers } from 'ethers'
 import { ContractHandler, Nft721Contract, TransferNFT721Condition } from '../../src/keeper'
 
 describe('Nfts721 operations', async () => {
   let nevermined: Nevermined
   let transferNft721Condition: TransferNFT721Condition
 
-  let nft: ethers.BaseContract
+  let nft
   let nftContract: Nft721Contract
 
   let deployer: NvmAccount

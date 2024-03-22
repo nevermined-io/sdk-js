@@ -11,19 +11,21 @@ export class SignatureUtils extends Instantiable {
     this.setInstanceConfig(config)
   }
 
-  public async signText(text: string | Uint8Array, address: string): Promise<string> {
+  public async signText(text: string | Uint8Array, account: string | NvmAccount): Promise<string> {
     const message = typeof text === 'string' ? text : toHex(text)
-    const account = await this.nevermined.accounts.getAccount(address)
+    const nvmAccount = typeof account === 'string' 
+    ? await this.nevermined.accounts.getAccount(account) 
+    : account
 
-    if (account.isZeroDev()) {
+    if (nvmAccount.isZeroDev()) {
       // TODO: Implement ZeroDev signing
       return `0x`
-    } else if (account.accountType.signerType === 'local') {
-      return (account.accountSigner as LocalAccount).signMessage({
+    } else if (nvmAccount.accountType.signerType === 'local') {
+      return (nvmAccount.accountSigner as LocalAccount).signMessage({
         message: message as `0x${string}`,
       })
-    } else if (account.accountType.signerType === 'json-rpc') {
-      const result = this.nevermined.accounts.signTextWithRemoteAccount(text, address)
+    } else if (nvmAccount.accountType.signerType === 'json-rpc') {
+      const result = this.nevermined.accounts.signTextWithRemoteAccount(text, nvmAccount.getAddress())
       return result
     } else {
       throw new NvmAccountError('The account type is not supported for signing')
@@ -34,27 +36,51 @@ export class SignatureUtils extends Instantiable {
     domain: TypedDataDomain,
     types: TypedDataTypes,
     value: Record<string, any>,
-    account: NvmAccount,
+    account: string | NvmAccount,
   ): Promise<string> {
-    if (account.isZeroDev()) {
+    const nvmAccount = typeof account === 'string' 
+      ? await this.nevermined.accounts.getAccount(account) 
+      : account
+
+    if (nvmAccount.isZeroDev()) {
       // TODO: Implement ZeroDev signing
       return `0x`
-    } else if (account.accountType.signerType === 'local') {
-      return await (account.accountSigner as LocalAccount).signTypedData({
+    } else if (nvmAccount.accountType.signerType === 'local') {
+      return await (nvmAccount.accountSigner as LocalAccount).signTypedData({
         domain,
         types: types as any,
         message: value,
         primaryType: '',
       })
-    } else if (account.accountType.signerType === 'json-rpc') {
+    } else if (nvmAccount.accountType.signerType === 'json-rpc') {
       return await this.nevermined.accounts.signTypedData(
         domain,
         types,
         value,
-        account.getAddress(),
+        nvmAccount.getAddress(),
       )
     } else {
       throw new NvmAccountError('The account type is not supported for typed signing')
+    }
+  }
+
+  public async signTransaction(tx: `0x${string}`, account: string | NvmAccount): Promise<string> {
+    const nvmAccount = typeof account === 'string' 
+      ? await this.nevermined.accounts.getAccount(account) 
+      : account
+
+    if (nvmAccount.isZeroDev()) {
+      // TODO: Implement ZeroDev signing
+      return `0x`
+    } else if (nvmAccount.accountType.signerType === 'local') {
+      return (nvmAccount.accountSigner as LocalAccount).signTransaction({
+        data: tx,
+      })
+    } else if (nvmAccount.accountType.signerType === 'json-rpc') {
+      const result = this.nevermined.accounts.signTransactionWithRemoteAccount(tx, nvmAccount.getAddress())
+      return result
+    } else {
+      throw new NvmAccountError('The account type is not supported for signing')
     }
   }
 

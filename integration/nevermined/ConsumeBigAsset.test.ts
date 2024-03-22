@@ -56,7 +56,7 @@ describe.skip('Consume Asset (Large size)', () => {
 
   it('should order the asset', async () => {
     try {
-      await consumer.requestTokens(
+      await nevermined.accounts.requestTokens(consumer,
         ddo.getPriceByService() * 10n ** -BigInt(await nevermined.keeper.token.decimals()),
       )
     } catch (error) {

@@ -10,7 +10,6 @@ import {
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { ethers } from 'ethers'
 import '../globals'
 
 describe('NFTs721 Api End-to-End', () => {
@@ -38,7 +37,7 @@ describe('NFTs721 Api End-to-End', () => {
   let initialBalances: any
   let scale: bigint
 
-  let nft: ethers.BaseContract
+  let nft
   let nftContract: Nft721Contract
 
   let payload: JWTPayload
@@ -150,7 +149,7 @@ describe('NFTs721 Api End-to-End', () => {
     })
 
     it('I am ordering the NFT', async () => {
-      await collector1.requestTokens(nftPrice / scale)
+      await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
 
       const collector1BalanceBefore = await token.balanceOf(collector1.getId())
       assert.equal(initialBalances.collector1 + nftPrice, collector1BalanceBefore)

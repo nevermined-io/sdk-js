@@ -13,7 +13,6 @@ import {
 import { config } from '../config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { NVMAppEnvironments, NvmApp } from '../../src/nevermined/NvmApp'
-import { Signer } from 'ethers'
 import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
 
 chai.use(chaiAsPromised)
@@ -22,7 +21,7 @@ describe('NVM App API', () => {
   describe('LOCAL: As NVM App integrator I want to initialize the api in different ways', () => {
     let nvmApp: NvmApp
     let signerAddress: string
-    let defaultSigner: Signer
+    let defaultSigner: NvmAccount
     let publisher: NvmAccount
     let subscriptionNFTAddress: string
     let subscriptionDid: string

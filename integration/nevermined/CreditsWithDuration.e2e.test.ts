@@ -244,7 +244,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice1)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice1)
 
       subsSalesService = accessServices[0]
       console.debug(`Ordering with index ${subsSalesService.index}`)
@@ -311,7 +311,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
         }] of the subscriber ${subscriber.getId()}`,
       )
 
-      const blockNumber = await nevermined.web3.getBlockNumber()
+      const blockNumber = await nevermined.client.public.getBlockNumber()
       console.log(`Block Number: ${blockNumber}`)
       const balanceAfter = await subscriptionNFT.getContract.balance(
         subscriber.getId(),
@@ -349,7 +349,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
 
     describe('As a subscriber now Im interested in the more expensive service', () => {
       it('I am ordering the subscription NFT', async () => {
-        await subscriber.requestTokens(subscriptionPrice2)
+        await nevermined.accounts.requestTokens(subscriber, subscriptionPrice2)
 
         const balanceBeforeTopup = await subscriptionNFT.balance(
           subscriptionDDO.id,

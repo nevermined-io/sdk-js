@@ -10,7 +10,6 @@ import {
 } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { ethers } from 'ethers'
 import { generateId } from '../../src/utils'
 import '../globals'
 import { mineBlocks } from '../utils/utils'
@@ -38,7 +37,7 @@ describe('Claim aborted agreements End-to-End', () => {
   let scale: bigint
   let neverminedNodeAddress: string
 
-  let nft: ethers.BaseContract
+  let nft
   let nftContract: Nft721Contract
 
   let payload: JWTPayload
@@ -101,7 +100,7 @@ describe('Claim aborted agreements End-to-End', () => {
     )
 
     await nftContract.grantOperatorRole(transferNft721Condition.address, publisher)
-    await collector1.requestTokens((nftPrice / scale) * 10n)
+    await nevermined.accounts.requestTokens(collector1, (nftPrice / scale) * 10n)
   })
 
   describe('As a publisher I want to register a new asset', () => {

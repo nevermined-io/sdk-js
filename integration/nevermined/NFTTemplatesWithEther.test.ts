@@ -32,6 +32,7 @@ import {
 } from '../../src/nevermined'
 import { EventLog } from 'ethers'
 
+
 describe('NFTTemplates With Ether E2E', async () => {
   let artist: NvmAccount
   let collector1: NvmAccount
@@ -133,14 +134,12 @@ describe('NFTTemplates With Ether E2E', async () => {
     before(async () => {
       // initial balances
       initialBalances = {
-        artist: await artist.getEtherBalance(),
-        collector1: await collector1.getEtherBalance(),
-        collector2: await collector2.getEtherBalance(),
-        gallery: await gallery.getEtherBalance(),
-        governor: await governor.getEtherBalance(),
-        escrowPaymentCondition: await nevermined.accounts
-          .getAccount(escrowPaymentCondition.address)
-          .getEtherBalance(),
+        artist: await nevermined.accounts.getEtherBalance(artist),
+        collector1: await nevermined.accounts.getEtherBalance(collector1),
+        collector2: await nevermined.accounts.getEtherBalance(collector2),
+        gallery: await nevermined.accounts.getEtherBalance(gallery),
+        governor: await nevermined.accounts.getEtherBalance(governor),
+        escrowPaymentCondition: await nevermined.accounts.getEtherBalance(escrowPaymentCondition.address),
       }
 
       agreementIdSeed = generateId()
@@ -244,7 +243,7 @@ describe('NFTTemplates With Ether E2E', async () => {
           sender,
         )
 
-        assert.equal(result.status, 1)
+        assert.equal(result.status, 'success')
         assert.isTrue(
           (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
         )
@@ -329,17 +328,13 @@ describe('NFTTemplates With Ether E2E', async () => {
         assert.equal(state, ConditionState.Fulfilled)
 
         const escrowPaymentConditionBalance = await nevermined.accounts
-          .getAccount(escrowPaymentCondition.address)
-          .getEtherBalance()
+          .getEtherBalance(escrowPaymentCondition.address)
         const receiver0Balance = await nevermined.accounts
-          .getAccount(receivers[0])
-          .getEtherBalance()
+          .getEtherBalance(receivers[0])          
         const receiver1Balance = await nevermined.accounts
-          .getAccount(receivers[1])
-          .getEtherBalance()
+          .getEtherBalance(receivers[1])          
         const receiver2Balance = await nevermined.accounts
-          .getAccount(receivers[2])
-          .getEtherBalance()
+          .getEtherBalance(receivers[2])          
 
         // for this assert we use a delta to account for the transaction fees
         // of all the transactions from the artist
@@ -372,7 +367,7 @@ describe('NFTTemplates With Ether E2E', async () => {
           [0, 0],
           [collector1.getId()],
         )
-        assert.equal(result.status, 1)
+        assert.equal(result.status, 'success')
         assert.isTrue(
           (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
         )

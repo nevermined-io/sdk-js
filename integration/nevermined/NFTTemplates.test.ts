@@ -244,7 +244,7 @@ describe('NFTTemplates E2E', () => {
           [collector1.getId()],
           collector1,
         )
-        assert.equal(result.status, 1)
+        assert.equal(result.status, 'success')
         assert.isTrue(
           (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
         )
@@ -264,7 +264,7 @@ describe('NFTTemplates E2E', () => {
       })
 
       it('I am locking the payment', async () => {
-        await collector1.requestTokens(nftPrice / scale)
+        await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
         const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
         const collector1BalanceBefore = await token.balanceOf(collector1.getId())
         assert.equal(collector1BalanceBefore, initialBalances.collector1 + nftPrice)
@@ -382,7 +382,7 @@ describe('NFTTemplates E2E', () => {
           [collector1.getId()],
           collector1,
         )
-        assert.equal(result.status, 1)
+        assert.equal(result.status, 'success')
         assert.isTrue(
           (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
         )
@@ -480,7 +480,7 @@ describe('NFTTemplates E2E', () => {
           [collector2.getId()],
           collector2,
         )
-        assert.equal(result.status, 1)
+        assert.equal(result.status, 'success')
         assert.isTrue(
           (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
         )
@@ -648,7 +648,7 @@ describe('NFTTemplates E2E', () => {
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
 
-      await collector1.requestTokens(nftPrice / scale)
+      await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
     })
 
     describe('As an artist I want to register a new artwork', () => {
@@ -814,7 +814,7 @@ describe('NFTTemplates E2E', () => {
       })
 
       it('As collector2 I am locking the payment', async () => {
-        await collector2.requestTokens(nftPrice2 / scale)
+        await nevermined.accounts.requestTokens(collector2, nftPrice2 / scale)
 
         const collector2BalanceBefore = await token.balanceOf(collector2.getId())
         assert.equal(collector2BalanceBefore, initialBalances.collector2 + nftPrice2)
@@ -983,7 +983,7 @@ describe('NFTTemplates E2E', () => {
       })
 
       it('I am locking the payment', async () => {
-        await collector1.requestTokens(nftPrice / scale)
+        await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
 
         const collector1BalanceBefore = await token.balanceOf(collector1.getId())
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(

@@ -55,10 +55,21 @@ export class AccountsApi extends Instantiable {
     text: string | Uint8Array,
     from: string,
   ): Promise<`0x${string}`> {
-    const message = typeof text === 'string' ? text : toHex(text)
+    const message = typeof text === 'string' ? text : toHex(text)    
     return await this.walletClient.signMessage({
       account: from as `0x${string}`,
       message: message as `0x${string}`,
+    })
+  }
+
+  public async signTransactionWithRemoteAccount(
+    data: `0x${string}`,
+    from: string,
+  ): Promise<`0x${string}`> {
+    return await this.walletClient.signTransaction({
+      data,
+      account: from as `0x${string}`,
+      chain: this.client.chain
     })
   }
 
@@ -85,19 +96,23 @@ export class AccountsApi extends Instantiable {
    * @returns {@link true} if the call was successful. {@link false} otherwise.
    */
   public async requestTokens(
-    account: NvmAccount,
-    amount: number,
+    account: NvmAccount | string,
+    amount: bigint,
     txParams?: txParams,
   ): Promise<boolean> {
     try {
+      const nvmAccount = typeof account === 'string' 
+    ? await this.nevermined.accounts.getAccount(account) 
+    : account
+
       if (!this.nevermined.keeper.dispenser) {
         this.logger.log('Dispenser not available on this network.')
         return false
       }
-      await this.nevermined.keeper.dispenser.requestTokens(amount, account.getId(), txParams)
+      await this.nevermined.keeper.dispenser.requestTokens(amount, nvmAccount.getAddress(), txParams)
       return true
     } catch (e) {
-      this.logger.log(`Error requesting tokens - receiver[${account.getId()}]: ${e}`)
+      this.logger.log(`Error requesting tokens: ${e}`)
       return false
     }
   }
@@ -106,18 +121,20 @@ export class AccountsApi extends Instantiable {
    * Balance of Nevermined Token.
    * @returns
    */
-  public async getNeverminedBalance(address: string): Promise<bigint> {
+  public async getNeverminedBalance(address: string | NvmAccount): Promise<bigint> {
+    const accountAddress = address instanceof NvmAccount ? address.getAddress() : address as `0x${string}`
     const { token } = this.nevermined.keeper
     if (!token) return 0n
-    return ((await token.balanceOf(address)) / 10n) * BigInt(await token.decimals())
+    return ((await token.balanceOf(accountAddress)) / 10n) * BigInt(await token.decimals())
   }
 
   /**
    * Balance of Ether.
    * @returns
    */
-  public async getEtherBalance(address: string): Promise<bigint> {
-    return this.client.public.getBalance({ address: address as `0x${string}` })
+  public async getEtherBalance(address: string | NvmAccount): Promise<bigint> {
+    const accountAddress = address instanceof NvmAccount ? address.getAddress() : address as `0x${string}`
+    return this.client.public.getBalance({ address: accountAddress })
   }
 
   /**

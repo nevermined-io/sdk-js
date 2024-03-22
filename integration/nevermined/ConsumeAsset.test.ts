@@ -68,16 +68,17 @@ describe('Consume Asset', () => {
   })
 
   it('should be able to request tokens for consumer', async () => {
-    const initialBalance = (await consumer.getBalance()).nevermined
+    const initialBalance = await nevermined.accounts.getNeverminedBalance(consumer)
+    //(await consumer.getBalance()).nevermined
     const claimedTokens = 100n
 
     try {
-      await consumer.requestTokens(claimedTokens)
+      await nevermined.accounts.requestTokens(consumer, claimedTokens)      
     } catch (error) {
       Logger.error(error)
     }
 
-    const balanceAfter = (await consumer.getBalance()).nevermined
+    const balanceAfter = await nevermined.accounts.getNeverminedBalance(consumer)
     assert.isTrue(balanceAfter > initialBalance)
   })
 

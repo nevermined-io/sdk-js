@@ -8,7 +8,6 @@ import {
   NvmAccount,
   AssetAttributes,
   makeWallets,
-  makeWalletFromEncryptedJson,
 } from '../../src'
 
 import * as keyFile from '../KeyFile.json'
