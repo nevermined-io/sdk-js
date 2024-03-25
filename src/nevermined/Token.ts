@@ -70,7 +70,7 @@ export class TokenUtils extends Instantiable {
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded, {@link false} otherwise
    */
-  public async request(account: NvmAccount, amount: number, params?: txParams): Promise<boolean> {
+  public async request(account: NvmAccount, amount: bigint, params?: txParams): Promise<boolean> {
     try {
       await this.nevermined.accounts.requestTokens(account, amount, params)
       return true

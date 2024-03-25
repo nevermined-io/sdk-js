@@ -155,10 +155,10 @@ export class JwtUtils extends Instantiable {
     const address = account.getId().toLowerCase()
 
     // Currently only works with HDWalletProvider
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // eslint-disable-next-line
     // @ts-ignore
     const publicKey = this.web3.currentProvider.wallets[address].getPublicKey()
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // eslint-disable-next-line
     // @ts-ignore
     const privateKey = this.web3.currentProvider.wallets[address].getPrivateKey()
 

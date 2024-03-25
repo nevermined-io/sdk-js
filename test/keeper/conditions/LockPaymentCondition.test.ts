@@ -25,6 +25,7 @@ describe('LockPaymentCondition', () => {
   const amount = 15n
   let agreementId
   let did
+  let nevermined
 
   beforeEach(() => {
     agreementId = generateId(64)
@@ -34,7 +35,7 @@ describe('LockPaymentCondition', () => {
   before(async () => {
     await TestContractHandler.prepareContracts()
 
-    const nevermined = await Nevermined.getInstance(config)
+    nevermined = await Nevermined.getInstance(config)
     await nevermined.keeper.nvmConfig.setNetworkFees(0, ZeroAddress)
     ;({ conditionStoreManager } = nevermined.keeper)
     ;({ lockPaymentCondition, escrowPaymentCondition } = nevermined.keeper.conditions)
@@ -85,7 +86,7 @@ describe('LockPaymentCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, lockPaymentCondition.address, owner)
 
-      await buyer.requestTokens(assetPrice.getTotalPrice())
+      await nevermined.accounts.requestTokens(buyer, assetPrice.getTotalPrice())
 
       await token.approve(lockPaymentCondition.address, assetPrice.getTotalPrice(), buyer)
 

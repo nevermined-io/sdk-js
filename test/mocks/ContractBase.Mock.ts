@@ -1,9 +1,9 @@
-import { ethers } from 'ethers'
 import { ContractEvent, EventHandler } from '../../src/events'
 import { TxParameters, ContractBase } from '../../src/keeper'
+import { parseAbi } from 'viem'
 
 export default class ContractBaseMock extends ContractBase {
-    public interface: ethers.Interface
+    public interface
     public async initMock(config: any) {
         await this.init(config)
         const eventEmitter = new EventHandler()
@@ -11,9 +11,9 @@ export default class ContractBaseMock extends ContractBase {
             this,
             eventEmitter,
             this.nevermined,
-            
+            this.nevermined.client            
         )
-        this.interface = new ethers.Interface(['function name() view returns (string)'])
+        this.interface = parseAbi(['function name() view returns (string)'])
     }
 
     public async callMock(name: string, args: any[], from?: string) {

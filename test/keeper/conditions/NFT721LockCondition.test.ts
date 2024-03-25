@@ -8,7 +8,7 @@ import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { NFT721Api } from '../../../src'
 import { DIDRegistry } from '../../../src/keeper'
-import { ContractTransactionReceipt, EventLog, BaseContract } from 'ethers'
+import { EventLog, BaseContract } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -90,7 +90,7 @@ describe('NFT721LockCondition', () => {
       )
       const conditionId = await nft721LockCondition.generateId(agreementId, hashValues)
       await conditionStoreManager.createCondition(conditionId, nft721LockCondition.address, owner)
-      const contractReceipt: ContractTransactionReceipt = await nft721LockCondition.fulfill(
+      const contractReceipt = await nft721LockCondition.fulfill(
         agreementId,
         did,
         lockAddress.getId(),

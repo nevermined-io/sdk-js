@@ -41,7 +41,6 @@ export interface ConditionInstance<Extra> extends ConditionInstanceSmall {
 export const conditionStateNames = ['Uninitialized', 'Unfulfilled', 'Fulfilled', 'Aborted']
 
 export abstract class ConditionSmall extends ContractBase {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // public static async getInstance<Ctx extends ConditionContext, Extra>(
   public static async getInstance(
     config: InstantiableConfig,
@@ -74,7 +73,7 @@ export abstract class ConditionSmall extends ContractBase {
     return this.generateId(agreementId, await this.hashValues(...values))
   }
 
-  public generateId(agreementId: string, valueHash: string) {
+  public generateId(agreementId: string, valueHash: string): Promise<`0x${string}`> {
     return this.call('generateId', [zeroX(agreementId), valueHash])
   }
 

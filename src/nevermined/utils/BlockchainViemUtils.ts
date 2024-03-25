@@ -32,17 +32,6 @@ export class BlockchainViemUtils extends Instantiable {
     args: string[] = [],
   ) {
     this.logger.debug(`Deploying abi using account: ${from.getId()}`)
-    let isZos
-    try {
-      const initializeFunc = searchAbiFunction(artifact.abi, 'initialize')
-      isZos = initializeFunc ? true : false
-      this.logger.debug(`Initialize function: ${JSON.stringify(initializeFunc)}`)
-      this.logger.debug(JSON.stringify(args))
-    } catch (error) {
-      isZos = false
-    }
-
-    this.logger.debug(`Is ZOS: ${isZos}`)
 
     const addresses = await this.walletClient.getAddresses()
     addresses.map((address) => this.logger.debug(`Address: ${address}`))
@@ -69,6 +58,23 @@ export class BlockchainViemUtils extends Instantiable {
       // @ts-expect-error "viem, wtf?"
       client: { wallet: this.client.wallet, public: this.client.public },
     })
+
+    let isZos
+    try {
+      const initializeFunc = searchAbiFunction(artifact.abi, 'initialize')
+      isZos = initializeFunc ? true : false
+      this.logger.debug(`Initialize function: ${JSON.stringify(initializeFunc)}`)
+      this.logger.debug(JSON.stringify(args))
+
+      this.logger.debug(`Is ZOS: ${isZos}`)
+      if (isZos) {
+        // @ts-expect-error "viem, wtf?"
+        await contract.write.initialize(...args)
+      }
+    } catch (error) {
+      isZos = false
+    }
+
     return contract
 
     // const initArgs = isZos ? [] : args

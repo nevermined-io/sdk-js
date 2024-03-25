@@ -1,7 +1,7 @@
 import { assert } from 'chai'
 import { NvmAccount } from '../../src/nevermined'
 import { Nevermined } from '../../src/nevermined'
-import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainEthersUtils'
+import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainViemUtils'
 import config from '../config'
 import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'

@@ -7,7 +7,6 @@ import TestContractHandler from './TestContractHandler'
 import { Logger, LogLevel } from '../../src/utils'
 import { ContractTransactionReceipt, ethers, EventLog } from 'ethers'
 import { TxParameters } from '../../src/keeper'
-import { getWeb3EthersProvider } from '../../src'
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
@@ -26,7 +25,7 @@ describe('DIDRegistry', () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const did = generateId()
       const data = 'my nice provider, is nice'
-      const contractReceipt: ContractTransactionReceipt = await didRegistry.registerAttribute(
+      const contractReceipt = await didRegistry.registerAttribute(
         did,
         checksum,
         [],

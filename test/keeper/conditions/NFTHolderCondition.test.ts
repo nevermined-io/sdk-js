@@ -16,7 +16,7 @@ import {
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
+import { EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -101,7 +101,7 @@ describe('NFTHolderCondition', () => {
 
       await nftUpgradeable.mint(holder.getId(), did, 10n, owner.getId())
 
-      const contractReceipt: ContractTransactionReceipt = await nftHolderCondition.fulfill(
+      const contractReceipt = await nftHolderCondition.fulfill(
         agreementId,
         did,
         holder.getId(),

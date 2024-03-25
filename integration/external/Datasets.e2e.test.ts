@@ -21,7 +21,7 @@ import {
   RoyaltyKind,
   NFT721Api,
   SubscriptionNFTApi,
-  getAddress,
+  getChecksumAddress,
 } from '../../src/nevermined'
 
 describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
@@ -235,7 +235,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice / scale)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
       assert.isTrue(subscriberBalanceBefore == initialBalances.subscriber + subscriptionPrice)
@@ -307,7 +307,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getChecksumAddress(eventValues._receiver), subscriber.getId())
     })
 
     it('The Subscriber should have an NFT balance', async () => {

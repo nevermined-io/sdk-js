@@ -2,8 +2,12 @@
   "compilerOptions": {
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "lib": ["es6", "es7", "dom", "ES2020"],
-    "target": "ES2020",
+    "lib": [
+      "ES2022", // By using ES2022 we get access to the `.cause` property on `Error` instances.
+      "DOM" // We are adding `DOM` here to get the `fetch`, etc. types. This should be removed once these types are available via DefinitelyTyped.
+    ],
+    //"lib": ["es6", "es7", "dom", "ES2020"],
+    "target": "ES2021",
     "noUnusedLocals": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true

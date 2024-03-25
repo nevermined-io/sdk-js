@@ -19,7 +19,7 @@ import {
 import { didZeroX, ZeroAddress, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
+import { EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -152,7 +152,7 @@ describe('TransferNFTCondition', () => {
       )
       await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
 
-      await nftReceiver.requestTokens(10)
+      await nevermined.accounts.requestTokens(nftReceiver, 10n)
       await nevermined.keeper.token.approve(lockPaymentCondition.address, 10n, nftReceiver)
 
       await lockPaymentCondition.fulfill(
@@ -179,7 +179,7 @@ describe('TransferNFTCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, transferNftCondition.address, owner)
 
-      const contractReceipt: ContractTransactionReceipt = await transferNftCondition.fulfill(
+      const contractReceipt = await transferNftCondition.fulfill(
         agreementId,
         did,
         nftReceiver.getId(),
@@ -282,7 +282,7 @@ describe('TransferNFTCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, transferNftCondition.address, owner)
 
-      const contractReceipt: ContractTransactionReceipt = await transferNftCondition.fulfill(
+      const contractReceipt = await transferNftCondition.fulfill(
         agreementId,
         did,
         nftReceiver.getId(),
@@ -359,7 +359,7 @@ describe('TransferNFTCondition', () => {
       )
       await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
 
-      await nftReceiver.requestTokens(10)
+      await nevermined.accounts.requestTokens(nftReceiver, 10n)
       await nevermined.keeper.token.approve(lockPaymentCondition.address, 10n, nftReceiver)
 
       await lockPaymentCondition.fulfill(
@@ -395,6 +395,7 @@ describe('TransferNFTCondition', () => {
           nftUpgradeable.address,
           conditionIdPayment,
           true,
+          0,
           other,
         ),
       )

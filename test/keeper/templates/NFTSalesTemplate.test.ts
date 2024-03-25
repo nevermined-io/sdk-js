@@ -11,7 +11,6 @@ import {
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -110,7 +109,7 @@ describe('NFTSalesTemplate', () => {
       await didRegistry.registerAttribute(didSeed, checksum, [], url, sender.getId())
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
-      const contractReceipt: ContractTransactionReceipt = await nftSalesTemplate.createAgreement(
+      const txHash = await nftSalesTemplate.createAgreement(
         agreementIdSeed,
         didZeroX(did),
         conditionIdSeeds,
@@ -119,13 +118,32 @@ describe('NFTSalesTemplate', () => {
         [receiver.getId()],
         sender,
       )
-      assert.equal(contractReceipt.status, 1)
-      assert.isTrue(contractReceipt.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+      const tx = await nevermined.client.public.waitForTransactionReceipt({
+        hash: txHash.transactionHash,
+      })
+      assert.equal(tx.status, 'success')
 
-      const event: EventLog = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'AgreementCreated',
-      ) as EventLog
-      const { _agreementId, _did } = event.args
+      const logs = nftSalesTemplate.getTransactionLogs(tx, 'AgreementCreated')
+      assert.isTrue(logs.length > 0)
+      const e = nftSalesTemplate.someLog(logs)
+      const _agreementId = e.args['_agreementId']
+      const _did = e.args['_did']
+      // logs.some((log) => {
+      //   // @ts-expect-error "viem, wtf?"
+      //   assert.equal(log.args['_agreementId'], zeroX(agreementId))
+      //   // @ts-expect-error "viem, wtf?"
+      //   assert.equal(log.args['_did'], didZeroX(did))
+      // })
+      // nftSalesTemplate.decodeLog(tx.logs)
+      // const event = tx.logs[0]
+      // event.
+      // const _agreementId = event.args['_agreementId']
+      //assert.isTrue(contractReceipt.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+
+      // const event: EventLog = contractReceipt.logs.find(
+      //   (e: EventLog) => e.eventName === 'AgreementCreated',
+      // ) as EventLog
+      // const { _agreementId, _did } = event.args
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))
 

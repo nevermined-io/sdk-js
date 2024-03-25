@@ -200,7 +200,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       if (publicationOptions.metadata != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(CreateProgressStep.DdoStoredImmutable)
         try {
-          // eslint-disable-next-line @typescript-eslint/no-extra-semi
+          // eslint-disable-next-line
           ;({ url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } =
             await this.nevermined.services.node.publishImmutableContent(
               ddo,
@@ -417,7 +417,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       if (publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(UpdateProgressStep.StoringImmutableDDO)
         try {
-          // eslint-disable-next-line @typescript-eslint/no-extra-semi
+          // eslint-disable-next-line
           ;({ url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } =
             await this.nevermined.services.node.publishImmutableContent(
               ddo,

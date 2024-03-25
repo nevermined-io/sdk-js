@@ -65,7 +65,7 @@ export abstract class ContractBase extends Instantiable {
 
   protected async getFromAddress(from?: string): Promise<string> {
     if (!from) {
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
+      // eslint-disable-next-line
       ;[from] = await this.nevermined.accounts.addresses()
     }
     return from
@@ -78,6 +78,13 @@ export abstract class ContractBase extends Instantiable {
       eventName,
       strict: false,
     })
+  }
+
+  public someLog(logs: any[]) {
+    logs.some((e: any) => {
+      return e.args
+    })
+    return undefined
   }
 
   public async sendFrom(

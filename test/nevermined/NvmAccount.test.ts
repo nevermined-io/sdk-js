@@ -7,6 +7,7 @@ import { NvmAccount, makeRandomWallet } from '../../src'
 // let nevermined: Nevermined
 
 describe('NvmAccount', () => {
+  console.log(`TEST!!!!`)
   before(async () => {
     // await TestContractHandler.prepareContracts()
     // nevermined = await Nevermined.getInstance(config)

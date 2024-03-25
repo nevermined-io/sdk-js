@@ -12,7 +12,7 @@ import {
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
+import { EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -117,8 +117,12 @@ describe('TransferDIDOwnershipCondition', () => {
       const storedDIDRegister: any = await didRegistry.getDIDRegister(did)
       assert.equal(storedDIDRegister.owner, owner.getId())
 
-      const contractReceipt: ContractTransactionReceipt =
-        await transferDidOwnershipCondition.fulfill(agreementId, did, receiver.getId(), owner)
+      const contractReceipt = await transferDidOwnershipCondition.fulfill(
+        agreementId,
+        did,
+        receiver.getId(),
+        owner,
+      )
 
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)

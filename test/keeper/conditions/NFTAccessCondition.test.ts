@@ -13,7 +13,7 @@ import { DIDRegistry } from '../../../src/keeper'
 import { didZeroX, zeroX } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
+import { EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -105,11 +105,7 @@ describe('NFTAccessCondition', () => {
         templateId,
       )
 
-      const contractReceipt: ContractTransactionReceipt = await nftAccessCondition.fulfill(
-        agreementId,
-        did,
-        grantee.getId(),
-      )
+      const contractReceipt = await nftAccessCondition.fulfill(agreementId, did, grantee.getId())
 
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)

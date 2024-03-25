@@ -3,40 +3,36 @@ import * as KeeperUtils from '../../src/keeper/utils'
 import Logger from '../../src/utils/Logger'
 import config from '../config'
 import { ZeroAddress } from '../../src/utils'
-import { ContractTransactionReceipt, ContractTransactionResponse, ethers } from 'ethers'
 import fs from 'fs'
-import {
-  NeverminedOptions,
-  Web3Clients,
-  getWeb3EthersProvider,
-  getWeb3ViemClients,
-} from '../../src'
-import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainEthersUtils'
+import { keccak256, NeverminedOptions, Web3Clients, NvmAccount, Nevermined } from '../../src'
 
 export default abstract class TestContractHandler extends ContractHandler {
+  private static networkId: number
+  private static minter: string
+  private static config = config
+  // private static web3: ethers.JsonRpcProvider | ethers.BrowserProvider
+  private static client: Web3Clients
+  private static nevermined: Nevermined
+
   public static async prepareContracts(): Promise<string> {
-    await TestContractHandler.setConfig(config)
+    // await TestContractHandler.setConfig(config)
+    TestContractHandler.config = config
+    TestContractHandler.nevermined = await Nevermined.getInstance(config)
 
     const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
     TestContractHandler.networkId = await TestContractHandler.client.public.getChainId() //TestContractHandler.web3 //Number((await TestContractHandler.web3.getNetwork()).chainId)
-    TestContractHandler.minter = ethers.encodeBytes32String('minter')
+    TestContractHandler.minter = keccak256('minter')
 
     // deploy contracts
     await TestContractHandler.deployContracts(deployerAddress)
     return deployerAddress
   }
 
-  private static networkId: number
-  private static minter: string
-  private static config = config
-  private static web3: ethers.JsonRpcProvider | ethers.BrowserProvider
-  private static client: Web3Clients
-
-  public static async setConfig(config) {
-    TestContractHandler.config = config
-    TestContractHandler.web3 = await getWeb3EthersProvider(TestContractHandler.config)
-    TestContractHandler.client = getWeb3ViemClients(TestContractHandler.config)
-  }
+  // public static async setConfig(config) {
+  //   TestContractHandler.config = config
+  //   // TestContractHandler.web3 = await getWeb3EthersProvider(TestContractHandler.config)
+  //   // TestContractHandler.client = await getWeb3ViemClients(TestContractHandler.config)
+  // }
 
   private static async deployContracts(deployerAddress: string) {
     Logger.log('Trying to deploy contracts')
@@ -66,17 +62,22 @@ export default abstract class TestContractHandler extends ContractHandler {
 
     // Add dispenser as Token minter
 
-    const signer = await TestContractHandler.findSignerStatic(
-      TestContractHandler.config,
-      TestContractHandler.web3,
-      deployerAddress,
-    )
-    const contract = token.connect(signer)
+    // const nvmAccount = await TestContractHandler.findNvmAccount(
+    //   TestContractHandler.config,
+    //   TestContractHandler.client,
+    //   deployerAddress,
+    // )
+    //const contract = token.connect(signer)
     const args = [TestContractHandler.minter, await dispenser.getAddress()]
-    const methodSignature = getSignatureOfFunction(contract.interface, 'grantRole', args)
-    let transactionResponse: ContractTransactionResponse = await contract[methodSignature](...args)
-    let contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
-    if (contractReceipt.status !== 1) {
+    // const methodSignature = getSignatureOfFunction(token.interface, 'grantRole', args)
+    // let transactionResponse: ContractTransactionResponse = await contract[methodSignature](...args)
+    // let contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
+    // if (contractReceipt.status !== 1) {
+    //   throw new Error('Error calling "grantRole" on "token"')
+    // }
+    let txHash = await token.write.grantRole(args)
+    let tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    if (tx.status !== 'success') {
       throw new Error('Error calling "grantRole" on "token"')
     }
 
@@ -111,13 +112,18 @@ export default abstract class TestContractHandler extends ContractHandler {
       await nvmConfig.getAddress(),
     ])
 
-    transactionResponse = await didRegistry.connect(signer).getFunction('setNFT1155')(
-      await erc1155.getAddress(),
-    )
-    contractReceipt = await transactionResponse.wait()
-    if (contractReceipt.status !== 1) {
+    txHash = didRegistry.write.setNFT1155(await erc1155.getAddress())
+    tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    if (tx.status !== 'success') {
       throw new Error('Error calling "setNFT1155" on "didRegistry"')
     }
+    // transactionResponse = await didRegistry.connect(nvmAccount).getFunction('setNFT1155')(
+    //   await erc1155.getAddress(),
+    // )
+    // contractReceipt = await transactionResponse.wait()
+    // if (contractReceipt.status !== 1) {
+    //   throw new Error('Error calling "setNFT1155" on "didRegistry"')
+    // }
 
     // Managers
     const templateStoreManager = await TestContractHandler.deployContract(
@@ -175,13 +181,19 @@ export default abstract class TestContractHandler extends ContractHandler {
       deployerAddress,
       [deployerAddress, await conditionStoreManager.getAddress(), await erc1155.getAddress()],
     )
-    transactionResponse = await erc1155.connect(signer).getFunction('grantOperatorRole')(
-      await nftLockCondition.getAddress(),
-    )
-    contractReceipt = await transactionResponse.wait()
-    if (contractReceipt.status !== 1) {
-      throw new Error('Error calling "grantOperatorRole" on "erc1155"')
+    txHash = erc1155.write.grantOperatorRole(await nftLockCondition.getAddress())
+    tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    if (tx.status !== 'success') {
+      throw new Error('Error calling "grantOperatorRole" on "erc1155" - nftLockCondition')
     }
+
+    // transactionResponse = await erc1155.connect(nvmAccount).getFunction('grantOperatorRole')(
+    //   await nftLockCondition.getAddress(),
+    // )
+    // contractReceipt = await transactionResponse.wait()
+    // if (contractReceipt.status !== 1) {
+    //   throw new Error('Error calling "grantOperatorRole" on "erc1155"')
+    // }
 
     const nftAcessCondition = await TestContractHandler.deployContract(
       'NFTAccessCondition',
@@ -213,20 +225,30 @@ export default abstract class TestContractHandler extends ContractHandler {
       ],
     )
 
-    transactionResponse = await erc1155.connect(signer).getFunction('grantOperatorRole')(
-      await transferNftCondition.getAddress(),
-    )
-    contractReceipt = await transactionResponse.wait()
-    if (contractReceipt.status !== 1) {
-      throw new Error('Error calling "grantOperatorRole" on "erc721"')
+    txHash = erc1155.write.grantOperatorRole(await transferNftCondition.getAddress())
+    tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    if (tx.status !== 'success') {
+      throw new Error('Error calling "grantOperatorRole" on "erc1155" - transferNftCondition')
     }
+    // transactionResponse = await erc1155.connect(nvmAccount).getFunction('grantOperatorRole')(
+    //   await transferNftCondition.getAddress(),
+    // )
+    // contractReceipt = await transactionResponse.wait()
+    // if (contractReceipt.status !== 1) {
+    //   throw new Error('Error calling "grantOperatorRole" on "erc721"')
+    // }
 
-    transactionResponse = await erc1155.connect(signer).getFunction('grantOperatorRole')(
-      await didRegistry.getAddress(),
-    )
-    contractReceipt = await transactionResponse.wait()
-    if (contractReceipt.status !== 1) {
-      throw new Error('Error calling "grantOperatorRole" on "erc721"')
+    // transactionResponse = await erc1155.connect(nvmAccount).getFunction('grantOperatorRole')(
+    //   await didRegistry.getAddress(),
+    // )
+    // contractReceipt = await transactionResponse.wait()
+    // if (contractReceipt.status !== 1) {
+    //   throw new Error('Error calling "grantOperatorRole" on "erc721"')
+    // }
+    txHash = erc1155.write.grantOperatorRole(await didRegistry.getAddress())
+    tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    if (tx.status !== 'success') {
+      throw new Error('Error calling "grantOperatorRole" on "erc1155" - didRegistry')
     }
 
     const transferDidOwnershipCondition = await TestContractHandler.deployContract(
@@ -291,15 +313,15 @@ export default abstract class TestContractHandler extends ContractHandler {
     ])
   }
 
-  public static async findSignerStatic(
+  public static async findNvmAccount(
     config: NeverminedOptions,
-    web3: ethers.JsonRpcProvider | ethers.BrowserProvider,
+    client: Web3Clients,
     from: string,
-  ): Promise<ethers.Signer> {
+  ): Promise<NvmAccount> {
     for (const acc of config.accounts || []) {
       const addr = await acc.getAddress()
       if (addr.toLowerCase() === from.toLowerCase()) {
-        return acc.connect(web3)
+        return acc
       }
     }
   }
@@ -314,10 +336,10 @@ export default abstract class TestContractHandler extends ContractHandler {
     args: any[] = [],
     tokens: { [name: string]: string } = {},
     init = true,
-  ): Promise<ethers.BaseContract> {
+  ) {
     const where = TestContractHandler.networkId
 
-    let contractInstance: ethers.BaseContract
+    let contractInstance
     try {
       const networkName = (
         await KeeperUtils.getNetworkName(TestContractHandler.networkId)
@@ -326,6 +348,7 @@ export default abstract class TestContractHandler extends ContractHandler {
       const artifact = JSON.parse(
         fs.readFileSync(`./artifacts/${name}.${networkName}.json`).toString(),
       )
+
       contractInstance = await TestContractHandler.deployArtifact(
         artifact,
         from,
@@ -353,59 +376,77 @@ export default abstract class TestContractHandler extends ContractHandler {
     from?: string,
     args = [],
     tokens = {},
-    init = true,
-  ): Promise<ethers.BaseContract> {
+    _init = true,
+  ) {
     if (!from) {
       // eslint-disable-next-line @typescript-eslint/no-extra-semi
       ;[from] = await TestContractHandler.addresses(TestContractHandler.config)
     }
 
-    const sendConfig = {
-      gasLimit: 6721975,
-      gasPrice: '0x87500000',
-    }
+    // const sendConfig = {
+    //   gasLimit: 6721975,
+    //   gasPrice: '0x87500000',
+    // }
 
-    const signer = await TestContractHandler.findSignerStatic(
+    const nvmAccount = await TestContractHandler.findNvmAccount(
       TestContractHandler.config,
-      TestContractHandler.web3,
+      TestContractHandler.client,
       from,
     )
-    const tempContract = new ethers.ContractFactory(
-      artifact.abi,
-      TestContractHandler.replaceTokens(artifact.bytecode, tokens),
-      signer,
-    )
-    const initializeExists = tempContract.interface.hasFunction('initialize')
-    const isZos = initializeExists && init
-
-    Logger.debug({
-      name: artifact.name,
-      from,
-      isZos,
-      args,
-      libraries: artifact.bytecode
-        .replace(/(0x)?[a-f0-9]{8}/gi, '')
-        .replace(/__([^_]+)_*[0-9a-f]{2}/g, '|$1')
-        .split('|')
-        .splice(1),
-    })
-
-    const argument = isZos ? [] : args
-    const contractInstance: ethers.BaseContract = await tempContract.deploy(...argument, sendConfig)
-    await contractInstance.waitForDeployment()
-
-    if (isZos) {
-      const methodSignature = getSignatureOfFunction(contractInstance.interface, 'initialize', args)
-      const contract = contractInstance.connect(signer)
-      const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
-        ...args,
-        sendConfig,
-      )
-      const contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
-      if (contractReceipt.status !== 1) {
-        throw new Error(`Error deploying contract ${artifact.name}`)
-      }
+    const contractArtifact = {
+      ...artifact,
+      bytecode: TestContractHandler.replaceTokens(artifact.bytecode, tokens),
     }
+    const contractInstance = TestContractHandler.nevermined.utils.blockchain.deployAbi(
+      contractArtifact,
+      nvmAccount,
+      args,
+    )
+    // const tempContract = getContract({
+    //   abi: artifact.abi,
+    //   bytecode: TestContractHandler.replaceTokens(artifact.bytecode, tokens),
+    //   // address: contractAddress,
+    //   // @ts-expect-error "viem, wtf?"
+    //   client: { wallet: this.client.wallet, public: this.client.public },
+    // })
+
+    // const tempContract = new ethers.ContractFactory(
+    //   artifact.abi,
+    //   TestContractHandler.replaceTokens(artifact.bytecode, tokens),
+    //   nvmAccount,
+    // )
+    // const initializeFunc = searchAbiFunction(artifact.abi, 'initialize')
+    // // const initializeExists = tempContract.interface.hasFunction('initialize')
+    // const isZos = initializeFunc ? true : false
+
+    // Logger.debug({
+    //   name: artifact.name,
+    //   from,
+    //   isZos,
+    //   args,
+    //   libraries: artifact.bytecode
+    //     .replace(/(0x)?[a-f0-9]{8}/gi, '')
+    //     .replace(/__([^_]+)_*[0-9a-f]{2}/g, '|$1')
+    //     .split('|')
+    //     .splice(1),
+    // })
+
+    // const argument = isZos ? [] : args
+    // const contractInstance: ethers.BaseContract = await tempContract.deploy(...argument, sendConfig)
+    // await contractInstance.waitForDeployment()
+
+    // if (isZos) {
+    //   const methodSignature = getSignatureOfFunction(contractInstance.interface, 'initialize', args)
+    //   const contract = contractInstance.connect(nvmAccount)
+    //   const transactionResponse: ContractTransactionResponse = await contract[methodSignature](
+    //     ...args,
+    //     sendConfig,
+    //   )
+    //   const contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
+    //   if (contractReceipt.status !== 1) {
+    //     throw new Error(`Error deploying contract ${artifact.name}`)
+    //   }
+    // }
 
     return contractInstance
   }
