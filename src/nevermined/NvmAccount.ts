@@ -1,4 +1,5 @@
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
+// const zerodev = await import('@zerodev/sdk')
 import { Account, LocalAccount, toHex } from 'viem'
 import { NvmAccountError } from '../errors/NvmAccountError'
 

@@ -12,6 +12,12 @@
       "parserOptions": {
         "project": "./tsconfig.eslint.json"
       }
+    }, {
+      "files": ["tests/**/*", "integration/**/*"],
+      "plugins": ["jest"],
+      "env": {
+        "jest/globals": true
+      }
     }
   ],
   "rules": {    
@@ -28,5 +34,5 @@
          "caughtErrorsIgnorePattern": "^_"
     }]
   },
-  "ignorePatterns": ["test/*.ts", "test/resources/proxy-poc/*", "test/**/*.d.ts", "test/**/*js"]
+  "ignorePatterns": ["test/resources/proxy-poc/*"]
 }

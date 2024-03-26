@@ -1,5 +1,5 @@
-import { DDO, ServiceType } from '../../../ddo'
-import { getConditionsByParams, zeroX } from '../../../utils'
+import { DDO, ServiceType, getConditionsByParams } from '../../../ddo'
+import { zeroX } from '../../../utils'
 import { AssetPrice, Babysig, ERCType } from '../../../models'
 import { RoyaltyKind } from '../AssetsApi'
 import { NvmAccount } from '../../NvmAccount'

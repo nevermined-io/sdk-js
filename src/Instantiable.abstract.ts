@@ -13,7 +13,6 @@ import {
 export interface InstantiableConfig {
   nevermined: Nevermined
   config?: NeverminedOptions
-  // web3?: ethers.JsonRpcProvider | ethers.BrowserProvider
   client?: Web3Clients
   logger?: Logger
   artifactsFolder?: string
@@ -107,14 +106,6 @@ export abstract class Instantiable {
     }
     return this._instantiableConfig.nevermined
   }
-
-  // public get web3() {
-  //   if (!this._instantiableConfig?.web3) {
-  //     this.logger.error('Web3 Provider not initialized')
-  //     throw new Error('Web3 Provider not initialized')
-  //   }
-  //   return this._instantiableConfig.web3
-  // }
 
   public get client() {
     if (!this._instantiableConfig?.client) {

@@ -50,7 +50,7 @@ describe('Assets with multiple services', () => {
     assetPrice2 = new AssetPrice(publisher.getId(), BigInt(totalAmount2))
 
     try {
-      await nevermined.accounts.requestTokens(consumer, BigInt(totalAmount1) * 10n)      
+      await nevermined.accounts.requestTokens(consumer, BigInt(totalAmount1) * 10n)
     } catch (error) {
       console.error(error)
     }

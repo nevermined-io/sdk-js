@@ -3,12 +3,7 @@ import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import {
-  Nevermined,
-  NvmAccount,
-  AssetAttributes,
-  makeWallets,
-} from '../../src'
+import { Nevermined, NvmAccount, AssetAttributes, makeWallets } from '../../src'
 
 import * as keyFile from '../KeyFile.json'
 

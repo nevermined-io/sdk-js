@@ -1,6 +1,7 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { getConditionsByParams, zeroX } from '../../../utils'
+import { zeroX } from '../../../utils'
 import {
+  getConditionsByParams,
   PricedMetadataInformation,
   Service,
   ServiceAttributes,

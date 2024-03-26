@@ -24,18 +24,20 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "lib": [
-      //["es2019", "ES2020", "ES2021.String", "ES2017", "ES6", "ES7", "DOM"],
-      "ES2022", // By using ES2022 we get access to the `.cause` property on `Error` instances.
-      "DOM" // We are adding `DOM` here to get the `fetch`, etc. types. This should be removed once these types are available via DefinitelyTyped.
-    ],
+    "lib": ["ES2022", "ES2021", "ES2021.String", "DOM"],
+    // "lib": [
+
+    //   "ES2021.String",
+    //   "ES2022", // By using ES2022 we get access to the `.cause` property on `Error` instances.
+    //   "DOM" // We are adding `DOM` here to get the `fetch`, etc. types. This should be removed once these types are available via DefinitelyTyped.
+    // ],
     "declaration": true,
 
     // Language and environment
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "module": "CommonJS",
 
-    "target": "ES2021",
+    "target": "ES2022",
     "noImplicitAny": false,
     "removeComments": true,
     "experimentalDecorators": true,

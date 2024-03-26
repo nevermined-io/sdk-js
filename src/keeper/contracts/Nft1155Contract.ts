@@ -24,7 +24,7 @@ export class Nft1155Contract extends NFTContractsBase {
 
       // We don't have a subgraph for NFT1155 so we can only use ContractEvent
       const eventEmitter = new EventHandler()
-      nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, nft.client)
+      nft.events = ContractEvent.getInstance(nft, eventEmitter) //, config.nevermined, nft.client)
 
       const solidityABI = await ContractHandler.getABIArtifact(
         contractName,
@@ -50,7 +50,7 @@ export class Nft1155Contract extends NFTContractsBase {
 
     // We don't have a subgraph for NFT1155 so we can only use ContractEvent
     const eventEmitter = new EventHandler()
-    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, nft.client)
+    nft.events = ContractEvent.getInstance(nft, eventEmitter) //, config.nevermined, nft.client)
 
     nft.contract = await getContractInstance(address, solidityABI.abi)
     nft.address = await nft.contract.getAddress()

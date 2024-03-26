@@ -25,10 +25,7 @@ describe('SignatureUtils', () => {
 
   describe('#verifyText', () => {
     it('should recover the privateKey of a signed message', async () => {
-      const verifiedPublicKey = await SignatureUtils.recoverSignerAddress(
-        text,
-        signature,
-      )
+      const verifiedPublicKey = await SignatureUtils.recoverSignerAddress(text, signature)
 
       assert.equal(account.getId(), verifiedPublicKey)
     })

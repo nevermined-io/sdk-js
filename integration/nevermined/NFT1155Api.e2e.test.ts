@@ -141,7 +141,7 @@ function makeTest(isCustom) {
       }
       nftPrice = amounts.reduce((a, b) => a + b, 0n)
       assetPrice1 = new AssetPrice(new Map(lst))
-      await nevermined.accounts.requestTokens(collector1, nftPrice / scale)      
+      await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
 
       console.debug(
         `Contract balance (initial) ${await token.balanceOf(escrowPaymentCondition.address)}`,
@@ -362,7 +362,7 @@ function makeTest(isCustom) {
       })
 
       it('The collector orders the nft', async () => {
-        await nevermined.accounts.requestTokens(collector1, nftPrice / scale)              
+        await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
 
         agreementId = await nevermined.nfts1155.order(ddo.id, numberEditions, collector1)
         assert.isDefined(agreementId)

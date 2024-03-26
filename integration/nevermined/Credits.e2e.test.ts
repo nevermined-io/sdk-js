@@ -222,7 +222,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)    
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
       assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
@@ -370,7 +370,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
     })
 
     it('The subscriber can top-up', async () => {
-      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)    
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)
 
       agreementId = await nevermined.nfts1155.order(
         subscriptionDDO.id,

@@ -32,7 +32,6 @@ import {
 } from '../../src/nevermined'
 import { EventLog } from 'ethers'
 
-
 describe('NFTTemplates With Ether E2E', async () => {
   let artist: NvmAccount
   let collector1: NvmAccount
@@ -139,7 +138,9 @@ describe('NFTTemplates With Ether E2E', async () => {
         collector2: await nevermined.accounts.getEtherBalance(collector2),
         gallery: await nevermined.accounts.getEtherBalance(gallery),
         governor: await nevermined.accounts.getEtherBalance(governor),
-        escrowPaymentCondition: await nevermined.accounts.getEtherBalance(escrowPaymentCondition.address),
+        escrowPaymentCondition: await nevermined.accounts.getEtherBalance(
+          escrowPaymentCondition.address,
+        ),
       }
 
       agreementIdSeed = generateId()
@@ -327,14 +328,12 @@ describe('NFTTemplates With Ether E2E', async () => {
         const { state } = await conditionStoreManager.getCondition(conditionIdEscrow[1])
         assert.equal(state, ConditionState.Fulfilled)
 
-        const escrowPaymentConditionBalance = await nevermined.accounts
-          .getEtherBalance(escrowPaymentCondition.address)
-        const receiver0Balance = await nevermined.accounts
-          .getEtherBalance(receivers[0])          
-        const receiver1Balance = await nevermined.accounts
-          .getEtherBalance(receivers[1])          
-        const receiver2Balance = await nevermined.accounts
-          .getEtherBalance(receivers[2])          
+        const escrowPaymentConditionBalance = await nevermined.accounts.getEtherBalance(
+          escrowPaymentCondition.address,
+        )
+        const receiver0Balance = await nevermined.accounts.getEtherBalance(receivers[0])
+        const receiver1Balance = await nevermined.accounts.getEtherBalance(receivers[1])
+        const receiver2Balance = await nevermined.accounts.getEtherBalance(receivers[2])
 
         // for this assert we use a delta to account for the transaction fees
         // of all the transactions from the artist

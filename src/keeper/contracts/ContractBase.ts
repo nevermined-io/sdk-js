@@ -59,7 +59,7 @@ export abstract class ContractBase extends Instantiable {
         await this.nevermined.keeper.getNetworkName(),
       )
     } else {
-      this.events = ContractEvent.getInstance(this, eventEmitter, config.nevermined, this.client)
+      this.events = ContractEvent.getInstance(this, eventEmitter) //, config.nevermined, this.client)
     }
   }
 

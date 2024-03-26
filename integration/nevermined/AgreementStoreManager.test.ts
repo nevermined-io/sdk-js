@@ -51,8 +51,11 @@ describe('Agreement Store Manager', () => {
     let agreements = await nevermined.agreements.getAgreements(ddo.id)
     const num = agreements.length
 
-    await nevermined.accounts.requestTokens(account2, ddo.getPriceByService() * 10n ** BigInt(await nevermined.keeper.token.decimals()))
-    
+    await nevermined.accounts.requestTokens(
+      account2,
+      ddo.getPriceByService() * 10n ** BigInt(await nevermined.keeper.token.decimals()),
+    )
+
     agreementId = await nevermined.assets.order(ddo.id, 'access', account2)
 
     agreements = await nevermined.agreements.getAgreements(ddo.id)

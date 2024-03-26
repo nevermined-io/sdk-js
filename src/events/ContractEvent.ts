@@ -1,21 +1,22 @@
 import { EventEmitter, EventOptions, EventResult, Filter, NeverminedEvent } from './NeverminedEvent'
 import { ContractBase } from '../keeper'
 import { KeeperError } from '../errors'
-import { Nevermined } from '../nevermined'
 import { Web3Clients } from '../sdk'
+// import { Nevermined } from '../nevermined'
+// import { Web3Clients } from '../sdk'
 
 export class ContractEvent extends NeverminedEvent {
   public static getInstance(
     contract: ContractBase,
     eventEmitter: EventEmitter,
-    nevermined: Nevermined,
-    client: Web3Clients,
+    // nevermined: Nevermined,
+    // client: Web3Clients,
   ): ContractEvent {
     const instance = new ContractEvent(contract, eventEmitter)
-    instance.setInstanceConfig({
-      nevermined,
-      client,
-    })
+    // instance.setInstanceConfig({
+    //   nevermined,
+    //   client,
+    // })
 
     return instance
   }
@@ -32,16 +33,16 @@ export class ContractEvent extends NeverminedEvent {
     return this.contract.contract.queryFilter(eventFilter, options.fromBlock, options.toBlock)
   }
 
-  public async getPastEvents(options: EventOptions): EventResult {
+  public async getPastEvents(options: EventOptions, client?: Web3Clients): EventResult {
     try {
-      const chainId = await this.nevermined.keeper.getNetworkId()
+      const chainId = client.chain.id
       options.fromBlock = 0n
       options.toBlock = 'latest'
 
       // Temporary workaround to work with mumbai
       // Infura as a 1000 blocks limit on their api
       if (chainId === 80001 || chainId === 42) {
-        const latestBlock = await this.client.public.getBlockNumber()
+        const latestBlock = await client.public.getBlockNumber()
         options.fromBlock = latestBlock - 99n
       }
       return await this.getEventData(options)
@@ -50,8 +51,8 @@ export class ContractEvent extends NeverminedEvent {
     }
   }
 
-  public async getBlockNumber(): Promise<bigint> {
-    return this.client.public.getBlockNumber()
+  public async getBlockNumber(client: Web3Clients): Promise<bigint> {
+    return client.public.getBlockNumber()
   }
 
   private eventExists(eventName: string): boolean {

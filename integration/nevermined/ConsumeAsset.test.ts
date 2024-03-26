@@ -73,7 +73,7 @@ describe('Consume Asset', () => {
     const claimedTokens = 100n
 
     try {
-      await nevermined.accounts.requestTokens(consumer, claimedTokens)      
+      await nevermined.accounts.requestTokens(consumer, claimedTokens)
     } catch (error) {
       Logger.error(error)
     }

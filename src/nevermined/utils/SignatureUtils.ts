@@ -13,9 +13,8 @@ export class SignatureUtils extends Instantiable {
 
   public async signText(text: string | Uint8Array, account: string | NvmAccount): Promise<string> {
     const message = typeof text === 'string' ? text : toHex(text)
-    const nvmAccount = typeof account === 'string' 
-    ? await this.nevermined.accounts.getAccount(account) 
-    : account
+    const nvmAccount =
+      typeof account === 'string' ? await this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
       // TODO: Implement ZeroDev signing
@@ -25,7 +24,10 @@ export class SignatureUtils extends Instantiable {
         message: message as `0x${string}`,
       })
     } else if (nvmAccount.accountType.signerType === 'json-rpc') {
-      const result = this.nevermined.accounts.signTextWithRemoteAccount(text, nvmAccount.getAddress())
+      const result = this.nevermined.accounts.signTextWithRemoteAccount(
+        text,
+        nvmAccount.getAddress(),
+      )
       return result
     } else {
       throw new NvmAccountError('The account type is not supported for signing')
@@ -38,9 +40,8 @@ export class SignatureUtils extends Instantiable {
     value: Record<string, any>,
     account: string | NvmAccount,
   ): Promise<string> {
-    const nvmAccount = typeof account === 'string' 
-      ? await this.nevermined.accounts.getAccount(account) 
-      : account
+    const nvmAccount =
+      typeof account === 'string' ? await this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
       // TODO: Implement ZeroDev signing
@@ -65,9 +66,8 @@ export class SignatureUtils extends Instantiable {
   }
 
   public async signTransaction(tx: `0x${string}`, account: string | NvmAccount): Promise<string> {
-    const nvmAccount = typeof account === 'string' 
-      ? await this.nevermined.accounts.getAccount(account) 
-      : account
+    const nvmAccount =
+      typeof account === 'string' ? await this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
       // TODO: Implement ZeroDev signing
@@ -77,7 +77,10 @@ export class SignatureUtils extends Instantiable {
         data: tx,
       })
     } else if (nvmAccount.accountType.signerType === 'json-rpc') {
-      const result = this.nevermined.accounts.signTransactionWithRemoteAccount(tx, nvmAccount.getAddress())
+      const result = this.nevermined.accounts.signTransactionWithRemoteAccount(
+        tx,
+        nvmAccount.getAddress(),
+      )
       return result
     } else {
       throw new NvmAccountError('The account type is not supported for signing')

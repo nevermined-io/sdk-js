@@ -127,7 +127,7 @@ export class EthSignJWT extends SignJWT {
 }
 
 export class JwtUtils extends Instantiable {
-  CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
+  static CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
   BASE_AUD = '/api/v1/node/services'
 
   tokenCache: Map<string, string>

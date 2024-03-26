@@ -1,7 +1,6 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ContractHandler } from '../../keeper'
 import { NeverminedInitializationOptions } from '../../models'
-import { Files } from '../Files'
 import { TokenUtils } from '../Token'
 import { Versions } from '../Versions'
 import { JwtUtils, ServiceAgreement, SignatureUtils, WebServiceConnector } from '../utils'
@@ -20,11 +19,6 @@ export class UtilsApi extends Instantiable {
    * Fetch utils.
    */
   public fetch: WebServiceConnector
-
-  /**
-   * Files utils.
-   */
-  public files: Files
 
   /**
    * Jwt utils.
@@ -67,7 +61,7 @@ export class UtilsApi extends Instantiable {
 
     this.agreements = new ServiceAgreement(config)
     this.fetch = new WebServiceConnector(config)
-    this.files = new Files(config)
+
     this.jwt = new JwtUtils(config)
     this.versions = new Versions(config)
     this.signature = new SignatureUtils(config)

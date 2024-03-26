@@ -20,7 +20,7 @@ describe('ContractEvent', () => {
     nevermined = await Nevermined.getInstance({ ...config, graphHttpUri: undefined })
     ;[account, account2, account3, account4, account5, account6] = await nevermined.accounts.list()
 
-    await nevermined.accounts.requestTokens(account, 1n)    
+    await nevermined.accounts.requestTokens(account, 1n)
   })
 
   it('should get a ContractEvent instance', async () => {
@@ -38,7 +38,10 @@ describe('ContractEvent', () => {
       },
       eventName: 'Transfer',
     })
-    assert.strictEqual(getChecksumAddress(response.pop().args.to), getChecksumAddress(account.getId()))
+    assert.strictEqual(
+      getChecksumAddress(response.pop().args.to),
+      getChecksumAddress(account.getId()),
+    )
   })
 
   it('should be able to listen to events', async () => {
@@ -65,12 +68,11 @@ describe('ContractEvent', () => {
 
     // await Promise.all([executeTransaction()])
 
-    await nevermined.accounts.requestTokens(account2, 1n)    
-
+    await nevermined.accounts.requestTokens(account2, 1n)
 
     validResolve = true
 
-    await nevermined.accounts.requestTokens(account3, 1n)    
+    await nevermined.accounts.requestTokens(account3, 1n)
     // await Promise.all([executeTransaction()])
 
     await waitUntilEvent
@@ -100,10 +102,10 @@ describe('ContractEvent', () => {
       )
     })
 
-    await nevermined.accounts.requestTokens(account4, 1n)    
+    await nevermined.accounts.requestTokens(account4, 1n)
     canBeRejected = true
 
-    await nevermined.accounts.requestTokens(account5, 1n)    
+    await nevermined.accounts.requestTokens(account5, 1n)
 
     await waitUntilEvent
   })
@@ -116,7 +118,7 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
       filterJsonRpc: { to },
     })
-    await nevermined.accounts.requestTokens(account6, 1n)    
+    await nevermined.accounts.requestTokens(account6, 1n)
     // await executeTransaction()
 
     await waitUntilEvent

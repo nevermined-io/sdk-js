@@ -1,14 +1,14 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Nevermined } from '../../../src/nevermined'
-import { NvmAccount, ConditionState } from '../../../src'
+import { NvmAccount, ConditionState, ContractHandler } from '../../../src'
 import { NFT721LockCondition, ConditionStoreManager } from '../../../src/keeper'
 import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { NFT721Api } from '../../../src'
 import { DIDRegistry } from '../../../src/keeper'
-import { EventLog, BaseContract } from 'ethers'
+import { EventLog } from 'ethers'
 
 chai.use(chaiAsPromised)
 
@@ -18,7 +18,7 @@ describe('NFT721LockCondition', () => {
   let conditionStoreManager: ConditionStoreManager
   let didRegistry: DIDRegistry
   let nftContractAddress: string
-  let _nftContract: BaseContract
+  let _nftContract
   let nft721Wrapper: NFT721Api
   let lockAddress: NvmAccount
   let owner: NvmAccount
@@ -37,7 +37,8 @@ describe('NFT721LockCondition', () => {
 
     const networkName = await nevermined.keeper.getNetworkName()
 
-    const erc721ABI = await TestContractHandler.getABI(
+    //await TestContractHandler.getABI(
+    const erc721ABI = ContractHandler.getABIArtifact(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
