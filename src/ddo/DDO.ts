@@ -11,6 +11,7 @@ import { AssetPrice } from '@/models/AssetPrice'
 import { NFTAttributes } from '@/models/NFTAttributes'
 import { NvmAccount } from '@/models/NvmAccount'
 import { Nevermined } from '@/nevermined/Nevermined'
+import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
 import {
   Authentication,
   ConditionType,
@@ -28,7 +29,6 @@ import {
   ServiceType,
 } from '@/types/DDOTypes'
 import { didPrefixed, zeroX } from '@/utils/ConversionTypeHelpers'
-import { keccak256 } from 'viem'
 
 // DDO Services including a sales process
 export const SALES_SERVICES = ['access', 'compute', 'nft-sales']
