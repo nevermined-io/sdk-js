@@ -1,10 +1,11 @@
-import { TxParameters } from './ContractBase'
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../utils'
-import { NvmAccount, getContractInstance } from '../../nevermined'
-import { ContractEvent, EventHandler } from '../../events'
+import { TxParameters } from '@/models/Transactions'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { didZeroX, zeroX } from '@/utils'
+import { getContractInstance } from '@/nevermined'
+import { ContractEvent, EventHandler } from '@/events'
 import { NFTContractsBase } from './NFTContractsBase'
-import { ContractHandler } from '../ContractHandler'
+import { ContractHandler } from '@/keeper/ContractHandler'
+import { NvmAccount } from '@/models/NvmAccount'
 
 export class Nft721Contract extends NFTContractsBase {
   public static async getInstance(

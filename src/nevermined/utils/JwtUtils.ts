@@ -1,29 +1,13 @@
 import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { NvmAccount } from '../NvmAccount'
-import { Babysig } from '../../models'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { NvmAccount } from '@/models/NvmAccount'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
-import { getChecksumAddress, getBytes } from './BlockchainViemUtils'
+import { getChecksumAddress, getBytes } from '@/nevermined/utils/BlockchainViemUtils'
 import { Account, LocalAccount, toHex } from 'viem'
-import { SignatureUtils } from './SignatureUtils'
+import { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
+import { Babysig, Eip712Data } from '@/types/GeneralTypes'
 
-export interface Eip712Data {
-  message: string
-  chainId: number
-}
 
-export interface TypedDataDomain {
-  name: string
-  version: string
-  chainId: number
-}
-
-export interface TypedDataTypes {
-  Nevermined: {
-    name: string
-    type: string
-  }[]
-}
 
 export class EthSignJWT extends SignJWT {
   protectedHeader: JWSHeaderParameters

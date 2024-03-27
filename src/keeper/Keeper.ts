@@ -1,6 +1,6 @@
-import { ContractBase } from './contracts/ContractBase'
+import { ContractBase } from '@/keeper/contracts/ContractBase'
 
-import NeverminedConfig from './contracts/governance/NeverminedConfig'
+import NeverminedConfig from '@/keeper/contracts/governance/NeverminedConfig'
 import {
   LockPaymentCondition,
   EscrowPaymentCondition,
@@ -13,8 +13,8 @@ import {
   TransferDIDOwnershipCondition,
   TransferNFT721Condition,
   NFT721HolderCondition,
-  NFT721LockCondition,
-  ConditionSmall,
+} from '@/keeper/contracts/conditions'
+import {  
   DIDRegistry,
   Dispenser,
   Token,
@@ -33,15 +33,17 @@ import {
   CurveRoyalties,
   Nft1155Contract,
   GenericAccess,
-} from './contracts'
-import * as KeeperUtils from './utils'
-import { objectPromiseAll } from '../utils'
-import { EventHandler } from '../events/EventHandler'
+} from '@/keeper'
+import * as NetworkUtils from '@/utils/Network'
+import { objectPromiseAll } from '@/utils'
+import { EventHandler } from '@/events/EventHandler'
 
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { KeeperError } from '../errors'
-import { NeverminedInitializationOptions } from '../models'
-import { isValidAddress } from '../nevermined/utils/BlockchainViemUtils'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { KeeperError } from '@/sdk'
+import { isValidAddress } from '@/nevermined/utils/BlockchainViemUtils'
+import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
+import { ConditionSmall } from '@/keeper/contracts/conditions/Condition.abstract'
+import { NFT721LockCondition } from '@/keeper/contracts/conditions/NFTs/NFT721LockCondition'
 
 /**
  * Interface with Nevermined contracts.
@@ -199,7 +201,7 @@ export class Keeper extends Instantiable {
     // const chainId = Number((await this.web3.getNetwork()).chainId)
     const chainId = await this.publicClient.getChainId()
 
-    if (KeeperUtils.isTestnet(chainId)) {
+    if (NetworkUtils.isTestnet(chainId)) {
       this.instances.dispenser = initOptions.loadDispenser
         ? await Dispenser.getInstance(this.instantiableConfig)
         : undefined
@@ -258,7 +260,7 @@ export class Keeper extends Instantiable {
     this.network = {
       chainId,
       version: this.didRegistry.version.replace('v', ''),
-      name: await KeeperUtils.getNetworkName(chainId),
+      name: await NetworkUtils.getNetworkName(chainId),
       loading: false,
     }
   }
@@ -408,7 +410,7 @@ export class Keeper extends Instantiable {
    */
   public async getNetworkName(): Promise<string> {
     if (!this.network.name) {
-      this.network.name = await KeeperUtils.getNetworkName(await this.getNetworkId())
+      this.network.name = await NetworkUtils.getNetworkName(await this.getNetworkId())
     }
     return this.network.name
   }

@@ -3,13 +3,13 @@ import {
   ServiceNFTAccess,
   ServiceType,
   ValidationParams,
-} from '../../../ddo'
-import { NvmAccount, DDO } from '../../../sdk'
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
-import { BaseTemplate } from './BaseTemplate.abstract'
-import { nft721AccessTemplateServiceAgreementTemplate } from './NFT721AccessTemplate.serviceAgreementTemplate'
-import { NFT721HolderCondition, NFTAccessCondition } from '../conditions'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
+} from '@/sdk'
+import { NvmAccount, DDO } from '@/sdk'
+import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
+import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
+import { NFT721HolderCondition, NFTAccessCondition } from '@/keeper/contracts/conditions'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { nft721HolderTemplate, nftAccessCondition } from '@/keeper/contracts/templates/ConditionTemplates'
 
 export interface NFT721AccessTemplateParams {
   holderAddress: string
@@ -76,7 +76,26 @@ export class NFT721AccessTemplate extends BaseTemplate<
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return { ...nft721AccessTemplateServiceAgreementTemplate() }
+    return {
+      contractName: 'NFT721AccessTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'nft721AccessTemplate',
+            functionName: 'fulfillNFTHolderCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['nftHolder.fulfill', 'nftAccess.fulfill'],
+      conditionDependency: {
+        nftHolder: [],
+        nftAccess: [],
+      },
+      conditions: [nft721HolderTemplate(), nftAccessCondition()],
+    }
   }
 
   public async accept(params: ValidationParams): Promise<boolean> {

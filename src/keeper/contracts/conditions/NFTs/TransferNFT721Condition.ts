@@ -1,15 +1,14 @@
-import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { didZeroX, zeroX } from '@/utils'
 import {
   Condition,
   ConditionContext,
-  ConditionMethod,
   ConditionParameters,
   ProviderCondition,
-} from '../Condition.abstract'
-import { NvmAccount } from '../../../../nevermined'
-import { TxParameters } from '../../ContractBase'
-import { DDO } from '../../../../ddo/DDO'
+} from '@/keeper/contracts'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { TxParameters } from '@/models/Transactions'
 
 export interface TransferNFT721ConditionContext extends ConditionContext {
   consumerId: string

@@ -1,5 +1,7 @@
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { NvmAccount, KeeperError } from '../../sdk'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { KeeperError } from '@/errors/NeverminedErrors'
+import { NvmAccount } from '@/models/NvmAccount'
+
 import {
   Abi,
   AbiFunction,

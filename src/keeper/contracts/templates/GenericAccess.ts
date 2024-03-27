@@ -1,6 +1,4 @@
-import { DDO, ServiceType } from '../../../ddo'
-import { NvmAccount, OrderProgressStep } from '../../../nevermined'
-import { TxParameters } from '../ContractBase'
+import { TxParameters, NvmAccount, OrderProgressStep, DDO, ServiceType } from '@/sdk'
 
 export interface GenericAccess {
   createAgreementWithPaymentFromDDO(

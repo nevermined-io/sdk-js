@@ -1,13 +1,11 @@
-import { TxParameters } from '../keeper'
-import { NvmAccount } from '../sdk'
+import { TxParameters } from '@/models/Transactions'
+import { NvmAccount } from '@/models/NvmAccount'
 import {
-  ERCType,
-  NeverminedNFTType,
   AssetPrice,
-  Babysig,
   NFTServiceAttributes,
   NFTAttributes,
-} from '../models'
+} from '@/models'
+import { Babysig, ERCType, NeverminedNFTType } from './GeneralTypes'
 
 export interface Authentication {
   type: string

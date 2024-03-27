@@ -1,7 +1,4 @@
-import ContractBase, { TxParameters } from './ContractBase'
-import { didZeroX, zeroX } from '../../utils'
-import { NvmAccount } from '../../nevermined'
-import { KeeperError } from '../../errors'
+import { ContractBase, NvmAccount, KeeperError, didZeroX, zeroX, TxParameters } from '@/sdk'
 
 export interface MintedEntry {
   amountMinted: bigint

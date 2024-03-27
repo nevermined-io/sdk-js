@@ -1,12 +1,12 @@
 import { BodyInit, RequestInit, Response } from 'node-fetch'
 import fs, { ReadStream } from 'fs'
-import { InstantiableConfig } from '../../Instantiable.abstract'
+import { InstantiableConfig } from '@/Instantiable.abstract'
 import FormData from 'form-data'
 import * as path from 'path'
 import fileDownload from 'js-file-download'
-import { HttpError } from '../../errors'
+import { HttpError } from '@/sdk'
 import { URL } from 'whatwg-url'
-import { JwtUtils } from './JwtUtils'
+import { JwtUtils } from '@/nevermined/utils/JwtUtils'
 
 let fetch
 if (typeof window !== 'undefined') {

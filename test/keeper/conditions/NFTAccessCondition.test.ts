@@ -1,16 +1,16 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined } from '../../../src/nevermined'
-import { NvmAccount, generateId } from '../../../src'
+import { Nevermined } from '@/src/nevermined'
+import { NvmAccount, generateId } from '@/src'
 import {
   NFTAccessCondition,
   AgreementStoreManager,
   ConditionStoreManager,
   TemplateStoreManager,
   ConditionState,
-} from '../../../src/keeper'
-import { DIDRegistry } from '../../../src/keeper'
-import { didZeroX, zeroX } from '../../../src/utils'
+} from '@/src/keeper'
+import { DIDRegistry } from '@/src/keeper'
+import { didZeroX, zeroX } from '@/src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { EventLog } from 'ethers'

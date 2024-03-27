@@ -1,8 +1,8 @@
-import { DDO, ServiceSecondary } from '../../ddo'
-import { DID } from '../../nevermined'
+import { ApiError, DID, HttpError, ServiceSecondary } from '@/sdk'
+import { DDO } from '@/ddo/DDO'
+import { SearchQuery } from '@/types/MetadataTypes'
 import { MarketplaceApi } from './MarketplaceAPI'
-import { ApiError, HttpError } from '../../errors'
-import { SearchQuery } from '../../common/interfaces'
+
 export const apiPath = '/api/v1/metadata/assets/ddo'
 export const servicePath = '/api/v1/metadata/assets/service'
 
@@ -13,7 +13,6 @@ export interface QueryResult {
   totalResults: { [jsonPath: string]: any }
 }
 
-export type EncryptionMethod = 'PSK-RSA' | 'PSK-ECDSA'
 
 export interface DDOStatus {
   internal: {

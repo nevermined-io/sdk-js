@@ -1,10 +1,9 @@
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
-import { DDO, ServiceAccess, ServiceType, ValidationParams } from '../../../ddo'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
-import { NvmAccount } from '../../../sdk'
-import { AccessCondition, EscrowPaymentCondition, LockPaymentCondition } from '../conditions'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { NvmAccount, DDO, ServiceAccess, ServiceType, ValidationParams } from '@/sdk'
+import { AccessCondition, EscrowPaymentCondition, LockPaymentCondition } from '@/keeper/contracts/conditions'
+import { lockPaymentTemplate, accessTemplate, escrowTemplate } from '@/keeper/contracts/templates/ConditionTemplates'
 
 export interface AccessTemplateParams {
   type: 'access'
@@ -37,7 +36,27 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAc
   }
 
   public getServiceAgreementTemplate() {
-    return accessTemplateServiceAgreementTemplate()
+    return {
+      contractName: 'AccessTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'escrowAccessTemplate',
+            functionName: 'fulfillLockPaymentCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['access.fulfill', 'lockPayment.fulfill', 'escrowPayment.fulfill'],
+      conditionDependency: {
+        lockPayment: [],
+        access: [],
+        escrowPayment: ['lockPayment', 'access'],
+      },
+      conditions: [lockPaymentTemplate(), accessTemplate(), escrowTemplate()],
+    }
   }
 
   public params(consumer: NvmAccount, serviceType: ServiceType = 'access'): AccessTemplateParams {

@@ -1,14 +1,13 @@
 import {
   Condition,
   ConditionContext,
-  ConditionInstanceSmall,
   ProviderCondition,
-} from './Condition.abstract'
-import { didZeroX, zeroX } from '../../../utils'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { NvmAccount } from '../../../nevermined'
-import { TxParameters } from '../ContractBase'
-import { DDO } from '../../../ddo'
+} from '@/keeper/contracts'
+import { didZeroX, zeroX } from '@/utils'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo'
+import { TxParameters } from '@/models/Transactions'
 
 export interface EscrowPaymentConditionContext extends ConditionContext {
   consumerId: string

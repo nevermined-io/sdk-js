@@ -1,17 +1,11 @@
-import ContractBase, { TxParameters as txParams } from './ContractBase'
-import { zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress } from '../../utils'
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import { NFTAttributes } from '../../models'
-import { AssetError } from '../../errors/AssetError'
-import {
+import { 
   DEFAULT_REGISTRATION_ACTIVITY_ID,
   ProvenanceAttributeRegisteredEvent,
   ProvenanceEvent,
   ProvenanceMethod,
   ProvenanceRegistry,
-} from './Provenance'
-import { zeroPadValue } from '../../nevermined/utils/BlockchainViemUtils'
-
+  InstantiableConfig, AssetError, ContractBase, zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress, zeroPadValue, NFTAttributes, SignatureUtils } from '../../sdk'
+import { TxParameters as txParams } from '../../models/Transactions'
 export class DIDRegistry extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
     const didRegistry: DIDRegistry = new DIDRegistry('DIDRegistry')
@@ -66,7 +60,7 @@ export class DIDRegistry extends ContractBase {
     ownerAddress: string,
     url: string,
     immutableUrl = '',
-    activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
+    activityId = SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
     txParams?: txParams,
   ) {
     return this.send(
@@ -100,7 +94,7 @@ export class DIDRegistry extends ContractBase {
     nftAttributes: NFTAttributes,
     url: string,
     immutableUrl = '',
-    activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
+    activityId = SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
     txParams?: txParams,
   ) {
     return this.send(
@@ -148,7 +142,7 @@ export class DIDRegistry extends ContractBase {
     nftAttributes: NFTAttributes,
     url: string,
     immutableUrl = '',
-    activityId = DEFAULT_REGISTRATION_ACTIVITY_ID,
+    activityId = SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
     txParams?: txParams,
   ) {
     return this.send(

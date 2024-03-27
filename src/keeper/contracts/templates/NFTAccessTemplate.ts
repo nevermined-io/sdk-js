@@ -3,20 +3,20 @@ import {
   ServiceNFTAccess,
   ServiceType,
   ValidationParams,
-} from '../../../ddo'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
+} from '@/sdk'
+import { InstantiableConfig } from '@/Instantiable.abstract'
 import {
   NvmAccount,
   DDO,
   NFTServiceAttributes,
-  NeverminedNFT1155Type,
   TxParameters,
-} from '../../../sdk'
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
-import { BaseTemplate } from './BaseTemplate.abstract'
-import { nftAccessTemplateServiceAgreementTemplate } from './NFTAccessTemplate.serviceAgreementTemplate'
-import { NFTAccessCondition, NFTHolderCondition } from '../conditions'
-import { DynamicCreditsUnderLimit } from '../../../errors/NFTError'
+} from '@/sdk'
+import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
+import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
+import { NFTAccessCondition, NFTHolderCondition } from '@/keeper/contracts/conditions'
+import { DynamicCreditsUnderLimit } from '@/sdk'
+import { nftAccessCondition, nftHolderTemplate } from '@/keeper/contracts/templates/ConditionTemplates'
+import { NeverminedNFT1155Type } from '@/types/GeneralTypes'
 
 export interface NFTAccessTemplateParams {
   holderAddress: string
@@ -76,7 +76,26 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return { ...nftAccessTemplateServiceAgreementTemplate() }
+    return {
+      contractName: 'NFTAccessTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'nftAccessTemplate',
+            functionName: 'fulfillNFTHolderCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['nftHolder.fulfill', 'nftAccess.fulfill'],
+      conditionDependency: {
+        nftHolder: [],
+        nftAccess: [],
+      },
+      conditions: [nftHolderTemplate(), nftAccessCondition()],
+    }
   }
 
   public async process(

@@ -1,9 +1,9 @@
-import { RoyaltyAttributes } from '../nevermined'
-import { AssetAttributes } from './AssetAttributes'
-import { ERCType, NeverminedNFTType, NeverminedNFT1155Type, NeverminedNFT721Type } from './'
-import { ChargeType, ServiceType } from '../ddo/types'
-import { NFTError } from '../errors/NFTError'
-import { jsonReplacer } from '../common'
+import { ERCType, NeverminedNFT1155Type, NeverminedNFT721Type, NeverminedNFTType } from '@/types/GeneralTypes'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { NFTError } from '@/errors/NeverminedErrors'
+import { ChargeType, ServiceType } from '@/types/DDOTypes'
+import { jsonReplacer } from '@/common/helpers'
+import { RoyaltyAttributes } from '@/sdk'
 
 export class NFTServiceAttributes {
   /**

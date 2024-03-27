@@ -1,10 +1,8 @@
-import { NvmAccount } from '../NvmAccount'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { DDO, ServiceNFTSales, ServiceType } from '../../ddo'
-import { ZeroAddress } from '../../utils'
-import { Token, CustomToken, TxParameters as txParams } from '../../keeper'
-import { AssetPrice } from '../../models'
-import { KeeperError } from '../../errors/KeeperError'
+import { ZeroAddress } from '@/constants'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { Token, CustomToken } from '@/keeper'
+import { TxParameters as txParams } from '@/models/Transactions'
+import { AssetPrice, NvmAccount, KeeperError, DDO, ServiceNFTSales, ServiceType  } from '@/sdk'
 import { Abi, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
 /**

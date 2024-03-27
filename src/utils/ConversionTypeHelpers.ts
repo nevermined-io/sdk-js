@@ -1,4 +1,4 @@
-import { LoggerInstance } from './Logger'
+import { LoggerInstance } from '@/models/Logger'
 
 // Ox transformer
 export const zeroX = (input: string) => zeroXTransformer(input, true) as `0x${string}`
@@ -40,4 +40,3 @@ function inputMatch(
   return { valid: true, output: match[1] }
 }
 
-export const ZeroAddress = '0x0000000000000000000000000000000000000000'

@@ -1,9 +1,9 @@
-import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
-import { zeroX, didZeroX, didPrefixed } from '../../../utils'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { NvmAccount } from '../../../nevermined'
-import { TxParameters } from '../ContractBase'
-import { EventOptions } from '../../../events/NeverminedEvent'
+import { Condition, ConditionContext, ProviderCondition } from '@/keeper/contracts'
+import { zeroX, didZeroX, didPrefixed } from '@/utils'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
+
 
 export interface AccessConditionContext extends ConditionContext {
   creator: string

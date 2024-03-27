@@ -1,7 +1,6 @@
 export * from './api'
 export * from './utils'
 export * from './AccessService'
-export * from './NvmAccount'
 export * from './DID'
 export * from './Nevermined'
 export * from './NvmApp'

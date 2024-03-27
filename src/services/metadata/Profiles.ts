@@ -1,6 +1,5 @@
-import { MarketplaceApi } from './MarketplaceAPI'
-import { NewProfile, Profile, ReducedProfile } from './types'
-import { HttpError, ApiError } from '../../errors'
+import { MarketplaceApi, HttpError, ApiError } from '@/sdk'
+import { NewProfile, Profile, ReducedProfile } from '@/types/MetadataTypes'
 
 const profilePath = '/api/v1/metadata/profiles'
 

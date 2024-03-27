@@ -1,7 +1,8 @@
-import ContractBase, { TxParameters } from '../ContractBase'
-import { didZeroX } from '../../../utils'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { NvmAccount } from '../../../nevermined'
+import { ContractBase } from '@/keeper/contracts'
+import { didZeroX } from '@/utils'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
 
 export abstract class RoyaltyScheme extends ContractBase {
   public static async getInstance(

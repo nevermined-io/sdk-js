@@ -1,7 +1,4 @@
-import ContractBase, { TxParameters } from './ContractBase'
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import { NvmAccount } from '../../nevermined'
-import { formatEther } from '../../sdk'
+import { ContractBase, InstantiableConfig, NvmAccount, TxParameters, formatEther } from '@/sdk'
 
 export class Token extends ContractBase {
   static ERC20_ABI = [

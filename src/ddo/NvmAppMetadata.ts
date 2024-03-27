@@ -1,11 +1,11 @@
-import { MetadataValidationResults } from '../nevermined/NvmApp'
 import {
   ChargeType,
   MetaData,
   MetaDataMain,
+  MetadataValidationResults,
   ResourceAuthentication,
   SubscriptionType,
-} from './types'
+} from '@/sdk'
 
 export class NvmAppMetadata {
   public static getTimeSubscriptionMetadataTemplate(

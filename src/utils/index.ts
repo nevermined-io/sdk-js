@@ -1,11 +1,6 @@
 export * from './PromiseResolver'
-export * from './Logger'
 export * from './Events'
 export * from './ConversionTypeHelpers'
-export * from './GeneratorHelpers'
-export * from './SubscribablePromise'
 export * from './SubscribableObserver'
+export * from './SubscribablePromise'
 
-export function makeBuffer(a, b) {
-  return Buffer.from(a, b)
-}

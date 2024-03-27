@@ -1,10 +1,10 @@
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { ContractHandler } from '../../keeper'
-import { NeverminedInitializationOptions } from '../../models'
-import { TokenUtils } from '../Token'
-import { Versions } from '../Versions'
-import { JwtUtils, ServiceAgreement, SignatureUtils, WebServiceConnector } from '../utils'
-import { BlockchainViemUtils } from '../utils/BlockchainViemUtils'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { ContractHandler } from '@/keeper'
+import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
+import { TokenUtils } from '@/nevermined/Token'
+import { Versions } from '@/nevermined/Versions'
+import { JwtUtils, ServiceAgreement, SignatureUtils, WebServiceConnector } from '@/nevermined/utils'
+import { BlockchainViemUtils } from '@/nevermined/utils/BlockchainViemUtils'
 
 /**
  * Nevermined Utils API

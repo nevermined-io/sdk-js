@@ -1,64 +1,27 @@
 import {
-  DDO,
+  Nevermined, SignatureUtils,
+  AssetError, DDOError,
   MetaData,
   NvmConfigVersions,
   ServiceNFTAccess,
   ServiceNFTSales,
   ServiceType,
-} from '../../ddo'
-import { NvmAccount } from '../NvmAccount'
-import { SubscribablePromise, didZeroX } from '../../utils'
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters, RoyaltyScheme } from '../../keeper'
-import { AssetError, DDOError } from '../../errors'
-import { Nevermined, SignatureUtils, apiPath } from '../../sdk'
-import { RegistryBaseApi } from './RegistryBaseApi'
-import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
-import { Providers } from '../Provider'
-import { Babysig, AssetAttributes } from '../../models'
+  NvmAccount,
+  SubscribablePromise, didZeroX,
+  InstantiableConfig,
+  TxParameters, 
+  RegistryBaseApi,
+  CreateProgressStep, OrderProgressStep, UpdateProgressStep,
+  Providers,
+  AssetAttributes,
+} from '@/sdk'
+import { DDO } from '@/ddo/DDO'
+import { Babysig } from '@/types/GeneralTypes'
+import { AssetPublicationOptions, DIDResolvePolicy, PublishMetadataOptions, PublishOnChainOptions, RoyaltyKind } from '@/types/MetadataTypes'
+import { apiPath } from '@/services/metadata/MetadataService'
+import { RoyaltyScheme } from '@/keeper/contracts/royalties/RoyaltyScheme.abstract'
 
-/**
- * Where the metadata will be published. Options:
- * - OnlyMetadataAPI, The metadata will be stored only in the Metadata/Marketplace API
- * - IPFS, The metadata will be stored in the Metadata/Marketplace API and IPFS
- * - Filecoin, The metadata will be stored in the Metadata/Marketplace API and Filecoin
- * - Arweave, The metadata will be stored in the Metadata/Marketplace API and Arweave
- */
-export enum PublishMetadataOptions {
-  OnlyMetadataAPI,
-  IPFS,
-  Filecoin,
-  Arweave,
-}
 
-/**
- * It specifies if the DID will be published on-chain initially or not.
- */
-export enum PublishOnChainOptions {
-  DIDRegistry, // The DID and the reference to the DDO will be stored in the DIDRegistry contract
-  OnlyOffchain, // THE DID won't be stored on-chain and will be lazy-registered when needed
-}
-
-export class AssetPublicationOptions {
-  metadata?: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI
-  did?: PublishOnChainOptions = PublishOnChainOptions.DIDRegistry
-}
-
-/**
- * It described the policy to be used when resolving an asset. It has the following options:
- * * ImmutableFirst - It checks if there is a reference to an immutable data-store (IPFS, Filecoin, etc) on-chain. If that's the case uses the URL to resolve the Metadata. If not try to resolve the metadata using the URL of the Metadata/Marketplace API
- * * MetadataAPIFirst - Try to resolve the metadata from the Marketplace/Metadata API, if it can't tries to resolve using the immutable url
- * * OnlyImmutable - Try to resolve the metadata only from the immutable data store URL
- * * OnlyMetadataAPI - Try to resolve the metadata only from the Metadata API. It gets the metadata api url from the DIDRegistry
- * * NoRegisry - Gets the metadata from the Metadata API using as endpoint the metadata api url from the SDK config. This method don't gets any on-chain information because assumes the DID is not registered on-chain
- */
-export enum DIDResolvePolicy {
-  ImmutableFirst,
-  MetadataAPIFirst,
-  OnlyImmutable,
-  OnlyMetadataAPI,
-  NoRegistry,
-}
 
 /**
  * Attributes defining the royalties model attached to the asset
@@ -67,15 +30,6 @@ export interface RoyaltyAttributes {
   royaltyKind: RoyaltyKind
   scheme: RoyaltyScheme
   amount: number
-}
-
-/**
- * The type of royalty
- */
-export enum RoyaltyKind {
-  Standard,
-  Curve,
-  Legacy,
 }
 
 /**

@@ -1,9 +1,10 @@
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { keccak256 } from './BlockchainViemUtils'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
 import { LocalAccount, recoverAddress, toHex } from 'viem'
-import { NvmAccountError } from '../../errors/NvmAccountError'
-import { NvmAccount } from '../NvmAccount'
-import { TypedDataDomain, TypedDataTypes } from './JwtUtils'
+import { NvmAccountError } from '@/sdk'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TypedDataDomain, TypedDataTypes } from '@/types/GeneralTypes'
+
 
 export class SignatureUtils extends Instantiable {
   constructor(config: InstantiableConfig) {

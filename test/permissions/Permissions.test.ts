@@ -1,8 +1,7 @@
 import { assert, expect, spy, use } from 'chai'
 import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
-import { Nevermined, Permission, PermissionType, NewPermission } from '../../src'
-import { MarketplaceResults } from '../../src/common/interfaces'
+import { Nevermined, Permission, PermissionType, NewPermission, MarketplaceResults } from '../../src'
 import config from '../config'
 import { Permissions } from '../../src'
 

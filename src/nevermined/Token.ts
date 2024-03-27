@@ -1,6 +1,6 @@
-import { NvmAccount } from './NvmAccount'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters as txParams } from '../keeper'
+import { NvmAccount } from '@/models/NvmAccount'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { TxParameters as txParams } from '@/models/Transactions'
 
 /**
  * Tokens submodule of Nevermined.

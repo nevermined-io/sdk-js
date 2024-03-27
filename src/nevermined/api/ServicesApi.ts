@@ -1,4 +1,4 @@
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import {
   MarketplaceApi,
   MetadataService,
@@ -6,7 +6,7 @@ import {
   Profiles,
   Permissions,
   Bookmarks,
-} from '../../services'
+} from '@/services'
 
 /**
  * Utils internal submodule of Nevermined.

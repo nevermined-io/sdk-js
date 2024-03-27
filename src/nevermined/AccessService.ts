@@ -1,4 +1,17 @@
 import {
+  TxParameters,
+  AccessTemplate,
+  NFT721AccessTemplate,
+  NFT721SalesTemplate,
+  NFTAccessTemplate,
+  NFTSalesTemplate,  
+  NvmAccount,
+  NFTAttributes,
+  Instantiable, 
+  InstantiableConfig
+} from '@/sdk'
+import {  } from '@/Instantiable.abstract'
+import { 
   ServiceAccess,
   ServiceNFTAccess,
   ServiceNFTSales,
@@ -7,19 +20,9 @@ import {
   MetaData,
   MetaDataMain,
   PricedMetadataInformation,
-  ServiceAttributes,
-} from '../ddo'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import {
-  TxParameters,
-  AccessTemplate,
-  NFT721AccessTemplate,
-  NFT721SalesTemplate,
-  NFTAccessTemplate,
-  NFTSalesTemplate,
-} from '../keeper'
-import { NvmAccount } from './NvmAccount'
-import { NFTAttributes } from '../models'
+  ServiceAttributes
+} from '@/types/DDOTypes'
+
 
 export interface AccessProofTemplateParams {
   type: 'access-proof'

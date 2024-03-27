@@ -1,6 +1,5 @@
-import { EventEmitter, EventOptions, EventResult, NeverminedEvent } from '../events/NeverminedEvent'
-import { ContractBase } from '../keeper'
-import { GraphError } from '../errors'
+import { NeverminedEvent } from '@/events/NeverminedEvent'
+import { ContractBase } from '@/keeper'
 import {
   ApolloClient,
   InMemoryCache,
@@ -11,6 +10,7 @@ import {
 import fetch from 'cross-fetch'
 import _ from 'lodash'
 import { GqlArgs, generateGql, getMethodName } from './utils'
+import { GraphError } from '@/errors/NeverminedErrors'
 
 export class SubgraphEvent extends NeverminedEvent {
   public subgraph: ApolloClient<NormalizedCacheObject>

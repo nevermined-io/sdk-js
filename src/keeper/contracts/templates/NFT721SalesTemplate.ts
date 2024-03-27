@@ -3,17 +3,17 @@ import {
   ServiceNFTSales,
   ServiceType,
   ValidationParams,
-} from '../../../ddo'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../sdk'
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
-import { BaseTemplate } from './BaseTemplate.abstract'
-import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
+} from '@/sdk'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { DDO } from '@/sdk'
+import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
+import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
 import {
   LockPaymentCondition,
   EscrowPaymentCondition,
   TransferNFT721Condition,
-} from '../conditions'
+} from '@/keeper/contracts/conditions'
+import { lockPaymentTemplate, transferNFT721Template, escrowTemplate } from '@/keeper/contracts/templates/ConditionTemplates'
 
 export interface NFT721SalesTemplateParams {
   consumerId: string
@@ -103,6 +103,26 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams,
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return { ...nft721SalesTemplateServiceAgreementTemplate() }
+    return {
+      contractName: 'NFT721SalesTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'nft721SalesTemplate',
+            functionName: 'fulfillLockPaymentCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['lockPayment.fulfill', 'transferNFT.fulfill', 'escrowPayment.fulfill'],
+      conditionDependency: {
+        lockPayment: [],
+        transferNFT: [],
+        escrowPayment: ['lockPayment', 'transferNFT'],
+      },
+      conditions: [lockPaymentTemplate(), transferNFT721Template(), escrowTemplate()],
+    }
   }
 }

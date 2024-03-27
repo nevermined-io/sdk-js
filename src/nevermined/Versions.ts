@@ -1,6 +1,6 @@
-import * as metadata from '../metadata.json'
+import * as metadata from '@/metadata.json'
 
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 
 export enum PlatformTechStatus {
   Loading = 'Loading',

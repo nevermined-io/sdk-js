@@ -1,11 +1,11 @@
-import { ServiceType, DDO, ImmutableBackends, MetaDataExternalResource } from '../../ddo'
-import { NvmAccount } from '../../nevermined'
-import { noZeroX } from '../../utils'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { DDO } from '@/ddo'
+import { NvmAccount } from '@/models/NvmAccount'
+import { noZeroX } from '@/utils'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { ReadStream } from 'fs'
-import { NeverminedNodeError, HttpError } from '../../errors'
-import { ERCType, Babysig } from '../../models'
-import { PublishMetadataOptions } from '../../nevermined'
+import { ImmutableBackends, MetaDataExternalResource, NeverminedNodeError, ServiceType, HttpError } from '@/sdk'
+import { Babysig, ERCType } from '@/types/GeneralTypes'
+import { PublishMetadataOptions } from '@/types/MetadataTypes'
 
 const apiPath = '/api/v1/node/services'
 

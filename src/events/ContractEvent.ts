@@ -1,9 +1,4 @@
-import { EventEmitter, EventOptions, EventResult, Filter, NeverminedEvent } from './NeverminedEvent'
-import { ContractBase } from '../keeper'
-import { KeeperError } from '../errors'
-import { Web3Clients } from '../sdk'
-// import { Nevermined } from '../nevermined'
-// import { Web3Clients } from '../sdk'
+import { NeverminedEvent, ContractBase, KeeperError, Web3Clients } from '@/sdk'
 
 export class ContractEvent extends NeverminedEvent {
   public static getInstance(
@@ -59,7 +54,7 @@ export class ContractEvent extends NeverminedEvent {
     return !!this.contract.contract.interface.getEvent(eventName)
   }
 
-  private filterToArgs(eventName: string, filter: Filter): Array<any> {
+  private filterToArgs(eventName: string, filter: FilterContractEvent): Array<any> {
     const event = this.contract.contract.interface.getEvent(eventName)
     return event.inputs.filter((i) => i.indexed).map((i) => filter[i.name])
   }

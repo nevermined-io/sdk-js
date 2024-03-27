@@ -1,5 +1,4 @@
-import { Nevermined, NvmAccount, keccak256 } from '../nevermined'
-import {
+import { 
   Authentication,
   PublicKey,
   Service,
@@ -14,18 +13,7 @@ import {
   ServiceAgreementTemplateCondition,
   ServiceCommon,
   ServiceAgreementTemplateParameter,
-} from './types'
-import { didPrefixed, zeroX } from '../utils'
-import { DIDRegistry } from '../keeper'
-
-import { AssetPrice, NFTAttributes } from '../models'
-import { DDOPriceNotFoundError, DDOServiceNotFoundError } from '../errors'
-import {
-  DDOConditionNotFoundError,
-  DDOParamNotFoundError,
-  DDOServiceAlreadyExists,
-} from '../errors/DDOError'
-import { jsonReplacer } from '../common'
+  Nevermined, keccak256, didPrefixed, zeroX, AssetPrice, NFTAttributes, DIDRegistry, DDOConditionNotFoundError, DDOParamNotFoundError, DDOPriceNotFoundError, DDOServiceAlreadyExists, DDOServiceNotFoundError, jsonReplacer, NvmAccount } from '@/sdk'
 
 // DDO Services including a sales process
 export const SALES_SERVICES = ['access', 'compute', 'nft-sales']
@@ -276,7 +264,7 @@ export class DDO {
     if (service) {
       return service as Service<T>
     }
-    throw new DDOServiceNotFoundError(serviceType, this.id)
+    throw new DDOServiceNotFoundError(serviceType.toString(), this.id)
   }
 
   /**
@@ -342,7 +330,7 @@ export class DDO {
     if (assetPrice) {
       return assetPrice.getTotalPrice()
     }
-    throw new DDOPriceNotFoundError(serviceType, this.id)
+    throw new DDOPriceNotFoundError(serviceType.toString(), this.id)
   }
 
   public checksum(seed: string): string {
@@ -411,7 +399,7 @@ export class DDO {
         ? this.service.reduce((a, b) => (a.index > b.index ? a : b)).index + 1
         : 0
     if (this.service.find((s) => s.index === newIndex))
-      throw new DDOServiceAlreadyExists(service.type, newIndex)
+      throw new DDOServiceAlreadyExists(service.type.toString(), newIndex)
     service.index = newIndex
     this.service.push(service)
   }
@@ -423,7 +411,7 @@ export class DDO {
    */
   public replaceService(index: number, service: any) {
     if (!this.service.find((s) => s.index === service.index))
-      throw new DDOServiceNotFoundError(service.type)
+      throw new DDOServiceNotFoundError(service.type.toString())
     this.service[index] = service
   }
 

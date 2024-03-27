@@ -1,24 +1,12 @@
-import { NvmAccount } from '../../nevermined'
-import { ContractEvent, EventHandler, SubgraphEvent } from '../../events'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { KeeperError } from '../../errors'
-import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
-import { getInputsOfFunctionFormatted } from '../../nevermined/utils/BlockchainViemUtils'
+import { NvmAccount } from '@/models'
+import { ContractEvent, EventHandler, SubgraphEvent } from '@/events'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { KeeperError } from '@/sdk'
+import { getInputsOfFunctionFormatted } from '@/nevermined/utils/BlockchainViemUtils'
 import { TransactionReceipt, parseEventLogs } from 'viem'
-export interface TxParameters {
-  value?: string
-  gasLimit?: bigint
-  gasMultiplier?: number
-  gasPrice?: string
-  maxPriorityFeePerGas?: string
-  maxFeePerGas?: string
+import { TxParameters } from '@/models/Transactions'
 
-  nvmAccount?: NvmAccount
-  zeroDevSigner?: ZeroDevAccountSigner<'ECDSA'>
-  sessionKeyProvider?: SessionKeyProvider
-  nonce?: number
-  progress?: (data: any) => void
-}
+
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string

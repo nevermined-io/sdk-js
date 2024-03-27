@@ -1,18 +1,10 @@
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
 // const zerodev = await import('@zerodev/sdk')
 import { Account, LocalAccount, toHex } from 'viem'
-import { NvmAccountError } from '../errors/NvmAccountError'
+import { NvmAccountError } from '@/errors/NeverminedErrors'
+import { NvmAccountType } from '@/types/AccountTypes'
 
-export enum AccountType {
-  Local = 'local',
-  JsonRpc = 'json-rpc',
-  ZeroDev = 'zerodev',
-}
 
-export interface NvmAccountType {
-  signerType: 'local' | 'json-rpc' | 'zerodev'
-  isZeroDev: boolean
-}
 
 /**
  * Account information.
@@ -55,7 +47,7 @@ export class NvmAccount {
   }
 
   constructor(
-    private id: string = '0x0',
+    private id: string,
     accountType: NvmAccountType = { signerType: 'local', isZeroDev: false },
   ) {
     this.setId(id)
@@ -82,7 +74,7 @@ export class NvmAccount {
     return this.id as `0x${string}`
   }
 
-  public setId(id) {
+  public setId(id: string) {
     this.id = id
   }
 

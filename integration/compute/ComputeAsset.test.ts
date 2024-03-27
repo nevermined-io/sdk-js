@@ -4,7 +4,7 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { workflowMetadatas } from '../utils'
 
-import { Nevermined, DDO, NvmAccount, AssetPrice, AssetAttributes } from '../../src'
+import { Nevermined, DDO, NvmAccount, AssetPrice, AssetAttributes } from '@/sdk'
 import { sleep } from '../utils/utils'
 
 describe('Compute Asset', () => {

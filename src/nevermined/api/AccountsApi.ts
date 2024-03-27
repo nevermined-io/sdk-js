@@ -1,7 +1,8 @@
-import { Balance } from '../../models'
-import { NvmAccount, TypedDataDomain, TypedDataTypes } from '../../nevermined'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters as txParams } from '../../keeper'
+// import { Balance, TypedDataDomain, TypedDataTypes } from '@/models'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { TxParameters as txParams } from '@/models/Transactions'
+import { NvmAccount } from '@/models/NvmAccount'
+import { Balance, TypedDataDomain, TypedDataTypes } from '@/types/GeneralTypes'
 import { toHex } from 'viem'
 
 /**

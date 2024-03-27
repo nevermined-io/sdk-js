@@ -1,18 +1,5 @@
-import ContractBase, { TxParameters } from '../ContractBase'
-import { zeroX } from '../../../utils'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { NvmAccount } from '../../../nevermined'
-import { AssetPrice } from '../../../models'
-import { Service, DDO } from '../../../ddo'
+import { AssetPrice, ContractBase, InstantiableConfig, NvmAccount, Service, DDO, zeroX, TxParameters } from '@/sdk'
 
-export enum ConditionState {
-  Uninitialized = 0,
-  Unfulfilled = 1,
-  Fulfilled = 2,
-  Aborted = 3,
-}
-
-export type ConditionMethod = 'fulfill' | 'fulfillForDelegate'
 
 export interface ConditionContext {
   ddo: DDO
@@ -26,19 +13,12 @@ export interface ConditionParameters<Extra> {
   params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
 }
 
-export interface ConditionInstanceSmall {
-  list: any[]
-  seed: string
-  id: string
-  agreementId: string
-  condition: string // Condition contract name
-}
+
 
 export interface ConditionInstance<Extra> extends ConditionInstanceSmall {
   params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
 }
 
-export const conditionStateNames = ['Uninitialized', 'Unfulfilled', 'Fulfilled', 'Aborted']
 
 export abstract class ConditionSmall extends ContractBase {
   // public static async getInstance<Ctx extends ConditionContext, Extra>(

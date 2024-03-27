@@ -1,6 +1,6 @@
 import { assert } from 'chai'
-import { EscrowPaymentCondition, Token } from '../../../src/keeper'
-import { Nevermined } from '../../../src/nevermined'
+import { EscrowPaymentCondition, Token } from '@/src/keeper'
+import { Nevermined } from '@/src/nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 

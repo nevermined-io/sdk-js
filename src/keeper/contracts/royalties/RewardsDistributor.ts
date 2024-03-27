@@ -1,7 +1,8 @@
-import ContractBase, { TxParameters as txParams } from '../ContractBase'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { NvmAccount } from '../../../nevermined'
-import { didZeroX, zeroX } from '../../../utils'
+import { ContractBase } from '@/keeper/contracts'
+import { TxParameters as txParams } from '@/models/Transactions'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { NvmAccount } from '@/models/NvmAccount'
+import { didZeroX, zeroX } from '@/utils'
 
 export class RewardsDistributor extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<RewardsDistributor> {

@@ -4,12 +4,12 @@ import {
   LockPaymentCondition,
   Token,
   ConditionStoreManager,
-} from '../../../src/keeper'
-import { Nevermined } from '../../../src/nevermined'
+} from '@/src/keeper'
+import { Nevermined } from '@/src/nevermined'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { NvmAccount, AssetPrice } from '../../../src'
-import { generateId, ZeroAddress } from '../../../src/utils'
+import { NvmAccount, AssetPrice } from '@/src'
+import { generateId, ZeroAddress } from '@/src/utils'
 
 let conditionStoreManager: ConditionStoreManager
 let lockPaymentCondition: LockPaymentCondition

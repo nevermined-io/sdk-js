@@ -1,28 +1,15 @@
-import ContractBase, { TxParameters } from '../ContractBase'
+import { ZeroAddress } from '@/constants'
 import {
   ConditionContext,
-  ConditionInstanceSmall,
   ConditionSmall,
-  ConditionState,
-  conditionStateNames,
-} from '../conditions'
-import { DDO, ServiceAgreementTemplate, Service, ServiceType } from '../../../ddo'
-import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { AssetPrice, BabyjubPublicKey } from '../../../models'
-import { NvmAccount, OrderProgressStep, isValidAddress } from '../../../nevermined'
-import { CustomToken } from '../CustomToken'
-import { Token } from '../Token'
+} from '@/keeper/contracts/conditions'
+import { DDO, ServiceAgreementTemplate, Service, ServiceType, NvmAccount, OrderProgressStep, isValidAddress } from '@/sdk'
+import { didZeroX, zeroX } from '@/utils'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { AssetPrice, BabyjubPublicKey, TxParameters } from '@/models'
+import { ContractBase, CustomToken, Token } from '@/keeper/contracts'
 
-export interface AgreementConditionsStatus {
-  [condition: string]: {
-    condition: string
-    contractName: string
-    state: ConditionState
-    blocked: boolean
-    blockedBy: string[]
-  }
-}
+
 
 export type ParameterType =
   | string
@@ -34,18 +21,6 @@ export type ParameterType =
   | ServiceType
   | TxParameters
 
-export interface AgreementInstance<Params> {
-  list: Params
-  agreementId: string
-  instances: ConditionInstanceSmall[]
-}
-
-export interface PaymentData {
-  rewardAddress: string
-  tokenAddress: string
-  amounts: bigint[]
-  receivers: string[]
-}
 
 export abstract class AgreementTemplate<Params> extends ContractBase {
   // cache these values since they are always the same for a template
@@ -451,7 +426,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
           this.logger.bypass('-'.repeat(20))
         }
         this.logger.bypass(`${condition} (${contractName})`)
-        this.logger.bypass('  Status:', state, `(${conditionStateNames[state]})`)
+        this.logger.bypass('  Status:', state, `(${ConditionStateNames[state]})`)
         if (blocked) {
           this.logger.bypass('  Blocked by:', blockedBy)
         }

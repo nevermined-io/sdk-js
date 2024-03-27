@@ -1,3 +1,4 @@
+import { NETWORK_FEE_DENOMINATOR } from "@/constants"
 import { ZeroDevAccountSigner } from '@zerodev/sdk'
 import {
   NvmAccount,
@@ -7,16 +8,13 @@ import {
   MetaData,
   NFTAttributes,
   Nevermined,
-  NeverminedInitializationOptions,
   NeverminedOptions,
-  PublishMetadataOptions,
-  PublishOnChainOptions,
   SearchApi,
   SubscriptionToken,
   SubscriptionType,
   Web3Error,
   isValidAddress,
-} from '../sdk'
+} from '@/sdk'
 import {
   AppDeploymentArbitrum,
   AppDeploymentBase,
@@ -29,7 +27,9 @@ import {
   AppDeploymentStaging,
   AppDeploymentTesting,
   NeverminedAppOptions,
-} from './resources/AppNetworks'
+} from '@/nevermined/resources/AppNetworks'
+import { NeverminedInitializationOptions } from "../types/GeneralTypes"
+import { PublishMetadataOptions, PublishOnChainOptions } from "../types/MetadataTypes"
 
 export enum NVMAppEnvironments {
   Staging = 'staging',
@@ -484,7 +484,7 @@ export class NvmApp {
 
     const networkFee = price.getRewards().get(this.networkFeeReceiver)
     const expectedFee =
-      (price.getTotalPrice() * this.networkFee) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n
+      (price.getTotalPrice() * this.networkFee) / NETWORK_FEE_DENOMINATOR / 100n
     if (networkFee !== expectedFee) return false
     return true
   }

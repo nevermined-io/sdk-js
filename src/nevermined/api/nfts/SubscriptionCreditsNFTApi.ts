@@ -1,9 +1,9 @@
-import { NeverminedOptions } from '../../../models'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { ContractHandler, Nft1155Contract } from '../../../keeper'
-import { NFT1155Api } from './NFT1155Api'
-import { Nevermined } from '../../Nevermined'
-import { NvmAccount } from '../../NvmAccount'
+import { NeverminedOptions } from '@/models'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { ContractHandler, Nft1155Contract } from '@/keeper'
+import { NFT1155Api } from '@/nevermined/api/nfts/NFT1155Api'
+import { Nevermined } from '@/nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
 
 export class SubscriptionCreditsNFTApi extends NFT1155Api {
   public static async getInstanceUsingABI(

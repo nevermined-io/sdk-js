@@ -1,19 +1,4 @@
-import { LogLevel } from '../utils'
-import { NvmAccount } from '../nevermined'
-
-export interface NeverminedInitializationOptions {
-  loadCore: boolean // NVMConfig, DIDRegistry
-  loadServiceAgreements: boolean // TemplateStoreManager, AgreementStoreManager, ConditionStoreManager
-  loadNFTs721: boolean // NFT721HolderCondition, NFT721LockCondition, NFT721AccessTemplate, NFT721SalesTemplate
-  loadNFTs1155: boolean // NFTHolderCondition, NFTLockCondition, NFTAccessTemplate, NFTSalesTemplate
-  loadDispenser: boolean // Dispenser
-  loadERC20Token: boolean // Token
-  loadAccessFlow: boolean // LockPaymentCondition, EscrowPaymentCondition, AccessCondition, AccessTemplate
-  loadDIDTransferFlow: boolean // TransferDIDOwnershipCondition, DIDSalesTemplate
-  loadRewards: boolean // RewardsDistributor
-  loadRoyalties: boolean // StandardRoyalties, CurveRoyalties
-  loadCompute: boolean // ComputeExecutionCondition, EscrowComputeExecutionTemplate
-}
+import { NvmAccount, LogLevel } from '@/models'
 
 export class NeverminedOptions {
   public chainId?: number

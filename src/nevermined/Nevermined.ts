@@ -1,17 +1,17 @@
-import { AccountsApi } from './api/AccountsApi'
-import { AgreementsApi } from './api/AgreementsApi'
-import { AssetsApi } from './api/AssetsApi'
-import { ProvenanceApi } from './api/ProvenanceApi'
-import { UtilsApi } from './api/UtilsApi'
-import { Keeper, CustomToken, Nft1155Contract, Nft721Contract } from '../keeper'
-import { NeverminedInitializationOptions, NeverminedOptions } from '../models'
-import { Instantiable, generateInstantiableConfigFromConfig } from '../Instantiable.abstract'
-import { NFT1155Api } from './api/nfts/NFT1155Api'
-import { NFT721Api } from './api/nfts/NFT721Api'
-import { SearchApi } from './api/SearchApi'
-import { ServicesApi } from './api/ServicesApi'
-import { ComputeApi } from './api'
-import { Logger } from '../sdk'
+import { AccountsApi } from '@/nevermined/api/AccountsApi'
+import { AgreementsApi } from '@/nevermined/api/AgreementsApi'
+import { AssetsApi } from '@/nevermined/api/AssetsApi'
+import { ProvenanceApi } from '@/nevermined/api/ProvenanceApi'
+import { UtilsApi } from '@/nevermined/api/UtilsApi'
+import { Keeper, CustomToken, Nft1155Contract, Nft721Contract } from '@/keeper'
+import { LoggerInstance, NeverminedOptions } from '@/models'
+import { Instantiable, generateInstantiableConfigFromConfig } from '@/Instantiable.abstract'
+import { NFT1155Api } from '@/nevermined/api/nfts/NFT1155Api'
+import { NFT721Api } from '@/nevermined/api/nfts/NFT721Api'
+import { SearchApi } from '@/nevermined/api/SearchApi'
+import { ServicesApi } from '@/nevermined/api/ServicesApi'
+import { ComputeApi } from '@/nevermined/api'
+import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -85,8 +85,9 @@ export class Nevermined extends Instantiable {
       instance.isKeeperConnected = initOptions.loadCore
     } catch (error) {
       instance.isKeeperConnected = false
-      Logger.error(error)
-      Logger.error(
+      
+      LoggerInstance.error(error)
+      LoggerInstance.error(
         "Contracts didn't initialize because for the above mentioned reason. Loading SDK in offchain mode...",
       )
     }

@@ -1,4 +1,3 @@
-export * from './contracts'
 export * from './ContractHandler'
+export * from './contracts'
 export * from './Keeper'
-export * from './utils'

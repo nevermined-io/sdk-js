@@ -1,7 +1,7 @@
 import { assert } from 'chai'
-import { generateId } from '../../src/utils'
+import { generateId } from '../../src'
 
-describe('GeneratorHelpers', () => {
+describe('Helpers', () => {
   describe('#generateId()', () => {
     it('should generate an ID', async () => {
       const id = generateId()

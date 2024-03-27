@@ -1,7 +1,9 @@
-import ContractBase, { TxParameters } from '../ContractBase'
-import { zeroX } from '../../../utils'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { NvmAccount } from '../../../nevermined'
+
+import { zeroX } from '@/utils'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
+import { ContractBase } from '@/keeper/contracts'
 
 export enum TemplateState {
   Uninitialized = 0,

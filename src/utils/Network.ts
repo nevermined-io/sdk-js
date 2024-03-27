@@ -1,3 +1,4 @@
+import { KeeperError } from '@/errors/NeverminedErrors'
 import {
   Chain,
   arbitrum,
@@ -13,7 +14,6 @@ import {
   polygon,
   polygonMumbai,
 } from 'viem/chains'
-import { KeeperError } from '../errors'
 import { defineChain } from 'viem'
 
 export async function getNetworkName(networkId: number): Promise<string> {
@@ -193,17 +193,4 @@ export function getChain(networkId: number): Chain {
       throw new KeeperError(`Network with id ${networkId} not supported.`)
   }
 }
-// Wrapper for implementing web3 provider. Needed for OpenGSN
-export interface JsonRpcPayload {
-  jsonrpc: string
-  method: string
-  params: any[]
-  id?: string | number
-}
 
-export interface JsonRpcResponse {
-  jsonrpc: string
-  id: number
-  result?: any
-  error?: string
-}

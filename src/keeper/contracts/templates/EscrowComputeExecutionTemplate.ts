@@ -1,15 +1,13 @@
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
-import { BaseTemplate } from './BaseTemplate.abstract'
-import { DDO, ServiceCompute, ServiceType, ValidationParams } from '../../../ddo'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-
-import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
-import { NvmAccount } from '../../../sdk'
+import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
+import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
+import { DDO, NvmAccount, ServiceCompute, ServiceType, ValidationParams } from '@/sdk'
+import { InstantiableConfig } from '@/Instantiable.abstract'
 import {
   ComputeExecutionCondition,
   EscrowPaymentCondition,
   LockPaymentCondition,
-} from '../conditions'
+} from '@/keeper/contracts/conditions'
+import { lockPaymentTemplate, serviceExecutionTemplate, escrowTemplate } from '@/keeper/contracts/templates/ConditionTemplates'
 
 export interface EscrowComputeExecutionParams {
   consumerId: string
@@ -88,7 +86,27 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<
   }
 
   public getServiceAgreementTemplate() {
-    return { ...escrowComputeExecutionTemplateServiceAgreementTemplate() }
+    return {
+      contractName: 'EscrowComputeExecutionTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'serviceExecutionTemplate',
+            functionName: 'fulfillLockPaymentCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['lockPayment.fulfill', 'serviceExecution.fulfill', 'escrowPayment.fulfill'],
+      conditionDependency: {
+        lockPayment: [],
+        serviceExecution: [],
+        escrowPaymentCondition: ['lockPayment', 'serviceExecution'],
+      },
+      conditions: [lockPaymentTemplate(), serviceExecutionTemplate(), escrowTemplate()],
+    }
   }
 
   public service(): ServiceType {

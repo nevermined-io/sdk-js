@@ -1,8 +1,7 @@
-import { ServiceAgreementTemplateCondition, DDO, ServiceAccess, ServiceType } from '../../ddo'
-import { NvmAccount } from '../NvmAccount'
-import { zeroX } from '../../utils'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { getBytes, keccak256Packed } from './BlockchainViemUtils'
+import { DDO, NvmAccount, ServiceAgreementTemplateCondition, ServiceAccess, ServiceType } from '@/sdk'
+import { zeroX } from '@/utils'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { getBytes, keccak256Packed } from '@/nevermined/utils/BlockchainViemUtils'
 
 export class ServiceAgreement extends Instantiable {
   constructor(config: InstantiableConfig) {

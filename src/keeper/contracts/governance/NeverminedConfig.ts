@@ -1,6 +1,4 @@
-import ContractBase, { TxParameters } from '../ContractBase'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { NvmAccount } from '../../../nevermined'
+import { InstantiableConfig, ContractBase, NvmAccount, TxParameters } from '@/sdk'
 
 export default class NeverminedConfig extends ContractBase {
   templates: any

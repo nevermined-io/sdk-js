@@ -1,9 +1,6 @@
-import { MarketplaceApi } from './MarketplaceAPI'
-import { NewPermission, Permission, PermissionType } from './types'
-import { HttpError, ApiError } from '../../errors'
-import { MarketplaceResults } from '../../common/interfaces'
-import { SearchQuery } from '../../common/interfaces'
-import { buildQuery } from '../../common/helpers'
+import { Permission } from '@zerodev/sdk'
+import { buildQuery, MarketplaceApi, HttpError, ApiError } from '@/sdk'
+import { NewPermission, SearchQuery, MarketplaceResults, PermissionType } from '@/types/MetadataTypes'
 
 const permissionPath = '/api/v1/permissions'
 

@@ -1,14 +1,14 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined, NvmAccount, ConditionState } from '../../../src'
+import { Nevermined, NvmAccount, ConditionState } from '@/src'
 import {
   DIDRegistry,
   AgreementStoreManager,
   ConditionStoreManager,
   TemplateStoreManager,
   NFTSalesTemplate,
-} from '../../../src/keeper'
-import { didZeroX, zeroX, generateId } from '../../../src/utils'
+} from '@/src/keeper'
+import { didZeroX, zeroX, generateId } from '@/src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 

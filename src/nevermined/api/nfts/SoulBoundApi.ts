@@ -1,8 +1,8 @@
-import { NvmAccount, Nevermined } from '../../../nevermined'
-import { NeverminedOptions } from '../../../models'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { ContractHandler, Nft721Contract } from '../../../keeper'
-import { NFT721Api } from './NFT721Api'
+import { Nevermined } from '@/nevermined'
+import { NeverminedOptions, NvmAccount } from '@/models'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { ContractHandler, Nft721Contract } from '@/keeper'
+import { NFT721Api } from '@/nevermined/api/nfts/NFT721Api'
 
 export default class SoulBoundNFTApi extends NFT721Api {
   public static async getInstanceUsingABI(

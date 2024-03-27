@@ -1,7 +1,8 @@
-import { NvmAccount } from '../NvmAccount'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters, ProvenanceMethod } from '../../keeper'
-import { zeroPadValue } from '../utils/BlockchainViemUtils'
+import { NvmAccount } from '@/models/NvmAccount'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { ProvenanceMethod } from '@/keeper'
+import { zeroPadValue } from '@/nevermined/utils/BlockchainViemUtils'
+import { TxParameters } from '@/models/Transactions'
 
 /**
  * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry

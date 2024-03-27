@@ -1,8 +1,8 @@
 import { assert } from 'chai'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { Nevermined } from '../../../src/nevermined'
-import { Token, ConditionSmall, AccessTemplate } from '../../../src/keeper'
+import { Nevermined } from '@/src/nevermined'
+import { Token, ConditionSmall, AccessTemplate } from '@/src/keeper'
 
 let template: AccessTemplate
 let condition: ConditionSmall

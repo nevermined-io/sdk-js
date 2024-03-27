@@ -6,14 +6,14 @@ import {
   Nevermined,
   NeverminedNFT1155Type,
   NFTAttributes,
-} from '../../../src'
+} from '@/src'
 import {
   NFTHolderCondition,
   Nft1155Contract,
   DIDRegistry,
   ConditionStoreManager,
-} from '../../../src/keeper'
-import { didZeroX, zeroX, generateId } from '../../../src/utils'
+} from '@/src/keeper'
+import { didZeroX, zeroX, generateId } from '@/src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 import { EventLog } from 'ethers'

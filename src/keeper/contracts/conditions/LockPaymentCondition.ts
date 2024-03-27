@@ -1,9 +1,9 @@
-import { Condition, ConditionContext, ConsumerCondition } from './Condition.abstract'
-import { didZeroX, zeroX } from '../../../utils'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { NvmAccount } from '../../../nevermined'
-import { TxParameters } from '../ContractBase'
-import { DDO } from '../../../ddo'
+import { Condition, ConditionContext, ConsumerCondition } from '@/keeper/contracts'
+import { didZeroX, zeroX } from '@/utils'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo'
+import { TxParameters } from '@/models/Transactions'
 
 export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
   public static async getInstance(config: InstantiableConfig): Promise<LockPaymentCondition> {

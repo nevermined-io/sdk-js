@@ -1,6 +1,6 @@
-import { getChain, NeverminedOptions } from './'
-import { Logger, LoggerInstance, LogLevel } from './utils'
-import { Nevermined } from './nevermined'
+import { getChain } from '@/utils/Network'
+import { Logger, LoggerInstance, LogLevel, NeverminedOptions } from '@/models'
+import { Nevermined } from '@/nevermined'
 import {
   Chain,
   createPublicClient,

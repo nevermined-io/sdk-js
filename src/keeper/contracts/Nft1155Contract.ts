@@ -1,10 +1,11 @@
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../utils'
-import { NvmAccount, getContractInstance } from '../../nevermined'
-import { TxParameters } from './ContractBase'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { didZeroX, zeroX } from '@/utils'
+import { getContractInstance } from '@/nevermined'
+import { TxParameters } from '@/models/Transactions'
 import { NFTContractsBase } from './NFTContractsBase'
-import { ContractHandler } from '../ContractHandler'
-import { ContractEvent, EventHandler } from '../../events'
+import { ContractHandler } from '@/keeper/ContractHandler'
+import { ContractEvent, EventHandler } from '@/events'
+import { NvmAccount } from '@/models/NvmAccount'
 
 /**
  * NFTs contracts DTO allowing to manage Nevermined ERC-1155 NFTs

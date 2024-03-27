@@ -1,6 +1,6 @@
-import { NvmAccount } from './NvmAccount'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters } from '../keeper'
+import { NvmAccount } from '@/models/NvmAccount'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { TxParameters } from '@/models/Transactions'
 
 /**
  * Providers API that allows the basic management of the provider accounts associated to an asset.

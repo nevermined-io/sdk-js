@@ -1,4 +1,4 @@
-// import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+// import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 // import {
 //   BigNumberish,
 //   BrowserProvider,
@@ -17,7 +17,7 @@
 //   ethers,
 //   getIndexedAccountPath,
 // } from 'ethers'
-// import { NvmAccount, KeeperError } from '../../sdk'
+// import { NvmAccount, KeeperError } from '@/sdk'
 // // import { Hex, SignTypedDataParams, SmartAccountSigner } from '@alchemy/aa-core'
 
 // export class BlockchainEthersUtils extends Instantiable {

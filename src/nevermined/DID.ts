@@ -1,4 +1,4 @@
-import { generateId } from '../utils'
+import { generateId } from '@/sdk'
 
 const prefix = 'did:nv:'
 /**

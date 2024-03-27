@@ -1,26 +1,23 @@
-import {
+import { DEFAULT_ENCRYPTION_METHOD, ZeroAddress } from '@/constants'
+
+import { AssetAttributes, AssetPrice, NFTAttributes, NvmAccount, TxParameters } from '@/models'
+import { CreateProgressStep, DID, formatUnits, SignatureUtils } from '@/nevermined'
+import { DEFAULT_REGISTRATION_ACTIVITY_ID } from '@/keeper'
+import { SubscribablePromise, zeroX } from '@/utils'
+import { OrderProgressStep, UpdateProgressStep } from '@/nevermined/ProgressSteps'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { AccessService, NFTSalesService, NFTAccessService } from '@/nevermined/AccessService'
+import { AssetError, 
+  generateId,
   Service,
   ServicePlugin,
   ServiceType,
   NvmConfigVersions,
-  DDO,
   MetaData,
   PricedMetadataInformation,
-} from '../../ddo'
-import { AssetAttributes, AssetPrice, NFTAttributes } from '../../models'
-import { NvmAccount, CreateProgressStep, DID, formatUnits } from '../../nevermined'
-import { TxParameters, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
-import { SubscribablePromise, zeroX, generateId, ZeroAddress } from '../../utils'
-import {
-  AssetPublicationOptions,
-  DIDResolvePolicy,
-  PublishMetadataOptions,
-  PublishOnChainOptions,
-} from './AssetsApi'
-import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
-import { AssetError } from '../../errors/AssetError'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { AccessService, NFTSalesService, NFTAccessService } from '../AccessService'
+} from '@/sdk'
+import { DDO } from '@/ddo/DDO'
+import { AssetPublicationOptions, PublishMetadataOptions, PublishOnChainOptions, DIDResolvePolicy } from '@/types/MetadataTypes'
 
 /**
  * Abstract class proving common functionality related with Assets registration.
@@ -232,7 +229,7 @@ export abstract class RegistryBaseApi extends Instantiable {
               nftAttributesWithoutRoyalties,
               serviceEndpoint,
               ddoVersion.immutableUrl,
-              DEFAULT_REGISTRATION_ACTIVITY_ID,
+              SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
               txParams,
             )
           } else {
@@ -245,7 +242,7 @@ export abstract class RegistryBaseApi extends Instantiable {
               nftAttributesWithoutRoyalties,
               serviceEndpoint,
               ddoVersion.immutableUrl,
-              DEFAULT_REGISTRATION_ACTIVITY_ID,
+              SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
               txParams,
             )
           }
@@ -277,7 +274,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             publisher.getId(),
             serviceEndpoint,
             ddoVersion.immutableUrl,
-            DEFAULT_REGISTRATION_ACTIVITY_ID,
+            SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),            
             txParams,
           )
         }
@@ -380,7 +377,7 @@ export abstract class RegistryBaseApi extends Instantiable {
         const encryptedFilesResponse = await this.nevermined.services.node.encrypt(
           ddo.id,
           JSON.stringify(metadataService.attributes.main.files),
-          new String(AssetAttributes.DEFAULT_ENCRYPTION_METHOD),
+          new String(DEFAULT_ENCRYPTION_METHOD),
         )
         metadataService.attributes.encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
 
@@ -388,7 +385,7 @@ export abstract class RegistryBaseApi extends Instantiable {
           const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
             ddo.id,
             JSON.stringify(metadataService.attributes.main.webService.internalAttributes),
-            new String(AssetAttributes.DEFAULT_ENCRYPTION_METHOD),
+            new String(DEFAULT_ENCRYPTION_METHOD),
           )
           const encryptedAttributes = JSON.parse(encryptedServiceAttributesResponse)['hash']
           metadataService.attributes.main.webService.encryptedAttributes = encryptedAttributes

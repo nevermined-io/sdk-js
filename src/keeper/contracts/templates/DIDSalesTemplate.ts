@@ -1,14 +1,13 @@
-import { ServiceAgreementTemplate, ServiceType, ValidationParams } from '../../../ddo'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../sdk'
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
-import { BaseTemplate } from './BaseTemplate.abstract'
-import { didSalesTemplateServiceAgreementTemplate } from './DIDSalesTemplate.serviceAgreementTemplate'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { DDO, ServiceAgreementTemplate, ServiceType, ValidationParams } from '@/sdk'
+import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
+import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
 import {
   EscrowPaymentCondition,
   LockPaymentCondition,
   TransferDIDOwnershipCondition,
-} from '../conditions'
+} from '@/keeper/contracts/conditions'
+import { lockPaymentTemplate, didTransferTemplate, escrowTemplate } from '@/keeper/contracts/templates/ConditionTemplates'
 
 export interface DIDSalesTemplateParams {
   receiverId: string
@@ -88,6 +87,26 @@ export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams, any> 
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return { ...didSalesTemplateServiceAgreementTemplate() }
+    return {
+      contractName: 'DIDSalesTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'didSalesTemplate',
+            functionName: 'fulfillLockPaymentCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['lockPayment.fulfill', 'transferDID.fulfill', 'escrowPayment.fulfill'],
+      conditionDependency: {
+        lockPayment: [],
+        transferDID: [],
+        escrowPayment: ['lockPayment', 'transferNFT'],
+      },
+      conditions: [lockPaymentTemplate(), didTransferTemplate(), escrowTemplate()],
+    }
   }
 }

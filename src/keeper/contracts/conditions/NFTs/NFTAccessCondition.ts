@@ -1,8 +1,8 @@
-import { Condition, ConditionContext, ProviderCondition } from '../Condition.abstract'
-import { zeroX, didZeroX } from '../../../../utils'
-import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { NvmAccount } from '../../../../nevermined'
-import { TxParameters } from '../../ContractBase'
+import { Condition, ConditionContext, ProviderCondition } from '@/keeper'
+import { zeroX, didZeroX } from '@/utils'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
 
 export interface NFTAccessConditionContext extends ConditionContext {
   grantee: string

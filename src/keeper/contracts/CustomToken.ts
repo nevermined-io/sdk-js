@@ -1,5 +1,5 @@
 import { Token } from './Token'
-import { InstantiableConfig } from '../../Instantiable.abstract'
+import { InstantiableConfig } from '@/Instantiable.abstract'
 import { parseAbi } from 'viem'
 
 export class CustomToken extends Token {

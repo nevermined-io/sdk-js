@@ -1,12 +1,6 @@
-import { DDO, MetaData } from '../../ddo'
-import { AssetAttributes } from '../../models'
-import { NvmAccount } from '../../nevermined'
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters } from '../../keeper'
-import { SubscribablePromise } from '../../utils'
-import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
-import { AssetPublicationOptions, PublishMetadataOptions, PublishOnChainOptions } from './AssetsApi'
-import { RegistryBaseApi } from './RegistryBaseApi'
+import { RegistryBaseApi, AssetAttributes, CreateProgressStep, OrderProgressStep, UpdateProgressStep, InstantiableConfig, MetaData, NvmAccount, SubscribablePromise, TxParameters } from '@/sdk'
+import { AssetPublicationOptions, PublishMetadataOptions, PublishOnChainOptions } from '@/types/MetadataTypes'
+import { DDO } from '@/ddo/DDO'
 
 /**
  * Nevermined Compute API. It allows the registration execution of compute jobs on top
