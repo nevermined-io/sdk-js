@@ -1,5 +1,5 @@
-// export * from '@/constants'
-// export * from '@/types'
+export * from '@/constants'
+export * from '@/types'
 // export * from '@/errors/NeverminedErrors'
 // export * from '@/common/helpers'
 // export * from '@/models'
