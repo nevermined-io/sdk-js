@@ -8,7 +8,7 @@
     // "noImplicitOverride": true, // Not enabled by default in `strict` mode.
     "noUnusedLocals": true, // Not enabled by default in `strict` mode.
     "noUnusedParameters": true, // Not enabled by default in `strict` mode.
-    
+
     // // "exactOptionalPropertyTypes": true,
 
     // "verbatimModuleSyntax": true,
@@ -32,10 +32,10 @@
     //   "ES2022", // By using ES2022 we get access to the `.cause` property on `Error` instances.
     //   "DOM" // We are adding `DOM` here to get the `fetch`, etc. types. This should be removed once these types are available via DefinitelyTyped.
     // ],
-    "declaration": true,                              /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
-    "declarationMap": true,                           /* Create sourcemaps for d.ts files. */
+    "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,
+    "declarationMap": true /* Create sourcemaps for d.ts files. */,
     // "emitDeclarationOnly": true,                      /* Only output d.ts files and not JavaScript files. */
-    "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
+    "sourceMap": true /* Create source map files for emitted JavaScript files. */,
 
     // Language and environment
     "moduleResolution": "node",
@@ -48,10 +48,11 @@
     "preserveConstEnums": true,
     "outDir": "./dist/node/",
     "rootDir": "./src/",
-    
+
+    "baseUrl": "./",
     "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],

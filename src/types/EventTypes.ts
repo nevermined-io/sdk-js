@@ -1,8 +1,8 @@
-interface FilterContractEvent {
-    [key: string]: number | string | string[] | number[]
+export interface FilterContractEvent {
+  [key: string]: number | string | string[] | number[]
 }
 
-interface EventOptions {
+export interface EventOptions {
   eventName: string
   filterJsonRpc?: FilterContractEvent
   filterSubgraph?: Record<string, unknown>
@@ -11,13 +11,13 @@ interface EventOptions {
   toBlock?: bigint | string
 }
 
-interface EventEmitter {
+export interface EventEmitter {
   subscribe: (callback: () => Promise<void>, arg1: () => Promise<bigint>) => void
   unsubscribe: (arg0: () => Promise<void>) => void
 }
 
-interface ContractEventSubscription {
+export interface ContractEventSubscription {
   unsubscribe: () => void
 }
 
-type EventResult = Promise<Array<any>>
+export type EventResult = Promise<Array<any>>

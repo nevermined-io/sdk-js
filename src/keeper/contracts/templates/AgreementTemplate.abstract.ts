@@ -1,15 +1,25 @@
 import { ZeroAddress } from '@/constants'
+import { ConditionContext, ConditionSmall } from '@/keeper/contracts/conditions'
 import {
-  ConditionContext,
-  ConditionSmall,
-} from '@/keeper/contracts/conditions'
-import { DDO, ServiceAgreementTemplate, Service, ServiceType, NvmAccount, OrderProgressStep, isValidAddress } from '@/sdk'
+  DDO,
+  ServiceAgreementTemplate,
+  Service,
+  ServiceType,
+  NvmAccount,
+  OrderProgressStep,
+  isValidAddress,
+} from '@/sdk'
 import { didZeroX, zeroX } from '@/utils'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { AssetPrice, BabyjubPublicKey, TxParameters } from '@/models'
 import { ContractBase, CustomToken, Token } from '@/keeper/contracts'
-
-
+import {
+  AgreementConditionsStatus,
+  AgreementInstance,
+  ConditionState,
+  ConditionStateNames,
+  PaymentData,
+} from '@/types/ContractTypes'
 
 export type ParameterType =
   | string
@@ -20,7 +30,6 @@ export type ParameterType =
   | Service
   | ServiceType
   | TxParameters
-
 
 export abstract class AgreementTemplate<Params> extends ContractBase {
   // cache these values since they are always the same for a template

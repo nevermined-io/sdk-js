@@ -1,13 +1,10 @@
-import {
-  Condition,
-  ConditionContext,
-  ProviderCondition,
-} from '@/keeper/contracts'
+import { Condition, ConditionContext, ProviderCondition } from '@/keeper/contracts'
 import { didZeroX, zeroX } from '@/utils'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { NvmAccount } from '@/models/NvmAccount'
 import { DDO } from '@/ddo'
 import { TxParameters } from '@/models/Transactions'
+import { ConditionInstanceSmall } from '@/types/ContractTypes'
 
 export interface EscrowPaymentConditionContext extends ConditionContext {
   consumerId: string

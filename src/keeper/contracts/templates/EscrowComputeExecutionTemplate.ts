@@ -7,7 +7,12 @@ import {
   EscrowPaymentCondition,
   LockPaymentCondition,
 } from '@/keeper/contracts/conditions'
-import { lockPaymentTemplate, serviceExecutionTemplate, escrowTemplate } from '@/keeper/contracts/templates/ConditionTemplates'
+import {
+  lockPaymentTemplate,
+  serviceExecutionTemplate,
+  escrowTemplate,
+} from '@/keeper/contracts/templates/ConditionTemplates'
+import { AgreementInstance } from '@/types/ContractTypes'
 
 export interface EscrowComputeExecutionParams {
   consumerId: string
@@ -99,7 +104,11 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<
           },
         },
       ],
-      fulfillmentOrder: ['lockPayment.fulfill', 'serviceExecution.fulfill', 'escrowPayment.fulfill'],
+      fulfillmentOrder: [
+        'lockPayment.fulfill',
+        'serviceExecution.fulfill',
+        'escrowPayment.fulfill',
+      ],
       conditionDependency: {
         lockPayment: [],
         serviceExecution: [],

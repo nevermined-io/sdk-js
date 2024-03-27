@@ -2,8 +2,17 @@ import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { NvmAccount, DDO, ServiceAccess, ServiceType, ValidationParams } from '@/sdk'
-import { AccessCondition, EscrowPaymentCondition, LockPaymentCondition } from '@/keeper/contracts/conditions'
-import { lockPaymentTemplate, accessTemplate, escrowTemplate } from '@/keeper/contracts/templates/ConditionTemplates'
+import {
+  AccessCondition,
+  EscrowPaymentCondition,
+  LockPaymentCondition,
+} from '@/keeper/contracts/conditions'
+import {
+  lockPaymentTemplate,
+  accessTemplate,
+  escrowTemplate,
+} from '@/keeper/contracts/templates/ConditionTemplates'
+import { AgreementInstance } from '@/types/ContractTypes'
 
 export interface AccessTemplateParams {
   type: 'access'

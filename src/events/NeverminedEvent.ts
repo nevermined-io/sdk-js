@@ -1,4 +1,10 @@
 import { ContractBase, Web3Clients } from '@/sdk'
+import {
+  EventEmitter,
+  EventOptions,
+  EventResult,
+  ContractEventSubscription,
+} from '@/types/EventTypes'
 
 export abstract class NeverminedEvent {
   // extends Instantiable {

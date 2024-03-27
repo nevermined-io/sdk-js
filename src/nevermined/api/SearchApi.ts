@@ -1,11 +1,7 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import {
-  NvmAccount,
-  DID,
-  didPrefixed,
-  DDO, Service, ServiceType
-} from '@/sdk'
+import { NvmAccount, DID, didPrefixed, DDO, Service, ServiceType } from '@/sdk'
 import { QueryResult } from '@/services/metadata/MetadataService'
+import { EventOptions } from '@/types/EventTypes'
 import { NeverminedNFT1155Type, NeverminedNFT721Type } from '@/types/GeneralTypes'
 import { SearchQuery } from '@/types/MetadataTypes'
 

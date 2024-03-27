@@ -1,5 +1,14 @@
-import { AssetPrice, ContractBase, InstantiableConfig, NvmAccount, Service, DDO, zeroX, TxParameters } from '@/sdk'
-
+import {
+  AssetPrice,
+  ContractBase,
+  InstantiableConfig,
+  NvmAccount,
+  Service,
+  DDO,
+  zeroX,
+  TxParameters,
+} from '@/sdk'
+import { ConditionInstanceSmall, ConditionMethod } from '@/types/ContractTypes'
 
 export interface ConditionContext {
   ddo: DDO
@@ -13,12 +22,9 @@ export interface ConditionParameters<Extra> {
   params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
 }
 
-
-
 export interface ConditionInstance<Extra> extends ConditionInstanceSmall {
   params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
 }
-
 
 export abstract class ConditionSmall extends ContractBase {
   // public static async getInstance<Ctx extends ConditionContext, Extra>(

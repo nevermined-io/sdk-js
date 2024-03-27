@@ -10,6 +10,7 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models'
 import { DDO } from '@/ddo'
 import { ServiceCommon } from '@/types'
+import { ConditionMethod } from '@/types/ContractTypes'
 
 export interface TransferNFTConditionContext extends ConditionContext {
   providerId: string

@@ -9,6 +9,7 @@ import {
 import { NvmAccount } from '@/models/NvmAccount'
 import { DDO } from '@/ddo/DDO'
 import { TxParameters } from '@/models/Transactions'
+import { ConditionMethod } from '@/types/ContractTypes'
 
 export interface TransferNFT721ConditionContext extends ConditionContext {
   consumerId: string

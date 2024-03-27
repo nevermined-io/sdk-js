@@ -1,6 +1,6 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { zeroX } from '@/utils'
-import { 
+import {
   getConditionsByParams,
   PricedMetadataInformation,
   Service,
@@ -9,8 +9,15 @@ import {
   ServicePlugin,
   ServiceType,
   ValidationParams,
-  NvmAccount, Condition, MetaData, NFTAttributes, isValidAddress, TxParameters } from '@/sdk'
+  NvmAccount,
+  Condition,
+  MetaData,
+  NFTAttributes,
+  isValidAddress,
+  TxParameters,
+} from '@/sdk'
 import { ConditionInstance } from '@/keeper/contracts/conditions'
+import { ConditionState } from '@/types/ContractTypes'
 
 export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>

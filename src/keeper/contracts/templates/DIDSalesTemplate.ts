@@ -7,7 +7,12 @@ import {
   LockPaymentCondition,
   TransferDIDOwnershipCondition,
 } from '@/keeper/contracts/conditions'
-import { lockPaymentTemplate, didTransferTemplate, escrowTemplate } from '@/keeper/contracts/templates/ConditionTemplates'
+import {
+  lockPaymentTemplate,
+  didTransferTemplate,
+  escrowTemplate,
+} from '@/keeper/contracts/templates/ConditionTemplates'
+import { AgreementInstance } from '@/types/ContractTypes'
 
 export interface DIDSalesTemplateParams {
   receiverId: string

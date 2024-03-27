@@ -1,9 +1,4 @@
-import {
-  ServiceAgreementTemplate,
-  ServiceNFTSales,
-  ServiceType,
-  ValidationParams,
-} from '@/sdk'
+import { ServiceAgreementTemplate, ServiceNFTSales, ServiceType, ValidationParams } from '@/sdk'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { DDO } from '@/sdk'
 import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
@@ -13,7 +8,12 @@ import {
   EscrowPaymentCondition,
   TransferNFT721Condition,
 } from '@/keeper/contracts/conditions'
-import { lockPaymentTemplate, transferNFT721Template, escrowTemplate } from '@/keeper/contracts/templates/ConditionTemplates'
+import {
+  lockPaymentTemplate,
+  transferNFT721Template,
+  escrowTemplate,
+} from '@/keeper/contracts/templates/ConditionTemplates'
+import { AgreementInstance } from '@/types/ContractTypes'
 
 export interface NFT721SalesTemplateParams {
   consumerId: string

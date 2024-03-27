@@ -1,4 +1,5 @@
 import { NeverminedEvent, ContractBase, KeeperError, Web3Clients } from '@/sdk'
+import { EventEmitter, EventOptions, EventResult, FilterContractEvent } from '@/types/EventTypes'
 
 export class ContractEvent extends NeverminedEvent {
   public static getInstance(

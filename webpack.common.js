@@ -1,6 +1,7 @@
 'use strict'
 
 const { paths } = require('./webpack.parts.js')
+const path = require('path')
 
 module.exports = {
     entry: paths.entry,
@@ -11,7 +12,8 @@ module.exports = {
     },
     resolve: {
         extensions: ['.js'],
-        modules: ['node_modules'],
+        //modules: ['node_modules'],
+        modules: [path.resolve(__dirname, 'src'), 'node_modules'],
         fallback: {
             "os": require.resolve("os-browserify/browser"),
             "crypto": require.resolve("crypto-browserify"),
