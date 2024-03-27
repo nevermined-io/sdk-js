@@ -193,4 +193,3 @@ export function getChain(networkId: number): Chain {
       throw new KeeperError(`Network with id ${networkId} not supported.`)
   }
 }
-

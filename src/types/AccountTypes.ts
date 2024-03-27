@@ -1,17 +1,15 @@
-
-
 export enum AccountType {
-    Local = 'local',
-    JsonRpc = 'json-rpc',
-    ZeroDev = 'zerodev',
-}
-  
-export interface NvmAccountType {
-    signerType: 'local' | 'json-rpc' | 'zerodev'
-    isZeroDev: boolean
+  Local = 'local',
+  JsonRpc = 'json-rpc',
+  ZeroDev = 'zerodev',
 }
 
-// interface INvmAccount {        
+export interface NvmAccountType {
+  signerType: 'local' | 'json-rpc' | 'zerodev'
+  isZeroDev: boolean
+}
+
+// interface INvmAccount {
 //     getAccountSigner()
 //     getZeroDevSigner()
 //     isZeroDev(): boolean

@@ -1,5 +1,20 @@
-import { RegistryBaseApi, AssetAttributes, CreateProgressStep, OrderProgressStep, UpdateProgressStep, InstantiableConfig, MetaData, NvmAccount, SubscribablePromise, TxParameters } from '@/sdk'
-import { AssetPublicationOptions, PublishMetadataOptions, PublishOnChainOptions } from '@/types/MetadataTypes'
+import {
+  RegistryBaseApi,
+  AssetAttributes,
+  CreateProgressStep,
+  OrderProgressStep,
+  UpdateProgressStep,
+  InstantiableConfig,
+  MetaData,
+  NvmAccount,
+  SubscribablePromise,
+  TxParameters,
+} from '@/sdk'
+import {
+  AssetPublicationOptions,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+} from '@/types/MetadataTypes'
 import { DDO } from '@/ddo/DDO'
 
 /**

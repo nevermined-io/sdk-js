@@ -2,7 +2,6 @@ import { URL } from 'whatwg-url'
 import { v4 } from 'uuid'
 import { SearchQuery } from '@/types/MetadataTypes'
 
-
 export const buildQuery = (url: string, query: SearchQuery) => {
   const fullUrl = new URL(url)
 

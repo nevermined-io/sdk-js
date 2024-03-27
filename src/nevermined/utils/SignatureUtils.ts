@@ -5,7 +5,6 @@ import { NvmAccountError } from '@/sdk'
 import { NvmAccount } from '@/models/NvmAccount'
 import { TypedDataDomain, TypedDataTypes } from '@/types/GeneralTypes'
 
-
 export class SignatureUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
     super()

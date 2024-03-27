@@ -1,12 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {
-  NvmAccount,
-  ConditionState,
-  Nevermined,
-  NeverminedNFT1155Type,
-  NFTAttributes,
-} from '@/src'
+import { NvmAccount, ConditionState, Nevermined, NeverminedNFT1155Type, NFTAttributes } from '@/src'
 import {
   DIDRegistry,
   Token,

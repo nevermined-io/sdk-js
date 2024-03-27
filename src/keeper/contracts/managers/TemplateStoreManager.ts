@@ -1,4 +1,3 @@
-
 import { zeroX } from '@/utils'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { NvmAccount } from '@/models/NvmAccount'

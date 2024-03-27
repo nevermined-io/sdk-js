@@ -1,7 +1,6 @@
-import { NETWORK_FEE_DENOMINATOR } from "@/constants"
+import { NETWORK_FEE_DENOMINATOR } from '@/constants'
 
-export class AssetPrice {  
-
+export class AssetPrice {
   private totalPrice: bigint
 
   private rewards: Map<string, bigint>
@@ -87,8 +86,7 @@ export class AssetPrice {
    * @returns the asset rewards object
    */
   public adjustToIncludeNetworkFees(feeReceiver: string, networkFeePercent: bigint): AssetPrice {
-    const feesToInclude =
-      (this.totalPrice * networkFeePercent) / NETWORK_FEE_DENOMINATOR / 100n
+    const feesToInclude = (this.totalPrice * networkFeePercent) / NETWORK_FEE_DENOMINATOR / 100n
 
     if (feesToInclude > 0) {
       const newRewards: Map<string, bigint> = new Map()

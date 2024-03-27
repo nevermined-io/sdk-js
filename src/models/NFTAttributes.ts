@@ -1,4 +1,9 @@
-import { ERCType, NeverminedNFT1155Type, NeverminedNFT721Type, NeverminedNFTType } from '@/types/GeneralTypes'
+import {
+  ERCType,
+  NeverminedNFT1155Type,
+  NeverminedNFT721Type,
+  NeverminedNFTType,
+} from '@/types/GeneralTypes'
 import { AssetAttributes } from '@/models/AssetAttributes'
 import { NFTError } from '@/errors/NeverminedErrors'
 import { ChargeType, ServiceType } from '@/types/DDOTypes'

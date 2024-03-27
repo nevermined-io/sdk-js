@@ -3,7 +3,6 @@ import { Service, MetaData, ServiceAttributes, ServiceType } from '@/types'
 import { AssetPrice } from '@/models/AssetPrice'
 
 export class AssetAttributes {
-
   /**
    * Metadata describing the asset
    * @see {@link MetaData}

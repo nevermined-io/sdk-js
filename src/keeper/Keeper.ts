@@ -14,7 +14,7 @@ import {
   TransferNFT721Condition,
   NFT721HolderCondition,
 } from '@/keeper/contracts/conditions'
-import {  
+import {
   DIDRegistry,
   Dispenser,
   Token,

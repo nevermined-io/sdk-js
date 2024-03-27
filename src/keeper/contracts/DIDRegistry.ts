@@ -1,10 +1,21 @@
-import { 
+import {
   DEFAULT_REGISTRATION_ACTIVITY_ID,
   ProvenanceAttributeRegisteredEvent,
   ProvenanceEvent,
   ProvenanceMethod,
   ProvenanceRegistry,
-  InstantiableConfig, AssetError, ContractBase, zeroX, didPrefixed, didZeroX, eventToObject, ZeroAddress, zeroPadValue, NFTAttributes, SignatureUtils } from '../../sdk'
+  InstantiableConfig,
+  AssetError,
+  ContractBase,
+  zeroX,
+  didPrefixed,
+  didZeroX,
+  eventToObject,
+  ZeroAddress,
+  zeroPadValue,
+  NFTAttributes,
+  SignatureUtils,
+} from '../../sdk'
 import { TxParameters as txParams } from '../../models/Transactions'
 export class DIDRegistry extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {

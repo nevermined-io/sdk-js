@@ -3,7 +3,13 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { noZeroX } from '@/utils'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { ReadStream } from 'fs'
-import { ImmutableBackends, MetaDataExternalResource, NeverminedNodeError, ServiceType, HttpError } from '@/sdk'
+import {
+  ImmutableBackends,
+  MetaDataExternalResource,
+  NeverminedNodeError,
+  ServiceType,
+  HttpError,
+} from '@/sdk'
 import { Babysig, ERCType } from '@/types/GeneralTypes'
 import { PublishMetadataOptions } from '@/types/MetadataTypes'
 

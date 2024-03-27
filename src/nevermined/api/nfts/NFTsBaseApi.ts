@@ -2,7 +2,15 @@ import { zeroX } from '@/utils'
 import { Token } from '@/keeper'
 import { RegistryBaseApi } from '@/nevermined/api/RegistryBaseApi'
 
-import { AssetPrice, NvmAccount, generateId, ServiceType, NFTError, ServiceSecondary, TxParameters } from '@/sdk'
+import {
+  AssetPrice,
+  NvmAccount,
+  generateId,
+  ServiceType,
+  NFTError,
+  ServiceSecondary,
+  TxParameters,
+} from '@/sdk'
 import { DDO, getConditionsByParams } from '@/ddo/DDO'
 import { Babysig, ERCType } from '@/types/GeneralTypes'
 import { RoyaltyKind } from '@/types/MetadataTypes'

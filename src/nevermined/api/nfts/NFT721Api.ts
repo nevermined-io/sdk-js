@@ -1,12 +1,24 @@
-
 import { NvmAccount } from '@/models/NvmAccount'
 import { Nft721Contract } from '@/keeper'
 import { NFTsBaseApi } from './NFTsBaseApi'
 import { CreateProgressStep, OrderProgressStep } from '@/nevermined/ProgressSteps'
 import { keccak256WithEncode } from '@/nevermined/utils/BlockchainViemUtils'
-import { NFTAttributes, AssetAttributes, ServiceType, generateId, NFTError, InstantiableConfig, SubscribablePromise, zeroX } from '@/sdk'
+import {
+  NFTAttributes,
+  AssetAttributes,
+  ServiceType,
+  generateId,
+  NFTError,
+  InstantiableConfig,
+  SubscribablePromise,
+  zeroX,
+} from '@/sdk'
 import { DDO } from '@/ddo/DDO'
-import { AssetPublicationOptions, PublishMetadataOptions, PublishOnChainOptions } from '@/types/MetadataTypes'
+import {
+  AssetPublicationOptions,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+} from '@/types/MetadataTypes'
 import { TxParameters } from '@/models/Transactions'
 
 /**

@@ -5,9 +5,13 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { Nft1155Contract } from '@/keeper'
 import { NFTsBaseApi } from '@/nevermined/api'
 import { CreateProgressStep, OrderProgressStep } from '@/nevermined/ProgressSteps'
-import { ServiceNFTSales, ServiceType ,generateId, NFTError } from '@/sdk'
+import { ServiceNFTSales, ServiceType, generateId, NFTError } from '@/sdk'
 import { DDO } from '@/ddo/DDO'
-import { AssetPublicationOptions, PublishMetadataOptions, PublishOnChainOptions } from '@/types/MetadataTypes'
+import {
+  AssetPublicationOptions,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+} from '@/types/MetadataTypes'
 
 /**
  * Allows the interaction with external ERC-1155 NFT contracts built on top of the Nevermined NFT extra features.

@@ -2,7 +2,7 @@ import { ZeroAddress } from '@/constants'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { Token, CustomToken } from '@/keeper'
 import { TxParameters as txParams } from '@/models/Transactions'
-import { AssetPrice, NvmAccount, KeeperError, DDO, ServiceNFTSales, ServiceType  } from '@/sdk'
+import { AssetPrice, NvmAccount, KeeperError, DDO, ServiceNFTSales, ServiceType } from '@/sdk'
 import { Abi, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
 /**

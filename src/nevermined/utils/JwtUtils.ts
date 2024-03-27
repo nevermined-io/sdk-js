@@ -7,8 +7,6 @@ import { Account, LocalAccount, toHex } from 'viem'
 import { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
 import { Babysig, Eip712Data } from '@/types/GeneralTypes'
 
-
-
 export class EthSignJWT extends SignJWT {
   protectedHeader: JWSHeaderParameters
 

@@ -1,4 +1,10 @@
-import { DDO, NvmAccount, ServiceAgreementTemplateCondition, ServiceAccess, ServiceType } from '@/sdk'
+import {
+  DDO,
+  NvmAccount,
+  ServiceAgreementTemplateCondition,
+  ServiceAccess,
+  ServiceType,
+} from '@/sdk'
 import { zeroX } from '@/utils'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { getBytes, keccak256Packed } from '@/nevermined/utils/BlockchainViemUtils'

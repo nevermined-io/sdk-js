@@ -1,4 +1,3 @@
-
 import { KeeperError, ApiError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
 import { Instantiable, InstantiableConfig } from '@/sdk'

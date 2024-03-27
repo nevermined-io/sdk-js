@@ -1,4 +1,4 @@
-import { 
+import {
   Authentication,
   PublicKey,
   Service,
@@ -13,7 +13,21 @@ import {
   ServiceAgreementTemplateCondition,
   ServiceCommon,
   ServiceAgreementTemplateParameter,
-  Nevermined, keccak256, didPrefixed, zeroX, AssetPrice, NFTAttributes, DIDRegistry, DDOConditionNotFoundError, DDOParamNotFoundError, DDOPriceNotFoundError, DDOServiceAlreadyExists, DDOServiceNotFoundError, jsonReplacer, NvmAccount } from '@/sdk'
+  Nevermined,
+  keccak256,
+  didPrefixed,
+  zeroX,
+  AssetPrice,
+  NFTAttributes,
+  DIDRegistry,
+  DDOConditionNotFoundError,
+  DDOParamNotFoundError,
+  DDOPriceNotFoundError,
+  DDOServiceAlreadyExists,
+  DDOServiceNotFoundError,
+  jsonReplacer,
+  NvmAccount,
+} from '@/sdk'
 
 // DDO Services including a sales process
 export const SALES_SERVICES = ['access', 'compute', 'nft-sales']

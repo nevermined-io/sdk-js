@@ -4,8 +4,6 @@ import { Account, LocalAccount, toHex } from 'viem'
 import { NvmAccountError } from '@/errors/NeverminedErrors'
 import { NvmAccountType } from '@/types/AccountTypes'
 
-
-
 /**
  * Account information.
  */

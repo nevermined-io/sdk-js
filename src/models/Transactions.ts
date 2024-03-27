@@ -1,4 +1,4 @@
-import { NvmAccount } from "@/models/NvmAccount"
+import { NvmAccount } from '@/models/NvmAccount'
 import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
 
 export interface TxParameters {

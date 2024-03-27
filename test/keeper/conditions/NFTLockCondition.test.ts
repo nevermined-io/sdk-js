@@ -1,18 +1,7 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {
-  NvmAccount,
-  ConditionState,
-  Nevermined,
-  NeverminedNFT1155Type,
-  NFTAttributes,
-} from '@/src'
-import {
-  DIDRegistry,
-  NFTLockCondition,
-  Nft1155Contract,
-  ConditionStoreManager,
-} from '@/src/keeper'
+import { NvmAccount, ConditionState, Nevermined, NeverminedNFT1155Type, NFTAttributes } from '@/src'
+import { DIDRegistry, NFTLockCondition, Nft1155Contract, ConditionStoreManager } from '@/src/keeper'
 import { didZeroX, zeroX, generateId } from '@/src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'

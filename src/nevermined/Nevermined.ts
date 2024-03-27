@@ -85,7 +85,7 @@ export class Nevermined extends Instantiable {
       instance.isKeeperConnected = initOptions.loadCore
     } catch (error) {
       instance.isKeeperConnected = false
-      
+
       LoggerInstance.error(error)
       LoggerInstance.error(
         "Contracts didn't initialize because for the above mentioned reason. Loading SDK in offchain mode...",

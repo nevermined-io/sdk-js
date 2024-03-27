@@ -1,11 +1,7 @@
+import { Babysig, ERCType, NeverminedNFTType } from './GeneralTypes'
 import { TxParameters } from '@/models/Transactions'
 import { NvmAccount } from '@/models/NvmAccount'
-import {
-  AssetPrice,
-  NFTServiceAttributes,
-  NFTAttributes,
-} from '@/models'
-import { Babysig, ERCType, NeverminedNFTType } from './GeneralTypes'
+import { AssetPrice, NFTServiceAttributes, NFTAttributes } from '@/models'
 
 export interface Authentication {
   type: string

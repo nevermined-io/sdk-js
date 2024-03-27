@@ -13,7 +13,6 @@ export interface QueryResult {
   totalResults: { [jsonPath: string]: any }
 }
 
-
 export interface DDOStatus {
   internal: {
     id: string

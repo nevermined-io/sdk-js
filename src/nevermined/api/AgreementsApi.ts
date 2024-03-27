@@ -1,6 +1,13 @@
-
 import { ConditionsApi } from '@/nevermined/api/ConditionsApi'
-import { zeroX, generateId, ServiceType, TxParameters, NvmAccount, Instantiable, InstantiableConfig } from '@/sdk'
+import {
+  zeroX,
+  generateId,
+  ServiceType,
+  TxParameters,
+  NvmAccount,
+  Instantiable,
+  InstantiableConfig,
+} from '@/sdk'
 
 export interface AgreementPrepareResult {
   agreementIdSeed: string

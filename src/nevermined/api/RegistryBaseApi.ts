@@ -7,7 +7,8 @@ import { SubscribablePromise, zeroX } from '@/utils'
 import { OrderProgressStep, UpdateProgressStep } from '@/nevermined/ProgressSteps'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { AccessService, NFTSalesService, NFTAccessService } from '@/nevermined/AccessService'
-import { AssetError, 
+import {
+  AssetError,
   generateId,
   Service,
   ServicePlugin,
@@ -17,7 +18,12 @@ import { AssetError,
   PricedMetadataInformation,
 } from '@/sdk'
 import { DDO } from '@/ddo/DDO'
-import { AssetPublicationOptions, PublishMetadataOptions, PublishOnChainOptions, DIDResolvePolicy } from '@/types/MetadataTypes'
+import {
+  AssetPublicationOptions,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+  DIDResolvePolicy,
+} from '@/types/MetadataTypes'
 
 /**
  * Abstract class proving common functionality related with Assets registration.
@@ -274,7 +280,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             publisher.getId(),
             serviceEndpoint,
             ddoVersion.immutableUrl,
-            SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),            
+            SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
             txParams,
           )
         }

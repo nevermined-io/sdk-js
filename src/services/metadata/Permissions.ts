@@ -1,6 +1,11 @@
 import { Permission } from '@zerodev/sdk'
 import { buildQuery, MarketplaceApi, HttpError, ApiError } from '@/sdk'
-import { NewPermission, SearchQuery, MarketplaceResults, PermissionType } from '@/types/MetadataTypes'
+import {
+  NewPermission,
+  SearchQuery,
+  MarketplaceResults,
+  PermissionType,
+} from '@/types/MetadataTypes'
 
 const permissionPath = '/api/v1/permissions'
 

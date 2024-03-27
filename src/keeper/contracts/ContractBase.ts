@@ -6,8 +6,6 @@ import { getInputsOfFunctionFormatted } from '@/nevermined/utils/BlockchainViemU
 import { TransactionReceipt, parseEventLogs } from 'viem'
 import { TxParameters } from '@/models/Transactions'
 
-
-
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
   public contract

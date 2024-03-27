@@ -39,4 +39,3 @@ function inputMatch(
   }
   return { valid: true, output: match[1] }
 }
-

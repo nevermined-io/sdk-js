@@ -1,27 +1,36 @@
 import {
-  Nevermined, SignatureUtils,
-  AssetError, DDOError,
+  Nevermined,
+  SignatureUtils,
+  AssetError,
+  DDOError,
   MetaData,
   NvmConfigVersions,
   ServiceNFTAccess,
   ServiceNFTSales,
   ServiceType,
   NvmAccount,
-  SubscribablePromise, didZeroX,
+  SubscribablePromise,
+  didZeroX,
   InstantiableConfig,
-  TxParameters, 
+  TxParameters,
   RegistryBaseApi,
-  CreateProgressStep, OrderProgressStep, UpdateProgressStep,
+  CreateProgressStep,
+  OrderProgressStep,
+  UpdateProgressStep,
   Providers,
   AssetAttributes,
 } from '@/sdk'
 import { DDO } from '@/ddo/DDO'
 import { Babysig } from '@/types/GeneralTypes'
-import { AssetPublicationOptions, DIDResolvePolicy, PublishMetadataOptions, PublishOnChainOptions, RoyaltyKind } from '@/types/MetadataTypes'
+import {
+  AssetPublicationOptions,
+  DIDResolvePolicy,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+  RoyaltyKind,
+} from '@/types/MetadataTypes'
 import { apiPath } from '@/services/metadata/MetadataService'
 import { RoyaltyScheme } from '@/keeper/contracts/royalties/RoyaltyScheme.abstract'
-
-
 
 /**
  * Attributes defining the royalties model attached to the asset

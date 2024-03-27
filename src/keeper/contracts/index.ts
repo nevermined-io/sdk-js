@@ -13,5 +13,3 @@ export * from './Nft1155Contract'
 export * from './Token'
 export * from './CustomToken'
 export * from './templates'
-
-
