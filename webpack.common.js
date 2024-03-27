@@ -10,10 +10,20 @@ module.exports = {
         minimize: true,
         emitOnErrors: false
     },
+    module: {
+        rules: [
+          {
+            test: /\.tsx?$/,
+            use: 'ts-loader',
+            exclude: /node_modules/,
+          },
+        ],
+      },
     resolve: {
-        extensions: ['.js'],
-        //modules: ['node_modules'],
+        extensions: ['.tsx', '.ts', '.js'],
+        // modules: ['node_modules'],
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+
         fallback: {
             "os": require.resolve("os-browserify/browser"),
             "crypto": require.resolve("crypto-browserify"),
@@ -25,6 +35,9 @@ module.exports = {
             "stream": require.resolve("stream-browserify"),
             "zlib": false,
             "fs": false
+        },
+        alias: {
+            '@': path.resolve(__dirname, 'src') 
         }
     }
 }
