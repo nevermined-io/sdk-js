@@ -1,6 +1,10 @@
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { didZeroX, zeroX } from '@/utils'
-import { Condition, ConditionContext, ProviderCondition } from '@/keeper/contracts'
+import {
+  Condition,
+  ConditionContext,
+  ProviderCondition,
+} from '@/keeper/contracts/conditions/Condition.abstract'
 import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
 

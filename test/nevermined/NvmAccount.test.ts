@@ -1,5 +1,7 @@
 import { assert } from 'chai'
-import { NvmAccount, makeRandomWallet } from '../../src'
+import { makeRandomWallet } from '@/nevermined/utils/BlockchainViemUtils'
+import { NvmAccount } from '@/models/NvmAccount'
+
 // import { Nevermined } from '../../src/nevermined'
 // import config from '../config'
 // import TestContractHandler from '../keeper/TestContractHandler'

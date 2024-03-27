@@ -2,7 +2,8 @@ import { ContractBase } from '@/keeper/contracts'
 import { didZeroX, zeroX } from '@/utils'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { NvmAccount } from '@/models/NvmAccount'
-import { KeeperError, TxParameters } from '@/sdk'
+import { TxParameters } from '@/models/Transactions'
+import { KeeperError } from '@/errors/NeverminedErrors'
 
 export interface AgreementData {
   did: string

@@ -1,6 +1,6 @@
-import { generateId } from '@/sdk'
+import { generateId } from '@/common/helpers'
 
-const prefix = 'did:nv:'
+const DID_PREFIX = 'did:nv:'
 /**
  * Decentralized ID.
  */
@@ -89,7 +89,7 @@ export class DID {
    * @returns A string with the prefixed id.
    */
   public getDid(): string {
-    return `${prefix}${this.id}`
+    return `${DID_PREFIX}${this.id}`
   }
 
   /**

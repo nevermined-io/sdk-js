@@ -1,4 +1,4 @@
-import { Babysig, ERCType, NeverminedNFTType } from './GeneralTypes'
+import { Babysig, ERCType, NeverminedNFTType } from '@/types/GeneralTypes'
 import { TxParameters } from '@/models/Transactions'
 import { NvmAccount } from '@/models/NvmAccount'
 import { AssetPrice, NFTServiceAttributes, NFTAttributes } from '@/models'

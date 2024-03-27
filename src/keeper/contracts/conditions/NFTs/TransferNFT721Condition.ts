@@ -5,7 +5,7 @@ import {
   ConditionContext,
   ConditionParameters,
   ProviderCondition,
-} from '@/keeper/contracts'
+} from '@/keeper/contracts/conditions/Condition.abstract'
 import { NvmAccount } from '@/models/NvmAccount'
 import { DDO } from '@/ddo/DDO'
 import { TxParameters } from '@/models/Transactions'

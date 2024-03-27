@@ -1,6 +1,10 @@
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { didZeroX, zeroX } from '@/utils'
-import { Condition, ConditionContext, ConsumerCondition } from '@/keeper/contracts'
+import {
+  Condition,
+  ConditionContext,
+  ConsumerCondition,
+} from '@/keeper/contracts/conditions/Condition.abstract'
 import { DDO, NvmAccount, ServiceCommon, TxParameters } from '@/sdk'
 
 export interface NFTHolderConditionContext extends ConditionContext {

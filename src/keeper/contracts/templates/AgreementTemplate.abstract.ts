@@ -1,5 +1,5 @@
 import { ZeroAddress } from '@/constants'
-import { ConditionContext, ConditionSmall } from '@/keeper/contracts/conditions'
+import { ConditionContext, ConditionSmall } from '@/keeper/contracts/conditions/Condition.abstract'
 import {
   DDO,
   ServiceAgreementTemplate,

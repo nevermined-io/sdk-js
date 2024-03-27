@@ -8,7 +8,7 @@ import { AssetAttributes } from '@/models/AssetAttributes'
 import { NFTError } from '@/errors/NeverminedErrors'
 import { ChargeType, ServiceType } from '@/types/DDOTypes'
 import { jsonReplacer } from '@/common/helpers'
-import { RoyaltyAttributes } from '@/sdk'
+import { RoyaltyAttributes } from '@/nevermined/api/AssetsApi'
 
 export class NFTServiceAttributes {
   /**

@@ -10,13 +10,12 @@ import {
   ServiceType,
   ValidationParams,
   NvmAccount,
-  Condition,
   MetaData,
   NFTAttributes,
   isValidAddress,
   TxParameters,
 } from '@/sdk'
-import { ConditionInstance } from '@/keeper/contracts/conditions'
+import { Condition, ConditionInstance } from '@/keeper/contracts/conditions/Condition.abstract'
 import { ConditionState } from '@/types/ContractTypes'
 
 export abstract class BaseTemplate<Params, S extends Service>

@@ -1,10 +1,14 @@
-import { ContractHandler } from '../../src/keeper'
-import * as KeeperUtils from '../../src/keeper/utils'
-import Logger from '../../src/utils/Logger'
+import { ContractHandler } from '@/keeper'
+import * as NetworkUtils from '@/utils/Network'
 import config from '../config'
-import { ZeroAddress } from '../../src/utils'
+import { ZeroAddress } from '@/constants'
 import fs from 'fs'
-import { keccak256, NeverminedOptions, Web3Clients, NvmAccount, Nevermined } from '../../src'
+import { Web3Clients } from '@/Instantiable.abstract'
+import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
+import { NeverminedOptions } from '@/models/NeverminedOptions'
+import { NvmAccount } from '@/models/NvmAccount'
+import { Nevermined } from '@/nevermined/Nevermined'
+import Logger from '@/models/Logger'
 
 export default abstract class TestContractHandler extends ContractHandler {
   private static networkId: number
@@ -342,7 +346,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     let contractInstance
     try {
       const networkName = (
-        await KeeperUtils.getNetworkName(TestContractHandler.networkId)
+        await NetworkUtils.getNetworkName(TestContractHandler.networkId)
       ).toLowerCase()
       Logger.log('Deploying', name)
       const artifact = JSON.parse(

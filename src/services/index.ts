@@ -1,2 +1,2 @@
-export * from './metadata'
-export * from './node/NeverminedNode'
+export * from '@/services/metadata'
+export * from '@/services/node/NeverminedNode'

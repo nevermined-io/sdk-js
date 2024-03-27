@@ -15,8 +15,8 @@ import {
   zeroPadValue,
   NFTAttributes,
   SignatureUtils,
-} from '../../sdk'
-import { TxParameters as txParams } from '../../models/Transactions'
+} from '@/sdk'
+import { TxParameters as txParams } from '@/models/Transactions'
 export class DIDRegistry extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
     const didRegistry: DIDRegistry = new DIDRegistry('DIDRegistry')

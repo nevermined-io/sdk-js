@@ -1,7 +1,7 @@
 import { NvmAccount } from '@/models'
 import { ContractEvent, EventHandler, SubgraphEvent } from '@/events'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { KeeperError } from '@/sdk'
+import { KeeperError } from '@/errors/NeverminedErrors'
 import { getInputsOfFunctionFormatted } from '@/nevermined/utils/BlockchainViemUtils'
 import { TransactionReceipt, parseEventLogs } from 'viem'
 import { TxParameters } from '@/models/Transactions'

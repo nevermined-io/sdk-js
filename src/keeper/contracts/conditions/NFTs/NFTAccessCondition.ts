@@ -1,4 +1,8 @@
-import { Condition, ConditionContext, ProviderCondition } from '@/keeper'
+import {
+  Condition,
+  ConditionContext,
+  ProviderCondition,
+} from '@/keeper/contracts/conditions/Condition.abstract'
 import { zeroX, didZeroX } from '@/utils'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { NvmAccount } from '@/models/NvmAccount'

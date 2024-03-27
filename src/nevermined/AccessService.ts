@@ -1,15 +1,12 @@
+import { NvmAccount, NFTAttributes, TxParameters } from '@/models'
 import {
-  TxParameters,
   AccessTemplate,
   NFT721AccessTemplate,
   NFT721SalesTemplate,
   NFTAccessTemplate,
   NFTSalesTemplate,
-  NvmAccount,
-  NFTAttributes,
-  Instantiable,
-  InstantiableConfig,
-} from '@/sdk'
+} from '@/keeper/contracts/templates'
+import { Instantiable, InstantiableConfig } from '@/sdk'
 import {} from '@/Instantiable.abstract'
 import {
   ServiceAccess,

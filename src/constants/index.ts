@@ -1,1 +1,1 @@
-export * from './AssetConstants'
+export * from '@/constants/AssetConstants'

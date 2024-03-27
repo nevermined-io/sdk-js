@@ -28,8 +28,8 @@ import {
   AppDeploymentTesting,
   NeverminedAppOptions,
 } from '@/nevermined/resources/AppNetworks'
-import { NeverminedInitializationOptions } from '../types/GeneralTypes'
-import { PublishMetadataOptions, PublishOnChainOptions } from '../types/MetadataTypes'
+import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
+import { PublishMetadataOptions, PublishOnChainOptions } from '@/types/MetadataTypes'
 
 export enum NVMAppEnvironments {
   Staging = 'staging',

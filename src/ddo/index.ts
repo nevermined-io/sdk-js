@@ -1,2 +1,2 @@
-export * from './DDO'
-export * from './NvmAppMetadata'
+export * from '@/ddo/DDO'
+export * from '@/ddo/NvmAppMetadata'

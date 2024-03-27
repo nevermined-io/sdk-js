@@ -1,3 +1,3 @@
-export * from './GeneralTypes'
-export * from './MetadataTypes'
-export * from './DDOTypes'
+export * from '@/types/GeneralTypes'
+export * from '@/types/MetadataTypes'
+export * from '@/types/DDOTypes'

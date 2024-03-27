@@ -1,3 +1,3 @@
-export * from './AgreementStoreManager'
-export * from './ConditionStoreManager'
-export * from './TemplateStoreManager'
+export * from '@/keeper/contracts/managers/AgreementStoreManager'
+export * from '@/keeper/contracts/managers/ConditionStoreManager'
+export * from '@/keeper/contracts/managers/TemplateStoreManager'
