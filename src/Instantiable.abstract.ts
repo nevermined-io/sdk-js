@@ -1,6 +1,4 @@
 import { getChain } from '@/utils/Network'
-import { Logger, LoggerInstance, LogLevel, NeverminedOptions } from '@/models'
-import { Nevermined } from '@/nevermined'
 import {
   Chain,
   createPublicClient,
@@ -9,6 +7,9 @@ import {
   PublicClient,
   WalletClient,
 } from 'viem'
+import LoggerInstance, { Logger, LogLevel } from './models/Logger'
+import { NeverminedOptions } from './models/NeverminedOptions'
+import { Nevermined } from './nevermined/Nevermined'
 
 export interface InstantiableConfig {
   nevermined: Nevermined

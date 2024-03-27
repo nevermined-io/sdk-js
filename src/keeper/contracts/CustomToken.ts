@@ -1,6 +1,6 @@
-import { Token } from './Token'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { parseAbi } from 'viem'
+import { Token } from './Token'
 
 export class CustomToken extends Token {
   public static async getInstanceByAddress(

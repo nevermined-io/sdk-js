@@ -1,16 +1,16 @@
 import { InstantiableConfig } from '@/Instantiable.abstract'
-import { didZeroX, zeroX } from '@/utils'
-import {
-  Condition,
-  ConditionContext,
-  ConditionParameters,
-  ProviderCondition,
-} from '@/keeper/contracts/conditions/Condition.abstract'
+import { DDO } from '@/ddo/DDO'
 import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models'
-import { DDO } from '@/ddo'
-import { ServiceCommon } from '@/types'
+import { TxParameters } from '@/models/Transactions'
 import { ConditionMethod } from '@/types/ContractTypes'
+import { ServiceCommon } from '@/types/DDOTypes'
+import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import {
+  ConditionContext,
+  ProviderCondition,
+  Condition,
+  ConditionParameters,
+} from '../Condition.abstract'
 
 export interface TransferNFTConditionContext extends ConditionContext {
   providerId: string

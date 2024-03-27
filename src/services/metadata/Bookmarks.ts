@@ -1,5 +1,7 @@
-import { MarketplaceApi, buildQuery, HttpError, ApiError } from '@/sdk'
 import { NewBookmark, Bookmark, SearchQuery, MarketplaceResults } from '@/types/MetadataTypes'
+import { MarketplaceApi } from '@/services/metadata/MarketplaceAPI'
+import { buildQuery } from '@/common/helpers'
+import { HttpError, ApiError } from '@/errors/NeverminedErrors'
 
 const bookmarkPath = '/api/v1/ugc/bookmarks'
 

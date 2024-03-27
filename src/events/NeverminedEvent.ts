@@ -1,4 +1,5 @@
-import { ContractBase, Web3Clients } from '@/sdk'
+import { Web3Clients } from '@/Instantiable.abstract'
+import ContractBase from '@/keeper/contracts/ContractBase'
 import {
   EventEmitter,
   EventOptions,

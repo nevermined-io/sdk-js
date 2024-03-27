@@ -1,26 +1,18 @@
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { DDO } from '@/ddo/DDO'
+import { AssetError, DDOError } from '@/errors/NeverminedErrors'
+import { RoyaltyScheme } from '@/keeper/contracts/royalties/RoyaltyScheme.abstract'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
+import { apiPath } from '@/services/metadata/MetadataService'
 import {
-  Nevermined,
-  SignatureUtils,
-  AssetError,
-  DDOError,
   MetaData,
   NvmConfigVersions,
   ServiceNFTAccess,
   ServiceNFTSales,
   ServiceType,
-  NvmAccount,
-  SubscribablePromise,
-  didZeroX,
-  InstantiableConfig,
-  TxParameters,
-  RegistryBaseApi,
-  CreateProgressStep,
-  OrderProgressStep,
-  UpdateProgressStep,
-  Providers,
-  AssetAttributes,
-} from '@/sdk'
-import { DDO } from '@/ddo/DDO'
+} from '@/types/DDOTypes'
 import { Babysig } from '@/types/GeneralTypes'
 import {
   AssetPublicationOptions,
@@ -29,8 +21,13 @@ import {
   PublishOnChainOptions,
   RoyaltyKind,
 } from '@/types/MetadataTypes'
-import { apiPath } from '@/services/metadata/MetadataService'
-import { RoyaltyScheme } from '@/keeper/contracts/royalties/RoyaltyScheme.abstract'
+import { didZeroX } from '@/utils/ConversionTypeHelpers'
+import { SubscribablePromise } from '@/utils/SubscribablePromise'
+import { Nevermined } from '../Nevermined'
+import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
+import { Providers } from '../Provider'
+import { SignatureUtils } from '../utils/SignatureUtils'
+import { RegistryBaseApi } from './RegistryBaseApi'
 
 /**
  * Attributes defining the royalties model attached to the asset

@@ -1,11 +1,12 @@
-import { TxParameters } from '@/models/Transactions'
 import { InstantiableConfig } from '@/Instantiable.abstract'
-import { didZeroX, zeroX } from '@/utils'
-import { getContractInstance } from '@/nevermined'
-import { ContractEvent, EventHandler } from '@/events'
+import { ContractEvent } from '@/events/ContractEvent'
+import { EventHandler } from '@/events/EventHandler'
 import { NFTContractsBase } from './NFTContractsBase'
 import { ContractHandler } from '@/keeper/ContractHandler'
 import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
+import { getContractInstance } from '@/nevermined/utils/BlockchainViemUtils'
+import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 
 export class Nft721Contract extends NFTContractsBase {
   public static async getInstance(

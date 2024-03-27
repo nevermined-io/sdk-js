@@ -1,18 +1,13 @@
 import { InstantiableConfig } from '@/Instantiable.abstract'
-import { DDO, ServiceAgreementTemplate, ServiceType, ValidationParams } from '@/sdk'
-import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
-import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
-import {
-  EscrowPaymentCondition,
-  LockPaymentCondition,
-  TransferDIDOwnershipCondition,
-} from '@/keeper/contracts/conditions'
-import {
-  lockPaymentTemplate,
-  didTransferTemplate,
-  escrowTemplate,
-} from '@/keeper/contracts/templates/ConditionTemplates'
+import { DDO } from '@/ddo/DDO'
 import { AgreementInstance } from '@/types/ContractTypes'
+import { ValidationParams, ServiceType, ServiceAgreementTemplate } from '@/types/DDOTypes'
+import { EscrowPaymentCondition } from '../conditions/EscrowPaymentCondition'
+import { LockPaymentCondition } from '../conditions/LockPaymentCondition'
+import { TransferDIDOwnershipCondition } from '../conditions/TransferDIDOwnershipCondition'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
+import { BaseTemplate } from './BaseTemplate.abstract'
+import { lockPaymentTemplate, didTransferTemplate, escrowTemplate } from './ConditionTemplates'
 
 export interface DIDSalesTemplateParams {
   receiverId: string

@@ -1,49 +1,45 @@
 import { ContractBase } from '@/keeper/contracts/ContractBase'
 
 import NeverminedConfig from '@/keeper/contracts/governance/NeverminedConfig'
-import {
-  LockPaymentCondition,
-  EscrowPaymentCondition,
-  AccessCondition,
-  ComputeExecutionCondition,
-  NFTHolderCondition,
-  NFTLockCondition,
-  NFTAccessCondition,
-  TransferNFTCondition,
-  TransferDIDOwnershipCondition,
-  TransferNFT721Condition,
-  NFT721HolderCondition,
-} from '@/keeper/contracts/conditions'
-import {
-  DIDRegistry,
-  Dispenser,
-  Token,
-  AccessTemplate,
-  EscrowComputeExecutionTemplate,
-  DIDSalesTemplate,
-  NFTAccessTemplate,
-  NFT721AccessTemplate,
-  NFTSalesTemplate,
-  NFT721SalesTemplate,
-  TemplateStoreManager,
-  AgreementStoreManager,
-  ConditionStoreManager,
-  RewardsDistributor,
-  StandardRoyalties,
-  CurveRoyalties,
-  Nft1155Contract,
-  GenericAccess,
-} from '@/keeper'
 import * as NetworkUtils from '@/utils/Network'
-import { objectPromiseAll } from '@/utils'
 import { EventHandler } from '@/events/EventHandler'
 
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { KeeperError } from '@/sdk'
 import { isValidAddress } from '@/nevermined/utils/BlockchainViemUtils'
 import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
 import { ConditionSmall } from '@/keeper/contracts/conditions/Condition.abstract'
 import { NFT721LockCondition } from '@/keeper/contracts/conditions/NFTs/NFT721LockCondition'
+import { objectPromiseAll } from '@/utils/PromiseResolver'
+import { Token } from './contracts/Token'
+import { DIDRegistry } from './contracts/DIDRegistry'
+import { Dispenser } from './contracts/Dispenser'
+import { Nft1155Contract } from './contracts/Nft1155Contract'
+import { AccessCondition } from './contracts/conditions/AccessCondition'
+import { ComputeExecutionCondition } from './contracts/conditions/ComputeExecutionCondition'
+import { EscrowPaymentCondition } from './contracts/conditions/EscrowPaymentCondition'
+import { LockPaymentCondition } from './contracts/conditions/LockPaymentCondition'
+import { NFT721HolderCondition } from './contracts/conditions/NFTs/NFT721HolderCondition'
+import { NFTAccessCondition } from './contracts/conditions/NFTs/NFTAccessCondition'
+import { NFTHolderCondition } from './contracts/conditions/NFTs/NFTHolderCondition'
+import { NFTLockCondition } from './contracts/conditions/NFTs/NFTLockCondition'
+import { TransferNFT721Condition } from './contracts/conditions/NFTs/TransferNFT721Condition'
+import { TransferNFTCondition } from './contracts/conditions/NFTs/TransferNFTCondition'
+import { TransferDIDOwnershipCondition } from './contracts/conditions/TransferDIDOwnershipCondition'
+import { AgreementStoreManager } from './contracts/managers/AgreementStoreManager'
+import { ConditionStoreManager } from './contracts/managers/ConditionStoreManager'
+import { TemplateStoreManager } from './contracts/managers/TemplateStoreManager'
+import { CurveRoyalties } from './contracts/royalties/CurveRoyalties'
+import { RewardsDistributor } from './contracts/royalties/RewardsDistributor'
+import { StandardRoyalties } from './contracts/royalties/StandardRoyalties'
+import { AccessTemplate } from './contracts/templates/AccessTemplate'
+import { DIDSalesTemplate } from './contracts/templates/DIDSalesTemplate'
+import { EscrowComputeExecutionTemplate } from './contracts/templates/EscrowComputeExecutionTemplate'
+import { GenericAccess } from './contracts/templates/GenericAccess'
+import { NFT721AccessTemplate } from './contracts/templates/NFT721AccessTemplate'
+import { NFT721SalesTemplate } from './contracts/templates/NFT721SalesTemplate'
+import { NFTAccessTemplate } from './contracts/templates/NFTAccessTemplate'
+import { NFTSalesTemplate } from './contracts/templates/NFTSalesTemplate'
+import { KeeperError } from '@/errors/NeverminedErrors'
 
 /**
  * Interface with Nevermined contracts.

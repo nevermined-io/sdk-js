@@ -1,13 +1,12 @@
-import { NvmAccount, NFTAttributes, TxParameters } from '@/models'
-import {
-  AccessTemplate,
-  NFT721AccessTemplate,
-  NFT721SalesTemplate,
-  NFTAccessTemplate,
-  NFTSalesTemplate,
-} from '@/keeper/contracts/templates'
-import { Instantiable, InstantiableConfig } from '@/sdk'
-import {} from '@/Instantiable.abstract'
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { AccessTemplate } from '@/keeper/contracts/templates/AccessTemplate'
+import { NFT721AccessTemplate } from '@/keeper/contracts/templates/NFT721AccessTemplate'
+import { NFT721SalesTemplate } from '@/keeper/contracts/templates/NFT721SalesTemplate'
+import { NFTAccessTemplate } from '@/keeper/contracts/templates/NFTAccessTemplate'
+import { NFTSalesTemplate } from '@/keeper/contracts/templates/NFTSalesTemplate'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
 import {
   ServiceAccess,
   ServiceNFTAccess,

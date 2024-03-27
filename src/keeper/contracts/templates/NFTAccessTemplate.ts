@@ -1,17 +1,22 @@
-import { ServiceAgreementTemplate, ServiceNFTAccess, ServiceType, ValidationParams } from '@/sdk'
 import { InstantiableConfig } from '@/Instantiable.abstract'
-import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
-import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
-import { NFTAccessCondition, NFTHolderCondition } from '@/keeper/contracts/conditions'
-import { DynamicCreditsUnderLimit } from '@/sdk'
-import {
-  nftAccessCondition,
-  nftHolderTemplate,
-} from '@/keeper/contracts/templates/ConditionTemplates'
-import { NeverminedNFT1155Type } from '@/types/GeneralTypes'
-import { AgreementInstance } from '@/types/ContractTypes'
 import { DDO } from '@/ddo/DDO'
-import { NvmAccount, TxParameters, NFTServiceAttributes } from '@/models'
+import { NFTServiceAttributes } from '@/models/NFTAttributes'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
+import { AgreementInstance } from '@/types/ContractTypes'
+import {
+  ServiceNFTAccess,
+  ServiceType,
+  ValidationParams,
+  ServiceAgreementTemplate,
+} from '@/types/DDOTypes'
+import { NeverminedNFT1155Type } from '@/types/GeneralTypes'
+import { NFTAccessCondition } from '../conditions/NFTs/NFTAccessCondition'
+import { NFTHolderCondition } from '../conditions/NFTs/NFTHolderCondition'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
+import { BaseTemplate } from './BaseTemplate.abstract'
+import { nftHolderTemplate, nftAccessCondition } from './ConditionTemplates'
+import { DynamicCreditsUnderLimit } from '@/errors/NeverminedErrors'
 
 export interface NFTAccessTemplateParams {
   holderAddress: string

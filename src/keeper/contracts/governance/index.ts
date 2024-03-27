@@ -1,1 +1,1 @@
-export * from '@/keeper/contracts/governance/NeverminedConfig'
+// export * from '@/keeper/contracts/governance/NeverminedConfig'

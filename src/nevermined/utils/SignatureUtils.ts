@@ -1,7 +1,7 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
 import { LocalAccount, recoverAddress, toHex } from 'viem'
-import { NvmAccountError } from '@/sdk'
+import { NvmAccountError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
 import { TypedDataDomain, TypedDataTypes } from '@/types/GeneralTypes'
 

@@ -1,13 +1,10 @@
+import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { generateId } from '@/common/helpers'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
 import { ConditionsApi } from '@/nevermined/api/ConditionsApi'
-import {
-  zeroX,
-  generateId,
-  ServiceType,
-  TxParameters,
-  NvmAccount,
-  Instantiable,
-  InstantiableConfig,
-} from '@/sdk'
+import { ServiceType } from '@/types/DDOTypes'
+import { zeroX } from '@/utils/ConversionTypeHelpers'
 
 export interface AgreementPrepareResult {
   agreementIdSeed: string

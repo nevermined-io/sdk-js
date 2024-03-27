@@ -1,4 +1,8 @@
-import { ContractBase, TxParameters, InstantiableConfig, parseUnits } from '@/sdk'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { TxParameters } from '@/models/Transactions'
+import { parseUnits } from 'viem'
+
 export class Dispenser extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<Dispenser> {
     const dispenser: Dispenser = new Dispenser('Dispenser')

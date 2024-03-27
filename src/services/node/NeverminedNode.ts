@@ -1,12 +1,12 @@
-import { DDO } from '@/ddo'
-import { NvmAccount } from '@/models/NvmAccount'
-import { noZeroX } from '@/utils'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { ReadStream } from 'fs'
 import { Babysig, ERCType } from '@/types/GeneralTypes'
 import { PublishMetadataOptions } from '@/types/MetadataTypes'
 import { ImmutableBackends, MetaDataExternalResource, ServiceType } from '@/types/DDOTypes'
 import { HttpError, NeverminedNodeError } from '@/errors/NeverminedErrors'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { noZeroX } from '@/utils/ConversionTypeHelpers'
 
 const apiPath = '/api/v1/node/services'
 

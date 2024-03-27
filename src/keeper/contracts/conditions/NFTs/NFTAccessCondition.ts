@@ -3,10 +3,10 @@ import {
   ConditionContext,
   ProviderCondition,
 } from '@/keeper/contracts/conditions/Condition.abstract'
-import { zeroX, didZeroX } from '@/utils'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
+import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 
 export interface NFTAccessConditionContext extends ConditionContext {
   grantee: string

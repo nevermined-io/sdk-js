@@ -1,18 +1,14 @@
-import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
-import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
-import { DDO, NvmAccount, ServiceCompute, ServiceType, ValidationParams } from '@/sdk'
 import { InstantiableConfig } from '@/Instantiable.abstract'
-import {
-  ComputeExecutionCondition,
-  EscrowPaymentCondition,
-  LockPaymentCondition,
-} from '@/keeper/contracts/conditions'
-import {
-  lockPaymentTemplate,
-  serviceExecutionTemplate,
-  escrowTemplate,
-} from '@/keeper/contracts/templates/ConditionTemplates'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
 import { AgreementInstance } from '@/types/ContractTypes'
+import { ServiceCompute, ValidationParams, ServiceType } from '@/types/DDOTypes'
+import { ComputeExecutionCondition } from '../conditions/ComputeExecutionCondition'
+import { EscrowPaymentCondition } from '../conditions/EscrowPaymentCondition'
+import { LockPaymentCondition } from '../conditions/LockPaymentCondition'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
+import { BaseTemplate } from './BaseTemplate.abstract'
+import { lockPaymentTemplate, serviceExecutionTemplate, escrowTemplate } from './ConditionTemplates'
 
 export interface EscrowComputeExecutionParams {
   consumerId: string

@@ -1,6 +1,6 @@
 import { NeverminedEvent } from '@/events/NeverminedEvent'
 import { EventEmitter, EventOptions, EventResult } from '@/types/EventTypes'
-import { ContractBase } from '@/keeper'
+import { ContractBase } from '@/keeper/contracts/ContractBase'
 import {
   ApolloClient,
   InMemoryCache,

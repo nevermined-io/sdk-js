@@ -1,29 +1,35 @@
-import { DEFAULT_ENCRYPTION_METHOD, ZeroAddress } from '@/constants'
-
-import { AssetAttributes, AssetPrice, NFTAttributes, NvmAccount, TxParameters } from '@/models'
-import { CreateProgressStep, DID, formatUnits, SignatureUtils } from '@/nevermined'
-import { DEFAULT_REGISTRATION_ACTIVITY_ID } from '@/keeper'
-import { SubscribablePromise, zeroX } from '@/utils'
-import { OrderProgressStep, UpdateProgressStep } from '@/nevermined/ProgressSteps'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { AccessService, NFTSalesService, NFTAccessService } from '@/nevermined/AccessService'
+import { generateId } from '@/common/helpers'
+import { DEFAULT_ENCRYPTION_METHOD, ZeroAddress } from '@/constants/AssetConstants'
+import { DDO } from '@/ddo/DDO'
+import { AssetError } from '@/errors/NeverminedErrors'
+import { DEFAULT_REGISTRATION_ACTIVITY_ID } from '@/keeper/contracts/Provenance'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { AssetPrice } from '@/models/AssetPrice'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
 import {
-  AssetError,
-  generateId,
+  MetaData,
+  NvmConfigVersions,
+  PricedMetadataInformation,
   Service,
   ServicePlugin,
   ServiceType,
-  NvmConfigVersions,
-  MetaData,
-  PricedMetadataInformation,
-} from '@/sdk'
-import { DDO } from '@/ddo/DDO'
+} from '@/types/DDOTypes'
 import {
   AssetPublicationOptions,
+  DIDResolvePolicy,
   PublishMetadataOptions,
   PublishOnChainOptions,
-  DIDResolvePolicy,
 } from '@/types/MetadataTypes'
+import { zeroX } from '@/utils/ConversionTypeHelpers'
+import { SubscribablePromise } from '@/utils/SubscribablePromise'
+import { formatUnits } from 'viem'
+import { AccessService, NFTAccessService, NFTSalesService } from '../AccessService'
+import { DID } from '../DID'
+import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
+import { SignatureUtils } from '../utils/SignatureUtils'
 
 /**
  * Abstract class proving common functionality related with Assets registration.

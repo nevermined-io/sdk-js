@@ -1,5 +1,5 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { ApiError, HttpError } from '@/sdk'
+import { HttpError, ApiError } from '@/errors/NeverminedErrors'
 
 const authPath = '/api/v1/auth'
 

@@ -1,5 +1,4 @@
 import { InstantiableConfig } from '@/Instantiable.abstract'
-import { didZeroX, zeroX } from '@/utils'
 import {
   Condition,
   ConditionContext,
@@ -10,6 +9,7 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { DDO } from '@/ddo/DDO'
 import { TxParameters } from '@/models/Transactions'
 import { ConditionMethod } from '@/types/ContractTypes'
+import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 
 export interface TransferNFT721ConditionContext extends ConditionContext {
   consumerId: string

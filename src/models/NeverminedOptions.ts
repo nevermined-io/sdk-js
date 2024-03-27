@@ -1,4 +1,5 @@
-import { NvmAccount, LogLevel } from '@/models'
+import { NvmAccount } from '@/models/NvmAccount'
+import { LogLevel } from '@/models/Logger'
 
 export class NeverminedOptions {
   public chainId?: number

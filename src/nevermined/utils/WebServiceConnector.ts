@@ -4,9 +4,9 @@ import { InstantiableConfig } from '@/Instantiable.abstract'
 import FormData from 'form-data'
 import * as path from 'path'
 import fileDownload from 'js-file-download'
-import { HttpError } from '@/sdk'
 import { URL } from 'whatwg-url'
 import { JwtUtils } from '@/nevermined/utils/JwtUtils'
+import { HttpError } from '@/errors/NeverminedErrors'
 
 let fetch
 if (typeof window !== 'undefined') {

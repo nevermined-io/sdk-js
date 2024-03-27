@@ -1,14 +1,12 @@
-import {
-  AssetPrice,
-  ContractBase,
-  InstantiableConfig,
-  NvmAccount,
-  Service,
-  DDO,
-  zeroX,
-  TxParameters,
-} from '@/sdk'
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { DDO } from '@/ddo/DDO'
+import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { AssetPrice } from '@/models/AssetPrice'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
 import { ConditionInstanceSmall, ConditionMethod } from '@/types/ContractTypes'
+import { Service } from '@/types/DDOTypes'
+import { zeroX } from '@/utils/ConversionTypeHelpers'
 
 export interface ConditionContext {
   ddo: DDO

@@ -1,22 +1,20 @@
+import { InstantiableConfig } from '@/Instantiable.abstract'
+import { ZeroAddress } from '@/constants/AssetConstants'
+import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { TxParameters as txParams } from '@/models/Transactions'
+import { zeroPadValue } from '@/nevermined/utils/BlockchainViemUtils'
+import { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
+import { didZeroX, zeroX, didPrefixed } from '@/utils/ConversionTypeHelpers'
+import { eventToObject } from '@/utils/Events'
 import {
   DEFAULT_REGISTRATION_ACTIVITY_ID,
   ProvenanceAttributeRegisteredEvent,
-  ProvenanceEvent,
   ProvenanceMethod,
+  ProvenanceEvent,
   ProvenanceRegistry,
-  InstantiableConfig,
-  AssetError,
-  ContractBase,
-  zeroX,
-  didPrefixed,
-  didZeroX,
-  eventToObject,
-  ZeroAddress,
-  zeroPadValue,
-  NFTAttributes,
-  SignatureUtils,
-} from '@/sdk'
-import { TxParameters as txParams } from '@/models/Transactions'
+} from './Provenance'
+import { AssetError } from '@/errors/NeverminedErrors'
 export class DIDRegistry extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
     const didRegistry: DIDRegistry = new DIDRegistry('DIDRegistry')

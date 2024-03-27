@@ -1,14 +1,21 @@
-import { ServiceAgreementTemplate, ServiceNFTAccess, ServiceType, ValidationParams } from '@/sdk'
-import { NvmAccount, DDO } from '@/sdk'
 import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
 import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
-import { NFT721HolderCondition, NFTAccessCondition } from '@/keeper/contracts/conditions'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import {
   nft721HolderTemplate,
   nftAccessCondition,
 } from '@/keeper/contracts/templates/ConditionTemplates'
 import { AgreementInstance } from '@/types/ContractTypes'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import {
+  ServiceNFTAccess,
+  ValidationParams,
+  ServiceType,
+  ServiceAgreementTemplate,
+} from '@/types/DDOTypes'
+import { NFT721HolderCondition } from '../conditions/NFTs/NFT721HolderCondition'
+import { NFTAccessCondition } from '../conditions/NFTs/NFTAccessCondition'
 
 export interface NFT721AccessTemplateParams {
   holderAddress: string

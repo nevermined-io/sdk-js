@@ -1,4 +1,8 @@
-import { TxParameters, NvmAccount, OrderProgressStep, DDO, ServiceType } from '@/sdk'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
+import { OrderProgressStep } from '@/nevermined/ProgressSteps'
+import { ServiceType } from '@/types/DDOTypes'
 
 export interface GenericAccess {
   createAgreementWithPaymentFromDDO(

@@ -1,7 +1,9 @@
-import { ApiError, DID, HttpError, ServiceSecondary } from '@/sdk'
 import { DDO } from '@/ddo/DDO'
 import { SearchQuery } from '@/types/MetadataTypes'
 import { MarketplaceApi } from './MarketplaceAPI'
+import { HttpError, ApiError } from '@/errors/NeverminedErrors'
+import { DID } from '@/nevermined/DID'
+import { ServiceSecondary } from '@/types/DDOTypes'
 
 export const apiPath = '/api/v1/metadata/assets/ddo'
 export const servicePath = '/api/v1/metadata/assets/service'

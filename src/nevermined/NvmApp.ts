@@ -1,20 +1,11 @@
-import { NETWORK_FEE_DENOMINATOR } from '@/constants'
-import { ZeroDevAccountSigner } from '@zerodev/sdk'
-import {
-  NvmAccount,
-  AssetPrice,
-  ContractHandler,
-  DDO,
-  MetaData,
-  NFTAttributes,
-  Nevermined,
-  NeverminedOptions,
-  SearchApi,
-  SubscriptionToken,
-  SubscriptionType,
-  Web3Error,
-  isValidAddress,
-} from '@/sdk'
+import { NETWORK_FEE_DENOMINATOR } from '@/constants/AssetConstants'
+import { DDO } from '@/ddo/DDO'
+import { Web3Error } from '@/errors/NeverminedErrors'
+import { ContractHandler } from '@/keeper/ContractHandler'
+import { AssetPrice } from '@/models/AssetPrice'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { NeverminedOptions } from '@/models/NeverminedOptions'
+import { NvmAccount } from '@/models/NvmAccount'
 import {
   AppDeploymentArbitrum,
   AppDeploymentBase,
@@ -28,8 +19,14 @@ import {
   AppDeploymentTesting,
   NeverminedAppOptions,
 } from '@/nevermined/resources/AppNetworks'
+import { SubscriptionToken } from '@/services/node/NeverminedNode'
+import { SubscriptionType, MetaData } from '@/types/DDOTypes'
 import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
 import { PublishMetadataOptions, PublishOnChainOptions } from '@/types/MetadataTypes'
+import { ZeroDevAccountSigner } from '@zerodev/sdk'
+import { Nevermined } from './Nevermined'
+import { SearchApi } from './api/SearchApi'
+import { isValidAddress } from './utils/BlockchainViemUtils'
 
 export enum NVMAppEnvironments {
   Staging = 'staging',

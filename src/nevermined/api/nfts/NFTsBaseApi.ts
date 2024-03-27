@@ -1,20 +1,16 @@
-import { zeroX } from '@/utils'
-import { Token } from '@/keeper'
-import { RegistryBaseApi } from '@/nevermined/api/RegistryBaseApi'
-
-import {
-  AssetPrice,
-  NvmAccount,
-  generateId,
-  ServiceType,
-  NFTError,
-  ServiceSecondary,
-  TxParameters,
-} from '@/sdk'
+import { generateId } from '@/common/helpers'
 import { DDO, getConditionsByParams } from '@/ddo/DDO'
-import { Babysig, ERCType } from '@/types/GeneralTypes'
-import { RoyaltyKind } from '@/types/MetadataTypes'
+import { NFTError } from '@/errors/NeverminedErrors'
+import { AssetPrice } from '@/models/AssetPrice'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
 import { SubscriptionToken } from '@/services/node/NeverminedNode'
+import { ServiceType, ServiceSecondary } from '@/types/DDOTypes'
+import { ERCType, Babysig } from '@/types/GeneralTypes'
+import { RoyaltyKind } from '@/types/MetadataTypes'
+import { zeroX } from '@/utils/ConversionTypeHelpers'
+import { RegistryBaseApi } from '../RegistryBaseApi'
+import { Token } from '@/keeper/contracts/Token'
 
 /**
  * Abstract class providing common NFT methods for different ERC implementations.

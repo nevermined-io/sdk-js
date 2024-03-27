@@ -1,17 +1,22 @@
 import { InstantiableConfig } from '@/Instantiable.abstract'
-import { AssetAttributes, NFTAttributes, TxParameters } from '@/models'
-import { SubscribablePromise, zeroX } from '@/utils'
-import { NvmAccount } from '@/models/NvmAccount'
-import { Nft1155Contract } from '@/keeper'
-import { NFTsBaseApi } from '@/nevermined/api'
-import { CreateProgressStep, OrderProgressStep } from '@/nevermined/ProgressSteps'
-import { ServiceNFTSales, ServiceType, generateId, NFTError } from '@/sdk'
 import { DDO } from '@/ddo/DDO'
+import { Nft1155Contract } from '@/keeper/contracts/Nft1155Contract'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters } from '@/models/Transactions'
+import { CreateProgressStep, OrderProgressStep } from '@/nevermined/ProgressSteps'
+import { ServiceType, ServiceNFTSales } from '@/types/DDOTypes'
 import {
   AssetPublicationOptions,
   PublishMetadataOptions,
   PublishOnChainOptions,
 } from '@/types/MetadataTypes'
+import { zeroX } from '@/utils/ConversionTypeHelpers'
+import { SubscribablePromise } from '@/utils/SubscribablePromise'
+import { NFTsBaseApi } from './NFTsBaseApi'
+import { generateId } from '@/common/helpers'
+import { NFTError } from '@/errors/NeverminedErrors'
 
 /**
  * Allows the interaction with external ERC-1155 NFT contracts built on top of the Nevermined NFT extra features.

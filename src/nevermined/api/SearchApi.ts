@@ -1,9 +1,13 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { NvmAccount, DID, didPrefixed, DDO, Service, ServiceType } from '@/sdk'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
 import { QueryResult } from '@/services/metadata/MetadataService'
+import { ServiceType, Service } from '@/types/DDOTypes'
 import { EventOptions } from '@/types/EventTypes'
 import { NeverminedNFT1155Type, NeverminedNFT721Type } from '@/types/GeneralTypes'
 import { SearchQuery } from '@/types/MetadataTypes'
+import { didPrefixed } from '@/utils/ConversionTypeHelpers'
+import { DID } from '../DID'
 
 const EMPTY_RESULT: QueryResult = {
   results: [],

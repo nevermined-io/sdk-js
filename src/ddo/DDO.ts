@@ -1,33 +1,34 @@
+import { jsonReplacer } from '@/common/helpers'
 import {
-  Authentication,
-  PublicKey,
-  Service,
-  ServiceType,
-  MetaData,
-  MetaDataMain,
-  NvmConfig,
-  Proof,
-  ServiceNFTAccess,
-  ServiceNFTSales,
-  ConditionType,
-  ServiceAgreementTemplateCondition,
-  ServiceCommon,
-  ServiceAgreementTemplateParameter,
-  Nevermined,
-  keccak256,
-  didPrefixed,
-  zeroX,
-  AssetPrice,
-  NFTAttributes,
-  DIDRegistry,
   DDOConditionNotFoundError,
   DDOParamNotFoundError,
   DDOPriceNotFoundError,
   DDOServiceAlreadyExists,
   DDOServiceNotFoundError,
-  jsonReplacer,
-  NvmAccount,
-} from '@/sdk'
+} from '@/errors/NeverminedErrors'
+import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
+import { AssetPrice } from '@/models/AssetPrice'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { NvmAccount } from '@/models/NvmAccount'
+import { Nevermined } from '@/nevermined/Nevermined'
+import {
+  Authentication,
+  ConditionType,
+  MetaData,
+  MetaDataMain,
+  NvmConfig,
+  Proof,
+  PublicKey,
+  Service,
+  ServiceAgreementTemplateCondition,
+  ServiceAgreementTemplateParameter,
+  ServiceCommon,
+  ServiceNFTAccess,
+  ServiceNFTSales,
+  ServiceType,
+} from '@/types/DDOTypes'
+import { didPrefixed, zeroX } from '@/utils/ConversionTypeHelpers'
+import { keccak256 } from 'viem'
 
 // DDO Services including a sales process
 export const SALES_SERVICES = ['access', 'compute', 'nft-sales']

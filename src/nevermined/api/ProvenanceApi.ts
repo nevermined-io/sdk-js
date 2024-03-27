@@ -1,6 +1,6 @@
 import { NvmAccount } from '@/models/NvmAccount'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { ProvenanceMethod } from '@/keeper'
+import { ProvenanceMethod } from '@/keeper/contracts/Provenance'
 import { zeroPadValue } from '@/nevermined/utils/BlockchainViemUtils'
 import { TxParameters } from '@/models/Transactions'
 

@@ -1,13 +1,13 @@
+import { InstantiableConfig } from '@/Instantiable.abstract'
 import {
   Condition,
   ConditionContext,
   ProviderCondition,
 } from '@/keeper/contracts/conditions/Condition.abstract'
-import { zeroX, didZeroX, didPrefixed } from '@/utils'
-import { InstantiableConfig } from '@/Instantiable.abstract'
 import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
 import { EventOptions } from '@/types/EventTypes'
+import { didZeroX, zeroX, didPrefixed } from '@/utils/ConversionTypeHelpers'
 
 export interface AccessConditionContext extends ConditionContext {
   creator: string
