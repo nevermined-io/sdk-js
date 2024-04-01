@@ -24,7 +24,11 @@ export default abstract class TestContractHandler extends ContractHandler {
     TestContractHandler.nevermined = await Nevermined.getInstance(config)
 
     const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
-    TestContractHandler.networkId = await TestContractHandler.client.public.getChainId() //TestContractHandler.web3 //Number((await TestContractHandler.web3.getNetwork()).chainId)
+    console.log('testContractHandler', config)
+    console.log('testContractHandler', TestContractHandler.client.public.getChainId())
+    TestContractHandler.networkId = config.chainId
+
+    // TestContractHandler.networkId = await TestContractHandler.client.public.getChainId() //TestContractHandler.web3 //Number((await TestContractHandler.web3.getNetwork()).chainId)
     TestContractHandler.minter = keccak256('minter')
 
     // deploy contracts

@@ -1,8 +1,8 @@
+import { KeeperError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
-import { zeroX, didZeroX } from '@/utils/ConversionTypeHelpers'
-import ContractBase from './ContractBase'
-import { KeeperError } from '@/errors/NeverminedErrors'
+import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import { ContractBase } from './ContractBase'
 
 export interface MintedEntry {
   amountMinted: bigint

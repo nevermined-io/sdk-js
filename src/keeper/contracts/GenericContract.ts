@@ -1,6 +1,6 @@
-import ContractBase from './ContractBase'
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { TxParameters } from '@/models/Transactions'
+import { ContractBase } from './ContractBase'
 
 export class GenericContract extends ContractBase {
   protected fixedAddress: string

@@ -1,10 +1,10 @@
 import { assert } from 'chai'
-import { NvmAccount } from '../../src/nevermined'
 import { Nevermined } from '../../src/nevermined'
 import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainViemUtils'
 import config from '../config'
-import ContractBaseMock from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'
+import { NvmAccount } from '@/models'
+import { ContractBaseMock } from '../mocks/ContractBase.Mock'
 
 let wrappedContract: ContractBaseMock
 let accounts: NvmAccount[]

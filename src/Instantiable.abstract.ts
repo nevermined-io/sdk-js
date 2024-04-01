@@ -7,7 +7,7 @@ import {
   PublicClient,
   WalletClient,
 } from 'viem'
-import LoggerInstance, { Logger, LogLevel } from './models/Logger'
+import { Logger, LoggerInstance, LogLevel } from './models/Logger'
 import { NeverminedOptions } from './models/NeverminedOptions'
 import { Nevermined } from './nevermined/Nevermined'
 

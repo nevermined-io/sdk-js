@@ -3,7 +3,7 @@ import { InstantiableConfig } from '../../src/Instantiable.abstract'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export default class WebServiceConnectorMock extends WebServiceConnector {
+export class WebServiceConnectorMock extends WebServiceConnector {
   constructor(config: InstantiableConfig, private returnData: any) {
     super(config)
   }

@@ -471,5 +471,3 @@ export abstract class ContractBase extends Instantiable {
   //   return receipt
   // }
 }
-
-export default ContractBase

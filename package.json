@@ -14,7 +14,7 @@
     "jest:test": "jest --no-cache --coverage --rootDir test -w 1 ",
     "test": "ts-mocha --paths -p tsconfig.json ",
     "test:mocha": "mocha --full-trace --config test/.mocharc.json ",
-    "test:all": "mocha --config test/.mocharc.json ./test/**/*.test.ts",
+    "test:all": "ts-mocha --paths -p tsconfig.json ./test/**/*.test.ts",
     "integration": "mocha --config integration/.mocharc.json  ",
     "integration:all": "mocha --config integration/.mocharc.json  ./integration/nevermined/*.test.ts",
     "integration:subgraph": "mocha --config integration/.mocharc.json ./integration/**/*.test.subgraph.ts",
