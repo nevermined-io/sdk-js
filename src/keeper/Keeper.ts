@@ -25,7 +25,6 @@ import { NFTLockCondition } from './contracts/conditions/NFTs/NFTLockCondition'
 import { TransferNFT721Condition } from './contracts/conditions/NFTs/TransferNFT721Condition'
 import { TransferNFTCondition } from './contracts/conditions/NFTs/TransferNFTCondition'
 import { TransferDIDOwnershipCondition } from './contracts/conditions/TransferDIDOwnershipCondition'
-import { NeverminedConfig } from './contracts/governance/NeverminedConfig'
 import { AgreementStoreManager } from './contracts/managers/AgreementStoreManager'
 import { ConditionStoreManager } from './contracts/managers/ConditionStoreManager'
 import { TemplateStoreManager } from './contracts/managers/TemplateStoreManager'
@@ -40,6 +39,7 @@ import { NFT721AccessTemplate } from './contracts/templates/NFT721AccessTemplate
 import { NFT721SalesTemplate } from './contracts/templates/NFT721SalesTemplate'
 import { NFTAccessTemplate } from './contracts/templates/NFTAccessTemplate'
 import { NFTSalesTemplate } from './contracts/templates/NFTSalesTemplate'
+import { NeverminedConfig } from './contracts/governance/NeverminedConfig'
 
 /**
  * Interface with Nevermined contracts.

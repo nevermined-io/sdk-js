@@ -1,14 +1,14 @@
-import { ContractHandler } from '@/keeper/ContractHandler'
-import * as NetworkUtils from '@/utils/Network'
-import config from '../config'
-import fs from 'fs'
 import { Web3Clients } from '@/Instantiable.abstract'
-import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
+import { ZeroAddress } from '@/constants/AssetConstants'
+import { ContractHandler } from '@/keeper/ContractHandler'
+import Logger from '@/models/Logger'
 import { NeverminedOptions } from '@/models/NeverminedOptions'
 import { NvmAccount } from '@/models/NvmAccount'
 import { Nevermined } from '@/nevermined/Nevermined'
-import Logger from '@/models/Logger'
-import { ZeroAddress } from '@/constants/AssetConstants'
+import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
+import * as NetworkUtils from '@/utils/Network'
+import fs from 'fs'
+import config from '../config'
 
 export default abstract class TestContractHandler extends ContractHandler {
   private static networkId: number
@@ -24,9 +24,9 @@ export default abstract class TestContractHandler extends ContractHandler {
     TestContractHandler.nevermined = await Nevermined.getInstance(config)
 
     const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
-    console.log('testContractHandler', config)
-    console.log('testContractHandler', TestContractHandler.client.public.getChainId())
-    TestContractHandler.networkId = config.chainId
+    // TestContractHandler.client = await getWeb3ViemClients(TestContractHandler.config)
+    // console.log('testContractHandler', await TestContractHandler.client.public.getChainId())
+    TestContractHandler.networkId = await TestContractHandler.client.public.getChainId()
 
     // TestContractHandler.networkId = await TestContractHandler.client.public.getChainId() //TestContractHandler.web3 //Number((await TestContractHandler.web3.getNetwork()).chainId)
     TestContractHandler.minter = keccak256('minter')

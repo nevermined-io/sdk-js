@@ -1,6 +1,5 @@
-import { NeverminedOptions, NvmAccount } from '../src'
+import { LogLevel, LoggerInstance, NeverminedOptions, NvmAccount } from '../src'
 import { makeWallets } from '../src/nevermined/utils/BlockchainViemUtils'
-import { LoggerInstance, LogLevel } from '../src/utils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 

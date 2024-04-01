@@ -1,18 +1,12 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { DDO, Nevermined, NFTAttributes, AssetPrice, NvmAccount } from '../../src'
-import {
-  TransferNFT721Condition,
-  Token,
-  Nft721Contract,
-  ConditionState,
-  ContractHandler,
-} from '../../src/keeper'
+import { DDO, Nevermined, NFTAttributes, AssetPrice, NvmAccount, generateId } from '../../src'
+import { TransferNFT721Condition, Token, Nft721Contract, ContractHandler } from '../../src/keeper'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { generateId } from '../../src/utils'
 import '../globals'
 import { mineBlocks } from '../utils/utils'
+import { ConditionState } from '@/types/ContractTypes'
 
 describe('Claim aborted agreements End-to-End', () => {
   let publisher: NvmAccount

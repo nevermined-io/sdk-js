@@ -13,10 +13,10 @@ import {
   ComputeExecutionCondition,
   EscrowPaymentCondition,
   LockPaymentCondition,
+  generateId,
 } from '../../src'
 import { Token } from '../../src/keeper'
 import { getMetadata } from '../utils'
-import { generateId } from '../../src/utils'
 import { EventLog } from 'ethers'
 
 describe('Register Escrow Compute Execution Template', () => {
