@@ -237,7 +237,7 @@ export abstract class RegistryBaseApi extends Instantiable {
               nftAttributes.nftContractAddress,
               checksum,
               assetAttributes.providers || [this.config.neverminedNodeAddress],
-              publisher.getId(),
+              publisher,
               nftAttributesWithoutRoyalties,
               serviceEndpoint,
               ddoVersion.immutableUrl,
@@ -250,7 +250,7 @@ export abstract class RegistryBaseApi extends Instantiable {
               nftAttributes.nftContractAddress,
               checksum,
               assetAttributes.providers || [this.config.neverminedNodeAddress],
-              publisher.getId(),
+              publisher,
               nftAttributesWithoutRoyalties,
               serviceEndpoint,
               ddoVersion.immutableUrl,
@@ -266,7 +266,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             await didRegistry.setDIDRoyalties(
               ddo.shortId(),
               nftAttributes.royaltyAttributes.scheme.address,
-              publisher.getId(),
+              publisher,
               txParams,
             )
             observer.next(CreateProgressStep.SettingRoyalties)
@@ -283,7 +283,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             didSeed,
             checksum,
             assetAttributes.providers || [this.config.neverminedNodeAddress],
-            publisher.getId(),
+            publisher,
             serviceEndpoint,
             ddoVersion.immutableUrl,
             SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
@@ -442,7 +442,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       await this.nevermined.keeper.didRegistry.updateMetadataUrl(
         ddo.id,
         checksum,
-        publisher.getId(),
+        publisher,
         metadataService.serviceEndpoint,
         ddoVersion.immutableUrl,
         txParams,

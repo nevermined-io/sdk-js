@@ -1,5 +1,6 @@
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { NvmAccount } from '@/models'
 import { TxParameters } from '@/models/Transactions'
 import { parseUnits } from 'viem'
 
@@ -12,9 +13,9 @@ export class Dispenser extends ContractBase {
 
   public async requestTokens(
     amount: number | string | bigint,
-    receiverAddress: string,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.send('requestTokens', receiverAddress, [parseUnits(amount.toString(), 0)], txParams)
+    return this.send('requestTokens', from, [parseUnits(amount.toString(), 0)], txParams)
   }
 }

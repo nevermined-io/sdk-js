@@ -322,7 +322,7 @@ export class NFT721Api extends NFTsBaseApi {
    * @returns The {@link TransactionReceipt}
    */
   public async mint(did: string, publisher: NvmAccount, txParams?: TxParameters) {
-    return await this.nftContract.mint(did, publisher.getId(), txParams)
+    return await this.nftContract.mint(did, publisher, txParams)
   }
 
   /**
@@ -399,7 +399,7 @@ export class NFT721Api extends NFTsBaseApi {
     from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return await this.nftContract.setApprovalForAll(target, approved, from.getId(), txParams)
+    return await this.nftContract.setApprovalForAll(target, approved, from, txParams)
   }
 
   /**

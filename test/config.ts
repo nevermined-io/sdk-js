@@ -4,29 +4,28 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { makeWallets } from '@/nevermined/utils/BlockchainViemUtils'
 import { Account } from 'viem/accounts'
 
-LoggerInstance.setLevel(LogLevel.Log)
+LoggerInstance.setLevel(LogLevel.Verbose)
 
 const config = {
-  chainId: 1337,  
+  chainId: 1337,
   marketplaceUri: 'http://localhost:3100',
   neverminedNodeUri: 'http://localhost:8030',
   neverminedNodeAddress: '0x068ed00cf0441e4829d9784fcbe7b9e26d4bd8d0',
   web3ProviderUri: `http://127.0.0.1:${process.env.ETH_PORT || 8545}`,
-  verbose: LogLevel.Error,
+  verbose: LogLevel.Verbose,
   artifactsFolder: './artifacts',
   circuitsFolder: './circuits',
 } as NeverminedOptions
 
 if (process.env.SEED_WORDS) {
   const wallets = makeWallets(process.env.SEED_WORDS)
-  config.accounts = wallets.map((wallet) => {    
+  config.accounts = wallets.map((wallet) => {
     //const a = new NvmAccount(wallet.address)
     const a = NvmAccount.fromAccount(wallet)
     const signer = a.getAccountSigner() as Account
-    LoggerInstance.log(`Account loaded with address ${a.getAddress()} and type: ${signer.type}`)
+    LoggerInstance.debug(`Account loaded with address ${a.getAddress()} and type: ${signer.type}`)
     return a
   })
-  
 }
 
 export default config

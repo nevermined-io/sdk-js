@@ -49,7 +49,7 @@ export class TokenUtils extends Instantiable {
    * Transfer a number of tokens to the mentioned account.
    * @param to - Address that receives the tokens.
    * @param amount - Tokens to transfer.
-   * @param from - Sender account address.
+   * @param from - Sender account
    * @param txParams - Transaction parameters
    * @returns True if the transfer succeeded.
    */
@@ -59,7 +59,7 @@ export class TokenUtils extends Instantiable {
     from: NvmAccount,
     txParams?: txParams,
   ): Promise<boolean> {
-    this.nevermined.keeper.token.transfer(to, amount, from.getId(), txParams)
+    this.nevermined.keeper.token.transfer(to, amount, from, txParams)
     return true
   }
 

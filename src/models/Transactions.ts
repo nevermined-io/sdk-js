@@ -1,5 +1,5 @@
-import { NvmAccount } from '@/models/NvmAccount'
-import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
+// import { NvmAccount } from '@/models/NvmAccount'
+// import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
 
 export interface TxParameters {
   value?: string
@@ -8,9 +8,9 @@ export interface TxParameters {
   gasPrice?: string
   maxPriorityFeePerGas?: string
   maxFeePerGas?: string
-  nvmAccount?: NvmAccount
-  zeroDevSigner?: ZeroDevAccountSigner<'ECDSA'>
-  sessionKeyProvider?: SessionKeyProvider
+  // nvmAccount?: NvmAccount
+  // zeroDevSigner?: ZeroDevAccountSigner<'ECDSA'>
+  // sessionKeyProvider?: SessionKeyProvider
   nonce?: number
   progress?: (data: any) => void
 }

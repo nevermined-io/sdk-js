@@ -20,7 +20,7 @@ export class SignatureUtils extends Instantiable {
       // TODO: Implement ZeroDev signing
       return `0x`
     } else if (nvmAccount.accountType.signerType === 'local') {
-      return (nvmAccount.accountSigner as LocalAccount).signMessage({
+      return (nvmAccount.getAccountSigner() as LocalAccount).signMessage({
         message: message as `0x${string}`,
       })
     } else if (nvmAccount.accountType.signerType === 'json-rpc') {
@@ -47,7 +47,7 @@ export class SignatureUtils extends Instantiable {
       // TODO: Implement ZeroDev signing
       return `0x`
     } else if (nvmAccount.accountType.signerType === 'local') {
-      return await (nvmAccount.accountSigner as LocalAccount).signTypedData({
+      return await (nvmAccount.getAccountSigner() as LocalAccount).signTypedData({
         domain,
         types: types as any,
         message: value,
@@ -73,7 +73,7 @@ export class SignatureUtils extends Instantiable {
       // TODO: Implement ZeroDev signing
       return `0x`
     } else if (nvmAccount.accountType.signerType === 'local') {
-      return (nvmAccount.accountSigner as LocalAccount).signTransaction({
+      return (nvmAccount.getAccountSigner() as LocalAccount).signTransaction({
         data: tx,
       })
     } else if (nvmAccount.accountType.signerType === 'json-rpc') {

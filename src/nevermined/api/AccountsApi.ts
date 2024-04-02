@@ -26,7 +26,9 @@ export class AccountsApi extends Instantiable {
    * @returns The list of accounts.
    */
   public async list(): Promise<NvmAccount[]> {
-    return (await this.addresses()).map((address) => NvmAccount.fromAddress(address as `0x${string}`))
+    return (await this.addresses()).map((address) =>
+      NvmAccount.fromAddress(address as `0x${string}`),
+    )
   }
 
   /**
@@ -109,11 +111,7 @@ export class AccountsApi extends Instantiable {
         this.logger.log('Dispenser not available on this network.')
         return false
       }
-      await this.nevermined.keeper.dispenser.requestTokens(
-        amount,
-        nvmAccount.getAddress(),
-        txParams,
-      )
+      await this.nevermined.keeper.dispenser.requestTokens(amount, nvmAccount, txParams)
       return true
     } catch (e) {
       this.logger.log(`Error requesting tokens: ${e}`)

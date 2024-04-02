@@ -1,5 +1,4 @@
 import { assert } from 'chai'
-import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { Keeper } from '@/keeper/Keeper'
 import { Nevermined } from '@/nevermined/Nevermined'
@@ -8,17 +7,16 @@ import { ZeroAddress } from '@/constants/AssetConstants'
 let keeper: Keeper
 
 describe('Keeper', () => {
+  let nevermined: Nevermined
   let deployerAddress
   let owner
   const newNetworkFee = 200000 / 100
 
   before(async () => {
-    const nevermined = await Nevermined.getInstance(config)
-    deployerAddress = await TestContractHandler.initEnvironment(nevermined, config)
-    //deployerAddress = await TestContractHandler.prepareContracts()
-    
+    const deployer = await TestContractHandler.prepareContracts()
+    nevermined = deployer.nevermined
+    deployerAddress = deployer.deployerAddress
     ;[owner] = await nevermined.accounts.list()
-    console.log(`Owner Account Type: ${owner.type}`)
     ;({ keeper } = nevermined)
   })
 
@@ -50,19 +48,19 @@ describe('Keeper', () => {
 
   describe('Contracts are Configured', () => {
     it('Deployer is Governor', async () => {
+      console.log(`NVMConfig Address: ${keeper.nvmConfig.address}`)
+      console.log(`Checking if: ${deployerAddress} is GOVERNOR`)
       const isGovernor = await keeper.nvmConfig.isGovernor(deployerAddress)
       assert(isGovernor)
     })
 
     it('Get Network Fee', async () => {
       const networkFee = await keeper.nvmConfig.getNetworkFee()
-      console.log(`NETWORK FEE = ${networkFee}`)
       assert.equal(networkFee, 0n)
     })
 
     it('Get Fee Receiver', async () => {
       const feeReceiver = await keeper.nvmConfig.getFeeReceiver()
-      console.log(`FEE RECEIVER = ${feeReceiver}`)
       assert.equal(feeReceiver, ZeroAddress)
     })
 
@@ -70,9 +68,6 @@ describe('Keeper', () => {
       await keeper.nvmConfig.setNetworkFees(newNetworkFee, deployerAddress, owner)
       const networkFee = await keeper.nvmConfig.getNetworkFee()
       const feeReceiver = await keeper.nvmConfig.getFeeReceiver()
-
-      console.log(`NETWORK FEE = ${networkFee}`)
-      console.log(`FEE RECEIVER = ${feeReceiver}`)
 
       assert.equal(networkFee, BigInt(newNetworkFee))
       assert.equal(feeReceiver, deployerAddress)

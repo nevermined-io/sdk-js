@@ -7,7 +7,6 @@ import {
 } from '@/keeper/contracts/templates/ConditionTemplates'
 import { AgreementInstance } from '@/types/ContractTypes'
 import { DDO } from '@/ddo/DDO'
-import { NvmAccount } from '@/models/NvmAccount'
 import {
   ServiceNFTAccess,
   ValidationParams,

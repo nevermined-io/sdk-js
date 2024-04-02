@@ -37,7 +37,7 @@ export class ProvenanceApi extends Instantiable {
    * @param activityId - Identifier of the activity creating the new entity
    * @param signature - Signature (optional) provided by the agent involved
    * @param attributes - Attributes associated with the action
-   * @param from - Sender account address.
+   * @param from - Sender account.
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
@@ -58,7 +58,7 @@ export class ProvenanceApi extends Instantiable {
       zeroPadValue(activityId as `0x${string}`, 32),
       signature,
       attributes,
-      from.getId(),
+      from,
       txParams,
     )
     return true
@@ -72,7 +72,7 @@ export class ProvenanceApi extends Instantiable {
    * @param agentId - Agent Identifier
    * @param activityId - Identifier of the activity creating the new entity
    * @param attributes - Attributes associated with the action
-   * @param from - Sender account address.
+   * @param from - Sender account.
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
@@ -93,7 +93,7 @@ export class ProvenanceApi extends Instantiable {
       agentId,
       zeroPadValue(activityId as `0x${string}`, 32),
       attributes,
-      from.getId(),
+      from,
       txParams,
     )
     return true
@@ -106,7 +106,7 @@ export class ProvenanceApi extends Instantiable {
    * @param agentId - Agent Identifier
    * @param activityId - Identifier of the activity creating the new entity
    * @param attributes - Attributes associated with the action
-   * @param from - Sender account address.
+   * @param from - Sender account.
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
@@ -125,7 +125,7 @@ export class ProvenanceApi extends Instantiable {
       agentId,
       zeroPadValue(activityId as `0x${string}`, 32),
       attributes,
-      from.getId(),
+      from,
       txParams,
     )
     return true
@@ -140,7 +140,7 @@ export class ProvenanceApi extends Instantiable {
    * @param activityId - Identifier of the activity creating the new entity
    * @param signature - Signature provided by the delegated agent
    * @param attributes - Attributes associated with the action
-   * @param from - Sender account address.
+   * @param from - Sender account.
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
@@ -163,7 +163,7 @@ export class ProvenanceApi extends Instantiable {
       zeroPadValue(activityId as `0x${string}`, 32),
       signature,
       attributes,
-      from.getId(),
+      from,
       txParams,
     )
     return true
@@ -173,7 +173,7 @@ export class ProvenanceApi extends Instantiable {
    * Add new DID provenance delegate.
    * @param did - Identifier of the entity created
    * @param delegated - Delegate Address
-   * @param from - Sender account address.
+   * @param from - Sender account.
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
@@ -186,7 +186,7 @@ export class ProvenanceApi extends Instantiable {
     await this.nevermined.keeper.didRegistry.addDidProvenanceDelegate(
       did,
       delegated,
-      from.getId(),
+      from,
       txParams,
     )
     return true
@@ -196,7 +196,7 @@ export class ProvenanceApi extends Instantiable {
    * Remove an existing DID delegate.
    * @param did - Identifier of the entity created
    * @param delegated - Delegate Address
-   * @param from - Sender account address.
+   * @param from - Sender account.
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
@@ -209,7 +209,7 @@ export class ProvenanceApi extends Instantiable {
     await this.nevermined.keeper.didRegistry.removeDidProvenanceDelegate(
       did,
       delegated,
-      from.getId(),
+      from,
       txParams,
     )
     return true

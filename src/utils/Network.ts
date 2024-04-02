@@ -14,7 +14,7 @@ import {
   polygon,
   polygonMumbai,
 } from 'viem/chains'
-import { defineChain, parseGwei } from 'viem'
+import { defineChain } from 'viem'
 
 export async function getNetworkName(networkId: number): Promise<string> {
   switch (networkId) {
@@ -41,7 +41,7 @@ export async function getNetworkName(networkId: number): Promise<string> {
     case 137:
       return 'matic'
     case 1337:
-      return 'geth-localnet'
+      return 'hardhat'
     case 3141:
       return 'hyperspace'
     case 8453:
@@ -184,7 +184,7 @@ export function getChain(networkId: number): Chain {
         },
         rpcUrls: {
           default: {
-            http: ['http://contracts.nevermined.localnet'],            
+            http: ['http://contracts.nevermined.localnet'],
           },
         },
       })
@@ -192,10 +192,10 @@ export function getChain(networkId: number): Chain {
       return defineChain({
         id: networkId,
         name: 'Localhost',
-        fees: { 
-          baseFeeMultiplier: 1.2, 
-          //defaultPriorityFee: parseGwei('0.01'), 
-        }, 
+        fees: {
+          baseFeeMultiplier: 1.2,
+          //defaultPriorityFee: parseGwei('0.01'),
+        },
         nativeCurrency: {
           name: 'Ether',
           symbol: 'ETH',
@@ -203,10 +203,10 @@ export function getChain(networkId: number): Chain {
         },
         rpcUrls: {
           default: {
-            http: [`http://127.0.0.1:${process.env.ETH_PORT || 8545}`],            
+            http: [`http://127.0.0.1:${process.env.ETH_PORT || 8545}`],
           },
         },
-      })      
+      })
     default:
       throw new KeeperError(`Network with id ${networkId} not supported.`)
   }

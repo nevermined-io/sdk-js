@@ -85,12 +85,12 @@ export class AgreementStoreManager extends ContractBase {
     conditionIds: string[],
     timeLocks: number[],
     timeOuts: number[],
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.send(
       'createAgreement',
-      from && from.getId(),
+      from,
       [
         zeroX(agreementId),
         didZeroX(did),

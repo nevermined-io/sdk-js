@@ -64,8 +64,8 @@ export class NvmApp {
   private userAccount: NvmAccount | undefined
   private searchSDK: Nevermined | undefined
   private fullSDK: Nevermined | undefined
-  private useZeroDevSigner: boolean = false
-  private zeroDevSignerAccount?: ZeroDevAccountSigner<'ECDSA'>
+  // private useZeroDevSigner: boolean = false
+  // private zeroDevSignerAccount?: ZeroDevAccountSigner<'ECDSA'>
   private assetProviders: string[] = []
   private loginCredentials: string | undefined
   private subscriptionNFTContractAddress: string | undefined
@@ -122,8 +122,8 @@ export class NvmApp {
 
     if (account instanceof ZeroDevAccountSigner) {
       this.userAccount = await NvmAccount.fromZeroDevSigner(account)
-      this.zeroDevSignerAccount = account
-      this.useZeroDevSigner = true
+      // this.zeroDevSignerAccount = account
+      // this.useZeroDevSigner = true
     } else if (account instanceof NvmAccount) {
       this.userAccount = account
     } else {
@@ -159,8 +159,8 @@ export class NvmApp {
     if (this.fullSDK && this.isWeb3Connected()) {
       this.fullSDK = undefined
       this.userAccount = undefined
-      this.useZeroDevSigner = false
-      this.zeroDevSignerAccount = undefined
+      // this.useZeroDevSigner = false
+      // this.zeroDevSignerAccount = undefined
       this.loginCredentials = undefined
     }
   }
@@ -234,7 +234,8 @@ export class NvmApp {
         metadata: PublishMetadataOptions.OnlyMetadataAPI,
         did: PublishOnChainOptions.DIDRegistry,
       },
-      { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
+      // TODO: Review ZeroDev integration as part of the NvmAccount
+      // { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
     )
   }
 
@@ -279,7 +280,8 @@ export class NvmApp {
         metadata: PublishMetadataOptions.OnlyMetadataAPI,
         did: PublishOnChainOptions.DIDRegistry,
       },
-      { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
+      // TODO: Review ZeroDev integration as part of the NvmAccount
+      // { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
     )
   }
 
@@ -305,7 +307,8 @@ export class NvmApp {
           numberCredits,
           this.userAccount,
           serviceIndex,
-          { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
+          // TODO: Review ZeroDev integration as part of the NvmAccount
+          // { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
         )
       const subscriptionOwner = await this.fullSDK.assets.owner(subscriptionDid)
       transferResult = await this.fullSDK.nfts1155.claim(
@@ -422,7 +425,8 @@ export class NvmApp {
         metadata: PublishMetadataOptions.OnlyMetadataAPI,
         did: PublishOnChainOptions.DIDRegistry,
       },
-      { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
+      // TODO: Review ZeroDev integration as part of the NvmAccount
+      // { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
     )
   }
 
@@ -463,7 +467,8 @@ export class NvmApp {
         metadata: PublishMetadataOptions.OnlyMetadataAPI,
         did: PublishOnChainOptions.DIDRegistry,
       },
-      { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
+      // TODO: Review ZeroDev integration as part of the NvmAccount
+      // { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
     )
   }
 

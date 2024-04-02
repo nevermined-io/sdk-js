@@ -36,7 +36,7 @@ export class NvmAccount {
    * @param address - A wallet address
    * @returns The nevermined account
    */
-  static fromAddress(address: `0x${string}`): NvmAccount {    
+  static fromAddress(address: `0x${string}`): NvmAccount {
     const nvmAccount = new NvmAccount(address, { signerType: 'json-rpc', isZeroDev: false })
     nvmAccount.accountSigner = parseAccount(address)
     return nvmAccount
@@ -69,6 +69,9 @@ export class NvmAccount {
     return this.accountType.isZeroDev ? this.zeroDevSigner : this.accountSigner
   }
 
+  public getType() {
+    return this.accountType.signerType
+  }
   public getZeroDevSigner() {
     return this.zeroDevSigner
   }
@@ -82,7 +85,7 @@ export class NvmAccount {
   }
 
   public getId() {
-    return this.id as `0x${string}`
+    return this.getAddress()
   }
 
   public setId(id: string) {

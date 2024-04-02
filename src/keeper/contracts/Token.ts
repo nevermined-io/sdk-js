@@ -57,7 +57,7 @@ export class Token extends ContractBase {
     return this.call('totalSupply', [])
   }
 
-  public async transfer(to: string, amount: bigint, from: string, txParams?: TxParameters) {
+  public async transfer(to: string, amount: bigint, from: NvmAccount, txParams?: TxParameters) {
     return this.send('transfer', from, [to, amount.toString()], txParams)
   }
 }

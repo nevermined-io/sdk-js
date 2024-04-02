@@ -1,8 +1,6 @@
-import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { jsonReplacer } from '@/common/helpers'
+import { Instantiable, InstantiableConfig, Web3Clients } from '@/Instantiable.abstract'
 import { KeeperError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
-
 import {
   Abi,
   AbiFunction,
@@ -11,7 +9,6 @@ import {
   getAbiItem,
   getAddress,
   getContract,
-  getContractAddress,
   isAddress,
   pad,
   keccak256 as viemKeccak256,
@@ -23,7 +20,7 @@ import {
   toHex,
   toBytes,
 } from 'viem'
-import { english, generateMnemonic, mnemonicToAccount, parseAccount } from 'viem/accounts'
+import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
 
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -36,122 +33,7 @@ export class BlockchainViemUtils extends Instantiable {
     from: NvmAccount,
     args: string[] = [],
   ) {
-    this.logger.log(`Deploying abi using account: ${from.getId()}`)
-
-    
-    // console.log(`Before deploying ABI`)
-    // console.log(`ABI: ${JSON.stringify(artifact.abi)}`)
-    // console.log(`Bytecode: ${artifact.bytecode}`)
-    // console.log(`Account: ${from.getId()}`)
-    // console.log(`Chain: ${JSON.stringify(this.client.chain, jsonReplacer)}`)
-
-    // const balance = await this.publicClient.getBalance({ address: from.getId() })
-    // console.log(`Balance: ${formatEther(balance)}`)
-
-    // const addresses = await this.walletClient.getAddresses()
-    // addresses.map((address) => console.log(`Address: ${address}`))
-    const txHash = await this.client.wallet.deployContract({
-      abi: artifact.abi,
-      account: from.getAccountSigner(),
-      bytecode: artifact.bytecode,
-      chain: this.client.chain,
-    })
-
-    console.log(`Contract deployed, TX Hash: ${txHash}`)
-
-    const tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
-    const nonce = await this.client.public.getTransactionCount({ address: tx.from })
-    const contractAddress = getContractAddress({
-      from: tx.from,
-      nonce: BigInt(nonce),
-    }) as `0x${string}`
-
-    console.log(`Contract deployed address: ${contractAddress}`)
-
-    const contract = getContract({
-      abi: artifact.abi,
-      address: contractAddress,
-      // @ts-expect-error "viem, wtf?"
-      client: { wallet: this.client.wallet, public: this.client.public },
-    })
-
-    console.log(`Contract loaded:`, contract.address)
-
-    let isZos
-    try {
-      const initializeFunc = searchAbiFunction(artifact.abi, 'initialize')
-      isZos = initializeFunc ? true : false
-      console.log(`Is ZOS: ${isZos}`)
-
-      console.log(`Initialize function: ${JSON.stringify(initializeFunc)}`)
-      console.log(JSON.stringify(args))
-
-      if (isZos) {
-        // @ts-expect-error "viem, wtf?"
-        await contract.write.initialize({args, account: from.getAccountSigner()})
-      }
-    } catch (error) {
-      console.log(`Initialization Error: ${error}`)
-      throw new KeeperError(`Initialization Error: ${error}`)      
-    }
-
-    return contract
-
-    // const initArgs = isZos ? [] : args
-    // if (isZos) {
-    //   // @ts-expect-error "viem, wtf?"
-    //   await contract.write.initialize(...initArgs)
-
-    // }
-
-    //// ETHERS
-
-    // const signer = await this.nevermined.accounts.findSigner(from.getId())
-    // const contract = new ethers.ContractFactory(artifact.abi, artifact.bytecode, signer)
-    // const isZos = contract.interface.hasFunction('initialize')
-
-    // let baseContract: ethers.BaseContract
-
-    // try {
-    //   const feeData = await this.getFeeData()
-    //   const extraParams = {
-    //     ...feeData,
-    //     gasLimit: 10000000n,
-    //   }
-
-    //   baseContract = await contract.deploy(...argument, extraParams)
-    //   await baseContract.waitForDeployment()
-    // } catch (error) {
-    //   console.error(JSON.stringify(error))
-    //   throw new Error(error.message)
-    // }
-
-    // if (isZos) {
-    //   const methodSignature = getSignatureOfFunction(baseContract.interface, 'initialize', args)
-
-    //   const contract = baseContract.connect(signer)
-
-    //   // estimate gas
-    //   const gasLimit = await contract[methodSignature].estimateGas(...args, {
-    //     from: from.getId(),
-    //   })
-    //   const feeData = await this.getFeeData()
-    //   const extraParams = {
-    //     ...feeData,
-    //     gasLimit,
-    //   }
-
-    //   const contractTransactionResponse: ContractTransactionResponse = await contract[
-    //     methodSignature
-    //   ](...args, extraParams)
-
-    //   const transactionReceipt: ContractTransactionReceipt =
-    //     await contractTransactionResponse.wait()
-    //   if (transactionReceipt.status !== 1) {
-    //     throw new Error(`Error deploying contract ${artifact.name}`)
-    //   }
-    // }
-    // return baseContract
+    return await deployContractInstance(artifact, from, args, this.client)
   }
 
   public async loadContract(contractAddress: string, abi: Abi) {
@@ -172,86 +54,6 @@ export class BlockchainViemUtils extends Instantiable {
   public async checkExists(address: string): Promise<boolean> {
     return checkContractExists(address, this.client.public)
   }
-
-  // NETWORK FEEs
-  // public async getFeeData(gasPrice?: bigint, maxFeePerGas?: bigint, maxPriorityFeePerGas?: bigint) {
-  //   // Custom gas fee for polygon networks
-  //   const chainId = await this.nevermined.keeper.getNetworkId()
-  //   if (chainId === 137 || chainId === 80001) {
-  //     return this.getFeeDataPolygon(chainId)
-  //   }
-
-  //   // arbitrum
-  //   if (chainId === 42161 || chainId === 421613 || chainId === 421614) {
-  //     return this.getFeeDataArbitrum()
-  //   }
-
-  //   const feeData = await this.web3.getFeeData()
-
-  //   // EIP-1559 fee parameters
-  //   if (feeData.maxFeePerGas && feeData.maxPriorityFeePerGas) {
-  //     return {
-  //       maxFeePerGas: maxFeePerGas || feeData.maxFeePerGas,
-  //       maxPriorityFeePerGas: maxPriorityFeePerGas || feeData.maxPriorityFeePerGas,
-  //       type: 2,
-  //     }
-  //   }
-
-  //   // Non EIP-1559 fee parameters
-  //   return {
-  //     gasPrice: gasPrice || feeData.gasPrice,
-  //   }
-  // }
-
-  // private async getFeeDataPolygon(networkId: number) {
-  //   // Calculating the right fees in polygon networks has always been a problem
-  //   // This workaround is based on https://github.com/ethers-io/ethers.js/issues/2828#issuecomment-1073423774
-  //   let gasStationUri = this.config.gasStationUri
-  //   if (!gasStationUri) {
-  //     if (networkId === 137) {
-  //       gasStationUri = 'https://gasstation.polygon.technology/v2'
-  //     } else if (networkId === 80001) {
-  //       gasStationUri = 'https://gasstation-testnet.polygon.technology/v2'
-  //     } else {
-  //       throw new KeeperError(
-  //         'Using polygon gas station is only available in networks with id `137` and `80001`',
-  //       )
-  //     }
-  //   }
-
-  //   // get max fees from gas station
-  //   let maxFeePerGas = 40000000000n // fallback to 40 gwei
-  //   let maxPriorityFeePerGas = 40000000000n // fallback to 40 gwei
-  //   try {
-  //     const response = await this.nevermined.utils.fetch.get(gasStationUri)
-  //     const data = await response.json()
-  //     maxFeePerGas = parseUnits(Math.ceil(data.fast.maxFee) + '', 'gwei')
-  //     maxPriorityFeePerGas = parseUnits(Math.ceil(data.fast.maxPriorityFee) + '', 'gwei')
-  //   } catch (error) {
-  //     this.logger.warn(`Failed to ges gas price from gas station ${gasStationUri}: ${error}`)
-  //   }
-
-  //   return {
-  //     maxFeePerGas: maxFeePerGas,
-  //     maxPriorityFeePerGas: maxPriorityFeePerGas,
-  //     type: 2,
-  //   }
-  // }
-
-  // private async getFeeDataArbitrum() {
-  //   /**
-  //    * See https://docs.arbitrum.io/arbos/gas
-  //    *
-  //    * The sequencer prioritizes transactions on a first-come first-served basis.
-  //    * Because tips do not make sense in this model, they are ignored.
-  //    * Arbitrum users always just pay the basefee regardless of the tip they choose.
-  //    */
-  //   const feeData = await this.web3.getFeeData()
-
-  //   return {
-  //     gasPrice: feeData.gasPrice,
-  //   }
-  // }
 }
 
 //////////////////////////
@@ -259,6 +61,66 @@ export class BlockchainViemUtils extends Instantiable {
 //////////////////////////
 
 ///// CONTRACTS
+
+export async function deployContractInstance(
+  artifact: { name?: string; abi: Abi; bytecode: `0x${string}` },
+  from: NvmAccount,
+  args: string[] = [],
+  client: Web3Clients,
+) {
+  const txHash = await client.wallet.deployContract({
+    abi: artifact.abi,
+    account: from.getAccountSigner(),
+    bytecode: artifact.bytecode,
+    chain: client.chain,
+  })
+
+  const tx = await client.public.waitForTransactionReceipt({ hash: txHash })
+  const contractAddress = tx.contractAddress
+  // const nonce = await client.public.getTransactionCount({ address: from.getAddress() })
+  // console.log(`Getting contract address from ${from.getAddress()} and nonce: ${nonce}`)
+  // console.log(` |----> but from transaction: ${tx.contractAddress}`)
+
+  // const contractAddress = getContractAddress({
+  //   from: from.getAddress(),
+  //   nonce: BigInt(nonce),
+  // }) as `0x${string}`
+
+  const contract = getContract({
+    abi: artifact.abi,
+    address: contractAddress,
+    // @ts-expect-error "viem, wtf?"
+    client,
+  })
+
+  let isZos
+  try {
+    const initializeFunc = searchAbiFunction(artifact.abi, 'initialize')
+    isZos = initializeFunc ? true : false
+
+    if (isZos) {
+      // @ts-expect-error "viem, wtf?"
+      const initHash = await contract.write.initialize({ args, account: from.getAccountSigner() })
+      // const { request } = await client.public.simulateContract({
+      //   address: contractAddress,
+      //   abi: artifact.abi,
+      //   functionName: 'initialize',
+      //   account: from.getAccountSigner() as Account,
+      //   args,
+      // })
+      // const initHash = await client.wallet.writeContract(request)
+
+      const initTx = await client.public.waitForTransactionReceipt({ hash: initHash })
+      // console.log(`Initializeing contract with status: ${initTx.status}`)
+      if (initTx.status !== 'success') throw new KeeperError(`Unable to initialize contract`)
+    }
+  } catch (error) {
+    throw new KeeperError(`Initialization Error: ${error}`)
+  }
+
+  return contract
+}
+
 export async function getContractInstance(address: string, abi: Abi) {
   return getContract({
     abi,

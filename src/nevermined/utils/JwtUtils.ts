@@ -125,7 +125,7 @@ export class JwtUtils extends Instantiable {
   ): Promise<NvmAccount | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider> {
     const address = getChecksumAddress(account.getId())
     return account.isZeroDev()
-      ? account.zeroDevSigner
+      ? account.getZeroDevSigner()
       : await this.nevermined.accounts.getAccount(address)
   }
 

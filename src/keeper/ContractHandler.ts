@@ -12,8 +12,21 @@ if (typeof window !== 'undefined') {
 }
 
 export class ContractHandler extends Instantiable {
+  private static contracts: Map<string, any> = new Map<
+    string,
+    any //ethers.BaseContract
+  >()
+
+  private static versions: Map<string, any> = new Map<string, string>()
+
   protected static getContract(what: string, networkId: number, address?: string) {
-    return ContractHandler.contracts.get(this.getHash(what, networkId, address))
+    const hash = this.getHash(what, networkId, address)
+    return ContractHandler.contracts.get(hash)
+  }
+
+  public static getVersion(what: string, networkId: number, address?: string) {
+    const hash = this.getHash(what, networkId, address)
+    return ContractHandler.versions.get(hash)
   }
 
   protected static setContract(
@@ -21,18 +34,18 @@ export class ContractHandler extends Instantiable {
     networkId: number,
     contractInstance: any,
     address?: string,
+    version?: string,
   ) {
-    ContractHandler.contracts.set(this.getHash(what, networkId, address), contractInstance)
+    const hash = this.getHash(what, networkId, address)
+    ContractHandler.contracts.set(hash, contractInstance)
+    ContractHandler.versions.set(hash, version)
   }
 
   protected static hasContract(what: string, networkId: number, address?: string): boolean {
-    return ContractHandler.contracts.has(this.getHash(what, networkId, address))
+    const hash = this.getHash(what, networkId, address)
+    const exists = ContractHandler.contracts.has(hash)
+    return exists
   }
-
-  private static contracts: Map<string, any> = new Map<
-    string,
-    any //ethers.BaseContract
-  >()
 
   private static getHash(what: string, networkId: number, address?: string): string {
     return address ? `${what}/#${networkId}/#${address}` : `${what}/#${networkId}`
@@ -43,7 +56,10 @@ export class ContractHandler extends Instantiable {
     this.setInstanceConfig(config)
   }
 
-  public async getVersion(contractName: string, artifactsFolder: string): Promise<string> {
+  public async getVersionFromArtifact(
+    contractName: string,
+    artifactsFolder: string,
+  ): Promise<string> {
     const where = await this.nevermined.keeper.getNetworkName()
     let artifact
     this.logger.debug(
@@ -93,7 +109,7 @@ export class ContractHandler extends Instantiable {
 
     if (!address) {
       this.logger.debug(`No address given as param for ${what}. Loading instance`)
-      ContractHandler.setContract(what, networkId, contract)
+      ContractHandler.setContract(what, networkId, contract, undefined, artifact.version)
       return ContractHandler.getContract(what, networkId)
     }
 
@@ -109,11 +125,14 @@ export class ContractHandler extends Instantiable {
     const chainId = await this.nevermined.keeper.getNetworkId()
     const where = await this.nevermined.keeper.getNetworkName()
     try {
-      this.logger.debug(`ContractHandler :: get :: ${artifactsFolder} and address ${address}`)
-      return (
-        ContractHandler.getContract(what, chainId, address) ||
-        (await this.loadContractFromAbi(what, where, chainId, artifactsFolder, address))
-      )
+      if (ContractHandler.hasContract(what, chainId, address))
+        return ContractHandler.getContract(what, chainId, address)
+      else await this.loadContractFromAbi(what, where, chainId, artifactsFolder, address)
+      // this.logger.debug(`ContractHandler :: get :: ${artifactsFolder} and address ${address}`)
+      // return (
+      //   ContractHandler.getContract(what, chainId, address) ||
+      //   (await this.loadContractFromAbi(what, where, chainId, artifactsFolder, address))
+      // )
     } catch (err) {
       if (!optional) {
         throw new KeeperError(`Failed to load ${what} from ${where} - ${err}`)

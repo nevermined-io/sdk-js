@@ -1,6 +1,7 @@
 import { InstantiableConfig } from '@/Instantiable.abstract'
 import { TxParameters } from '@/models/Transactions'
 import { ContractBase } from './ContractBase'
+import { NvmAccount } from '@/models'
 
 export class GenericContract extends ContractBase {
   protected fixedAddress: string
@@ -35,7 +36,7 @@ export class GenericContract extends ContractBase {
     return super.call(name, args, from)
   }
 
-  public async send(name: string, from: string, args: any[], params: TxParameters = {}) {
+  public async send(name: string, from: NvmAccount, args: any[], params: TxParameters = {}) {
     return super.send(name, from, args, params)
   }
 

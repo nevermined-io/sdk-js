@@ -72,13 +72,13 @@ export class Nft721Contract extends NFTContractsBase {
     uri: string,
     cap: bigint,
     operators: string[] = [],
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this._createClone(721, name, symbol, uri, cap, operators, from, txParams)
   }
 
-  public async mint(did: string, from: string, txParams?: TxParameters) {
+  public async mint(did: string, from: NvmAccount, txParams?: TxParameters) {
     return this.send('mint', from, [didZeroX(did)], txParams)
   }
 
@@ -107,7 +107,7 @@ export class Nft721Contract extends NFTContractsBase {
   public async setApprovalForAll(
     target: string,
     state: boolean,
-    from: string,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.send('setApprovalForAll', from, [target, state], txParams)

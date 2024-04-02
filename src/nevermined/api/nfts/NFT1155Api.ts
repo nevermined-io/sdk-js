@@ -158,7 +158,7 @@ export class NFT1155Api extends NFTsBaseApi {
       receiver || account.getId(),
       did,
       nftAmount,
-      account.getId(),
+      account,
       data || '0x',
       txParams,
     )
@@ -192,7 +192,7 @@ export class NFT1155Api extends NFTsBaseApi {
     account: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return await this.nftContract.burn(account.getId(), tokenId, nftAmount, txParams)
+    return await this.nftContract.burn(account, tokenId, nftAmount, txParams)
   }
 
   /**
@@ -223,17 +223,10 @@ export class NFT1155Api extends NFTsBaseApi {
     holder: string,
     tokenId: string,
     nftAmount: bigint,
-    account: NvmAccount | string,
+    account: NvmAccount,
     txParams?: TxParameters,
   ) {
-    const _senderAddress = account instanceof NvmAccount ? account.getId() : account
-    return await this.nftContract.burnFromHolder(
-      holder,
-      tokenId,
-      nftAmount,
-      _senderAddress,
-      txParams,
-    )
+    return await this.nftContract.burnFromHolder(holder, tokenId, nftAmount, account, txParams)
   }
 
   // TODO: We need to improve this to allow for secondary market sales

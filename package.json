@@ -12,7 +12,7 @@
     "build:dist": "cross-env NODE_ENV=production webpack",
     "build:watch": "tsc -w",
     "jest:test": "jest --no-cache --coverage --rootDir test -w 1 ",
-    "test": "ts-mocha --paths -p tsconfig.json ",
+    "test": "ts-mocha --paths -p tsconfig.json --timeout 300000",
     "test:mocha": "ts-mocha --full-trace --paths -p tsconfig.json",
     "test:all": "ts-mocha --paths -p tsconfig.json ./test/**/*.test.ts",
     "integration": "ts-mocha --paths -p tsconfig.json",

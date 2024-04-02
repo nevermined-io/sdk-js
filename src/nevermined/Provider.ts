@@ -15,36 +15,36 @@ export class Providers extends Instantiable {
    * Add a new provider in the registry for a did.
    *
    * @param did - Identifier of the entity created
-   * @param address - New provider address in the list of providers.
-   * @param from - Sender account address.
+   * @param newProviderAddress - New provider address in the list of providers.
+   * @param from - Sender account.
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
   public async add(
     did: string,
-    address: string,
+    newProviderAddress: string,
     from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
-    await this.nevermined.keeper.didRegistry.addProvider(did, address, from.getId(), txParams)
+    await this.nevermined.keeper.didRegistry.addProvider(did, newProviderAddress, from, txParams)
     return true
   }
 
   /**
    * Remove a provider in the registry for a did.
    * @param did - Identifier of the entity created
-   * @param address - New provider address in the list of providers.
-   * @param from - Sender account address.
+   * @param addressToRemove - New provider address in the list of providers.
+   * @param from - Sender account
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
   public async remove(
     did: string,
-    address: string,
+    addressToRemove: string,
     from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
-    await this.nevermined.keeper.didRegistry.removeProvider(did, address, from.getId(), txParams)
+    await this.nevermined.keeper.didRegistry.removeProvider(did, addressToRemove, from, txParams)
     return true
   }
 

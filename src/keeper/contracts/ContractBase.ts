@@ -1,12 +1,13 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { KeeperError } from '@/errors/NeverminedErrors'
 import { getInputsOfFunctionFormatted } from '@/nevermined/utils/BlockchainViemUtils'
-import { TransactionReceipt, parseEventLogs } from 'viem'
+import { Account, TransactionReceipt, parseEventLogs } from 'viem'
 import { TxParameters } from '@/models/Transactions'
 import { ContractEvent } from '@/events/ContractEvent'
 import { EventHandler } from '@/events/EventHandler'
 import { SubgraphEvent } from '@/events/SubgraphEvent'
 import { NvmAccount } from '@/models/NvmAccount'
+import { ContractHandler } from '@/keeper/ContractHandler'
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
@@ -20,19 +21,26 @@ export abstract class ContractBase extends Instantiable {
     this.contractName = contractName
   }
 
-  protected async init(config: InstantiableConfig, optional = false) {
+  protected async init(config: InstantiableConfig, optional = false, contractAddress?: string) {
     this.setInstanceConfig(config)
-    this.contract = await this.nevermined.utils.contractHandler.getContractFromArtifacts(
-      this.contractName,
-      optional,
-      config.artifactsFolder,
-    )
-    this.address = await this.contract.address
+    try {
+      this.contract = await this.nevermined.utils.contractHandler.getContractFromArtifacts(
+        this.contractName,
+        optional,
+        config.artifactsFolder,
+        contractAddress,
+      )
+      this.address = await this.contract.address
+    } catch {
+      if (!optional) throw new KeeperError(`Unable to load contract: ${this.contractName}`)
+      else return
+    }
 
     try {
-      this.version = await this.nevermined.utils.contractHandler.getVersion(
+      this.version = ContractHandler.getVersion(
         this.contractName,
-        config.artifactsFolder,
+        this.client.chain?.id,
+        // config.artifactsFolder,
       )
     } catch {
       throw new KeeperError(`${this.contractName} not available on this network.`)
@@ -75,43 +83,86 @@ export abstract class ContractBase extends Instantiable {
     return undefined
   }
 
-  public async sendFrom(
-    functionName: string,
-    args: any[],
-    from?: NvmAccount,
-    value?: TxParameters,
-  ) {
-    const fromAddress = await this.getFromAddress(from && from.getId())
-    const receipt = await this.send(functionName, fromAddress, args, value)
-    if (!receipt.status) {
+  public async call<T>(functionName: string, args: any[], from?: string): Promise<T> {
+    try {
+      return (await this.client.public.readContract({
+        address: this.address,
+        abi: this.contract.abi,
+        functionName,
+        args,
+        ...(from && { account: from as `0x${string}` }),
+      })) as T
+      //return await this.contract[functionSignature](...args, { from })
+    } catch (err) {
+      throw new KeeperError(
+        `Calling method "${functionName}" on contract "${this.contractName}" failed. Args: ${args} - ${err}`,
+      )
+    }
+  }
+
+  public async sendFrom(functionName: string, args: any[], from: NvmAccount, value?: TxParameters) {
+    const fromAddress = from.getAddress() //await this.getFromAddress(from && from.getId())
+    const receipt = await this.send(functionName, from, args, value)
+    // receipt.transactionHash
+    const tx = await this.client.public.waitForTransactionReceipt({ hash: receipt.transactionHash })
+    if (tx.status !== 'success') {
       this.logger.error('Transaction failed!', this.contractName, functionName, args, fromAddress)
     }
     return receipt
   }
 
-  public async send(functionName: string, from: string, args: any[], params: TxParameters = {}) {
-    // TODO: Enable ZeroDev & Session Key Provider setup
-    // if (params.zeroDevSigner) {
-    //   const paramsFixed = { ...params, signer: undefined }
-    //   const contract = this.contract.connect(params.zeroDevSigner as any)
-    //   return await this.internalSendZeroDev(
-    //     name,
-    //     from,
-    //     args,
-    //     paramsFixed,
-    //     contract,
-    //     params.progress,
-    //   )
-    // } else if (params.sessionKeyProvider) {
-    //   const paramsFixed = { ...params, signer: undefined }
-    //   return await this.internalSendSessionKeyProvider(
-    //     name,
-    //     from,
-    //     args,
-    //     paramsFixed,
-    //     params.progress,
-    //   )
-    // }
+  public async send(
+    functionName: string,
+    from: NvmAccount,
+    args: any[],
+    params: TxParameters = {},
+  ) {
+    const signer = from.getAccountSigner()
+    if (from.getType() === 'local') {
+      this.logger.debug(`Blockchain Send using Local account`)
+      return await this.localAccountSend(
+        functionName,
+        signer as Account,
+        args,
+        params,
+        params.progress,
+      )
+    } else if (from.getType() === 'json-rpc') {
+      this.logger.debug(`Blockchain Send using JSON-RPC account`)
+      return await this.localAccountSend(
+        functionName,
+        from.getAddress(),
+        args,
+        params,
+        params.progress,
+      )
+    } else if (from.getType() === 'zerodev') {
+      this.logger.debug(`Blockchain Send using ZeroDev account`)
+      // TODO: Enable ZeroDev & Session Key Provider setup
+      // if (params.zeroDevSigner) {
+      //   const paramsFixed = { ...params, signer: undefined }
+      //   const contract = this.contract.connect(params.zeroDevSigner as any)
+      //   return await this.internalSendZeroDev(
+      //     name,
+      //     from,
+      //     args,
+      //     paramsFixed,
+      //     contract,
+      //     params.progress,
+      //   )
+      // } else if (params.sessionKeyProvider) {
+      //   const paramsFixed = { ...params, signer: undefined }
+      //   return await this.internalSendSessionKeyProvider(
+      //     name,
+      //     from,
+      //     args,
+      //     paramsFixed,
+      //     params.progress,
+      //   )
+      // }
+    } else {
+      throw new KeeperError(`Account not supported`)
+    }
 
     // if (params.signer) {
     //   const paramsFixed = { ...params, signer: undefined }
@@ -119,9 +170,10 @@ export abstract class ContractBase extends Instantiable {
     //   return await this.internalEthersSend(name, from, args, paramsFixed, contract, params.progress)
     // }
 
-    if (params.nvmAccount) {
-      return await this.internalSend(functionName, from, args, params, params.progress)
-    }
+    // if (params.nvmAccount) {
+    //   this.logger.log(`Is internal send`)
+    //   return await this.localAccountSend(functionName, params.nvmAccount.getAccountSigner() as Account, args, params, params.progress)
+    // }
 
     // const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
 
@@ -185,26 +237,9 @@ export abstract class ContractBase extends Instantiable {
     // }
   }
 
-  public async call<T>(functionName: string, args: any[], from?: string): Promise<T> {
-    try {
-      return (await this.client.public.readContract({
-        address: this.address,
-        abi: this.contract.abi,
-        functionName,
-        args,
-        ...(from && { account: from as `0x${string}` }),
-      })) as T
-      //return await this.contract[functionSignature](...args, { from })
-    } catch (err) {
-      throw new KeeperError(
-        `Calling method "${functionName}" on contract "${this.contractName}" failed. Args: ${args} - ${err}`,
-      )
-    }
-  }
-
-  private async internalSend(
+  private async localAccountSend(
     name: string,
-    from: string,
+    from: Account | `0x${string}`,
     args: any[],
     txparams: any,
     progress: (data: any) => void,
@@ -235,7 +270,7 @@ export abstract class ContractBase extends Instantiable {
       abi: this.contract.abi,
       functionName: name,
       args,
-      account: from as `0x${string}`,
+      account: from,
     })
     const txHash = await this.client.wallet.writeContract(request)
 
@@ -253,7 +288,7 @@ export abstract class ContractBase extends Instantiable {
       })
     }
     // const nonce = await this.client.public.getTransactionCount({address: txHash.from})
-    const txReceipt = await await this.client.public.getTransactionReceipt({ hash: txHash })
+    const txReceipt = await this.client.public.getTransactionReceipt({ hash: txHash })
 
     if (progress) {
       progress({

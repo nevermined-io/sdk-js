@@ -298,12 +298,12 @@ export class AssetsApi extends RegistryBaseApi {
   public async transferOwnership(
     did: string,
     newOwner: string,
-    owner: string | NvmAccount,
+    owner: NvmAccount,
     newUserId?: string,
     txParams?: TxParameters,
   ) {
     // const owner = await this.nevermined.assets.owner(did)
-    const ownerAddress = owner instanceof NvmAccount ? owner.getId() : owner
+    const ownerAddress = owner.getAddress()
     const ddo = await this.resolveAsset(did)
 
     ddo.proof = await ddo.generateProof(newOwner)
@@ -329,12 +329,7 @@ export class AssetsApi extends RegistryBaseApi {
 
     await this.nevermined.services.metadata.updateDDO(did, updatedDDO)
 
-    return this.nevermined.keeper.didRegistry.transferDIDOwnership(
-      did,
-      newOwner,
-      ownerAddress,
-      txParams,
-    )
+    return this.nevermined.keeper.didRegistry.transferDIDOwnership(did, newOwner, owner, txParams)
   }
 
   /**
@@ -429,7 +424,7 @@ export class AssetsApi extends RegistryBaseApi {
     return await this.nevermined.keeper.didRegistry.grantPermission(
       did,
       address,
-      ownerAccount.getId(),
+      ownerAccount,
       txParams,
     )
   }
@@ -451,7 +446,7 @@ export class AssetsApi extends RegistryBaseApi {
     return await this.nevermined.keeper.didRegistry.revokePermission(
       did,
       address,
-      ownerAccount.getId(),
+      ownerAccount,
       txParams,
     )
   }

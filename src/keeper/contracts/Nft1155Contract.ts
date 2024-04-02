@@ -128,7 +128,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param did - The NFT id
    * @param to - Account address of the NFT receiver
    * @param amount - Number of editions to transfer. Typically just 1
-   * @param from - Account address transferring the NFT
+   * @param from - Account transferring the NFT
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
@@ -136,7 +136,7 @@ export class Nft1155Contract extends NFTContractsBase {
     did: string,
     to: string,
     amount: bigint,
-    from: string,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.send('safeTransferFrom', from, [from, to, didZeroX(did), amount, []], txParams)
@@ -148,7 +148,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param to - Account address of the NFT receiver
    * @param did - The NFT id to mint
    * @param amount - Number of editions to mint
-   * @param from - Account address minting the NFT
+   * @param from - Account minting the NFT
    * @param data - Data
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
@@ -157,7 +157,7 @@ export class Nft1155Contract extends NFTContractsBase {
     to: string,
     did: string,
     amount: bigint,
-    from: string,
+    from: NvmAccount,
     data?: string,
     txParams?: TxParameters,
   ) {
@@ -167,13 +167,13 @@ export class Nft1155Contract extends NFTContractsBase {
   /**
    * It burns some editions of a NFT (ERC-1155)
    *
-   * @param from - Account address burning the NFT editions
+   * @param from - Account burning the NFT editions
    * @param tokenId - The NFT id to burn
    * @param amount - Number of editions to burn
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(from: string, tokenId: string, amount: bigint, txParams?: TxParameters) {
+  public async burn(from: NvmAccount, tokenId: string, amount: bigint, txParams?: TxParameters) {
     return this.send('burn', from, [from, didZeroX(tokenId), amount], txParams)
   }
 
@@ -183,7 +183,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param holder - Address of the account holding the NFT editions that are going to be burned
    * @param tokenId - The NFT id to burn
    * @param amount - Number of editions to burn
-   * @param from - Account address burning the NFT editions
+   * @param from - Account burning the NFT editions
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
@@ -191,7 +191,7 @@ export class Nft1155Contract extends NFTContractsBase {
     holder: string,
     tokenId: string,
     amount: bigint,
-    from: string,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.send('burn', from, [holder, didZeroX(tokenId), amount], txParams)
