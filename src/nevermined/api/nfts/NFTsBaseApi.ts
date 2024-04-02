@@ -359,7 +359,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     // has no privkeys, so we can't sign
     let currentNftHolder
     try {
-      currentNftHolder = new NvmAccount(DDO.getNftHolderFromService(service))
+      currentNftHolder = NvmAccount.fromAddress(DDO.getNftHolderFromService(service) as `0x${string}`)
     } catch (_e) {
       currentNftHolder = undefined
     }

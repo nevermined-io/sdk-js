@@ -26,7 +26,7 @@ export class AccountsApi extends Instantiable {
    * @returns The list of accounts.
    */
   public async list(): Promise<NvmAccount[]> {
-    return (await this.addresses()).map((address) => new NvmAccount(address))
+    return (await this.addresses()).map((address) => NvmAccount.fromAddress(address as `0x${string}`))
   }
 
   /**
@@ -36,7 +36,7 @@ export class AccountsApi extends Instantiable {
    * @returns The account
    */
   public getAccount(address: string): NvmAccount {
-    return new NvmAccount(address)
+    return NvmAccount.fromAddress(address as `0x${string}`)
   }
 
   public async findAccount(from: string): Promise<NvmAccount> {

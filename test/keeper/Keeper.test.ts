@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 import config from '../config'
 import TestContractHandler from './TestContractHandler'
-import { Keeper } from '../../src/keeper'
-import { Nevermined } from '../../src/nevermined'
-import { ZeroAddress } from '../../src/utils'
+import { Keeper } from '@/keeper/Keeper'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { ZeroAddress } from '@/constants/AssetConstants'
 
 let keeper: Keeper
 
@@ -13,9 +13,12 @@ describe('Keeper', () => {
   const newNetworkFee = 200000 / 100
 
   before(async () => {
-    deployerAddress = await TestContractHandler.prepareContracts()
     const nevermined = await Nevermined.getInstance(config)
+    deployerAddress = await TestContractHandler.initEnvironment(nevermined, config)
+    //deployerAddress = await TestContractHandler.prepareContracts()
+    
     ;[owner] = await nevermined.accounts.list()
+    console.log(`Owner Account Type: ${owner.type}`)
     ;({ keeper } = nevermined)
   })
 

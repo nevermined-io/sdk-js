@@ -1,4 +1,4 @@
-import { Instantiable, generateInstantiableConfigFromConfig } from '@/Instantiable.abstract'
+import { Instantiable, Web3Clients, generateInstantiableConfigFromConfig } from '@/Instantiable.abstract'
 import Keeper from '@/keeper/Keeper'
 import { CustomToken } from '@/keeper/contracts/CustomToken'
 import { Nft1155Contract } from '@/keeper/contracts/Nft1155Contract'
@@ -84,6 +84,8 @@ export class Nevermined extends Instantiable {
         instance.assets = new AssetsApi(instanceConfig)
 
         if (initOptions.loadCompute) instance.compute = new ComputeApi(instanceConfig)
+
+        // instance.web3 = 
       }
 
       instance.isKeeperConnected = initOptions.loadCore
@@ -249,6 +251,11 @@ export class Nevermined extends Instantiable {
    * Utils submodule
    */
   public utils: UtilsApi
+
+  /**
+   * Web3 Clients
+   */
+  public web3: Web3Clients
 
   /**
    * If keeper is connected

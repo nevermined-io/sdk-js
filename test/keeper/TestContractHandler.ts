@@ -2,13 +2,15 @@ import { ContractHandler } from '@/keeper/ContractHandler'
 import * as NetworkUtils from '@/utils/Network'
 import config from '../config'
 import fs from 'fs'
-import { Web3Clients } from '@/Instantiable.abstract'
+import { Web3Clients, getWeb3ViemClients } from '@/Instantiable.abstract'
 import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
 import { NeverminedOptions } from '@/models/NeverminedOptions'
 import { NvmAccount } from '@/models/NvmAccount'
 import { Nevermined } from '@/nevermined/Nevermined'
 import Logger from '@/models/Logger'
 import { ZeroAddress } from '@/constants/AssetConstants'
+import { Account } from 'viem/accounts'
+
 
 export default abstract class TestContractHandler extends ContractHandler {
   private static networkId: number
@@ -18,17 +20,54 @@ export default abstract class TestContractHandler extends ContractHandler {
   private static client: Web3Clients
   private static nevermined: Nevermined
 
+  public static async initEnvironment(nvm: Nevermined, config: NeverminedOptions): Promise<string> {
+    TestContractHandler.nevermined = nvm
+    TestContractHandler.config = config
+
+    config.accounts.map((a) => {    
+      //const a = NvmAccount.fromAccount(wallet)
+      const signer = a.getAccountSigner() as Account
+      console.log(`TestContractHandler::Account loaded with address ${a.getAddress()} and type: ${signer.type}`)
+      return a
+    })
+    console.log(`Addresses loaded`)
+    
+    TestContractHandler.networkId = await TestContractHandler.nevermined.client.public.getChainId()
+    //const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
+    const nvmAccount = TestContractHandler.getNvmAccount()
+    const deployerAddress = nvmAccount.getAddress()    
+    console.log(`Deployer: `, deployerAddress)
+    TestContractHandler.minter = keccak256('minter')
+
+    console.log(`Lets deploy contracts ....`)
+    // deploy contracts
+    await TestContractHandler.deployContracts(nvmAccount)
+    return deployerAddress
+  }
+
   public static async prepareContracts(): Promise<string> {
     // await TestContractHandler.setConfig(config)
     TestContractHandler.config = config
     TestContractHandler.nevermined = await Nevermined.getInstance(config)
+    
+    console.log('Nevermined Loaded ....')
+
+
+    TestContractHandler.client = await getWeb3ViemClients(config)
+    console.log('Clients Loaded ....', TestContractHandler.nevermined.client.chain.id)
 
     const [deployerAddress] = await TestContractHandler.addresses(TestContractHandler.config)
+    console.log(`Addresses loaded`)
     TestContractHandler.networkId = await TestContractHandler.client.public.getChainId() //TestContractHandler.web3 //Number((await TestContractHandler.web3.getNetwork()).chainId)
+    console.log(`Network Id loaded`)
+
     TestContractHandler.minter = keccak256('minter')
 
+    console.log(`Lets deploy contracts ....`)
     // deploy contracts
-    await TestContractHandler.deployContracts(deployerAddress)
+    const nvmAccount = TestContractHandler.getNvmAccount()
+
+    await TestContractHandler.deployContracts(nvmAccount)
     return deployerAddress
   }
 
@@ -38,29 +77,30 @@ export default abstract class TestContractHandler extends ContractHandler {
   //   // TestContractHandler.client = await getWeb3ViemClients(TestContractHandler.config)
   // }
 
-  private static async deployContracts(deployerAddress: string) {
+  private static async deployContracts(nvmAccount: NvmAccount) {
     Logger.log('Trying to deploy contracts')
-
+    const account = nvmAccount.getAccountSigner() as Account
+    const deployerAddress = account.address
     // Contracts
     const nvmConfig = await TestContractHandler.deployContract(
       'NeverminedConfig',
-      deployerAddress,
-      [deployerAddress, deployerAddress],
+      nvmAccount,
+      [deployerAddress, deployerAddress, false],
     )
 
-    const token = await TestContractHandler.deployContract('NeverminedToken', deployerAddress, [
+    const token = await TestContractHandler.deployContract('NeverminedToken', nvmAccount, [
       deployerAddress,
       deployerAddress,
     ])
-
-    const dispenser = await TestContractHandler.deployContract('Dispenser', deployerAddress, [
-      await token.getAddress(),
+    console.log(`Token Address: ${token.address}`)
+    const dispenser = await TestContractHandler.deployContract('Dispenser', nvmAccount, [
+      token.address,
       deployerAddress,
     ])
 
     const royalties = await TestContractHandler.deployContract(
       'StandardRoyalties',
-      deployerAddress,
+      nvmAccount,
       [deployerAddress], // TODO: should be registry
     )
 
@@ -72,52 +112,61 @@ export default abstract class TestContractHandler extends ContractHandler {
     //   deployerAddress,
     // )
     //const contract = token.connect(signer)
-    const args = [TestContractHandler.minter, await dispenser.getAddress()]
+    const args = [TestContractHandler.minter, dispenser.address]
     // const methodSignature = getSignatureOfFunction(token.interface, 'grantRole', args)
     // let transactionResponse: ContractTransactionResponse = await contract[methodSignature](...args)
     // let contractReceipt: ContractTransactionReceipt = await transactionResponse.wait()
     // if (contractReceipt.status !== 1) {
     //   throw new Error('Error calling "grantRole" on "token"')
     // }
-    let txHash = await token.write.grantRole(args)
-    let tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    const { request } = await TestContractHandler.nevermined.client.public.simulateContract({
+      address: token.address,
+      abi: token.abi,
+      functionName: 'grantRole',
+      args,
+      account
+    
+    })
+    let txHash = await TestContractHandler.nevermined.client.wallet.writeContract(request)
+    //let txHash = await token.write.grantRole(args)
+    let tx = await TestContractHandler.nevermined.client.public.waitForTransactionReceipt({ hash: txHash })
     if (tx.status !== 'success') {
       throw new Error('Error calling "grantRole" on "token"')
     }
 
-    const didRegistry = await TestContractHandler.deployContract('DIDRegistry', deployerAddress, [
+    const didRegistry = await TestContractHandler.deployContract('DIDRegistry', nvmAccount, [
       deployerAddress,
       ZeroAddress,
       ZeroAddress,
-      await nvmConfig.getAddress(),
-      await royalties.getAddress(),
+      nvmConfig.address,
+      royalties.address,
     ])
 
     const erc1155 = await TestContractHandler.deployContract(
       'NFT1155Upgradeable',
-      deployerAddress,
+      nvmAccount,
       [
         deployerAddress,
-        await didRegistry.getAddress(),
+        didRegistry.address,
         'Nevermined NFT1155',
         'NVM',
         '',
-        await nvmConfig.getAddress(),
+        nvmConfig.address,
       ],
     )
 
-    const erc721 = await TestContractHandler.deployContract('NFT721Upgradeable', deployerAddress, [
+    const erc721 = await TestContractHandler.deployContract('NFT721Upgradeable', nvmAccount, [
       deployerAddress,
-      await didRegistry.getAddress(),
+      didRegistry.address,
       'Nevermined NFT721',
       'NVM',
       '',
       0,
-      await nvmConfig.getAddress(),
+      nvmConfig.address,
     ])
 
-    txHash = didRegistry.write.setNFT1155(await erc1155.getAddress())
-    tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    txHash = await didRegistry.write.setNFT1155(erc1155.address)
+    tx = await TestContractHandler.nevermined.client.public.waitForTransactionReceipt({ hash: txHash })
     if (tx.status !== 'success') {
       throw new Error('Error calling "setNFT1155" on "didRegistry"')
     }
@@ -132,61 +181,61 @@ export default abstract class TestContractHandler extends ContractHandler {
     // Managers
     const templateStoreManager = await TestContractHandler.deployContract(
       'TemplateStoreManager',
-      deployerAddress,
+      nvmAccount,
       [deployerAddress],
     )
     const conditionStoreManager = await TestContractHandler.deployContract(
       'ConditionStoreManager',
-      deployerAddress,
-      [deployerAddress, deployerAddress, await nvmConfig.getAddress()],
+      nvmAccount,
+      [deployerAddress, deployerAddress, nvmConfig.address],
     )
     const agreementStoreManager = await TestContractHandler.deployContract(
       'AgreementStoreManager',
-      deployerAddress,
+      nvmAccount,
       [
         deployerAddress,
-        await conditionStoreManager.getAddress(),
-        await templateStoreManager.getAddress(),
-        await didRegistry.getAddress(),
+        conditionStoreManager.address,
+        templateStoreManager.address,
+        didRegistry.address,
       ],
     )
 
     // Conditions
     const lockPaymentCondition = await TestContractHandler.deployContract(
       'LockPaymentCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress(), await didRegistry.getAddress()],
+      nvmAccount,
+      [deployerAddress, conditionStoreManager.address, didRegistry.address],
     )
 
     const accessCondition = await TestContractHandler.deployContract(
       'AccessCondition',
-      deployerAddress,
+      nvmAccount,
       [
         deployerAddress,
-        await conditionStoreManager.getAddress(),
-        await agreementStoreManager.getAddress(),
+        conditionStoreManager.address,
+        agreementStoreManager.address,
       ],
     )
 
     const nftHolderCondition = await TestContractHandler.deployContract(
       'NFTHolderCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress(), await erc1155.getAddress()],
+      nvmAccount,
+      [deployerAddress, conditionStoreManager.address, erc1155.address],
     )
 
     const nft721HolderCondition = await TestContractHandler.deployContract(
       'NFT721HolderCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress()],
+      nvmAccount,
+      [deployerAddress, conditionStoreManager.address],
     )
 
     const nftLockCondition = await TestContractHandler.deployContract(
       'NFTLockCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress(), await erc1155.getAddress()],
+      nvmAccount,
+      [deployerAddress, conditionStoreManager.address, erc1155.address],
     )
-    txHash = erc1155.write.grantOperatorRole(await nftLockCondition.getAddress())
-    tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    txHash = erc1155.write.grantOperatorRole(nftLockCondition.address)
+    tx = await TestContractHandler.nevermined.client.public.waitForTransactionReceipt({ hash: txHash })
     if (tx.status !== 'success') {
       throw new Error('Error calling "grantOperatorRole" on "erc1155" - nftLockCondition')
     }
@@ -201,36 +250,36 @@ export default abstract class TestContractHandler extends ContractHandler {
 
     const nftAcessCondition = await TestContractHandler.deployContract(
       'NFTAccessCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress(), await didRegistry.getAddress()],
+      nvmAccount,
+      [deployerAddress, conditionStoreManager.address, didRegistry.address],
     )
 
     const transferNft721Condition = await TestContractHandler.deployContract(
       'TransferNFT721Condition',
-      deployerAddress,
+      nvmAccount,
       [
         deployerAddress,
-        await conditionStoreManager.getAddress(),
-        await didRegistry.getAddress(),
-        await erc721.getAddress(),
-        await lockPaymentCondition.getAddress(),
+        conditionStoreManager.address,
+        didRegistry.address,
+        erc721.address,
+        lockPaymentCondition.address,
       ],
     )
 
     const transferNftCondition = await TestContractHandler.deployContract(
       'TransferNFTCondition',
-      deployerAddress,
+      nvmAccount,
       [
         deployerAddress,
-        await conditionStoreManager.getAddress(),
-        await didRegistry.getAddress(),
-        await erc1155.getAddress(),
+        conditionStoreManager.address,
+        didRegistry.address,
+        erc1155.address,
         ZeroAddress,
       ],
     )
 
-    txHash = erc1155.write.grantOperatorRole(await transferNftCondition.getAddress())
-    tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    txHash = erc1155.write.grantOperatorRole(transferNftCondition.address)
+    tx = await TestContractHandler.nevermined.client.public.waitForTransactionReceipt({ hash: txHash })
     if (tx.status !== 'success') {
       throw new Error('Error calling "grantOperatorRole" on "erc1155" - transferNftCondition')
     }
@@ -249,71 +298,71 @@ export default abstract class TestContractHandler extends ContractHandler {
     // if (contractReceipt.status !== 1) {
     //   throw new Error('Error calling "grantOperatorRole" on "erc721"')
     // }
-    txHash = erc1155.write.grantOperatorRole(await didRegistry.getAddress())
-    tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
+    txHash = erc1155.write.grantOperatorRole(didRegistry.address)
+    tx = await TestContractHandler.nevermined.client.public.waitForTransactionReceipt({ hash: txHash })
     if (tx.status !== 'success') {
       throw new Error('Error calling "grantOperatorRole" on "erc1155" - didRegistry')
     }
 
     const transferDidOwnershipCondition = await TestContractHandler.deployContract(
       'TransferDIDOwnershipCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress(), await didRegistry.getAddress()],
+      nvmAccount,
+      [deployerAddress, conditionStoreManager.address, didRegistry.address],
     )
 
     // Conditions rewards
     const escrowPaymentCondition = await TestContractHandler.deployContract(
       'EscrowPaymentCondition',
-      deployerAddress,
-      [deployerAddress, await conditionStoreManager.getAddress()],
+      nvmAccount,
+      [deployerAddress, conditionStoreManager.address],
     )
 
     // Templates
-    await TestContractHandler.deployContract('AccessTemplate', deployerAddress, [
+    await TestContractHandler.deployContract('AccessTemplate', nvmAccount, [
       deployerAddress,
-      await agreementStoreManager.getAddress(),
-      await didRegistry.getAddress(),
-      await accessCondition.getAddress(),
-      await lockPaymentCondition.getAddress(),
-      await escrowPaymentCondition.getAddress(),
+      agreementStoreManager.address,
+      didRegistry.address,
+      accessCondition.address,
+      lockPaymentCondition.address,
+      escrowPaymentCondition.address,
     ])
 
-    await TestContractHandler.deployContract('DIDSalesTemplate', deployerAddress, [
+    await TestContractHandler.deployContract('DIDSalesTemplate', nvmAccount, [
       deployerAddress,
-      await agreementStoreManager.getAddress(),
-      await lockPaymentCondition.getAddress(),
-      await transferDidOwnershipCondition.getAddress(),
-      await escrowPaymentCondition.getAddress(),
+      agreementStoreManager.address,
+      lockPaymentCondition.address,
+      transferDidOwnershipCondition.address,
+      escrowPaymentCondition.address,
     ])
 
-    await TestContractHandler.deployContract('NFTAccessTemplate', deployerAddress, [
+    await TestContractHandler.deployContract('NFTAccessTemplate', nvmAccount, [
       deployerAddress,
-      await agreementStoreManager.getAddress(),
-      await nftHolderCondition.getAddress(),
-      await nftAcessCondition.getAddress(),
+      agreementStoreManager.address,
+      nftHolderCondition.address,
+      nftAcessCondition.address,
     ])
 
-    await TestContractHandler.deployContract('NFT721AccessTemplate', deployerAddress, [
+    await TestContractHandler.deployContract('NFT721AccessTemplate', nvmAccount, [
       deployerAddress,
-      await agreementStoreManager.getAddress(),
-      await nft721HolderCondition.getAddress(),
-      await nftAcessCondition.getAddress(),
+      agreementStoreManager.address,
+      nft721HolderCondition.address,
+      nftAcessCondition.address,
     ])
 
-    await TestContractHandler.deployContract('NFTSalesTemplate', deployerAddress, [
+    await TestContractHandler.deployContract('NFTSalesTemplate', nvmAccount, [
       deployerAddress,
-      await agreementStoreManager.getAddress(),
-      await lockPaymentCondition.getAddress(),
-      await transferNftCondition.getAddress(),
-      await escrowPaymentCondition.getAddress(),
+      agreementStoreManager.address,
+      lockPaymentCondition.address,
+      transferNftCondition.address,
+      escrowPaymentCondition.address,
     ])
 
-    await TestContractHandler.deployContract('NFT721SalesTemplate', deployerAddress, [
+    await TestContractHandler.deployContract('NFT721SalesTemplate', nvmAccount, [
       deployerAddress,
-      await agreementStoreManager.getAddress(),
-      await lockPaymentCondition.getAddress(),
-      await transferNft721Condition.getAddress(),
-      await escrowPaymentCondition.getAddress(),
+      agreementStoreManager.address,
+      lockPaymentCondition.address,
+      transferNft721Condition.address,
+      escrowPaymentCondition.address,
     ])
   }
 
@@ -330,13 +379,21 @@ export default abstract class TestContractHandler extends ContractHandler {
     }
   }
 
+  public static getAccountSigner(index = 0): Account {
+    return TestContractHandler.getNvmAccount(index).getAccountSigner() as Account
+  }
+
+  public static getNvmAccount(index = 0): NvmAccount {
+    return config.accounts[index]
+  }
+
   public static async addresses(config: NeverminedOptions): Promise<string[]> {
     return await Promise.all((config.accounts || []).map((a) => a.getAddress()))
   }
 
   private static async deployContract(
     name: string,
-    from: string,
+    nvmAccount: NvmAccount,
     args: any[] = [],
     tokens: { [name: string]: string } = {},
     init = true,
@@ -348,14 +405,16 @@ export default abstract class TestContractHandler extends ContractHandler {
       const networkName = (
         await NetworkUtils.getNetworkName(TestContractHandler.networkId)
       ).toLowerCase()
+      const abiFilename = `./artifacts/${name}.${networkName}.json`
       Logger.log('Deploying', name)
+      Logger.log('ABI Filename', abiFilename)
       const artifact = JSON.parse(
-        fs.readFileSync(`./artifacts/${name}.${networkName}.json`).toString(),
+        fs.readFileSync(abiFilename).toString(),
       )
 
       contractInstance = await TestContractHandler.deployArtifact(
         artifact,
-        from,
+        nvmAccount,
         args,
         tokens,
         init,
@@ -377,30 +436,31 @@ export default abstract class TestContractHandler extends ContractHandler {
 
   public static async deployArtifact(
     artifact,
-    from?: string,
+    nvmAccount: NvmAccount,
     args = [],
     tokens = {},
     _init = true,
   ) {
-    if (!from) {
-      // eslint-disable-next-line @typescript-eslint/no-extra-semi
-      ;[from] = await TestContractHandler.addresses(TestContractHandler.config)
-    }
+    // if (!deployer) {
+    //   // eslint-disable-next-line @typescript-eslint/no-extra-semi
+    //   ;[deployer] = await TestContractHandler.addresses(TestContractHandler.config)
+    // }
 
     // const sendConfig = {
     //   gasLimit: 6721975,
     //   gasPrice: '0x87500000',
     // }
 
-    const nvmAccount = await TestContractHandler.findNvmAccount(
-      TestContractHandler.config,
-      TestContractHandler.client,
-      from,
-    )
+    // const nvmAccount = await TestContractHandler.findNvmAccount(
+    //   TestContractHandler.config,
+    //   TestContractHandler.client,
+    //   deployer,
+    // )
     const contractArtifact = {
       ...artifact,
       bytecode: TestContractHandler.replaceTokens(artifact.bytecode, tokens),
     }
+    console.log('Deploying contract', artifact.name, 'with args', args)
     const contractInstance = TestContractHandler.nevermined.utils.blockchain.deployAbi(
       contractArtifact,
       nvmAccount,

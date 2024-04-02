@@ -123,6 +123,6 @@ export class NFT721AccessTemplate extends BaseTemplate<
       this.nevermined.keeper.conditions.nft721HolderCondition.nftContractFromService(service)
 
     const nftContract = await this.nevermined.contracts.loadNft721(contractAddress)
-    return (await nftContract.balanceOf(new NvmAccount(params.consumer_address))) > 0n
+    return (await nftContract.balanceOf(params.consumer_address)) > 0n
   }
 }

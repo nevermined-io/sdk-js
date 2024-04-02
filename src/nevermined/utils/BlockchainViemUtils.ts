@@ -1,4 +1,5 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { jsonReplacer } from '@/common/helpers'
 import { KeeperError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
 
@@ -13,14 +14,16 @@ import {
   getContractAddress,
   isAddress,
   pad,
+  keccak256 as viemKeccak256,
   formatUnits as viemFormatUnits,
   parseUnits as viemParseUnits,
   formatEther as viemFormatEther,
   parseEther as viemParseEther,
   stringToBytes,
   toHex,
+  toBytes,
 } from 'viem'
-import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
+import { english, generateMnemonic, mnemonicToAccount, parseAccount } from 'viem/accounts'
 
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -33,19 +36,28 @@ export class BlockchainViemUtils extends Instantiable {
     from: NvmAccount,
     args: string[] = [],
   ) {
-    this.logger.debug(`Deploying abi using account: ${from.getId()}`)
+    this.logger.log(`Deploying abi using account: ${from.getId()}`)
 
-    const addresses = await this.walletClient.getAddresses()
-    addresses.map((address) => this.logger.debug(`Address: ${address}`))
+    
+    // console.log(`Before deploying ABI`)
+    // console.log(`ABI: ${JSON.stringify(artifact.abi)}`)
+    // console.log(`Bytecode: ${artifact.bytecode}`)
+    // console.log(`Account: ${from.getId()}`)
+    // console.log(`Chain: ${JSON.stringify(this.client.chain, jsonReplacer)}`)
+
+    // const balance = await this.publicClient.getBalance({ address: from.getId() })
+    // console.log(`Balance: ${formatEther(balance)}`)
+
+    // const addresses = await this.walletClient.getAddresses()
+    // addresses.map((address) => console.log(`Address: ${address}`))
     const txHash = await this.client.wallet.deployContract({
       abi: artifact.abi,
-      account: from.getId(),
+      account: from.getAccountSigner(),
       bytecode: artifact.bytecode,
       chain: this.client.chain,
-      // args
     })
 
-    this.logger.debug(`Contract deployed, TX Hash: ${txHash}`)
+    console.log(`Contract deployed, TX Hash: ${txHash}`)
 
     const tx = await this.client.public.waitForTransactionReceipt({ hash: txHash })
     const nonce = await this.client.public.getTransactionCount({ address: tx.from })
@@ -54,6 +66,8 @@ export class BlockchainViemUtils extends Instantiable {
       nonce: BigInt(nonce),
     }) as `0x${string}`
 
+    console.log(`Contract deployed address: ${contractAddress}`)
+
     const contract = getContract({
       abi: artifact.abi,
       address: contractAddress,
@@ -61,20 +75,24 @@ export class BlockchainViemUtils extends Instantiable {
       client: { wallet: this.client.wallet, public: this.client.public },
     })
 
+    console.log(`Contract loaded:`, contract.address)
+
     let isZos
     try {
       const initializeFunc = searchAbiFunction(artifact.abi, 'initialize')
       isZos = initializeFunc ? true : false
-      this.logger.debug(`Initialize function: ${JSON.stringify(initializeFunc)}`)
-      this.logger.debug(JSON.stringify(args))
+      console.log(`Is ZOS: ${isZos}`)
 
-      this.logger.debug(`Is ZOS: ${isZos}`)
+      console.log(`Initialize function: ${JSON.stringify(initializeFunc)}`)
+      console.log(JSON.stringify(args))
+
       if (isZos) {
         // @ts-expect-error "viem, wtf?"
-        await contract.write.initialize(...args)
+        await contract.write.initialize({args, account: from.getAccountSigner()})
       }
     } catch (error) {
-      isZos = false
+      console.log(`Initialization Error: ${error}`)
+      throw new KeeperError(`Initialization Error: ${error}`)      
     }
 
     return contract
@@ -339,7 +357,7 @@ export function makeRandomWallets(numAccounts = 10) {
 /////// HASHES
 
 export function keccak256(seed: string): string {
-  return keccak256(toHex(seed))
+  return viemKeccak256(toBytes(seed))
 }
 
 export function keccak256WithEncode(

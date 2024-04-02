@@ -27,7 +27,7 @@ export abstract class ContractBase extends Instantiable {
       optional,
       config.artifactsFolder,
     )
-    this.address = await this.contract.getAddress()
+    this.address = await this.contract.address
 
     try {
       this.version = await this.nevermined.utils.contractHandler.getVersion(

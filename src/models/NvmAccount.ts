@@ -3,6 +3,7 @@ import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
 import { Account, LocalAccount, toHex } from 'viem'
 import { NvmAccountError } from '@/errors/NeverminedErrors'
 import { NvmAccountType } from '@/types/AccountTypes'
+import { parseAccount } from 'viem/utils'
 
 /**
  * Account information.
@@ -12,20 +13,32 @@ export class NvmAccount {
   public babyX?: string
   public babyY?: string
   public babySecret?: string
-  public accountSigner?: Account
-  public zeroDevSigner: ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider
+  private accountSigner?: Account
+  private zeroDevSigner: ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider
   public accountType: NvmAccountType = { signerType: 'local', isZeroDev: false }
 
   /**
    * Returns a nevermined Account from a viem account
    *
-   * @param signer - A zerodev account signer
+   * @param account - A viem local account
    * @returns The nevermined account
    */
   static fromAccount(account: Account): NvmAccount {
     const address = account.address
     const nvmAccount = new NvmAccount(address, { signerType: account.type, isZeroDev: false })
     nvmAccount.accountSigner = account
+    return nvmAccount
+  }
+
+  /**
+   * Returns a nevermined Account from an address. This method is used for browser integration (i.e Metamask)
+   *
+   * @param address - A wallet address
+   * @returns The nevermined account
+   */
+  static fromAddress(address: `0x${string}`): NvmAccount {    
+    const nvmAccount = new NvmAccount(address, { signerType: 'json-rpc', isZeroDev: false })
+    nvmAccount.accountSigner = parseAccount(address)
     return nvmAccount
   }
 
@@ -44,7 +57,7 @@ export class NvmAccount {
     return account
   }
 
-  constructor(
+  private constructor(
     private id: string,
     accountType: NvmAccountType = { signerType: 'local', isZeroDev: false },
   ) {
