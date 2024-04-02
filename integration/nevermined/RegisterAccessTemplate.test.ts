@@ -3,7 +3,15 @@ import { decodeJwt } from 'jose'
 
 import { config } from '../config'
 
-import { Nevermined, NvmAccount, Keeper, DDO, Logger, AssetAttributes, AssetPrice } from '../../src'
+import {
+  Nevermined,
+  NvmAccount,
+  Keeper,
+  DDO,
+  AssetAttributes,
+  AssetPrice,
+  generateId,
+} from '../../src'
 import {
   Token,
   AccessCondition,
@@ -12,8 +20,8 @@ import {
   AccessTemplate,
 } from '../../src/keeper'
 import { getMetadata } from '../utils'
-import { generateId } from '../../src/utils'
 import { EventLog } from 'ethers'
+import Logger from '@/models/Logger'
 
 describe('Register Escrow Access Template', () => {
   let nevermined: Nevermined

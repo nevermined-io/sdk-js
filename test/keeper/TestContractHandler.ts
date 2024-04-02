@@ -1,16 +1,15 @@
-import { ContractHandler } from '@/keeper/ContractHandler'
-import * as NetworkUtils from '@/utils/Network'
-import config from '../config'
-import fs from 'fs'
 import { Web3Clients, getWeb3ViemClients } from '@/Instantiable.abstract'
-import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
+import { ZeroAddress } from '@/constants/AssetConstants'
+import { ContractHandler } from '@/keeper/ContractHandler'
+import Logger from '@/models/Logger'
 import { NeverminedOptions } from '@/models/NeverminedOptions'
 import { NvmAccount } from '@/models/NvmAccount'
 import { Nevermined } from '@/nevermined/Nevermined'
-import Logger from '@/models/Logger'
-import { ZeroAddress } from '@/constants/AssetConstants'
+import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
+import * as NetworkUtils from '@/utils/Network'
+import fs from 'fs'
+import config from '../config'
 import { Account } from 'viem/accounts'
-
 
 export default abstract class TestContractHandler extends ContractHandler {
   private static networkId: number

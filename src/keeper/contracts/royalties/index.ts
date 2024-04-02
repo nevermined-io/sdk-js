@@ -1,4 +1,4 @@
-// export * from './RoyaltyScheme.abstract'
-// export { StandardRoyalties } from './StandardRoyalties'
-// export { CurveRoyalties } from './CurveRoyalties'
-// export { RewardsDistributor } from './RewardsDistributor'
+export { CurveRoyalties } from './CurveRoyalties'
+export { RewardsDistributor } from './RewardsDistributor'
+export { RoyaltyScheme } from './RoyaltyScheme.abstract'
+export { StandardRoyalties } from './StandardRoyalties'

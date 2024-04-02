@@ -2,14 +2,16 @@ import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { Nevermined, NvmAccount, DDO, AssetPrice, NFTAttributes } from '../../src'
-import { ZeroAddress } from '../../src/utils'
 import {
-  getRoyaltyAttributes,
-  parseEther,
-  RoyaltyAttributes,
+  Nevermined,
+  NvmAccount,
+  DDO,
+  AssetPrice,
+  NFTAttributes,
   RoyaltyKind,
-} from '../../src/nevermined'
+  ZeroAddress,
+} from '../../src'
+import { getRoyaltyAttributes, parseEther, RoyaltyAttributes } from '../../src/nevermined'
 
 describe('Nfts operations', () => {
   let nevermined: Nevermined

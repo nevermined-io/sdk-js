@@ -3,7 +3,7 @@ import { ContractBase } from '@/keeper/contracts/ContractBase'
 import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
 
-export default class NeverminedConfig extends ContractBase {
+export class NeverminedConfig extends ContractBase {
   templates: any
 
   public static async getInstance(config: InstantiableConfig): Promise<NeverminedConfig> {

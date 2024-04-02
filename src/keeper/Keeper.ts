@@ -1,19 +1,19 @@
 import { ContractBase } from '@/keeper/contracts/ContractBase'
 
-import NeverminedConfig from '@/keeper/contracts/governance/NeverminedConfig'
-import * as NetworkUtils from '@/utils/Network'
 import { EventHandler } from '@/events/EventHandler'
+import * as NetworkUtils from '@/utils/Network'
 
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { isValidAddress } from '@/nevermined/utils/BlockchainViemUtils'
-import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
+import { KeeperError } from '@/errors/NeverminedErrors'
 import { ConditionSmall } from '@/keeper/contracts/conditions/Condition.abstract'
 import { NFT721LockCondition } from '@/keeper/contracts/conditions/NFTs/NFT721LockCondition'
+import { isValidAddress } from '@/nevermined/utils/BlockchainViemUtils'
+import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
 import { objectPromiseAll } from '@/utils/PromiseResolver'
-import { Token } from './contracts/Token'
 import { DIDRegistry } from './contracts/DIDRegistry'
 import { Dispenser } from './contracts/Dispenser'
 import { Nft1155Contract } from './contracts/Nft1155Contract'
+import { Token } from './contracts/Token'
 import { AccessCondition } from './contracts/conditions/AccessCondition'
 import { ComputeExecutionCondition } from './contracts/conditions/ComputeExecutionCondition'
 import { EscrowPaymentCondition } from './contracts/conditions/EscrowPaymentCondition'
@@ -39,7 +39,7 @@ import { NFT721AccessTemplate } from './contracts/templates/NFT721AccessTemplate
 import { NFT721SalesTemplate } from './contracts/templates/NFT721SalesTemplate'
 import { NFTAccessTemplate } from './contracts/templates/NFTAccessTemplate'
 import { NFTSalesTemplate } from './contracts/templates/NFTSalesTemplate'
-import { KeeperError } from '@/errors/NeverminedErrors'
+import { NeverminedConfig } from './contracts/governance/NeverminedConfig'
 
 /**
  * Interface with Nevermined contracts.
@@ -472,5 +472,3 @@ export class Keeper extends Instantiable {
     return this.royalties.curve
   }
 }
-
-export default Keeper

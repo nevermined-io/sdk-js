@@ -1,9 +1,9 @@
-import { Instantiable, Web3Clients, generateInstantiableConfigFromConfig } from '@/Instantiable.abstract'
-import Keeper from '@/keeper/Keeper'
+import { Instantiable, generateInstantiableConfigFromConfig } from '@/Instantiable.abstract'
+import { Keeper } from '@/keeper'
 import { CustomToken } from '@/keeper/contracts/CustomToken'
 import { Nft1155Contract } from '@/keeper/contracts/Nft1155Contract'
 import { Nft721Contract } from '@/keeper/contracts/Nft721Contract'
-import LoggerInstance from '@/models/Logger'
+import { LoggerInstance } from '@/models/Logger'
 import { NeverminedOptions } from '@/models/NeverminedOptions'
 import { AccountsApi } from '@/nevermined/api/AccountsApi'
 import { AgreementsApi } from '@/nevermined/api/AgreementsApi'
@@ -255,7 +255,7 @@ export class Nevermined extends Instantiable {
   /**
    * Web3 Clients
    */
-  public web3: Web3Clients
+  // public web3: Web3Clients
 
   /**
    * If keeper is connected

@@ -6,7 +6,7 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { Nevermined } from '@/nevermined/Nevermined'
 import { NFT721Api } from '@/nevermined/api/nfts/NFT721Api'
 
-export default class SoulBoundNFTApi extends NFT721Api {
+export class SoulBoundNFTApi extends NFT721Api {
   public static async getInstanceUsingABI(
     config: InstantiableConfig,
     nftContractAddress: string,
