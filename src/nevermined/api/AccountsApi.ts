@@ -1,9 +1,9 @@
 // import { Balance, TypedDataDomain, TypedDataTypes } from '@/models'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { TxParameters as txParams } from '@/models/Transactions'
 import { NvmAccount } from '@/models/NvmAccount'
+import { TxParameters as txParams } from '@/models/Transactions'
 import { Balance, TypedDataDomain, TypedDataTypes } from '@/types/GeneralTypes'
-import { toHex } from 'viem'
+import { Hash, toHex } from 'viem'
 
 /**
  * Nevermined Accounts API. It allows execute operations related with Ethereum accounts.
@@ -95,12 +95,12 @@ export class AccountsApi extends Instantiable {
     types: TypedDataTypes,
     value: Record<string, any>,
     from: string,
-  ): Promise<`0x${string}`> {
+  ): Promise<Hash> {
     return await this.walletClient.signTypedData({
       domain,
       types: types as any,
       message: value,
-      primaryType: '',
+      primaryType: 'Nevermined',
       account: from as `0x${string}`,
     })
   }

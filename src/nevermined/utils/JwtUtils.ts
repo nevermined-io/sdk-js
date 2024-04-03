@@ -1,11 +1,11 @@
-import { importJWK, SignJWT, JWSHeaderParameters } from 'jose'
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { NvmAccount } from '@/models/NvmAccount'
-import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
-import { getChecksumAddress, getBytes } from '@/nevermined/utils/BlockchainViemUtils'
-import { Account, LocalAccount, toHex } from 'viem'
+import { getChecksumAddress } from '@/nevermined/utils/BlockchainViemUtils'
 import { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
 import { Babysig, Eip712Data } from '@/types/GeneralTypes'
+import { KernelSmartAccount } from '@zerodev/sdk'
+import { JWSHeaderParameters, SignJWT, importJWK } from 'jose'
+import { Account, Hash, LocalAccount, hexToBytes, toHex } from 'viem'
 
 export class EthSignJWT extends SignJWT {
   protectedHeader: JWSHeaderParameters
@@ -17,12 +17,9 @@ export class EthSignJWT extends SignJWT {
 
   public async ethSign(
     signatureUtils: SignatureUtils,
-    //signer: Account | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
     account: NvmAccount,
     eip712Data?: Eip712Data,
   ): Promise<string> {
-    // signer instanceof NvmAccount ? signer.getId() : account
-    // const accountAddress = signer instanceof Account ? (signer as Account).address : await signer.getAddress()
     const encoder = new TextEncoder()
     const decoder = new TextDecoder()
 
@@ -39,7 +36,7 @@ export class EthSignJWT extends SignJWT {
     const data = this.concat(encodedHeader, encoder.encode('.'), encodedPayload)
 
     // EIP-712 signature
-    let sign: string
+    let sign: Hash
     if (eip712Data) {
       const domain = {
         name: 'Nevermined',
@@ -60,14 +57,13 @@ export class EthSignJWT extends SignJWT {
         message: eip712Data.message,
         token: decoder.decode(data),
       }
+
       sign = await signatureUtils.signTypedData(domain, types, value, account)
-      //sign = await EthSignJWT.signTypedMessage(domain, types, value, account)
     } else {
-      sign = await signatureUtils.signText(decoder.decode(data), account.getAddress())
-      //sign = await EthSignJWT.signMessage(decoder.decode(data), account)
+      sign = await signatureUtils.signText(decoder.decode(data), account)
     }
 
-    const input = getBytes(sign)
+    const input = hexToBytes(sign)
 
     const signed = this.base64url(input)
     const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
@@ -122,8 +118,9 @@ export class JwtUtils extends Instantiable {
 
   public async getSigner(
     account: NvmAccount,
-  ): Promise<NvmAccount | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider> {
+  ): Promise<NvmAccount | KernelSmartAccount> {
     const address = getChecksumAddress(account.getId())
+
     return account.isZeroDev()
       ? account.getZeroDevSigner()
       : await this.nevermined.accounts.getAccount(address)
