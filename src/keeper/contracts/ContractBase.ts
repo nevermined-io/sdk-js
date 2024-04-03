@@ -1,6 +1,6 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { KeeperError } from '@/errors/NeverminedErrors'
-import { getInputsOfFunctionFormatted } from '@/nevermined/utils/BlockchainViemUtils'
+import { getInputsOfFunctionFormatted, getSignatureOfFunction } from '@/nevermined/utils/BlockchainViemUtils'
 import { Account, TransactionReceipt, parseEventLogs } from 'viem'
 import { TxParameters } from '@/models/Transactions'
 import { ContractEvent } from '@/events/ContractEvent'
@@ -101,12 +101,11 @@ export abstract class ContractBase extends Instantiable {
   }
 
   public async sendFrom(functionName: string, args: any[], from: NvmAccount, value?: TxParameters) {
-    const fromAddress = from.getAddress() //await this.getFromAddress(from && from.getId())
     const receipt = await this.send(functionName, from, args, value)
     // receipt.transactionHash
     const tx = await this.client.public.waitForTransactionReceipt({ hash: receipt.transactionHash })
     if (tx.status !== 'success') {
-      this.logger.error('Transaction failed!', this.contractName, functionName, args, fromAddress)
+      this.logger.error('Transaction failed!', this.contractName, functionName, args, from.getAddress())
     }
     return receipt
   }
@@ -245,11 +244,11 @@ export abstract class ContractBase extends Instantiable {
     progress: (data: any) => void,
   ) {
     const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
-    // const functionSignature = getSignatureOfFunction(this.contract.interface, name, args)
+    const functionSignature = getSignatureOfFunction(this.contract.interface, name, args)
     // Uncomment to debug contract calls
-    // console.debug(`Making contract call ....: ${name} - ${from}`)
-    // console.debug(`With args - ${JSON.stringify(args)}`)
-    // console.debug(`And signature - ${methodSignature}`)
+    console.debug(`Making contract call ....: ${name} - ${from}`)
+    console.debug(`With args - ${JSON.stringify(args)}`)
+    console.debug(`And signature - ${JSON.stringify(functionSignature)}`)
 
     const { gasLimit, value } = txparams
     // make the call

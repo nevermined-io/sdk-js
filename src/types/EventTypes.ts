@@ -1,3 +1,5 @@
+import { BlockTag } from "viem"
+
 export interface FilterContractEvent {
   [key: string]: number | string | string[] | number[]
 }
@@ -7,8 +9,8 @@ export interface EventOptions {
   filterJsonRpc?: FilterContractEvent
   filterSubgraph?: Record<string, unknown>
   result?: Record<string, unknown>
-  fromBlock?: bigint | string
-  toBlock?: bigint | string
+  fromBlock?: bigint | BlockTag
+  toBlock?: bigint | BlockTag
 }
 
 export interface EventEmitter {

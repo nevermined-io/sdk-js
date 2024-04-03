@@ -3,6 +3,7 @@ import { KeeperError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
 import {
   Abi,
+  AbiEvent,
   AbiFunction,
   PublicClient,
   encodeAbiParameters,
@@ -151,10 +152,21 @@ export async function checkContractExists(address: string, client: PublicClient)
 
 export function searchAbiFunction(abi: Abi, funcName: string, args: any[] = []): AbiFunction {
   const func = getAbiItem({ abi, name: funcName, args })
-  if (!func) {
-    throw new KeeperError(`Method "${funcName}" is not part of contract`)
+  if (!func || func.type !== 'function') {
+    throw new KeeperError(`Function "${funcName}" is not part of contract`)
   }
   return func as AbiFunction
+}
+
+export function searchAbiEvent(abi: Abi, eventName: string): AbiEvent {
+  const event = getAbiItem({ 
+    abi, 
+    name: eventName, 
+  })
+  if (!event || event.type !== 'event') {
+    throw new KeeperError(`Event "${event}" is not part of contract`)
+  }
+  return event as AbiEvent
 }
 
 export function getSignatureOfFunction(abi: Abi, funcName: string, args: any[] = []): AbiFunction {

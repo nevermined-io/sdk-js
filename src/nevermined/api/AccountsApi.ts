@@ -32,6 +32,20 @@ export class AccountsApi extends Instantiable {
   }
 
   /**
+   * Returns the list of accounts including the addresses not controlled by the node,
+   * only can be used by providers like metamask, Status or Trustwallet but not by default
+   * provider
+   * @returns The list of accounts.
+   */
+  public async listAsLocalAccounts(): Promise<NvmAccount[]> {
+    const accounts: NvmAccount[]
+    (await this.addresses()).map(async (address) =>
+      accounts.push(await this.findAccount(address))
+    )
+    return accounts
+  }
+
+  /**
    * Returns an account initialized with existing web3 provider
    * @param address - The account address
    *

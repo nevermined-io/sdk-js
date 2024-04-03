@@ -1,9 +1,9 @@
 import { assert } from 'chai'
-import { Nevermined } from '../../src/nevermined'
-import config from '../config'
 import TestContractHandler from './TestContractHandler'
-import { ContractEventSubscription } from '../../src/events/NeverminedEvent'
-import { NvmAccount } from '../../src'
+import { NvmAccount } from '@/models/NvmAccount'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { ContractEventSubscription } from '@/types/EventTypes'
+
 
 describe('ContractEvent', () => {
   let nevermined: Nevermined
@@ -13,8 +13,8 @@ describe('ContractEvent', () => {
   let account4: NvmAccount
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    nevermined = await Nevermined.getInstance(config)
+    const deployer = await TestContractHandler.prepareContracts()
+    nevermined = deployer.nevermined
     ;[account1, account2, account3, account4] = await nevermined.accounts.list()
   })
 
@@ -44,9 +44,9 @@ describe('ContractEvent', () => {
           },
         )
       })
-      await nevermined.keeper.dispenser.requestTokens(1, account1.getId())
-      await nevermined.keeper.dispenser.requestTokens(2, account2.getId())
-      await nevermined.keeper.dispenser.requestTokens(3, account3.getId())
+      await nevermined.keeper.dispenser.requestTokens(1, account1)
+      await nevermined.keeper.dispenser.requestTokens(2, account2)
+      await nevermined.keeper.dispenser.requestTokens(3, account3)
 
       await waitForEvents
       subscription.unsubscribe()
@@ -55,15 +55,15 @@ describe('ContractEvent', () => {
 
   describe('#once()', () => {
     it('should listen to event only once', async () => {
-      const fromBlock = await nevermined.client.public.getBlockNumber()
-
-      const eventsPromise = nevermined.keeper.token.events.once((e) => e, {
+      const fromBlock = await nevermined.client.public.getBlockNumber()      
+      
+      const eventsPromise = nevermined.keeper.token.events.once(nevermined.client, (e) => e, {
         eventName: 'Transfer',
         filterJsonRpc: { to: account4.getId() },
         fromBlock: fromBlock,
         toBlock: 'latest',
       })
-      await nevermined.keeper.dispenser.requestTokens(1, account4.getId())
+      await nevermined.keeper.dispenser.requestTokens(1, account4)
 
       const events: any = await eventsPromise
       assert.equal(events.length, 1)

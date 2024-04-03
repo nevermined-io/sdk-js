@@ -85,7 +85,7 @@ export class Nevermined extends Instantiable {
 
         if (initOptions.loadCompute) instance.compute = new ComputeApi(instanceConfig)
 
-        // instance.web3 = 
+        // instance.web3 =
       }
 
       instance.isKeeperConnected = initOptions.loadCore

@@ -1,12 +1,12 @@
 import { assert } from 'chai'
-import { DIDRegistry } from '../../src/keeper'
-import { Nevermined } from '../../src/nevermined'
-import { generateId } from '../../src/utils'
-import config from '../config'
+
 import TestContractHandler from './TestContractHandler'
-import { Logger, LogLevel } from '../../src/utils'
-import { ContractTransactionReceipt, ethers, EventLog } from 'ethers'
-import { TxParameters } from '../../src/keeper'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
+import { generateId } from '@/common/helpers'
+import { TxParameters } from '@/models/Transactions'
+import { ZeroAddress } from '@/constants/AssetConstants'
+
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
@@ -14,10 +14,10 @@ let checksum: string
 
 describe('DIDRegistry', () => {
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    nevermined = await Nevermined.getInstance(config)
+    const deployer = await TestContractHandler.prepareContracts()
+    nevermined = deployer.nevermined
     ;({ didRegistry } = nevermined.keeper)
-    checksum = ethers.hexlify(ethers.randomBytes(32))
+    checksum = generateId()
   })
 
   describe('#registerAttribute()', () => {
@@ -25,43 +25,48 @@ describe('DIDRegistry', () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const did = generateId()
       const data = 'my nice provider, is nice'
-      const contractReceipt = await didRegistry.registerAttribute(
+      const txReceipt = await didRegistry.registerAttribute(
         did,
         checksum,
         [],
         data,
-        ownerAccount.getId(),
+        ownerAccount,
       )
-      assert.equal(contractReceipt.status, 1)
-      assert.isTrue(
-        (contractReceipt.logs as EventLog[]).some(
-          (e: EventLog) => e.eventName === 'DIDAttributeRegistered',
-        ),
-      )
+      console.log(txReceipt)
+      assert.equal(txReceipt.status, 'success')
+      
+      const logs = didRegistry.getTransactionLogs(txReceipt, 'DIDAttributeRegistered')
+      assert.isTrue(logs.length > 0)
+      // assert.isTrue(
+      //   (contractReceipt.logs).some(
+      //     (e) => e.eventName === 'DIDAttributeRegistered',
+      //   ),
+      // )
     })
 
     it('should register an attribute in a new did modifying the nonce', async () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const did = generateId()
       const data = 'hola hola'
-      const provider = await getWeb3EthersProvider(config)
-      const txCount = await provider.getTransactionCount(ownerAccount.getId(), 'pending')
+      // const provider = await getWeb3EthersProvider(config)
+      // const txCount = await provider.getTransactionCount(ownerAccount.getId(), 'pending')
+      const txCount = await nevermined.client.public.getTransactionCount({ 
+        address: ownerAccount.getAddress(),
+        blockTag: 'pending'        
+       })
       const txParams: TxParameters = { nonce: txCount }
 
-      const contractReceipt: ContractTransactionReceipt = await didRegistry.registerAttribute(
+      const txReceipt = await didRegistry.registerAttribute(
         did,
         checksum,
         [],
         data,
-        ownerAccount.getId(),
+        ownerAccount,
         txParams,
       )
-      assert.equal(contractReceipt.status, 1)
-      assert.isTrue(
-        (contractReceipt.logs as EventLog[]).some(
-          (e: EventLog) => e.eventName === 'DIDAttributeRegistered',
-        ),
-      )
+      assert.equal(txReceipt.status, 'success')
+      const logs = didRegistry.getTransactionLogs(txReceipt, 'DIDAttributeRegistered')
+      assert.isTrue(logs.length > 0)
     })
   })
 
@@ -70,7 +75,7 @@ describe('DIDRegistry', () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const didSeed = generateId()
       const data = 'my nice provider, is nice'
-      await didRegistry.registerAttribute(didSeed, checksum, [], data, ownerAccount.getId())
+      await didRegistry.registerAttribute(didSeed, checksum, [], data, ownerAccount)
       const did = await didRegistry.hashDID(didSeed, ownerAccount.getId())
 
       const owner = await didRegistry.getDIDOwner(did)
@@ -80,7 +85,7 @@ describe('DIDRegistry', () => {
 
     it('should get 0x0 for a not registered did', async () => {
       const owner = await didRegistry.getDIDOwner(generateId())
-      assert.equal(owner, ethers.ZeroAddress)
+      assert.equal(owner, ZeroAddress)
     })
   })
 
@@ -90,18 +95,18 @@ describe('DIDRegistry', () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const didSeed = generateId()
       const data = 'my nice provider, is nice'
-      await didRegistry.registerAttribute(didSeed, checksum, [], data, ownerAccount.getId())
+      await didRegistry.registerAttribute(didSeed, checksum, [], data, ownerAccount)
       const did = await didRegistry.hashDID(didSeed, ownerAccount.getId())
 
       // transfer
       const [, newOwnerAccount] = await nevermined.accounts.list()
-      const logger = new Logger(LogLevel.Error)
-      logger.log('New Owner Account: ' + newOwnerAccount.getId())
-      await didRegistry.transferDIDOwnership(did, newOwnerAccount.getId(), ownerAccount.getId())
+      // const logger = new Logger(LogLevel.Error)
+      console.log('New Owner Account: ' + newOwnerAccount.getId())
+      await didRegistry.transferDIDOwnership(did, newOwnerAccount.getId(), ownerAccount)
 
       // check
       const newOwner = await didRegistry.getDIDOwner(did)
-      logger.log('DID Owner Account: ' + newOwner)
+      console.log('DID Owner Account: ' + newOwner)
 
       assert.equal(
         newOwner,

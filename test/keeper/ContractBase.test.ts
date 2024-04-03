@@ -1,7 +1,5 @@
 import { assert } from 'chai'
-import { Nevermined } from '../../src/nevermined'
 import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainViemUtils'
-import config from '../config'
 import TestContractHandler from './TestContractHandler'
 import { NvmAccount } from '@/models'
 import { ContractBaseMock } from '../mocks/ContractBase.Mock'
@@ -11,8 +9,9 @@ let accounts: NvmAccount[]
 
 describe('ContractWrapperBase', () => {
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    const nevermined: Nevermined = await Nevermined.getInstance(config)
+    const deployer = await TestContractHandler.prepareContracts()
+    const nevermined = deployer.nevermined    
+    
     wrappedContract = new ContractBaseMock('NeverminedToken')
     accounts = await nevermined.accounts.list()
     wrappedContract = new ContractBaseMock('NeverminedToken')
@@ -57,7 +56,7 @@ describe('ContractWrapperBase', () => {
     it('should a signature of the function', async () => {
       const sig = getSignatureOfFunction(wrappedContract.interface, 'name')
       assert(sig)
-      assert(typeof sig === 'string')
+      assert(sig.type === 'function')
     })
   })
 

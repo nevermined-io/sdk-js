@@ -19,6 +19,7 @@ export default abstract class TestContractHandler extends ContractHandler {
   public static async prepareContracts(): Promise<{
     nevermined: Nevermined
     deployerAddress: string
+    deployerAccount: NvmAccount
   }> {
     await TestContractHandler.setConfig(config)
 
@@ -37,6 +38,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     return {
       nevermined: await Nevermined.getInstance(config), //TestContractHandler.nvm,
       deployerAddress,
+      deployerAccount: nvmAccount
     }
   }
 

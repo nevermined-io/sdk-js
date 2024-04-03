@@ -1,5 +1,8 @@
-import { LogLevel, LoggerInstance, NeverminedOptions, NvmAccount } from '../src'
-import { makeWallets } from '../src/nevermined/utils/BlockchainViemUtils'
+import { Account } from 'viem/accounts'
+import { LogLevel, LoggerInstance } from '@/models/Logger'
+import { NeverminedOptions } from '@/models/NeverminedOptions'
+import { NvmAccount } from '@/models/NvmAccount'
+import { makeWallets } from '@/nevermined/utils/BlockchainViemUtils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 
@@ -83,7 +86,13 @@ if (process.env.NETWORK_NAME === 'one-staging') {
 
 if (process.env.SEED_WORDS) {
   const wallets = makeWallets(process.env.SEED_WORDS)
-  configBase.accounts = wallets.map((wallet) => new NvmAccount(wallet.address))
+  const config = { ...configBase }
+  config.accounts = wallets.map((wallet) => {
+    const a = NvmAccount.fromAccount(wallet)
+    const signer = a.getAccountSigner() as Account
+    LoggerInstance.debug(`Account loaded with address ${a.getAddress()} and type: ${signer.type}`)
+    return a
+  })
 }
 
 export const config: NeverminedOptions & { forceVerbose: NeverminedOptions } = configBase as any

@@ -78,7 +78,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     timeLocks: number[],
     timeOuts: number[],
     extraArgs: any[],
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom(
