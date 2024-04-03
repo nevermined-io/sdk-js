@@ -83,7 +83,7 @@ if (process.env.NETWORK_NAME === 'one-staging') {
 
 if (process.env.SEED_WORDS) {
   const wallets = makeWallets(process.env.SEED_WORDS)
-  configBase.accounts = wallets.map((wallet) => new NvmAccount(wallet.address))
+  configBase.accounts = wallets.map((wallet) => NvmAccount.fromAddress(wallet.address))
 }
 
 export const config: NeverminedOptions & { forceVerbose: NeverminedOptions } = configBase as any

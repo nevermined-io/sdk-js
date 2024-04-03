@@ -1,9 +1,9 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
-import { LocalAccount, recoverAddress, toHex } from 'viem'
 import { NvmAccountError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
+import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
 import { TypedDataDomain, TypedDataTypes } from '@/types/GeneralTypes'
+import { Hash, LocalAccount, recoverAddress, toHex } from 'viem'
 
 export class SignatureUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -11,14 +11,15 @@ export class SignatureUtils extends Instantiable {
     this.setInstanceConfig(config)
   }
 
-  public async signText(text: string | Uint8Array, account: string | NvmAccount): Promise<string> {
+  public async signText(text: string | Uint8Array, account: string | NvmAccount): Promise<Hash> {
     const message = typeof text === 'string' ? text : toHex(text)
     const nvmAccount =
-      typeof account === 'string' ? await this.nevermined.accounts.getAccount(account) : account
+      typeof account === 'string' ? this.nevermined.accounts.getAccount(account) : account
+
 
     if (nvmAccount.isZeroDev()) {
-      // TODO: Implement ZeroDev signing
-      return `0x`
+      const result = await nvmAccount.getZeroDevSigner().signMessage({message: text as `0x${string}`})
+      return result
     } else if (nvmAccount.accountType.signerType === 'local') {
       return (nvmAccount.getAccountSigner() as LocalAccount).signMessage({
         message: message as `0x${string}`,
@@ -39,19 +40,25 @@ export class SignatureUtils extends Instantiable {
     types: TypedDataTypes,
     value: Record<string, any>,
     account: string | NvmAccount,
-  ): Promise<string> {
+  ): Promise<Hash> {
     const nvmAccount =
-      typeof account === 'string' ? await this.nevermined.accounts.getAccount(account) : account
+      typeof account === 'string' ? this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
-      // TODO: Implement ZeroDev signing
-      return `0x`
-    } else if (nvmAccount.accountType.signerType === 'local') {
+      const signature = await nvmAccount.getZeroDevSigner().signTypedData({
+        domain,
+        types: types as any,
+        message: value,
+        primaryType: 'Nevermined',
+      })
+      return signature
+    } 
+    else if (nvmAccount.accountType.signerType === 'local') {
       return await (nvmAccount.getAccountSigner() as LocalAccount).signTypedData({
         domain,
         types: types as any,
         message: value,
-        primaryType: '',
+        primaryType: 'Nevermined',
       })
     } else if (nvmAccount.accountType.signerType === 'json-rpc') {
       return await this.nevermined.accounts.signTypedData(
@@ -67,9 +74,10 @@ export class SignatureUtils extends Instantiable {
 
   public async signTransaction(tx: `0x${string}`, account: string | NvmAccount): Promise<string> {
     const nvmAccount =
-      typeof account === 'string' ? await this.nevermined.accounts.getAccount(account) : account
+      typeof account === 'string' ? this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
+      return await nvmAccount.getZeroDevSigner().signTransaction({data: tx})
       // TODO: Implement ZeroDev signing
       return `0x`
     } else if (nvmAccount.accountType.signerType === 'local') {
