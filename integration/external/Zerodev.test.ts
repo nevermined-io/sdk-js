@@ -24,7 +24,7 @@ describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined
   const PROJECT_ID = process.env.PROJECT_ID!
   const BUNDLER_RPC = `https://rpc.zerodev.app/api/v2/bundler/${PROJECT_ID}`
-  const PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${PROJECT_ID}`
+  const _PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${PROJECT_ID}`
 
   const publicClient = createPublicClient({
     chain: arbitrumSepolia,

@@ -38,10 +38,9 @@ export class AccountsApi extends Instantiable {
    * @returns The list of accounts.
    */
   public async listAsLocalAccounts(): Promise<NvmAccount[]> {
-    const accounts: NvmAccount[]
-    (await this.addresses()).map(async (address) =>
-      accounts.push(await this.findAccount(address))
-    )
+    const accounts: NvmAccount[] = []
+    const addresses = await this.addresses()
+    addresses.map((address) => accounts.push(this.findAccount(address)))
     return accounts
   }
 
@@ -55,9 +54,9 @@ export class AccountsApi extends Instantiable {
     return NvmAccount.fromAddress(address as `0x${string}`)
   }
 
-  public async findAccount(from: string): Promise<NvmAccount> {
+  public findAccount(from: string): NvmAccount {
     for (const acc of this.config.accounts || []) {
-      const addr = await acc.getAddress()
+      const addr = acc.getAddress()
       if (addr.toLowerCase() === from.toLowerCase()) {
         return acc
       }

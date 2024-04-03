@@ -43,11 +43,11 @@ describe('NFTAccessTemplate', () => {
     ;({ nftAccessTemplate } = nevermined.keeper.templates)
     ;({ templateStoreManager, didRegistry, conditionStoreManager, agreementStoreManager } =
       nevermined.keeper)
-    ;[sender, receiver] = await nevermined.accounts.list()
+    ;[sender, receiver] = await nevermined.accounts.listAsLocalAccounts()
     timeLocks = [0, 0]
     timeOuts = [0, 0]
 
-    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, sender)
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, deployer)
   })
 
   beforeEach(async () => {

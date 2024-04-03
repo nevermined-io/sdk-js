@@ -8,7 +8,6 @@ import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
 import { NvmAccount } from '@/models/NvmAccount'
 import { generateId } from '@/common/helpers'
 import { ConditionState } from '@/types/ContractTypes'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 
 chai.use(chaiAsPromised)
 

@@ -1,6 +1,6 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { KeeperError } from '@/errors/NeverminedErrors'
-import { getInputsOfFunctionFormatted, getSignatureOfFunction } from '@/nevermined/utils/BlockchainViemUtils'
+import { getInputsOfFunctionFormatted } from '@/nevermined/utils/BlockchainViemUtils'
 import { Account, TransactionReceipt, parseEventLogs } from 'viem'
 import { TxParameters } from '@/models/Transactions'
 import { ContractEvent } from '@/events/ContractEvent'
@@ -127,7 +127,7 @@ export abstract class ContractBase extends Instantiable {
         params.progress,
       )
     } else if (from.getType() === 'json-rpc') {
-      this.logger.debug(`Blockchain Send using JSON-RPC account`)
+      this.logger.debug(`Blockchain Send using JSON-RPC account to ${functionName}`)
       return await this.localAccountSend(
         functionName,
         from.getAddress(),
@@ -243,12 +243,12 @@ export abstract class ContractBase extends Instantiable {
     txparams: any,
     progress: (data: any) => void,
   ) {
-    const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
-    const functionSignature = getSignatureOfFunction(this.contract.interface, name, args)
+    const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)    
     // Uncomment to debug contract calls
-    console.debug(`Making contract call ....: ${name} - ${from}`)
-    console.debug(`With args - ${JSON.stringify(args)}`)
-    console.debug(`And signature - ${JSON.stringify(functionSignature)}`)
+    // const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
+    // console.debug(`Making contract call ....: ${name} - ${from}`)
+    // console.debug(`With args - ${JSON.stringify(args)}`)
+    // console.debug(`And signature - ${JSON.stringify(functionSignature)}`)
 
     const { gasLimit, value } = txparams
     // make the call

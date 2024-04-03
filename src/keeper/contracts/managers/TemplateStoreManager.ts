@@ -3,7 +3,6 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
 import { zeroX } from '@/utils/ConversionTypeHelpers'
 import { ContractBase } from '@/keeper/contracts/ContractBase'
-import { jsonReplacer } from '@/sdk'
 
 export enum TemplateState {
   Uninitialized = 0,
