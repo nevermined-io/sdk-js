@@ -3,7 +3,11 @@ import chaiAsPromised from 'chai-as-promised'
 import TestContractHandler from '../TestContractHandler'
 import { Nevermined } from '@/nevermined/Nevermined'
 import { NFTAccessCondition } from '@/keeper/contracts/conditions'
-import { AgreementStoreManager, ConditionStoreManager, TemplateStoreManager } from '@/keeper/contracts/managers'
+import {
+  AgreementStoreManager,
+  ConditionStoreManager,
+  TemplateStoreManager,
+} from '@/keeper/contracts/managers'
 import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
 import { NvmAccount } from '@/models/NvmAccount'
 import { generateId } from '@/common/helpers'
@@ -34,13 +38,12 @@ describe('NFTAccessCondition', () => {
     const prepare = await TestContractHandler.prepareContracts()
     nevermined = prepare.nevermined
     deployer = prepare.deployerAccount
-
     ;({ nftAccessCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, agreementStoreManager, templateStoreManager } =
       nevermined.keeper)
     ;[owner, grantee, templateId, other] = await nevermined.accounts.list()
 
-    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, owner)
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, deployer)
 
     try {
       await templateStoreManager.proposeTemplate(templateId.getId(), deployer)
@@ -48,7 +51,6 @@ describe('NFTAccessCondition', () => {
     } catch (error) {
       console.log(`Error proposing template: ${error}`)
     }
-    
   })
 
   beforeEach(async () => {
@@ -108,7 +110,12 @@ describe('NFTAccessCondition', () => {
         grantee,
       )
 
-      const contractReceipt = await nftAccessCondition.fulfill(agreementId, did, grantee.getId(), owner)
+      const contractReceipt = await nftAccessCondition.fulfill(
+        agreementId,
+        did,
+        grantee.getId(),
+        owner,
+      )
 
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)

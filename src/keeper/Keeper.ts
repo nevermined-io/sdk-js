@@ -388,7 +388,7 @@ export class Keeper extends Instantiable {
   public getConditionByAddress(address: string): ConditionSmall {
     return this.conditionsList
       .filter((condition) => condition.address && isValidAddress(condition.address))
-      .find((condition) => condition.address === address)
+      .find((condition) => condition.address.toLowerCase() === address.toLowerCase())
   }
 
   /**

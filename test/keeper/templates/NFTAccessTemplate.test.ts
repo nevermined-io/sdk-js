@@ -12,6 +12,8 @@ import TestContractHandler from '../TestContractHandler'
 import { Nevermined } from '@/nevermined/Nevermined'
 import { NvmAccount } from '@/models/NvmAccount'
 import { generateId, jsonReplacer } from '@/common/helpers'
+import { Log } from 'viem'
+import { ConditionState } from '@/types/ContractTypes'
 
 chai.use(chaiAsPromised)
 
@@ -39,11 +41,10 @@ describe('NFTAccessTemplate', () => {
     const prepare = await TestContractHandler.prepareContracts()
     nevermined = prepare.nevermined
     deployer = prepare.deployerAccount
-
     ;({ nftAccessTemplate } = nevermined.keeper.templates)
     ;({ templateStoreManager, didRegistry, conditionStoreManager, agreementStoreManager } =
       nevermined.keeper)
-    ;[sender, receiver] = await nevermined.accounts.listAsLocalAccounts()
+    ;[sender, receiver] = await nevermined.accounts.list()
     timeLocks = [0, 0]
     timeOuts = [0, 0]
 
@@ -87,7 +88,10 @@ describe('NFTAccessTemplate', () => {
 
     it('should fail if DID is not registered', async () => {
       // propose and approve template
-      const txReceipt = await templateStoreManager.proposeTemplate(nftAccessTemplate.address, deployer)
+      const txReceipt = await templateStoreManager.proposeTemplate(
+        nftAccessTemplate.address,
+        deployer,
+      )
       console.log(JSON.stringify(txReceipt, jsonReplacer))
       await templateStoreManager.approveTemplate(nftAccessTemplate.address, deployer)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
@@ -110,7 +114,7 @@ describe('NFTAccessTemplate', () => {
       await didRegistry.registerAttribute(didSeed, checksum, [], url, sender)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
-      const contractReceipt = await nftAccessTemplate.createAgreement(
+      const txReceipt = await nftAccessTemplate.createAgreement(
         agreementIdSeed,
         didZeroX(did),
         conditionIdSeeds,
@@ -119,29 +123,31 @@ describe('NFTAccessTemplate', () => {
         [receiver.getId()],
         sender,
       )
-      assert.equal(contractReceipt.status, 'success')
-      // assert.isTrue(contractReceipt.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+      assert.equal(txReceipt.status, 'success')
+      const logs = nftAccessTemplate.getTransactionLogs(txReceipt, 'AgreementCreated')
+      assert.isTrue(logs.length > 0)
+      // console.log(JSON.stringify(logs, jsonReplacer))
+      const event: Log = logs[0]
 
-      // const event: EventLog = contractReceipt.logs.find(
-      //   (e: EventLog) => e.eventName === 'AgreementCreated',
-      // ) as EventLog
-      // const { _agreementId, _did } = event.args
-      // assert.equal(_agreementId, zeroX(agreementId))
-      // assert.equal(_did, didZeroX(did))
+      // @ts-ignore
+      const { _agreementId, _did } = event.args
+      assert.equal(_agreementId, zeroX(agreementId))
+      assert.equal(_did, didZeroX(did))
 
-      // const storedAgreement = await agreementStoreManager.getAgreement(agreementId)
-      // assert.deepEqual(storedAgreement.conditionIds, conditionIds)
+      const storedAgreement = await agreementStoreManager.getAgreement(agreementId)
+      assert.deepEqual(storedAgreement.conditionIds, conditionIds)
 
-      // const conditionTypes = await nftAccessTemplate.getConditionTypes()
-      // await Promise.all(
-      //   conditionIds.map(async (conditionId, i) => {
-      //     const storedCondition = await conditionStoreManager.getCondition(conditionId)
-      //     assert.equal(storedCondition.typeRef, conditionTypes[i])
-      //     assert.equal(storedCondition.state, ConditionState.Unfulfilled)
-      //     assert.equal(storedCondition.timeLock, timeLocks[i])
-      //     assert.equal(storedCondition.timeOut, timeOuts[i])
-      //   }),
-      // )
+      const conditionTypes = await nftAccessTemplate.getConditionTypes()
+      await Promise.all(
+        conditionIds.map(async (conditionId, i) => {
+          const storedCondition = await conditionStoreManager.getCondition(conditionId)
+          console.log(JSON.stringify(storedCondition, jsonReplacer))
+          assert.equal(storedCondition.typeRef, conditionTypes[i])
+          assert.equal(storedCondition.state, ConditionState.Unfulfilled)
+          assert.equal(storedCondition.timeLock, timeLocks[i])
+          assert.equal(storedCondition.timeOut, timeOuts[i])
+        }),
+      )
     })
   })
 })

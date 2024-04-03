@@ -11,8 +11,8 @@ export interface ConditionData {
   timeLock: number
   timeOut: number
   blockNumber: number
-  lastUpdatedBy: string
-  blockNumberUpdated: number
+  lastUpdatedBy?: string
+  blockNumberUpdated?: number
 }
 
 export class ConditionStoreManager extends ContractBase {
@@ -56,13 +56,13 @@ export class ConditionStoreManager extends ContractBase {
   public async getCondition(conditionId: string) {
     const a: any = await this.call('getCondition', [zeroX(conditionId)])
     return {
-      typeRef: a.typeRef,
-      state: Number(a.state),
-      timeLock: Number(a.timeLock),
-      timeOut: Number(a.timeOut),
-      blockNumber: Number(a.blockNumber),
-      lastUpdatedBy: a.lastUpdatedBy,
-      blockNumberUpdated: Number(a.blockNumberUpdated),
+      typeRef: a[0], //a.typeRef,
+      state: Number(a[1]), //Number(a.state),
+      timeLock: Number(a[2]), //Number(a.timeLock),
+      timeOut: Number(a[3]), //Number(a.timeOut),
+      blockNumber: Number(a[4]), //Number(a.blockNumber),
+      // lastUpdatedBy: a[5], //a.lastUpdatedBy,
+      // blockNumberUpdated: Number(a[6]) //Number(a.blockNumberUpdated),
     } as ConditionData
   }
 }

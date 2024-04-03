@@ -1,16 +1,19 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined, NvmAccount, ConditionState } from '@/src'
 import {
-  DIDRegistry,
   AgreementStoreManager,
   ConditionStoreManager,
   TemplateStoreManager,
+  DIDRegistry,
   NFTSalesTemplate,
-} from '@/src/keeper'
-import { didZeroX, zeroX, generateId } from '@/src/utils'
-import config from '../../config'
+} from '@/keeper'
+import { didZeroX, zeroX } from '@/utils'
 import TestContractHandler from '../TestContractHandler'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { generateId } from '@/common/helpers'
+import { Log } from 'viem'
+import { ConditionState } from '@/types/ContractTypes'
 
 chai.use(chaiAsPromised)
 
@@ -27,6 +30,7 @@ describe('NFTSalesTemplate', () => {
   let conditionIdSeeds: string[]
   let timeLocks: number[]
   let timeOuts: number[]
+  let deployer: NvmAccount
   let sender: NvmAccount
   let receiver: NvmAccount
   let didSeed: string
@@ -34,8 +38,9 @@ describe('NFTSalesTemplate', () => {
   const url = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    nevermined = await Nevermined.getInstance(config)
+    const prepare = await TestContractHandler.prepareContracts()
+    nevermined = prepare.nevermined
+    deployer = prepare.deployerAccount
     ;({ nftSalesTemplate } = nevermined.keeper.templates)
     ;({ templateStoreManager, didRegistry, conditionStoreManager, agreementStoreManager } =
       nevermined.keeper)
@@ -43,7 +48,7 @@ describe('NFTSalesTemplate', () => {
     timeLocks = [0, 0, 0]
     timeOuts = [0, 0, 0]
 
-    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, sender.getId())
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, deployer)
   })
 
   beforeEach(async () => {
@@ -87,8 +92,8 @@ describe('NFTSalesTemplate', () => {
 
     it('should fail if DID is not registered', async () => {
       // propose and approve template
-      await templateStoreManager.proposeTemplate(nftSalesTemplate.address)
-      await templateStoreManager.approveTemplate(nftSalesTemplate.address)
+      await templateStoreManager.proposeTemplate(nftSalesTemplate.address, deployer)
+      await templateStoreManager.approveTemplate(nftSalesTemplate.address, deployer)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
       await assert.isRejected(
@@ -106,10 +111,10 @@ describe('NFTSalesTemplate', () => {
     })
 
     it('should create agreement', async () => {
-      await didRegistry.registerAttribute(didSeed, checksum, [], url, sender.getId())
+      await didRegistry.registerAttribute(didSeed, checksum, [], url, sender)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
-      const txHash = await nftSalesTemplate.createAgreement(
+      const txReceipt = await nftSalesTemplate.createAgreement(
         agreementIdSeed,
         didZeroX(did),
         conditionIdSeeds,
@@ -118,37 +123,19 @@ describe('NFTSalesTemplate', () => {
         [receiver.getId()],
         sender,
       )
-      const tx = await nevermined.client.public.waitForTransactionReceipt({
-        hash: txHash.transactionHash,
-      })
-      assert.equal(tx.status, 'success')
+      assert.equal(txReceipt.status, 'success')
 
-      const logs = nftSalesTemplate.getTransactionLogs(tx, 'AgreementCreated')
+      const logs = nftSalesTemplate.getTransactionLogs(txReceipt, 'AgreementCreated')
       assert.isTrue(logs.length > 0)
-      const e = nftSalesTemplate.someLog(logs)
-      const _agreementId = e.args['_agreementId']
-      const _did = e.args['_did']
-      // logs.some((log) => {
-      //   // @ts-expect-error "viem, wtf?"
-      //   assert.equal(log.args['_agreementId'], zeroX(agreementId))
-      //   // @ts-expect-error "viem, wtf?"
-      //   assert.equal(log.args['_did'], didZeroX(did))
-      // })
-      // nftSalesTemplate.decodeLog(tx.logs)
-      // const event = tx.logs[0]
-      // event.
-      // const _agreementId = event.args['_agreementId']
-      //assert.isTrue(contractReceipt.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+      const event: Log = logs[0]
 
-      // const event: EventLog = contractReceipt.logs.find(
-      //   (e: EventLog) => e.eventName === 'AgreementCreated',
-      // ) as EventLog
-      // const { _agreementId, _did } = event.args
+      // @ts-ignore
+      const { _agreementId, _did } = event.args
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))
 
       const storedAgreement = await agreementStoreManager.getAgreement(agreementId)
-      assert.deepEqual(storedAgreement.conditionIds, conditionIds)
+      assert.deepEqual(storedAgreement.conditionIdSeeds, conditionIdSeeds)
 
       const conditionTypes = await nftSalesTemplate.getConditionTypes()
       await Promise.all(

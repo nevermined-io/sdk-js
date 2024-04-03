@@ -69,7 +69,7 @@ export abstract class ContractBase extends Instantiable {
 
   public getTransactionLogs(txReceipt: TransactionReceipt, eventName: string) {
     return parseEventLogs({
-      abi: this.contract.interface.abi,
+      abi: this.contract.abi,
       logs: txReceipt.logs,
       eventName,
       strict: false,
@@ -105,7 +105,13 @@ export abstract class ContractBase extends Instantiable {
     // receipt.transactionHash
     const tx = await this.client.public.waitForTransactionReceipt({ hash: receipt.transactionHash })
     if (tx.status !== 'success') {
-      this.logger.error('Transaction failed!', this.contractName, functionName, args, from.getAddress())
+      this.logger.error(
+        'Transaction failed!',
+        this.contractName,
+        functionName,
+        args,
+        from.getAddress(),
+      )
     }
     return receipt
   }
@@ -243,7 +249,7 @@ export abstract class ContractBase extends Instantiable {
     txparams: any,
     progress: (data: any) => void,
   ) {
-    const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)    
+    const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
     // Uncomment to debug contract calls
     // const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
     // console.debug(`Making contract call ....: ${name} - ${from}`)

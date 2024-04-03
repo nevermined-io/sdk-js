@@ -1,17 +1,20 @@
 import { assert } from 'chai'
-import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { Nevermined } from '@/src/nevermined'
-import { Token, ConditionSmall, AccessTemplate } from '@/src/keeper'
+
+import { AccessTemplate } from '@/keeper/contracts/templates'
+import { ConditionSmall } from '@/keeper/contracts/conditions/Condition.abstract'
+import { Token } from '@/keeper/contracts/Token'
 
 let template: AccessTemplate
 let condition: ConditionSmall
 let token: Token
 
-describe('AccessTemplate', () => {
+describe('Escrow AccessTemplate', () => {
   before(async () => {
-    const nevermined: Nevermined = await Nevermined.getInstance(config)
-    await TestContractHandler.prepareContracts()
+    const prepare = await TestContractHandler.prepareContracts()
+    const nevermined = prepare.nevermined
+    // deployer = prepare.deployerAccount
+
     template = nevermined.keeper.templates.accessTemplate
     ;({ token } = nevermined.keeper)
 

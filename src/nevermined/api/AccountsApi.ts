@@ -20,28 +20,23 @@ export class AccountsApi extends Instantiable {
   }
 
   /**
-   * Returns the list of accounts including the addresses not controlled by the node,
-   * only can be used by providers like metamask, Status or Trustwallet but not by default
-   * provider
+   * Returns the list of accounts (Local or Json-Rpc)
    * @returns The list of accounts.
    */
-  public async list(): Promise<NvmAccount[]> {
-    return (await this.addresses()).map((address) =>
-      NvmAccount.fromAddress(address as `0x${string}`),
-    )
+  public list(): NvmAccount[] {
+    return this.config.accounts
   }
 
   /**
-   * Returns the list of accounts including the addresses not controlled by the node,
+   * Returns the list of accounts (JSON-RPC),
    * only can be used by providers like metamask, Status or Trustwallet but not by default
    * provider
    * @returns The list of accounts.
    */
-  public async listAsLocalAccounts(): Promise<NvmAccount[]> {
-    const accounts: NvmAccount[] = []
-    const addresses = await this.addresses()
-    addresses.map((address) => accounts.push(this.findAccount(address)))
-    return accounts
+  public async listBrowserAccounts(): Promise<NvmAccount[]> {
+    return (await this.addresses()).map((address) =>
+      NvmAccount.fromAddress(address as `0x${string}`),
+    )
   }
 
   /**

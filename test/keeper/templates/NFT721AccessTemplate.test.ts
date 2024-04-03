@@ -1,17 +1,20 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined, NvmAccount, ConditionState } from '@/src'
-import { DIDRegistry } from '@/src/keeper'
+
+import TestContractHandler from '../TestContractHandler'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NFT721AccessTemplate } from '@/keeper/contracts/templates'
 import {
   AgreementStoreManager,
   ConditionStoreManager,
   TemplateStoreManager,
-  NFT721AccessTemplate,
-} from '@/src/keeper'
-import { didZeroX, zeroX, generateId } from '@/src/utils'
-import config from '../../config'
-import TestContractHandler from '../TestContractHandler'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
+} from '@/keeper/contracts/managers'
+import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
+import { NvmAccount } from '@/models/NvmAccount'
+import { generateId } from '@/common/helpers'
+import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import { Log } from 'viem'
+import { ConditionState } from '@/types/ContractTypes'
 
 chai.use(chaiAsPromised)
 
@@ -28,6 +31,7 @@ describe('NFT721AccessTemplate', () => {
   let conditionIdSeeds: string[]
   let timeLocks: number[]
   let timeOuts: number[]
+  let deployer: NvmAccount
   let sender: NvmAccount
   let receiver: NvmAccount
   let didSeed: string
@@ -35,8 +39,9 @@ describe('NFT721AccessTemplate', () => {
   const url = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    nevermined = await Nevermined.getInstance(config)
+    const prepare = await TestContractHandler.prepareContracts()
+    nevermined = prepare.nevermined
+    deployer = prepare.deployerAccount
     ;({ nft721AccessTemplate } = nevermined.keeper.templates)
     ;({ templateStoreManager, didRegistry, conditionStoreManager, agreementStoreManager } =
       nevermined.keeper)
@@ -44,7 +49,7 @@ describe('NFT721AccessTemplate', () => {
     timeLocks = [0, 0]
     timeOuts = [0, 0]
 
-    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, sender.getId())
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, deployer)
   })
 
   beforeEach(async () => {
@@ -84,8 +89,8 @@ describe('NFT721AccessTemplate', () => {
 
     it('should fail if DID is not registered', async () => {
       // propose and approve template
-      await templateStoreManager.proposeTemplate(nft721AccessTemplate.address)
-      await templateStoreManager.approveTemplate(nft721AccessTemplate.address)
+      await templateStoreManager.proposeTemplate(nft721AccessTemplate.address, deployer)
+      await templateStoreManager.approveTemplate(nft721AccessTemplate.address, deployer)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
       await assert.isRejected(
@@ -103,25 +108,24 @@ describe('NFT721AccessTemplate', () => {
     })
 
     it('should create agreement', async () => {
-      await didRegistry.registerAttribute(didSeed, checksum, [], url, sender.getId())
+      await didRegistry.registerAttribute(didSeed, checksum, [], url, sender)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
-      const contractReceipt: ContractTransactionReceipt =
-        await nft721AccessTemplate.createAgreement(
-          agreementIdSeed,
-          didZeroX(did),
-          conditionIdSeeds,
-          timeLocks,
-          timeOuts,
-          [receiver.getId()],
-          sender,
-        )
-      assert.equal(contractReceipt.status, 1)
-      assert.isTrue(contractReceipt.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+      const txReceipt = await nft721AccessTemplate.createAgreement(
+        agreementIdSeed,
+        didZeroX(did),
+        conditionIdSeeds,
+        timeLocks,
+        timeOuts,
+        [receiver.getId()],
+        sender,
+      )
 
-      const event: EventLog = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'AgreementCreated',
-      ) as EventLog
+      const logs = nft721AccessTemplate.getTransactionLogs(txReceipt, 'AgreementCreated')
+      assert.isTrue(logs.length > 0)
+      const event: Log = logs[0]
+
+      // @ts-ignore
       const { _agreementId, _did } = event.args
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))

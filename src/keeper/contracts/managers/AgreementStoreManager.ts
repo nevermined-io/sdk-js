@@ -41,12 +41,14 @@ export class AgreementStoreManager extends ContractBase {
 
   public async getAgreement(agreementId: string): Promise<AgreementData> {
     const templateId: string = await this.call('getAgreementTemplate', [zeroX(agreementId)])
+    const template = this.templates[templateId.toLowerCase()]
 
-    if (!this.templates[templateId]) {
-      throw new KeeperError(`Could not find template for agreementId: ${agreementId}`)
+    if (!template) {
+      throw new KeeperError(
+        `Could not find template for agreementId: ${agreementId} and templateId: ${templateId}`,
+      )
     }
-
-    const events = await this.templates[templateId].getAgreementCreatedEvent(agreementId)
+    const events = await template.getAgreementCreatedEvent(agreementId)
 
     if (!Array.isArray(events) || events.length == 0) {
       throw new KeeperError(`Could not find agreement with id: ${agreementId}`)

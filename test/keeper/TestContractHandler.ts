@@ -35,10 +35,13 @@ export default abstract class TestContractHandler extends ContractHandler {
 
     // deploy contracts
     await TestContractHandler.deployContracts(nvmAccount)
+    const nevermined = await Nevermined.getInstance(config)
+    //nevermined.keeper.agreementStoreManager.setTemplates(templates)
+
     return {
-      nevermined: await Nevermined.getInstance(config), //TestContractHandler.nvm,
+      nevermined,
       deployerAddress,
-      deployerAccount: nvmAccount
+      deployerAccount: nvmAccount,
     }
   }
 
@@ -247,61 +250,83 @@ export default abstract class TestContractHandler extends ContractHandler {
     )
 
     // Templates
-    await TestContractHandler.deployContract('AccessTemplate', nvmAccount, [
-      deployerAddress,
-      agreementStoreManager.address,
-      didRegistry.address,
-      accessCondition.address,
-      lockPaymentCondition.address,
-      escrowPaymentCondition.address,
-    ])
+    const templates = []
+    templates.push(
+      await TestContractHandler.deployContract('AccessTemplate', nvmAccount, [
+        deployerAddress,
+        agreementStoreManager.address,
+        didRegistry.address,
+        accessCondition.address,
+        lockPaymentCondition.address,
+        escrowPaymentCondition.address,
+      ]),
+    )
 
-    await TestContractHandler.deployContract('EscrowComputeExecutionTemplate', nvmAccount, [
-      deployerAddress,
-      agreementStoreManager.address,
-      didRegistry.address,
-      computeCondition.address,
-      lockPaymentCondition.address,
-      escrowPaymentCondition.address,
-    ])
+    templates.push(
+      await TestContractHandler.deployContract('EscrowComputeExecutionTemplate', nvmAccount, [
+        deployerAddress,
+        agreementStoreManager.address,
+        didRegistry.address,
+        computeCondition.address,
+        lockPaymentCondition.address,
+        escrowPaymentCondition.address,
+      ]),
+    )
 
-    await TestContractHandler.deployContract('DIDSalesTemplate', nvmAccount, [
-      deployerAddress,
-      agreementStoreManager.address,
-      lockPaymentCondition.address,
-      transferDidOwnershipCondition.address,
-      escrowPaymentCondition.address,
-    ])
+    templates.push(
+      await TestContractHandler.deployContract('DIDSalesTemplate', nvmAccount, [
+        deployerAddress,
+        agreementStoreManager.address,
+        lockPaymentCondition.address,
+        transferDidOwnershipCondition.address,
+        escrowPaymentCondition.address,
+      ]),
+    )
 
-    await TestContractHandler.deployContract('NFTAccessTemplate', nvmAccount, [
-      deployerAddress,
-      agreementStoreManager.address,
-      nftHolderCondition.address,
-      nftAcessCondition.address,
-    ])
+    templates.push(
+      await TestContractHandler.deployContract('NFTAccessTemplate', nvmAccount, [
+        deployerAddress,
+        agreementStoreManager.address,
+        nftHolderCondition.address,
+        nftAcessCondition.address,
+      ]),
+    )
 
-    await TestContractHandler.deployContract('NFT721AccessTemplate', nvmAccount, [
-      deployerAddress,
-      agreementStoreManager.address,
-      nft721HolderCondition.address,
-      nftAcessCondition.address,
-    ])
+    templates.push(
+      await TestContractHandler.deployContract('NFT721AccessTemplate', nvmAccount, [
+        deployerAddress,
+        agreementStoreManager.address,
+        nft721HolderCondition.address,
+        nftAcessCondition.address,
+      ]),
+    )
 
-    await TestContractHandler.deployContract('NFTSalesTemplate', nvmAccount, [
-      deployerAddress,
-      agreementStoreManager.address,
-      lockPaymentCondition.address,
-      transferNftCondition.address,
-      escrowPaymentCondition.address,
-    ])
+    templates.push(
+      await TestContractHandler.deployContract('NFTSalesTemplate', nvmAccount, [
+        deployerAddress,
+        agreementStoreManager.address,
+        lockPaymentCondition.address,
+        transferNftCondition.address,
+        escrowPaymentCondition.address,
+      ]),
+    )
 
-    await TestContractHandler.deployContract('NFT721SalesTemplate', nvmAccount, [
-      deployerAddress,
-      agreementStoreManager.address,
-      lockPaymentCondition.address,
-      transferNft721Condition.address,
-      escrowPaymentCondition.address,
-    ])
+    templates.push(
+      await TestContractHandler.deployContract('NFT721SalesTemplate', nvmAccount, [
+        deployerAddress,
+        agreementStoreManager.address,
+        lockPaymentCondition.address,
+        transferNft721Condition.address,
+        escrowPaymentCondition.address,
+      ]),
+    )
+    const templateObj: any = {}
+    for (const i of templates) {
+      templateObj[i.address] = i
+    }
+    // txHash = await didRegistry.write.setNFT1155({ args: [erc1155.address], account })
+
+    return { templates: templateObj }
   }
 
   public static async findNvmAccount(
@@ -352,9 +377,9 @@ export default abstract class TestContractHandler extends ContractHandler {
         tokens,
         init,
       )
-      Logger.debug(
-        `Contract ${name} deployed on network ${where} with address ${contractInstance.address}`,
-      )
+      // Logger.debug(
+      //   `Contract ${name} deployed on network ${where} with address ${contractInstance.address}`,
+      // )
       ContractHandler.setContract(name, where, contractInstance, undefined, artifact.version)
     } catch (err) {
       Logger.error(
