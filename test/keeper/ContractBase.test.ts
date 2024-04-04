@@ -10,8 +10,8 @@ let accounts: NvmAccount[]
 describe('ContractWrapperBase', () => {
   before(async () => {
     const deployer = await TestContractHandler.prepareContracts()
-    const nevermined = deployer.nevermined    
-    
+    const nevermined = deployer.nevermined
+
     wrappedContract = new ContractBaseMock('NeverminedToken')
     accounts = await nevermined.accounts.list()
     wrappedContract = new ContractBaseMock('NeverminedToken')

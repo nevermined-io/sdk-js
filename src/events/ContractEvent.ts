@@ -35,12 +35,12 @@ export class ContractEvent extends NeverminedEvent {
       eventName: options.eventName,
       args,
       fromBlock: options.fromBlock,
-      toBlock: options.toBlock
+      toBlock: options.toBlock,
     })
 
     // const eventFilter = this.contract.contract.filters[options.eventName](...args)
 
-    // const logs = await publicClient.getContractEvents({ 
+    // const logs = await publicClient.getContractEvents({
     //   address: usdcContractAddress,
     //   abi: erc20Abi,
     //   eventName: 'Transfer',
@@ -86,7 +86,7 @@ export class ContractEvent extends NeverminedEvent {
   }
 
   private filterToArgs(eventName: string, filter: FilterContractEvent): Array<any> {
-    const signature = searchAbiEvent(this.contract.contract.abi, eventName)    
+    const signature = searchAbiEvent(this.contract.contract.abi, eventName)
     return signature.inputs.filter((i) => i.indexed).map((i) => filter[i.name])
   }
 }

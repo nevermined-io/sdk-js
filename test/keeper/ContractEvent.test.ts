@@ -4,7 +4,6 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { Nevermined } from '@/nevermined/Nevermined'
 import { ContractEventSubscription } from '@/types/EventTypes'
 
-
 describe('ContractEvent', () => {
   let nevermined: Nevermined
   let account1: NvmAccount
@@ -55,8 +54,8 @@ describe('ContractEvent', () => {
 
   describe('#once()', () => {
     it('should listen to event only once', async () => {
-      const fromBlock = await nevermined.client.public.getBlockNumber()      
-      
+      const fromBlock = await nevermined.client.public.getBlockNumber()
+
       const eventsPromise = nevermined.keeper.token.events.once(nevermined.client, (e) => e, {
         eventName: 'Transfer',
         filterJsonRpc: { to: account4.getId() },

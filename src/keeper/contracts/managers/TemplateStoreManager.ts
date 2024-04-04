@@ -70,7 +70,7 @@ export class TemplateStoreManager extends ContractBase {
   }
 
   public async getTemplate(templateId: string) {
-    const t: any = await this.call('getTemplate', [zeroX(templateId)])    
+    const t: any = await this.call('getTemplate', [zeroX(templateId)])
     return {
       state: Number(t[0]),
       owner: t[1],

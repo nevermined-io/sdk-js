@@ -1,10 +1,8 @@
-// import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
-// const zerodev = await import('@zerodev/sdk')
 import { Account, LocalAccount, toHex } from 'viem'
 import { NvmAccountError } from '@/errors/NeverminedErrors'
 import { NvmAccountType } from '@/types/AccountTypes'
 import { parseAccount } from 'viem/utils'
-import { KernelSmartAccount } from '@zerodev/sdk/accounts'
+import { KernelSmartAccount } from '@zerodev/sdk'
 
 /**
  * Account information.
@@ -50,7 +48,7 @@ export class NvmAccount {
    * @returns The nevermined account
    */
   static async fromZeroDevSigner(
-    signer: KernelSmartAccount // | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
+    signer: KernelSmartAccount, // | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
   ): Promise<NvmAccount> {
     const address = signer.address
     const account = new NvmAccount(address, { signerType: 'zerodev', isZeroDev: true })

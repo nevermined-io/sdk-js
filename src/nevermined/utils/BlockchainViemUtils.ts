@@ -159,9 +159,9 @@ export function searchAbiFunction(abi: Abi, funcName: string, args: any[] = []):
 }
 
 export function searchAbiEvent(abi: Abi, eventName: string): AbiEvent {
-  const event = getAbiItem({ 
-    abi, 
-    name: eventName, 
+  const event = getAbiItem({
+    abi,
+    name: eventName,
   })
   if (!event || event.type !== 'event') {
     throw new KeeperError(`Event "${event}" is not part of contract`)
