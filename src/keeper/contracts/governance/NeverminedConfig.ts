@@ -47,7 +47,7 @@ export class NeverminedConfig extends ContractBase {
   public async setNetworkFees(
     networkFee: number,
     feeReceiver: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom('setMarketplaceFees', [networkFee, feeReceiver], from, txParams)

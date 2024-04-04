@@ -72,7 +72,7 @@ export abstract class ConditionSmall extends ContractBase {
     ]
   }
 
-  public abortByTimeOut(conditionId: string, from?: NvmAccount, params?: TxParameters) {
+  public abortByTimeOut(conditionId: string, from: NvmAccount, params?: TxParameters) {
     return this.sendFrom('abortByTimeOut', [zeroX(conditionId)], from, params)
   }
 
@@ -139,7 +139,7 @@ export abstract class Condition<
   public async fulfillInstance(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
     method: ConditionMethod = 'fulfill',
   ) {
@@ -156,7 +156,7 @@ export abstract class Condition<
   public abstract fulfillWithNode(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   )
 
@@ -183,7 +183,7 @@ export abstract class ProviderCondition<
   public async fulfillWithNode(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom(
@@ -206,7 +206,7 @@ export abstract class ConsumerCondition<
   public async fulfillWithNode(
     _cond: ConditionInstance<Extra>,
     _additionalParams: Extra,
-    _from?: NvmAccount,
+    _from: NvmAccount,
     _txParams?: TxParameters,
   ) {
     return

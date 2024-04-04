@@ -127,16 +127,6 @@ describe('NFTAccessCondition', () => {
         owner,
       )
 
-      // await agreementStoreManager.createAgreement(
-      //   agreementId,
-      //   did,
-      //   [nftAccessCondition.address],
-      //   [hashValues],
-      //   [0],
-      //   [2],
-      //   grantee,
-      // )
-
       const txReceipt = await nftAccessCondition.fulfill(agreementId, did, grantee.getId(), owner)
 
       const { state } = await conditionStoreManager.getCondition(accessConditionId)

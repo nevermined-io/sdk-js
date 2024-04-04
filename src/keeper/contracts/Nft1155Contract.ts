@@ -4,7 +4,7 @@ import { EventHandler } from '@/events/EventHandler'
 import { ContractHandler } from '@/keeper/ContractHandler'
 import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
-import { getContractInstance } from '@/nevermined/utils/BlockchainViemUtils'
+import { didToTokenId, getContractInstance } from '@/nevermined/utils/BlockchainViemUtils'
 import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 import { NFTContractsBase } from './NFTContractsBase'
 import { hexToBigInt } from 'viem/utils'
@@ -161,7 +161,7 @@ export class Nft1155Contract extends NFTContractsBase {
     data?: string,
     txParams?: TxParameters,
   ) {
-    const args: any[] = [to, hexToBigInt(didZeroX(did), { size: 32 }), amount, data || '0x']
+    const args: any[] = [to, didToTokenId(did), amount, data || '0x']
     return this.send('mint', from, args, txParams)
   }
 

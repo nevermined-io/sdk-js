@@ -63,7 +63,7 @@ export class NFT721LockCondition extends ProviderCondition<NFT721LockConditionCo
     lockAddress: string,
     amount: number,
     nftContractAddress: string,
-    from?: NvmAccount,
+    from: NvmAccount,
   ) {
     return super.fulfillPlain(
       agreementId,

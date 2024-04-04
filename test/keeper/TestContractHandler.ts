@@ -190,6 +190,12 @@ export default abstract class TestContractHandler extends ContractHandler {
       throw new Error('Error calling "grantOperatorRole" on "erc1155" - nftLockCondition')
     }
 
+    await TestContractHandler.deployContract(
+      'NFT721LockCondition',
+      nvmAccount,
+      [deployerAddress, conditionStoreManager.address],
+    )
+
     const nftAcessCondition = await TestContractHandler.deployContract(
       'NFTAccessCondition',
       nvmAccount,
@@ -353,7 +359,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     return await Promise.all((config.accounts || []).map((a) => a.getAddress()))
   }
 
-  private static async deployContract(
+  public static async deployContract(
     name: string,
     nvmAccount: NvmAccount,
     args: any[] = [],

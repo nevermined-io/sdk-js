@@ -29,7 +29,7 @@ export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext>
    * @returns Hash of all the values.
    */
   public params(did: string, rewardAddress: string, amount: number) {
-    return super.params(didZeroX(did), zeroX(rewardAddress), String(amount))
+    return super.params(didZeroX(did), zeroX(rewardAddress), amount)
   }
 
   public async paramsFromDDO({ ddo, rewardAddress, amount }: NFTLockConditionContext) {
@@ -51,7 +51,7 @@ export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext>
     did: string,
     rewardAddress: string,
     amount: bigint,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(

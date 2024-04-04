@@ -1,14 +1,17 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined } from '@/src/nevermined'
-import { NvmAccount, ConditionState, ContractHandler } from '@/src'
-import { NFT721LockCondition, ConditionStoreManager } from '@/src/keeper'
-import { didZeroX, zeroX, generateId } from '@/src/utils'
-import config from '../../config'
+
+import { ConditionStoreManager, DIDRegistry } from '@/keeper'
+
 import TestContractHandler from '../TestContractHandler'
-import { NFT721Api } from '@/src'
-import { DIDRegistry } from '@/src/keeper'
-import { EventLog } from 'ethers'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NFT721Api } from '@/nevermined/api'
+import { NvmAccount } from '@/models/NvmAccount'
+import { generateId } from '@/common/helpers'
+import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import { NFT721LockCondition } from '@/keeper/contracts/conditions/NFTs/NFT721LockCondition'
+import { ConditionState } from '@/types/ContractTypes'
+import { Log } from 'viem'
 
 chai.use(chaiAsPromised)
 
@@ -29,32 +32,29 @@ describe('NFT721LockCondition', () => {
   const amount = 10
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    nevermined = await Nevermined.getInstance(config)
+    const prepare = await TestContractHandler.prepareContracts()
+    nevermined = prepare.nevermined
+
     ;({ nft721LockCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry } = nevermined.keeper)
-    ;[owner, lockAddress] = await nevermined.accounts.list()
+    ;[owner, lockAddress] = nevermined.accounts.list()
 
-    const networkName = await nevermined.keeper.getNetworkName()
+    console.log(`NFT721LockCondition`, nft721LockCondition)
 
-    //await TestContractHandler.getABI(
-    const erc721ABI = ContractHandler.getABIArtifact(
-      'NFT721Upgradeable',
-      config.artifactsFolder,
-      networkName,
-    )
+    _nftContract = await TestContractHandler.deployContract('NFT721Upgradeable', owner, [
+        owner.getId(),
+        didRegistry.address,
+        'NFT721',
+        'NVM',
+        '',
+        0,
+        nevermined.keeper.nvmConfig.address
+      ])
+    console.log(`NFT721Upgradeable contract deployed on: ${_nftContract.address}`)
 
-    _nftContract = await TestContractHandler.deployArtifact(erc721ABI, owner.getId(), [
-      owner.getId(),
-      didRegistry.address,
-      'NFT721',
-      'NVM',
-      '',
-      0,
-    ])
-    nft721Wrapper = await nevermined.contracts.loadNft721(await _nftContract.getAddress())
+    nft721Wrapper = await nevermined.contracts.loadNft721(_nftContract.address)
     nftContractAddress = nft721Wrapper.address
-    await nft721Wrapper.nftContract.grantOperatorRole(nft721LockCondition.address)
+    await nft721Wrapper.nftContract.grantOperatorRole(nft721LockCondition.address, owner)
   })
 
   beforeEach(async () => {
@@ -91,7 +91,7 @@ describe('NFT721LockCondition', () => {
       )
       const conditionId = await nft721LockCondition.generateId(agreementId, hashValues)
       await conditionStoreManager.createCondition(conditionId, nft721LockCondition.address, owner)
-      const contractReceipt = await nft721LockCondition.fulfill(
+      const txReceipt = await nft721LockCondition.fulfill(
         agreementId,
         did,
         lockAddress.getId(),
@@ -104,18 +104,19 @@ describe('NFT721LockCondition', () => {
       const nftBalance = await nft721Wrapper.balanceOf(lockAddress)
       assert.equal(nftBalance, 1n)
 
-      const event: EventLog = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'Fulfilled',
-      ) as EventLog
-      const { _agreementId, _did, _lockAddress, _conditionId, _amount, _nftContractAddress } =
-        event.args
+      const logs = nft721LockCondition.getTransactionLogs(txReceipt, 'Fulfilled')
+      assert.isTrue(logs.length > 0)
+
+      const event: Log = logs[0]
+      // @ts-ignore
+      const { _agreementId, _did, _lockAddress, _conditionId, _amount, _nftContractAddress } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))
       assert.equal(_conditionId, conditionId)
       assert.equal(_lockAddress, lockAddress.getId())
       assert.equal(Number(_amount), 1)
-      assert.equal(_nftContractAddress, nftContractAddress)
+      assert.equal(_nftContractAddress.toLowerCase(), nftContractAddress.toLowerCase())
     })
   })
 
@@ -123,7 +124,7 @@ describe('NFT721LockCondition', () => {
     it('should not fulfill if conditions do not exist', async () => {
       await nft721LockCondition.hashValues(did, lockAddress.getId(), 1, nftContractAddress)
       await assert.isRejected(
-        nft721LockCondition.fulfill(agreementId, did, lockAddress.getId(), 1, nftContractAddress),
+        nft721LockCondition.fulfill(agreementId, did, lockAddress.getId(), 1, nftContractAddress, owner),
         /Condition doesnt exist/,
       )
     })
@@ -144,12 +145,13 @@ describe('NFT721LockCondition', () => {
         lockAddress.getId(),
         1,
         nftContractAddress,
+        owner
       )
       let { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
 
       await assert.isRejected(
-        nft721LockCondition.fulfill(agreementId, did, lockAddress.getId(), 1, nftContractAddress),
+        nft721LockCondition.fulfill(agreementId, did, lockAddress.getId(), 1, nftContractAddress, owner),
         undefined,
       )
       ;({ state } = await conditionStoreManager.getCondition(conditionId))

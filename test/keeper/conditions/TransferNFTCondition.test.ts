@@ -202,9 +202,6 @@ describe('TransferNFTCondition', () => {
 
       const event: Log = logs[0]
 
-      // const event: EventLog = txReceipt.logs.find(
-      //   (e: EventLog) => e.eventName === 'Fulfilled',
-      // ) as EventLog
       // @ts-ignore
       const { _agreementId, _did, _receiver, _conditionId, _amount } = event.args
 

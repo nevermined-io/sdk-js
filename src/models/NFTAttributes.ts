@@ -7,7 +7,6 @@ import {
 import { AssetAttributes } from '@/models/AssetAttributes'
 import { NFTError } from '@/errors/NeverminedErrors'
 import { ChargeType, ServiceType } from '@/types/DDOTypes'
-import { jsonReplacer } from '@/common/helpers'
 import { RoyaltyAttributes } from '@/nevermined/api/AssetsApi'
 
 export class NFTServiceAttributes {
@@ -136,30 +135,33 @@ export class NFTServiceAttributes {
   static configureServicesAttributes(
     nftAttributes: Partial<NFTAttributes>,
   ): Partial<NFTAttributes> {
-    nftAttributes.services = nftAttributes.services.map((service) => {
-      if (!service.nft) service.nft = {}
-      // We setup a default value if the amount is not defined but keep it if it's 0
-      if (service.nft.amount === undefined) service.nft.amount = this.defaultValues.amount
-
-      if (service.serviceType === 'nft-access') {
-        if (!service.nft.minCreditsToCharge) service.nft.minCreditsToCharge = service.nft.amount
-        if (!service.nft.maxCreditsToCharge) service.nft.maxCreditsToCharge = service.nft.amount
-        if (!service.nft.minCreditsRequired)
-          service.nft.minCreditsRequired = service.nft.minCreditsToCharge
-
-        if (
-          service.nft.amount < service.nft.minCreditsToCharge ||
-          service.nft.amount > service.nft.maxCreditsToCharge
-        )
-          throw new NFTError(
-            `The amount of credits to consume ${service.nft.amount} is not between the min credits charged ${service.nft.minCreditsToCharge} and the max credits charged ${service.nft.maxCreditsToCharge}`,
+    if (nftAttributes.services) {
+      nftAttributes.services = nftAttributes.services.map((service) => {
+        if (!service.nft) service.nft = {}
+        // We setup a default value if the amount is not defined but keep it if it's 0
+        if (service.nft.amount === undefined) service.nft.amount = this.defaultValues.amount
+  
+        if (service.serviceType === 'nft-access') {
+          if (!service.nft.minCreditsToCharge) service.nft.minCreditsToCharge = service.nft.amount
+          if (!service.nft.maxCreditsToCharge) service.nft.maxCreditsToCharge = service.nft.amount
+          if (!service.nft.minCreditsRequired)
+            service.nft.minCreditsRequired = service.nft.minCreditsToCharge
+  
+          if (
+            service.nft.amount < service.nft.minCreditsToCharge ||
+            service.nft.amount > service.nft.maxCreditsToCharge
           )
-      } else if (service.serviceType === 'nft-sales') {
-        if (nftAttributes.ercType == 721) service.nft.amount = 1n
-      }
-      return service
-    })
-    console.log(`NFT Attributes: ${JSON.stringify(nftAttributes.services, jsonReplacer, 2)}`)
+            throw new NFTError(
+              `The amount of credits to consume ${service.nft.amount} is not between the min credits charged ${service.nft.minCreditsToCharge} and the max credits charged ${service.nft.maxCreditsToCharge}`,
+            )
+        } else if (service.serviceType === 'nft-sales') {
+          if (nftAttributes.ercType == 721) service.nft.amount = 1n
+        }
+        return service
+      })
+    }
+
+    //console.log(`NFT Attributes: ${JSON.stringify(nftAttributes.services, jsonReplacer, 2)}`)
     return nftAttributes
   }
 }

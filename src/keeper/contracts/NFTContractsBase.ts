@@ -77,7 +77,7 @@ export class NFTContractsBase extends ContractBase {
    * @param from - Sender account
    * @returns Contract Receipt
    */
-  public grantOperatorRole(operatorAddress: string, from?: NvmAccount, txParams?: TxParameters) {
+  public grantOperatorRole(operatorAddress: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('grantOperatorRole', [zeroX(operatorAddress)], from, txParams)
   }
 

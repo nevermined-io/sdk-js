@@ -46,7 +46,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     tokenAddress: string,
     amounts: bigint[],
     receivers: string[],
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     // const amountsString = amounts.map((v) => v.toString())

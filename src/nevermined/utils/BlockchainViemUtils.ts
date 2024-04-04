@@ -1,6 +1,7 @@
 import { Instantiable, InstantiableConfig, Web3Clients } from '@/Instantiable.abstract'
 import { KeeperError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
+import { didZeroX } from '@/utils/ConversionTypeHelpers'
 import {
   Abi,
   AbiEvent,
@@ -21,6 +22,7 @@ import {
   toHex,
   toBytes,
   stringToHex,
+  hexToBigInt,
 } from 'viem'
 import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
 
@@ -123,12 +125,12 @@ export async function deployContractInstance(
   return contract
 }
 
-export async function getContractInstance(address: string, abi: Abi) {
+export async function getContractInstance(address: string, abi: Abi, client: Web3Clients) {
   return getContract({
     abi,
     address: address as `0x${string}`,
     // @ts-expect-error "viem, wtf?"
-    client: { wallet: this.client.wallet, public: this.client.public },
+    client: { wallet: client.wallet, public:client.public },
   })
 }
 
@@ -192,6 +194,10 @@ export function getInputsOfFunctionFormatted(abi: Abi, funcName: string, args: a
 }
 
 //////// UTILS
+
+export function didToTokenId(did: string): bigint {
+  return hexToBigInt(didZeroX(did), { size: 32 })
+}
 
 export function getChecksumAddress(address: string): string {
   return getAddress(address)

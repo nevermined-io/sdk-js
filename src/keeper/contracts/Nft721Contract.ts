@@ -5,7 +5,7 @@ import { NFTContractsBase } from './NFTContractsBase'
 import { ContractHandler } from '@/keeper/ContractHandler'
 import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
-import { getContractInstance } from '@/nevermined/utils/BlockchainViemUtils'
+import { didToTokenId, getContractInstance } from '@/nevermined/utils/BlockchainViemUtils'
 import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 
 export class Nft721Contract extends NFTContractsBase {
@@ -30,8 +30,8 @@ export class Nft721Contract extends NFTContractsBase {
     )
 
     console.log(`Checking Address =${address}=`)
-    nft.contract = await getContractInstance(address, solidityABI.abi)
-    nft.address = await nft.contract.getAddress()
+    nft.contract = await getContractInstance(address, solidityABI.abi, nft.nevermined.client)
+    nft.address = address as `0x${string}`
 
     return nft
   }
@@ -49,7 +49,7 @@ export class Nft721Contract extends NFTContractsBase {
     const eventEmitter = new EventHandler()
     nft.events = ContractEvent.getInstance(nft, eventEmitter) //, config.nevermined, nft.client)
 
-    nft.contract = await getContractInstance(address, solidityABI.abi)
+    nft.contract = await getContractInstance(address, solidityABI.abi, nft.client)
     nft.address = await nft.contract.getAddress()
 
     return nft
@@ -79,7 +79,7 @@ export class Nft721Contract extends NFTContractsBase {
   }
 
   public async mint(did: string, from: NvmAccount, txParams?: TxParameters) {
-    return this.send('mint', from, [didZeroX(did)], txParams)
+    return this.send('mint', from, [didToTokenId(did)], txParams)
   }
 
   public async mintWithURL(
@@ -89,7 +89,7 @@ export class Nft721Contract extends NFTContractsBase {
     from?: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.sendFrom('mint', [to, didZeroX(did), url], from, txParams)
+    return this.sendFrom('mint', [to, didToTokenId(did), url], from, txParams)
   }
 
   /**

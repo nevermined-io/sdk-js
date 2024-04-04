@@ -1,27 +1,34 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { NvmAccount, ConditionState, Nevermined, NeverminedNFT1155Type, NFTAttributes } from '@/src'
 import {
   NFTHolderCondition,
   Nft1155Contract,
   DIDRegistry,
   ConditionStoreManager,
-} from '@/src/keeper'
-import { didZeroX, zeroX, generateId } from '@/src/utils'
-import config from '../../config'
+} from '@/keeper'
 import TestContractHandler from '../TestContractHandler'
-import { EventLog } from 'ethers'
+import { NvmAccount } from '@/models/NvmAccount'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { generateId } from '@/common/helpers'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { NeverminedNFT1155Type } from '@/types/GeneralTypes'
+import { ConditionState } from '@/types/ContractTypes'
+import { Log } from 'viem'
+import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+
 
 chai.use(chaiAsPromised)
 
 describe('NFTHolderCondition', () => {
+  let nevermined: Nevermined
+
   let nftHolderCondition: NFTHolderCondition
   let conditionStoreManager: ConditionStoreManager
   let didRegistry: DIDRegistry
   let nftUpgradeable: Nft1155Contract
   let holder: NvmAccount
   let owner: NvmAccount
-
+  let deployer: NvmAccount
   let agreementId: string
   let checksum: string
   let didSeed: string
@@ -30,13 +37,15 @@ describe('NFTHolderCondition', () => {
   const amount = 10n
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    const nevermined = await Nevermined.getInstance(config)
+    const prepare = await TestContractHandler.prepareContracts()
+    nevermined = prepare.nevermined
+    deployer = prepare.deployerAccount
+
     ;({ nftHolderCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, nftUpgradeable } = nevermined.keeper)
     ;[owner, holder] = await nevermined.accounts.list()
 
-    await conditionStoreManager.delegateCreateRole(owner.getId(), owner.getId())
+    await conditionStoreManager.delegateCreateRole(owner.getId(), deployer)
   })
 
   beforeEach(async () => {
@@ -86,28 +95,36 @@ describe('NFTHolderCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
         activityId,
       )
 
-      await nftUpgradeable.mint(holder.getId(), did, 10n, owner.getId())
+      await nftUpgradeable.mint(holder.getId(), did, 10n, owner)
 
-      const contractReceipt = await nftHolderCondition.fulfill(
+      const txReceipt = await nftHolderCondition.fulfill(
         agreementId,
         did,
         holder.getId(),
         amount,
         nftUpgradeable.address,
+        owner
       )
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
 
-      const event: EventLog = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'Fulfilled',
-      ) as EventLog
+      // const event: EventLog = txReceipt.logs.find(
+      //   (e: EventLog) => e.eventName === 'Fulfilled',
+      // ) as EventLog
+
+      const logs = nftHolderCondition.getTransactionLogs(txReceipt, 'Fulfilled')
+      assert.isTrue(logs.length > 0)
+
+      const event: Log = logs[0]
+
+      // @ts-ignore
       const { _agreementId, _did, _address, _conditionId, _amount } = event.args
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))
@@ -132,14 +149,14 @@ describe('NFTHolderCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
         activityId,
       )
       const did = await didRegistry.hashDID(didSeed, owner.getId())
-      await nftUpgradeable.mint(holder.getId(), did, 10n, owner.getId())
+      await nftUpgradeable.mint(holder.getId(), did, 10n, owner)
 
       await assert.isRejected(
         nftHolderCondition.fulfill(
@@ -148,6 +165,7 @@ describe('NFTHolderCondition', () => {
           holder.getId(),
           amount,
           nftUpgradeable.address,
+          owner
         ),
         /Condition doesnt exist/,
       )
@@ -176,14 +194,14 @@ describe('NFTHolderCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
         activityId,
       )
 
-      await nftUpgradeable.mint(holder.getId(), did, 1n, owner.getId())
+      await nftUpgradeable.mint(holder.getId(), did, 1n, owner)
 
       await assert.isRejected(
         nftHolderCondition.fulfill(
@@ -192,6 +210,7 @@ describe('NFTHolderCondition', () => {
           holder.getId(),
           amount,
           nftUpgradeable.address,
+          owner
         ),
         /The holder doesnt have enough NFT balance for the did given/,
       )

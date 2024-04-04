@@ -16,6 +16,7 @@ import {
 } from './Provenance'
 import { AssetError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
+
 export class DIDRegistry extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {
     const didRegistry: DIDRegistry = new DIDRegistry('DIDRegistry')

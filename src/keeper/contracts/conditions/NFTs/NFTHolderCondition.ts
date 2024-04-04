@@ -82,12 +82,12 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
     holderAddress: string,
     amount: bigint,
     nftContractAddress: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(
       agreementId,
-      [didZeroX(did), zeroX(holderAddress), String(amount), zeroX(nftContractAddress)],
+      [didZeroX(did), zeroX(holderAddress), amount, zeroX(nftContractAddress)],
       from,
       txParams,
     )
