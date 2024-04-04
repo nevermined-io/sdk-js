@@ -1,4 +1,4 @@
-import { BlockTag } from "viem"
+import { BlockTag } from 'viem'
 
 export interface FilterContractEvent {
   [key: string]: number | string | string[] | number[]

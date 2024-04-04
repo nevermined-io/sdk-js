@@ -116,10 +116,8 @@ export class DIDRegistry extends ContractBase {
         zeroX(checksum),
         providers.map(zeroX),
         url,
-        String(nftAttributes.cap),
-        nftAttributes.royaltyAttributes?.amount > 0
-          ? String(nftAttributes.royaltyAttributes?.amount)
-          : '0',
+        nftAttributes.cap,
+        nftAttributes.royaltyAttributes?.amount > 0 ? nftAttributes.royaltyAttributes?.amount : 0,
         nftAttributes.preMint,
         zeroPadValue(activityId as `0x${string}`, 32),
         nftAttributes.nftMetadataUrl || '',

@@ -1,20 +1,24 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { NvmAccount, ConditionState, Nevermined, NeverminedNFT1155Type, NFTAttributes } from '@/src'
 import {
   DIDRegistry,
-  Token,
-  Nft1155Contract,
-  EscrowPaymentCondition,
-  LockPaymentCondition,
-  TransferNFTCondition,
   ConditionStoreManager,
-} from '@/src/keeper'
-import { didZeroX, ZeroAddress, zeroX, generateId } from '@/src/utils'
-import config from '../../config'
+  TransferNFTCondition,
+  LockPaymentCondition,
+  EscrowPaymentCondition,
+  Nft1155Contract,
+  Token,
+} from '@/keeper'
+import { didZeroX, zeroX } from '@/utils'
 import TestContractHandler from '../TestContractHandler'
-import { EventLog } from 'ethers'
-
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { generateId } from '@/common/helpers'
+import { Log } from 'viem'
+import { ConditionState } from '@/types/ContractTypes'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { NeverminedNFT1155Type } from '@/types/GeneralTypes'
+import { ZeroAddress } from '@/constants/AssetConstants'
 chai.use(chaiAsPromised)
 
 describe('TransferNFTCondition', () => {
@@ -27,6 +31,7 @@ describe('TransferNFTCondition', () => {
   let nftUpgradeable: Nft1155Contract
   let token: Token
 
+  let deployer: NvmAccount
   let nftReceiver: NvmAccount
   let owner: NvmAccount
   let other: NvmAccount
@@ -42,15 +47,16 @@ describe('TransferNFTCondition', () => {
   const amounts = [10n]
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    nevermined = await Nevermined.getInstance(config)
+    const prepare = await TestContractHandler.prepareContracts()
+    nevermined = prepare.nevermined
+    deployer = prepare.deployerAccount
     ;({ transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
       nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, token, nftUpgradeable } = nevermined.keeper)
     ;[owner, nftReceiver, other] = await nevermined.accounts.list()
     receivers = [nftReceiver.getId()]
 
-    await conditionStoreManager.delegateCreateRole(owner.getId(), owner.getId())
+    await conditionStoreManager.delegateCreateRole(owner.getId(), deployer)
   })
 
   beforeEach(async () => {
@@ -63,6 +69,12 @@ describe('TransferNFTCondition', () => {
     it('should hash the values', async () => {
       const conditionId = generateId()
       const did = await didRegistry.hashDID(didSeed, nftReceiver.getId())
+      console.log(`DID: ${did}`)
+      console.log(`owner: ${owner.getId()}`)
+      console.log(`nftReceiver: ${nftReceiver.getId()}`)
+      console.log(`nftAmount: ${nftAmount}`)
+      console.log(`conditionId: ${zeroX(conditionId)}`)
+
       const hash = await transferNftCondition.hashValues(
         did,
         owner.getId(),
@@ -138,7 +150,7 @@ describe('TransferNFTCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
@@ -173,20 +185,27 @@ describe('TransferNFTCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, transferNftCondition.address, owner)
 
-      const contractReceipt = await transferNftCondition.fulfill(
+      const txReceipt = await transferNftCondition.fulfill(
         agreementId,
         did,
         nftReceiver.getId(),
         nftAmount,
         nftUpgradeable.address,
         conditionIdPayment,
+        owner,
       )
       ;({ state } = await conditionStoreManager.getCondition(conditionId))
       assert.equal(state, ConditionState.Fulfilled)
 
-      const event: EventLog = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'Fulfilled',
-      ) as EventLog
+      const logs = transferNftCondition.getTransactionLogs(txReceipt, 'Fulfilled')
+      assert.isTrue(logs.length > 0)
+
+      const event: Log = logs[0]
+
+      // const event: EventLog = txReceipt.logs.find(
+      //   (e: EventLog) => e.eventName === 'Fulfilled',
+      // ) as EventLog
+      // @ts-ignore
       const { _agreementId, _did, _receiver, _conditionId, _amount } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))
@@ -242,7 +261,7 @@ describe('TransferNFTCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
@@ -250,7 +269,9 @@ describe('TransferNFTCondition', () => {
       )
       await nevermined.nfts1155.mint(did, nftAmount, owner.getId(), owner)
 
-      await lockPaymentCondition.fulfill(
+      console.log('Locking Amount: ', amounts)
+
+      const condReceipt = await lockPaymentCondition.fulfill(
         agreementId,
         did,
         escrowPaymentCondition.address,
@@ -258,8 +279,11 @@ describe('TransferNFTCondition', () => {
         amounts,
         receivers,
         nftReceiver,
-        { value: amounts[0].toString() },
+        { value: amounts[0] },
       )
+
+      console.log('Lock Condition Receipt: ', condReceipt)
+      assert.equal(condReceipt.status, 'success')
 
       let { state } = await conditionStoreManager.getCondition(conditionIdPayment)
       assert.equal(state, ConditionState.Fulfilled)
@@ -276,20 +300,26 @@ describe('TransferNFTCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, transferNftCondition.address, owner)
 
-      const contractReceipt = await transferNftCondition.fulfill(
+      const txReceipt = await transferNftCondition.fulfill(
         agreementId,
         did,
         nftReceiver.getId(),
         nftAmount,
         nftUpgradeable.address,
         conditionIdPayment,
+        owner,
       )
       ;({ state } = await conditionStoreManager.getCondition(conditionId))
       assert.equal(state, ConditionState.Fulfilled)
 
-      const event: EventLog = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'Fulfilled',
-      ) as EventLog
+      // const event: EventLog = txReceipt.logs.find(
+      //   (e: EventLog) => e.eventName === 'Fulfilled',
+      // ) as EventLog
+      const logs = transferNftCondition.getTransactionLogs(txReceipt, 'Fulfilled')
+      assert.isTrue(logs.length > 0)
+      // console.log(JSON.stringify(logs, jsonReplacer))
+      const event: Log = logs[0]
+      // @ts-ignore
       const { _agreementId, _did, _receiver, _conditionId, _amount } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))
@@ -345,7 +375,7 @@ describe('TransferNFTCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
@@ -388,9 +418,9 @@ describe('TransferNFTCondition', () => {
           nftAmount,
           nftUpgradeable.address,
           conditionIdPayment,
+          other,
           true,
           0,
-          other,
         ),
       )
 
@@ -403,6 +433,7 @@ describe('TransferNFTCondition', () => {
           nftAmount,
           nftUpgradeable.address,
           conditionIdPayment,
+          owner,
         ),
       )
 
@@ -416,6 +447,7 @@ describe('TransferNFTCondition', () => {
           nftAmount,
           nftUpgradeable.address,
           invalidConditionId,
+          owner,
         ),
       )
 
@@ -429,6 +461,7 @@ describe('TransferNFTCondition', () => {
           nftAmount,
           nftUpgradeable.address,
           conditionIdPayment,
+          owner,
         ),
       )
     })

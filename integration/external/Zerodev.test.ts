@@ -1,9 +1,9 @@
 // TODO: Enable when ZeroDev is ready
-import { verifyMessage } from "@ambire/signature-validator"
-import { createEcdsaKernelAccountClient } from "@zerodev/presets/zerodev"
+import { verifyMessage } from '@ambire/signature-validator'
+import { createEcdsaKernelAccountClient } from '@zerodev/presets/zerodev'
 import { KernelAccountClient } from '@zerodev/sdk'
 import { assert } from 'chai'
-import { ethers } from "ethers"
+import { ethers } from 'ethers'
 import { decodeJwt } from 'jose'
 import { createPublicClient, http } from 'viem'
 import { arbitrumSepolia } from 'viem/chains'
@@ -18,7 +18,7 @@ import {
 } from '../../src'
 import { config } from '../config'
 import * as fs from 'fs'
-import { getMetadata } from "../utils"
+import { getMetadata } from '../utils'
 
 describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined
@@ -45,11 +45,14 @@ describe('Nevermined sdk with zerodev', () => {
         chain: arbitrumSepolia,
         projectId: PROJECT_ID,
         signer: owner,
-       })
+      })
     })
 
     it('should produce a valid EIP-6492 signature', async () => {
-      const signature = await kernelClient.signMessage({account: kernelClient.account , message: 'nevermined'})
+      const signature = await kernelClient.signMessage({
+        account: kernelClient.account,
+        message: 'nevermined',
+      })
       const isValidSignature = await verifyMessage({
         signer: kernelClient.account.address,
         signature: signature,
@@ -58,7 +61,7 @@ describe('Nevermined sdk with zerodev', () => {
       })
       assert.isTrue(isValidSignature)
 
-      const signature2 = await kernelClient.account.signMessage({message: 'nevermined'})
+      const signature2 = await kernelClient.account.signMessage({ message: 'nevermined' })
       const isValidSignature2 = await publicClient.verifyMessage({
         address: kernelClient.account.address,
         message: 'nevermined',
@@ -66,7 +69,6 @@ describe('Nevermined sdk with zerodev', () => {
       })
       assert.isTrue(isValidSignature2)
     })
-
 
     it('should provide a valid EIP-6492 typed signature', async () => {
       const domain = {
@@ -76,15 +78,15 @@ describe('Nevermined sdk with zerodev', () => {
       }
       const types = {
         Nevermined: [
-            { name: 'from', type: 'address' },
-            { name: 'message', type: 'string' },
-            { name: 'token', type: 'string' }
-       ],
+          { name: 'from', type: 'address' },
+          { name: 'message', type: 'string' },
+          { name: 'token', type: 'string' },
+        ],
       }
       const message = {
         from: kernelClient.account.address,
         message: 'nevermined',
-        token: 'token'
+        token: 'token',
       }
 
       const signature = await kernelClient.account.signTypedData({
@@ -94,21 +96,21 @@ describe('Nevermined sdk with zerodev', () => {
         primaryType: 'Nevermined',
       })
 
-    // Currently using the method from the signature-validator package cause is the one that we use in the passport library
+      // Currently using the method from the signature-validator package cause is the one that we use in the passport library
 
-    //   const isValidSignature = await publicClient.verifyTypedData({ 
-    //     address: kernelClient.account.address,
-    //     domain,
-    //     types,
-    //     primaryType: 'Nevermined',
-    //     message,
-    //     signature,
-    //    })
+      //   const isValidSignature = await publicClient.verifyTypedData({
+      //     address: kernelClient.account.address,
+      //     domain,
+      //     types,
+      //     primaryType: 'Nevermined',
+      //     message,
+      //     signature,
+      //    })
 
-       const isValidSignature = await verifyMessage({
+      const isValidSignature = await verifyMessage({
         signer: kernelClient.account.address,
         signature: signature,
-        typedData: {types, domain, message},
+        typedData: { types, domain, message },
         provider: provider,
       })
 
@@ -130,7 +132,7 @@ describe('Nevermined sdk with zerodev', () => {
       assert.isDefined(accessToken)
 
       const jwtPayload = decodeJwt(accessToken)
-    //   const signer = zerodevProvider.getAccountSigner()
+      //   const signer = zerodevProvider.getAccountSigner()
       assert.equal(jwtPayload.iss, kernelClient.account.address)
       assert.isDefined(jwtPayload.sub)
     })
@@ -154,12 +156,12 @@ describe('Nevermined sdk with zerodev', () => {
         chain: arbitrumSepolia,
         projectId: PROJECT_ID,
         signer: publisher,
-       })
-       kernelClientConsumer = await createEcdsaKernelAccountClient({
+      })
+      kernelClientConsumer = await createEcdsaKernelAccountClient({
         chain: arbitrumSepolia,
         projectId: PROJECT_ID,
         signer: consumer,
-       })
+      })
 
       // zerodevProviderPublisher = await ZeroDevEthersProvider.init('ECDSA', {
       //   projectId,

@@ -5,7 +5,7 @@ import Logger from '@/models/Logger'
 import { NeverminedOptions } from '@/models/NeverminedOptions'
 import { NvmAccount } from '@/models/NvmAccount'
 import { Nevermined } from '@/nevermined/Nevermined'
-import { deployContractInstance, keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
+import { deployContractInstance, encodeBytes32String } from '@/nevermined/utils/BlockchainViemUtils'
 import * as NetworkUtils from '@/utils/Network'
 import fs from 'fs'
 import config from '../config'
@@ -31,12 +31,11 @@ export default abstract class TestContractHandler extends ContractHandler {
 
     const nvmAccount = TestContractHandler.getNvmAccount()
     const deployerAddress = nvmAccount.getAddress()
-    TestContractHandler.minter = keccak256('minter')
+    TestContractHandler.minter = encodeBytes32String('minter')
 
     // deploy contracts
     await TestContractHandler.deployContracts(nvmAccount)
     const nevermined = await Nevermined.getInstance(config)
-    //nevermined.keeper.agreementStoreManager.setTemplates(templates)
 
     return {
       nevermined,
@@ -50,7 +49,7 @@ export default abstract class TestContractHandler extends ContractHandler {
   }
 
   private static async deployContracts(nvmAccount: NvmAccount) {
-    Logger.log('Trying to deploy contracts')
+    Logger.log('Deploying Nevermined Contracts ...')
     const account = nvmAccount.getAccountSigner() as Account
     const deployerAddress = account.address
     // Contracts
@@ -377,9 +376,9 @@ export default abstract class TestContractHandler extends ContractHandler {
         tokens,
         init,
       )
-      // Logger.debug(
-      //   `Contract ${name} deployed on network ${where} with address ${contractInstance.address}`,
-      // )
+      Logger.debug(
+        `Contract ${name} deployed on network ${where} with address ${contractInstance.address}`,
+      )
       ContractHandler.setContract(name, where, contractInstance, undefined, artifact.version)
     } catch (err) {
       Logger.error(

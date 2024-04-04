@@ -293,9 +293,9 @@ describe('NFTTemplates With Ether E2E', async () => {
           numberNFTs,
           nevermined.keeper.nftUpgradeable.address,
           conditionIdLockPayment[1],
+          artist,
           true,
           TransferNFTCondition.NO_EXPIRY,
-          artist,
         )
 
         const { state } = await conditionStoreManager.getCondition(conditionIdTransferNFT[1])
@@ -365,6 +365,7 @@ describe('NFTTemplates With Ether E2E', async () => {
           [0, 0],
           [0, 0],
           [collector1.getId()],
+          collector1, // TEST
         )
         assert.equal(result.status, 'success')
         assert.isTrue(

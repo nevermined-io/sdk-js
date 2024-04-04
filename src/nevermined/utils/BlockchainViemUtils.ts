@@ -20,6 +20,7 @@ import {
   stringToBytes,
   toHex,
   toBytes,
+  stringToHex,
 } from 'viem'
 import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
 
@@ -155,13 +156,17 @@ export function searchAbiFunction(abi: Abi, funcName: string, args: any[] = []):
   if (!func || func.type !== 'function') {
     throw new KeeperError(`Function "${funcName}" is not part of contract`)
   }
+  if (funcName === 'registerMintableDID') {
+    console.log('ABI FUNCTION', func)
+    console.log('ARGS', args)
+  }
   return func as AbiFunction
 }
 
 export function searchAbiEvent(abi: Abi, eventName: string): AbiEvent {
-  const event = getAbiItem({ 
-    abi, 
-    name: eventName, 
+  const event = getAbiItem({
+    abi,
+    name: eventName,
   })
   if (!event || event.type !== 'event') {
     throw new KeeperError(`Event "${event}" is not part of contract`)
@@ -204,6 +209,9 @@ export function zeroPadValue(value: `0x${string}` | Uint8Array, length: number):
   return pad(value, { size: length }) as `0x${string}`
 }
 
+export function encodeBytes32String(message: string) {
+  return stringToHex(message, { size: 32 })
+}
 ////// ACCOUNTS
 
 export function makeWallet(seedphrase: string, addressIndex: number = 0) {

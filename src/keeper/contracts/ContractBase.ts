@@ -1,6 +1,9 @@
 import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
 import { KeeperError } from '@/errors/NeverminedErrors'
-import { getInputsOfFunctionFormatted } from '@/nevermined/utils/BlockchainViemUtils'
+import {
+  getInputsOfFunctionFormatted,
+  getSignatureOfFunction,
+} from '@/nevermined/utils/BlockchainViemUtils'
 import { Account, TransactionReceipt, parseEventLogs } from 'viem'
 import { TxParameters } from '@/models/Transactions'
 import { ContractEvent } from '@/events/ContractEvent'
@@ -8,6 +11,7 @@ import { EventHandler } from '@/events/EventHandler'
 import { SubgraphEvent } from '@/events/SubgraphEvent'
 import { NvmAccount } from '@/models/NvmAccount'
 import { ContractHandler } from '@/keeper/ContractHandler'
+import { jsonReplacer } from '@/common/helpers'
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
@@ -251,10 +255,13 @@ export abstract class ContractBase extends Instantiable {
   ) {
     const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
     // Uncomment to debug contract calls
-    // const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
-    // console.debug(`Making contract call ....: ${name} - ${from}`)
-    // console.debug(`With args - ${JSON.stringify(args)}`)
-    // console.debug(`And signature - ${JSON.stringify(functionSignature)}`)
+    if (name === 'fulfill_xxxx') {
+      const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
+      console.debug(`Making contract call ....: ${name} - ${from}`)
+      console.debug(`With args`, args)
+      console.debug(`And signature - ${JSON.stringify(functionSignature, jsonReplacer)}`)
+      console.debug('And amount: ', txparams.value)
+    }
 
     const { gasLimit, value } = txparams
     // make the call
@@ -276,6 +283,7 @@ export abstract class ContractBase extends Instantiable {
       functionName: name,
       args,
       account: from,
+      ...(txparams.value && { value: txparams.value }),
     })
     const txHash = await this.client.wallet.writeContract(request)
 

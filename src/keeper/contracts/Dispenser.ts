@@ -16,6 +16,7 @@ export class Dispenser extends ContractBase {
     from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.send('requestTokens', from, [parseUnits(amount.toString(), 0)], txParams)
+    const requestedAmount = parseUnits(amount.toString(), 0)
+    return this.send('requestTokens', from, [requestedAmount], txParams)
   }
 }

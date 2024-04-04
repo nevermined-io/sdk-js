@@ -302,9 +302,9 @@ describe('NFTTemplates E2E', () => {
           numberNFTs,
           nevermined.keeper.nftUpgradeable.address,
           conditionIdLockPayment[1],
+          artist,
           true,
           TransferNFTCondition.NO_EXPIRY,
-          artist,
         )
 
         const { state } = await conditionStoreManager.getCondition(conditionIdTransferNFT[1])
@@ -537,9 +537,9 @@ describe('NFTTemplates E2E', () => {
           numberNFTs2,
           nevermined.keeper.nftUpgradeable.address,
           conditionIdLockPayment2[1],
+          collector1,
           true,
           TransferNFTCondition.NO_EXPIRY,
-          collector1,
         )
 
         const { state } = await conditionStoreManager.getCondition(conditionIdTransferNFT2[1])

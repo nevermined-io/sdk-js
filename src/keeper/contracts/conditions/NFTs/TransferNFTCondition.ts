@@ -52,17 +52,19 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     willBeTransferred = true,
     expiration = 0,
   ): ConditionParameters<Record<string, unknown>> {
+    const list: any[] = [
+      didZeroX(did),
+      zeroX(nftHolder),
+      zeroX(nftReceiver),
+      nftAmount.toString(),
+      lockCondition,
+    ]
+    if (nftContractAddress) {
+      list.push(zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address))
+      list.push(willBeTransferred)
+    }
     return {
-      list: [
-        didZeroX(did),
-        zeroX(nftHolder),
-        zeroX(nftReceiver),
-        nftAmount.toString(),
-        lockCondition,
-        zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
-        willBeTransferred,
-        // expiration.toString()
-      ],
+      list,
       params: async (method) => {
         if (method === 'fulfillForDelegate') {
           return [
@@ -146,9 +148,9 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     nftAmount: bigint,
     nftContractAddress: string,
     lockPaymentCondition: string,
+    from: NvmAccount,
     willBeTransferred = true,
     expiration = 0,
-    from?: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(
@@ -156,11 +158,11 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
       [
         didZeroX(did),
         zeroX(nftReceiver),
-        nftAmount.toString(),
+        nftAmount,
         lockPaymentCondition,
         zeroX(nftContractAddress),
         willBeTransferred,
-        expiration.toString(),
+        expiration,
       ],
       from,
       txParams,

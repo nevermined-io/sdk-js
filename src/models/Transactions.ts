@@ -1,5 +1,5 @@
 export interface TxParameters {
-  value?: string
+  value?: bigint
   gasLimit?: bigint
   gasMultiplier?: number
   gasPrice?: string

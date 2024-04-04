@@ -2,7 +2,7 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import TestContractHandler from '../TestContractHandler'
 import { Nevermined } from '@/nevermined/Nevermined'
-import { NFTAccessCondition } from '@/keeper/contracts/conditions'
+import { NFTAccessCondition, NFTHolderCondition } from '@/keeper/contracts/conditions'
 import {
   AgreementStoreManager,
   ConditionStoreManager,
@@ -12,12 +12,17 @@ import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
 import { NvmAccount } from '@/models/NvmAccount'
 import { generateId } from '@/common/helpers'
 import { ConditionState } from '@/types/ContractTypes'
+import { Log } from 'viem'
+import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import { NFTAccessTemplate } from '@/keeper/contracts/templates/NFTAccessTemplate'
 
 chai.use(chaiAsPromised)
 
 describe('NFTAccessCondition', () => {
   let nevermined: Nevermined
+  let nftAccessTemplate: NFTAccessTemplate
   let nftAccessCondition: NFTAccessCondition
+  let nftHolderCondition: NFTHolderCondition
   let conditionStoreManager: ConditionStoreManager
   let agreementStoreManager: AgreementStoreManager
   let templateStoreManager: TemplateStoreManager
@@ -38,7 +43,8 @@ describe('NFTAccessCondition', () => {
     const prepare = await TestContractHandler.prepareContracts()
     nevermined = prepare.nevermined
     deployer = prepare.deployerAccount
-    ;({ nftAccessCondition } = nevermined.keeper.conditions)
+    ;({ nftAccessCondition, nftHolderCondition } = nevermined.keeper.conditions)
+    ;({ nftAccessTemplate } = nevermined.keeper.templates)
     ;({ conditionStoreManager, didRegistry, agreementStoreManager, templateStoreManager } =
       nevermined.keeper)
     ;[owner, grantee, templateId, other] = await nevermined.accounts.list()
@@ -46,8 +52,8 @@ describe('NFTAccessCondition', () => {
     await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, deployer)
 
     try {
-      await templateStoreManager.proposeTemplate(templateId.getId(), deployer)
-      await templateStoreManager.approveTemplate(templateId.getId(), deployer)
+      await templateStoreManager.proposeTemplate(templateId.getAddress(), deployer)
+      await templateStoreManager.approveTemplate(templateId.getAddress(), deployer)
     } catch (error) {
       console.log(`Error proposing template: ${error}`)
     }
@@ -97,42 +103,56 @@ describe('NFTAccessCondition', () => {
       await didRegistry.registerAttribute(didSeed, checksum, [], url, owner)
       const did = await didRegistry.hashDID(didSeed, owner.getId())
 
-      const hashValues = await nftAccessCondition.hashValues(did, grantee.getId())
-      const conditionId = await nftAccessCondition.generateId(agreementId, hashValues)
+      agreementIdSeed = generateId()
+      agreementId = await agreementStoreManager.agreementId(agreementIdSeed, grantee.getId())
 
-      await agreementStoreManager.createAgreement(
-        agreementId,
-        did,
-        [nftAccessCondition.address],
-        [hashValues],
-        [0],
-        [2],
-        grantee,
-      )
+      const holderHashValues = await nftHolderCondition.hashValues(did, grantee.getId(), 1n)
+      const holderConditionId = await nftHolderCondition.generateId(agreementId, holderHashValues)
 
-      const contractReceipt = await nftAccessCondition.fulfill(
-        agreementId,
-        did,
-        grantee.getId(),
+      const accessHashValues = await nftAccessCondition.hashValues(did, grantee.getId())
+      const accessConditionId = await nftAccessCondition.generateId(agreementId, accessHashValues)
+      const conditionIdSeeds = [holderConditionId, accessConditionId]
+
+      // await NFTHolderCondition.hashValues(did,)
+      await templateStoreManager.proposeTemplate(nftAccessTemplate.address, deployer)
+      await templateStoreManager.approveTemplate(nftAccessTemplate.address, deployer)
+
+      await nftAccessTemplate.createAgreement(
+        agreementIdSeed,
+        didZeroX(did),
+        conditionIdSeeds,
+        [0, 0],
+        [0, 0],
+        [grantee.getId()],
         owner,
       )
 
-      const { state } = await conditionStoreManager.getCondition(conditionId)
+      // await agreementStoreManager.createAgreement(
+      //   agreementId,
+      //   did,
+      //   [nftAccessCondition.address],
+      //   [hashValues],
+      //   [0],
+      //   [2],
+      //   grantee,
+      // )
+
+      const txReceipt = await nftAccessCondition.fulfill(agreementId, did, grantee.getId(), owner)
+
+      const { state } = await conditionStoreManager.getCondition(accessConditionId)
       assert.equal(state, ConditionState.Fulfilled)
-      const logs = nftAccessCondition.getTransactionLogs(contractReceipt, 'Fulfilled')
-      // const event: EventLog = logs.find(
-      //   (e) => e.eventName === 'Fulfilled',
-      // ) as EventLog
+      const logs = nftAccessCondition.getTransactionLogs(txReceipt, 'Fulfilled')
 
       assert.isTrue(logs.length > 0)
-      const event = logs.pop()
+      const event: Log = logs.pop()
       console.log(JSON.stringify(event))
-      // const { _agreementId, _documentId, _grantee, _conditionId } = event.args
 
-      // assert.equal(_agreementId, zeroX(agreementId))
-      // assert.equal(_documentId, didZeroX(did))
-      // assert.equal(_conditionId, conditionId)
-      // assert.equal(_grantee, grantee.getId())
+      // @ts-ignore
+      const { _agreementId, _documentId, _grantee, _conditionId } = event.args
+      assert.equal(_agreementId, zeroX(agreementId))
+      assert.equal(_documentId, didZeroX(did))
+      assert.equal(_conditionId, accessConditionId)
+      assert.equal(_grantee, grantee.getId())
     })
   })
 

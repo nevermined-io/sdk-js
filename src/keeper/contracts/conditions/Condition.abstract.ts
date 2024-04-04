@@ -38,6 +38,7 @@ export abstract class ConditionSmall extends ContractBase {
   }
 
   public async hashValues(...args: any[]): Promise<string> {
+    //console.log(`HashingValues: ${JSON.stringify(args, jsonReplacer)}`)
     return (await this.call('hashValues', args)) as string
   }
 
@@ -46,7 +47,7 @@ export abstract class ConditionSmall extends ContractBase {
   public fulfillPlain(
     agreementId: string,
     args: any[],
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
     method: ConditionMethod = 'fulfill',
   ) {
@@ -113,6 +114,8 @@ export abstract class Condition<
   }
 
   public hashValues(...args: any[]): Promise<string> {
+    // console.log(`-- ARGS: `, ...args)
+    // console.log(`-- PARAMS LIST: `, ...this.params(...args).list)
     return super.hashValues(...this.params(...args).list)
   }
 

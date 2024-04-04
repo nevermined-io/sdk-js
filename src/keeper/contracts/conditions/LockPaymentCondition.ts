@@ -49,10 +49,10 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     from?: NvmAccount,
     txParams?: TxParameters,
   ) {
-    const amountsString = amounts.map((v) => v.toString())
+    // const amountsString = amounts.map((v) => v.toString())
     return super.fulfillPlain(
       agreementId,
-      [didZeroX(did), zeroX(rewardAddress), zeroX(tokenAddress), amountsString, receivers],
+      [didZeroX(did), zeroX(rewardAddress), zeroX(tokenAddress), amounts, receivers],
       from,
       txParams,
     )

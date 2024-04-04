@@ -50,7 +50,7 @@ export class NvmAccount {
    * @returns The nevermined account
    */
   static async fromZeroDevSigner(
-    signer: KernelSmartAccount // | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
+    signer: KernelSmartAccount, // | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
   ): Promise<NvmAccount> {
     const address = signer.address
     const account = new NvmAccount(address, { signerType: 'zerodev', isZeroDev: true })

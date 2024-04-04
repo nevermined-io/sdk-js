@@ -7,7 +7,6 @@ import { generateId } from '@/common/helpers'
 import { TxParameters } from '@/models/Transactions'
 import { ZeroAddress } from '@/constants/AssetConstants'
 
-
 let nevermined: Nevermined
 let didRegistry: DIDRegistry
 let checksum: string
@@ -25,16 +24,10 @@ describe('DIDRegistry', () => {
       const [ownerAccount] = await nevermined.accounts.list()
       const did = generateId()
       const data = 'my nice provider, is nice'
-      const txReceipt = await didRegistry.registerAttribute(
-        did,
-        checksum,
-        [],
-        data,
-        ownerAccount,
-      )
+      const txReceipt = await didRegistry.registerAttribute(did, checksum, [], data, ownerAccount)
       console.log(txReceipt)
       assert.equal(txReceipt.status, 'success')
-      
+
       const logs = didRegistry.getTransactionLogs(txReceipt, 'DIDAttributeRegistered')
       assert.isTrue(logs.length > 0)
       // assert.isTrue(
@@ -50,10 +43,10 @@ describe('DIDRegistry', () => {
       const data = 'hola hola'
       // const provider = await getWeb3EthersProvider(config)
       // const txCount = await provider.getTransactionCount(ownerAccount.getId(), 'pending')
-      const txCount = await nevermined.client.public.getTransactionCount({ 
+      const txCount = await nevermined.client.public.getTransactionCount({
         address: ownerAccount.getAddress(),
-        blockTag: 'pending'        
-       })
+        blockTag: 'pending',
+      })
       const txParams: TxParameters = { nonce: txCount }
 
       const txReceipt = await didRegistry.registerAttribute(
