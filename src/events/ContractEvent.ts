@@ -54,16 +54,17 @@ export class ContractEvent extends NeverminedEvent {
     // return this.contract.contract.queryFilter(eventFilter, options.fromBlock, options.toBlock)
   }
 
-  public async getPastEvents(options: EventOptions, client?: Web3Clients): EventResult {
+  public async getPastEvents(options: EventOptions): EventResult {
     try {
-      const chainId = client.chain.id
+      
+      const chainId = this.client.chain.id
       options.fromBlock = options.fromBlock ? options.fromBlock : 1n
       options.toBlock = options.toBlock ? options.toBlock : 'latest'
 
       // Temporary workaround to work with mumbai
       // Infura as a 1000 blocks limit on their api
       if (chainId === 80001 || chainId === 42) {
-        const latestBlock = await client.public.getBlockNumber()
+        const latestBlock = await this.client.public.getBlockNumber()
         options.fromBlock = latestBlock - 99n
       }
       return await this.getEventData(options)

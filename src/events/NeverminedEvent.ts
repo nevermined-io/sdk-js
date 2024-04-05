@@ -1,4 +1,4 @@
-import { Web3Clients } from '@/Instantiable.abstract'
+import { Instantiable } from '@/Instantiable.abstract'
 import { ContractBase } from '@/keeper/contracts/ContractBase'
 import {
   EventEmitter,
@@ -7,16 +7,15 @@ import {
   ContractEventSubscription,
 } from '@/types/EventTypes'
 
-export abstract class NeverminedEvent {
-  // extends Instantiable {
+export abstract class NeverminedEvent extends Instantiable {
   protected eventEmitter: EventEmitter
   protected contract: ContractBase = null
   public abstract getEventData(options: EventOptions): EventResult
-  public abstract getPastEvents(options: EventOptions, client: Web3Clients): EventResult
+  public abstract getPastEvents(options: EventOptions): EventResult
   public abstract getBlockNumber(...args: any[]): Promise<bigint>
 
   protected constructor(contract: ContractBase, eventEmitter: EventEmitter) {
-    // super()
+    super()
     this.contract = contract
     this.eventEmitter = eventEmitter
   }
@@ -36,13 +35,12 @@ export abstract class NeverminedEvent {
   }
 
   public async once(
-    client: Web3Clients,
     callback?: (events: EventResult[]) => void,
     options?: EventOptions,
   ): Promise<EventResult> {
     // Check if the event already happened and return that instead
     // before subscribing
-    const events = await this.getPastEvents(options, client)
+    const events = await this.getPastEvents(options)
     if (events.length) {
       callback(events)
       return new Promise((resolve) => resolve(events))

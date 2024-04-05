@@ -130,7 +130,7 @@ export async function getContractInstance(address: string, abi: Abi, client: Web
     abi,
     address: address as `0x${string}`,
     // @ts-expect-error "viem, wtf?"
-    client: { wallet: client.wallet, public:client.public },
+    client: { wallet: client.wallet, public: client.public },
   })
 }
 

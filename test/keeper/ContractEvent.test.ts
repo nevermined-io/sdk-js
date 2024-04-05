@@ -56,7 +56,7 @@ describe('ContractEvent', () => {
     it('should listen to event only once', async () => {
       const fromBlock = await nevermined.client.public.getBlockNumber()
 
-      const eventsPromise = nevermined.keeper.token.events.once(nevermined.client, (e) => e, {
+      const eventsPromise = nevermined.keeper.token.events.once((e) => e, {
         eventName: 'Transfer',
         filterJsonRpc: { to: account4.getId() },
         fromBlock: fromBlock,

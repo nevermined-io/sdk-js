@@ -15,7 +15,6 @@ import { ConditionState } from '@/types/ContractTypes'
 import { Log } from 'viem'
 import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 
-
 chai.use(chaiAsPromised)
 
 describe('TransferDIDOwnershipCondition', () => {
@@ -39,7 +38,6 @@ describe('TransferDIDOwnershipCondition', () => {
     const prepare = await TestContractHandler.prepareContracts()
     nevermined = prepare.nevermined
     deployer = prepare.deployerAccount
-
     ;({ transferDidOwnershipCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, templateStoreManager, agreementStoreManager } =
       nevermined.keeper)
@@ -56,10 +54,7 @@ describe('TransferDIDOwnershipCondition', () => {
       }
     }
 
-    await didRegistry.grantRegistryOperatorRole(
-      transferDidOwnershipCondition.address,
-      deployer,
-    )
+    await didRegistry.grantRegistryOperatorRole(transferDidOwnershipCondition.address, deployer)
   })
 
   beforeEach(async () => {
@@ -121,7 +116,7 @@ describe('TransferDIDOwnershipCondition', () => {
       )
 
       const storedDIDRegister: any = await didRegistry.getDIDRegister(did)
-      
+
       assert.equal(storedDIDRegister[0], owner.getId())
 
       const txReceipt = await transferDidOwnershipCondition.fulfill(
