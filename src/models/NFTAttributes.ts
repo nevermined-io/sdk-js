@@ -140,13 +140,13 @@ export class NFTServiceAttributes {
         if (!service.nft) service.nft = {}
         // We setup a default value if the amount is not defined but keep it if it's 0
         if (service.nft.amount === undefined) service.nft.amount = this.defaultValues.amount
-  
+
         if (service.serviceType === 'nft-access') {
           if (!service.nft.minCreditsToCharge) service.nft.minCreditsToCharge = service.nft.amount
           if (!service.nft.maxCreditsToCharge) service.nft.maxCreditsToCharge = service.nft.amount
           if (!service.nft.minCreditsRequired)
             service.nft.minCreditsRequired = service.nft.minCreditsToCharge
-  
+
           if (
             service.nft.amount < service.nft.minCreditsToCharge ||
             service.nft.amount > service.nft.maxCreditsToCharge

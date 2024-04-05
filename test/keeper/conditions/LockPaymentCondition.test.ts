@@ -13,7 +13,6 @@ import { ZeroAddress } from '@/constants/AssetConstants'
 import chaiAsPromised from 'chai-as-promised'
 chai.use(chaiAsPromised)
 
-
 let conditionStoreManager: ConditionStoreManager
 let lockPaymentCondition: LockPaymentCondition
 let escrowPaymentCondition: EscrowPaymentCondition
@@ -42,7 +41,6 @@ describe('LockPaymentCondition', () => {
     deployer = prepare.deployerAccount
 
     await nevermined.keeper.nvmConfig.setNetworkFees(0, ZeroAddress, deployer)
-
     ;({ conditionStoreManager } = nevermined.keeper)
     ;({ lockPaymentCondition, escrowPaymentCondition } = nevermined.keeper.conditions)
     ;({ token } = nevermined.keeper)

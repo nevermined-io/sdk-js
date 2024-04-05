@@ -1,11 +1,6 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {
-  NFTHolderCondition,
-  Nft1155Contract,
-  DIDRegistry,
-  ConditionStoreManager,
-} from '@/keeper'
+import { NFTHolderCondition, Nft1155Contract, DIDRegistry, ConditionStoreManager } from '@/keeper'
 import TestContractHandler from '../TestContractHandler'
 import { NvmAccount } from '@/models/NvmAccount'
 import { Nevermined } from '@/nevermined/Nevermined'
@@ -15,7 +10,6 @@ import { NeverminedNFT1155Type } from '@/types/GeneralTypes'
 import { ConditionState } from '@/types/ContractTypes'
 import { Log } from 'viem'
 import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
-
 
 chai.use(chaiAsPromised)
 
@@ -40,7 +34,6 @@ describe('NFTHolderCondition', () => {
     const prepare = await TestContractHandler.prepareContracts()
     nevermined = prepare.nevermined
     deployer = prepare.deployerAccount
-
     ;({ nftHolderCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, nftUpgradeable } = nevermined.keeper)
     ;[owner, holder] = await nevermined.accounts.list()
@@ -110,7 +103,7 @@ describe('NFTHolderCondition', () => {
         holder.getId(),
         amount,
         nftUpgradeable.address,
-        owner
+        owner,
       )
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
@@ -165,7 +158,7 @@ describe('NFTHolderCondition', () => {
           holder.getId(),
           amount,
           nftUpgradeable.address,
-          owner
+          owner,
         ),
         /Condition doesnt exist/,
       )
@@ -210,7 +203,7 @@ describe('NFTHolderCondition', () => {
           holder.getId(),
           amount,
           nftUpgradeable.address,
-          owner
+          owner,
         ),
         /The holder doesnt have enough NFT balance for the did given/,
       )

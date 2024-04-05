@@ -13,7 +13,6 @@ import { ConditionState } from '@/types/ContractTypes'
 import { Log } from 'viem'
 import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 
-
 chai.use(chaiAsPromised)
 
 describe('NFTLockCondition', () => {
@@ -110,7 +109,7 @@ describe('NFTLockCondition', () => {
         did,
         rewardAddress.getId(),
         amount,
-        owner
+        owner,
       )
 
       const { state } = await conditionStoreManager.getCondition(conditionId)
