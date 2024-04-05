@@ -1,22 +1,23 @@
-import { Web3Clients } from '@/Instantiable.abstract'
 import { EventEmitter, EventOptions, EventResult, FilterContractEvent } from '@/types/EventTypes'
 import { NeverminedEvent } from './NeverminedEvent'
 import { KeeperError } from '@/errors/NeverminedErrors'
 import { ContractBase } from '@/keeper/contracts/ContractBase'
 import { searchAbiEvent } from '@/nevermined/utils/BlockchainViemUtils'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { Web3Clients } from '@/Instantiable.abstract'
 
 export class ContractEvent extends NeverminedEvent {
   public static getInstance(
     contract: ContractBase,
     eventEmitter: EventEmitter,
-    // nevermined: Nevermined,
-    // client: Web3Clients,
+    nevermined: Nevermined,
+    client: Web3Clients,
   ): ContractEvent {
     const instance = new ContractEvent(contract, eventEmitter)
-    // instance.setInstanceConfig({
-    //   nevermined,
-    //   client,
-    // })
+    instance.setInstanceConfig({
+      nevermined,
+      client,
+    })
 
     return instance
   }
@@ -56,7 +57,6 @@ export class ContractEvent extends NeverminedEvent {
 
   public async getPastEvents(options: EventOptions): EventResult {
     try {
-      
       const chainId = this.client.chain.id
       options.fromBlock = options.fromBlock ? options.fromBlock : 1n
       options.toBlock = options.toBlock ? options.toBlock : 'latest'
@@ -68,13 +68,13 @@ export class ContractEvent extends NeverminedEvent {
         options.fromBlock = latestBlock - 99n
       }
       return await this.getEventData(options)
-    } catch (error) {
+    } catch {
       return []
     }
   }
 
-  public async getBlockNumber(client: Web3Clients): Promise<bigint> {
-    return client.public.getBlockNumber()
+  public async getBlockNumber(): Promise<bigint> {
+    return await this.client.public.getBlockNumber()
   }
 
   private eventExists(eventName: string): boolean {

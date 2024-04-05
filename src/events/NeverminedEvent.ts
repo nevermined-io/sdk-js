@@ -28,6 +28,7 @@ export abstract class NeverminedEvent extends Instantiable {
       const events = await this.getEventData(options)
       callback(events)
     }
+
     this.eventEmitter.subscribe(onEvent, () => this.getBlockNumber())
     return {
       unsubscribe: () => this.eventEmitter.unsubscribe(onEvent),

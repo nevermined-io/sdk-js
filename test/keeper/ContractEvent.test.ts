@@ -21,7 +21,6 @@ describe('ContractEvent', () => {
     it('should be able to listen to events', async () => {
       let subscription: ContractEventSubscription
       const fromBlock = await nevermined.client.public.getBlockNumber()
-
       const waitForEvents = new Promise((resolve) => {
         subscription = nevermined.keeper.token.events.subscribe(
           (events) => {

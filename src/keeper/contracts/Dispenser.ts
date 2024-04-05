@@ -17,6 +17,10 @@ export class Dispenser extends ContractBase {
     txParams?: TxParameters,
   ) {
     const requestedAmount = parseUnits(amount.toString(), 0)
-    return this.send('requestTokens', from, [requestedAmount], txParams)
+    const txReceipt = await this.send('requestTokens', from, [requestedAmount], txParams)
+    console.log(
+      `requestTokens ${requestedAmount} from ${from.getAddress()} and result ${txReceipt.status}`,
+    )
+    return txReceipt
   }
 }
