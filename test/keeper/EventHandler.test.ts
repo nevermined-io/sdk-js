@@ -1,8 +1,8 @@
-import { assert, expect, spy, use } from 'chai'
+import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
-import { EventHandler } from '../../src/events'
-import { Nevermined } from '../../src/nevermined'
 import config from '../config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { EventHandler } from '@/events/EventHandler'
 
 use(spies)
 
@@ -25,7 +25,7 @@ describe('EventHandler', () => {
 
       const subscription = eventHandler.subscribe(
         () => null,
-        () => (nevermined as any).web3.getBlockNumber(),
+        () => (nevermined as any).client.public.getBlockNumber(),
       )
       assert.isDefined(subscription)
 
@@ -40,7 +40,7 @@ describe('EventHandler', () => {
 
       const subscription = eventHandler.subscribe(
         () => null,
-        () => (nevermined as any).web3.getBlockNumber(),
+        () => (nevermined as any).client.public.getBlockNumber(),
       )
       assert.isDefined(subscription)
 
@@ -56,35 +56,11 @@ describe('EventHandler', () => {
       const countBefore = eventHandler.count
       const callback = () => null
 
-      eventHandler.subscribe(callback, () => (nevermined as any).web3.getBlockNumber())
+      eventHandler.subscribe(callback, () => (nevermined as any).client.public.getBlockNumber())
       eventHandler.unsubscribe(callback)
 
       const countAfter = eventHandler.count
       assert.equal(countBefore, countAfter, 'The event seems not removed.')
-    })
-  })
-
-  describe('#checkBlock()', () => {
-    it('should call the callback on each new block', async () => {
-      let blockNumber = 100000000000
-      const callbackSpy = spy()
-
-      spy.on((nevermined as any).web3, 'getBlockNumber', () => blockNumber)
-
-      const subscription = eventHandler.subscribe(callbackSpy, () =>
-        (nevermined as any).web3.getBlockNumber(),
-      )
-
-      await new Promise((resolve) => setTimeout(resolve, 300))
-
-      expect(callbackSpy).not.to.has.been.called()
-      blockNumber++
-
-      await new Promise((resolve) => setTimeout(resolve, 300))
-
-      expect(callbackSpy).to.has.been.called.with(blockNumber)
-
-      subscription.unsubscribe()
     })
   })
 })

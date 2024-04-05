@@ -87,6 +87,24 @@ export class ContractHandler extends Instantiable {
     return this.nevermined.utils.blockchain.deployAbi(artifact, from, args)
   }
 
+  public async getContractArtifact(
+    contractName: string,
+    networkName: string,
+    artifactsFolder: string,
+  ) {
+    this.logger.debug(`Loading ${contractName} from ${networkName} and folder ${artifactsFolder}`)
+    let artifact
+    if (artifactsFolder.startsWith('http'))
+      artifact = await ContractHandler.fetchJson(
+        `${artifactsFolder}/${contractName}.${networkName}.json`,
+      )
+    else
+      artifact = JSON.parse(
+        fs.readFileSync(`${artifactsFolder}/${contractName}.${networkName}.json`, 'utf8'),
+      )
+    return artifact
+  }
+
   private async loadContractFromAbi(
     what: string,
     where: string,
@@ -94,11 +112,7 @@ export class ContractHandler extends Instantiable {
     artifactsFolder: string,
     address?: string,
   ) {
-    this.logger.debug(`Loading ${what} from ${where} and folder ${artifactsFolder}`)
-    let artifact
-    if (artifactsFolder.startsWith('http'))
-      artifact = await ContractHandler.fetchJson(`${artifactsFolder}/${what}.${where}.json`)
-    else artifact = JSON.parse(fs.readFileSync(`${artifactsFolder}/${what}.${where}.json`, 'utf8'))
+    const artifact = await ContractHandler.getABIArtifact(what, artifactsFolder, where) //await this.getContractArtifact(what, where, artifactsFolder)
 
     const _address = address ? address : artifact.address
     this.logger.debug(`Loading from address ${_address}`)

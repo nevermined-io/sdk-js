@@ -1,8 +1,8 @@
 import { assert } from 'chai'
-import { ContractHandler } from '../../src/keeper'
-import { Nevermined } from '../../src/nevermined'
 import config from '../config'
-import { ethers } from 'ethers'
+import { ContractHandler } from '@/keeper/ContractHandler'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { searchAbiFunction } from '@/nevermined'
 
 describe('ContractHandler', () => {
   let contractHandler: ContractHandler
@@ -20,10 +20,11 @@ describe('ContractHandler', () => {
     it('should parse a Subscription NFT contract', async () => {
       const solidityABI = await ContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
-        './test/resources/artifacts/',
+        './artifacts/',
+        networkName,
       )
-      const iface = new ethers.Interface(solidityABI.abi)
-      const output = iface.format()
+
+      const output = searchAbiFunction(solidityABI.abi, 'mint')
       assert(output)
     })
 
@@ -33,8 +34,7 @@ describe('ContractHandler', () => {
         './artifacts/',
         networkName,
       )
-      const iface = new ethers.Interface(solidityABI.abi)
-      const output = iface.format()
+      const output = searchAbiFunction(solidityABI.abi, 'mint')
       assert(output)
     })
   })
