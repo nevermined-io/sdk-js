@@ -450,7 +450,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
    * @returns Agreement created event.
    */
   public async getAgreementCreatedEvent(agreementId: string) {
-    const res = await this.events.once(this.client, (events) => events, {
+    const res = await this.events.once((events) => events, {
       eventName: 'AgreementCreated',
       filterJsonRpc: {
         _agreementId: zeroX(agreementId),
