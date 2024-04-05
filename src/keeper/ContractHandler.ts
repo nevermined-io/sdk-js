@@ -125,14 +125,14 @@ export class ContractHandler extends Instantiable {
     const chainId = await this.nevermined.keeper.getNetworkId()
     const where = await this.nevermined.keeper.getNetworkName()
     try {
-      if (ContractHandler.hasContract(what, chainId, address))
-        return ContractHandler.getContract(what, chainId, address)
-      else await this.loadContractFromAbi(what, where, chainId, artifactsFolder, address)
+      // if (ContractHandler.hasContract(what, chainId, address))
+      //   return ContractHandler.getContract(what, chainId, address)
+      // else await this.loadContractFromAbi(what, where, chainId, artifactsFolder, address)
       // this.logger.debug(`ContractHandler :: get :: ${artifactsFolder} and address ${address}`)
-      // return (
-      //   ContractHandler.getContract(what, chainId, address) ||
-      //   (await this.loadContractFromAbi(what, where, chainId, artifactsFolder, address))
-      // )
+      return (
+        ContractHandler.getContract(what, chainId, address) ||
+        (await this.loadContractFromAbi(what, where, chainId, artifactsFolder, address))
+      )
     } catch (err) {
       if (!optional) {
         throw new KeeperError(`Failed to load ${what} from ${where} - ${err}`)

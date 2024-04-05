@@ -3,7 +3,7 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { getChecksumAddress } from '@/nevermined/utils/BlockchainViemUtils'
 import { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
 import { Babysig, Eip712Data } from '@/types/GeneralTypes'
-import { KernelSmartAccount } from '@zerodev/sdk'
+import { KernelSmartAccount } from '@zerodev/sdk/_types/accounts'
 import { JWSHeaderParameters, SignJWT, importJWK } from 'jose'
 import { Account, Hash, LocalAccount, hexToBytes, toHex } from 'viem'
 

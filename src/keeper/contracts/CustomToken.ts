@@ -15,7 +15,7 @@ export class CustomToken extends Token {
       parseAbi(Token.ERC20_ABI),
     )
 
-    token.address = await token.contract.getAddress()
+    token.address = await token.contract.address
 
     return token
   }

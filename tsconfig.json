@@ -38,7 +38,7 @@
     "sourceMap": true /* Create source map files for emitted JavaScript files. */,
 
     // Language and environment
-    "moduleResolution": "node",
+    // "moduleResolution": "node",
     "module": "CommonJS",
 
     "target": "ES2022",
@@ -50,11 +50,13 @@
     "rootDir": "./src/",
 
     "baseUrl": "./",
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "node_modules/permissionless/_types"],
+    // "types": ["node_modules/permissionless/_types"],
+    // "typeRoots": ["node_modules/@types", "node_modules/permissionless/_types", "node_modules/permissionless/types/index.ts"],
     "paths": {
       "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "test/**/*"]
+  "exclude": ["node_modules", "test/**/*", "integration/**/*"]
 }

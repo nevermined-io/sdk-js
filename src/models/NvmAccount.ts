@@ -1,10 +1,8 @@
-// import { SessionKeyProvider, ZeroDevAccountSigner } from '@zerodev/sdk'
-// const zerodev = await import('@zerodev/sdk')
 import { Account, LocalAccount, toHex } from 'viem'
 import { NvmAccountError } from '@/errors/NeverminedErrors'
 import { NvmAccountType } from '@/types/AccountTypes'
 import { parseAccount } from 'viem/utils'
-import { KernelSmartAccount } from '@zerodev/sdk/accounts'
+import { KernelSmartAccount } from '@zerodev/sdk'
 
 /**
  * Account information.

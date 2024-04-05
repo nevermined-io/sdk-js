@@ -4,6 +4,7 @@ import { createEcdsaKernelAccountClient } from '@zerodev/presets/zerodev'
 import { KernelAccountClient } from '@zerodev/sdk'
 import { assert } from 'chai'
 import { ethers } from 'ethers'
+import * as fs from 'fs'
 import { decodeJwt } from 'jose'
 import { createPublicClient, http } from 'viem'
 import { arbitrumSepolia } from 'viem/chains'
@@ -17,14 +18,13 @@ import {
   makeRandomWallet,
 } from '../../src'
 import { config } from '../config'
-import * as fs from 'fs'
 import { getMetadata } from '../utils'
 
 describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined
   const PROJECT_ID = process.env.PROJECT_ID!
   const BUNDLER_RPC = `https://rpc.zerodev.app/api/v2/bundler/${PROJECT_ID}`
-  const _PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${PROJECT_ID}`
+  // const PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${PROJECT_ID}`
 
   const publicClient = createPublicClient({
     chain: arbitrumSepolia,
@@ -139,8 +139,6 @@ describe('Nevermined sdk with zerodev', () => {
   })
 
   describe('E2E Asset flow with zerodev', () => {
-    // let zerodevProviderPublisher: ZeroDevEthersProvider<'ECDSA'>
-    // let zerodevProviderConsumer: ZeroDevEthersProvider<'ECDSA'>
     let kernelClientPublisher: KernelAccountClient
     let kernelClientConsumer: KernelAccountClient
 
@@ -198,10 +196,7 @@ describe('Nevermined sdk with zerodev', () => {
 
       // const signerPublisher = kernelClientPublisher.getAccountSigner()
       const publisher = await NvmAccount.fromZeroDevSigner(kernelClientPublisher.account)
-      console.log(nevermined)
-      ddo = await nevermined.assets.create(assetAttributes, publisher, undefined, {
-        // zeroDevSigner: signerPublisher,
-      })
+      ddo = await nevermined.assets.create(assetAttributes, publisher)
 
       assert.isDefined(ddo)
       assert.equal(ddo.publicKey[0].owner, publisher.getAddress())
@@ -227,7 +222,7 @@ describe('Nevermined sdk with zerodev', () => {
       // const signerConsumer = kernelClientConsumer.getAccountSigner()
       const consumer = await NvmAccount.fromZeroDevSigner(kernelClientConsumer.account)
       agreementId = await nevermined.assets.order(ddo.id, 'access', consumer, {
-        zeroDevSigner: signerConsumer,
+        // zeroDevSigner: signerConsumer,
       })
 
       assert.isDefined(agreementId)

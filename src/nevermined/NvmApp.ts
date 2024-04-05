@@ -23,7 +23,6 @@ import { SubscriptionToken } from '@/services/node/NeverminedNode'
 import { SubscriptionType, MetaData } from '@/types/DDOTypes'
 import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
 import { PublishMetadataOptions, PublishOnChainOptions } from '@/types/MetadataTypes'
-import { ZeroDevAccountSigner } from '@zerodev/sdk'
 import { Nevermined } from './Nevermined'
 import { SearchApi } from './api/SearchApi'
 import { isValidAddress } from './utils/BlockchainViemUtils'
@@ -111,7 +110,7 @@ export class NvmApp {
   }
 
   public async connect(
-    account: string | ZeroDevAccountSigner<'ECDSA'> | NvmAccount,
+    account: string | NvmAccount,
     config?: NeverminedOptions,
     initOptions?: NeverminedInitializationOptions,
   ) {
@@ -120,12 +119,11 @@ export class NvmApp {
       : NvmApp.defaultAppInitializationOptions
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
-    if (account instanceof ZeroDevAccountSigner) {
-      this.userAccount = await NvmAccount.fromZeroDevSigner(account)
+    if (account instanceof NvmAccount) {
+      // TODO Review ZeroDev integration as part of the NvmAccount
+      this.userAccount = account
       // this.zeroDevSignerAccount = account
       // this.useZeroDevSigner = true
-    } else if (account instanceof NvmAccount) {
-      this.userAccount = account
     } else {
       this.userAccount = this.fullSDK.accounts.getAccount(account)
     }

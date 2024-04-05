@@ -8,21 +8,21 @@ import {
   AssetPrice,
   NFTAttributes,
   NeverminedNFT721Type,
+  RoyaltyKind,
 } from '../../src'
 import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
 import { config } from '../config'
 import { generateMetadata, getMetadata } from '../utils'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import { didZeroX } from '../../src/utils'
-import { EventOptions } from '../../src/events'
 import {
   getRoyaltyAttributes,
   RoyaltyAttributes,
-  RoyaltyKind,
   NFT721Api,
   SubscriptionNFTApi,
   getChecksumAddress,
 } from '../../src/nevermined'
+import { EventOptions } from '@/types/EventTypes'
 
 describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
   let publisher: NvmAccount

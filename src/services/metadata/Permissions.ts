@@ -1,10 +1,10 @@
-import { Permission } from '@zerodev/sdk'
 import { MarketplaceApi } from '@/services/metadata/MarketplaceAPI'
 import {
   NewPermission,
   SearchQuery,
   MarketplaceResults,
   PermissionType,
+  Permission,
 } from '@/types/MetadataTypes'
 import { ApiError, HttpError } from '@/errors/NeverminedErrors'
 import { buildQuery } from '@/common/helpers'
