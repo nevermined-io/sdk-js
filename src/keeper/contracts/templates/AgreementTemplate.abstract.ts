@@ -302,7 +302,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       amounts,
       receivers,
       from,
-      { ...txParams, value },
+      { ...txParams, value: BigInt(value) },
     )
     observer(OrderProgressStep.AgreementInitialized)
 
