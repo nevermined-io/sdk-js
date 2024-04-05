@@ -50,9 +50,7 @@
     "rootDir": "./src/",
 
     "baseUrl": "./",
-    "typeRoots": ["node_modules/@types", "node_modules/permissionless/_types"],
-    // "types": ["node_modules/permissionless/_types"],
-    // "typeRoots": ["node_modules/@types", "node_modules/permissionless/_types", "node_modules/permissionless/types/index.ts"],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
       "@/*": ["./src/*"]
     }

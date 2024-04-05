@@ -98,10 +98,11 @@ export class ConditionsApi extends Instantiable {
       from,
       {
         ...txParams,
-        value:
+        value: BigInt(
           erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress
             ? totalAmount.toString()
             : undefined,
+        ),
       },
     )
 
