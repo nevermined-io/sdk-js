@@ -2,8 +2,9 @@ import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 
 import config from '../config'
-import { Nevermined, NvmAccount } from '../../src/nevermined'
-import { AccountsApi } from '../../src/nevermined'
+import { AccountsApi } from '@/nevermined/api/AccountsApi'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
 
 use(spies)
 
@@ -49,7 +50,7 @@ describe('Accounts', () => {
     it('should return the balance of an account', async () => {
       const [account] = await accounts.list()
       spy.on(account, 'requestTokens', () => 10)
-      const success = await accounts.requestTokens(account, 10)
+      const success = await accounts.requestTokens(account, 10n)
 
       assert.isTrue(success)
     })

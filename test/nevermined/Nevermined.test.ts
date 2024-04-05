@@ -36,7 +36,8 @@ describe('Nevermined', () => {
       const accs: NvmAccount[] = await nevermined.accounts.list()
 
       assert(accs.length === 10, `Expected 10 but the length is ${accs.length}`)
-      assert.equal((await accs[5].getBalance()).nevermined, 0n)
+      const balance = await nevermined.accounts.getBalance(accs[5].getAddress())
+      assert.equal(balance.nevermined, 0n)
       assert(typeof accs[0].getId() === 'string')
     })
   })

@@ -1,7 +1,5 @@
 import { assert } from 'chai'
 import { EscrowPaymentCondition, Token } from '@/keeper/contracts'
-import { Nevermined } from '@/nevermined/Nevermined'
-import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
 
 let condition: EscrowPaymentCondition

@@ -7,7 +7,6 @@ import { TxParameters } from '@/models/Transactions'
 import { didToTokenId, getContractInstance } from '@/nevermined/utils/BlockchainViemUtils'
 import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 import { NFTContractsBase } from './NFTContractsBase'
-import { hexToBigInt } from 'viem/utils'
 
 /**
  * NFTs contracts DTO allowing to manage Nevermined ERC-1155 NFTs
@@ -35,7 +34,7 @@ export class Nft1155Contract extends NFTContractsBase {
         networkName,
       )
 
-      nft.contract = await getContractInstance(address, solidityABI.abi)
+      nft.contract = await getContractInstance(address, solidityABI.abi, nft.client)
       nft.address = await nft.contract.getAddress()
     }
 
@@ -55,7 +54,7 @@ export class Nft1155Contract extends NFTContractsBase {
     const eventEmitter = new EventHandler()
     nft.events = ContractEvent.getInstance(nft, eventEmitter) //, config.nevermined, nft.client)
 
-    nft.contract = await getContractInstance(address, solidityABI.abi)
+    nft.contract = await getContractInstance(address, solidityABI.abi, nft.client)
     nft.address = await nft.contract.getAddress()
 
     return nft
