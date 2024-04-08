@@ -287,6 +287,16 @@ export interface MetaDataMain {
   datePublished?: string
 
   /**
+   * The date on which the asset DDO was updated into the metadata store.
+   * This value is created automatically by Metadata upon update,
+   * so this value can't be set.
+   * @example "2019-01-31T08:38:32Z"
+   */
+  updatedAt?: string
+
+  nonce?: number
+
+  /**
    * Name of the entity generating this data (e.g. Tfl, Disney Corp, etc.).
    * @example "Met Office"
    */

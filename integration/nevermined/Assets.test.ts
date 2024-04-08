@@ -1,18 +1,23 @@
-import { SearchQuery } from '../../src/common'
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { config } from '../config'
-import { getAssetPrice, getMetadata } from '../utils'
-import { Nevermined, MetaData, DDO, AssetPrice, AssetAttributes, ProvenanceMethod } from '../../src'
-import { generateId } from '../../src/utils'
-import {
-  PublishMetadataOptions,
-  DIDResolvePolicy,
-  PublishOnChainOptions,
-  NvmAccount,
-} from '../../src/nevermined'
 import { rejects } from 'assert'
 import * as fs from 'fs'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { MetaData } from '@/types/DDOTypes'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetPrice } from '@/models/AssetPrice'
+import { generateId } from '@/common/helpers'
+import { getAssetPrice, getMetadata } from '../utils/ddo-metadata-generator'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import {
+  DIDResolvePolicy,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+  SearchQuery,
+} from '@/types/MetadataTypes'
+import { ProvenanceMethod } from '@/keeper/contracts/Provenance'
 
 let nevermined: Nevermined
 let publisher: NvmAccount
@@ -121,7 +126,10 @@ describe('Assets', () => {
       const name = `Updated Metadata Test ${nonce}`
       const updatedMetadata = {
         ...createdMetadata,
-        name,
+        main: {
+          ...createdMetadata.main,
+          name,
+        },
       }
 
       await nevermined.assets.update(
@@ -168,7 +176,10 @@ describe('Assets', () => {
       const name = `Updated Files Test ${nonce}`
       const updatedMetadata = {
         ...createdMetadata,
-        name,
+        main: {
+          ...createdMetadata.main,
+          name,
+        },
       }
       updatedMetadata.main.files = [
         {
@@ -218,7 +229,10 @@ describe('Assets', () => {
       const name = `Updated Files Test ${nonce}`
       const updatedMetadata = {
         ...createdMetadata,
-        name,
+        main: {
+          ...createdMetadata.main,
+          name,
+        },
       }
       updatedMetadata.main.files = [
         {

@@ -392,7 +392,17 @@ export class DIDRegistry extends ContractBase {
       .map((event) => {
         if (event.args === undefined)
           return eventToObject(event) as ProvenanceAttributeRegisteredEvent
-        else return eventToObject(event.args.toObject()) as ProvenanceAttributeRegisteredEvent
+        else
+          return {
+            id: event.args.provId,
+            provId: event.args.provId,
+            did: event.args._did,
+            activityId: event.args._activityId,
+            agentInvolvedId: event.args._agentInvolvedId,
+            method: event.args._method,
+            blockNumberUpdated: event.args._blockNumberUpdated,
+            attributes: event.args._attributes,
+          } as ProvenanceAttributeRegisteredEvent
       })
       .map((event) => ({ ...event, method: Number(event.method) }))
       .sort(

@@ -1,18 +1,17 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { config } from '../config'
 import { getMetadata } from '../utils'
-import {
-  Nevermined,
-  MetaData,
-  DDO,
-  AssetPrice,
-  AssetAttributes,
-  ConditionState,
-  Token,
-  NvmAccount,
-} from '../../src'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { MetaData } from '@/types/DDOTypes'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetAttributes } from '@/models/AssetAttributes'
+
 import { repeat } from '../utils/utils'
+import { AssetPrice } from '@/models/AssetPrice'
+import { Token } from '@/keeper/contracts/Token'
+import { ConditionState } from '@/types/ContractTypes'
 
 let nevermined: Nevermined
 let publisher: NvmAccount

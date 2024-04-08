@@ -1,16 +1,15 @@
 import { assert } from 'chai'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import {
-  Nevermined,
-  generateId,
-  NeverminedOptions,
-  AssetAttributes,
-  MetaData,
-  NvmAccount,
-} from '../../src'
+import config from '../../test/config'
+
 import { decodeJwt } from 'jose'
 import { mineBlocks } from '../utils/utils'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NeverminedOptions } from '@/models/NeverminedOptions'
+import { NvmAccount } from '@/models/NvmAccount'
+import { MetaData } from '@/types/DDOTypes'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { generateId } from '@/common/helpers'
+import { AssetAttributes } from '@/models/AssetAttributes'
 
 describe('Asset Owners', () => {
   let nevermined: Nevermined
@@ -88,7 +87,7 @@ describe('Asset Owners', () => {
 
     assert.isFalse(await nevermined.keeper.didRegistry.getPermission(ddo.id, account2.getId()))
 
-    await nevermined.keeper.didRegistry.grantPermission(ddo.id, account2.getId(), account1.getId())
+    await nevermined.keeper.didRegistry.grantPermission(ddo.id, account2.getId(), account1)
 
     assert.isTrue(await nevermined.keeper.didRegistry.getPermission(ddo.id, account2.getId()))
   })

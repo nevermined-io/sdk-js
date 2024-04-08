@@ -1,12 +1,17 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { DDO, Nevermined, NFTAttributes, AssetPrice, NvmAccount, generateId } from '../../src'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { generateId } from '@/common/helpers'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
 import { TransferNFT721Condition, Token, Nft721Contract, ContractHandler } from '../../src/keeper'
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
 import '../globals'
 import { mineBlocks } from '../utils/utils'
 import { ConditionState } from '@/types/ContractTypes'
+import { AssetPrice } from '@/models/AssetPrice'
+import { NFTAttributes } from '@/models/NFTAttributes'
 
 describe('Claim aborted agreements End-to-End', () => {
   let publisher: NvmAccount
@@ -62,7 +67,7 @@ describe('Claim aborted agreements End-to-End', () => {
 
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
-      await nft.getAddress(),
+      await nft.address,
     )
     await nevermined.contracts.loadNft721(nftContract.address)
 

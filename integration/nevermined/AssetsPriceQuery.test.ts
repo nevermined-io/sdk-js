@@ -1,11 +1,19 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { DDO, Nevermined, NFTAttributes, AssetAttributes, AssetPrice } from '../../src'
-import { CustomToken } from '../../src/keeper'
-import { getRoyaltyAttributes, NvmAccount, parseUnits, RoyaltyKind } from '../../src/nevermined'
-import { generateId } from '../../src/utils'
-import { config } from '../config'
+import { generateId } from '@/common/helpers'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+
+import config from '../../test/config'
 import { getMetadata } from '../utils'
+import { CustomToken } from '@/keeper/contracts/CustomToken'
+import { parseUnits } from '@/nevermined/utils/BlockchainViemUtils'
+import { AssetPrice } from '@/models/AssetPrice'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { getRoyaltyAttributes } from '@/nevermined/api/AssetsApi'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { RoyaltyKind } from '@/types/MetadataTypes'
 
 describe('Assets Query by Price', () => {
   let nevermined: Nevermined

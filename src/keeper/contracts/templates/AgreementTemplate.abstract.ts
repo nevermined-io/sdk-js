@@ -283,10 +283,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     observer(OrderProgressStep.ApprovedPayment)
 
     const totalAmount = AssetPrice.sumAmounts(amounts)
-    const value =
-      tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
-        ? totalAmount.toString()
-        : undefined
+    const value = tokenAddress && tokenAddress.toLowerCase() === ZeroAddress ? totalAmount : 0n
 
     observer(OrderProgressStep.CreatingAgreement)
     await this.createAgreementAndPay(
@@ -302,7 +299,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       amounts,
       receivers,
       from,
-      { ...txParams, value: BigInt(value) },
+      { ...txParams, value },
     )
     observer(OrderProgressStep.AgreementInitialized)
 

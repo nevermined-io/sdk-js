@@ -244,6 +244,10 @@ export class DDO {
     })
   }
 
+  public static getNewDateFormatted(date: Date = new Date()) {
+    return date.toISOString().replace(/\.[0-9]{3}/, '')
+  }
+
   public shortId(): string {
     return this.id.replace('did:nv:', '')
   }

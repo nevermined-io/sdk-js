@@ -1,7 +1,9 @@
 import { assert } from 'chai'
-import { config } from '../config'
-import { Nevermined, NewBookmark, NvmAccount } from '../../src'
+import config from '../../test/config'
 import { faker } from '@faker-js/faker'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { NewBookmark } from '@/types/MetadataTypes'
 
 describe('Bookmarks', () => {
   let nevermined: Nevermined

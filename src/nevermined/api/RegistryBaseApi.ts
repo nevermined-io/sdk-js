@@ -385,6 +385,12 @@ export abstract class RegistryBaseApi extends Instantiable {
         },
       }
 
+      const updatedAt = DDO.getNewDateFormatted()
+      const nonce = Math.random()
+      this.logger.debug(`Asset updatedAt ${updatedAt} and Nonce ${nonce} `)
+      metadataService.attributes.main.updatedAt = updatedAt
+      metadataService.attributes.main.nonce = nonce
+
       if (!['workflow'].includes(metadataService.attributes.main.type)) {
         const encryptedFilesResponse = await this.nevermined.services.node.encrypt(
           ddo.id,
@@ -405,7 +411,7 @@ export abstract class RegistryBaseApi extends Instantiable {
         }
       }
 
-      await ddo.replaceService(metadataService.index, metadataService)
+      ddo.replaceService(metadataService.index, metadataService)
 
       observer.next(UpdateProgressStep.CalculateChecksum)
       ddo.proof = await ddo.generateProof(publisher.getId())
@@ -417,7 +423,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       ddo._nvm.versions.map((v) => (v.id > lastIndex ? (lastIndex = v.id) : false))
       const ddoVersion: NvmConfigVersions = {
         id: lastIndex + 1,
-        updated: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+        updated: DDO.getNewDateFormatted(),
         checksum: checksum,
       }
       ddo._nvm.versions.push(ddoVersion)

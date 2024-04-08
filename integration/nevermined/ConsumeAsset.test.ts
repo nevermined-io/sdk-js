@@ -2,20 +2,18 @@ import { assert } from 'chai'
 import * as fs from 'fs'
 import { decodeJwt } from 'jose'
 
-import { config } from '../config'
+import config from '../../test/config'
 import { getAssetPrice, getMetadata } from '../utils'
 import { repeat } from '../utils/utils'
-
-import {
-  Nevermined,
-  DDO,
-  ConditionState,
-  MetaData,
-  Logger,
-  AssetPrice,
-  AssetAttributes,
-} from '../../src'
-import { AgreementPrepareResult, NvmAccount } from '../../src/nevermined'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { MetaData } from '@/types/DDOTypes'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetPrice } from '@/models/AssetPrice'
+import { AgreementPrepareResult } from '@/nevermined/api/AgreementsApi'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import Logger from '@/models/Logger'
+import { ConditionState } from '@/types/ContractTypes'
 
 describe('Consume Asset', () => {
   let nevermined: Nevermined

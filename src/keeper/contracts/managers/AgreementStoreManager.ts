@@ -51,6 +51,7 @@ export class AgreementStoreManager extends ContractBase {
         `Could not find template for agreementId: ${agreementId} and templateId: ${templateId}`,
       )
     }
+    // TODO: Evaluate getting this information from the contracts and not the events
     const events = await template.getAgreementCreatedEvent(agreementId)
 
     if (!Array.isArray(events) || events.length == 0) {

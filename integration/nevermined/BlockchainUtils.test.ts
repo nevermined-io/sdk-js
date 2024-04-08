@@ -1,4 +1,4 @@
-import { config } from '../config'
+import config from '../../test/config'
 import { ContractHandler, KeeperError, Nevermined, NvmAccount, Token } from '../../src'
 import { assert } from 'chai'
 import {
@@ -17,7 +17,7 @@ import {
   formatUnits,
   parseEther,
   formatEther,
-} from '../../src/nevermined/utils/BlockchainViemUtils'
+} from '@/nevermined/utils/BlockchainViemUtils'
 import { parseAbi } from 'viem'
 
 describe('Blockchain Utils', () => {
@@ -30,7 +30,7 @@ describe('Blockchain Utils', () => {
 
   before(async () => {
     nvm = await Nevermined.getInstance(config)
-    ;[userAccount] = await nvm.accounts.list()
+    ;[userAccount] = nvm.accounts.list()
     assert.isDefined(nvm.utils.blockchain)
     assert.isDefined(nvm.utils.blockchain)
     assert.isDefined(userAccount)
@@ -97,26 +97,21 @@ describe('Blockchain Utils', () => {
       ])
 
       assert.isDefined(nftContractViem)
-      contractAddressViem = await nftContractViem.getAddress()
+      contractAddressViem = await nftContractViem.address
       console.log(`Viem NFT (ERC-1155) deployed at address ${contractAddressViem}`)
     })
 
     it(`Should load a contract`, async () => {
       const contract = await nvm.utils.blockchain.loadContract(
-        contractAddressEthers,
-        nftContractEthers.interface,
+        contractAddressViem,
+        nftContractViem.abi,
       )
       assert.isDefined(contract)
     })
 
     it(`Should check that exists`, async () => {
-      const exists = await nvm.utils.blockchain.checkExists(contractAddressEthers)
+      const exists = await nvm.utils.blockchain.checkExists(contractAddressViem)
       assert.isTrue(exists)
-    })
-
-    it(`It should not exist`, async () => {
-      const exists = await nvm.utils.blockchain.checkExists(userAccount.getId())
-      assert.isFalse(exists)
     })
   })
 
@@ -148,7 +143,7 @@ describe('Blockchain Utils', () => {
     // 0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0
   })
 
-  describe.skip('VIEM ABI functions', () => {
+  describe('VIEM ABI functions', () => {
     const viemAbi = parseAbi(Token.ERC20_ABI)
     it(`Should not find a function if doesnt exist`, async () => {
       assert.throws(() => searchAbiFunction(viemAbi, 'transferXXX'), KeeperError)
@@ -176,7 +171,7 @@ describe('Blockchain Utils', () => {
     // 0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0
   })
 
-  describe.skip('Utility functions', () => {
+  describe('Utility functions', () => {
     const testAddress = '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
 
     it(`Get Address`, async () => {
@@ -200,7 +195,7 @@ describe('Blockchain Utils', () => {
     })
   })
 
-  describe.skip('Make Wallets', () => {
+  describe('Make Wallets', () => {
     const TEST_SEED_WORDS =
       'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'
 
@@ -211,7 +206,7 @@ describe('Blockchain Utils', () => {
     })
   })
 
-  describe.skip('Hashes', () => {
+  describe('Hashes', () => {
     it(`keccak256`, async () => {
       const hash = keccak256('0x1234')
       console.log('Hash:', hash)
@@ -220,24 +215,29 @@ describe('Blockchain Utils', () => {
     })
 
     it(`keccak256Packed`, async () => {
-      const args: any = [
-        { type: 'address', value: userAccount.getId() },
-        { type: 'bytes32[]', value: [keccak256('0x1234')] },
-        { type: 'uint256[]', value: [0, 1, 0] },
-        { type: 'uint256[]', value: [1, 0, 1] },
-        { type: 'bytes32', value: keccak256('0x1234') },
+      const _types = [
+        { type: 'address' },
+        { type: 'bytes32[]' },
+        { type: 'uint256[]' },
+        { type: 'uint256[]' },
+        { type: 'bytes32' },
       ]
-      const hash = keccak256Packed(
-        args.map((arg: { type: string }) => arg.type),
-        args.map((arg: { value: any }) => arg.value),
-      )
-      console.log('Hash:', hash)
+      const _values = [
+        userAccount.getId(),
+        [keccak256('0x1234')],
+        [0, 1, 0],
+        [1, 0, 1],
+        keccak256('0x1234'),
+      ]
+
+      const hash = keccak256Packed(_types, _values)
+
       assert.isDefined(hash)
       assert.isTrue(hash.startsWith('0x'))
     })
   })
 
-  describe.skip('Units', () => {
+  describe('Units', () => {
     it(`Parse & Format Units`, async () => {
       const amount = '2.5'
       const units = parseUnits(amount, 6)

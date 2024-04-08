@@ -282,7 +282,7 @@ export function keccak256WithEncode(
   return keccak256(encoded)
 }
 
-export function keccak256Packed(types: string[], values: any[]): string {
+export function keccak256Packed(types: any[], values: any[]): string {
   //return ethers.solidityPackedKeccak256(types, values)
   return keccak256WithEncode(types, values)
 }
