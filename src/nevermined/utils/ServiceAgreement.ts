@@ -71,13 +71,6 @@ export class ServiceAgreement extends Instantiable {
     timelocks: number[],
     timeouts: number[],
   ): string {
-    // const args: any = [
-    //   { type: 'address', value: zeroX(serviceAgreementTemplateId) },
-    //   { type: 'bytes32[]', value: valueHashes.map(zeroX) },
-    //   { type: 'uint256[]', value: timelocks },
-    //   { type: 'uint256[]', value: timeouts },
-    //   { type: 'bytes32', value: zeroX(serviceAgreementId) },
-    // ]
     const _types = [
       { type: 'address' },
       { type: 'bytes32[]' },
@@ -93,11 +86,6 @@ export class ServiceAgreement extends Instantiable {
       zeroX(serviceAgreementId),
     ]
     return keccak256Packed(_types, _values)
-
-    // return keccak256Packed(
-    //   args.map((arg: { type: string }) => arg.type),
-    //   args.map((arg: { value: any }) => arg.value),
-    // )
   }
 
   private getTimeValuesFromService(service: ServiceAccess, type: 'timeout' | 'timelock'): number[] {
