@@ -4,6 +4,7 @@ import { TxParameters } from '@/models/Transactions'
 import { KeeperError } from '@/errors/NeverminedErrors'
 import { zeroX, didZeroX } from '@/utils/ConversionTypeHelpers'
 import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { getChecksumAddress } from '@/nevermined/utils/BlockchainViemUtils'
 
 export interface AgreementData {
   did: string
@@ -40,8 +41,10 @@ export class AgreementStoreManager extends ContractBase {
   }
 
   public async getAgreement(agreementId: string): Promise<AgreementData> {
-    const templateId: string = await this.call('getAgreementTemplate', [zeroX(agreementId)])
-    const template = this.templates[templateId.toLowerCase()]
+    const templateId: string = getChecksumAddress(
+      await this.call('getAgreementTemplate', [zeroX(agreementId)]),
+    )
+    const template = this.templates[templateId]
 
     if (!template) {
       throw new KeeperError(
@@ -56,6 +59,7 @@ export class AgreementStoreManager extends ContractBase {
 
     const values = events.map((e) => e.args || e)
     const [{ _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator }] = values
+
     return {
       did: _did,
       agreementId,

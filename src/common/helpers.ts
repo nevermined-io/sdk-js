@@ -41,3 +41,7 @@ export function generateId(length = 64) {
   }
   return id.substr(0, length)
 }
+
+export function _sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}

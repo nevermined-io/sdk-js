@@ -41,7 +41,7 @@ export async function getNetworkName(networkId: number): Promise<string> {
     case 137:
       return 'matic'
     case 1337:
-      return 'hardhat'
+      return 'geth-localnet'
     case 3141:
       return 'hyperspace'
     case 8453:
@@ -176,21 +176,6 @@ export function getChain(networkId: number): Chain {
     case 8998:
       return defineChain({
         id: networkId,
-        name: 'geth-localnet',
-        nativeCurrency: {
-          name: 'Ether',
-          symbol: 'ETH',
-          decimals: 18,
-        },
-        rpcUrls: {
-          default: {
-            http: ['http://contracts.nevermined.localnet'],
-          },
-        },
-      })
-    case 1337:
-      return defineChain({
-        id: networkId,
         name: 'Localhost',
         fees: {
           baseFeeMultiplier: 1.2,
@@ -203,7 +188,22 @@ export function getChain(networkId: number): Chain {
         },
         rpcUrls: {
           default: {
-            http: [`http://127.0.0.1:${process.env.ETH_PORT || 8545}`],
+            http: [`http://127.0.0.1:${process.env.ETH_PORT || 18545}`],
+          },
+        },
+      })
+    case 1337:
+      return defineChain({
+        id: networkId,
+        name: 'geth-localnet',
+        nativeCurrency: {
+          name: 'Ether',
+          symbol: 'ETH',
+          decimals: 18,
+        },
+        rpcUrls: {
+          default: {
+            http: ['http://contracts.nevermined.localnet'],
           },
         },
       })

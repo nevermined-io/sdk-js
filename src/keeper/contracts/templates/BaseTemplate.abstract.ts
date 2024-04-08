@@ -25,8 +25,13 @@ export abstract class BaseTemplate<Params, S extends Service>
 {
   public async getAgreementData(
     agreementId: string,
-  ): Promise<{ accessProvider: string; accessConsumer: string }> {
-    return this.call<any>('getAgreementData', [zeroX(agreementId)])
+  ): Promise<{ accessProvider: string; accessConsumer: string; did: string }> {
+    const data = await this.call<any>('getAgreementData', [zeroX(agreementId)])
+    return {
+      accessConsumer: data[0],
+      accessProvider: data[1],
+      did: data[2],
+    }
   }
 
   public abstract name(): string

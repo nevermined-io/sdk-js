@@ -20,6 +20,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     nevermined: Nevermined
     deployerAddress: string
     deployerAccount: NvmAccount
+    config: NeverminedOptions
   }> {
     await TestContractHandler.setConfig(config)
 
@@ -41,6 +42,7 @@ export default abstract class TestContractHandler extends ContractHandler {
       nevermined,
       deployerAddress,
       deployerAccount: nvmAccount,
+      config,
     }
   }
 

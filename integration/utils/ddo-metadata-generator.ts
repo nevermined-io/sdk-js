@@ -1,10 +1,10 @@
+import { AssetPrice } from '@/models/AssetPrice'
 import {
-  MetaData,
-  AssetPrice,
-  ResourceAuthentication,
-  PaymentAttributes,
   DefaultPaymentAttributes,
-} from '../../src'
+  MetaData,
+  PaymentAttributes,
+  ResourceAuthentication,
+} from '@/types/DDOTypes'
 
 const metadata: Partial<MetaData> = {
   main: {

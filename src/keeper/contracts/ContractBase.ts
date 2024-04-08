@@ -255,7 +255,7 @@ export abstract class ContractBase extends Instantiable {
   ) {
     const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
     // Uncomment to debug contract calls
-    if (name === 'fulfill_xxxx') {
+    if (name === 'registerDID_XXX') {
       const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
       console.debug(`Making contract call ....: ${name} - ${from}`)
       console.debug(`With args`, args)
@@ -301,7 +301,9 @@ export abstract class ContractBase extends Instantiable {
       })
     }
     // const nonce = await this.client.public.getTransactionCount({address: txHash.from})
-    const txReceipt = await this.client.public.getTransactionReceipt({ hash: txHash })
+    //const txReceipt = await this.client.public.getTransactionReceipt({ hash: txHash })
+    //const txReceipt = await this.getTransactionReceipt(txHash)
+    const txReceipt = this.nevermined.utils.blockchain.getTransactionReceipt(txHash)
 
     if (progress) {
       progress({

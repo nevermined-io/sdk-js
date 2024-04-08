@@ -1,4 +1,5 @@
 import { Instantiable, InstantiableConfig, Web3Clients } from '@/Instantiable.abstract'
+import { _sleep } from '@/common/helpers'
 import { KeeperError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
 import { didZeroX } from '@/utils/ConversionTypeHelpers'
@@ -23,6 +24,7 @@ import {
   toBytes,
   stringToHex,
   hexToBigInt,
+  TransactionReceiptNotFoundError,
 } from 'viem'
 import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
 
@@ -49,6 +51,30 @@ export class BlockchainViemUtils extends Instantiable {
       client: { wallet: this.client.wallet, public: this.client.public },
     })
     return contract
+  }
+
+  public async getTransactionReceipt(txHash: `0x${string}`, iteration = 1) {
+    if (iteration < 5) {
+      try {
+        return await this.client.public.getTransactionReceipt({ hash: txHash })
+      } catch (error) {
+        if (error instanceof TransactionReceiptNotFoundError) {
+          this.logger.log(
+            `Unable to get transaction receipt from hash ${txHash} on iteration ${iteration}. Sleeping and retrying.`,
+          )
+          await _sleep(100)
+          return this.getTransactionReceipt(txHash, iteration++)
+        } else {
+          const errorMessage = `Unknown error getting transaction receipt with hash: ${txHash}. Error: ${error}`
+          this.logger.error(errorMessage)
+          throw new KeeperError(errorMessage)
+        }
+      }
+    } else {
+      const errorMessage = `Unable to get transaction receipt with hash: ${txHash} after ${iteration} iterations.`
+      this.logger.error(errorMessage)
+      throw new KeeperError(errorMessage)
+    }
   }
 
   /**

@@ -1,18 +1,16 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
-import {
-  Nevermined,
-  MetaData,
-  AssetAttributes,
-  DDO,
-  didZeroX,
-  generateId,
-  NvmAccount,
-} from '../../src'
-import { config } from '../config'
 import { getMetadata } from '../utils'
 import { decodeJwt } from 'jose'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { MetaData } from '@/types/DDOTypes'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { generateId } from '@/common/helpers'
+import { didZeroX } from '@/utils/ConversionTypeHelpers'
+import config from '../../test/config'
 
 chai.use(chaiAsPromised)
 
