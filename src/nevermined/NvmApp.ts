@@ -27,7 +27,7 @@ import { Nevermined } from './Nevermined'
 import { SearchApi } from './api/SearchApi'
 import { isValidAddress } from './utils/BlockchainViemUtils'
 import { ServicesApi } from './api/ServicesApi'
-import { SubscribablePromise } from '@/utils/SubscribablePromise'
+import { SubscribablePromise } from '../utils/SubscribablePromise'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from './ProgressSteps'
 
 export enum NVMAppEnvironments {

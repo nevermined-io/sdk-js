@@ -22,6 +22,7 @@ import {
   RoyaltyKind,
 } from '../../src/types/MetadataTypes'
 import '../globals'
+import { JWTPayload, decodeJwt } from 'jose'
 
 chai.use(chaiAsPromised)
 
