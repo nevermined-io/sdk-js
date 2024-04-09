@@ -1,35 +1,29 @@
 import chai, { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO, getConditionsByParams } from '@/ddo/DDO'
+import { AssetPrice } from '@/models/AssetPrice'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '@/nevermined/api/AssetsApi'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '@/types/MetadataTypes'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { Token } from '@/keeper/contracts/Token'
+import { Nft1155Contract } from '@/keeper/contracts/Nft1155Contract'
 import {
-  NvmAccount,
-  DDO,
-  Nevermined,
-  generateId,
-  AssetPrice,
-  AssetAttributes,
-  NFTAttributes,
-} from '../../src'
-import { Service, getConditionsByParams } from '../../src/ddo'
-import {
-  ConditionState,
-  EscrowPaymentCondition,
   LockPaymentCondition,
+  EscrowPaymentCondition,
   TransferNFTCondition,
-  Nft1155Contract,
-  NFTAccessTemplate,
-  NFTSalesTemplate,
-  Token,
-} from '../../src/keeper'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import {
-  formatUnits,
-  getRoyaltyAttributes,
-  parseUnits,
-  RoyaltyAttributes,
-  RoyaltyKind,
-} from '../../src/nevermined'
+} from '@/keeper/contracts/conditions'
+import { NFTSalesTemplate } from '@/keeper/contracts/templates/NFTSalesTemplate'
+import { NFTAccessTemplate } from '@/keeper/contracts/templates/NFTAccessTemplate'
+import { Service } from '@/types/DDOTypes'
+import { formatUnits, parseUnits } from '@/nevermined/utils/BlockchainViemUtils'
+import { generateId } from '@/common/helpers'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { ConditionState } from '@/types/ContractTypes'
 
 chai.use(chaiAsPromised)
 

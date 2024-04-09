@@ -15,6 +15,7 @@ describe('Sdk working without artifacts', () => {
   before(async () => {
     configCopy = { ...config }
     configCopy.artifactsFolder = undefined
+    configCopy.web3ProviderUri = 'http://xxxx.fail.com'
     nevermined = await Nevermined.getInstance(configCopy)
   })
 
