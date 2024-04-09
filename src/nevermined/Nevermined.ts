@@ -54,15 +54,15 @@ export class Nevermined extends Instantiable {
   ): Promise<Nevermined> {
     const instance = new Nevermined()
 
-    const instanceConfig = {
-      ...(await generateInstantiableConfigFromConfig(config, initOptions.loadCore)),
-      nevermined: instance,
-    }
-    instance.setInstanceConfig(instanceConfig)
-
     // Nevermined main API
 
     try {
+      const instanceConfig = {
+        ...(await generateInstantiableConfigFromConfig(config, initOptions.loadCore)),
+        nevermined: instance,
+      }
+      instance.setInstanceConfig(instanceConfig)
+
       instance.search = new SearchApi(instanceConfig)
       instance.services = new ServicesApi(instanceConfig)
       instance.utils = new UtilsApi(instanceConfig, initOptions)
@@ -84,10 +84,10 @@ export class Nevermined extends Instantiable {
         instance.assets = new AssetsApi(instanceConfig)
 
         if (initOptions.loadCompute) instance.compute = new ComputeApi(instanceConfig)
-
-        // instance.web3 =
       }
 
+      console.log('Is keeper connected" ', instance.keeper.connected)
+      //console.log(instanceConfig)
       instance.isKeeperConnected = initOptions.loadCore
     } catch (error) {
       instance.isKeeperConnected = false

@@ -14,13 +14,11 @@ describe('Sdk working without artifacts', () => {
 
   before(async () => {
     configCopy = { ...config }
-    configCopy.artifactsFolder = undefined
-    configCopy.web3ProviderUri = 'http://xxxx.fail.com'
-    nevermined = await Nevermined.getInstance(configCopy)
   })
 
-  it('should keeper be disconnected', () => {
-    assert.isFalse(nevermined.isKeeperConnected)
+  it('should keeper be disconnected', async () => {
+    const failNvm = await Nevermined.getInstance({ ...config, chainId: 9999 })
+    assert.isFalse(failNvm.isKeeperConnected)
   })
 
   it('should login to metamask without artifacts', async () => {
