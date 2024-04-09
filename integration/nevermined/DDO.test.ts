@@ -1,11 +1,13 @@
 import { decodeJwt } from 'jose'
-import { NvmAccount, DDO, MetaData, Nevermined } from '../../src'
-import { AssetAttributes, AssetPrice } from '../../src/models/'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
-import { getRoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
-import { RoyaltyKind } from '../../src/nevermined'
-import { generateId } from '../../src/utils'
-import { config } from '../config'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { MetaData } from '@/types/DDOTypes'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetPrice } from '@/models/AssetPrice'
+import { getRoyaltyAttributes } from '@/nevermined/api/AssetsApi'
+import { RoyaltyKind } from '@/types/MetadataTypes'
+import { NFTAttributes } from '@/models/NFTAttributes'
 import { assert } from 'chai'
 import * as chai from 'chai'
 import chaiExclude from 'chai-exclude'
@@ -20,6 +22,8 @@ import ddoNft from '../resources/ddo-nft.json'
 import ddoAlgorithm from '../resources/ddo-algorithm.json'
 import ddoWorkflow from '../resources/ddo-workflow.json'
 import ddoCompute from '../resources/ddo-compute.json'
+import { generateId } from '@/common/helpers'
+import { AssetAttributes } from '@/models/AssetAttributes'
 
 chai.use(chaiExclude)
 
@@ -31,7 +35,7 @@ describe('DDO Tests', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[publisher] = await nevermined.accounts.list()
+    ;[publisher] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
     await nevermined.services.marketplace.login(clientAssertion)
@@ -105,6 +109,7 @@ describe('DDO Tests', () => {
         'didSeed',
         'signatureValue',
         'userId',
+        'updated',
         'templateId',
       ] as any,
     )
@@ -183,6 +188,7 @@ describe('DDO Tests', () => {
         'id',
         'publicKey',
         'created',
+        'updated',
         'didSeed',
         'signatureValue',
         'userId',
@@ -259,6 +265,7 @@ describe('DDO Tests', () => {
         'id',
         'publicKey',
         'created',
+        'updated',
         'didSeed',
         'signatureValue',
         'userId',
@@ -350,6 +357,7 @@ describe('DDO Tests', () => {
         'id',
         'publicKey',
         'created',
+        'updated',
         'didSeed',
         'signatureValue',
         'userId',
@@ -413,6 +421,7 @@ describe('DDO Tests', () => {
         'id',
         'publicKey',
         'created',
+        'updated',
         'didSeed',
         'signatureValue',
         'userId',

@@ -44,7 +44,7 @@ describe('LockPaymentCondition', () => {
     ;({ conditionStoreManager } = nevermined.keeper)
     ;({ lockPaymentCondition, escrowPaymentCondition } = nevermined.keeper.conditions)
     ;({ token } = nevermined.keeper)
-    ;[owner, seller, buyer] = await nevermined.accounts.list()
+    ;[owner, seller, buyer] = nevermined.accounts.list()
     assetPrice = new AssetPrice(seller.getId(), amount)
   })
 

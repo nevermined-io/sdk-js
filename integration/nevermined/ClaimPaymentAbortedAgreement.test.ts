@@ -46,7 +46,7 @@ describe('Claim aborted agreements End-to-End', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[, publisher, collector1, , other] = await nevermined.accounts.list()
+    ;[, publisher, collector1, , other] = nevermined.accounts.list()
 
     const networkName = await nevermined.keeper.getNetworkName()
     const erc721ABI = await ContractHandler.getABIArtifact(

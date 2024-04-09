@@ -1,9 +1,13 @@
-import { NvmAccount, Nevermined, generateId, getChecksumAddress } from '../../src'
-import { config } from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { ContractEvent } from '../../src/events'
+import config from '../../test/config'
+
 import { mineBlocks, awaitTimeout } from '../utils/utils'
+import { NvmAccount } from '@/models/NvmAccount'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { ContractEvent } from '@/events/ContractEvent'
+import { getChecksumAddress } from '@/nevermined/utils/BlockchainViemUtils'
+import { generateId } from '@/common/helpers'
 
 chai.use(chaiAsPromised)
 
@@ -18,7 +22,7 @@ describe('ContractEvent', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance({ ...config, graphHttpUri: undefined })
-    ;[account, account2, account3, account4, account5, account6] = await nevermined.accounts.list()
+    ;[account, account2, account3, account4, account5, account6] = nevermined.accounts.list()
 
     await nevermined.accounts.requestTokens(account, 1n)
   })

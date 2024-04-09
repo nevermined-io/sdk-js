@@ -1,17 +1,15 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
-import {
-  Nevermined,
-  NvmAccount,
-  DDO,
-  zeroX,
-  generateId,
-  AssetAttributes,
-  zeroPadValue,
-} from '../../src'
-import { ProvenanceMethod } from '../../src/keeper'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { generateId } from '@/common/helpers'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { zeroX } from '@/utils/ConversionTypeHelpers'
+import { ProvenanceMethod } from '@/keeper/contracts/Provenance'
+import { zeroPadValue } from '@/nevermined/utils/BlockchainViemUtils'
 
 describe('Provenance', () => {
   let nevermined: Nevermined
@@ -28,7 +26,7 @@ describe('Provenance', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[publisher, intermediary] = await nevermined.accounts.list()
+    ;[publisher, intermediary] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 

@@ -20,7 +20,7 @@ describe.skip('Get DDO status', () => {
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
     ;({ didRegistry } = nevermined.keeper)
-    ;[publisher] = await nevermined.accounts.list()
+    ;[publisher] = nevermined.accounts.list()
     assetPrice = getAssetPrice(publisher.getId())
   })
 

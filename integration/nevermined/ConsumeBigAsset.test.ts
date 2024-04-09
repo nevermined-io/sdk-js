@@ -2,10 +2,14 @@ import { assert } from 'chai'
 import * as fs from 'fs'
 import { decodeJwt } from 'jose'
 
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
-
-import { Nevermined, DDO, MetaData, Logger, AssetAttributes, NvmAccount } from '../../src'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { MetaData } from '@/types/DDOTypes'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import Logger from '@/models/Logger'
 
 // Ensure that your network is fast enough and you have some free ram before run it.
 describe.skip('Consume Asset (Large size)', () => {
@@ -24,7 +28,7 @@ describe.skip('Consume Asset (Large size)', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[publisher, consumer] = await nevermined.accounts.list()
+    ;[publisher, consumer] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 

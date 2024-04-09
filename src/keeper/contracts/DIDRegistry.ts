@@ -465,10 +465,22 @@ export class DIDRegistry extends ContractBase {
 
   public async getProvenanceEntry(provId: string) {
     const provenance: ProvenanceRegistry = await this.call('getProvenanceEntry', [zeroX(provId)])
-    if (provenance.did.match(/^0x0+$/)) {
+    const did = provenance[0]
+    console.log(provenance)
+    if (did.match(/^0x0+$/)) {
       return
     }
-    return provenance
+    return {
+      did,
+      relatedDid: provenance[1],
+      agentId: provenance[2],
+      activityId: provenance[3],
+      agentInvolvedId: provenance[4],
+      method: provenance[5] as ProvenanceMethod,
+      createdBy: provenance[6],
+      blockNumberUpdated: provenance[7],
+      signatureDelegate: provenance[8],
+    }
   }
 
   public async used(

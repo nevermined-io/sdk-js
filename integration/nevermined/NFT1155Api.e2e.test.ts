@@ -1,25 +1,24 @@
 import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
-import { NvmAccount, DDO, Nevermined, AssetPrice, ZeroAddress, getChecksumAddress } from '../../src'
-import {
-  EscrowPaymentCondition,
-  TransferNFTCondition,
-  Token,
-  Nft1155Contract,
-  ContractHandler,
-} from '../../src/keeper'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import {
-  DIDResolvePolicy,
-  getRoyaltyAttributes,
-  PublishMetadataOptions,
-  RoyaltyKind,
-} from '../../src/nevermined/api/AssetsApi'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { AssetPrice } from '@/models/AssetPrice'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { ContractHandler } from '@/keeper/ContractHandler'
 import '../globals'
-import { AssetAttributes } from '../../src/models/AssetAttributes'
-import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { getRoyaltyAttributes } from '@/nevermined/api/AssetsApi'
+import { DIDResolvePolicy, PublishMetadataOptions, RoyaltyKind } from '@/types/MetadataTypes'
+import { Token } from '@/keeper/contracts/Token'
+import { EscrowPaymentCondition, TransferNFTCondition } from '@/keeper/contracts/conditions'
+import { Nft1155Contract } from '@/keeper/contracts/Nft1155Contract'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { getChecksumAddress } from '@/nevermined/utils/BlockchainViemUtils'
+import { ZeroAddress } from '@/constants/AssetConstants'
 
 chai.use(chaiAsPromised)
 
@@ -69,7 +68,7 @@ function makeTest(isCustom) {
         loadRoyalties: true,
         loadCompute: false,
       })
-      ;[, artist, collector1, collector2, , gallery] = await nevermined.accounts.list()
+      ;[, artist, collector1, collector2, , gallery] = nevermined.accounts.list()
       const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
       await nevermined.services.marketplace.login(clientAssertion)
@@ -117,8 +116,7 @@ function makeTest(isCustom) {
 
         await nevermined.contracts.loadNft1155(nftContract.address)
 
-        const nftContractOwner = new NvmAccount(artist.getId())
-        await nftContract.grantOperatorRole(transferNftCondition.address, nftContractOwner)
+        await nftContract.grantOperatorRole(transferNftCondition.address, artist)
       }
 
       // components

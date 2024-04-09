@@ -1,6 +1,8 @@
 import { assert } from 'chai'
-import { config } from '../config'
-import { Nevermined, NvmAccount, NewPermission, PermissionType } from '../../src'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { NewPermission, PermissionType } from '@/types/MetadataTypes'
 
 describe('Permissions', () => {
   let nevermined: Nevermined
@@ -11,7 +13,7 @@ describe('Permissions', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[account1, account2] = await nevermined.accounts.list()
+    ;[account1, account2] = nevermined.accounts.list()
 
     //TODO admin token which will expire within 3 years. In the future an admin account will be created in elasticsearch directly to run theses tests
     config.marketplaceAuthToken =

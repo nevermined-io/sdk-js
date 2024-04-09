@@ -55,6 +55,7 @@ export class ConditionStoreManager extends ContractBase {
 
   public async getCondition(conditionId: string) {
     const a: any = await this.call('getCondition', [zeroX(conditionId)])
+    console.log('Condition: ', a)
     return {
       typeRef: a[0], //a.typeRef,
       state: Number(a[1]), //Number(a.state),

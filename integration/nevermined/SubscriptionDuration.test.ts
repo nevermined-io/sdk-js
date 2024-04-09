@@ -1,15 +1,17 @@
-import { assert } from 'chai'
-import {
-  NvmAccount,
-  AssetPrice,
-  DDO,
-  NFTAttributes,
-  Nevermined,
-  SubscriptionNFTApi,
-} from '../../src'
+import chai, { assert } from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
+import { SubscriptionNFTApi } from '@/nevermined/api/nfts/SubscriptionNFTApi'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { AssetPrice } from '@/models/AssetPrice'
+
+chai.use(chaiAsPromised)
 
 describe('Subscription Durations', () => {
   let publisher: NvmAccount
@@ -19,7 +21,7 @@ describe('Subscription Durations', () => {
   before(async () => {
     TestContractHandler.setConfig(config)
     nevermined = await Nevermined.getInstance(config)
-    ;[publisher, subscriber] = await nevermined.accounts.list()
+    ;[publisher, subscriber] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
     await nevermined.services.marketplace.login(clientAssertion)

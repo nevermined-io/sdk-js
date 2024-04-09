@@ -36,7 +36,7 @@ describe('NFTHolderCondition', () => {
     deployer = prepare.deployerAccount
     ;({ nftHolderCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, nftUpgradeable } = nevermined.keeper)
-    ;[owner, holder] = await nevermined.accounts.list()
+    ;[owner, holder] = nevermined.accounts.list()
 
     await conditionStoreManager.delegateCreateRole(owner.getId(), deployer)
   })

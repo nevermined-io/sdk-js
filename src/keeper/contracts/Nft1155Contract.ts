@@ -6,7 +6,7 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
 import { didToTokenId, getContractInstance } from '@/nevermined/utils/BlockchainViemUtils'
 import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
-import { NFTContractsBase } from './NFTContractsBase'
+import { NFT1155MintedEntry, NFTContractsBase } from './NFTContractsBase'
 
 /**
  * NFTs contracts DTO allowing to manage Nevermined ERC-1155 NFTs
@@ -35,7 +35,7 @@ export class Nft1155Contract extends NFTContractsBase {
       )
 
       nft.contract = await getContractInstance(address, solidityABI.abi, nft.client)
-      nft.address = await nft.contract.getAddress()
+      nft.address = await nft.contract.address
     }
 
     return nft
@@ -55,7 +55,7 @@ export class Nft1155Contract extends NFTContractsBase {
     nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, nft.client)
 
     nft.contract = await getContractInstance(address, solidityABI.abi, nft.client)
-    nft.address = await nft.contract.getAddress()
+    nft.address = await nft.contract.address
 
     return nft
   }
@@ -118,7 +118,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @returns
    */
   public async balance(address: string, did: string): Promise<bigint> {
-    return this.call('balanceOf', [zeroX(address), didZeroX(did)])
+    return this.call('balanceOf', [zeroX(address), didToTokenId(did)])
   }
 
   /**
@@ -138,7 +138,7 @@ export class Nft1155Contract extends NFTContractsBase {
     from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.send('safeTransferFrom', from, [from, to, didZeroX(did), amount, []], txParams)
+    return this.send('safeTransferFrom', from, [from, to, didToTokenId(did), amount, []], txParams)
   }
 
   /**
@@ -174,7 +174,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @returns Contract Receipt
    */
   public async burn(from: NvmAccount, tokenId: string, amount: bigint, txParams?: TxParameters) {
-    return this.send('burn', from, [from, didZeroX(tokenId), amount], txParams)
+    return this.send('burn', from, [from.getAddress(), didToTokenId(tokenId), amount], txParams)
   }
 
   /**
@@ -194,7 +194,7 @@ export class Nft1155Contract extends NFTContractsBase {
     from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.send('burn', from, [holder, didZeroX(tokenId), amount], txParams)
+    return this.send('burn', from, [holder, didToTokenId(tokenId), amount], txParams)
   }
 
   /**
@@ -204,6 +204,28 @@ export class Nft1155Contract extends NFTContractsBase {
    * @returns The NFT metadata url
    */
   public async uri(did: string): Promise<string> {
-    return this.call('uri', [didZeroX(did)])
+    return this.call('uri', [didToTokenId(did)])
+  }
+
+  /**
+   * It gets all the `NFT1155MintedEntry` events from the NFT Contract
+   * @param owner the user owning the NFT
+   * @param did the tokenId of the NFT
+   * @returns An array of `NFT1155MintedEntry` objects
+   */
+  public async getMintedEntries(owner: string, did?: string): Promise<NFT1155MintedEntry[]> {
+    const minted: any[][] = await this.call(
+      'getMintedEntries',
+      did ? [owner, didZeroX(did)] : [owner],
+    )
+    const entries: NFT1155MintedEntry[] = []
+    minted.map((entry) => {
+      entries.push({
+        amountMinted: BigInt(entry['amountMinted']),
+        expirationBlock: BigInt(entry['expirationBlock']),
+        mintBlock: BigInt(entry['mintBlock']),
+      })
+    })
+    return entries
   }
 }

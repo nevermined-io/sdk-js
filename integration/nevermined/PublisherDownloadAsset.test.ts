@@ -2,10 +2,14 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import * as fs from 'fs'
 
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, DDO, NvmAccount, MetaData, AssetAttributes } from '../../src'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { MetaData } from '@/types/DDOTypes'
+import { AssetAttributes } from '@/models/AssetAttributes'
 
 describe('Publisher Download Asset', () => {
   let nevermined: Nevermined
@@ -17,7 +21,7 @@ describe('Publisher Download Asset', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[publisher] = await nevermined.accounts.list()
+    ;[publisher] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 

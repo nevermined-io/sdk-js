@@ -21,7 +21,7 @@ describe('DIDRegistry', () => {
 
   describe('#registerAttribute()', () => {
     it('should register an attribute in a new did', async () => {
-      const [ownerAccount] = await nevermined.accounts.list()
+      const [ownerAccount] = nevermined.accounts.list()
       const did = generateId()
       const data = 'my nice provider, is nice'
       const txReceipt = await didRegistry.registerAttribute(did, checksum, [], data, ownerAccount)
@@ -38,7 +38,7 @@ describe('DIDRegistry', () => {
     })
 
     it('should register an attribute in a new did modifying the nonce', async () => {
-      const [ownerAccount] = await nevermined.accounts.list()
+      const [ownerAccount] = nevermined.accounts.list()
       const did = generateId()
       const data = 'hola hola'
       // const provider = await getWeb3EthersProvider(config)
@@ -65,7 +65,7 @@ describe('DIDRegistry', () => {
 
   describe('#getDIDOwner()', () => {
     it('should get the owner of a did properly', async () => {
-      const [ownerAccount] = await nevermined.accounts.list()
+      const [ownerAccount] = nevermined.accounts.list()
       const didSeed = generateId()
       const data = 'my nice provider, is nice'
       await didRegistry.registerAttribute(didSeed, checksum, [], data, ownerAccount)
@@ -85,14 +85,14 @@ describe('DIDRegistry', () => {
   describe('#transferDIDOwnership()', () => {
     it('should be able to transfer ownership', async () => {
       // create and register DID
-      const [ownerAccount] = await nevermined.accounts.list()
+      const [ownerAccount] = nevermined.accounts.list()
       const didSeed = generateId()
       const data = 'my nice provider, is nice'
       await didRegistry.registerAttribute(didSeed, checksum, [], data, ownerAccount)
       const did = await didRegistry.hashDID(didSeed, ownerAccount.getId())
 
       // transfer
-      const [, newOwnerAccount] = await nevermined.accounts.list()
+      const [, newOwnerAccount] = nevermined.accounts.list()
       // const logger = new Logger(LogLevel.Error)
       console.log('New Owner Account: ' + newOwnerAccount.getId())
       await didRegistry.transferDIDOwnership(did, newOwnerAccount.getId(), ownerAccount)

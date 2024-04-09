@@ -1,8 +1,12 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { NvmAccount, DID, Nevermined, AssetPrice, AssetAttributes } from '../../src'
-import { config } from '../config'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
 import { getAssetPrice, getMetadata } from '../utils'
+import { AssetPrice } from '@/models/AssetPrice'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { DID } from '@/nevermined/DID'
 
 describe('Get DDO status', () => {
   let nevermined: Nevermined
@@ -12,7 +16,7 @@ describe('Get DDO status', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[publisher] = await nevermined.accounts.list()
+    ;[publisher] = nevermined.accounts.list()
     assetPrice = getAssetPrice(publisher.getId())
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 

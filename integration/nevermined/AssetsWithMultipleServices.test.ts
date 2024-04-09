@@ -36,7 +36,7 @@ describe('Assets with multiple services', () => {
     nevermined = await Nevermined.getInstance(config)
     ;({ token } = nevermined.keeper)
     // Accounts
-    ;[publisher, consumer] = await nevermined.accounts.list()
+    ;[publisher, consumer] = nevermined.accounts.list()
 
     neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 

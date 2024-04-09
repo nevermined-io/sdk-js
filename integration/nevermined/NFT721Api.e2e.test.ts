@@ -1,19 +1,19 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { NvmAccount, DDO, Nevermined, NFTAttributes, AssetPrice } from '../../src'
-import {
-  EscrowPaymentCondition,
-  TransferNFT721Condition,
-  Token,
-  Nft721Contract,
-  ContractHandler,
-} from '../../src/keeper'
-import { config } from '../config'
-import { getMetadata } from '../utils'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { AssetPrice } from '@/models/AssetPrice'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { Nft721Contract } from '@/keeper/contracts/Nft721Contract'
+import { ContractHandler } from '@/keeper/ContractHandler'
+
 import '../globals'
+import { EscrowPaymentCondition, Token, TransferNFT721Condition } from '@/keeper/contracts'
 
 describe('NFTs721 Api End-to-End', () => {
-  let nftContractOwner: NvmAccount
   let artist: NvmAccount
   let collector1: NvmAccount
   let gallery: NvmAccount
@@ -44,7 +44,7 @@ describe('NFTs721 Api End-to-End', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[, artist, collector1, , gallery] = await nevermined.accounts.list()
+    ;[, artist, collector1, , gallery] = nevermined.accounts.list()
 
     const networkName = await nevermined.keeper.getNetworkName()
     const erc721ABI = await ContractHandler.getABIArtifact(
@@ -65,12 +65,10 @@ describe('NFTs721 Api End-to-End', () => {
 
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
-      await nft.getAddress(),
+      await nft.address,
     )
 
     await nevermined.contracts.loadNft721(nftContract.address)
-
-    nftContractOwner = new NvmAccount((await nftContract.owner()) as string)
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
@@ -96,7 +94,7 @@ describe('NFTs721 Api End-to-End', () => {
       ]),
     )
 
-    await nftContract.grantOperatorRole(transferNft721Condition.address, nftContractOwner)
+    await nftContract.grantOperatorRole(transferNft721Condition.address, artist)
 
     initialBalances = {
       artist: await token.balanceOf(artist.getId()),

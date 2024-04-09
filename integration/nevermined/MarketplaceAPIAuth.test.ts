@@ -1,6 +1,8 @@
 import { assert } from 'chai'
-import { config } from '../config'
-import { Nevermined, NvmAccount, Logger } from '../../src'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import Logger from '@/models/Logger'
 
 describe('Marketplace api auth', () => {
   let nevermined: Nevermined
@@ -12,7 +14,7 @@ describe('Marketplace api auth', () => {
     try {
       localStorage.clear()
     } catch (error) {
-      Logger.error(error)
+      Logger.debug(error)
     }
 
     const numAccounts = config.accounts.length
@@ -24,7 +26,7 @@ describe('Marketplace api auth', () => {
     nevermined = await Nevermined.getInstance(testConfig)
 
     // Accounts
-    ;[account1, account2] = await nevermined.accounts.list()
+    ;[account1, account2] = nevermined.accounts.list()
   })
 
   it('should login in marketplace API', async () => {

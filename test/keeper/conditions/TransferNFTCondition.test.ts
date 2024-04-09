@@ -53,7 +53,7 @@ describe('TransferNFTCondition', () => {
     ;({ transferNftCondition, lockPaymentCondition, escrowPaymentCondition } =
       nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, token, nftUpgradeable } = nevermined.keeper)
-    ;[owner, nftReceiver, other] = await nevermined.accounts.list()
+    ;[owner, nftReceiver, other] = nevermined.accounts.list()
     receivers = [nftReceiver.getId()]
 
     await conditionStoreManager.delegateCreateRole(owner.getId(), deployer)

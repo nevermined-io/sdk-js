@@ -3,7 +3,7 @@ import { NvmAccountError } from '@/errors/NeverminedErrors'
 import { NvmAccount } from '@/models/NvmAccount'
 import { keccak256 } from '@/nevermined/utils/BlockchainViemUtils'
 import { TypedDataDomain, TypedDataTypes } from '@/types/GeneralTypes'
-import { Hash, LocalAccount, recoverAddress, toHex } from 'viem'
+import { Hash, LocalAccount, recoverMessageAddress, toHex } from 'viem'
 
 export class SignatureUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -107,10 +107,9 @@ export class SignatureUtils extends Instantiable {
     })
   }
 
-  static async recoverSignerAddress(hash: string, signature: string): Promise<string> {
-    const message = typeof hash === 'string' ? hash : toHex(hash)
-    return recoverAddress({
-      hash: message as `0x${string}`,
+  static async recoverSignerAddress(message: string, signature: string): Promise<string> {
+    return recoverMessageAddress({
+      message,
       signature: signature as `0x${string}`,
     })
   }

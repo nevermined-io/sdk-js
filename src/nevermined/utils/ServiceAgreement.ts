@@ -57,9 +57,10 @@ export class ServiceAgreement extends Instantiable {
       timeoutValues,
     )
 
+    console.log(`Signing text using agreement: ${serviceAgreementHash}`)
     const serviceAgreementHashSignature = await this.nevermined.utils.signature.signText(
       getBytes(serviceAgreementHash),
-      consumer.getId(),
+      consumer,
     )
 
     return serviceAgreementHashSignature

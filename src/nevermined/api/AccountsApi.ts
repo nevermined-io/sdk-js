@@ -67,6 +67,8 @@ export class AccountsApi extends Instantiable {
     from: string,
   ): Promise<`0x${string}`> {
     const message = typeof text === 'string' ? text : toHex(text)
+    console.log(`Signing with remote account ${from} the message: ${message}`)
+    console.log(await this.walletClient.chain.id)
     return await this.walletClient.signMessage({
       account: from as `0x${string}`,
       message: message as `0x${string}`,

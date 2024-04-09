@@ -1,19 +1,17 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
-import {
-  NvmAccount,
-  AssetPrice,
-  Nevermined,
-  ResourceAuthentication,
-  SubscriptionCreditsNFTApi,
-  Web3Error,
-  ZeroAddress,
-} from '../../src'
-import { config } from '../config'
+import config from '../../test/config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { NVMAppEnvironments, NvmApp } from '../../src/nevermined/NvmApp'
-import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetPrice } from '@/models/AssetPrice'
+import { ResourceAuthentication } from '@/types/DDOTypes'
+import { NVMAppEnvironments, NvmApp } from '@/nevermined/NvmApp'
+import { SubscriptionCreditsNFTApi } from '@/nevermined/api/nfts/SubscriptionCreditsNFTApi'
+import { NativeTokenAddress } from '@/constants/AssetConstants'
+import { Web3Error } from '@/errors/NeverminedErrors'
+import { NvmAppMetadata } from '@/ddo/NvmAppMetadata'
 
 chai.use(chaiAsPromised)
 
@@ -42,10 +40,10 @@ describe('NVM App API', () => {
     const AUTHORIZATION_PASSWORD = process.env.AUTHORIZATION_PASSWORD || 'password'
 
     before(async () => {
-      TestContractHandler.setConfig(config)
+      // TestContractHandler.setConfig(config)
 
       const nevermined = await Nevermined.getInstance(config)
-      ;[, publisher] = await nevermined.accounts.list()
+      ;[, publisher] = nevermined.accounts.list()
 
       const contractABI = await TestContractHandler.getABIArtifact(
         `NFT1155SubscriptionUpgradeable.geth-localnet`,
@@ -79,7 +77,9 @@ describe('NVM App API', () => {
       await subscriptionNFT.grantOperatorRole(neverminedNodeAddress, publisher)
 
       assert.equal(nevermined.nfts1155.getContract.address, subscriptionNFTAddress)
-      subscriptionPrice = new AssetPrice(publisher.getId(), 1000n).setTokenAddress(ZeroAddress)
+      subscriptionPrice = new AssetPrice(publisher.getId(), 1000n).setTokenAddress(
+        NativeTokenAddress,
+      )
     })
 
     it('I want to search content from the app', async () => {
@@ -107,9 +107,9 @@ describe('NVM App API', () => {
       assert.throws(() => nvmApp.sdk.accounts.list(), Web3Error)
 
       defaultSigner = config.accounts[0]
-      signerAddress = await defaultSigner.getAddress()
+      signerAddress = defaultSigner.getAddress()
       console.log(`Account address: ${signerAddress}`)
-      await nvmApp.connect(signerAddress)
+      await nvmApp.connect(defaultSigner)
 
       assert.isTrue(nvmApp.isWeb3Connected())
 
@@ -118,7 +118,7 @@ describe('NVM App API', () => {
 
     it('I can calculate and include network fees', async () => {
       subscriptionPriceWithFees = nvmApp.addNetworkFee(subscriptionPrice)
-      console.log(`Asset Price with fees: ${subscriptionPriceWithFees.toString()}`)
+      console.log('Asset Price with fees: ', subscriptionPriceWithFees)
 
       assert.isTrue(nvmApp.isNetworkFeeIncluded(subscriptionPriceWithFees))
     })

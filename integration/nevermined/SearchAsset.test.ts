@@ -1,10 +1,12 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
-import { Nevermined, NvmAccount, DDO, AssetAttributes } from '../../src'
-import { generateId } from '../../src/utils'
-
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { generateId } from '@/common/helpers'
 describe('Search Asset', () => {
   let nevermined: Nevermined
   let neverminedOffline: Nevermined
@@ -15,7 +17,7 @@ describe('Search Asset', () => {
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
     neverminedOffline = await Nevermined.getSearchOnlyInstance(config)
-    ;[account] = await nevermined.accounts.list()
+    ;[account] = nevermined.accounts.list()
     appId = generateId()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account)

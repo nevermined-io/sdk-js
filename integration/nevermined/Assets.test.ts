@@ -32,7 +32,7 @@ describe('Assets', () => {
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
     // Accounts
-    ;[publisher] = await nevermined.accounts.list()
+    ;[publisher] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 

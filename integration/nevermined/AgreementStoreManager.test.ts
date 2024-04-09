@@ -26,7 +26,7 @@ describe('Agreement Store Manager', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[account1, account2] = await nevermined.accounts.list()
+    ;[account1, account2] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account1)
 

@@ -1,17 +1,17 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import {
-  Nevermined,
-  NvmAccount,
-  DDO,
-  AssetPrice,
-  NFTAttributes,
-  RoyaltyKind,
-  ZeroAddress,
-} from '../../src'
-import { getRoyaltyAttributes, parseEther, RoyaltyAttributes } from '../../src/nevermined'
+
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { AssetPrice } from '@/models/AssetPrice'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '@/nevermined/api/AssetsApi'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '@/types/MetadataTypes'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { parseEther } from '@/nevermined/utils/BlockchainViemUtils'
+import { ZeroAddress } from '@/constants/AssetConstants'
 
 describe('Nfts operations', () => {
   let nevermined: Nevermined
@@ -27,7 +27,7 @@ describe('Nfts operations', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[artist, collector] = await nevermined.accounts.list()
+    ;[artist, collector] = nevermined.accounts.list()
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
     await nevermined.services.marketplace.login(clientAssertion)

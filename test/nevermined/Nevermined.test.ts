@@ -33,7 +33,7 @@ describe('Nevermined', () => {
 
   describe('#getAccounts()', () => {
     it('should list accounts', async () => {
-      const accs: NvmAccount[] = await nevermined.accounts.list()
+      const accs: NvmAccount[] = nevermined.accounts.list()
 
       assert(accs.length === 10, `Expected 10 but the length is ${accs.length}`)
       const balance = await nevermined.accounts.getBalance(accs[5].getAddress())

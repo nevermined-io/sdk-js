@@ -3,8 +3,15 @@ import { NvmAccount } from '@/models/NvmAccount'
 import { TxParameters } from '@/models/Transactions'
 import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
 import { ContractBase } from './ContractBase'
+import { isValidAddress } from '@/nevermined/utils/BlockchainViemUtils'
 
-export interface MintedEntry {
+export interface NFT721MintedEntry {
+  tokenId: string
+  expirationBlock: bigint
+  mintBlock: bigint
+}
+
+export interface NFT1155MintedEntry {
   amountMinted: bigint
   expirationBlock: bigint
   mintBlock: bigint
@@ -44,27 +51,24 @@ export class NFTContractsBase extends ContractBase {
     try {
       const txReceipt = await this.sendFrom(
         'createClone',
-        ercType === 721
-          ? [name, symbol, uri, String(cap), operators]
-          : [name, symbol, uri, operators],
+        ercType === 721 ? [name, symbol, uri, cap, operators] : [name, symbol, uri, operators],
         from,
         txParams,
       )
-      // const tx = await this.client.public.getTransaction({hash: txReceipt.transactionHash})
-      //const logs = parseEventLogs({ abi: this.contract.interface.abi, logs: txReceipt.logs, eventName: 'NFTCloned', strict: false })
       const logs = this.getTransactionLogs(txReceipt, 'NFTCloned')
-      logs.some((e: any) => {
-        return e.args['_newAddress'] // = decodeEventLog({ abi: this.contract.interface.abi, data: e.data, topics: e.topics })
-      })
-      throw new KeeperError(
-        `Unable to get address of the cloned contract: ${txReceipt.transactionHash}`,
-      )
-      // logs.find((e) => e. === 'NFTCloned')
-      // txReceipt.logs.find((e) => e.)
-      // const event = txReceipt.logs.find(
-      //   (e: EventLog) => e.eventName === 'NFTCloned',
-      // ) as EventLog
-      // return event.args._newAddress
+
+      let newContractAddress
+      const found = logs
+        .filter((e: any) => e.args._newAddress)
+        .some((e: any) => {
+          newContractAddress = e.args._newAddress
+          return true
+        })
+      if (!found || !isValidAddress(newContractAddress))
+        throw new KeeperError(
+          `Unable to get address of the cloned contract on tx: ${txReceipt.transactionHash}`,
+        )
+      return newContractAddress
     } catch (error) {
       throw new KeeperError(`Unable to clone contract: ${(error as Error).message}`)
     }
@@ -125,28 +129,5 @@ export class NFTContractsBase extends ContractBase {
    */
   public revokeOperatorRole(operatorAddress: string, from?: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('revokeOperatorRole', [zeroX(operatorAddress)], from, txParams)
-  }
-
-  /**
-   * It gets all the `MintedEntries` events from the NFT Contract
-   * @param owner the user owning the NFT
-   * @param did the tokenId of the NFT
-   * @returns An array of `MintedEntry` objects
-   */
-  public async getMintedEntries(owner: string, did?: string): Promise<MintedEntry[]> {
-    const minted: string[][] = await this.call(
-      'getMintedEntries',
-      did ? [owner, didZeroX(did)] : [owner],
-    )
-
-    const entries: MintedEntry[] = []
-    for (let i = 0; i < minted.length; i++) {
-      entries.push({
-        amountMinted: BigInt(minted[i][0]),
-        expirationBlock: BigInt(minted[i][1]),
-        mintBlock: BigInt(minted[i][2]),
-      })
-    }
-    return entries
   }
 }

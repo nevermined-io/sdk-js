@@ -467,7 +467,10 @@ export class NFT721Api extends NFTsBaseApi {
    * @returns The address of the NFT owner.
    */
   public async ownerOfAssetByAgreement(did: string, agreementId: string) {
-    const tokenId = keccak256WithEncode(['bytes32', 'bytes32'], [zeroX(did), zeroX(agreementId)])
+    const tokenId = keccak256WithEncode(
+      [{ type: 'bytes32' }, { type: 'bytes32' }],
+      [zeroX(did), zeroX(agreementId)],
+    )
     return this.ownerOfTokenId(tokenId)
   }
 

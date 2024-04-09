@@ -13,7 +13,7 @@ describe('NvmAccount', () => {
   before(async () => {
     // await TestContractHandler.prepareContracts()
     // nevermined = await Nevermined.getInstance(config)
-    // accounts = await nevermined.accounts.list()
+    // accounts = nevermined.accounts.list()
   })
 
   describe('#fromAccount()', () => {

@@ -15,7 +15,7 @@ describe('Bookmarks', () => {
     config.marketplaceAuthToken = undefined
 
     nevermined = await Nevermined.getInstance(config)
-    ;[account1] = await nevermined.accounts.list()
+    ;[account1] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account1)
 

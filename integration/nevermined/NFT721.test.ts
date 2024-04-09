@@ -1,11 +1,21 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import { Nevermined, NvmAccount, DDO, NFTAttributes, AssetPrice } from '../../src'
-import { generateId, ZeroAddress, zeroX } from '../../src/utils'
-import { parseEther, TokenUtils } from '../../src/nevermined'
-import { ContractHandler, Nft721Contract, TransferNFT721Condition } from '../../src/keeper'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { AssetPrice } from '@/models/AssetPrice'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { parseEther } from '@/nevermined/utils/BlockchainViemUtils'
+import { ZeroAddress } from '@/constants/AssetConstants'
+import { Nft721Contract } from '@/keeper/contracts/Nft721Contract'
+import { TransferNFT721Condition } from '@/keeper/contracts/conditions/NFTs/TransferNFT721Condition'
+import { TokenUtils } from '@/nevermined/Token'
+import { ContractHandler } from '@/keeper/ContractHandler'
+import { generateId } from '@/common/helpers'
+import { zeroX } from '@/utils/ConversionTypeHelpers'
 
 describe('Nfts721 operations', async () => {
   let nevermined: Nevermined
@@ -26,7 +36,7 @@ describe('Nfts721 operations', async () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[deployer, artist, collector] = await nevermined.accounts.list()
+    ;[deployer, artist, collector] = nevermined.accounts.list()
 
     const networkName = await nevermined.keeper.getNetworkName()
     const erc721ABI = await ContractHandler.getABIArtifact(
@@ -47,7 +57,7 @@ describe('Nfts721 operations', async () => {
     ])
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
-      await nft.getAddress(),
+      await nft.address,
     )
 
     await nevermined.contracts.loadNft721(nftContract.address)
@@ -56,7 +66,8 @@ describe('Nfts721 operations', async () => {
 
     ;({ transferNft721Condition } = nevermined.keeper.conditions)
 
-    const nftOwner = new NvmAccount((await nftContract.owner()) as string)
+    const nftOwner = NvmAccount.fromAddress((await nftContract.owner()) as `0x${string}`)
+
     nftContract.grantOperatorRole(transferNft721Condition.address, nftOwner)
 
     await nevermined.services.marketplace.login(clientAssertion)
@@ -80,7 +91,7 @@ describe('Nfts721 operations', async () => {
             serviceType: 'nft-access',
           },
         ],
-        nftContractAddress: await nft.getAddress(),
+        nftContractAddress: await nft.address,
         preMint: true,
       })
       assert.equal(nftAttributes.fulfillAccessTimelock, 0)
@@ -96,7 +107,7 @@ describe('Nfts721 operations', async () => {
     it('should mint and burn a nft token', async () => {
       // artist mints the nft
       const tokenId = generateId()
-      await nftContract.mint(zeroX(tokenId), artist.getId())
+      await nftContract.mint(zeroX(tokenId), artist)
 
       await nftContract.burn(zeroX(tokenId), artist)
     })
@@ -139,7 +150,7 @@ describe('Nfts721 operations', async () => {
             serviceType: 'nft-access',
           },
         ],
-        nftContractAddress: await nft.getAddress(),
+        nftContractAddress: await nft.address,
         preMint: false,
       })
       ddo = await nevermined.nfts721.create(nftAttributes, artist)
@@ -147,7 +158,7 @@ describe('Nfts721 operations', async () => {
 
     it('should mint an nft token', async () => {
       // artist mints the nft
-      await nftContract.mint(zeroX(ddo.shortId()), artist.getId())
+      await nftContract.mint(zeroX(ddo.shortId()), artist)
     })
 
     it('should transfer an nft token with custom token', async () => {
@@ -188,7 +199,7 @@ describe('Nfts721 operations', async () => {
             serviceType: 'nft-access',
           },
         ],
-        nftContractAddress: await nft.getAddress(),
+        nftContractAddress: await nft.address,
         preMint: false,
       })
       ddo = await nevermined.nfts721.create(nftAttributes, artist)
@@ -196,7 +207,7 @@ describe('Nfts721 operations', async () => {
 
     it('should mint an nft token', async () => {
       // artist mints the nft
-      await nftContract.mint(zeroX(ddo.shortId()), artist.getId())
+      await nftContract.mint(zeroX(ddo.shortId()), artist)
     })
 
     it('should transfer an nft token with ether', async () => {

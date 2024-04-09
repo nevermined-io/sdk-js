@@ -14,7 +14,7 @@ describe('ContractEvent', () => {
   before(async () => {
     const deployer = await TestContractHandler.prepareContracts()
     nevermined = deployer.nevermined
-    ;[account1, account2, account3, account4] = await nevermined.accounts.list()
+    ;[account1, account2, account3, account4] = nevermined.accounts.list()
   })
 
   describe('#subscribe()', () => {

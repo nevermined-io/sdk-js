@@ -44,7 +44,7 @@ describe('NFT721SalesTemplate', () => {
     ;({ nft721SalesTemplate } = nevermined.keeper.templates)
     ;({ templateStoreManager, didRegistry, conditionStoreManager, agreementStoreManager } =
       nevermined.keeper)
-    ;[sender, receiver] = await nevermined.accounts.list()
+    ;[sender, receiver] = nevermined.accounts.list()
     timeLocks = [0, 0, 0]
     timeOuts = [0, 0, 0]
 

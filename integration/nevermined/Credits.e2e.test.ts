@@ -2,29 +2,25 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
-import {
-  NvmAccount,
-  DDO,
-  MetaData,
-  Nevermined,
-  AssetPrice,
-  NFTAttributes,
-  jsonReplacer,
-} from '../../src'
-import { EscrowPaymentCondition, Token, TransferNFTCondition } from '../../src/keeper'
-import { config } from '../config'
-import { getMetadata } from '../utils'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { MetaData } from '@/types/DDOTypes'
+import { DDO } from '@/ddo/DDO'
+
+import { AssetPrice } from '@/models/AssetPrice'
+import { Token } from '@/keeper/contracts/Token'
+import { EscrowPaymentCondition, TransferNFTCondition } from '@/keeper/contracts/conditions'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '@/nevermined/api/AssetsApi'
+import { NFT1155Api, SubscriptionCreditsNFTApi } from '@/nevermined/api'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { didZeroX } from '../../src/utils'
-import { EventOptions } from '../../src/events'
-import {
-  getRoyaltyAttributes,
-  RoyaltyAttributes,
-  RoyaltyKind,
-  SubscriptionCreditsNFTApi,
-  NFT1155Api,
-  getChecksumAddress,
-} from '../../src/nevermined'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '@/types/MetadataTypes'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { EventOptions } from '@/types/EventTypes'
+import { didZeroX } from '@/utils/ConversionTypeHelpers'
+import { getChecksumAddress } from '@/nevermined/utils/BlockchainViemUtils'
+import { jsonReplacer } from '@/common/helpers'
 import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
@@ -80,7 +76,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
     TestContractHandler.setConfig(config)
 
     nevermined = await Nevermined.getInstance(config)
-    ;[, editor, subscriber, , reseller] = await nevermined.accounts.list()
+    ;[, editor, subscriber, , reseller] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(editor)
 

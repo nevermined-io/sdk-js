@@ -1,20 +1,21 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import {
-  Nevermined,
-  NvmAccount,
-  MetaData,
-  DDO,
-  AssetPrice,
-  Token,
-  ContractHandler,
-  Nft721Contract,
-  NFTAttributes,
-  ConditionState,
-} from '../../src'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { AssetPrice } from '@/models/AssetPrice'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+
+import { NFTAttributes } from '@/models/NFTAttributes'
+
+import { Token } from '@/keeper/contracts/Token'
+import { ConditionState } from '@/types/ContractTypes'
+
 import { repeat } from '../utils/utils'
+import { MetaData } from '@/types/DDOTypes'
+import { Nft721Contract } from '@/keeper/contracts/Nft721Contract'
+import { ContractHandler } from '@/keeper/ContractHandler'
 
 let nevermined: Nevermined
 let publisher: NvmAccount
@@ -39,7 +40,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
     nevermined = await Nevermined.getInstance(config)
     ;({ token } = nevermined.keeper)
     // Accounts
-    ;[publisher, collector1] = await nevermined.accounts.list()
+    ;[publisher, collector1] = nevermined.accounts.list()
 
     neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
@@ -62,7 +63,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
 
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
-      await nft.getAddress(),
+      await nft.address,
     )
 
     await nevermined.contracts.loadNft721(nftContract.address)

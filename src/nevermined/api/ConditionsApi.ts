@@ -98,11 +98,8 @@ export class ConditionsApi extends Instantiable {
       from,
       {
         ...txParams,
-        value: BigInt(
-          erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress
-            ? totalAmount.toString()
-            : undefined,
-        ),
+        value:
+          erc20TokenAddress && erc20TokenAddress.toLowerCase() === ZeroAddress ? totalAmount : 0n,
       },
     )
 
@@ -340,8 +337,8 @@ export class ConditionsApi extends Instantiable {
     did: string,
     holder: string,
     nftAmount: bigint,
-    contractAddress?: string,
-    from?: NvmAccount,
+    contractAddress: string,
+    from: NvmAccount,
     params?: txParams,
   ) {
     const { nftHolderCondition } = this.nevermined.keeper.conditions

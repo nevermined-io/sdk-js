@@ -1,5 +1,5 @@
 import { NvmAccount, Nevermined, generateId, getChecksumAddress } from '../../src'
-import { config } from '../config'
+import config from '../../test/config'
 import { assert } from 'chai'
 import { awaitTimeout, mineBlocks, sleep } from '../utils/utils'
 
@@ -13,11 +13,11 @@ describe('SubgraphEvent', () => {
       this.skip()
     }
     nevermined = await Nevermined.getInstance(config)
-    ;[account] = await nevermined.accounts.list()
+    ;[account] = nevermined.accounts.list()
 
-    await nevermined.keeper.dispenser.requestTokens(1, account.getId())
+    await nevermined.keeper.dispenser.requestTokens(1, account)
 
-    executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account.getId())
+    executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account)
   })
 
   it('should query for the event', async () => {

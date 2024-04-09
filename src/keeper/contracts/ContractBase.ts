@@ -172,78 +172,6 @@ export abstract class ContractBase extends Instantiable {
     } else {
       throw new KeeperError(`Account not supported`)
     }
-
-    // if (params.signer) {
-    //   const paramsFixed = { ...params, signer: undefined }
-    //   const contract = this.contract.connect(params.signer)
-    //   return await this.internalEthersSend(name, from, args, paramsFixed, contract, params.progress)
-    // }
-
-    // if (params.nvmAccount) {
-    //   this.logger.log(`Is internal send`)
-    //   return await this.localAccountSend(functionName, params.nvmAccount.getAccountSigner() as Account, args, params, params.progress)
-    // }
-
-    // const methodSignature = getSignatureOfFunction(this.contract.interface, name, args)
-
-    // get signer
-    // const _nvmAccount = await this.nevermined.accounts.findAccount(from)
-    // const contract = this.contract.connect(nvmAccount)
-
-    // calculate gas cost
-    // let { gasLimit } = params
-    // const { value, gasPrice, maxFeePerGas, maxPriorityFeePerGas, nonce } = params
-
-    // try {
-    //   if (params.progress) {
-    //     params.progress({
-    //       stage: 'estimateGas',
-    //       args: getInputsOfFunctionFormatted(this.contract.interface, name, args),
-    //       method: name,
-    //       from,
-    //       value,
-    //       contractName: this.contractName,
-    //       contractAddress: this.address,
-    //     })
-    //   }
-
-    //   if (!gasLimit) {
-    //     gasLimit = await this.client.public.estimateContractGas({
-    //       address: this.address,
-    //       abi: this.contract.abi,
-    //       functionName: name,
-    //       account: from as `0x${string}`,
-    //       args
-    //     })
-    //   }
-
-    //   // get correct fee data
-    //   const feeData = await this.nevermined.utils.viem.getFeeData(
-    //     gasPrice && BigInt(gasPrice),
-    //     maxFeePerGas && BigInt(maxFeePerGas),
-    //     maxPriorityFeePerGas && BigInt(maxPriorityFeePerGas),
-    //   )
-
-    //   const txparams = {
-    //     value,
-    //     gasLimit,
-    //     nonce,
-    //     ...feeData,
-    //   }
-    //   return await this.internalSend(name, from, args, txparams, params.progress)
-    // } catch (err) {
-    //   const mappedArgs = getInputsOfFunctionFormatted(this.contract.interface, name, args)
-    //   throw new KeeperError(`
-    //             ${'-'.repeat(40)}\n
-    //             Sending transaction "${name}" on contract "${this.contractName}" at ${
-    //     this.address
-    //   } failed.\n
-    //             Error: ${err}\n
-    //             From: ${from}\n
-    //             Parameters: ${JSON.stringify(mappedArgs, jsonReplacer, 2)}\n
-    //             ${'-'.repeat(40)}
-    //         `)
-    // }
   }
 
   private async localAccountSend(
@@ -255,7 +183,7 @@ export abstract class ContractBase extends Instantiable {
   ) {
     const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
     // Uncomment to debug contract calls
-    if (name === 'updateMetadataUrl') {
+    if (name === 'grantOperatorRole') {
       const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
       console.debug(`Making contract call ....: ${name} - ${from}`)
       console.debug(`With args`, args)

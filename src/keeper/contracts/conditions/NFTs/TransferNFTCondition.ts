@@ -52,17 +52,19 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     willBeTransferred = true,
     expiration = 0,
   ): ConditionParameters<Record<string, unknown>> {
+    nftAmount = BigInt(nftAmount)
     const list: any[] = [
       didZeroX(did),
       zeroX(nftHolder),
       zeroX(nftReceiver),
-      nftAmount.toString(),
+      nftAmount,
       lockCondition,
     ]
     if (nftContractAddress) {
       list.push(zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address))
       list.push(willBeTransferred)
     }
+
     return {
       list,
       params: async (method) => {
@@ -71,21 +73,21 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
             didZeroX(did),
             zeroX(nftHolder),
             zeroX(nftReceiver),
-            nftAmount.toString(),
+            nftAmount,
             lockCondition,
             zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
             willBeTransferred,
-            expiration.toString(),
+            expiration,
           ]
         } else if (method === 'fulfill') {
           return [
             didZeroX(did),
             zeroX(nftReceiver),
-            nftAmount.toString(),
+            nftAmount,
             lockCondition,
             zeroX(nftContractAddress || this.nevermined.keeper.nftUpgradeable.address),
             willBeTransferred,
-            expiration.toString(),
+            expiration,
           ]
         }
       },
@@ -197,18 +199,18 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     nftAddress: string,
     willBeTransferred = true,
     expiration = 0n,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     const args = [
       didZeroX(did),
       zeroX(nftHolder),
       zeroX(nftReceiver),
-      nftAmount.toString(),
+      nftAmount,
       lockPaymentCondition,
       zeroX(nftAddress),
       willBeTransferred,
-      expiration.toString(),
+      expiration,
     ]
     return super.fulfillPlain(agreementId, args, from, txParams, 'fulfillForDelegate')
   }

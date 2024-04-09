@@ -92,7 +92,7 @@ describe('Secondary Markets', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[owner, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
+    ;[owner, artist, collector1, collector2, gallery] = nevermined.accounts.list()
 
     receivers = [artist.getId(), gallery.getId()]
     receivers2 = [collector1.getId(), artist.getId()]
@@ -320,6 +320,8 @@ describe('Secondary Markets', () => {
           ddo.id,
           collector1.getId(),
           numberNFTs,
+          nftUpgradeable.address,
+          collector1,
         )
         assert.isTrue(result)
       })
@@ -537,6 +539,8 @@ describe('Secondary Markets', () => {
           ddo.id,
           collector2.getId(),
           numberNFTs,
+          nftUpgradeable.address,
+          collector2,
         )
         assert.isTrue(result)
       })
@@ -559,6 +563,8 @@ describe('Secondary Markets', () => {
             ddo.id,
             collector1.getId(),
             numberNFTs,
+            nftUpgradeable.address,
+            collector1,
           ),
         )
       })

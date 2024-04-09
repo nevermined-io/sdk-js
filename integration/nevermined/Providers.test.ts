@@ -1,7 +1,10 @@
 import { decodeJwt } from 'jose'
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
-import { Nevermined, NvmAccount, DDO, AssetAttributes } from '../../src'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { AssetAttributes } from '@/models/AssetAttributes'
 
 describe('Providers operations', () => {
   let nevermined: Nevermined
@@ -14,7 +17,7 @@ describe('Providers operations', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[account1, account2] = await nevermined.accounts.list()
+    ;[account1, account2] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account1)
 

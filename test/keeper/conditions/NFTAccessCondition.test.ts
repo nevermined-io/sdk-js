@@ -47,7 +47,7 @@ describe('NFTAccessCondition', () => {
     ;({ nftAccessTemplate } = nevermined.keeper.templates)
     ;({ conditionStoreManager, didRegistry, agreementStoreManager, templateStoreManager } =
       nevermined.keeper)
-    ;[owner, grantee, templateId, other] = await nevermined.accounts.list()
+    ;[owner, grantee, templateId, other] = nevermined.accounts.list()
 
     await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, deployer)
 

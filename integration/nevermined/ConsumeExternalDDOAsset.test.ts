@@ -1,20 +1,19 @@
 import { assert } from 'chai'
-import { decodeJwt } from 'jose'
 import * as fs from 'fs'
-import { config } from '../config'
-import {
-  Nevermined,
-  DDO,
-  ConditionState,
-  MetaData,
-  Logger,
-  AssetPrice,
-  AssetAttributes,
-  NvmAccount,
-} from '../../src'
+import { decodeJwt } from 'jose'
+
+import config from '../../test/config'
 import { getMetadata } from '../utils'
 import { repeat } from '../utils/utils'
-import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { MetaData } from '@/types/DDOTypes'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetPrice } from '@/models/AssetPrice'
+import { AgreementPrepareResult } from '@/nevermined/api/AgreementsApi'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import Logger from '@/models/Logger'
+import { ConditionState } from '@/types/ContractTypes'
 
 describe('Consume Asset (Documentation example)', () => {
   let nevermined: Nevermined
@@ -33,7 +32,7 @@ describe('Consume Asset (Documentation example)', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[publisher, consumer] = await nevermined.accounts.list()
+    ;[publisher, consumer] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 

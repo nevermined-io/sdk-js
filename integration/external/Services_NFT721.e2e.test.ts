@@ -151,7 +151,7 @@ describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
     TestContractHandler.setConfig(config)
 
     nevermined = await Nevermined.getInstance(config)
-    ;[, publisher, subscriber, , reseller] = await nevermined.accounts.list()
+    ;[, publisher, subscriber, , reseller] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 

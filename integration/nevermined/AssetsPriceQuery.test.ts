@@ -36,7 +36,7 @@ describe('Assets Query by Price', () => {
     price2 = parseUnits('17.86', await token.decimals())
     royalties = parseUnits('2', await token.decimals())
     appId = generateId()
-    ;[account, account2] = await nevermined.accounts.list()
+    ;[account, account2] = nevermined.accounts.list()
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account)
     await nevermined.services.marketplace.login(clientAssertion)
     payload = decodeJwt(config.marketplaceAuthToken)

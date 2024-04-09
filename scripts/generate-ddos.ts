@@ -285,7 +285,7 @@ const generateComputeDDO = async (
 
 const main = async () => {
   const nevermined = await Nevermined.getInstance(config)
-  const [publisher] = await nevermined.accounts.list()
+  const [publisher] = nevermined.accounts.list()
 
   const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
   await nevermined.services.marketplace.login(clientAssertion)

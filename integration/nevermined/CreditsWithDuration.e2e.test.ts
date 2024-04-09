@@ -2,17 +2,20 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
-import { NvmAccount, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
-import { EscrowPaymentCondition, Token, TransferNFTCondition } from '../../src/keeper'
-import { config } from '../config'
-import { getMetadata } from '../utils'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { MetaData } from '@/types/DDOTypes'
+import { DDO } from '@/ddo/DDO'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetPrice } from '@/models/AssetPrice'
+import { Token } from '@/keeper/contracts/Token'
+import { EscrowPaymentCondition, TransferNFTCondition } from '@/keeper/contracts/conditions'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '@/nevermined/api/AssetsApi'
+import { SubscriptionCreditsNFTApi } from '@/nevermined/api'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import {
-  getRoyaltyAttributes,
-  RoyaltyAttributes,
-  RoyaltyKind,
-  SubscriptionCreditsNFTApi,
-} from '../../src/nevermined'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '@/types/MetadataTypes'
+import { NFTAttributes } from '@/models/NFTAttributes'
 import { mineBlocks } from '../utils/utils'
 
 chai.use(chaiAsPromised)
@@ -74,7 +77,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
     TestContractHandler.setConfig(config)
 
     nevermined = await Nevermined.getInstance(config)
-    ;[, editor, subscriber, , reseller] = await nevermined.accounts.list()
+    ;[, editor, subscriber, , reseller] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(editor)
 

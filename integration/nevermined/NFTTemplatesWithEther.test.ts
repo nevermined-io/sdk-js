@@ -1,36 +1,32 @@
 import { assert } from 'chai'
+import config from '../../test/config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { DDO } from '@/ddo/DDO'
+import { AssetPrice } from '@/models/AssetPrice'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { generateId } from '@/common/helpers'
+
+import { ConditionStoreManager } from '@/keeper/contracts/managers/ConditionStoreManager'
 import {
-  NvmAccount,
-  DDO,
-  Nevermined,
-  AssetPrice,
-  generateId,
-  AssetAttributes,
-  NFTAttributes,
-} from '../../src'
-import { decodeJwt } from 'jose'
-import {
-  ConditionState,
   EscrowPaymentCondition,
   LockPaymentCondition,
   NFTAccessCondition,
-  NFTHolderCondition,
   TransferNFTCondition,
-  ConditionStoreManager,
-  NFTAccessTemplate,
-  NFTSalesTemplate,
-  Nft1155Contract,
-} from '../../src/keeper'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import { ZeroAddress } from '../../src/utils'
-import {
-  getRoyaltyAttributes,
-  parseEther,
-  RoyaltyAttributes,
-  RoyaltyKind,
-} from '../../src/nevermined'
-import { EventLog } from 'ethers'
+  NFTHolderCondition,
+} from '@/keeper/contracts/conditions'
+import { RoyaltyAttributes, getRoyaltyAttributes } from '@/nevermined/api/AssetsApi'
+import { RoyaltyKind } from '@/types/MetadataTypes'
+import { ConditionState } from '@/types/ContractTypes'
+import { Nft1155Contract } from '@/keeper/contracts/Nft1155Contract'
+import { NFTSalesTemplate } from '@/keeper/contracts/templates/NFTSalesTemplate'
+import { NFTAccessTemplate } from '@/keeper/contracts/templates/NFTAccessTemplate'
+import { AssetAttributes } from '@/models/AssetAttributes'
+import { parseEther } from '@/nevermined/utils/BlockchainViemUtils'
+import { ZeroAddress } from '@/constants/AssetConstants'
+import { decodeJwt } from 'jose'
 
 describe('NFTTemplates With Ether E2E', async () => {
   let artist: NvmAccount
@@ -81,7 +77,7 @@ describe('NFTTemplates With Ether E2E', async () => {
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
     ;[sender, artist, collector1, collector2, gallery, , , , , governor] =
-      await nevermined.accounts.list()
+      nevermined.accounts.list()
 
     console.debug(`ACCOUNT GOVERNOR = ${governor.getId()}`)
 
@@ -152,7 +148,7 @@ describe('NFTTemplates With Ether E2E', async () => {
       )
       agreementAccessId = await nevermined.keeper.agreementStoreManager.agreementId(
         agreementAccessIdSeed,
-        sender.getId(),
+        collector1.getId(),
       )
 
       const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
@@ -245,9 +241,8 @@ describe('NFTTemplates With Ether E2E', async () => {
         )
 
         assert.equal(result.status, 'success')
-        assert.isTrue(
-          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
-        )
+        const logs = nftSalesTemplate.getTransactionLogs(result, 'AgreementCreated')
+        assert.isTrue(logs.length > 0)
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment[1])).state,
@@ -272,7 +267,7 @@ describe('NFTTemplates With Ether E2E', async () => {
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
           collector1,
-          { value: assetPrice.getTotalPrice().toString() },
+          { value: assetPrice.getTotalPrice() },
         )
 
         const { state } = await conditionStoreManager.getCondition(conditionIdLockPayment[1])
@@ -351,11 +346,11 @@ describe('NFTTemplates With Ether E2E', async () => {
         // Collector1: Create NFT access agreement
         conditionIdNFTHolder = await nftHolderCondition.generateIdWithSeed(
           agreementAccessId,
-          await nftHolderCondition.hashValues(ddo.shortId(), collector1.getId(), numberNFTs),
+          await nftHolderCondition.hashValues(ddo.id, collector1.getId(), numberNFTs),
         )
         conditionIdNFTAccess = await nftAccessCondition.generateIdWithSeed(
           agreementAccessId,
-          await nftAccessCondition.hashValues(ddo.shortId(), collector1.getId()),
+          await nftAccessCondition.hashValues(ddo.id, collector1.getId()),
         )
 
         const result = await nftAccessTemplate.createAgreement(
@@ -365,12 +360,11 @@ describe('NFTTemplates With Ether E2E', async () => {
           [0, 0],
           [0, 0],
           [collector1.getId()],
-          collector1, // TEST
+          collector1,
         )
         assert.equal(result.status, 'success')
-        assert.isTrue(
-          (result.logs as EventLog[]).some((e: EventLog) => e.eventName === 'AgreementCreated'),
-        )
+        const logs = nftAccessTemplate.getTransactionLogs(result, 'AgreementCreated')
+        assert.isTrue(logs.length > 0)
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdNFTAccess[1])).state,
@@ -389,6 +383,7 @@ describe('NFTTemplates With Ether E2E', async () => {
           collector1.getId(),
           numberNFTs,
           nevermined.keeper.nftUpgradeable.address,
+          collector1,
         )
 
         assert.equal(

@@ -32,7 +32,7 @@ describe('Asset Owners', () => {
     nevermined3 = await Nevermined.getInstance(config3)
 
     // Accounts
-    ;[account1, account2, account3] = await nevermined.accounts.list()
+    ;[account1, account2, account3] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account1)
 

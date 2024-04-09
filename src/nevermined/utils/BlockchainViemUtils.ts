@@ -274,16 +274,12 @@ export function keccak256(seed: string): string {
   return viemKeccak256(toBytes(seed))
 }
 
-export function keccak256WithEncode(
-  types: ReadonlyArray<string>,
-  values: ReadonlyArray<any>,
-): string {
+export function keccak256WithEncode(types: any[], values: any[]): string {
   const encoded = encodeAbiParameters(types, values as never)
   return keccak256(encoded)
 }
 
 export function keccak256Packed(types: any[], values: any[]): string {
-  //return ethers.solidityPackedKeccak256(types, values)
   return keccak256WithEncode(types, values)
 }
 //// UNITS

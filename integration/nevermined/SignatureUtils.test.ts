@@ -1,7 +1,9 @@
 import { assert } from 'chai'
 
-import { NvmAccount, Nevermined, SignatureUtils } from '../../src'
-import { config } from '../config'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import config from '../../test/config'
+import { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
 
 describe('SignatureUtils', () => {
   const text = '0123456789abcde'
@@ -12,22 +14,30 @@ describe('SignatureUtils', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[account] = await nevermined.accounts.list()
+    ;[account] = nevermined.accounts.list()
   })
 
   describe('#signText', () => {
     it('should sign a text as expected', async () => {
-      const signed = await nevermined.utils.signature.signText(text, account.getId())
+      const signed = await nevermined.utils.signature.signText(text, account)
 
       assert.equal(signed, signature)
+    })
+
+    it('verify is signer', async () => {
+      const isSigner = await nevermined.utils.signature.verifyIsSigner(
+        text,
+        signature,
+        account.getId(),
+      )
+      assert.isTrue(isSigner)
     })
   })
 
   describe('#verifyText', () => {
     it('should recover the privateKey of a signed message', async () => {
-      const verifiedPublicKey = await SignatureUtils.recoverSignerAddress(text, signature)
-
-      assert.equal(account.getId(), verifiedPublicKey)
+      const signerAddress = await SignatureUtils.recoverSignerAddress(text, signature)
+      assert.equal(account.getId(), signerAddress)
     })
   })
 })

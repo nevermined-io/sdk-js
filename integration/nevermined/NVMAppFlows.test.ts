@@ -2,21 +2,21 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
-import { NvmAccount, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
-import { Token, TransferNFTCondition } from '../../src/keeper'
-import { config } from '../config'
-import { generateSubscriptionMetadata, getMetadata } from '../utils'
+import config from '../../test/config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import {
-  getRoyaltyAttributes,
-  PublishMetadataOptions,
-  PublishOnChainOptions,
-  RoyaltyAttributes,
-  RoyaltyKind,
-  SubscriptionCreditsNFTApi,
-} from '../../src/nevermined'
-import { mineBlocks } from '../utils/utils'
-import { sleep } from '@opengsn/provider'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { AssetPrice } from '@/models/AssetPrice'
+import { SubscriptionCreditsNFTApi } from '@/nevermined/api/nfts/SubscriptionCreditsNFTApi'
+import { Token } from '@/keeper/contracts/Token'
+import { DDO } from '@/ddo/DDO'
+import { TransferNFTCondition } from '@/keeper/contracts/conditions/NFTs/TransferNFTCondition'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '@/nevermined/api/AssetsApi'
+import { MetaData } from '@/types/DDOTypes'
+import { generateSubscriptionMetadata, getMetadata } from '../utils/ddo-metadata-generator'
+import { PublishMetadataOptions, PublishOnChainOptions, RoyaltyKind } from '@/types/MetadataTypes'
+import { NFTAttributes } from '@/models/NFTAttributes'
+import { mineBlocks, sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
@@ -90,7 +90,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       loadRoyalties: true,
       loadCompute: false,
     })
-    ;[, publisher, subscriber, , reseller] = await nevermined.accounts.list()
+    ;[, publisher, subscriber, , reseller] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 

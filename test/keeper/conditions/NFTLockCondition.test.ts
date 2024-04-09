@@ -36,7 +36,7 @@ describe('NFTLockCondition', () => {
     nevermined = await Nevermined.getInstance(config)
     ;({ nftLockCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, nftUpgradeable } = nevermined.keeper)
-    ;[owner, rewardAddress] = await nevermined.accounts.list()
+    ;[owner, rewardAddress] = nevermined.accounts.list()
   })
 
   beforeEach(async () => {

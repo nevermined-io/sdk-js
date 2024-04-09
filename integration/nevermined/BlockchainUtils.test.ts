@@ -1,5 +1,4 @@
 import config from '../../test/config'
-import { ContractHandler, KeeperError, Nevermined, NvmAccount, Token } from '../../src'
 import { assert } from 'chai'
 import {
   searchAbiFunction,
@@ -17,8 +16,14 @@ import {
   formatUnits,
   parseEther,
   formatEther,
+  keccak256WithEncode,
 } from '@/nevermined/utils/BlockchainViemUtils'
 import { parseAbi } from 'viem'
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { ContractHandler } from '@/keeper/ContractHandler'
+import { KeeperError } from '@/errors/NeverminedErrors'
+import { Token } from '@/keeper/contracts/Token'
 
 describe('Blockchain Utils', () => {
   let nvm: Nevermined
@@ -115,34 +120,6 @@ describe('Blockchain Utils', () => {
     })
   })
 
-  describe.skip('ETHERS ABI functions', () => {
-    const abi = parseAbi(Token.ERC20_ABI)
-    it(`Should not find a function if doesnt exist`, async () => {
-      assert.throws(() => searchAbiFunction(abi, 'transferXXX'), KeeperError)
-    })
-
-    it(`Should find an existing function`, async () => {
-      const func = searchAbiFunction(abi, 'transfer')
-      assert.isDefined(func)
-    })
-
-    it(`Should get a function signature`, async () => {
-      const signature = getSignatureOfFunction(abi, 'balanceOf', [userAccount.getId()])
-      // console.log('Signature:', signature)
-      assert.isDefined(signature)
-    })
-
-    it(`Should get the function inputs`, async () => {
-      const inputs = getSignatureOfFunction(abi, 'approve')
-      assert.isDefined(inputs)
-
-      const inputsFormatted = getInputsOfFunction(abi, 'approve')
-      // console.log('Inputs Formatted:', inputsFormatted)
-      assert.isDefined(inputsFormatted)
-    })
-    // 0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0
-  })
-
   describe('VIEM ABI functions', () => {
     const viemAbi = parseAbi(Token.ERC20_ABI)
     it(`Should not find a function if doesnt exist`, async () => {
@@ -209,6 +186,19 @@ describe('Blockchain Utils', () => {
   describe('Hashes', () => {
     it(`keccak256`, async () => {
       const hash = keccak256('0x1234')
+      console.log('Hash:', hash)
+      assert.isDefined(hash)
+      assert.isTrue(hash.startsWith('0x'))
+    })
+
+    it(`keccak256WithEncode`, async () => {
+      const hash = keccak256WithEncode(
+        [{ type: 'bytes32' }, { type: 'address' }],
+        [
+          '0x6ad6447f2c65454a2c145d50babbfd82471030cc4300f1fbec486d43abb58098',
+          '0xF97c4991B8a8A0360A66Adbef26cc11Eea029C37',
+        ],
+      )
       console.log('Hash:', hash)
       assert.isDefined(hash)
       assert.isTrue(hash.startsWith('0x'))

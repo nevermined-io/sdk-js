@@ -128,13 +128,21 @@ export class NvmApp {
       this.userAccount = this.fullSDK.accounts.getAccount(account)
     }
 
+    console.log(
+      `Using account: ${this.userAccount.getAddress()} with type ${
+        this.userAccount.accountType.signerType
+      }`,
+    )
     const clientAssertion = await this.fullSDK.utils.jwt.generateClientAssertion(this.userAccount)
+    console.log('Client assertion: ', clientAssertion)
 
     this.loginCredentials = await this.fullSDK.services.marketplace.login(clientAssertion)
+    console.log('Login credentials: ', this.loginCredentials)
 
     const nodeInfo = await this.fullSDK.services.node.getNeverminedNodeInfo()
     this.assetProviders = [nodeInfo['provider-address']]
 
+    console.log('Asset Providers: ', this.assetProviders)
     if (!isValidAddress(this.configNVM.nftContractAddress)) {
       const contractABI = await ContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
@@ -297,7 +305,7 @@ export class NvmApp {
       const ddo = await this.fullSDK.assets.resolve(subscriptionDid)
       const salesService = ddo.findServiceByReference('nft-sales')
       serviceIndex = salesService.index
-      numberCredits = salesService.attributes.main.nftAttributes.amount
+      numberCredits = salesService.attributes.main.nftAttributes.amount as bigint
 
       if (!agreementId)
         agreementId = await this.fullSDK.nfts1155.order(

@@ -41,7 +41,7 @@ describe('TransferDIDOwnershipCondition', () => {
     ;({ transferDidOwnershipCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, templateStoreManager, agreementStoreManager } =
       nevermined.keeper)
-    ;[owner, receiver, templateId] = await nevermined.accounts.list()
+    ;[owner, receiver, templateId] = nevermined.accounts.list()
 
     await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, deployer)
 

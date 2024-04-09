@@ -1,7 +1,11 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
-import { config } from '../config'
-import { Nevermined, SearchQuery, NvmAccount, makeWallets } from '../../src'
+import config from '../../test/config'
+
+import { Nevermined } from '@/nevermined/Nevermined'
+import { NvmAccount } from '@/models/NvmAccount'
+import { makeWallets } from '@/nevermined/utils/BlockchainViemUtils'
+import { SearchQuery } from '@/types/MetadataTypes'
 
 describe('Sdk working without artifacts', () => {
   let nevermined: Nevermined
@@ -19,11 +23,14 @@ describe('Sdk working without artifacts', () => {
   })
 
   it('should login to metamask without artifacts', async () => {
-    configCopy.accounts = makeWallets(process.env.SEED_WORDS)
+    const wallets = makeWallets(process.env.SEED_WORDS)
+    configCopy.accounts = configCopy.accounts = wallets.map((wallet) => {
+      return NvmAccount.fromAccount(wallet)
+    })
     nevermined = await Nevermined.getInstance(configCopy)
 
     // Accounts
-    ;[account] = await nevermined.accounts.list()
+    ;[account] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account)
 
