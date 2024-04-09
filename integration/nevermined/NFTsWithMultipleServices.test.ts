@@ -1,21 +1,21 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { AssetPrice } from '@/models/AssetPrice'
 import { getMetadata } from '../utils/ddo-metadata-generator'
 
-import { NFTAttributes } from '@/models/NFTAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
-import { Token } from '@/keeper/contracts/Token'
-import { ConditionState } from '@/types/ContractTypes'
+import { Token } from '../../src/keeper/contracts/Token'
+import { ConditionState } from '../../src/types/ContractTypes'
 
+import { ContractHandler } from '../../src/keeper/ContractHandler'
+import { Nft721Contract } from '../../src/keeper/contracts/Nft721Contract'
+import { MetaData } from '../../src/types/DDOTypes'
 import { repeat } from '../utils/utils'
-import { MetaData } from '@/types/DDOTypes'
-import { Nft721Contract } from '@/keeper/contracts/Nft721Contract'
-import { ContractHandler } from '@/keeper/ContractHandler'
 
 let nevermined: Nevermined
 let publisher: NvmAccount

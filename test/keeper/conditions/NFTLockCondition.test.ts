@@ -1,17 +1,22 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
-import { DIDRegistry, NFTLockCondition, Nft1155Contract, ConditionStoreManager } from '@/keeper'
+import {
+  DIDRegistry,
+  NFTLockCondition,
+  Nft1155Contract,
+  ConditionStoreManager,
+} from '../../../src/keeper'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { generateId } from '@/common/helpers'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { NeverminedNFT1155Type } from '@/types/GeneralTypes'
-import { ConditionState } from '@/types/ContractTypes'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId } from '../../../src/common/helpers'
+import { NFTAttributes } from '../../../src/models/NFTAttributes'
+import { NeverminedNFT1155Type } from '../../../src/types/GeneralTypes'
+import { ConditionState } from '../../../src/types/ContractTypes'
 import { Log } from 'viem'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import { didZeroX, zeroX } from '../../../src/utils/ConversionTypeHelpers'
 
 chai.use(chaiAsPromised)
 

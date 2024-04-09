@@ -11,7 +11,6 @@ import { arbitrumSepolia } from 'viem/chains'
 import {
   AssetAttributes,
   AssetPrice,
-  DDO,
   MetaData,
   Nevermined,
   NvmAccount,
@@ -19,6 +18,7 @@ import {
 } from '../../src'
 import { config } from '../config'
 import { getMetadata } from '../utils'
+import { DDO } from '../../src/ddo'
 
 describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined

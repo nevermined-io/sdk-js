@@ -1,7 +1,7 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { TxParameters } from '@/models/Transactions'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { TxParameters } from '../../models/Transactions'
 import { ContractBase } from './ContractBase'
-import { NvmAccount } from '@/models'
+import { NvmAccount } from '../../models'
 
 export class GenericContract extends ContractBase {
   protected fixedAddress: string

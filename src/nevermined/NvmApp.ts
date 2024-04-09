@@ -1,11 +1,11 @@
-import { NETWORK_FEE_DENOMINATOR } from '@/constants/AssetConstants'
-import { DDO } from '@/ddo/DDO'
-import { Web3Error } from '@/errors/NeverminedErrors'
-import { ContractHandler } from '@/keeper/ContractHandler'
-import { AssetPrice } from '@/models/AssetPrice'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { NeverminedOptions } from '@/models/NeverminedOptions'
-import { NvmAccount } from '@/models/NvmAccount'
+import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
+import { DDO } from '../ddo/DDO'
+import { Web3Error } from '../errors/NeverminedErrors'
+import { ContractHandler } from '../keeper/ContractHandler'
+import { AssetPrice } from '../models/AssetPrice'
+import { NFTAttributes } from '../models/NFTAttributes'
+import { NeverminedOptions } from '../models/NeverminedOptions'
+import { NvmAccount } from '../models/NvmAccount'
 import {
   AppDeploymentArbitrum,
   AppDeploymentBase,
@@ -18,11 +18,11 @@ import {
   AppDeploymentStaging,
   AppDeploymentTesting,
   NeverminedAppOptions,
-} from '@/nevermined/resources/AppNetworks'
-import { SubscriptionToken } from '@/services/node/NeverminedNode'
-import { SubscriptionType, MetaData } from '@/types/DDOTypes'
-import { NeverminedInitializationOptions } from '@/types/GeneralTypes'
-import { PublishMetadataOptions, PublishOnChainOptions } from '@/types/MetadataTypes'
+} from '../nevermined/resources/AppNetworks'
+import { SubscriptionToken } from '../services/node/NeverminedNode'
+import { SubscriptionType, MetaData } from '../types/DDOTypes'
+import { NeverminedInitializationOptions } from '../types/GeneralTypes'
+import { PublishMetadataOptions, PublishOnChainOptions } from '../types/MetadataTypes'
 import { Nevermined } from './Nevermined'
 import { SearchApi } from './api/SearchApi'
 import { isValidAddress } from './utils/BlockchainViemUtils'

@@ -1,14 +1,14 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { DDO } from '@/ddo/DDO'
+import { InstantiableConfig } from '../../../../Instantiable.abstract'
+import { DDO } from '../../../../ddo/DDO'
 import {
   Condition,
   ConditionContext,
   ConsumerCondition,
-} from '@/keeper/contracts/conditions/Condition.abstract'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { ServiceCommon } from '@/types/DDOTypes'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+} from '../../../../keeper/contracts/conditions/Condition.abstract'
+import { NvmAccount } from '../../../../models/NvmAccount'
+import { TxParameters } from '../../../../models/Transactions'
+import { ServiceCommon } from '../../../../types/DDOTypes'
+import { didZeroX, zeroX } from '../../../../utils/ConversionTypeHelpers'
 
 export interface NFTHolderConditionContext extends ConditionContext {
   holderAddress: string

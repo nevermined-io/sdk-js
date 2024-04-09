@@ -1,12 +1,12 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { ZeroAddress } from '@/constants/AssetConstants'
-import { ContractBase } from '@/keeper/contracts/ContractBase'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { TxParameters as txParams } from '@/models/Transactions'
-import { zeroPadValue } from '@/nevermined/utils/BlockchainViemUtils'
-import { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
-import { didZeroX, zeroX, didPrefixed } from '@/utils/ConversionTypeHelpers'
-import { eventToObject } from '@/utils/Events'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { ZeroAddress } from '../../constants/AssetConstants'
+import { ContractBase } from '../../keeper/contracts/ContractBase'
+import { NFTAttributes } from '../../models/NFTAttributes'
+import { TxParameters as txParams } from '../../models/Transactions'
+import { zeroPadValue } from '../../nevermined/utils/BlockchainViemUtils'
+import { SignatureUtils } from '../../nevermined/utils/SignatureUtils'
+import { didZeroX, zeroX, didPrefixed } from '../../utils/ConversionTypeHelpers'
+import { eventToObject } from '../../utils/Events'
 import {
   DEFAULT_REGISTRATION_ACTIVITY_ID,
   ProvenanceAttributeRegisteredEvent,
@@ -14,8 +14,8 @@ import {
   ProvenanceEvent,
   ProvenanceRegistry,
 } from './Provenance'
-import { AssetError } from '@/errors/NeverminedErrors'
-import { NvmAccount } from '@/models/NvmAccount'
+import { AssetError } from '../../errors/NeverminedErrors'
+import { NvmAccount } from '../../models/NvmAccount'
 
 export class DIDRegistry extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<DIDRegistry> {

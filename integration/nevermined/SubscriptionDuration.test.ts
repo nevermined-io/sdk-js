@@ -1,15 +1,15 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
 
 import TestContractHandler from '../../test/keeper/TestContractHandler'
 import config from '../../test/config'
 import { getMetadata } from '../utils'
-import { SubscriptionNFTApi } from '@/nevermined/api/nfts/SubscriptionNFTApi'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { AssetPrice } from '@/models/AssetPrice'
+import { SubscriptionNFTApi } from '../../src/nevermined/api/nfts/SubscriptionNFTApi'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { AssetPrice } from '../../src/models/AssetPrice'
 
 chai.use(chaiAsPromised)
 

@@ -1,4 +1,4 @@
-import { generateId } from '@/common/helpers'
+import { generateId } from '../common/helpers'
 
 const DID_PREFIX = 'did:nv:'
 /**

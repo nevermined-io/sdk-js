@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { Service } from '@/types/DDOTypes'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { Service } from '../../src/types/DDOTypes'
 
 // WARN: not integration test. It has been done here because constant values
 // depends on the first account on localnet (only accessible from integration test)

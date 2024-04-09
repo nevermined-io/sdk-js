@@ -1,28 +1,28 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { DDO } from '@/ddo/DDO'
-import { AssetError, DDOError } from '@/errors/NeverminedErrors'
-import { RoyaltyScheme } from '@/keeper/contracts/royalties/RoyaltyScheme.abstract'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { apiPath } from '@/services/metadata/MetadataService'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { DDO } from '../../ddo/DDO'
+import { AssetError, DDOError } from '../../errors/NeverminedErrors'
+import { RoyaltyScheme } from '../../keeper/contracts/royalties/RoyaltyScheme.abstract'
+import { AssetAttributes } from '../../models/AssetAttributes'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { apiPath } from '../../services/metadata/MetadataService'
 import {
   MetaData,
   NvmConfigVersions,
   ServiceNFTAccess,
   ServiceNFTSales,
   ServiceType,
-} from '@/types/DDOTypes'
-import { Babysig } from '@/types/GeneralTypes'
+} from '../../types/DDOTypes'
+import { Babysig } from '../../types/GeneralTypes'
 import {
   AssetPublicationOptions,
   DIDResolvePolicy,
   PublishMetadataOptions,
   PublishOnChainOptions,
   RoyaltyKind,
-} from '@/types/MetadataTypes'
-import { didZeroX } from '@/utils/ConversionTypeHelpers'
-import { SubscribablePromise } from '@/utils/SubscribablePromise'
+} from '../../types/MetadataTypes'
+import { didZeroX } from '../../utils/ConversionTypeHelpers'
+import { SubscribablePromise } from '../../utils/SubscribablePromise'
 import { Nevermined } from '../Nevermined'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { Providers } from '../Provider'

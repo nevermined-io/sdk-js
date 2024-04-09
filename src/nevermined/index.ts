@@ -1,23 +1,19 @@
-export { AccessService, NFTAccessService, NFTSalesService } from '@/nevermined/AccessService'
-export type { AccessProofTemplateParams } from '@/nevermined/AccessService'
-export { DID } from '@/nevermined/DID'
-export { Nevermined } from '@/nevermined/Nevermined'
-export { NVMAppEnvironments, NvmApp } from '@/nevermined/NvmApp'
-export type {
-  MetadataValidationResults,
-  OperationResult,
-  SubscriptionBalance,
-} from '@/nevermined/NvmApp'
+export { AccessService, NFTAccessService, NFTSalesService } from './AccessService'
+export type { AccessProofTemplateParams } from './AccessService'
+export { DID } from './DID'
+export { Nevermined } from './Nevermined'
+export { NVMAppEnvironments, NvmApp } from './NvmApp'
+export type { MetadataValidationResults, OperationResult, SubscriptionBalance } from './NvmApp'
 export {
   CreateProgressStep,
   ExecuteProgressStep,
   OrderProgressStep,
   UpdateProgressStep,
-} from '@/nevermined/ProgressSteps'
-export { Providers } from '@/nevermined/Provider'
-export { TokenUtils } from '@/nevermined/Token'
-export { PlatformTechStatus, Versions } from '@/nevermined/Versions'
-export type { PlatformKeeperTech, PlatformTech, PlatformVersions } from '@/nevermined/Versions'
+} from './ProgressSteps'
+export { Providers } from './Provider'
+export { TokenUtils } from './Token'
+export { PlatformTechStatus, Versions } from './Versions'
+export type { PlatformKeeperTech, PlatformTech, PlatformVersions } from './Versions'
 export {
   AccountsApi,
   AgreementsApi,
@@ -35,8 +31,8 @@ export {
   UtilsApi,
   getRoyaltyAttributes,
   getRoyaltyScheme,
-} from '@/nevermined/api'
-export type { AgreementPrepareResult, RoyaltyAttributes } from '@/nevermined/api'
+} from './api'
+export type { AgreementPrepareResult, RoyaltyAttributes } from './api'
 export {
   BlockchainViemUtils,
   EthSignJWT,
@@ -65,4 +61,4 @@ export {
   parseUnits,
   searchAbiFunction,
   zeroPadValue,
-} from '@/nevermined/utils'
+} from './utils'

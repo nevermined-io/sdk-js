@@ -1,7 +1,7 @@
-import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { ContractBase } from '../../src/keeper/contracts/ContractBase'
 import { ContractEvent, EventHandler } from '../../src/events'
 import { parseAbi } from 'viem'
-import { TxParameters } from '@/models'
+import { TxParameters } from '../../src/models'
 
 export class ContractBaseMock extends ContractBase {
   public interface
@@ -11,8 +11,8 @@ export class ContractBaseMock extends ContractBase {
     this.events = ContractEvent.getInstance(
       this,
       eventEmitter,
-      // this.nevermined,
-      // this.nevermined.client,
+      this.nevermined,
+      this.nevermined.client,
     )
     this.interface = parseAbi(['function name() view returns (string)'])
   }

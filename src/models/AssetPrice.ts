@@ -1,4 +1,4 @@
-import { NETWORK_FEE_DENOMINATOR } from '@/constants/AssetConstants'
+import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
 
 export class AssetPrice {
   private totalPrice: bigint

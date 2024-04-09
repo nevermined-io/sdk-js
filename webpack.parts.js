@@ -9,43 +9,43 @@ const production = require('./webpack.production.js')
 const AddVendorsPlugin = require('./plugins/add-vendors-plugin')
 
 const paths = {
-  entry: path.resolve(__dirname, './dist/node/sdk.js'),
-  bundle: path.resolve(__dirname, 'dist/browser'),
+    entry: path.resolve(__dirname, './dist/node/sdk.js'),
+    bundle: path.resolve(__dirname, 'dist/browser')
 }
 
 const outputs = (base, env, mapping, overrides) => {
-  const collection = []
-  const library = 'sdk'
-  const windowLibrary = 'NeverminedSDK'
+    const collection = []
+    const library = 'sdk'
+    const windowLibrary = 'NeverminedSDK'
 
-  let environment = development
-  let ext = 'js'
+    let environment = development
+    let ext = 'js'
 
-  if (env === 'production') {
-    environment = production
-    ext = `min.${ext}`
-  }
-
-  Object.entries(mapping).forEach(([target, extension]) => {
-    const filename = `[name].${library}.${extension}.${ext}`
-
-    const compiled = {
-      output: {
-        filename: filename,
-        library: target === 'window' ? windowLibrary : library,
-        libraryTarget: target,
-        path: paths.bundle,
-      },
-      plugins: [new AddVendorsPlugin(`${library}.${extension}.${ext}`)],
+    if (env === 'production') {
+        environment = production
+        ext = `min.${ext}`
     }
 
-    collection.push(merge(base, environment, compiled, overrides))
-  })
+    Object.entries(mapping).forEach(([target, extension]) => {
+        const filename = `[name].${library}.${extension}.${ext}`
 
-  return collection
+        const compiled = {
+            output: {
+                filename: filename,
+                library: target === 'window' ? windowLibrary : library,
+                libraryTarget: target,
+                path: paths.bundle
+            },
+            plugins: [new AddVendorsPlugin(`${library}.${extension}.${ext}`)]
+        }
+
+        collection.push(merge(base, environment, compiled, overrides))
+    })
+
+    return collection
 }
 
 module.exports = {
-  outputs,
-  paths,
+    outputs,
+    paths
 }

@@ -1,11 +1,11 @@
 import { assert } from 'chai'
 
 import TestContractHandler from './TestContractHandler'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
-import { generateId } from '@/common/helpers'
-import { TxParameters } from '@/models/Transactions'
-import { ZeroAddress } from '@/constants/AssetConstants'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { DIDRegistry } from '../../src/keeper/contracts/DIDRegistry'
+import { generateId } from '../../src/common/helpers'
+import { TxParameters } from '../../src/models/Transactions'
+import { ZeroAddress } from '../../src/constants/AssetConstants'
 
 let nevermined: Nevermined
 let didRegistry: DIDRegistry

@@ -3,21 +3,21 @@ import { decodeJwt } from 'jose'
 import config from '../../test/config'
 import { getMetadata } from '../utils'
 
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import Logger from '@/models/Logger'
-import { Keeper } from '@/keeper/Keeper'
-import { generateId } from '@/common/helpers'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import Logger from '../../src/models/Logger'
+import { Keeper } from '../../src/keeper/Keeper'
+import { generateId } from '../../src/common/helpers'
 import {
   ComputeExecutionCondition,
   EscrowPaymentCondition,
   LockPaymentCondition,
-} from '@/keeper/contracts/conditions'
-import { Token } from '@/keeper/contracts/Token'
-import { AssetPrice } from '@/models/AssetPrice'
-import { EscrowComputeExecutionTemplate } from '@/keeper/contracts/templates/EscrowComputeExecutionTemplate'
+} from '../../src/keeper/contracts/conditions'
+import { Token } from '../../src/keeper/contracts/Token'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { EscrowComputeExecutionTemplate } from '../../src/keeper/contracts/templates/EscrowComputeExecutionTemplate'
 
 describe('Register Escrow Compute Execution Template', () => {
   let nevermined: Nevermined

@@ -1,24 +1,27 @@
 import chai, { assert } from 'chai'
-import { decodeJwt, JWTPayload } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { AssetPrice } from '@/models/AssetPrice'
 import { getMetadata } from '../utils/ddo-metadata-generator'
 
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { ContractHandler } from '@/keeper/ContractHandler'
+import { ZeroAddress } from '../../src/constants/AssetConstants'
+import { ContractHandler } from '../../src/keeper/ContractHandler'
+import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
+import { Token } from '../../src/keeper/contracts/Token'
+import { EscrowPaymentCondition, TransferNFTCondition } from '../../src/keeper/contracts/conditions'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { getRoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { getChecksumAddress } from '../../src/nevermined/utils/BlockchainViemUtils'
+import {
+  DIDResolvePolicy,
+  PublishMetadataOptions,
+  RoyaltyKind,
+} from '../../src/types/MetadataTypes'
 import '../globals'
-import { getRoyaltyAttributes } from '@/nevermined/api/AssetsApi'
-import { DIDResolvePolicy, PublishMetadataOptions, RoyaltyKind } from '@/types/MetadataTypes'
-import { Token } from '@/keeper/contracts/Token'
-import { EscrowPaymentCondition, TransferNFTCondition } from '@/keeper/contracts/conditions'
-import { Nft1155Contract } from '@/keeper/contracts/Nft1155Contract'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import { getChecksumAddress } from '@/nevermined/utils/BlockchainViemUtils'
-import { ZeroAddress } from '@/constants/AssetConstants'
 
 chai.use(chaiAsPromised)
 

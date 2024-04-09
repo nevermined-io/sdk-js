@@ -1,12 +1,12 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
 import { getAssetPrice, getMetadata } from '../utils'
-import { AssetPrice } from '@/models/AssetPrice'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import { DID } from '@/nevermined/DID'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { DID } from '../../src/nevermined/DID'
 
 describe('Get DDO status', () => {
   let nevermined: Nevermined

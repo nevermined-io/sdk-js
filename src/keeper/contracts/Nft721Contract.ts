@@ -1,12 +1,12 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { ContractEvent } from '@/events/ContractEvent'
-import { EventHandler } from '@/events/EventHandler'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { ContractEvent } from '../../events/ContractEvent'
+import { EventHandler } from '../../events/EventHandler'
+import { ContractHandler } from '../../keeper/ContractHandler'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { didToTokenId, getContractInstance } from '../../nevermined/utils/BlockchainViemUtils'
+import { didZeroX } from '../../utils/ConversionTypeHelpers'
 import { NFT721MintedEntry, NFTContractsBase } from './NFTContractsBase'
-import { ContractHandler } from '@/keeper/ContractHandler'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { didToTokenId, getContractInstance } from '@/nevermined/utils/BlockchainViemUtils'
-import { didZeroX } from '@/utils/ConversionTypeHelpers'
 
 export class Nft721Contract extends NFTContractsBase {
   public static async getInstance(

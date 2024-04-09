@@ -1,8 +1,8 @@
 import { assert } from 'chai'
 import TestContractHandler from './TestContractHandler'
-import { NvmAccount } from '@/models/NvmAccount'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { ContractEventSubscription } from '@/types/EventTypes'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { ContractEventSubscription } from '../../src/types/EventTypes'
 
 describe('ContractEvent', () => {
   let nevermined: Nevermined

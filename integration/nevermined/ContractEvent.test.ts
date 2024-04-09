@@ -3,11 +3,11 @@ import chaiAsPromised from 'chai-as-promised'
 import config from '../../test/config'
 
 import { mineBlocks, awaitTimeout } from '../utils/utils'
-import { NvmAccount } from '@/models/NvmAccount'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { ContractEvent } from '@/events/ContractEvent'
-import { getChecksumAddress } from '@/nevermined/utils/BlockchainViemUtils'
-import { generateId } from '@/common/helpers'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { ContractEvent } from '../../src/events/ContractEvent'
+import { getChecksumAddress } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { generateId } from '../../src/common/helpers'
 
 chai.use(chaiAsPromised)
 

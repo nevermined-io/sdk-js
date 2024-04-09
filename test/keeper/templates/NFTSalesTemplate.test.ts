@@ -6,14 +6,14 @@ import {
   TemplateStoreManager,
   DIDRegistry,
   NFTSalesTemplate,
-} from '@/keeper'
-import { didZeroX, zeroX } from '@/utils'
+} from '../../../src/keeper'
+import { didZeroX, zeroX } from '../../../src/utils'
 import TestContractHandler from '../TestContractHandler'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { generateId } from '@/common/helpers'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId } from '../../../src/common/helpers'
 import { Log } from 'viem'
-import { ConditionState } from '@/types/ContractTypes'
+import { ConditionState } from '../../../src/types/ContractTypes'
 
 chai.use(chaiAsPromised)
 

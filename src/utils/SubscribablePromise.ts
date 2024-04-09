@@ -1,4 +1,4 @@
-import { SubscribableObserver } from '@/utils/SubscribableObserver'
+import { SubscribableObserver } from './SubscribableObserver'
 
 export class SubscribablePromise<T, P> {
   private observer = new SubscribableObserver<T, P>()

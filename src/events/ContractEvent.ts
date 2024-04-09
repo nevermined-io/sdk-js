@@ -1,10 +1,10 @@
-import { EventEmitter, EventOptions, EventResult, FilterContractEvent } from '@/types/EventTypes'
+import { EventEmitter, EventOptions, EventResult, FilterContractEvent } from '../types/EventTypes'
 import { NeverminedEvent } from './NeverminedEvent'
-import { KeeperError } from '@/errors/NeverminedErrors'
-import { ContractBase } from '@/keeper/contracts/ContractBase'
-import { searchAbiEvent } from '@/nevermined/utils/BlockchainViemUtils'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { Web3Clients } from '@/Instantiable.abstract'
+import { KeeperError } from '../errors/NeverminedErrors'
+import { ContractBase } from '../keeper/contracts/ContractBase'
+import { searchAbiEvent } from '../nevermined/utils/BlockchainViemUtils'
+import { Nevermined } from '../nevermined/Nevermined'
+import { Web3Clients } from '../Instantiable.abstract'
 
 export class ContractEvent extends NeverminedEvent {
   public static getInstance(

@@ -1,9 +1,9 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { ContractHandler } from '@/keeper/ContractHandler'
-import { Nft721Contract } from '@/keeper/contracts/Nft721Contract'
-import { NeverminedOptions } from '@/models/NeverminedOptions'
-import { NvmAccount } from '@/models/NvmAccount'
-import { Nevermined } from '@/nevermined/Nevermined'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { ContractHandler } from '../../../keeper/ContractHandler'
+import { Nft721Contract } from '../../../keeper/contracts/Nft721Contract'
+import { NeverminedOptions } from '../../../models/NeverminedOptions'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { Nevermined } from '../../../nevermined/Nevermined'
 import { NFT721Api } from './NFT721Api'
 
 export class SubscriptionNFTApi extends NFT721Api {

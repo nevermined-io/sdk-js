@@ -1,12 +1,13 @@
-import { Nevermined, MetaData, NvmAccount, DDO } from '@/src'
-import { AssetAttributes } from '@/src/models/AssetAttributes'
-import { AssetPrice } from '@/src/models/AssetPrice'
-import { generateId } from '@/src/utils'
-import { config } from '@/integration/config'
-import { getRoyaltyAttributes, RoyaltyKind } from '@/src/nevermined/api/AssetsApi'
-import { NFTAttributes } from '@/src/models/NFTAttributes'
-import { decodeJwt } from 'jose'
 import * as fs from 'fs'
+import { decodeJwt } from 'jose'
+import { config } from '../integration/config'
+import { DDO, MetaData, Nevermined, NvmAccount } from '../src'
+import { generateId } from '../src/common/helpers'
+import { AssetAttributes } from '../src/models/AssetAttributes'
+import { AssetPrice } from '../src/models/AssetPrice'
+import { NFTAttributes } from '../src/types/GeneralTypes'
+import { getRoyaltyAttributes } from '../src/nevermined/api/AssetsApi'
+import { RoyaltyKind } from '../src/types/MetadataTypes'
 
 const generateDatasetDDO = async (
   nevermined: Nevermined,

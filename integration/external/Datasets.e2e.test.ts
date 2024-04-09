@@ -22,7 +22,7 @@ import {
   SubscriptionNFTApi,
   getChecksumAddress,
 } from '../../src/nevermined'
-import { EventOptions } from '@/types/EventTypes'
+import { EventOptions } from '../../src/types/EventTypes'
 
 describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
   let publisher: NvmAccount

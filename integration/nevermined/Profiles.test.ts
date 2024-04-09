@@ -1,10 +1,10 @@
 import { assert } from 'chai'
 import config from '../../test/config'
 import { faker } from '@faker-js/faker'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { NewProfile, State } from '@/types/MetadataTypes'
-import Logger from '@/models/Logger'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { NewProfile, State } from '../../src/types/MetadataTypes'
+import Logger from '../../src/models/Logger'
 
 describe('User Profiles', () => {
   let nevermined: Nevermined

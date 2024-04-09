@@ -1,10 +1,10 @@
 import { decodeJwt } from 'jose'
 import config from '../../test/config'
 import { getMetadata } from '../utils'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { AssetAttributes } from '@/models/AssetAttributes'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Providers operations', () => {
   let nevermined: Nevermined

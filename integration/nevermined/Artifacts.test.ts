@@ -1,5 +1,5 @@
-import { NeverminedOptions } from '@/models/NeverminedOptions'
-import { Nevermined } from '@/nevermined/Nevermined'
+import { NeverminedOptions } from '../../src/models/NeverminedOptions'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import { assert } from 'chai'
 import { mkdtempSync, writeFileSync } from 'fs'
 import fetch from 'node-fetch'

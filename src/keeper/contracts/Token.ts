@@ -1,8 +1,8 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
 import { formatEther } from 'viem'
-import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { ContractBase } from '../../keeper/contracts/ContractBase'
 
 export class Token extends ContractBase {
   static ERC20_ABI = [

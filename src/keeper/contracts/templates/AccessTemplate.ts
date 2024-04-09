@@ -1,16 +1,16 @@
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { DDO } from '@/ddo/DDO'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { DDO } from '../../../ddo/DDO'
 
 import {
   lockPaymentTemplate,
   accessTemplate,
   escrowTemplate,
-} from '@/keeper/contracts/templates/ConditionTemplates'
-import { NvmAccount } from '@/models/NvmAccount'
-import { AgreementInstance } from '@/types/ContractTypes'
-import { ServiceType, ServiceAccess, ValidationParams } from '@/types/DDOTypes'
+} from '../../../keeper/contracts/templates/ConditionTemplates'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { AgreementInstance } from '../../../types/ContractTypes'
+import { ServiceType, ServiceAccess, ValidationParams } from '../../../types/DDOTypes'
 import { AccessCondition } from '../conditions/AccessCondition'
 import { EscrowPaymentCondition } from '../conditions/EscrowPaymentCondition'
 import { LockPaymentCondition } from '../conditions/LockPaymentCondition'

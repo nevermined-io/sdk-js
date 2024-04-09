@@ -4,18 +4,22 @@ import chaiAsPromised from 'chai-as-promised'
 import { decodeJwt, JWTPayload } from 'jose'
 import config from '../../test/config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { AssetPrice } from '@/models/AssetPrice'
-import { SubscriptionCreditsNFTApi } from '@/nevermined/api/nfts/SubscriptionCreditsNFTApi'
-import { Token } from '@/keeper/contracts/Token'
-import { DDO } from '@/ddo/DDO'
-import { TransferNFTCondition } from '@/keeper/contracts/conditions/NFTs/TransferNFTCondition'
-import { getRoyaltyAttributes, RoyaltyAttributes } from '@/nevermined/api/AssetsApi'
-import { MetaData } from '@/types/DDOTypes'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { SubscriptionCreditsNFTApi } from '../../src/nevermined/api/nfts/SubscriptionCreditsNFTApi'
+import { Token } from '../../src/keeper/contracts/Token'
+import { DDO } from '../../src/ddo/DDO'
+import { TransferNFTCondition } from '../../src/keeper/contracts/conditions/NFTs/TransferNFTCondition'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { MetaData } from '../../src/types/DDOTypes'
 import { generateSubscriptionMetadata, getMetadata } from '../utils/ddo-metadata-generator'
-import { PublishMetadataOptions, PublishOnChainOptions, RoyaltyKind } from '@/types/MetadataTypes'
-import { NFTAttributes } from '@/models/NFTAttributes'
+import {
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+  RoyaltyKind,
+} from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { mineBlocks, sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)

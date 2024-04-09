@@ -1,15 +1,15 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { DDO } from '@/ddo/DDO'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { MetaData } from '@/types/DDOTypes'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { DDO } from '../../ddo/DDO'
+import { AssetAttributes } from '../../models/AssetAttributes'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { MetaData } from '../../types/DDOTypes'
 import {
   AssetPublicationOptions,
   PublishMetadataOptions,
   PublishOnChainOptions,
-} from '@/types/MetadataTypes'
-import { SubscribablePromise } from '@/utils/SubscribablePromise'
+} from '../../types/MetadataTypes'
+import { SubscribablePromise } from '../../utils/SubscribablePromise'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { RegistryBaseApi } from './RegistryBaseApi'
 
