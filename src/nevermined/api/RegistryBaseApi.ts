@@ -151,7 +151,10 @@ export abstract class RegistryBaseApi extends Instantiable {
           encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
         }
 
-        if (assetAttributes.metadata.main.type === 'service') {
+        if (
+          assetAttributes.metadata.main.type === 'service' ||
+          assetAttributes.metadata.main.type === 'assistant'
+        ) {
           const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
             ddo.id,
             JSON.stringify(assetAttributes.metadata.main.webService.internalAttributes),

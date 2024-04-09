@@ -225,7 +225,7 @@ describe('NVM App API', () => {
     })
 
     it('I want to order a subscription', async () => {
-      const orderResult = await nvmApp.orderSubscription(subscriptionDid)
+      const orderResult = await nvmApp.orderSubscriptionAsync(subscriptionDid)
       assert.isDefined(orderResult)
       assert.isTrue(orderResult.success)
       assert.isTrue(orderResult.agreementId.length > 0)

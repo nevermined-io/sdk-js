@@ -87,4 +87,9 @@ export class NeverminedOptions {
    * Use a gas station to calculate transaction fees
    */
   public gasStationUri?: string
+
+  /**
+   * ZeroDev project id
+   */
+  public zeroDevProjectId?: string
 }

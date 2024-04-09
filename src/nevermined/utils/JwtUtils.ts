@@ -4,7 +4,7 @@ import { getChecksumAddress } from '@/nevermined/utils/BlockchainViemUtils'
 import { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
 import { Babysig, Eip712Data } from '@/types/GeneralTypes'
 import { KernelSmartAccount } from '@zerodev/sdk'
-import { JWSHeaderParameters, SignJWT, importJWK } from 'jose'
+import { JWSHeaderParameters, SignJWT, decodeJwt, importJWK } from 'jose'
 import { Account, Hash, LocalAccount, hexToBytes, toHex } from 'viem'
 
 export class EthSignJWT extends SignJWT {
@@ -352,6 +352,18 @@ export class JwtUtils extends Instantiable {
       return accessToken
     } else {
       return this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+    }
+  }
+
+  public isTokenValid(token: string): boolean {
+    const decodedToken = decodeJwt(token)
+    if (!decodedToken) {
+      return false
+    }
+    const expiry = decodedToken.exp
+    if (expiry) {
+      const now = new Date()
+      return now.getTime() < Number(expiry) * 1000
     }
   }
 }

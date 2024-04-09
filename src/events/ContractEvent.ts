@@ -63,7 +63,7 @@ export class ContractEvent extends NeverminedEvent {
 
       // Temporary workaround to work with mumbai
       // Infura as a 1000 blocks limit on their api
-      if (chainId === 80001 || chainId === 42) {
+      if (chainId === 80001 || chainId === 42 || chainId === 8453) {
         const latestBlock = await this.client.public.getBlockNumber()
         options.fromBlock = latestBlock - 99n
       }
