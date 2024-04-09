@@ -1,9 +1,9 @@
 import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 
-import { AccountsApi } from '@/nevermined/api/AccountsApi'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
+import { AccountsApi } from '../../src/nevermined/api/AccountsApi'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
 import TestContractHandler from '../keeper/TestContractHandler'
 
 use(spies)

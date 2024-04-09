@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { makeRandomWallet } from '@/nevermined/utils/BlockchainViemUtils'
+import { makeRandomWallet } from '../../src/nevermined/utils/BlockchainViemUtils'
 import { getAbiItem, hexToBigInt } from 'viem'
 
 describe('Void', () => {

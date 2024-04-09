@@ -1,10 +1,10 @@
-import { MetaData, Service, ServiceAttributes, ServiceType } from '@/types/DDOTypes'
-import { AssetPrice } from '@/models/AssetPrice'
+import { MetaData, Service, ServiceAttributes, ServiceType } from '../types/DDOTypes'
+import { AssetPrice } from '../models/AssetPrice'
 import {
   EncryptionMethod,
   DEFAULT_ENCRYPTION_METHOD,
   ZeroAddress,
-} from '@/constants/AssetConstants'
+} from '../constants/AssetConstants'
 
 export class AssetAttributes {
   /**

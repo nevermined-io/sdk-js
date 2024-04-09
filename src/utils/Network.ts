@@ -1,4 +1,4 @@
-import { KeeperError } from '@/errors/NeverminedErrors'
+import { KeeperError } from '../errors/NeverminedErrors'
 import {
   Chain,
   arbitrum,

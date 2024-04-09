@@ -1,12 +1,12 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { DDO } from '@/ddo/DDO'
-import { AgreementInstance } from '@/types/ContractTypes'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { DDO } from '../../../ddo/DDO'
+import { AgreementInstance } from '../../../types/ContractTypes'
 import {
   ServiceNFTSales,
   ServiceType,
   ValidationParams,
   ServiceAgreementTemplate,
-} from '@/types/DDOTypes'
+} from '../../../types/DDOTypes'
 import { EscrowPaymentCondition } from '../conditions/EscrowPaymentCondition'
 import { LockPaymentCondition } from '../conditions/LockPaymentCondition'
 import { TransferNFT721Condition } from '../conditions/NFTs/TransferNFT721Condition'

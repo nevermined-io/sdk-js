@@ -1,17 +1,17 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { AssetPrice } from '@/models/AssetPrice'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
 import { getMetadata } from '../utils/ddo-metadata-generator'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { Nft721Contract } from '@/keeper/contracts/Nft721Contract'
-import { ContractHandler } from '@/keeper/ContractHandler'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { Nft721Contract } from '../../src/keeper/contracts/Nft721Contract'
+import { ContractHandler } from '../../src/keeper/ContractHandler'
 
 import '../globals'
-import { EscrowPaymentCondition, Token, TransferNFT721Condition } from '@/keeper/contracts'
+import { EscrowPaymentCondition, Token, TransferNFT721Condition } from '../../src/keeper/contracts'
 
 describe('NFTs721 Api End-to-End', () => {
   let artist: NvmAccount

@@ -1,12 +1,15 @@
-import { getConditionsByParams } from '@/ddo/DDO'
+import { getConditionsByParams } from '../../../ddo/DDO'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 
-import { Condition, ConditionInstance } from '@/keeper/contracts/conditions/Condition.abstract'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { isValidAddress } from '@/nevermined/utils/BlockchainViemUtils'
-import { ConditionState } from '@/types/ContractTypes'
+import {
+  Condition,
+  ConditionInstance,
+} from '../../../keeper/contracts/conditions/Condition.abstract'
+import { NFTAttributes } from '../../../models/NFTAttributes'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { isValidAddress } from '../../../nevermined/utils/BlockchainViemUtils'
+import { ConditionState } from '../../../types/ContractTypes'
 import {
   Service,
   ServicePlugin,
@@ -16,8 +19,8 @@ import {
   PricedMetadataInformation,
   serviceIndex,
   ValidationParams,
-} from '@/types/DDOTypes'
-import { zeroX } from '@/utils/ConversionTypeHelpers'
+} from '../../../types/DDOTypes'
+import { zeroX } from '../../../utils/ConversionTypeHelpers'
 
 export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>

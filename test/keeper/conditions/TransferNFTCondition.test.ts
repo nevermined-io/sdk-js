@@ -8,17 +8,17 @@ import {
   EscrowPaymentCondition,
   Nft1155Contract,
   Token,
-} from '@/keeper'
-import { didZeroX, zeroX } from '@/utils'
+} from '../../../src/keeper'
+import { didZeroX, zeroX } from '../../../src/utils'
 import TestContractHandler from '../TestContractHandler'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { generateId } from '@/common/helpers'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId } from '../../../src/common/helpers'
 import { Log } from 'viem'
-import { ConditionState } from '@/types/ContractTypes'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { NeverminedNFT1155Type } from '@/types/GeneralTypes'
-import { ZeroAddress } from '@/constants/AssetConstants'
+import { ConditionState } from '../../../src/types/ContractTypes'
+import { NFTAttributes } from '../../../src/models/NFTAttributes'
+import { NeverminedNFT1155Type } from '../../../src/types/GeneralTypes'
+import { ZeroAddress } from '../../../src/constants/AssetConstants'
 chai.use(chaiAsPromised)
 
 describe('TransferNFTCondition', () => {

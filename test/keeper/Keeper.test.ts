@@ -1,11 +1,11 @@
 import { assert } from 'chai'
 import TestContractHandler from './TestContractHandler'
-import { Keeper } from '@/keeper/Keeper'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { ZeroAddress } from '@/constants/AssetConstants'
+import { Keeper } from '../../src/keeper/Keeper'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { ZeroAddress } from '../../src/constants/AssetConstants'
 import { Abi, getAbiItem } from 'viem'
-import { generateId } from '@/common/helpers'
-import { NFTAttributes } from '@/models'
+import { generateId } from '../../src/common/helpers'
+import { NFTAttributes } from '../../src/models'
 
 let keeper: Keeper
 

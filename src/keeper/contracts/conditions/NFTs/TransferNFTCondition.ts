@@ -1,10 +1,10 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { DDO } from '@/ddo/DDO'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { ConditionMethod } from '@/types/ContractTypes'
-import { ServiceCommon } from '@/types/DDOTypes'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import { InstantiableConfig } from '../../../../Instantiable.abstract'
+import { DDO } from '../../../../ddo/DDO'
+import { NvmAccount } from '../../../../models/NvmAccount'
+import { TxParameters } from '../../../../models/Transactions'
+import { ConditionMethod } from '../../../../types/ContractTypes'
+import { ServiceCommon } from '../../../../types/DDOTypes'
+import { didZeroX, zeroX } from '../../../../utils/ConversionTypeHelpers'
 import {
   ConditionContext,
   ProviderCondition,

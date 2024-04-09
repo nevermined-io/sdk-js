@@ -1,12 +1,12 @@
-import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { AccessTemplate } from '@/keeper/contracts/templates/AccessTemplate'
-import { NFT721AccessTemplate } from '@/keeper/contracts/templates/NFT721AccessTemplate'
-import { NFT721SalesTemplate } from '@/keeper/contracts/templates/NFT721SalesTemplate'
-import { NFTAccessTemplate } from '@/keeper/contracts/templates/NFTAccessTemplate'
-import { NFTSalesTemplate } from '@/keeper/contracts/templates/NFTSalesTemplate'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
+import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { AccessTemplate } from '../keeper/contracts/templates/AccessTemplate'
+import { NFT721AccessTemplate } from '../keeper/contracts/templates/NFT721AccessTemplate'
+import { NFT721SalesTemplate } from '../keeper/contracts/templates/NFT721SalesTemplate'
+import { NFTAccessTemplate } from '../keeper/contracts/templates/NFTAccessTemplate'
+import { NFTSalesTemplate } from '../keeper/contracts/templates/NFTSalesTemplate'
+import { NFTAttributes } from '../models/NFTAttributes'
+import { NvmAccount } from '../models/NvmAccount'
+import { TxParameters } from '../models/Transactions'
 import {
   ServiceAccess,
   ServiceNFTAccess,
@@ -17,7 +17,7 @@ import {
   MetaDataMain,
   PricedMetadataInformation,
   ServiceAttributes,
-} from '@/types/DDOTypes'
+} from '../types/DDOTypes'
 
 export interface AccessProofTemplateParams {
   type: 'access-proof'

@@ -4,12 +4,12 @@ import {
   LockPaymentCondition,
   Token,
   ConditionStoreManager,
-} from '@/keeper'
+} from '../../../src/keeper'
 import TestContractHandler from '../TestContractHandler'
-import { AssetPrice } from '@/models/AssetPrice'
-import { NvmAccount } from '@/models/NvmAccount'
-import { generateId } from '@/common/helpers'
-import { ZeroAddress } from '@/constants/AssetConstants'
+import { AssetPrice } from '../../../src/models/AssetPrice'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId } from '../../../src/common/helpers'
+import { ZeroAddress } from '../../../src/constants/AssetConstants'
 import chaiAsPromised from 'chai-as-promised'
 chai.use(chaiAsPromised)
 

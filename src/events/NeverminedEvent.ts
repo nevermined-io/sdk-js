@@ -1,11 +1,11 @@
-import { Instantiable } from '@/Instantiable.abstract'
-import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { Instantiable } from '../Instantiable.abstract'
+import { ContractBase } from '../keeper/contracts/ContractBase'
 import {
   EventEmitter,
   EventOptions,
   EventResult,
   ContractEventSubscription,
-} from '@/types/EventTypes'
+} from '../types/EventTypes'
 
 export abstract class NeverminedEvent extends Instantiable {
   protected eventEmitter: EventEmitter

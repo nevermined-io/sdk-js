@@ -1,14 +1,14 @@
-import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { generateId } from '@/common/helpers'
-import { DEFAULT_ENCRYPTION_METHOD, ZeroAddress } from '@/constants/AssetConstants'
-import { DDO } from '@/ddo/DDO'
-import { AssetError } from '@/errors/NeverminedErrors'
-import { DEFAULT_REGISTRATION_ACTIVITY_ID } from '@/keeper/contracts/Provenance'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import { AssetPrice } from '@/models/AssetPrice'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { generateId } from '../../common/helpers'
+import { DEFAULT_ENCRYPTION_METHOD, ZeroAddress } from '../../constants/AssetConstants'
+import { DDO } from '../../ddo/DDO'
+import { AssetError } from '../../errors/NeverminedErrors'
+import { DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper/contracts/Provenance'
+import { AssetAttributes } from '../../models/AssetAttributes'
+import { AssetPrice } from '../../models/AssetPrice'
+import { NFTAttributes } from '../../models/NFTAttributes'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
 import {
   MetaData,
   NvmConfigVersions,
@@ -16,15 +16,15 @@ import {
   Service,
   ServicePlugin,
   ServiceType,
-} from '@/types/DDOTypes'
+} from '../../types/DDOTypes'
 import {
   AssetPublicationOptions,
   DIDResolvePolicy,
   PublishMetadataOptions,
   PublishOnChainOptions,
-} from '@/types/MetadataTypes'
-import { zeroX } from '@/utils/ConversionTypeHelpers'
-import { SubscribablePromise } from '@/utils/SubscribablePromise'
+} from '../../types/MetadataTypes'
+import { zeroX } from '../../utils/ConversionTypeHelpers'
+import { SubscribablePromise } from '../../utils/SubscribablePromise'
 import { formatUnits } from 'viem'
 import { AccessService, NFTAccessService, NFTSalesService } from '../AccessService'
 import { DID } from '../DID'

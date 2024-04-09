@@ -1,8 +1,8 @@
 import { assert } from 'chai'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import Logger from '@/models/Logger'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import Logger from '../../src/models/Logger'
 
 describe('Marketplace api auth', () => {
   let nevermined: Nevermined

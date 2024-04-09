@@ -10,9 +10,6 @@
     "target": "ES2021",
     "noUnusedLocals": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "paths": {
-      "@/*": ["../src/*"]
-    }
+    "allowSyntheticDefaultImports": true
   }
 }

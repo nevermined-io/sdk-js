@@ -1,8 +1,8 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { DDO } from '@/ddo/DDO'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { DDO } from '../../../ddo/DDO'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { didZeroX, zeroX } from '../../../utils/ConversionTypeHelpers'
 import { ConsumerCondition, ConditionContext, Condition } from './Condition.abstract'
 
 export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {

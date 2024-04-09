@@ -1,7 +1,7 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { ContractBase } from '@/keeper/contracts/ContractBase'
-import { NvmAccount } from '@/models'
-import { TxParameters } from '@/models/Transactions'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { ContractBase } from '../../keeper/contracts/ContractBase'
+import { NvmAccount } from '../../models'
+import { TxParameters } from '../../models/Transactions'
 import { parseUnits } from 'viem'
 
 export class Dispenser extends ContractBase {

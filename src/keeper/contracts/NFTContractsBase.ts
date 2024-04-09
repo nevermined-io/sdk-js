@@ -1,9 +1,9 @@
-import { KeeperError } from '@/errors/NeverminedErrors'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import { KeeperError } from '../../errors/NeverminedErrors'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { didZeroX, zeroX } from '../../utils/ConversionTypeHelpers'
 import { ContractBase } from './ContractBase'
-import { isValidAddress } from '@/nevermined/utils/BlockchainViemUtils'
+import { isValidAddress } from '../../nevermined/utils/BlockchainViemUtils'
 
 export interface NFT721MintedEntry {
   tokenId: string

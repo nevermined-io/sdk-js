@@ -17,13 +17,13 @@ import {
   parseEther,
   formatEther,
   keccak256WithEncode,
-} from '@/nevermined/utils/BlockchainViemUtils'
+} from '../../src/nevermined/utils/BlockchainViemUtils'
 import { parseAbi } from 'viem'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { ContractHandler } from '@/keeper/ContractHandler'
-import { KeeperError } from '@/errors/NeverminedErrors'
-import { Token } from '@/keeper/contracts/Token'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { ContractHandler } from '../../src/keeper/ContractHandler'
+import { KeeperError } from '../../src/errors/NeverminedErrors'
+import { Token } from '../../src/keeper/contracts/Token'
 
 describe('Blockchain Utils', () => {
   let nvm: Nevermined

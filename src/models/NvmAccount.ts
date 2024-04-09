@@ -1,6 +1,6 @@
 import { Account, LocalAccount, toHex } from 'viem'
-import { NvmAccountError } from '@/errors/NeverminedErrors'
-import { NvmAccountType } from '@/types/AccountTypes'
+import { NvmAccountError } from '../errors/NeverminedErrors'
+import { NvmAccountType } from '../types/AccountTypes'
 import { parseAccount } from 'viem/utils'
 import { KernelSmartAccount } from '@zerodev/sdk'
 
