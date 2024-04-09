@@ -30,19 +30,12 @@ describe('DIDRegistry', () => {
 
       const logs = didRegistry.getTransactionLogs(txReceipt, 'DIDAttributeRegistered')
       assert.isTrue(logs.length > 0)
-      // assert.isTrue(
-      //   (contractReceipt.logs).some(
-      //     (e) => e.eventName === 'DIDAttributeRegistered',
-      //   ),
-      // )
     })
 
     it('should register an attribute in a new did modifying the nonce', async () => {
       const [ownerAccount] = nevermined.accounts.list()
       const did = generateId()
       const data = 'hola hola'
-      // const provider = await getWeb3EthersProvider(config)
-      // const txCount = await provider.getTransactionCount(ownerAccount.getId(), 'pending')
       const txCount = await nevermined.client.public.getTransactionCount({
         address: ownerAccount.getAddress(),
         blockTag: 'pending',

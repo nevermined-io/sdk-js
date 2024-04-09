@@ -27,8 +27,6 @@ import { Token } from '../../src/keeper/contracts/Token'
 
 describe('Blockchain Utils', () => {
   let nvm: Nevermined
-  let nftContractEthers
-  let contractAddressEthers
   let nftContractViem
   let contractAddressViem
   let userAccount: NvmAccount
@@ -39,48 +37,6 @@ describe('Blockchain Utils', () => {
     assert.isDefined(nvm.utils.blockchain)
     assert.isDefined(nvm.utils.blockchain)
     assert.isDefined(userAccount)
-  })
-
-  describe.skip('ETHERS :: Class tests', () => {
-    it(`Should deploy an ABI`, async () => {
-      const networkName = await nvm.keeper.getNetworkName()
-      const erc1155ABI = await ContractHandler.getABIArtifact(
-        'NFT1155Upgradeable',
-        config.artifactsFolder,
-        networkName,
-      )
-
-      nftContractEthers = await nvm.utils.blockchain.deployAbi(erc1155ABI, userAccount, [
-        userAccount.getId(),
-        nvm.keeper.didRegistry.address,
-        'NFT1155 Ethers',
-        'NVM',
-        '',
-        nvm.keeper.nvmConfig.address,
-      ])
-
-      assert.isDefined(nftContractEthers)
-      contractAddressEthers = await nftContractEthers.getAddress()
-      console.log(`Ethers NFT (ERC-1155) deployed at address ${contractAddressEthers}`)
-    })
-
-    it(`Should load a contract`, async () => {
-      const contract = await nvm.utils.blockchain.loadContract(
-        contractAddressEthers,
-        nftContractEthers.interface,
-      )
-      assert.isDefined(contract)
-    })
-
-    it(`Should check that exists`, async () => {
-      const exists = await nvm.utils.blockchain.checkExists(contractAddressEthers)
-      assert.isTrue(exists)
-    })
-
-    it(`It should not exist`, async () => {
-      const exists = await nvm.utils.blockchain.checkExists(userAccount.getId())
-      assert.isFalse(exists)
-    })
   })
 
   describe('VIEM :: Class tests', () => {

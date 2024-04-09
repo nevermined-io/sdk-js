@@ -39,7 +39,6 @@ export async function generateInstantiableConfigFromConfig(
 
   return {
     config,
-    // web3: loadCore ? await getWeb3EthersProvider(config) : undefined,
     client: loadCore ? await getWeb3ViemClients(config) : undefined,
     logger: new Logger(logLevel),
     artifactsFolder: config.artifactsFolder,
@@ -54,51 +53,22 @@ export async function getWeb3ViemClients(
   const providerTransport = config.web3ProviderUri ? http(config.web3ProviderUri) : http()
 
   const publicClient = createPublicClient({
-    // cacheTime: 0,
     chain,
-    transport: http(), //providerTransport,
-  }) // as PublicClient<Transport, Chain> // as Omit<PublicClient<Transport, Chain>, 'cacheTime'>
+    transport: http(),
+  })
 
   const walletClient = createWalletClient({
     // cacheTime: 0 as number,
     chain,
     transport: providerTransport,
   })
-  // getContract({
-  //   address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
-  //   abi: [],
-  //   // @ts-expect-error "viem, wtf?"
-  //   client: { public: publicClient }
-  // })
+
   return {
     public: publicClient,
     wallet: walletClient,
     chain,
   } as Web3Clients
 }
-
-// export async function getWeb3EthersProvider(
-//   config: Partial<NeverminedOptions> = {},
-// ): Promise<ethers.JsonRpcProvider | ethers.BrowserProvider> {
-//   if (config.web3Provider) {
-//     return new ethers.BrowserProvider(config.web3Provider)
-//   }
-
-//   // disabling the cache since this will lead to duplicated nonces on test networks
-//   // See https://docs.ethers.org/v6/api/providers/abstract-provider/#AbstractProviderOptions
-//   let provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {
-//     cacheTimeout: -1,
-//   })
-
-//   // Adding the static network prevents ethers from calling eth_chainId with every call
-//   const network = await provider.getNetwork()
-//   provider = new ethers.JsonRpcProvider(config.web3ProviderUri, undefined, {
-//     cacheTimeout: -1,
-//     staticNetwork: network,
-//   })
-
-//   return provider
-// }
 
 export abstract class Instantiable {
   protected get nevermined() {

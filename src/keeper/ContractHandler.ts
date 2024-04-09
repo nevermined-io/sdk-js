@@ -12,10 +12,7 @@ if (typeof window !== 'undefined') {
 }
 
 export class ContractHandler extends Instantiable {
-  private static contracts: Map<string, any> = new Map<
-    string,
-    any //ethers.BaseContract
-  >()
+  private static contracts: Map<string, any> = new Map<string, any>()
 
   private static versions: Map<string, any> = new Map<string, string>()
 
