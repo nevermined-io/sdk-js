@@ -1,7 +1,7 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { ContractBase } from '@/keeper/contracts/ContractBase'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { ContractBase } from '../../../keeper/contracts/ContractBase'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
 
 export class NeverminedConfig extends ContractBase {
   templates: any

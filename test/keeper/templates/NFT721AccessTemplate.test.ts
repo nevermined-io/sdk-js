@@ -2,19 +2,19 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import TestContractHandler from '../TestContractHandler'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NFT721AccessTemplate } from '@/keeper/contracts/templates'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { NFT721AccessTemplate } from '../../../src/keeper/contracts/templates'
 import {
   AgreementStoreManager,
   ConditionStoreManager,
   TemplateStoreManager,
-} from '@/keeper/contracts/managers'
-import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
-import { NvmAccount } from '@/models/NvmAccount'
-import { generateId } from '@/common/helpers'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+} from '../../../src/keeper/contracts/managers'
+import { DIDRegistry } from '../../../src/keeper/contracts/DIDRegistry'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId } from '../../../src/common/helpers'
+import { didZeroX, zeroX } from '../../../src/utils/ConversionTypeHelpers'
 import { Log } from 'viem'
-import { ConditionState } from '@/types/ContractTypes'
+import { ConditionState } from '../../../src/types/ContractTypes'
 
 chai.use(chaiAsPromised)
 

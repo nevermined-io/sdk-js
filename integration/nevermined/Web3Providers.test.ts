@@ -3,12 +3,12 @@ import { decodeJwt } from 'jose'
 
 import config from '../../test/config'
 import { getMetadata } from '../utils'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
 
 // import * as keyFile from '../KeyFile.json'
-// import { makeWalletFromEncryptedJson } from '@/nevermined/utils/BlockchainViemUtils'
-import { AssetAttributes } from '@/models/AssetAttributes'
+// import { makeWalletFromEncryptedJson } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Web3 Providers', () => {
   let nevermined: Nevermined

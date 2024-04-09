@@ -1,9 +1,9 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { ConditionState } from '@/types/ContractTypes'
-import { zeroX } from '@/utils/ConversionTypeHelpers'
-import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { ConditionState } from '../../../types/ContractTypes'
+import { zeroX } from '../../../utils/ConversionTypeHelpers'
+import { ContractBase } from '../../../keeper/contracts/ContractBase'
 
 export interface ConditionData {
   typeRef: string

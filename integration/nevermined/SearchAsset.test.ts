@@ -2,11 +2,11 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import config from '../../test/config'
 import { getMetadata } from '../utils'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import { generateId } from '@/common/helpers'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { generateId } from '../../src/common/helpers'
 describe('Search Asset', () => {
   let nevermined: Nevermined
   let neverminedOffline: Nevermined

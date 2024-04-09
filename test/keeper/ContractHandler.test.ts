@@ -1,8 +1,8 @@
 import { assert } from 'chai'
 import config from '../config'
-import { ContractHandler } from '@/keeper/ContractHandler'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { searchAbiFunction } from '@/nevermined'
+import { ContractHandler } from '../../src/keeper/ContractHandler'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { searchAbiFunction } from '../../src/nevermined'
 
 describe('ContractHandler', () => {
   let contractHandler: ContractHandler

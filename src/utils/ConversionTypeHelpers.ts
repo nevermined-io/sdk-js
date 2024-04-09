@@ -1,4 +1,4 @@
-import { LoggerInstance } from '@/models/Logger'
+import { LoggerInstance } from '../models'
 
 // Ox transformer
 export const zeroX = (input: string) => zeroXTransformer(input, true) as `0x${string}`

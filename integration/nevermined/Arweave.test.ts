@@ -1,13 +1,13 @@
 import chai, { assert, expect } from 'chai'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { DDOStatus } from '@/services/metadata/MetadataService'
-import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
-import { AssetPrice } from '@/models/AssetPrice'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { DDOStatus } from '../../src/services/metadata/MetadataService'
+import { DIDRegistry } from '../../src/keeper/contracts/DIDRegistry'
+import { AssetPrice } from '../../src/models/AssetPrice'
 import { getAssetPrice, getMetadata } from '../utils/ddo-metadata-generator'
-import { AssetAttributes } from '@/models/AssetAttributes'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe.skip('Get DDO status', () => {
   let nevermined: Nevermined

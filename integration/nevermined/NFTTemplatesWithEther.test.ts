@@ -1,31 +1,31 @@
 import { assert } from 'chai'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { AssetPrice } from '@/models/AssetPrice'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
 import { getMetadata } from '../utils/ddo-metadata-generator'
 
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { generateId } from '@/common/helpers'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { generateId } from '../../src/common/helpers'
 
-import { ConditionStoreManager } from '@/keeper/contracts/managers/ConditionStoreManager'
+import { ConditionStoreManager } from '../../src/keeper/contracts/managers/ConditionStoreManager'
 import {
   EscrowPaymentCondition,
   LockPaymentCondition,
   NFTAccessCondition,
   TransferNFTCondition,
   NFTHolderCondition,
-} from '@/keeper/contracts/conditions'
-import { RoyaltyAttributes, getRoyaltyAttributes } from '@/nevermined/api/AssetsApi'
-import { RoyaltyKind } from '@/types/MetadataTypes'
-import { ConditionState } from '@/types/ContractTypes'
-import { Nft1155Contract } from '@/keeper/contracts/Nft1155Contract'
-import { NFTSalesTemplate } from '@/keeper/contracts/templates/NFTSalesTemplate'
-import { NFTAccessTemplate } from '@/keeper/contracts/templates/NFTAccessTemplate'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import { parseEther } from '@/nevermined/utils/BlockchainViemUtils'
-import { ZeroAddress } from '@/constants/AssetConstants'
+} from '../../src/keeper/contracts/conditions'
+import { RoyaltyAttributes, getRoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
+import { ConditionState } from '../../src/types/ContractTypes'
+import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
+import { NFTSalesTemplate } from '../../src/keeper/contracts/templates/NFTSalesTemplate'
+import { NFTAccessTemplate } from '../../src/keeper/contracts/templates/NFTAccessTemplate'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { parseEther } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { ZeroAddress } from '../../src/constants/AssetConstants'
 import { decodeJwt } from 'jose'
 
 describe('NFTTemplates With Ether E2E', async () => {

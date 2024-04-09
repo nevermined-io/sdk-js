@@ -4,12 +4,12 @@ import { decodeJwt } from 'jose'
 
 import config from '../../test/config'
 import { getMetadata } from '../utils'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { MetaData } from '@/types/DDOTypes'
-import { DDO } from '@/ddo/DDO'
-import { NvmAccount } from '@/models/NvmAccount'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import Logger from '@/models/Logger'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { MetaData } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import Logger from '../../src/models/Logger'
 
 // Ensure that your network is fast enough and you have some free ram before run it.
 describe.skip('Consume Asset (Large size)', () => {

@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 import TestContractHandler from '../TestContractHandler'
 
-import { AccessTemplate } from '@/keeper/contracts/templates'
-import { ConditionSmall } from '@/keeper/contracts/conditions/Condition.abstract'
-import { Token } from '@/keeper/contracts/Token'
+import { AccessTemplate } from '../../../src/keeper/contracts/templates'
+import { ConditionSmall } from '../../../src/keeper/contracts/conditions/Condition.abstract'
+import { Token } from '../../../src/keeper/contracts/Token'
 
 let template: AccessTemplate
 let condition: ConditionSmall

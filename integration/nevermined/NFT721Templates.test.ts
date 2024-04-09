@@ -1,33 +1,33 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { AssetPrice } from '@/models/AssetPrice'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
 import { getMetadata } from '../utils/ddo-metadata-generator'
 
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { TransferNFT721Condition } from '@/keeper/contracts/conditions/NFTs/TransferNFT721Condition'
-import { ContractHandler } from '@/keeper/ContractHandler'
-import { generateId } from '@/common/helpers'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { TransferNFT721Condition } from '../../src/keeper/contracts/conditions/NFTs/TransferNFT721Condition'
+import { ContractHandler } from '../../src/keeper/ContractHandler'
+import { generateId } from '../../src/common/helpers'
 
 import { repeat } from '../utils/utils'
-import { NFT721Api } from '@/nevermined/api/nfts/NFT721Api'
-import { Token } from '@/keeper/contracts/Token'
-import { ConditionStoreManager } from '@/keeper/contracts/managers/ConditionStoreManager'
+import { NFT721Api } from '../../src/nevermined/api/nfts/NFT721Api'
+import { Token } from '../../src/keeper/contracts/Token'
+import { ConditionStoreManager } from '../../src/keeper/contracts/managers/ConditionStoreManager'
 import {
   EscrowPaymentCondition,
   LockPaymentCondition,
   NFTAccessCondition,
   NFT721HolderCondition,
-} from '@/keeper/contracts/conditions'
-import { NFT721SalesTemplate } from '@/keeper/contracts/templates/NFT721SalesTemplate'
-import { NFT721AccessTemplate } from '@/keeper/contracts/templates/NFT721AccessTemplate'
-import { RoyaltyAttributes, getRoyaltyAttributes } from '@/nevermined/api/AssetsApi'
-import { RoyaltyKind } from '@/types/MetadataTypes'
-import { NeverminedNFT721Type } from '@/types/GeneralTypes'
-import { ConditionState } from '@/types/ContractTypes'
+} from '../../src/keeper/contracts/conditions'
+import { NFT721SalesTemplate } from '../../src/keeper/contracts/templates/NFT721SalesTemplate'
+import { NFT721AccessTemplate } from '../../src/keeper/contracts/templates/NFT721AccessTemplate'
+import { RoyaltyAttributes, getRoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
+import { NeverminedNFT721Type } from '../../src/types/GeneralTypes'
+import { ConditionState } from '../../src/types/ContractTypes'
 
 describe('NFT721Templates E2E', () => {
   let owner: NvmAccount

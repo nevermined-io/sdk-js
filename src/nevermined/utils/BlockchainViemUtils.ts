@@ -1,8 +1,8 @@
-import { Instantiable, InstantiableConfig, Web3Clients } from '@/Instantiable.abstract'
-import { _sleep } from '@/common/helpers'
-import { KeeperError } from '@/errors/NeverminedErrors'
-import { NvmAccount } from '@/models/NvmAccount'
-import { didZeroX } from '@/utils/ConversionTypeHelpers'
+import { Instantiable, InstantiableConfig, Web3Clients } from '../../Instantiable.abstract'
+import { _sleep } from '../../common/helpers'
+import { KeeperError } from '../../errors/NeverminedErrors'
+import { NvmAccount } from '../../models/NvmAccount'
+import { didZeroX } from '../../utils/ConversionTypeHelpers'
 import {
   Abi,
   AbiEvent,

@@ -1,8 +1,8 @@
 import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 import config from '../config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { EventHandler } from '@/events/EventHandler'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { EventHandler } from '../../src/events/EventHandler'
 
 use(spies)
 

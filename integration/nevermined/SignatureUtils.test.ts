@@ -1,9 +1,9 @@
 import { assert } from 'chai'
 
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
 import config from '../../test/config'
-import { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
+import { SignatureUtils } from '../../src/nevermined/utils/SignatureUtils'
 
 describe('SignatureUtils', () => {
   const text = '0123456789abcde'

@@ -6,7 +6,7 @@ export {
   Profiles,
   apiPath,
   servicePath,
-} from '@/services/metadata'
-export type { AuthToken, DDOStatus, QueryResult } from '@/services/metadata'
-export { AssetResult, NeverminedNode, NodeUploadBackends } from '@/services/node/NeverminedNode'
-export type { SubscriptionToken } from '@/services/node/NeverminedNode'
+} from './metadata'
+export type { AuthToken, DDOStatus, QueryResult } from './metadata'
+export { AssetResult, NeverminedNode, NodeUploadBackends } from './node/NeverminedNode'
+export type { SubscriptionToken } from './node/NeverminedNode'

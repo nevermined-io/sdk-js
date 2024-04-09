@@ -5,11 +5,11 @@ import * as fs from 'fs'
 import config from '../../test/config'
 import { getMetadata } from '../utils'
 
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { MetaData } from '@/types/DDOTypes'
-import { AssetAttributes } from '@/models/AssetAttributes'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { MetaData } from '../../src/types/DDOTypes'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Publisher Download Asset', () => {
   let nevermined: Nevermined

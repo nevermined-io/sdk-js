@@ -1,18 +1,18 @@
-import { AgreementTemplate } from '@/keeper/contracts/templates/AgreementTemplate.abstract'
-import { BaseTemplate } from '@/keeper/contracts/templates/BaseTemplate.abstract'
-import { InstantiableConfig } from '@/Instantiable.abstract'
+import { AgreementTemplate } from '../../../keeper/contracts/templates/AgreementTemplate.abstract'
+import { BaseTemplate } from '../../../keeper/contracts/templates/BaseTemplate.abstract'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
 import {
   nft721HolderTemplate,
   nftAccessCondition,
-} from '@/keeper/contracts/templates/ConditionTemplates'
-import { AgreementInstance } from '@/types/ContractTypes'
-import { DDO } from '@/ddo/DDO'
+} from '../../../keeper/contracts/templates/ConditionTemplates'
+import { AgreementInstance } from '../../../types/ContractTypes'
+import { DDO } from '../../../ddo/DDO'
 import {
   ServiceNFTAccess,
   ValidationParams,
   ServiceType,
   ServiceAgreementTemplate,
-} from '@/types/DDOTypes'
+} from '../../../types/DDOTypes'
 import { NFT721HolderCondition } from '../conditions/NFTs/NFT721HolderCondition'
 import { NFTAccessCondition } from '../conditions/NFTs/NFTAccessCondition'
 

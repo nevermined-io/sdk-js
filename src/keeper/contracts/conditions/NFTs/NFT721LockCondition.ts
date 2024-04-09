@@ -1,11 +1,11 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
+import { InstantiableConfig } from '../../../../Instantiable.abstract'
 import {
   Condition,
   ConditionContext,
   ProviderCondition,
-} from '@/keeper/contracts/conditions/Condition.abstract'
-import { NvmAccount } from '@/models/NvmAccount'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+} from '../../../../keeper/contracts/conditions/Condition.abstract'
+import { NvmAccount } from '../../../../models/NvmAccount'
+import { didZeroX, zeroX } from '../../../../utils/ConversionTypeHelpers'
 
 export interface NFT721LockConditionContext extends ConditionContext {
   lockAddress: string

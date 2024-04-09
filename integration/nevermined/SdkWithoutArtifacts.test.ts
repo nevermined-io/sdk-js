@@ -2,10 +2,10 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import config from '../../test/config'
 
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { makeWallets } from '@/nevermined/utils/BlockchainViemUtils'
-import { SearchQuery } from '@/types/MetadataTypes'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { makeWallets } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { SearchQuery } from '../../src/types/MetadataTypes'
 
 describe('Sdk working without artifacts', () => {
   let nevermined: Nevermined

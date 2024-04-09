@@ -1,4 +1,4 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
+import { InstantiableConfig } from '../../Instantiable.abstract'
 import { parseAbi } from 'viem'
 import { Token } from './Token'
 

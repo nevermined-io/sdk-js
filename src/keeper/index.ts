@@ -1,5 +1,5 @@
-export { ContractHandler } from '@/keeper/ContractHandler'
-export { Keeper } from '@/keeper/Keeper'
+export { ContractHandler } from './ContractHandler'
+export { Keeper } from './Keeper'
 export {
   AccessCondition,
   AccessTemplate,
@@ -40,7 +40,7 @@ export {
   TransferDIDOwnershipCondition,
   TransferNFT721Condition,
   TransferNFTCondition,
-} from '@/keeper/contracts'
+} from './contracts'
 export type {
   ActedOnBehalfEvent,
   AgreementData,
@@ -58,4 +58,4 @@ export type {
   WasAssociatedWithEvent,
   WasDerivedFromEvent,
   WasGeneratedByEvent,
-} from '@/keeper/contracts'
+} from './contracts'

@@ -1,10 +1,10 @@
-import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
-import { Bookmarks } from '@/services/metadata/Bookmarks'
-import { MarketplaceApi } from '@/services/metadata/MarketplaceAPI'
-import { MetadataService } from '@/services/metadata/MetadataService'
-import { Permissions } from '@/services/metadata/Permissions'
-import { Profiles } from '@/services/metadata/Profiles'
-import { NeverminedNode } from '@/services/node/NeverminedNode'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { Bookmarks } from '../../services/metadata/Bookmarks'
+import { MarketplaceApi } from '../../services/metadata/MarketplaceAPI'
+import { MetadataService } from '../../services/metadata/MetadataService'
+import { Permissions } from '../../services/metadata/Permissions'
+import { Profiles } from '../../services/metadata/Profiles'
+import { NeverminedNode } from '../../services/node/NeverminedNode'
 
 /**
  * Utils internal submodule of Nevermined.

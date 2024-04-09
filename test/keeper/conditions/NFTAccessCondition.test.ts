@@ -1,20 +1,20 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import TestContractHandler from '../TestContractHandler'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NFTAccessCondition, NFTHolderCondition } from '@/keeper/contracts/conditions'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { NFTAccessCondition, NFTHolderCondition } from '../../../src/keeper/contracts/conditions'
 import {
   AgreementStoreManager,
   ConditionStoreManager,
   TemplateStoreManager,
-} from '@/keeper/contracts/managers'
-import { DIDRegistry } from '@/keeper/contracts/DIDRegistry'
-import { NvmAccount } from '@/models/NvmAccount'
-import { generateId } from '@/common/helpers'
-import { ConditionState } from '@/types/ContractTypes'
+} from '../../../src/keeper/contracts/managers'
+import { DIDRegistry } from '../../../src/keeper/contracts/DIDRegistry'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId } from '../../../src/common/helpers'
+import { ConditionState } from '../../../src/types/ContractTypes'
 import { Log } from 'viem'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
-import { NFTAccessTemplate } from '@/keeper/contracts/templates/NFTAccessTemplate'
+import { didZeroX, zeroX } from '../../../src/utils/ConversionTypeHelpers'
+import { NFTAccessTemplate } from '../../../src/keeper/contracts/templates/NFTAccessTemplate'
 
 chai.use(chaiAsPromised)
 

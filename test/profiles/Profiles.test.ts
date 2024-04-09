@@ -2,10 +2,10 @@ import { assert, spy, use } from 'chai'
 import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
 import config from '../config'
-import { NvmAccount } from '@/models/NvmAccount'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { Profiles } from '@/services/metadata/Profiles'
-import { NewProfile, Profile, State } from '@/types/MetadataTypes'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { Profiles } from '../../src/services/metadata/Profiles'
+import { NewProfile, Profile, State } from '../../src/types/MetadataTypes'
 
 use(spies)
 

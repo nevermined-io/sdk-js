@@ -5,9 +5,9 @@ import config from '../config'
 import TestContractHandler from '../keeper/TestContractHandler'
 
 import * as jsonDDO from '../testdata/ddo.json'
-import { Service } from '@/types/DDOTypes'
-import { DDO } from '@/ddo/DDO'
-import { Nevermined } from '@/nevermined/Nevermined'
+import { Service } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 
 use(spies)
 

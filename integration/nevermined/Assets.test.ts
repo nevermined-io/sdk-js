@@ -3,21 +3,21 @@ import { decodeJwt, JWTPayload } from 'jose'
 import { rejects } from 'assert'
 import * as fs from 'fs'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { MetaData } from '@/types/DDOTypes'
-import { DDO } from '@/ddo/DDO'
-import { NvmAccount } from '@/models/NvmAccount'
-import { AssetPrice } from '@/models/AssetPrice'
-import { generateId } from '@/common/helpers'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { MetaData } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { generateId } from '../../src/common/helpers'
 import { getAssetPrice, getMetadata } from '../utils/ddo-metadata-generator'
-import { AssetAttributes } from '@/models/AssetAttributes'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 import {
   DIDResolvePolicy,
   PublishMetadataOptions,
   PublishOnChainOptions,
   SearchQuery,
-} from '@/types/MetadataTypes'
-import { ProvenanceMethod } from '@/keeper/contracts/Provenance'
+} from '../../src/types/MetadataTypes'
+import { ProvenanceMethod } from '../../src/keeper/contracts/Provenance'
 
 let nevermined: Nevermined
 let publisher: NvmAccount

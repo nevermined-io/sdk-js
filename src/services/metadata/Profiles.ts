@@ -1,6 +1,6 @@
-import { NewProfile, Profile, ReducedProfile } from '@/types/MetadataTypes'
-import { MarketplaceApi } from '@/services/metadata/MarketplaceAPI'
-import { HttpError, ApiError } from '@/errors/NeverminedErrors'
+import { NewProfile, Profile, ReducedProfile } from '../../types/MetadataTypes'
+import { MarketplaceApi } from '../../services/metadata/MarketplaceAPI'
+import { HttpError, ApiError } from '../../errors/NeverminedErrors'
 
 const profilePath = '/api/v1/metadata/profiles'
 

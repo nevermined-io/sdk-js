@@ -1,9 +1,9 @@
 import { assert, expect, spy, use } from 'chai'
 import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { Bookmarks } from '@/services/metadata/Bookmarks'
-import { NewBookmark, Bookmark, MarketplaceResults } from '@/types/MetadataTypes'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { Bookmarks } from '../../src/services/metadata/Bookmarks'
+import { NewBookmark, Bookmark, MarketplaceResults } from '../../src/types'
 import config from '../config'
 
 use(spies)

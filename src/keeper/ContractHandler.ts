@@ -1,6 +1,6 @@
-import { KeeperError, ApiError } from '@/errors/NeverminedErrors'
-import { NvmAccount } from '@/models/NvmAccount'
-import { Instantiable, InstantiableConfig } from '@/Instantiable.abstract'
+import { KeeperError, ApiError } from '../errors/NeverminedErrors'
+import { NvmAccount } from '../models/NvmAccount'
+import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import fs from 'fs'
 import { Abi } from 'viem'
 
@@ -156,7 +156,7 @@ export class ContractHandler extends Instantiable {
 
   public static async getABIArtifact(
     contractName: string,
-    artifactsFolder = '@/artifacts',
+    artifactsFolder = '../artifacts',
     networkName?: string,
   ): Promise<any> {
     try {

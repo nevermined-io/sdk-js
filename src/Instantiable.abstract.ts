@@ -1,4 +1,4 @@
-import { getChain } from '@/utils/Network'
+import { getChain } from './utils/Network'
 import {
   Chain,
   createPublicClient,

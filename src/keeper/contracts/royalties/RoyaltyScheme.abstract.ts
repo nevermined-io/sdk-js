@@ -1,8 +1,8 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { didZeroX } from '@/utils/ConversionTypeHelpers'
-import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { didZeroX } from '../../../utils/ConversionTypeHelpers'
+import { ContractBase } from '../../../keeper/contracts/ContractBase'
 
 export abstract class RoyaltyScheme extends ContractBase {
   public static async getInstance(

@@ -1,8 +1,8 @@
 import { assert } from 'chai'
 import config from '../../test/config'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { NewPermission, PermissionType } from '@/types/MetadataTypes'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { NewPermission, PermissionType } from '../../src/types/MetadataTypes'
 
 describe('Permissions', () => {
   let nevermined: Nevermined

@@ -6,14 +6,14 @@ import {
   ConditionStoreManager,
   TransferDIDOwnershipCondition,
   DIDRegistry,
-} from '@/keeper'
+} from '../../../src/keeper'
 import TestContractHandler from '../TestContractHandler'
-import { NvmAccount } from '@/models/NvmAccount'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { generateId } from '@/common/helpers'
-import { ConditionState } from '@/types/ContractTypes'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { generateId } from '../../../src/common/helpers'
+import { ConditionState } from '../../../src/types/ContractTypes'
 import { Log } from 'viem'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
+import { didZeroX, zeroX } from '../../../src/utils/ConversionTypeHelpers'
 
 chai.use(chaiAsPromised)
 

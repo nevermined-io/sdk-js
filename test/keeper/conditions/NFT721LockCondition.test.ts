@@ -1,16 +1,16 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
-import { ConditionStoreManager, DIDRegistry } from '@/keeper'
+import { ConditionStoreManager, DIDRegistry } from '../../../src/keeper'
 
 import TestContractHandler from '../TestContractHandler'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NFT721Api } from '@/nevermined/api'
-import { NvmAccount } from '@/models/NvmAccount'
-import { generateId } from '@/common/helpers'
-import { didZeroX, zeroX } from '@/utils/ConversionTypeHelpers'
-import { NFT721LockCondition } from '@/keeper/contracts/conditions/NFTs/NFT721LockCondition'
-import { ConditionState } from '@/types/ContractTypes'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { NFT721Api } from '../../../src/nevermined/api'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId } from '../../../src/common/helpers'
+import { didZeroX, zeroX } from '../../../src/utils/ConversionTypeHelpers'
+import { NFT721LockCondition } from '../../../src/keeper/contracts/conditions/NFTs/NFT721LockCondition'
+import { ConditionState } from '../../../src/types/ContractTypes'
 import { Log } from 'viem'
 
 chai.use(chaiAsPromised)

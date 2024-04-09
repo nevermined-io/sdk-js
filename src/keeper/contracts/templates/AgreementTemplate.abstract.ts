@@ -1,24 +1,24 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { ZeroAddress } from '@/constants/AssetConstants'
-import { DDO } from '@/ddo/DDO'
-import { AssetPrice } from '@/models/AssetPrice'
-import { BabyjubPublicKey } from '@/models/KeyTransfer'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { OrderProgressStep } from '@/nevermined/ProgressSteps'
-import { isValidAddress } from '@/nevermined/utils/BlockchainViemUtils'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { ZeroAddress } from '../../../constants/AssetConstants'
+import { DDO } from '../../../ddo/DDO'
+import { AssetPrice } from '../../../models/AssetPrice'
+import { BabyjubPublicKey } from '../../../models/KeyTransfer'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { OrderProgressStep } from '../../../nevermined/ProgressSteps'
+import { isValidAddress } from '../../../nevermined/utils/BlockchainViemUtils'
 import {
   PaymentData,
   AgreementInstance,
   AgreementConditionsStatus,
   ConditionState,
   ConditionStateNames,
-} from '@/types/ContractTypes'
-import { Service, ServiceType, ServiceAgreementTemplate } from '@/types/DDOTypes'
-import { zeroX, didZeroX } from '@/utils/ConversionTypeHelpers'
+} from '../../../types/ContractTypes'
+import { Service, ServiceType, ServiceAgreementTemplate } from '../../../types/DDOTypes'
+import { zeroX, didZeroX } from '../../../utils/ConversionTypeHelpers'
 import { CustomToken } from '../CustomToken'
 import { ConditionSmall, ConditionContext } from '../conditions/Condition.abstract'
-import { ContractBase } from '@/keeper/contracts/ContractBase'
+import { ContractBase } from '../../../keeper/contracts/ContractBase'
 import { Token } from '../Token'
 
 export type ParameterType =

@@ -21,8 +21,8 @@ export {
   parseUnits,
   searchAbiFunction,
   zeroPadValue,
-} from '@/nevermined/utils/BlockchainViemUtils'
-export { EthSignJWT, JwtUtils } from '@/nevermined/utils/JwtUtils'
-export { ServiceAgreement } from '@/nevermined/utils/ServiceAgreement'
-export { SignatureUtils } from '@/nevermined/utils/SignatureUtils'
-export { WebServiceConnector } from '@/nevermined/utils/WebServiceConnector'
+} from './BlockchainViemUtils'
+export { EthSignJWT, JwtUtils } from './JwtUtils'
+export { ServiceAgreement } from './ServiceAgreement'
+export { SignatureUtils } from './SignatureUtils'
+export { WebServiceConnector } from './WebServiceConnector'

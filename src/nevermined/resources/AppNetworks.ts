@@ -1,4 +1,4 @@
-import { NeverminedOptions } from '@/models/NeverminedOptions'
+import { NeverminedOptions } from '../../models'
 
 export class NeverminedAppOptions extends NeverminedOptions {
   instanceName: string

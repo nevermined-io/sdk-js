@@ -1,23 +1,23 @@
-import { InstantiableConfig } from '@/Instantiable.abstract'
-import { DDO } from '@/ddo/DDO'
-import { Nft721Contract } from '@/keeper/contracts/Nft721Contract'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import { NFTAttributes } from '@/models/NFTAttributes'
-import { NvmAccount } from '@/models/NvmAccount'
-import { TxParameters } from '@/models/Transactions'
-import { CreateProgressStep, OrderProgressStep } from '@/nevermined/ProgressSteps'
-import { keccak256WithEncode } from '@/nevermined/utils/BlockchainViemUtils'
-import { ServiceType } from '@/types/DDOTypes'
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { DDO } from '../../../ddo/DDO'
+import { Nft721Contract } from '../../../keeper/contracts/Nft721Contract'
+import { AssetAttributes } from '../../../models/AssetAttributes'
+import { NFTAttributes } from '../../../models/NFTAttributes'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { CreateProgressStep, OrderProgressStep } from '../../../nevermined/ProgressSteps'
+import { keccak256WithEncode } from '../../../nevermined/utils/BlockchainViemUtils'
+import { ServiceType } from '../../../types/DDOTypes'
 import {
   AssetPublicationOptions,
   PublishMetadataOptions,
   PublishOnChainOptions,
-} from '@/types/MetadataTypes'
-import { zeroX } from '@/utils/ConversionTypeHelpers'
-import { SubscribablePromise } from '@/utils/SubscribablePromise'
+} from '../../../types/MetadataTypes'
+import { zeroX } from '../../../utils/ConversionTypeHelpers'
+import { SubscribablePromise } from '../../../utils/SubscribablePromise'
 import { NFTsBaseApi } from './NFTsBaseApi'
-import { NFTError } from '@/errors/NeverminedErrors'
-import { generateId } from '@/common/helpers'
+import { NFTError } from '../../../errors/NeverminedErrors'
+import { generateId } from '../../../common/helpers'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.

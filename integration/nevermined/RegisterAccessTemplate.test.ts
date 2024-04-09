@@ -4,21 +4,21 @@ import { decodeJwt } from 'jose'
 import config from '../../test/config'
 import { getMetadata } from '../utils'
 
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NvmAccount } from '@/models/NvmAccount'
-import { DDO } from '@/ddo/DDO'
-import { AssetAttributes } from '@/models/AssetAttributes'
-import Logger from '@/models/Logger'
-import { Keeper } from '@/keeper/Keeper'
-import { generateId } from '@/common/helpers'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import Logger from '../../src/models/Logger'
+import { Keeper } from '../../src/keeper/Keeper'
+import { generateId } from '../../src/common/helpers'
 import {
   AccessCondition,
   EscrowPaymentCondition,
   LockPaymentCondition,
-} from '@/keeper/contracts/conditions'
-import { AccessTemplate } from '@/keeper/contracts/templates/AccessTemplate'
-import { Token } from '@/keeper/contracts/Token'
-import { AssetPrice } from '@/models/AssetPrice'
+} from '../../src/keeper/contracts/conditions'
+import { AccessTemplate } from '../../src/keeper/contracts/templates/AccessTemplate'
+import { Token } from '../../src/keeper/contracts/Token'
+import { AssetPrice } from '../../src/models/AssetPrice'
 
 describe('Register Escrow Access Template', () => {
   let nevermined: Nevermined

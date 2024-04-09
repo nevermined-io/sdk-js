@@ -3,13 +3,13 @@ import config from '../../test/config'
 
 import { decodeJwt } from 'jose'
 import { mineBlocks } from '../utils/utils'
-import { Nevermined } from '@/nevermined/Nevermined'
-import { NeverminedOptions } from '@/models/NeverminedOptions'
-import { NvmAccount } from '@/models/NvmAccount'
-import { MetaData } from '@/types/DDOTypes'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NeverminedOptions } from '../../src/models/NeverminedOptions'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { MetaData } from '../../src/types/DDOTypes'
 import { getMetadata } from '../utils/ddo-metadata-generator'
-import { generateId } from '@/common/helpers'
-import { AssetAttributes } from '@/models/AssetAttributes'
+import { generateId } from '../../src/common/helpers'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Asset Owners', () => {
   let nevermined: Nevermined

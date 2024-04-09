@@ -5,7 +5,7 @@ export {
   ImmutableBackends,
   SubscriptionType,
   serviceIndex,
-} from '@/types/DDOTypes'
+} from './DDOTypes'
 export type {
   AdditionalInformation,
   Algorithm,
@@ -49,7 +49,14 @@ export type {
   WebService,
   WebServiceInternalAttributes,
   Workflow,
-} from '@/types/DDOTypes'
+} from './DDOTypes'
+export type {
+  ContractEventSubscription,
+  EventEmitter,
+  EventOptions,
+  EventResult,
+  FilterContractEvent,
+} from './EventTypes'
 export {
   AccessStatus,
   ERCType,
@@ -58,7 +65,7 @@ export {
   ValueType,
   defaultNeverminedNFTType,
   ercOfNeverminedNFTType,
-} from '@/types/GeneralTypes'
+} from './GeneralTypes'
 export type {
   Babysig,
   Balance,
@@ -70,7 +77,7 @@ export type {
   TypedDataDomain,
   TypedDataTypes,
   ValuePair,
-} from '@/types/GeneralTypes'
+} from './GeneralTypes'
 export {
   AssetPublicationOptions,
   DIDResolvePolicy,
@@ -79,7 +86,7 @@ export {
   PublishOnChainOptions,
   RoyaltyKind,
   State,
-} from '@/types/MetadataTypes'
+} from './MetadataTypes'
 export type {
   Bookmark,
   MarketplaceResults,
@@ -91,4 +98,4 @@ export type {
   ReducedProfile,
   SearchQuery,
   SearchResults,
-} from '@/types/MetadataTypes'
+} from './MetadataTypes'
