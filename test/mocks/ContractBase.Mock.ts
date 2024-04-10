@@ -1,7 +1,7 @@
 import { ContractBase } from '../../src/keeper/contracts/ContractBase'
 import { ContractEvent, EventHandler } from '../../src/events'
 import { parseAbi } from 'viem'
-import { TxParameters } from '../../src/models'
+import { NvmAccount, TxParameters } from '../../src/models'
 
 export class ContractBaseMock extends ContractBase {
   public interface
@@ -21,7 +21,7 @@ export class ContractBaseMock extends ContractBase {
     return this.call(name, args, from)
   }
 
-  public async sendMock(name: string, from: string, args: any[], txParams?: TxParameters) {
+  public async sendMock(name: string, from: NvmAccount, args: any[], txParams?: TxParameters) {
     return this.send(name, from, args, txParams)
   }
 }

@@ -340,7 +340,7 @@ export default abstract class TestContractHandler extends ContractHandler {
 
   public static async findNvmAccount(
     config: NeverminedOptions,
-    client: Web3Clients,
+    // client: Web3Clients,
     from: string,
   ): Promise<NvmAccount> {
     for (const acc of config.accounts || []) {

@@ -9,7 +9,7 @@
     "noUnusedLocals": true, // Not enabled by default in `strict` mode.
     "noUnusedParameters": true, // Not enabled by default in `strict` mode.
 
-    // // "exactOptionalPropertyTypes": true,
+    // "exactOptionalPropertyTypes": false,
 
     // "verbatimModuleSyntax": true,
 
@@ -50,11 +50,12 @@
     "rootDir": "./src/",
 
     "baseUrl": "./",
-    "typeRoots": ["node_modules/@types"]
-    // "paths": {
-    //   "@/*": ["./src/*"]
-    // }
+    "typeRoots": ["node_modules/@types", "src/permissionless.d.ts"],
+    "paths": {
+      "@/": ["./src/"],
+      "permissionless/*": ["src/permissionless.d.ts"]
+    }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "test/**/*", "integration/**/*"]
+  "exclude": ["node_modules"]
 }

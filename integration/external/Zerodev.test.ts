@@ -210,7 +210,7 @@ describe('Nevermined sdk with zerodev', () => {
 
       const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
       const files = await new Promise<string[]>((resolve) => {
-        fs.readdir(path, (e, fileList) => {
+        fs.readdir(path, (_e, fileList) => {
           resolve(fileList)
         })
       })
@@ -243,7 +243,7 @@ describe('Nevermined sdk with zerodev', () => {
       )) as string
 
       const files = await new Promise<string[]>((resolve) => {
-        fs.readdir(path, (e, fileList) => {
+        fs.readdir(path, (_e, fileList) => {
           resolve(fileList)
         })
       })
