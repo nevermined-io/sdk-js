@@ -53,9 +53,9 @@
     "@alchemy/aa-core": "3.6.1",
     "@apollo/client": "^3.7.16",
     "@turnkey/viem": "0.4.13",
-    "@zerodev/ecdsa-validator": "^5.1.0",
+    "@zerodev/ecdsa-validator": "5.2.1-alpha-2",
     "@zerodev/presets": "^5.1.4",
-    "@zerodev/sdk": "^5.1.18",
+    "@zerodev/sdk": "5.2.1-alpha-6",
     "@zerodev/session-key": "^5.1.0",
     "@zerodev/weighted-ecdsa-validator": "^5.1.6",
     "assert": "^2.0.0",
@@ -77,7 +77,7 @@
     "stream-http": "^3.2.0",
     "url": "^0.11.0",
     "uuid": "^9.0.1",
-    "viem": "2.9.13",
+    "viem": "^2.9.13",
     "whatwg-url": "^13.0.0"
   },
   "peerDependencies": {

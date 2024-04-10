@@ -116,7 +116,9 @@ export class JwtUtils extends Instantiable {
     this.tokenCache = new Map()
   }
 
-  public async getSigner(account: NvmAccount): Promise<NvmAccount | KernelSmartAccount> {
+  public async getSigner(
+    account: NvmAccount,
+  ): Promise<NvmAccount | KernelSmartAccount<any, any, any>> {
     const address = getChecksumAddress(account.getId())
 
     return account.isZeroDev()
