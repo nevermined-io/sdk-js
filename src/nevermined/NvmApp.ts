@@ -146,7 +146,7 @@ export class NvmApp {
    */
   public async connect(
     account: string | NvmAccount,
-    // message?: string,
+    message?: string,
     config?: NeverminedOptions,
     initOptions?: NeverminedInitializationOptions,
   ) {
@@ -169,7 +169,10 @@ export class NvmApp {
         this.userAccount.accountType.signerType
       }`,
     )
-    const clientAssertion = await this.fullSDK.utils.jwt.generateClientAssertion(this.userAccount)
+    const clientAssertion = await this.fullSDK.utils.jwt.generateClientAssertion(
+      this.userAccount,
+      message,
+    )
     console.log('Client assertion: ', clientAssertion)
 
     this.loginCredentials = await this.fullSDK.services.marketplace.login(clientAssertion)

@@ -36,7 +36,7 @@ describe('Nevermined sdk with zerodev', () => {
   })
 
   describe('Test zerodev signatures and login', () => {
-    let kernelClient: KernelAccountClient
+    let kernelClient: KernelAccountClient<any, any, any>
     let clientAssertion: string
 
     before(async () => {
@@ -139,8 +139,8 @@ describe('Nevermined sdk with zerodev', () => {
   })
 
   describe('E2E Asset flow with zerodev', () => {
-    let kernelClientPublisher: KernelAccountClient
-    let kernelClientConsumer: KernelAccountClient
+    let kernelClientPublisher: KernelAccountClient<any, any, any>
+    let kernelClientConsumer: KernelAccountClient<any, any, any>
 
     let metadata: MetaData
     let ddo: DDO

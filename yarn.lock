@@ -2571,22 +2571,22 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zerodev/ecdsa-validator@5.2.1-alpha-2":
-  version "5.2.1-alpha-2"
-  resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.2.1-alpha-2.tgz#05d0241a06191fba56db2c5448becac551830a1b"
-  integrity sha512-4JUxMh61Hq66wQ/1u/3ZcsNsQFq/wNsxx1j7t/F6ik3QpbVOoteYxBONj1jlfkpBAnxHPsAYqqtFeBME5rUzzw==
+"@zerodev/ecdsa-validator@^5.1.2":
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.1.2.tgz#0bfb9e15301fe21ca41c65cf716178fdaccb1bfc"
+  integrity sha512-QGM5DKMQMqxB6LuLBo1OhQ0tSw/fbm+kmCV7IG8SPMF+yl3rYQ5gZcFs45FgeXnHyw4+dcjpstdhlHY+SmvIiw==
 
 "@zerodev/presets@^5.1.4":
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/@zerodev/presets/-/presets-5.1.4.tgz#0ec567973dfa2622a2228e49c51f15fefb5b9d2a"
   integrity sha512-V5n5afSobyHWbNUOiEPZuV4VwQSMq42iYeOXZuV9GCsx8oZozIVDgrvgr9Jd7qnbyKliv8dPf3/o7+VOwpQWnA==
 
-"@zerodev/sdk@5.2.1-alpha-6":
-  version "5.2.1-alpha-6"
-  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.2.1-alpha-6.tgz#a76ed141bd739ebac72cf95969ece8df664be6c3"
-  integrity sha512-Sme22TJZ9uV+PvVDGP2bns2bB4GpL8xosc188f6wPVMPzLFSK5G/n+12lTOUYOWtwuptJ/Ba7p2IuqbRL8z0dQ==
+"@zerodev/sdk@^5.1.18":
+  version "5.1.18"
+  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.1.18.tgz#8141da131598d0beaceee66d406ebe48351b31f6"
+  integrity sha512-eJBoEydimxGw8CYbEeVxMIADRUQbmWP5QUlPCTl34vioA51LOPffilZF4CYa06vbZn2YYtqYdEl+saA3xBynYA==
   dependencies:
-    semver "^7.6.0"
+    permissionless "^0.0.34"
 
 "@zerodev/session-key@^5.1.0":
   version "5.1.5"
@@ -9197,6 +9197,11 @@ pbkdf2@^3.0.17, pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+permissionless@^0.0.34:
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/permissionless/-/permissionless-0.0.34.tgz#479ee4c02068c6982a308df7a64351eea626a00d"
+  integrity sha512-lP59+7VmjLO7dPctH69kgcJ8evxGkrjQ9hruOA+7ymWvUMiuXAfVxvXSWCV+lg67N2TGs1JneEuhwK+iI3kPvA==
 
 picocolors@^1.0.0:
   version "1.0.0"
