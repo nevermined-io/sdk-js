@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "3.0.0-rc1",
+  "version": "3.0.0-rc2",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -22,7 +22,7 @@
     "integration:e2e:mumbai": "export NETWORK_NAME=mumbai; yarn integration:e2e",
     "integration:compute": "ts-mocha --paths -p tsconfig.json --timeout 300000 --exit true ./integration/compute/Compute*.test.ts",
     "integration:external": "ts-mocha --paths -p tsconfig.json --timeout 300000 --exit true ./integration/external/*.test.ts",
-    "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output ./node_modules/permissionless",
+    "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix --quiet",
     "format": "prettier --parser typescript --ignore-path .gitignore --write '**/*.{js,jsx,ts,tsx}'",
@@ -53,9 +53,9 @@
     "@alchemy/aa-core": "3.6.1",
     "@apollo/client": "^3.7.16",
     "@turnkey/viem": "0.4.13",
-    "@zerodev/ecdsa-validator": "^5.1.0",
+    "@zerodev/ecdsa-validator": "5.2.1-alpha-2",
     "@zerodev/presets": "^5.1.4",
-    "@zerodev/sdk": "^5.1.18",
+    "@zerodev/sdk": "5.2.1-alpha-6",
     "@zerodev/session-key": "^5.1.0",
     "@zerodev/weighted-ecdsa-validator": "^5.1.6",
     "assert": "^2.0.0",
@@ -77,7 +77,7 @@
     "stream-http": "^3.2.0",
     "url": "^0.11.0",
     "uuid": "^9.0.1",
-    "viem": "2.9.13",
+    "viem": "^2.9.13",
     "whatwg-url": "^13.0.0"
   },
   "peerDependencies": {
