@@ -175,7 +175,7 @@ describe('Consume Asset (Documentation example)', () => {
     assert.include(path, folder, 'The storage path is not correct.')
 
     const files = await new Promise<string[]>((resolve) => {
-      fs.readdir(path, (e, fileList) => {
+      fs.readdir(path, (_e, fileList) => {
         resolve(fileList)
       })
     })
@@ -197,7 +197,7 @@ describe('Consume Asset (Documentation example)', () => {
     assert.include(path, folder, 'The storage path is not correct.')
 
     const files = await new Promise<string[]>((resolve) => {
-      fs.readdir(path, (e, fileList) => {
+      fs.readdir(path, (_e, fileList) => {
         resolve(fileList)
       })
     })

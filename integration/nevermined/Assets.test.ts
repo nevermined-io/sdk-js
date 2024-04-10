@@ -216,7 +216,7 @@ describe('Assets', () => {
       const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
       assert.include(path, folder, 'The storage path is not correct.')
       const files = await new Promise<string[]>((resolve) => {
-        fs.readdir(path, (e, fileList) => {
+        fs.readdir(path, (_e, fileList) => {
           resolve(fileList)
         })
       })
@@ -270,7 +270,7 @@ describe('Assets', () => {
       const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
       assert.include(path, folder, 'The storage path is not correct.')
       const files = await new Promise<string[]>((resolve) => {
-        fs.readdir(path, (e, fileList) => {
+        fs.readdir(path, (_e, fileList) => {
           resolve(fileList)
         })
       })
