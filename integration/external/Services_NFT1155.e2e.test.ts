@@ -1,40 +1,33 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
 import {
-  NvmAccount,
-  DDO,
-  MetaData,
-  Nevermined,
-  AssetPrice,
-  NFTAttributes,
-  ResourceAuthentication,
-  NeverminedNFT1155Type,
-} from '../../src'
-import {
-  EscrowPaymentCondition,
-  TransferNFTCondition,
-  Token,
-  ContractHandler,
-} from '../../src/keeper'
-import { config } from '../config'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { didZeroX } from '../../src/utils'
-import { EventOptions } from '../../src/events'
-import {
-  getRoyaltyAttributes,
-  RoyaltyAttributes,
-  RoyaltyKind,
-  DID,
-  NFT1155Api,
-  SubscriptionCreditsNFTApi,
   PublishMetadataOptions,
   PublishOnChainOptions,
-  getChecksumAddress,
-} from '../../src/nevermined'
+  RoyaltyKind,
+} from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { Token } from '../../src/keeper/contracts/Token'
+import { EscrowPaymentCondition, TransferNFTCondition } from '../../src/keeper/contracts/conditions'
+import { MetaData, ResourceAuthentication } from '../../src/types/DDOTypes'
+import TestContractHandler from '../../test/keeper/TestContractHandler'
+import { EventOptions } from '../../src/types/EventTypes'
+import { didZeroX } from '../../src/utils/ConversionTypeHelpers'
+import { getChecksumAddress } from '../../src/nevermined/utils/BlockchainViemUtils'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
 import { sleep } from '../utils/utils'
 import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
+import { NFT1155Api } from '../../src/nevermined/api/nfts/NFT1155Api'
+import { ContractHandler } from '../../src/keeper/ContractHandler'
+import { SubscriptionCreditsNFTApi } from '../../src/nevermined/api/nfts/SubscriptionCreditsNFTApi'
+import { DID } from '../../src/nevermined/DID'
+import { NeverminedNFT1155Type } from '../../src/types/GeneralTypes'
 
 describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
   let publisher: NvmAccount

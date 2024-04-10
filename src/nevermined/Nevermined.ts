@@ -86,8 +86,6 @@ export class Nevermined extends Instantiable {
         if (initOptions.loadCompute) instance.compute = new ComputeApi(instanceConfig)
       }
 
-      console.log('Is keeper connected" ', instance.keeper.connected)
-      //console.log(instanceConfig)
       instance.isKeeperConnected = initOptions.loadCore
     } catch (error) {
       instance.isKeeperConnected = false

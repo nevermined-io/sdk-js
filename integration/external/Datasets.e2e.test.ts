@@ -1,28 +1,30 @@
-import { assert } from 'chai'
+import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
+import chaiAsPromised from 'chai-as-promised'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { generateMetadata, getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { Token } from '../../src/keeper/contracts/Token'
 import {
-  NvmAccount,
-  DDO,
-  MetaData,
-  Nevermined,
-  AssetPrice,
-  NFTAttributes,
-  NeverminedNFT721Type,
-  RoyaltyKind,
-} from '../../src'
-import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
-import { config } from '../config'
-import { generateMetadata, getMetadata } from '../utils'
+  EscrowPaymentCondition,
+  TransferNFT721Condition,
+} from '../../src/keeper/contracts/conditions'
+import { MetaData } from '../../src/types/DDOTypes'
+import { NFT721Api } from '../../src/nevermined/api/nfts/NFT721Api'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { didZeroX } from '../../src/utils'
-import {
-  getRoyaltyAttributes,
-  RoyaltyAttributes,
-  NFT721Api,
-  SubscriptionNFTApi,
-  getChecksumAddress,
-} from '../../src/nevermined'
+import { SubscriptionNFTApi } from '../../src/nevermined/api/nfts/SubscriptionNFTApi'
 import { EventOptions } from '../../src/types/EventTypes'
+import { didZeroX } from '../../src/utils/ConversionTypeHelpers'
+import { getChecksumAddress } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { NeverminedNFT721Type } from '../../src/types/GeneralTypes'
+
+chai.use(chaiAsPromised)
 
 describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
   let publisher: NvmAccount

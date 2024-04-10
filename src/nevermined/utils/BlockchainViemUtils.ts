@@ -184,10 +184,10 @@ export function searchAbiFunction(abi: Abi, funcName: string, args: any[] = []):
   if (!func || func.type !== 'function') {
     throw new KeeperError(`Function "${funcName}" is not part of contract`)
   }
-  if (funcName === 'registerMintableDID') {
-    console.log('ABI FUNCTION', func)
-    console.log('ARGS', args)
-  }
+  // if (funcName === 'XXXXXXX') {
+  //   console.log('ABI FUNCTION', func)
+  //   console.log('ARGS', args)
+  // }
   return func as AbiFunction
 }
 

@@ -183,7 +183,7 @@ export abstract class ContractBase extends Instantiable {
   ) {
     const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
     // Uncomment to debug contract calls
-    if (name === 'grantOperatorRole') {
+    if (name === 'XXXXX') {
       const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
       console.debug(`Making contract call ....: ${name} - ${from}`)
       console.debug(`With args`, args)

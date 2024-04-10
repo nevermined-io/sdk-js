@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "3.0.0-rc1",
+  "version": "3.0.0-rc2",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -21,7 +21,7 @@
     "integration:e2e": "ts-mocha --paths -p tsconfig.json --timeout 300000 --exit true ./integration/nevermined/NFT1155Api.e2e.test.ts",
     "integration:e2e:mumbai": "export NETWORK_NAME=mumbai; yarn integration:e2e",
     "integration:compute": "ts-mocha --paths -p tsconfig.json --timeout 300000 --exit true ./integration/compute/Compute*.test.ts",
-    "integration:external": "ts-mocha --paths -p tsconfig.json --timeout 300000 --exit true ./integration/external/*.test.ts",
+    "integration:external": "export NETWORK_NAME=geth-localnet ; ts-mocha --paths -p tsconfig.json --timeout 300000 --exit true ./integration/external/*.test.ts",
     "clean": "rm -rf ./dist/ ./doc/ ./.nyc_output ./node_modules/permissionless",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix --quiet",

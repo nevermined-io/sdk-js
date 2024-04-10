@@ -1,37 +1,31 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import {
-  NvmAccount,
-  DDO,
-  MetaData,
-  Nevermined,
-  AssetPrice,
-  NFTAttributes,
-  ResourceAuthentication,
-  NeverminedNFT721Type,
-} from '../../src'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { generateWebServiceMetadata, getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { Token } from '../../src/keeper/contracts/Token'
 import {
   EscrowPaymentCondition,
   TransferNFT721Condition,
-  Token,
-  ContractHandler,
-} from '../../src/keeper'
-import { config } from '../config'
-import { generateWebServiceMetadata, getMetadata } from '../utils'
+} from '../../src/keeper/contracts/conditions'
+import { MetaData, ResourceAuthentication } from '../../src/types/DDOTypes'
+import { NFT721Api } from '../../src/nevermined/api/nfts/NFT721Api'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { didZeroX } from '../../src/utils'
-import { EventOptions } from '../../src/events'
-import {
-  getRoyaltyAttributes,
-  RoyaltyAttributes,
-  RoyaltyKind,
-  NFT721Api,
-  SubscriptionNFTApi,
-  DID,
-  getChecksumAddress,
-} from '../../src/nevermined'
+import { SubscriptionNFTApi } from '../../src/nevermined/api/nfts/SubscriptionNFTApi'
+import { EventOptions } from '../../src/types/EventTypes'
+import { didZeroX } from '../../src/utils/ConversionTypeHelpers'
+import { getChecksumAddress } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { NeverminedNFT721Type } from '../../src/types/GeneralTypes'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
+import { ContractHandler } from '../../src/keeper/ContractHandler'
+import { DID } from '../../src/nevermined/DID'
 
 describe('Gate-keeping of Web Services using NFT ERC-721 End-to-End', () => {
   let publisher: NvmAccount
