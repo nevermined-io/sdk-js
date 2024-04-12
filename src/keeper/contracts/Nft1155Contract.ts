@@ -174,7 +174,12 @@ export class Nft1155Contract extends NFTContractsBase {
    * @returns Contract Receipt
    */
   public async burn(from: NvmAccount, tokenId: string, amount: bigint, txParams?: TxParameters) {
-    return this.send('burn', from, [from.getAddress(), didToTokenId(tokenId), amount], txParams)
+    return this.send(
+      'burn',
+      from,
+      [from.getAddress(), didToTokenId(tokenId), BigInt(amount)],
+      txParams,
+    )
   }
 
   /**
@@ -194,7 +199,7 @@ export class Nft1155Contract extends NFTContractsBase {
     from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.send('burn', from, [holder, didToTokenId(tokenId), amount], txParams)
+    return this.send('burn', from, [holder, didToTokenId(tokenId), BigInt(amount)], txParams)
   }
 
   /**

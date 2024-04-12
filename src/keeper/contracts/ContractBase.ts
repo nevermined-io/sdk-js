@@ -128,7 +128,9 @@ export abstract class ContractBase extends Instantiable {
   ) {
     const signer = from.getAccountSigner()
     if (from.getType() === 'local') {
-      this.logger.debug(`Blockchain Send using Local account`)
+      this.logger.debug(
+        `Blockchain Send using Local account with functionName: ${functionName} and following args: ${args}`,
+      )
       return await this.localAccountSend(
         functionName,
         signer as Account,

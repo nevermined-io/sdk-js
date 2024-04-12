@@ -614,11 +614,11 @@ export class DIDRegistry extends ContractBase {
   }
 
   public async mint(did: string, amount: bigint, from: NvmAccount, params?: txParams) {
-    return this.send('mint', from, [didZeroX(did), String(amount)], params)
+    return this.send('mint', from, [didZeroX(did), amount], params)
   }
 
   public async burn(did: string, amount: bigint, from: NvmAccount, params?: txParams) {
-    return this.send('burn', from, [didZeroX(did), String(amount)], params)
+    return this.send('burn', from, [didZeroX(did), amount], params)
   }
 
   public async addProvider(did: string, provider: string, from: NvmAccount, params?: txParams) {
