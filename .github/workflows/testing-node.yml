@@ -18,7 +18,7 @@ jobs:
           repository: nevermined-io/node
           path: node
           # TODO: remove this when Node integrated with SDKv2 is integraged
-          ref: develop
+          ref: feat/integrate-new-sdk
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: nevermined-io/nvm-tools-actions@v0.15.0
         with:
