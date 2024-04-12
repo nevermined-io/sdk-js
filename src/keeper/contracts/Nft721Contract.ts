@@ -29,7 +29,6 @@ export class Nft721Contract extends NFTContractsBase {
       networkName,
     )
 
-    console.log(`Checking Address =${address}=`)
     nft.contract = await getContractInstance(address, solidityABI.abi, nft.nevermined.client)
     nft.address = address as `0x${string}`
 
