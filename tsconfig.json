@@ -21,6 +21,7 @@
     "strictNullChecks": false,
     "useUnknownInCatchVariables": false,
     "resolveJsonModule": true,
+    "skipDefaultLibCheck": true,
 
     "esModuleInterop": true,
     "skipLibCheck": true,
