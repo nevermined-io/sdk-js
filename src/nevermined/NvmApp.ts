@@ -279,6 +279,21 @@ export class NvmApp {
   }
 
   /**
+   * Gets the asset providers that are associated to the new assets registered.
+   * @returns An array of asset providers.
+   */
+  public get getAssetProviders(): string[] {
+    return this.assetProviders
+  }
+
+  /**
+   * Sets the asset providers for the new assets registered.
+   */
+  public set setAssetProviders(providers: string[]) {
+    this.assetProviders = providers
+  }
+
+  /**
    * Creates a time-based subscription for a given asset.
    *
    * @param susbcriptionMetadata - The metadata of the subscription.
