@@ -44,14 +44,10 @@ export class SubscribablePromise<T, P> {
 
     Promise.resolve(e)
       .then((result) => {
-        if (e && e.then) {
           this.observer.complete(result)
-        }
       })
       .catch((err) => {
-        if (e && e.then) {
           this.observer.error(err)
-        }
       })
   }
 }

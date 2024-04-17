@@ -145,7 +145,7 @@ export function isTestnet(networkId: number): boolean {
   }
 }
 
-export function getChain(networkId: number): Chain {
+export function getChain(networkId: number | undefined): Chain {
   switch (networkId) {
     case 1:
       return mainnet

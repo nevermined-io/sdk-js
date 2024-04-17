@@ -107,7 +107,7 @@ function getParameter(
   duration = 0,
   tokenId?: string,
 ): ServiceAgreementTemplateParameter {
-  const getValue = (name) => {
+  const getValue = (name: string) => {
     switch (name) {
       case 'amounts':
         return Array.from(assetPrice.getAmounts(), (v) => v.toString())
@@ -126,7 +126,7 @@ function getParameter(
       case 'numberNfts':
         return nftAmount.toString()
       case 'tokenAddress':
-        return erc20TokenContract
+        return erc20TokenContract as string
       case 'contract':
       case 'contractAddress':
         return nftTokenContract ? nftTokenContract : ''
@@ -196,9 +196,9 @@ export class DDO {
   /**
    * DID, decentralizes ID.
    */
-  public id: string = null
+  public id: string = ''
 
-  public didSeed: string = null
+  public didSeed: string = ''
 
   public _nvm: NvmConfig
 
@@ -225,7 +225,7 @@ export class DDO {
       id: '',
       _nvm: {
         userId,
-        appId,
+        appId: appId || '',
         versions: [],
       },
       authentication: [
@@ -573,7 +573,8 @@ export class DDO {
     const paramName = '_tokenId'
     const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
     const nftCondition = DDO.findServiceConditionByName(service, conditionName)
-    return nftCondition.parameters.find((p) => p.name === paramName).value as string
+    const parameter = nftCondition.parameters.find((p) => p.name === paramName)
+    return parameter ? parameter.value as string : ''
   }
 
   /**
@@ -585,7 +586,9 @@ export class DDO {
     const paramName = '_numberNfts'
     const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
     const nftCondition = DDO.findServiceConditionByName(service, conditionName)
-    return BigInt(nftCondition.parameters.find((p) => p.name === paramName).value as string)
+    const parameter = nftCondition.parameters.find((p) => p.name === paramName)
+    if (!parameter) throw new Error(`Parameter ${paramName} not found`)
+    return BigInt(parameter.value as string)
   }
 
   /**
@@ -622,7 +625,7 @@ export class DDO {
   ): string | number | string[] {
     try {
       const nftTransferCondition = DDO.findServiceConditionByName(service, conditionType)
-      return nftTransferCondition.parameters?.find((p) => p.name === paramName).value
+      return nftTransferCondition.parameters?.find((p) => p.name === paramName)?.value ?? ''
     } catch (_e) {
       throw new DDOParamNotFoundError(conditionType, paramName)
     }
@@ -639,7 +642,9 @@ export class DDO {
     const paramName = '_contractAddress'
     const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
     const nftTransferCondition = DDO.findServiceConditionByName(service, conditionName)
-    return nftTransferCondition.parameters.find((p) => p.name === paramName).value as string
+    const parameter = nftTransferCondition.parameters.find((p) => p.name === paramName)
+    if (!parameter) throw new Error(`Parameter ${paramName} not found`)
+    return parameter.value as string
   }
 
   /**
@@ -653,10 +658,8 @@ export class DDO {
       throw new DDOConditionNotFoundError('escrowPayment')
     }
 
-    const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
-      .value as string[]
-    const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
-      .value as string[]
+    const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')?.value as string[] ?? []
+    const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')?.value as string[] ?? []
 
     const rewardsMap = new Map<string, bigint>()
 
@@ -689,8 +692,12 @@ export class DDO {
     try {
       const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
       const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
+      if(amounts){
       amounts.value = Array.from(rewards.getAmounts(), (v) => v.toString())
-      receivers.value = rewards.getReceivers()
+      }
+      if(receivers){
+        receivers.value = rewards.getReceivers()
+      }
     } catch (e) {
       throw new Error('Error setting the AssetPrice in the DDO')
     }
@@ -714,7 +721,9 @@ export class DDO {
     if (!transferCondition) return new DDOConditionNotFoundError('transferNFT')
 
     const holder = transferCondition.parameters.find((p) => p.name === '_nftHolder')
-    holder.value = holderAddress
+    if (holder) {
+      holder.value = holderAddress
+    }
   }
 
   /**

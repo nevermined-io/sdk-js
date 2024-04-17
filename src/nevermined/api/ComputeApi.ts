@@ -54,7 +54,7 @@ export class ComputeApi extends RegistryBaseApi {
     },
     txParams?: TxParameters,
   ): SubscribablePromise<CreateProgressStep, DDO> {
-    const computeService = assetAttributes.services.find((service) => {
+    const computeService = assetAttributes.services?.find((service) => {
       service.serviceType = 'compute'
     })
     if (!computeService) {

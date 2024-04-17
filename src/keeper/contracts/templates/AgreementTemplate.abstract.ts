@@ -177,7 +177,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return instances.map((a) => a.id)
   }
 
-  public abstract instanceFromDDO?(
+  public abstract instanceFromDDO(
     agreementIdSeed: string,
     ddo: DDO,
     creator: string,
@@ -266,7 +266,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
     const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.address
-    const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress').value as string
+    const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress')?.value as string
     const amounts = assetPrice.getAmounts()
     const receivers = assetPrice.getReceivers()
 
@@ -382,7 +382,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     tokenAddress,
     amounts,
     from: NvmAccount,
-    txParams: TxParameters,
+    txParams?: TxParameters,
   ): Promise<void> {
     let token: Token
 

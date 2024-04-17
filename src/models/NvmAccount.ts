@@ -13,7 +13,7 @@ export class NvmAccount {
   public babyY?: string
   public babySecret?: string
   private accountSigner?: Account
-  private zeroDevSigner: KernelSmartAccount<any, any> // ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider
+  private zeroDevSigner?: KernelSmartAccount<any, any, any> // ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider
   public accountType: NvmAccountType = { signerType: 'local', isZeroDev: false }
 
   /**
@@ -71,7 +71,7 @@ export class NvmAccount {
   public getType() {
     return this.accountType.signerType
   }
-  public getZeroDevSigner() {
+  public getZeroDevSigner(): KernelSmartAccount<any, any, any> {
     return this.zeroDevSigner
   }
 
@@ -92,7 +92,7 @@ export class NvmAccount {
   }
 
   public getPublic() {
-    return this.babyX.substr(2) + this.babyY.substr(2)
+    return (this.babyX ?? '').substr(2) + (this.babyY ?? '').substr(2)
   }
 
   public async signTextLocally(text: string | Uint8Array): Promise<`0x${string}`> {
@@ -119,7 +119,7 @@ export class NvmAccount {
    * Returns account password.
    * @returns The account password.
    */
-  public getPassword(): string {
+  public getPassword(): string | undefined {
     return this.password
   }
 }

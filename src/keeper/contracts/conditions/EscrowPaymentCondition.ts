@@ -41,13 +41,14 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
   ) {
     const escrow = DDO.findServiceConditionByName(service, 'escrowPayment')
     if (!escrow) throw new Error('Escrow Condition not found!')
+    const tokenAddress = escrow.parameters.find((p) => p.name === '_tokenAddress')?.value as string;
     return this.params(
       ddo.shortId(),
       rewards.getAmounts(),
       rewards.getReceivers(),
       consumerId,
       this.nevermined.keeper.conditions.escrowPaymentCondition.address,
-      escrow.parameters.find((p) => p.name === '_tokenAddress').value as string,
+      tokenAddress,
       lock.id,
       access.id,
     )

@@ -1,4 +1,4 @@
-const zipObject = (keys = [], values = []) => {
+const zipObject = (keys: string [] = [], values: string [] = []) => {
   return keys.reduce(
     (acc, key, index) => ({
       ...acc,

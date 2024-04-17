@@ -30,7 +30,7 @@ export class AccessCondition extends ProviderCondition<AccessConditionContext> {
     agreementId: string,
     did: string,
     grantee: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(agreementId, [didZeroX(did), grantee].map(zeroX), from, txParams)

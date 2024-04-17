@@ -29,6 +29,10 @@ import { isValidAddress } from './utils/BlockchainViemUtils'
 import { ServicesApi } from './api/ServicesApi'
 import { SubscribablePromise } from '../utils/SubscribablePromise'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from './ProgressSteps'
+import { createEcdsaKernelAccountClient } from '@zerodev/presets/zerodev'
+import { arbitrumSepolia } from 'viem/chains'
+import { ENTRYPOINT_ADDRESS_V07 } from "permissionless"
+
 
 export enum NVMAppEnvironments {
   Staging = 'staging',
@@ -67,7 +71,7 @@ export interface SubscriptionBalance {
 export class NvmApp {
   private configNVM: NeverminedAppOptions
   private userAccount: NvmAccount | undefined
-  private searchSDK: Nevermined | undefined
+  private searchSDK: Nevermined
   private fullSDK: Nevermined | undefined
   // private useZeroDevSigner: boolean = false
   // private zeroDevSignerAccount?: ZeroDevAccountSigner<'ECDSA'>
@@ -155,7 +159,25 @@ export class NvmApp {
       : NvmApp.defaultAppInitializationOptions
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
-    if (account instanceof NvmAccount) {
+    if (config && config.zeroDevProjectId) {
+      const signer = await this.fullSDK.accounts.findAccount(account as string)
+
+      const kernelClient = await createEcdsaKernelAccountClient({
+        chain: arbitrumSepolia,
+        projectId: config.zeroDevProjectId,
+        signer: signer.getZeroDevSigner(),
+        paymaster: 'SPONSOR',
+        entryPointAddress: ENTRYPOINT_ADDRESS_V07,
+      })
+
+      // const zerodevAccountSigner = zerodevProvider.getAccountSigner()
+      this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient.account)
+
+      // this.zeroDevSignerAccount = zerodevAccountSigner
+      // this.useZeroDevSigner = true
+    }
+    else if (account instanceof NvmAccount) {
+      
       // TODO Review ZeroDev integration as part of the NvmAccount
       this.userAccount = account
       // this.zeroDevSignerAccount = account
@@ -182,7 +204,7 @@ export class NvmApp {
     this.assetProviders = [nodeInfo['provider-address']]
 
     console.log('Asset Providers: ', this.assetProviders)
-    if (!isValidAddress(this.configNVM.nftContractAddress)) {
+    if (!isValidAddress(this.configNVM.nftContractAddress as string)) {
       const contractABI = await ContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
         this.configNVM.artifactsFolder,
@@ -192,10 +214,10 @@ export class NvmApp {
     } else {
       this.subscriptionNFTContractAddress = this.configNVM.nftContractAddress
     }
-    if (!isValidAddress(this.subscriptionNFTContractAddress)) {
+    if (!isValidAddress(this.subscriptionNFTContractAddress as string)) {
       throw new Web3Error('Invalid Subscription NFT contract address')
     }
-    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractAddress)
+    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractAddress as string)
     this.networkFeeReceiver = await this.fullSDK.keeper.nvmConfig.getFeeReceiver()
     this.networkFee = await this.fullSDK.keeper.nvmConfig.getNetworkFee()
     return {
@@ -265,7 +287,7 @@ export class NvmApp {
    * @throws {Web3Error} If Web3 is not connected, try calling the connect method first.
    */
   public get sdk(): Nevermined {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
     return this.fullSDK
   }
@@ -308,7 +330,7 @@ export class NvmApp {
     subscriptionPrice: AssetPrice,
     duration: number,
   ): SubscribablePromise<CreateProgressStep, DDO> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
     const validationResult = this.validateSubscription(
@@ -382,7 +404,7 @@ export class NvmApp {
     subscriptionPrice: AssetPrice,
     numberCredits: bigint,
   ): SubscribablePromise<CreateProgressStep, DDO> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
     const validationResult = this.validateSubscription(
@@ -455,7 +477,7 @@ export class NvmApp {
     did: string,
     metadata: MetaData,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
     return this.fullSDK.assets.update(
@@ -490,7 +512,7 @@ export class NvmApp {
     subscriptionDid: string,
     agreementId?: string,
   ): Promise<OperationResult> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
     let numberCredits: bigint
@@ -545,7 +567,7 @@ export class NvmApp {
     numberCredits: bigint,
     serviceIndex?: number,
   ): SubscribablePromise<OrderProgressStep, string> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
     try {
@@ -576,7 +598,7 @@ export class NvmApp {
     numberCredits: bigint,
     serviceIndex?: number,
   ): Promise<boolean> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
     try {
       const subscriptionOwner = await this.fullSDK.assets.owner(subscriptionDid)
@@ -609,7 +631,7 @@ export class NvmApp {
     subscriptionDid: string,
     accountAddress?: string,
   ): Promise<SubscriptionBalance> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
     const address = accountAddress ? accountAddress : this.userAccount.getId()
@@ -644,7 +666,7 @@ export class NvmApp {
    * @throws {Web3Error} If Web3 is not connected. Call the connect method first.
    */
   public async getServiceAccessToken(serviceDid: string): Promise<SubscriptionToken> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
     return await this.fullSDK.nfts1155.getSubscriptionToken(serviceDid, this.userAccount)
@@ -666,6 +688,9 @@ export class NvmApp {
     destinationPath?: string,
     agreementId?: string,
   ): Promise<OperationResult> {
+    if (!this.fullSDK || !this.isWeb3Connected())
+      throw new Web3Error('Web3 not connected, try calling the connect method first')
+
     try {
       const result = await this.fullSDK.nfts1155.access(
         fileAssetDid,
@@ -699,7 +724,7 @@ export class NvmApp {
     minCreditsToCharge = 1n,
     maxCreditsToCharge = 1n,
   ): SubscribablePromise<CreateProgressStep, DDO> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
     const validationResult = this.validateServiceAssetMetadata(metadata)
@@ -770,7 +795,7 @@ export class NvmApp {
     subscriptionDid: string,
     costInCredits = 1n,
   ): SubscribablePromise<CreateProgressStep, DDO> {
-    if (!this.isWeb3Connected())
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
     const validationResult = this.validateFileAssetMetadata(metadata)

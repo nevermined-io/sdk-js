@@ -85,7 +85,7 @@ export class Nft721Contract extends NFTContractsBase {
     to: string,
     did: string,
     url: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom('mint', [to, didToTokenId(did), url], from, txParams)
@@ -99,7 +99,7 @@ export class Nft721Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(tokenId: string, from?: NvmAccount, txParams?: TxParameters) {
+  public async burn(tokenId: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('burn', [didToTokenId(tokenId)], from, txParams)
   }
 

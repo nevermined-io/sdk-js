@@ -18,10 +18,9 @@
     "checkJs": false,
 
     "strictPropertyInitialization": false,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "useUnknownInCatchVariables": false,
     "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
 
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -49,12 +48,14 @@
     "preserveConstEnums": true,
     "outDir": "./dist/node/",
     "rootDir": "./src/",
-
     "baseUrl": "./",
     "typeRoots": ["node_modules/@types", "src/permissionless.d.ts"],
     "paths": {
       "@/": ["./src/"],
-      "permissionless/*": ["src/permissionless.d.ts"]
+      "permissionless/*": ["src/permissionless.d.ts"],
+      "@zerodev/sdk/*": ["src/permissionless.d.ts"],
+      "@zerodev/sdk/presets/*": ["src/permissionless.d.ts"],
+      "@zerodev/sdk/presets/zerodev/*": ["src/permissionless.d.ts"]
     }
   },
   "include": ["src/**/*"],

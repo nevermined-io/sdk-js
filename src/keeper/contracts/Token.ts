@@ -25,7 +25,7 @@ export class Token extends ContractBase {
     return token
   }
 
-  public async approve(to: string, price: bigint, from?: NvmAccount, txParams?: TxParameters) {
+  public async approve(to: string, price: bigint, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('approve', [to, price.toString()], from, txParams)
   }
 

@@ -19,12 +19,14 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { DDO } from '../../src/ddo'
+import { ENTRYPOINT_ADDRESS_V07 } from "permissionless"
 
 describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined
   const PROJECT_ID = process.env.PROJECT_ID!
   const BUNDLER_RPC = `https://rpc.zerodev.app/api/v2/bundler/${PROJECT_ID}`
   // const PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${PROJECT_ID}`
+  // const entryPoint = ENTRYPOINT_ADDRESS_V07
 
   const publicClient = createPublicClient({
     chain: arbitrumSepolia,
@@ -45,6 +47,9 @@ describe('Nevermined sdk with zerodev', () => {
         chain: arbitrumSepolia,
         projectId: PROJECT_ID,
         signer: owner,
+        paymaster: 'SPONSOR',
+        entryPointAddress: ENTRYPOINT_ADDRESS_V07,
+        
       })
     })
 
@@ -154,11 +159,15 @@ describe('Nevermined sdk with zerodev', () => {
         chain: arbitrumSepolia,
         projectId: PROJECT_ID,
         signer: publisher,
+        paymaster: 'SPONSOR',
+        entryPointAddress: ENTRYPOINT_ADDRESS_V07,
       })
       kernelClientConsumer = await createEcdsaKernelAccountClient({
         chain: arbitrumSepolia,
         projectId: PROJECT_ID,
         signer: consumer,
+        paymaster: 'SPONSOR',
+        entryPointAddress: ENTRYPOINT_ADDRESS_V07,
       })
 
       // zerodevProviderPublisher = await ZeroDevEthersProvider.init('ECDSA', {

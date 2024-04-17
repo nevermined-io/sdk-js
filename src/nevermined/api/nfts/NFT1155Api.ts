@@ -626,7 +626,7 @@ export class NFT1155Api extends NFTsBaseApi {
    */
   public async grantOperatorRole(
     operatorAddress: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.nftContract.grantOperatorRole(operatorAddress, from, txParams)

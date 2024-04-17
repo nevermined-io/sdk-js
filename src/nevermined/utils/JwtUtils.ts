@@ -73,7 +73,7 @@ export class EthSignJWT extends SignJWT {
     return grantToken
   }
 
-  public static async signText(text: string | Uint8Array, account: Account): Promise<string> {
+  public static async signText(text: string | Uint8Array, account: Account): Promise<string | undefined> {
     try {
       const message = typeof text === 'string' ? text : toHex(text)
       return (account as LocalAccount).signMessage({ message: { raw: message as `0x${string}` } })
@@ -254,7 +254,7 @@ export class JwtUtils extends Instantiable {
 
       return accessToken
     } else {
-      return this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+      return this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string
     }
   }
 
@@ -351,7 +351,7 @@ export class JwtUtils extends Instantiable {
 
       return accessToken
     } else {
-      return this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+      return this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string
     }
   }
 

@@ -53,7 +53,7 @@ export abstract class BaseTemplate<Params, S extends Service>
     priceData?: PricedMetadataInformation,
   ): S {
     const assetPrice = serviceAttributes.price
-    let tokenAddress = undefined
+    let tokenAddress: string | undefined
     if (assetPrice && isValidAddress(assetPrice.getTokenAddress()))
       tokenAddress = assetPrice.getTokenAddress()
     else if (this.nevermined.keeper.token) {

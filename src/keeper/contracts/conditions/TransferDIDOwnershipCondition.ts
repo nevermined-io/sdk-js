@@ -54,7 +54,7 @@ export class TransferDIDOwnershipCondition extends ProviderCondition<AccessCondi
     agreementId: string,
     did: string,
     receiver: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(agreementId, [didZeroX(did), zeroX(receiver)], from, txParams)

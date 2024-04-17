@@ -15,7 +15,8 @@ export class DID {
     if (didString instanceof DID) {
       didString = didString.getDid()
     }
-    let did: DID
+
+    let did: DID | null = null
 
     const did0xMatch = didString.match(/^0x([a-f0-9]{64})$/i)
 

@@ -104,7 +104,7 @@ export class Nft1155Contract extends NFTContractsBase {
   public setApprovalForAll(
     operatorAddress: string,
     approved: boolean,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom('setApprovalForAll', [zeroX(operatorAddress), approved], from, txParams)
