@@ -34,8 +34,8 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
 
   let agreementId: string
 
-  const subscriptionDuration1 = 20 // in blocks
-  const subscriptionDuration2 = 20 // in blocks
+  const subscriptionDuration1 = 50 // in blocks
+  const subscriptionDuration2 = 100 // in blocks
   // Configuration of First Sale:
   // Editor -> Subscriber, the Reseller get a cut (25%)
   const subscriptionPrice1 = 20n
