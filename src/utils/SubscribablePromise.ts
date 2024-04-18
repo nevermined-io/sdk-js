@@ -12,7 +12,7 @@ export class SubscribablePromise<T, P> {
     this,
   )
 
-  constructor(executor: (observer: SubscribableObserver<T, P>) => void | Promise<P> | null) {
+  constructor(executor: (observer: SubscribableObserver<T, P>) => void | Promise<P>) {
     // Defer
     setTimeout(() => this.init(executor), 1)
   }
@@ -38,16 +38,24 @@ export class SubscribablePromise<T, P> {
     return Object.assign(this.promise.finally(onfinally), this)
   }
 
-  private init(executor: (observer: SubscribableObserver<T, P>) => void | Promise<P> | null) {
-    const execution: void | Promise<P> | null = executor(this.observer)
+  private init(executor: (observer: SubscribableObserver<T, P>) => void | Promise<P>) {
+    const execution: void | Promise<P> = executor(this.observer)
     const e = execution as Promise<P>
 
     Promise.resolve(e)
       .then((result) => {
-        this.observer.complete(result)
+        // @ts-ignore
+        if (e && e.then) {
+          this.observer.complete(result)
+          this.observer.complete(result)
+        }
       })
       .catch((err) => {
-        this.observer.error(err)
+        // @ts-ignore
+        if (e && e.then) {
+          this.observer.error(err)
+          this.observer.error(err)
+        }
       })
   }
 }
