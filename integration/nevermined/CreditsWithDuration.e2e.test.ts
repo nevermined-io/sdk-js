@@ -1,4 +1,3 @@
-// @ts-nocheck
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
@@ -151,7 +150,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
           'CRED',
           '',
           nevermined.keeper.nvmConfig.address,
-        ],
+        ] as any,
       )
 
       console.debug(`Deployed ERC-1155 Subscription NFT on address: ${subscriptionNFT.address}`)
