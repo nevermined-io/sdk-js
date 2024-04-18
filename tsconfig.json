@@ -53,9 +53,7 @@
     "paths": {
       "@/": ["./src/"],
       "permissionless/*": ["src/permissionless.d.ts"],
-      "@zerodev/sdk/*": ["src/permissionless.d.ts"],
-      "@zerodev/sdk/presets/*": ["src/permissionless.d.ts"],
-      "@zerodev/sdk/presets/zerodev/*": ["src/permissionless.d.ts"]
+      "@zerodev/sdk/*": ["src/permissionless.d.ts"]
     }
   },
   "include": ["src/**/*"],
