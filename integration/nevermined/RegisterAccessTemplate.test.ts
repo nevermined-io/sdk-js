@@ -291,8 +291,8 @@ describe('Register Escrow Access Template', () => {
         ddo.shortId(),
         amounts,
         receivers,
-        token.address,
         consumer,
+        token.address,
       )
     })
 
@@ -309,8 +309,8 @@ describe('Register Escrow Access Template', () => {
         receivers,
         consumer.getId(),
         ddo.shortId(),
-        token.address,
         publisher,
+        token.address,
       )
     })
 

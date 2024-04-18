@@ -796,7 +796,7 @@ export interface ServicePlugin<T extends Service> {
     publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
-    nftAttributes: NFTAttributes,
+    nftAttributes?: NFTAttributes,
     pricedData?: PricedMetadataInformation,
   ): T
   // Process agreement for provider

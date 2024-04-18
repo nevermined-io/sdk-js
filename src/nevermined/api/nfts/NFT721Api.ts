@@ -369,7 +369,7 @@ export class NFT721Api extends NFTsBaseApi {
     to: string,
     did: string,
     url: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return await this.nftContract.mintWithURL(to, did, url, from, txParams)
@@ -585,7 +585,7 @@ export class NFT721Api extends NFTsBaseApi {
    */
   public async grantOperatorRole(
     operatorAddress: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.nftContract.grantOperatorRole(operatorAddress, from, txParams)
@@ -611,7 +611,7 @@ export class NFT721Api extends NFTsBaseApi {
    */
   public async revokeOperatorRole(
     operatorAddress: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)

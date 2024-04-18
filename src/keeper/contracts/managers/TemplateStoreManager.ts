@@ -65,7 +65,7 @@ export class TemplateStoreManager extends ContractBase {
     }
   }
 
-  public revokeTemplate(address: string, from?: NvmAccount, txParams?: TxParameters) {
+  public revokeTemplate(address: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('revokeTemplate', [zeroX(address)], from, txParams)
   }
 

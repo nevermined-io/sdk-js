@@ -6,7 +6,7 @@ export interface FilterContractEvent {
 
 export interface EventOptions {
   eventName: string
-  filterJsonRpc?: FilterContractEvent
+  filterJsonRpc: FilterContractEvent
   filterSubgraph?: Record<string, unknown>
   result?: Record<string, unknown>
   fromBlock?: bigint | BlockTag

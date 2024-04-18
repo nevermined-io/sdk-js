@@ -38,7 +38,7 @@ export class SearchApi extends Instantiable {
    * @param metadataServiceEndpoint - Metadata service endpoint.
    * @returns DDO of the asset.
    */
-  public async byDID(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
+  public async byDID(did: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
     return this.nevermined.services.metadata.retrieveDDO(did, metadataServiceEndpoint)
   }
 
@@ -379,14 +379,14 @@ export class SearchApi extends Instantiable {
 
     const events =
       ercType === 721
-        ? await this.nevermined.keeper.conditions.transferNft721Condition.events.getPastEvents(
+        ? await this.nevermined.keeper.conditions.transferNft721Condition.events?.getPastEvents(
             eventOptions,
           )
-        : await this.nevermined.keeper.conditions.transferNftCondition.events.getPastEvents(
+        : await this.nevermined.keeper.conditions.transferNftCondition.events?.getPastEvents(
             eventOptions,
           )
 
-    const dids = events.map((e) => e._did || e.args._did).map((did) => didPrefixed(did))
+    const dids = events?.map((e) => e._did || e.args._did).map((did) => didPrefixed(did))
 
     let search: SearchQuery['query'][] = [
       {

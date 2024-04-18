@@ -44,7 +44,7 @@ export interface RoyaltyAttributes {
  * @param kind The type of royalty
  * @returns The royalty scheme
  */
-export function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltyScheme {
+export function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltyScheme | undefined {
   if (kind == RoyaltyKind.Standard) {
     return nvm.keeper.royalties.standard
   } else if (kind == RoyaltyKind.Curve) {
@@ -218,6 +218,10 @@ export class AssetsApi extends RegistryBaseApi {
     }
     const { files } = attributes.main
 
+    if (!files) {
+      throw new AssetError('No files found in the metadata')
+    }
+
     const serviceEndpoint = service.serviceEndpoint
       ? service.serviceEndpoint
       : this.nevermined.services.node.getAccessEndpoint()
@@ -374,6 +378,10 @@ export class AssetsApi extends RegistryBaseApi {
     const ddo = await this.resolve(did)
     const { attributes } = ddo.findServiceByType('metadata')
     const { files } = attributes.main
+
+    if (!files) {
+      throw new AssetError('No files found in the metadata')
+    }
 
     let serviceEndpoint, index
     if (ddo.serviceExists(serviceType)) {

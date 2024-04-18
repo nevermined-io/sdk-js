@@ -265,7 +265,7 @@ export class DIDRegistry extends ContractBase {
 
   public async getBlockNumberUpdated(did: string): Promise<number> {
     const blockNumber: any = await this.call('getBlockNumberUpdated', [didZeroX(did)])
-    return +(blockNumber)
+    return +blockNumber
   }
 
   public async isDIDProvider(did: string, provider: string): Promise<string> {
@@ -274,7 +274,7 @@ export class DIDRegistry extends ContractBase {
 
   public async getAttributesByOwner(owner: string): Promise<string[]> {
     return (
-      await this.events.getPastEvents({
+      await this.events!.getPastEvents({
         eventName: 'DIDAttributeRegistered',
         filterJsonRpc: { _owner: zeroX(owner) },
         filterSubgraph: { where: { _owner: zeroX(owner) } },
@@ -370,7 +370,7 @@ export class DIDRegistry extends ContractBase {
   // Provenance
   public async getDIDProvenanceEvents(did: string) {
     return (
-      await this.events.getPastEvents({
+      await this.events!.getPastEvents({
         eventName: 'ProvenanceAttributeRegistered',
         filterJsonRpc: { _did: didZeroX(did) },
         filterSubgraph: { where: { _did: didZeroX(did) } },
@@ -449,7 +449,7 @@ export class DIDRegistry extends ContractBase {
         _blockNumberUpdated: true,
       },
     }
-    const events = await this.events.getPastEvents(eventOptions)
+    const events = await this.events!.getPastEvents(eventOptions)
     return events
       .map((event) => eventToObject(event))
       .map((event) => ({ ...event, method: +method }))

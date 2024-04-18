@@ -32,11 +32,11 @@ export class NeverminedConfig extends ContractBase {
     return this.call('isGovernor', [address])
   }
 
-  public async setGovernor(address: string, from?: NvmAccount, txParams?: TxParameters) {
+  public async setGovernor(address: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('setGovernor', [address], from, txParams)
   }
 
-  public async setTrustedForwarder(address: string, from?: NvmAccount, txParams?: TxParameters) {
+  public async setTrustedForwarder(address: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('setTrustedForwarder', [address], from, txParams)
   }
 

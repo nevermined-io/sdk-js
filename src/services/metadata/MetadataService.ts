@@ -130,8 +130,7 @@ export class MetadataService extends MarketplaceApi {
    * @returns Final DDO.
    */
   public async updateDDO(did: DID | string, ddo: DDO): Promise<DDO> {
-    did = did && DID.parse(did)
-    const fullUrl = `${this.url}${apiPath}/${did.getDid()}`
+    const fullUrl = `${this.url}${apiPath}/${DID.parse(did).getDid()}`
     const result: DDO = await this.nevermined.utils.fetch
       .put(fullUrl, DDO.serialize(ddo), {
         Authorization: `Bearer ${this.config.marketplaceAuthToken}`,
@@ -196,8 +195,7 @@ export class MetadataService extends MarketplaceApi {
   public async retrieveDDO(did?: DID | string, metadataServiceEndpoint?: string): Promise<DDO> {
     let fullUrl: string
     if (did) {
-      did = did && DID.parse(did)
-      fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}`
+      fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${DID.parse(did).getDid()}`
     } else if (metadataServiceEndpoint) {
       fullUrl = metadataServiceEndpoint
     } else {
@@ -238,9 +236,8 @@ export class MetadataService extends MarketplaceApi {
   }
 
   public async delete(did: DID | string) {
-    did = did && DID.parse(did)
     const result = await this.nevermined.utils.fetch.delete(
-      `${this.url}${apiPath}/${did.getDid()}`,
+      `${this.url}${apiPath}/${DID.parse(did).getDid()}`,
       undefined,
       {
         Authorization: `Bearer ${this.config.marketplaceAuthToken}`,
@@ -259,8 +256,8 @@ export class MetadataService extends MarketplaceApi {
    * @returns DDO of the asset.
    */
   public async status(did: DID | string, metadataServiceEndpoint?: string): Promise<DDOStatus> {
-    did = did && DID.parse(did)
-    const fullUrl = metadataServiceEndpoint || `${this.url}${apiPath}/${did.getDid()}/status`
+    const fullUrl =
+      metadataServiceEndpoint || `${this.url}${apiPath}/${DID.parse(did).getDid()}/status`
     const result = await this.nevermined.utils.fetch
       .get(fullUrl)
       .then((response: any) => {

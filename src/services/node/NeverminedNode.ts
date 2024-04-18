@@ -176,7 +176,7 @@ export class NeverminedNode extends Instantiable {
     serviceEndpoint: string,
     account: NvmAccount,
     files: MetaDataExternalResource[],
-    destination: string,
+    destination: string | undefined,
     index = -1,
     result = AssetResult.DATA,
     buyer?: string,
@@ -214,7 +214,7 @@ export class NeverminedNode extends Instantiable {
         }
       })
     await Promise.all(filesPromises)
-    return destination
+    return destination as string
   }
 
   public async encrypt(did, document, method): Promise<any> {
@@ -239,7 +239,7 @@ export class NeverminedNode extends Instantiable {
 
   public async downloadService(
     files: MetaDataExternalResource[],
-    destination: string,
+    destination: string | undefined,
     index = -1,
     headers?: { [key: string]: string },
     result = AssetResult.DATA,
@@ -391,7 +391,7 @@ export class NeverminedNode extends Instantiable {
         // Getting Node endpoint from DDO
         const ddo = await this.nevermined.assets.resolve(did)
         const salesService = ddo.findServiceByType('nft-sales')
-        if (!salesService.serviceEndpoint){
+        if (!salesService.serviceEndpoint) {
           throw new Error('NFT Sales service endpoint not found')
         }
         const endpointURL = new URL(salesService.serviceEndpoint)

@@ -51,7 +51,14 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
     providerId?: string,
     nftTransfer?: boolean,
   ): NFTSalesTemplateParams {
-    return { consumerId, providerId, nftAmount, duration, expiration, nftTransfer }
+    return {
+      consumerId,
+      providerId: providerId as string,
+      nftAmount,
+      duration: duration as number,
+      expiration: expiration as number,
+      nftTransfer: nftTransfer as boolean,
+    }
   }
 
   public async getParamsFromService(
@@ -69,13 +76,13 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
       duration,
       expiration,
       nftTransfer,
-      providerId: undefined,
+      providerId: '',
     }
   }
 
   public async paramsGen({
     consumer_address,
-    nft_amount,
+    nft_amount = 0n,
     duration = 0,
     expiration = 0,
   }: ValidationParams): Promise<NFTSalesTemplateParams> {

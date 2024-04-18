@@ -652,7 +652,7 @@ export class NFT1155Api extends NFTsBaseApi {
    */
   public async revokeOperatorRole(
     operatorAddress: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)

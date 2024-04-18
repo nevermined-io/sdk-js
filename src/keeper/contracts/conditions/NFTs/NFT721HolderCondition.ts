@@ -37,7 +37,7 @@ export class NFT721HolderCondition extends ConsumerCondition<NFT721HolderConditi
   public nftContractFromService(service: ServiceCommon): string {
     const holder = DDO.findServiceConditionByName(service, 'nftHolder')
     if (!holder) throw new Error('Holder condition not found!')
-    return holder.parameters.find((p) => p.name === '_contractAddress').value as string
+    return holder.parameters.find((p) => p.name === '_contractAddress')?.value as string
   }
 
   public async paramsFromDDO({ ddo, service, holderAddress }: NFT721HolderConditionContext) {
@@ -59,7 +59,7 @@ export class NFT721HolderCondition extends ConsumerCondition<NFT721HolderConditi
     did: string,
     holderAddress: string,
     nftTokenAddress: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(

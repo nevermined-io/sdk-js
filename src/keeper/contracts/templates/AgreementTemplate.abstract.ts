@@ -19,7 +19,6 @@ import { zeroX, didZeroX } from '../../../utils/ConversionTypeHelpers'
 import { CustomToken } from '../CustomToken'
 import { ConditionSmall, ConditionContext } from '../conditions/Condition.abstract'
 import { ContractBase } from '../../../keeper/contracts/ContractBase'
-import { Token } from '../Token'
 
 export type ParameterType =
   | string
@@ -65,7 +64,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     if (!payment) throw new Error('Payment Condition not found!')
     return {
       rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.address,
-      tokenAddress: payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
+      tokenAddress: payment.parameters.find((p) => p.name === '_tokenAddress')?.value as string,
       amounts: assetPrice.getAmounts(),
       receivers: assetPrice.getReceivers(),
     }
@@ -108,7 +107,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     tokenAddress: string,
     amounts: bigint[],
     receivers: string[],
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom(
@@ -316,7 +315,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   public async getServiceAgreementTemplateConditionByRef(ref: string) {
     const name = this.getServiceAgreementTemplateConditions().find(
       ({ name: conditionRef }) => conditionRef === ref,
-    ).contractName
+    )?.contractName
     return (await this.getConditions()).find((condition) => condition.contractName === name)
   }
 
@@ -353,6 +352,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     const states: { ref: string; contractName: string; state: ConditionState }[] = []
     for (const ref in dependencies) {
+      // @ts-ignore
       const { contractName } = await this.getServiceAgreementTemplateConditionByRef(ref)
       states.push({
         ref,
@@ -364,6 +364,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return states.reduce((acc, { contractName, ref, state }) => {
       const blockers = dependencies[ref]
         .map((dependency) => states.find((_) => _.ref === dependency))
+        // @ts-ignore
         .filter((condition) => condition.state !== ConditionState.Fulfilled)
       return {
         ...acc,
@@ -372,6 +373,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
           contractName,
           state,
           blocked: !!blockers.length,
+          // @ts-ignore
           blockedBy: blockers.map((_) => _.ref),
         },
       }
@@ -384,7 +386,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<void> {
-    let token: Token
+    let token
 
     const { lockPaymentCondition } = this.nevermined.keeper.conditions
 
@@ -447,7 +449,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
    * @returns Agreement created event.
    */
   public async getAgreementCreatedEvent(agreementId: string) {
-    const res = await this.events.once((events) => events, {
+    const res = await this.events?.once((events) => events, {
       eventName: 'AgreementCreated',
       filterJsonRpc: {
         _agreementId: zeroX(agreementId),
@@ -473,7 +475,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return res
   }
   public async getAgreementsForDID(did: string): Promise<string[]> {
-    const res = await this.events.getPastEvents({
+    const res = await this.events!.getPastEvents({
       eventName: 'AgreementCreated',
       filterJsonRpc: {
         _did: didZeroX(did),

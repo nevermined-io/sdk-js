@@ -45,7 +45,7 @@ export class SubgraphEvent extends NeverminedEvent {
   }
 
   public async getEventData(options: EventOptions): EventResult {
-    if (!this.subgraph) {
+    if (!this.subgraph || !options.filterSubgraph) {
       throw new GraphError(`Subgraph client for ${this.contract.contractName} is not implemented!`)
     }
 

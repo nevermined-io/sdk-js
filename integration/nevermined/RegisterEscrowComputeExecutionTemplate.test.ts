@@ -318,8 +318,8 @@ describe('Register Escrow Compute Execution Template', () => {
         ddo.shortId(),
         amounts,
         receivers,
-        token.address,
         consumer,
+        token.address,
       )
     })
 
@@ -337,8 +337,8 @@ describe('Register Escrow Compute Execution Template', () => {
         receivers,
         consumer.getId(),
         ddo.shortId(),
-        token.address,
         publisher,
+        token.address,
       )
     })
 

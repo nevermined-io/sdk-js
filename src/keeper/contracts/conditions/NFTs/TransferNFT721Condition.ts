@@ -1,4 +1,5 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
+import { DDO } from '../../../../ddo/DDO'
 import {
   Condition,
   ConditionContext,
@@ -6,7 +7,6 @@ import {
   ProviderCondition,
 } from '../../../../keeper/contracts/conditions/Condition.abstract'
 import { NvmAccount } from '../../../../models/NvmAccount'
-import { DDO } from '../../../../ddo/DDO'
 import { TxParameters } from '../../../../models/Transactions'
 import { ConditionMethod } from '../../../../types/ContractTypes'
 import { didZeroX, zeroX } from '../../../../utils/ConversionTypeHelpers'
@@ -88,11 +88,11 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     if (!transfer) throw new Error('TransferNFT condition not found!')
 
     const nftAddress = transfer.parameters.find((p) => p.name === '_contractAddress')
-      .value as string
-    const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder').value as string
+      ?.value as string
+    const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder')?.value as string
 
     const nftTransferString = transfer.parameters.find((p) => p.name === '_nftTransfer')
-      .value as string
+      ?.value as string
     return this.params(
       ddo.shortId(),
       nftHolder,
@@ -112,11 +112,11 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     if (!transfer) throw new Error('TransferNFT condition not found!')
 
     const nftAddress = transfer.parameters.find((p) => p.name === '_contractAddress')
-      .value as string
-    const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder').value as string
+      ?.value as string
+    const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder')?.value as string
 
     const nftTransferString = transfer.parameters.find((p) => p.name === '_nftTransfer')
-      .value as string
+      ?.value as string
     return this.params(
       ddo.shortId(),
       nftHolder,
@@ -150,7 +150,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     lockPaymentCondition: string,
     nftTokenAddress: string,
     willBeTransferred = true,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(

@@ -45,7 +45,7 @@ export class NFTContractsBase extends ContractBase {
     uri: string,
     cap: bigint | undefined,
     operators: string[] = [],
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     try {
@@ -100,7 +100,7 @@ export class NFTContractsBase extends ContractBase {
     mintCap: bigint
     nftURI: string
   }> {
-    const registeredValues = await this.call('getNFTAttributes', [didZeroX(did)])
+    const registeredValues: any = await this.call('getNFTAttributes', [didZeroX(did)])
     if (!registeredValues[0]) {
       // If `nftInitialized` is because the NFT information is not on-chain
       // It could be also a ERC-721 NFT
@@ -127,7 +127,7 @@ export class NFTContractsBase extends ContractBase {
    * @param from - Sender account
    * @returns Contract Receipt
    */
-  public revokeOperatorRole(operatorAddress: string, from?: NvmAccount, txParams?: TxParameters) {
+  public revokeOperatorRole(operatorAddress: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('revokeOperatorRole', [zeroX(operatorAddress)], from, txParams)
   }
 }

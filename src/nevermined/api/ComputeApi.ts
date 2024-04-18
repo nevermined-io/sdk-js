@@ -58,7 +58,7 @@ export class ComputeApi extends RegistryBaseApi {
       service.serviceType = 'compute'
     })
     if (!computeService) {
-      assetAttributes.services = [...assetAttributes.services, { serviceType: 'compute' }]
+      assetAttributes.services = [...assetAttributes.services!, { serviceType: 'compute' }]
     }
     return this.registerNeverminedAsset(
       assetAttributes,
