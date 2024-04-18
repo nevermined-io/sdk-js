@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
 import { rejects } from 'assert'

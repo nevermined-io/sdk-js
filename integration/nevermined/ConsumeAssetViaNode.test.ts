@@ -59,7 +59,7 @@ describe('Consume Asset (Nevermined Node)', () => {
   })
 
   it('should register an asset', async () => {
-    const steps = []
+    const steps: any[] = []
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
@@ -83,7 +83,7 @@ describe('Consume Asset (Nevermined Node)', () => {
   })
 
   it('should order the asset', async () => {
-    const steps = []
+    const steps: any[] = []
     agreementId = await nevermined.assets
       .order(ddo.id, 'access', consumer)
       .next((step) => steps.push(step))

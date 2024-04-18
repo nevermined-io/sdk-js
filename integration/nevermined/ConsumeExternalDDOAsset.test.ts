@@ -122,8 +122,8 @@ describe('Consume Asset (Documentation example)', () => {
       ddo.id,
       assetPrice.getAmounts(),
       assetPrice.getReceivers(),
-      undefined,
       consumer,
+      undefined,
     )
 
     assert.isTrue(paid, 'The asset has not been paid correctly')

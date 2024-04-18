@@ -107,7 +107,7 @@ describe('Asset Owners', () => {
     )
     const ddo = await nevermined2.assets.create(
       AssetAttributes.getInstance({
-        metadata: newMetadata(config2.marketplaceAuthToken),
+        metadata: newMetadata(config2.marketplaceAuthToken!),
       }),
       account2,
     )

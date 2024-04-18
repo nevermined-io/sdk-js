@@ -110,7 +110,7 @@ export class AgreementsApi extends Instantiable {
         params,
       )
 
-    return agreementId
+    return agreementId as string
   }
 
   /**

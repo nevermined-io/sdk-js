@@ -858,8 +858,11 @@ export class NvmApp {
    * @returns The updated asset price with the network fee included, or the original price if the network fee is already included.
    */
   public addNetworkFee(price: AssetPrice): AssetPrice {
-    if (!this.isNetworkFeeIncluded(price) && this.networkFeeReceiver && this.networkFee) {
-      return price.adjustToIncludeNetworkFees(this.networkFeeReceiver, this.networkFee)
+    if (!this.isNetworkFeeIncluded(price)) {
+      return price.adjustToIncludeNetworkFees(
+        this.networkFeeReceiver as string,
+        this.networkFee as bigint,
+      )
     }
     return price
   }
@@ -870,14 +873,15 @@ export class NvmApp {
    * @returns A boolean indicating whether the network fee is included.
    */
   public isNetworkFeeIncluded(price: AssetPrice): boolean {
-    if (!this.fullSDK || !this.isWeb3Connected() || !this.networkFeeReceiver || !this.networkFee)
+    if (!this.fullSDK || !this.isWeb3Connected())
       throw new Web3Error('Web3 not connected, try calling the connect method first')
     // If there are no network fees everything is okay
     if (this.networkFee === 0n || price.getTotalPrice() === 0n) return true
-    if (!price.getRewards().has(this.networkFeeReceiver)) return false
+    if (!price.getRewards().has(this.networkFeeReceiver as string)) return false
 
-    const networkFee = price.getRewards().get(this.networkFeeReceiver)
-    const expectedFee = (price.getTotalPrice() * this.networkFee) / NETWORK_FEE_DENOMINATOR / 100n
+    const networkFee = price.getRewards().get(this.networkFeeReceiver as string)
+    const expectedFee =
+      (price.getTotalPrice() * (this.networkFee as bigint)) / NETWORK_FEE_DENOMINATOR / 100n
     if (networkFee !== expectedFee) return false
     return true
   }

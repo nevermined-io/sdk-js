@@ -157,7 +157,7 @@ describe('NFT1155 End-to-End', () => {
 
     it('NFT Attributes should be part of the DDO', async () => {
       const accessService = ddo.getServicesByType('nft-access')[0]
-      const ddoAttributes = accessService.attributes.main.nftAttributes
+      const ddoAttributes = accessService.attributes.main.nftAttributes as NFTServiceAttributes
 
       console.log(JSON.stringify(ddoAttributes))
 

@@ -29,7 +29,7 @@ describe.skip('Filecoin Integration', () => {
     await nevermined.services.marketplace.login(clientAssertion)
 
     const payload = decodeJwt(config.marketplaceAuthToken)
-    userId = payload.sub
+    userId = payload.sub as string
   })
 
   it('should register an asset with a cid://', async () => {

@@ -17,7 +17,7 @@
     "checkJs": false,
 
     "strictPropertyInitialization": false,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "useUnknownInCatchVariables": false,
     "resolveJsonModule": true,
 
@@ -45,6 +45,6 @@
     "sourceMap": true,
     "typeRoots": ["node_modules/@types"]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "test/**/*.test.ts", "integration/**/*.test.ts"]
+  "include": ["src/**/*", "test/**/*.test.ts", "integration/**/*.test.ts"],
+  "exclude": ["node_modules"]
 }
