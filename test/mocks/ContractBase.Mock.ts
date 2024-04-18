@@ -17,7 +17,7 @@ export class ContractBaseMock extends ContractBase {
     this.interface = parseAbi(['function name() view returns (string)'])
   }
 
-  public async callMock(name: string, args: any[], from: string) {
+  public async callMock(name: string, args: any[], from?: string) {
     return this.call(name, args, from)
   }
 

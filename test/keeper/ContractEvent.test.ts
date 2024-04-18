@@ -2,7 +2,6 @@ import { assert } from 'chai'
 import TestContractHandler from './TestContractHandler'
 import { NvmAccount } from '../../src/models/NvmAccount'
 import { Nevermined } from '../../src/nevermined/Nevermined'
-import { ContractEventSubscription } from '../../src/types/EventTypes'
 
 describe('ContractEvent', () => {
   let nevermined: Nevermined
@@ -19,7 +18,7 @@ describe('ContractEvent', () => {
 
   describe('#subscribe()', () => {
     it('should be able to listen to events', async () => {
-      let subscription: ContractEventSubscription
+      let subscription
       const fromBlock = await nevermined.client.public.getBlockNumber()
       const waitForEvents = new Promise((resolve) => {
         subscription = nevermined.keeper.token.events.subscribe(

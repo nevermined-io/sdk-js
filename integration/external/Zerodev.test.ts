@@ -19,7 +19,7 @@ import {
 import { config } from '../config'
 import { getMetadata } from '../utils'
 import { DDO } from '../../src/ddo'
-import { ENTRYPOINT_ADDRESS_V07 } from "permissionless"
+import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
 
 describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined
@@ -49,7 +49,6 @@ describe('Nevermined sdk with zerodev', () => {
         signer: owner,
         paymaster: 'SPONSOR',
         entryPointAddress: ENTRYPOINT_ADDRESS_V07,
-        
       })
     })
 

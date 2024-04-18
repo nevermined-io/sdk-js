@@ -17,7 +17,7 @@
     "checkJs": false,
 
     "strictPropertyInitialization": false,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "useUnknownInCatchVariables": false,
     "resolveJsonModule": true,
 

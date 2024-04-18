@@ -574,7 +574,7 @@ export class DDO {
     const conditionName = service.type === 'nft-access' ? 'nftHolder' : 'transferNFT'
     const nftCondition = DDO.findServiceConditionByName(service, conditionName)
     const parameter = nftCondition.parameters.find((p) => p.name === paramName)
-    return parameter ? parameter.value as string : ''
+    return parameter ? (parameter.value as string) : ''
   }
 
   /**
@@ -658,8 +658,12 @@ export class DDO {
       throw new DDOConditionNotFoundError('escrowPayment')
     }
 
-    const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')?.value as string[] ?? []
-    const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')?.value as string[] ?? []
+    const amounts =
+      (escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')?.value as string[]) ??
+      []
+    const receivers =
+      (escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')?.value as string[]) ??
+      []
 
     const rewardsMap = new Map<string, bigint>()
 
@@ -692,10 +696,10 @@ export class DDO {
     try {
       const amounts = escrowPaymentCondition.parameters.find((p) => p.name === '_amounts')
       const receivers = escrowPaymentCondition.parameters.find((p) => p.name === '_receivers')
-      if(amounts){
-      amounts.value = Array.from(rewards.getAmounts(), (v) => v.toString())
+      if (amounts) {
+        amounts.value = Array.from(rewards.getAmounts(), (v) => v.toString())
       }
-      if(receivers){
+      if (receivers) {
         receivers.value = rewards.getReceivers()
       }
     } catch (e) {

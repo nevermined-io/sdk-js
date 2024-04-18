@@ -75,7 +75,6 @@ export abstract class Instantiable {
     if (!this._instantiableConfig?.nevermined) {
       this.logger.error('Nevermined instance is not defined.')
       throw new Error('Nevermined instance is not defined.')
-
     }
     return this._instantiableConfig.nevermined
   }

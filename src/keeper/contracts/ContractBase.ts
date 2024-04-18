@@ -16,7 +16,7 @@ import { jsonReplacer } from '../../common/helpers'
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
   public contract
-  public events: ContractEvent | SubgraphEvent | undefined
+  public events: ContractEvent | SubgraphEvent
   public version: string
   public address: `0x${string}`
 
