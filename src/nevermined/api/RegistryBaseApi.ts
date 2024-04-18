@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { generateId } from '../../common/helpers'
 import { DEFAULT_ENCRYPTION_METHOD, ZeroAddress } from '../../constants/AssetConstants'
@@ -62,7 +63,7 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       // create ddo itself
       let ddo = DDO.getInstance(
-        assetAttributes.metadata.userId,
+        assetAttributes.metadata.userId as string,
         publisher.getId(),
         assetAttributes.appId,
       )

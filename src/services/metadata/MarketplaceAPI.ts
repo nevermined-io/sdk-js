@@ -26,7 +26,7 @@ export class MarketplaceApi extends Instantiable {
 
       this.config.marketplaceAuthToken = (await response.json()).access_token
 
-      return this.config.marketplaceAuthToken
+      return this.config.marketplaceAuthToken as string
     } catch (error) {
       throw new ApiError(error)
     }
@@ -58,7 +58,7 @@ export class MarketplaceApi extends Instantiable {
 
             this.config.marketplaceAuthToken = (await response.json()).access_token
 
-            return this.config.marketplaceAuthToken
+            return this.config.marketplaceAuthToken as string
         } catch (error) {
             throw new ApiError(error)
         }

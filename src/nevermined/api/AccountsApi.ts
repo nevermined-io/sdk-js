@@ -24,7 +24,7 @@ export class AccountsApi extends Instantiable {
    * @returns The list of accounts.
    */
   public list(): NvmAccount[] {
-    return this.config.accounts
+    return this.config.accounts || []
   }
 
   /**
@@ -49,13 +49,14 @@ export class AccountsApi extends Instantiable {
     return NvmAccount.fromAddress(address as `0x${string}`)
   }
 
-  public findAccount(from: string): NvmAccount {
+  public findAccount(from: string): NvmAccount | undefined {
     for (const acc of this.config.accounts || []) {
       const addr = acc.getAddress()
       if (addr.toLowerCase() === from.toLowerCase()) {
         return acc
       }
     }
+    return undefined
   }
 
   public async addresses(): Promise<string[]> {
@@ -67,8 +68,6 @@ export class AccountsApi extends Instantiable {
     from: string,
   ): Promise<`0x${string}`> {
     const message = typeof text === 'string' ? text : toHex(text)
-    console.log(`Signing with remote account ${from} the message: ${message}`)
-    console.log(await this.walletClient.chain.id)
     return await this.walletClient.signMessage({
       account: from as `0x${string}`,
       message: message as `0x${string}`,

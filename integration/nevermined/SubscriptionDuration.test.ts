@@ -1,3 +1,4 @@
+// @ts-nocheck
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { Nevermined } from '../../src/nevermined/Nevermined'

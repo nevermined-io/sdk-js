@@ -100,7 +100,7 @@ export class AgreementsApi extends Instantiable {
 
     const agreementId = await this.nevermined.keeper
       .getTemplateByName(templateName)
-      .createAgreementFromDDO(
+      ?.createAgreementFromDDO(
         agreementIdSeed,
         ddo,
         agreementParams,
@@ -110,7 +110,7 @@ export class AgreementsApi extends Instantiable {
         params,
       )
 
-    return agreementId
+    return agreementId as string
   }
 
   /**
@@ -125,7 +125,7 @@ export class AgreementsApi extends Instantiable {
     )
     const fullStatus = await this.nevermined.keeper
       .getTemplateByAddress(templateId)
-      .getAgreementStatus(agreementId)
+      ?.getAgreementStatus(agreementId)
 
     if (!fullStatus) {
       return

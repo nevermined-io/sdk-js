@@ -176,7 +176,7 @@ export class NeverminedNode extends Instantiable {
     serviceEndpoint: string,
     account: NvmAccount,
     files: MetaDataExternalResource[],
-    destination: string,
+    destination: string | undefined,
     index = -1,
     result = AssetResult.DATA,
     buyer?: string,
@@ -197,7 +197,7 @@ export class NeverminedNode extends Instantiable {
       accessToken = await this.fetchToken(grantToken)
       jwt.tokenCache.set(cacheKey, accessToken)
     } else {
-      accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+      accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string
     }
     const headers = {
       Authorization: 'Bearer ' + accessToken,
@@ -214,7 +214,7 @@ export class NeverminedNode extends Instantiable {
         }
       })
     await Promise.all(filesPromises)
-    return destination
+    return destination as string
   }
 
   public async encrypt(did, document, method): Promise<any> {
@@ -239,7 +239,7 @@ export class NeverminedNode extends Instantiable {
 
   public async downloadService(
     files: MetaDataExternalResource[],
-    destination: string,
+    destination: string | undefined,
     index = -1,
     headers?: { [key: string]: string },
     result = AssetResult.DATA,
@@ -281,7 +281,7 @@ export class NeverminedNode extends Instantiable {
         accessToken = await this.fetchToken(grantToken)
         jwt.tokenCache.set(cacheKey, accessToken)
       } else {
-        accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+        accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string
       }
       const headers = {
         Authorization: 'Bearer ' + accessToken,
@@ -321,7 +321,7 @@ export class NeverminedNode extends Instantiable {
         accessToken = await this.fetchToken(grantToken)
         jwt.tokenCache.set(cacheKey, accessToken)
       } else {
-        accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+        accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string
       }
       const headers = {
         Authorization: 'Bearer ' + accessToken,
@@ -356,7 +356,7 @@ export class NeverminedNode extends Instantiable {
         accessToken = await this.fetchToken(grantToken)
         jwt.tokenCache.set(cacheKey, accessToken)
       } else {
-        accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+        accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string
       }
       const headers = {
         Authorization: 'Bearer ' + accessToken,
@@ -391,6 +391,9 @@ export class NeverminedNode extends Instantiable {
         // Getting Node endpoint from DDO
         const ddo = await this.nevermined.assets.resolve(did)
         const salesService = ddo.findServiceByType('nft-sales')
+        if (!salesService.serviceEndpoint) {
+          throw new Error('NFT Sales service endpoint not found')
+        }
         const endpointURL = new URL(salesService.serviceEndpoint)
         claimNFTEndpoint = `${endpointURL.protocol}//${endpointURL.host}${apiPath}/nft-transfer`
       }
@@ -440,8 +443,7 @@ export class NeverminedNode extends Instantiable {
     ddo: DDO,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.IPFS,
   ): Promise<{ url: string; backend: ImmutableBackends }> {
-    let url,
-      backend = undefined
+    let url, backend
 
     if (publishMetadata === PublishMetadataOptions.Filecoin) {
       this.logger.log('Publishing metadata to Filecoin')
@@ -502,7 +504,7 @@ export class NeverminedNode extends Instantiable {
         accessToken = await this.fetchToken(clientAssertion)
         jwt.tokenCache.set(cacheKey, accessToken)
       } else {
-        accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+        accessToken = this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string
       }
       const headers = {
         Authorization: 'Bearer ' + accessToken,

@@ -118,7 +118,7 @@ export class DIDRegistry extends ContractBase {
         providers.map(zeroX),
         url,
         nftAttributes.cap,
-        nftAttributes.royaltyAttributes?.amount > 0 ? nftAttributes.royaltyAttributes?.amount : 0,
+        nftAttributes.royaltyAttributes?.amount ?? 0,
         nftAttributes.preMint,
         zeroPadValue(activityId as `0x${string}`, 32),
         nftAttributes.nftMetadataUrl || '',
@@ -163,9 +163,7 @@ export class DIDRegistry extends ContractBase {
         zeroX(checksum),
         providers.map(zeroX),
         url,
-        nftAttributes.royaltyAttributes?.amount > 0
-          ? String(nftAttributes.royaltyAttributes?.amount)
-          : '0',
+        nftAttributes.royaltyAttributes?.amount ?? 0,
         nftAttributes.preMint,
         zeroPadValue(activityId as `0x${string}`, 32),
         immutableUrl,
@@ -266,7 +264,8 @@ export class DIDRegistry extends ContractBase {
   }
 
   public async getBlockNumberUpdated(did: string): Promise<number> {
-    return +(await this.call('getBlockNumberUpdated', [didZeroX(did)]))
+    const blockNumber: any = await this.call('getBlockNumberUpdated', [didZeroX(did)])
+    return +blockNumber
   }
 
   public async isDIDProvider(did: string, provider: string): Promise<string> {
@@ -275,7 +274,7 @@ export class DIDRegistry extends ContractBase {
 
   public async getAttributesByOwner(owner: string): Promise<string[]> {
     return (
-      await this.events.getPastEvents({
+      await this.events!.getPastEvents({
         eventName: 'DIDAttributeRegistered',
         filterJsonRpc: { _owner: zeroX(owner) },
         filterSubgraph: { where: { _owner: zeroX(owner) } },
@@ -308,7 +307,7 @@ export class DIDRegistry extends ContractBase {
     immutableUrl: string
     nftInitialized: boolean
   }> {
-    const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
+    const registeredValues: any = await this.call('getDIDRegister', [didZeroX(did)])
     if (registeredValues[4] < 1)
       // If not valid `blockNumberUpdated` is because the asset doesn't exist on-chain
       throw new AssetError(`Asset with DID ${did} not found on-chain`)
@@ -371,7 +370,7 @@ export class DIDRegistry extends ContractBase {
   // Provenance
   public async getDIDProvenanceEvents(did: string) {
     return (
-      await this.events.getPastEvents({
+      await this.events!.getPastEvents({
         eventName: 'ProvenanceAttributeRegistered',
         filterJsonRpc: { _did: didZeroX(did) },
         filterSubgraph: { where: { _did: didZeroX(did) } },
@@ -450,7 +449,7 @@ export class DIDRegistry extends ContractBase {
         _blockNumberUpdated: true,
       },
     }
-    const events = await this.events.getPastEvents(eventOptions)
+    const events = await this.events!.getPastEvents(eventOptions)
     return events
       .map((event) => eventToObject(event))
       .map((event) => ({ ...event, method: +method }))
@@ -630,7 +629,7 @@ export class DIDRegistry extends ContractBase {
   }
 
   public async getProviders(did: string) {
-    const registeredValues = await this.call('getDIDRegister', [didZeroX(did)])
+    const registeredValues: any = await this.call('getDIDRegister', [didZeroX(did)])
     return registeredValues[5].filter((x: string) => x != ZeroAddress)
   }
 

@@ -29,6 +29,7 @@ export class EventHandler {
     this.events.delete(callback)
     if (!this.count) {
       clearTimeout(this.lastTimeout)
+      // @ts-ignore
       delete this.lastBlock
       this.polling = false
     }

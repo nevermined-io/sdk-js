@@ -233,8 +233,8 @@ describe('Secondary Markets', () => {
           ddo.id,
           assetPrice1.getAmounts(),
           assetPrice1.getReceivers(),
-          token.address,
           collector1,
+          token.address,
         )
         assert.isTrue(receipt)
 
@@ -423,8 +423,8 @@ describe('Secondary Markets', () => {
           ddo.id,
           assetPriceFromServiceAgreement.getAmounts(),
           assetPriceFromServiceAgreement.getReceivers(),
-          payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
           collector2,
+          payment.parameters.find((p) => p.name === '_tokenAddress')?.value as string,
         )
         assert.isTrue(receipt)
 

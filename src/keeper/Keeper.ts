@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ContractBase } from '../keeper/contracts/ContractBase'
 
 import { EventHandler } from '../events/EventHandler'

@@ -139,7 +139,7 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
           'CRED',
           '',
           nevermined.keeper.nvmConfig.address,
-        ],
+        ] as any,
       )
 
       console.debug(`Deployed ERC-1155 Subscription NFT on address: ${subscriptionNFT.address}`)

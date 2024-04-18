@@ -1,22 +1,22 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
 import { DDO } from '../../../ddo/DDO'
+import { DynamicCreditsUnderLimit } from '../../../errors/NeverminedErrors'
 import { NFTServiceAttributes } from '../../../models/NFTAttributes'
 import { NvmAccount } from '../../../models/NvmAccount'
 import { TxParameters } from '../../../models/Transactions'
 import { AgreementInstance } from '../../../types/ContractTypes'
 import {
+  ServiceAgreementTemplate,
   ServiceNFTAccess,
   ServiceType,
   ValidationParams,
-  ServiceAgreementTemplate,
 } from '../../../types/DDOTypes'
 import { NeverminedNFT1155Type } from '../../../types/GeneralTypes'
 import { NFTAccessCondition } from '../conditions/NFTs/NFTAccessCondition'
 import { NFTHolderCondition } from '../conditions/NFTs/NFTHolderCondition'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
-import { nftHolderTemplate, nftAccessCondition } from './ConditionTemplates'
-import { DynamicCreditsUnderLimit } from '../../../errors/NeverminedErrors'
+import { nftAccessCondition, nftHolderTemplate } from './ConditionTemplates'
 
 export interface NFTAccessTemplateParams {
   holderAddress: string
@@ -40,7 +40,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
   }
 
   public params(holderAddress: string, amount?: bigint): NFTAccessTemplateParams {
-    return { holderAddress, amount, grantee: holderAddress }
+    return { holderAddress, amount: amount as bigint, grantee: holderAddress }
   }
   public async paramsGen({ consumer_address }: ValidationParams): Promise<NFTAccessTemplateParams> {
     return this.params(consumer_address)
@@ -124,7 +124,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     const ddo = await this.nevermined.assets.resolve(did)
     const metadataService = ddo.findServiceByType('metadata')
     const isNft1155Credit =
-      metadataService.attributes.main.nftType.toString() ===
+      (metadataService.attributes.main.nftType as string) ===
       NeverminedNFT1155Type.nft1155Credit.toString()
     if (isNft1155Credit) return
     return this.validateAgreement(agreement_id, did, params, from, extra, txparams)
@@ -135,7 +135,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
 
     const metadataService = ddo.findServiceByType('metadata')
     const isNft1155Credit =
-      metadataService.attributes.main.nftType.toString() ===
+      (metadataService.attributes.main.nftType as string) ===
       NeverminedNFT1155Type.nft1155Credit.toString()
 
     // If is not a NFT Credit and have permissions, access is granted
@@ -175,7 +175,7 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     const metadataService = ddo.findServiceByType('metadata')
 
     const isNft1155Credit =
-      metadataService.attributes.main.nftType.toString() ===
+      (metadataService.attributes.main.nftType as string) ===
       NeverminedNFT1155Type.nft1155Credit.toString()
     if (!isNft1155Credit) {
       // Service is not NFT1155Credit, skipping track()
@@ -198,8 +198,8 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     ) as ServiceNFTAccess
 
     const amount = NFTServiceAttributes.getCreditsToCharge(
-      nftAccessService.attributes.main.nftAttributes,
-    )
+      nftAccessService.attributes.main.nftAttributes as NFTServiceAttributes,
+    ) as bigint
 
     const contractAddress = DDO.getNftContractAddressFromService(nftAccessService)
 

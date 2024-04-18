@@ -23,7 +23,7 @@ describe('Search Asset', () => {
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account)
     await nevermined.services.marketplace.login(clientAssertion)
     const payload = decodeJwt(config.marketplaceAuthToken)
-    userId = payload.sub
+    userId = payload.sub as string
   })
 
   it('should register the assets', async () => {

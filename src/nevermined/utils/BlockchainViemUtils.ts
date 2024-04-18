@@ -1,32 +1,32 @@
-import { Instantiable, InstantiableConfig, Web3Clients } from '../../Instantiable.abstract'
-import { _sleep } from '../../common/helpers'
-import { KeeperError } from '../../errors/NeverminedErrors'
-import { NvmAccount } from '../../models/NvmAccount'
-import { didZeroX } from '../../utils/ConversionTypeHelpers'
 import {
   Abi,
   AbiEvent,
   AbiFunction,
   PublicClient,
+  TransactionReceiptNotFoundError,
   encodeAbiParameters,
   getAbiItem,
   getAddress,
   getContract,
+  hexToBigInt,
   isAddress,
   pad,
-  keccak256 as viemKeccak256,
-  formatUnits as viemFormatUnits,
-  parseUnits as viemParseUnits,
-  formatEther as viemFormatEther,
-  parseEther as viemParseEther,
   stringToBytes,
-  toHex,
-  toBytes,
   stringToHex,
-  hexToBigInt,
-  TransactionReceiptNotFoundError,
+  toBytes,
+  toHex,
+  formatEther as viemFormatEther,
+  formatUnits as viemFormatUnits,
+  keccak256 as viemKeccak256,
+  parseEther as viemParseEther,
+  parseUnits as viemParseUnits,
 } from 'viem'
 import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
+import { Instantiable, InstantiableConfig, Web3Clients } from '../../Instantiable.abstract'
+import { _sleep } from '../../common/helpers'
+import { KeeperError } from '../../errors/NeverminedErrors'
+import { NvmAccount } from '../../models/NvmAccount'
+import { didZeroX } from '../../utils/ConversionTypeHelpers'
 
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -47,7 +47,6 @@ export class BlockchainViemUtils extends Instantiable {
     const contract = getContract({
       abi: abi,
       address: contractAddress as `0x${string}`,
-      // @ts-expect-error "viem, wtf?"
       client: { wallet: this.client.wallet, public: this.client.public },
     })
     return contract
@@ -118,8 +117,7 @@ export async function deployContractInstance(
 
   const contract = getContract({
     abi: artifact.abi,
-    address: contractAddress,
-    // @ts-expect-error "viem, wtf?"
+    address: contractAddress as `0x${string}`,
     client,
   })
 
@@ -155,7 +153,6 @@ export async function getContractInstance(address: string, abi: Abi, client: Web
   return getContract({
     abi,
     address: address as `0x${string}`,
-    // @ts-expect-error "viem, wtf?"
     client: { wallet: client.wallet, public: client.public },
   })
 }
@@ -251,7 +248,7 @@ export function makeWallet(seedphrase: string, addressIndex: number = 0) {
 }
 
 export function makeWallets(seedphrase: string, numAccounts = 10) {
-  const accounts = []
+  const accounts: any[] = []
   for (let i = 0; i < numAccounts; i++) {
     accounts.push(makeWallet(seedphrase, i))
   }

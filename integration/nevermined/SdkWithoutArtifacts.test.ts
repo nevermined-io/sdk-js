@@ -22,7 +22,7 @@ describe('Sdk working without artifacts', () => {
   })
 
   it('should login to metamask without artifacts', async () => {
-    const wallets = makeWallets(process.env.SEED_WORDS)
+    const wallets = makeWallets(process.env.SEED_WORDS!)
     configCopy.accounts = configCopy.accounts = wallets.map((wallet) => {
       return NvmAccount.fromAccount(wallet)
     })

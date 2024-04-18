@@ -65,7 +65,7 @@ export class AssetPrice {
   }
 
   public getTokenAddress(): string {
-    return this.tokenAddress
+    return this.tokenAddress as string
   }
 
   /**

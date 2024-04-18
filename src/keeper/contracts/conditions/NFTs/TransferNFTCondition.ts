@@ -109,10 +109,10 @@ export class TransferNFTCondition extends ProviderCondition<TransferNFTCondition
     if (!transfer) throw new Error('TransferNFT condition not found!')
 
     const nftHolder =
-      providerId || (transfer.parameters.find((p) => p.name === '_nftHolder').value as string)
+      providerId || (transfer.parameters.find((p) => p.name === '_nftHolder')?.value as string)
 
     const nftTransferString = transfer.parameters.find((p) => p.name === '_nftTransfer')
-      .value as string
+      ?.value as string
     const params = this.params(
       ddo.shortId(),
       nftHolder,

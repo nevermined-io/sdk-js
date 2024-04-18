@@ -117,16 +117,19 @@ export class Versions extends Instantiable {
     const networks = techs
       .map(({ network }) => network)
       .filter((_) => !!_)
+      // @ts-ignore
       .reduce((acc, network) => ({ ...acc, [network]: true }), {})
 
     let contractStatus = true
     const contractList = techs.map(({ contracts }) => contracts).filter((_) => !!_)
+    // @ts-ignore
     Array.from(contractList.map(Object.keys))
       .reduce((acc, _) => [...acc, ..._], [])
       .filter((_, i, list) => list.indexOf(_) === i)
       .forEach((name) => {
         let address
         contractList
+          // @ts-ignore
           .map((_) => _[name])
           .forEach((_) => {
             if (!address) {

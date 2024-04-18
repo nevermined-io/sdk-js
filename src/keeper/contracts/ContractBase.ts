@@ -16,7 +16,7 @@ import { jsonReplacer } from '../../common/helpers'
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
   public contract
-  public events: ContractEvent | SubgraphEvent = null
+  public events: ContractEvent | SubgraphEvent
   public version: string
   public address: `0x${string}`
 
@@ -31,7 +31,7 @@ export abstract class ContractBase extends Instantiable {
       this.contract = await this.nevermined.utils.contractHandler.getContractFromArtifacts(
         this.contractName,
         optional,
-        config.artifactsFolder,
+        config.artifactsFolder as string,
         contractAddress,
       )
       this.address = await this.contract.address
@@ -43,7 +43,7 @@ export abstract class ContractBase extends Instantiable {
     try {
       this.version = ContractHandler.getVersion(
         this.contractName,
-        this.client.chain?.id,
+        this.client.chain?.id as number,
         // config.artifactsFolder,
       )
     } catch {
@@ -181,7 +181,7 @@ export abstract class ContractBase extends Instantiable {
     from: Account | `0x${string}`,
     args: any[],
     txparams: any,
-    progress: (data: any) => void,
+    progress: ((data: any) => void) | undefined,
   ) {
     const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
     // Uncomment to debug contract calls
@@ -215,6 +215,7 @@ export abstract class ContractBase extends Instantiable {
       account: from,
       ...(txparams.value && { value: txparams.value }),
     })
+    // @ts-ignore
     const txHash = await this.client.wallet.writeContract(request)
 
     if (progress) {

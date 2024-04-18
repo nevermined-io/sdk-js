@@ -1,11 +1,11 @@
+import { KernelSmartAccount } from '@zerodev/sdk'
+import { JWSHeaderParameters, SignJWT, decodeJwt, importJWK } from 'jose'
+import { Account, Hash, LocalAccount, hexToBytes, toHex } from 'viem'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { NvmAccount } from '../../models/NvmAccount'
 import { getChecksumAddress } from '../../nevermined/utils/BlockchainViemUtils'
 import { SignatureUtils } from '../../nevermined/utils/SignatureUtils'
 import { Babysig, Eip712Data } from '../../types/GeneralTypes'
-import { KernelSmartAccount } from '@zerodev/sdk'
-import { JWSHeaderParameters, SignJWT, decodeJwt, importJWK } from 'jose'
-import { Account, Hash, LocalAccount, hexToBytes, toHex } from 'viem'
 
 export class EthSignJWT extends SignJWT {
   protectedHeader: JWSHeaderParameters
@@ -73,7 +73,10 @@ export class EthSignJWT extends SignJWT {
     return grantToken
   }
 
-  public static async signText(text: string | Uint8Array, account: Account): Promise<string> {
+  public static async signText(
+    text: string | Uint8Array,
+    account: Account,
+  ): Promise<string | undefined> {
     try {
       const message = typeof text === 'string' ? text : toHex(text)
       return (account as LocalAccount).signMessage({ message: { raw: message as `0x${string}` } })
@@ -150,7 +153,7 @@ export class JwtUtils extends Instantiable {
   }
 
   public async generateClientAssertion(account: NvmAccount, message?: string) {
-    let eip712Data: Eip712Data
+    let eip712Data
     if (message) {
       eip712Data = {
         message,
@@ -254,7 +257,7 @@ export class JwtUtils extends Instantiable {
 
       return accessToken
     } else {
-      return this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+      return this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string
     }
   }
 
@@ -351,7 +354,7 @@ export class JwtUtils extends Instantiable {
 
       return accessToken
     } else {
-      return this.nevermined.utils.jwt.tokenCache.get(cacheKey)
+      return this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string
     }
   }
 
@@ -365,5 +368,6 @@ export class JwtUtils extends Instantiable {
       const now = new Date()
       return now.getTime() < Number(expiry) * 1000
     }
+    return false
   }
 }

@@ -841,8 +841,8 @@ describe('NFT721Templates E2E', () => {
           ddo.shortId(),
           assetPrice2.getAmounts(),
           assetPrice2.getReceivers(),
-          token.address,
           collector2,
+          token.address,
         )
         assert.isTrue(receipt)
 

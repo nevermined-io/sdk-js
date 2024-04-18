@@ -91,9 +91,10 @@ export class ServiceAgreement extends Instantiable {
   }
 
   private getTimeValuesFromService(service: ServiceAccess, type: 'timeout' | 'timelock'): number[] {
-    const timeoutValues: number[] = service.attributes.serviceAgreementTemplate.conditions.map(
-      (condition: ServiceAgreementTemplateCondition) => condition[type],
-    )
+    const timeoutValues: number[] =
+      service.attributes.serviceAgreementTemplate?.conditions?.map(
+        (condition: ServiceAgreementTemplateCondition) => condition[type],
+      ) || []
 
     return timeoutValues
   }

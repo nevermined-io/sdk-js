@@ -9,14 +9,14 @@ export class GenericContract extends ContractBase {
   public static async getInstance(
     config: InstantiableConfig,
     contractName: string,
-    address?: string,
+    address: string,
   ): Promise<GenericContract> {
     const contract: GenericContract = new GenericContract(contractName, address)
     await contract.init(config)
     return contract
   }
 
-  private constructor(contractName: string, address?: string) {
+  private constructor(contractName: string, address: string) {
     super(contractName)
     this.fixedAddress = address
   }
@@ -27,12 +27,12 @@ export class GenericContract extends ContractBase {
     this.contract = await this.nevermined.utils.contractHandler.getContractFromArtifacts(
       this.contractName,
       optional,
-      config.artifactsFolder,
+      config.artifactsFolder as string,
       this.fixedAddress,
     )
   }
 
-  public async call<T>(name: string, args: any[], from?: string): Promise<T> {
+  public async call<T>(name: string, args: any[], from: string): Promise<T> {
     return super.call(name, args, from)
   }
 

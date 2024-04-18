@@ -93,6 +93,7 @@ export class WebServiceConnector {
 
     if (destination) {
       await new Promise((resolve, reject) => {
+        // @ts-ignore
         fs.mkdirSync(destination, { recursive: true })
         const fileStream = fs.createWriteStream(`${destination}${name}`)
         response.body.pipe(fileStream)
@@ -121,10 +122,11 @@ export class WebServiceConnector {
 
     let name: string
     try {
-      //prettier-ignore
-      [, name] = response.headers.get('content-disposition').match(/attachment;filename=(.+)/)
+      // @ts-ignore
+      ;[, name] = response.headers.get('content-disposition').match(/attachment;filename=(.+)/)
     } catch {
       try {
+        // @ts-ignore
         name = url.split('/').pop()
       } catch {
         name = `file${index}`
@@ -178,7 +180,7 @@ export class WebServiceConnector {
   }
 
   public async fetchCID(cid: string): Promise<string> {
-    const url = `${this.config.config.ipfsGateway}/api/v0/cat?arg=${cid.replace('cid://', '')}`
+    const url = `${this.config.config?.ipfsGateway}/api/v0/cat?arg=${cid.replace('cid://', '')}`
     const authToken = WebServiceConnector.getIPFSAuthToken()
     const options = {
       method: 'POST',
@@ -207,7 +209,7 @@ export class WebServiceConnector {
 
   private async fetch(url: string | URL, opts: RequestInit, numberTries = 1): Promise<Response> {
     let counterTries = 1
-    let result: Response
+    let result
     while (counterTries <= numberTries) {
       result = await fetch(url, opts)
       if (result.ok) return result

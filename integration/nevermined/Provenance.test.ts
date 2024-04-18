@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import config from '../../test/config'

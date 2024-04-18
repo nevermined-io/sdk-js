@@ -29,7 +29,7 @@ export class ComputeExecutionCondition extends ProviderCondition<ComputeExecutio
     agreementId: string,
     did: string,
     computeConsumer: string,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(

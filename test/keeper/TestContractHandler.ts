@@ -259,7 +259,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     )
 
     // Templates
-    const templates = []
+    const templates: any[] = []
     templates.push(
       await TestContractHandler.deployContract('AccessTemplate', nvmAccount, [
         deployerAddress,
@@ -342,7 +342,7 @@ export default abstract class TestContractHandler extends ContractHandler {
     config: NeverminedOptions,
     // client: Web3Clients,
     from: string,
-  ): Promise<NvmAccount> {
+  ): Promise<NvmAccount | undefined> {
     for (const acc of config.accounts || []) {
       const addr = await acc.getAddress()
       if (addr.toLowerCase() === from.toLowerCase()) {
@@ -366,7 +366,7 @@ export default abstract class TestContractHandler extends ContractHandler {
   public static async deployContract(
     name: string,
     nvmAccount: NvmAccount,
-    args: any[] = [],
+    args,
     tokens: { [name: string]: string } = {},
     init = true,
   ) {

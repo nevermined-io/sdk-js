@@ -2,7 +2,7 @@ import { URL } from 'whatwg-url'
 import { v4 } from 'uuid'
 import { SearchQuery } from '../types'
 
-export const buildQuery = (url: string, query: SearchQuery) => {
+export const buildQuery = (url: string, query?: SearchQuery) => {
   const fullUrl = new URL(url)
 
   if (!query) {
@@ -10,8 +10,8 @@ export const buildQuery = (url: string, query: SearchQuery) => {
   }
 
   fullUrl.searchParams.append('sort', decodeURIComponent(JSON.stringify(query.sort)))
-  fullUrl.searchParams.append('offset', query.offset.toString())
-  fullUrl.searchParams.append('page', query.page.toString())
+  fullUrl.searchParams.append('offset', query.offset?.toString())
+  fullUrl.searchParams.append('page', query.page?.toString())
 
   return fullUrl
 }

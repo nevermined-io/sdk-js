@@ -827,8 +827,8 @@ describe('NFTTemplates E2E', () => {
           ddo.id,
           assetPrice2.getAmounts(),
           assetPrice2.getReceivers(),
-          token.address,
           collector2,
+          token.address,
         )
         assert.isTrue(receipt)
 
@@ -996,8 +996,8 @@ describe('NFTTemplates E2E', () => {
           ddo.id,
           assetPrice1.getAmounts(),
           assetPrice1.getReceivers(),
-          token.address,
           collector1,
+          token.address,
         )
         assert.isTrue(receipt)
 

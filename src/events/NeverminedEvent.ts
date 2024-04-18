@@ -9,7 +9,7 @@ import {
 
 export abstract class NeverminedEvent extends Instantiable {
   protected eventEmitter: EventEmitter
-  protected contract: ContractBase = null
+  protected contract: ContractBase
   public abstract getEventData(options: EventOptions): EventResult
   public abstract getPastEvents(options: EventOptions): EventResult
   public abstract getBlockNumber(...args: any[]): Promise<bigint>
@@ -36,8 +36,8 @@ export abstract class NeverminedEvent extends Instantiable {
   }
 
   public async once(
-    callback?: (events: EventResult[]) => void,
-    options?: EventOptions,
+    callback: (events: EventResult[]) => void,
+    options: EventOptions,
   ): Promise<EventResult> {
     // Check if the event already happened and return that instead
     // before subscribing

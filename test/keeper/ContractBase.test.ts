@@ -1,8 +1,8 @@
 import { assert } from 'chai'
-import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainViemUtils'
-import TestContractHandler from './TestContractHandler'
 import { NvmAccount } from '../../src/models'
+import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainViemUtils'
 import { ContractBaseMock } from '../mocks/ContractBase.Mock'
+import TestContractHandler from './TestContractHandler'
 
 let wrappedContract: ContractBaseMock
 let accounts: NvmAccount[]

@@ -782,7 +782,7 @@ export interface ValidationParams {
   agreement_id: string
   did: string
   service_index?: number
-  consumer_address?: string
+  consumer_address: string
   buyer?: string
   babysig?: Babysig
   nft_amount?: bigint
@@ -796,7 +796,7 @@ export interface ServicePlugin<T extends Service> {
     publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
-    nftAttributes: NFTAttributes,
+    nftAttributes?: NFTAttributes,
     pricedData?: PricedMetadataInformation,
   ): T
   // Process agreement for provider

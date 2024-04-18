@@ -63,7 +63,7 @@ describe('Agreement Store Manager', () => {
     const agreementFound = agreements.find((a) => a.agreementId === agreementId)
 
     assert.isTrue(agreementFound != undefined)
-    assert.equal(agreementFound.agreementId, agreementId)
+    assert.equal(agreementFound?.agreementId, agreementId)
   })
 
   it('should get the agreement data for an agreementId', async () => {

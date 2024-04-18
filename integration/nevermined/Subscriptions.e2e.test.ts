@@ -1,3 +1,4 @@
+// @ts-nocheck
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import config from '../../test/config'

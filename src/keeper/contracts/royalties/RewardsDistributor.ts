@@ -3,6 +3,7 @@ import { NvmAccount } from '../../../models/NvmAccount'
 import { TxParameters as txParams } from '../../../models/Transactions'
 import { didZeroX, zeroX } from '../../../utils/ConversionTypeHelpers'
 import { ContractBase } from '../../../keeper/contracts/ContractBase'
+import { LoggerInstance } from '../../../models'
 
 export class RewardsDistributor extends ContractBase {
   public static async getInstance(config: InstantiableConfig): Promise<RewardsDistributor> {
@@ -11,10 +12,11 @@ export class RewardsDistributor extends ContractBase {
       await instance.init(config, true)
       return instance
     } catch (e) {
-      config.logger.warn('Cannot load optional contract RewardsDistributor')
+      LoggerInstance.warn('Cannot load optional contract RewardsDistributor')
+      throw new Error('Cannot load optional contract RewardsDistributor')
     }
   }
-  public setReceivers(did: string, addr: string[], from?: NvmAccount, params?: txParams) {
+  public setReceivers(did: string, addr: string[], from: NvmAccount, params?: txParams) {
     return this.sendFrom('setReceivers', [didZeroX(did), addr], from, params)
   }
   public claimReward(
@@ -27,7 +29,7 @@ export class RewardsDistributor extends ContractBase {
     tokenAddress: string,
     lockCondition: string,
     releaseConditions: string[],
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: txParams,
   ) {
     const amountsString = amounts.map((v) => v.toString())

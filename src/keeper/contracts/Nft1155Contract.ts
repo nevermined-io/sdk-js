@@ -75,7 +75,7 @@ export class Nft1155Contract extends NFTContractsBase {
     symbol: string,
     uri: string,
     operators: string[] = [],
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this._createClone(1155, name, symbol, uri, undefined, operators, from, txParams)
@@ -104,7 +104,7 @@ export class Nft1155Contract extends NFTContractsBase {
   public setApprovalForAll(
     operatorAddress: string,
     approved: boolean,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom('setApprovalForAll', [zeroX(operatorAddress), approved], from, txParams)

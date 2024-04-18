@@ -41,7 +41,7 @@ describe('DDO Tests', () => {
     await nevermined.services.marketplace.login(clientAssertion)
     const payload = decodeJwt(config.marketplaceAuthToken)
 
-    userId = payload.sub
+    userId = payload.sub as string
     price = new AssetPrice(publisher.getId(), 1n)
   })
 

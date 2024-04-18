@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   ERCType,
   NeverminedNFT1155Type,
@@ -224,7 +225,7 @@ export class NFTAttributes extends AssetAttributes {
     return {
       ercType: 1155,
       nftType: NeverminedNFT1155Type.nft1155,
-      nftContractAddress: nftAttributes.nftContractAddress,
+      nftContractAddress: nftAttributes.nftContractAddress as string,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,
       ...NFTServiceAttributes.configureServicesAttributes(nftAttributes),
@@ -235,7 +236,7 @@ export class NFTAttributes extends AssetAttributes {
     return {
       ercType: 1155,
       nftType: NeverminedNFT1155Type.nft1155,
-      nftContractAddress: nftAttributes.nftContractAddress,
+      nftContractAddress: nftAttributes.nftContractAddress as string,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,
       ...NFTServiceAttributes.configureServicesAttributes(nftAttributes),
@@ -263,7 +264,7 @@ export class NFTAttributes extends AssetAttributes {
     return {
       ercType: 721,
       nftType: NeverminedNFT721Type.nft721,
-      nftContractAddress: nftAttributes.nftContractAddress,
+      nftContractAddress: nftAttributes.nftContractAddress as string,
       metadata: nftAttributes.metadata,
       ...NFTAttributes.defaultValues,
       ...NFTServiceAttributes.configureServicesAttributes(nftAttributes),

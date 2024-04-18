@@ -17,11 +17,11 @@ export interface ConditionContext {
 
 export interface ConditionParameters<Extra> {
   list: any[]
-  params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
+  params: (method: ConditionMethod, arg: Extra) => Promise<any[] | undefined> // for fullfill
 }
 
 export interface ConditionInstance<Extra> extends ConditionInstanceSmall {
-  params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
+  params: (method: ConditionMethod, arg: Extra) => Promise<any[] | undefined> // for fullfill
 }
 
 export abstract class ConditionSmall extends ContractBase {
@@ -77,7 +77,7 @@ export abstract class ConditionSmall extends ContractBase {
   }
 
   public getConditionFulfilledEvent(agreementId: string) {
-    return this.events.getEventData({
+    return this.events?.getEventData({
       eventName: 'Fulfilled',
       filterJsonRpc: { agreementId: zeroX(agreementId) },
       filterSubgraph: { where: { _agreementId: zeroX(agreementId) } },
@@ -147,7 +147,7 @@ export abstract class Condition<
 
     return this.sendFrom(
       method,
-      [zeroX(cond.agreementId), ...(await cond.params(method, additionalParams))],
+      [zeroX(cond.agreementId), ...((await cond.params(method, additionalParams)) ?? [])],
       from,
       txParams,
     )
@@ -188,7 +188,10 @@ export abstract class ProviderCondition<
   ) {
     return this.sendFrom(
       this.nodeMethod(),
-      [zeroX(cond.agreementId), ...(await cond.params(this.nodeMethod(), additionalParams))],
+      [
+        zeroX(cond.agreementId),
+        ...((await cond.params(this.nodeMethod(), additionalParams)) ?? []),
+      ],
       from,
       txParams,
     )

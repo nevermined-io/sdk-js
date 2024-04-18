@@ -74,6 +74,7 @@ export abstract class Instantiable {
   protected get nevermined() {
     if (!this._instantiableConfig?.nevermined) {
       this.logger.error('Nevermined instance is not defined.')
+      throw new Error('Nevermined instance is not defined.')
     }
     return this._instantiableConfig.nevermined
   }
@@ -112,6 +113,7 @@ export abstract class Instantiable {
   protected get config() {
     if (!this._instantiableConfig?.config) {
       this.logger.error('Config instance is not defined.')
+      throw new Error('Config instance is not defined.')
     }
     return this._instantiableConfig.config
   }

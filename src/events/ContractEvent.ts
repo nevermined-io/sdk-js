@@ -23,7 +23,7 @@ export class ContractEvent extends NeverminedEvent {
   }
 
   public async getEventData(options: EventOptions): EventResult {
-    if (!this.eventExists(options.eventName)) {
+    if (!this.eventExists(options.eventName) || !options.filterJsonRpc) {
       throw new KeeperError(
         `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`,
       )
@@ -57,7 +57,7 @@ export class ContractEvent extends NeverminedEvent {
 
   public async getPastEvents(options: EventOptions): EventResult {
     try {
-      const chainId = this.client.chain.id
+      const chainId = this.client.chain?.id
       options.fromBlock = options.fromBlock ? options.fromBlock : 1n
       options.toBlock = options.toBlock ? options.toBlock : 'latest'
 
@@ -88,6 +88,7 @@ export class ContractEvent extends NeverminedEvent {
 
   private filterToArgs(eventName: string, filter: FilterContractEvent): Array<any> {
     const signature = searchAbiEvent(this.contract.contract.abi, eventName)
+    // @ts-ignore
     return signature.inputs.filter((i) => i.indexed).map((i) => filter[i.name])
   }
 }
