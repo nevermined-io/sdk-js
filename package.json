@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "3.0.0-rc8",
+  "version": "3.0.0-rc9",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -78,7 +78,7 @@
     "url": "^0.11.0",
     "uuid": "^9.0.1",
     "viem": "^2.9.21",
-    "whatwg-url": "^13.0.0"
+    "whatwg-url": "^14.0.0"
   },
   "peerDependencies": {
     "@zerodev/ecdsa-validator": "^5.2.3",

@@ -199,7 +199,7 @@ describe('Nevermined sdk with zerodev', () => {
             price: new AssetPrice(),
           },
         ],
-        providers: [config.neverminedNodeAddress],
+        providers: [config.neverminedNodeAddress as string],
       })
 
       // const signerPublisher = kernelClientPublisher.getAccountSigner()

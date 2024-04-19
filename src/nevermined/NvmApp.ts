@@ -159,7 +159,7 @@ export class NvmApp {
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
     if (config && config.zeroDevProjectId) {
-      const signer = this.fullSDK.accounts.findAccount(account as string)
+      const signer = this.fullSDK.accounts.getAccount(account as string)
       if (!signer) {
         throw new Web3Error('Account not found')
       }
@@ -167,10 +167,12 @@ export class NvmApp {
       const kernelClient = await createEcdsaKernelAccountClient({
         chain: arbitrumSepolia,
         projectId: config.zeroDevProjectId,
-        signer: signer.getZeroDevSigner(),
+        signer: signer.getAccountSigner(),
         paymaster: 'SPONSOR',
         entryPointAddress: ENTRYPOINT_ADDRESS_V07,
       })
+      console.log('Kernel client: ', kernelClient.account)
+      console.log('Kernel signer: ', signer)
 
       // const zerodevAccountSigner = zerodevProvider.getAccountSigner()
       this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient.account)
