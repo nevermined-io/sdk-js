@@ -196,14 +196,23 @@ export class NvmApp {
         this.userAccount.accountType.signerType
       }`,
     )
-    const clientAssertion = await this.fullSDK.utils.jwt.generateClientAssertion(
-      this.userAccount,
-      message,
-    )
-    console.log('Client assertion: ', clientAssertion)
 
-    this.loginCredentials = await this.fullSDK.services.marketplace.login(clientAssertion)
-    console.log('Login credentials: ', this.loginCredentials)
+    if (
+      config &&
+      config.marketplaceAuthToken &&
+      this.fullSDK.utils.jwt.isTokenValid(config.marketplaceAuthToken)
+    ) {
+      this.loginCredentials = config.marketplaceAuthToken
+    } else {
+      const clientAssertion = await this.fullSDK.utils.jwt.generateClientAssertion(
+        this.userAccount,
+        message,
+      )
+      console.log('Client assertion: ', clientAssertion)
+
+      this.loginCredentials = await this.fullSDK.services.marketplace.login(clientAssertion)
+      console.log('Login credentials: ', this.loginCredentials)
+    }
 
     const nodeInfo = await this.fullSDK.services.node.getNeverminedNodeInfo()
     this.assetProviders = [nodeInfo['provider-address']]
