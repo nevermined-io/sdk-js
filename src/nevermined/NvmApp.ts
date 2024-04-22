@@ -1,3 +1,6 @@
+import { createEcdsaKernelAccountClient } from '@zerodev/presets/zerodev'
+import { ENTRYPOINT_ADDRESS_V07, providerToSmartAccountSigner } from 'permissionless'
+import { arbitrumSepolia } from 'viem/chains'
 import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
 import { DDO } from '../ddo/DDO'
 import { Web3Error } from '../errors/NeverminedErrors'
@@ -20,18 +23,15 @@ import {
   NeverminedAppOptions,
 } from '../nevermined/resources/AppNetworks'
 import { SubscriptionToken } from '../services/node/NeverminedNode'
-import { SubscriptionType, MetaData } from '../types/DDOTypes'
+import { MetaData, SubscriptionType } from '../types/DDOTypes'
 import { NeverminedInitializationOptions } from '../types/GeneralTypes'
 import { PublishMetadataOptions, PublishOnChainOptions } from '../types/MetadataTypes'
-import { Nevermined } from './Nevermined'
-import { SearchApi } from './api/SearchApi'
-import { isValidAddress } from './utils/BlockchainViemUtils'
-import { ServicesApi } from './api/ServicesApi'
 import { SubscribablePromise } from '../utils/SubscribablePromise'
+import { Nevermined } from './Nevermined'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from './ProgressSteps'
-import { createEcdsaKernelAccountClient } from '@zerodev/presets/zerodev'
-import { arbitrumSepolia } from 'viem/chains'
-import { ENTRYPOINT_ADDRESS_V07, providerToSmartAccountSigner } from 'permissionless'
+import { SearchApi } from './api/SearchApi'
+import { ServicesApi } from './api/ServicesApi'
+import { isValidAddress } from './utils/BlockchainViemUtils'
 
 export enum NVMAppEnvironments {
   Staging = 'staging',
@@ -160,7 +160,9 @@ export class NvmApp {
 
     if (config && config.zeroDevProjectId) {
       const signer = this.fullSDK.accounts.getAccount(account as string)
-      const smartAccountSigner = providerToSmartAccountSigner(config.web3Provider)
+      const smartAccountSigner = await providerToSmartAccountSigner(config.web3Provider, {
+        signerAddress: signer.getAddress(),
+      })
       if (!smartAccountSigner) {
         throw new Web3Error('Account not found')
       }
