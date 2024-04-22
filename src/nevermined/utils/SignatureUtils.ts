@@ -17,9 +17,7 @@ export class SignatureUtils extends Instantiable {
       typeof account === 'string' ? this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
-      const result = await nvmAccount
-        .getZeroDevSigner()
-        .signMessage({ message: text as `0x${string}` })
+      const result = await nvmAccount.getAccountSigner().signMessage({ message })
       return result
     } else if (nvmAccount.accountType.signerType === 'local') {
       return (nvmAccount.getAccountSigner() as LocalAccount).signMessage({
@@ -46,7 +44,7 @@ export class SignatureUtils extends Instantiable {
       typeof account === 'string' ? this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
-      const signature = await nvmAccount.getZeroDevSigner().signTypedData({
+      const signature = await nvmAccount.getAccountSigner().signTypedData({
         domain,
         types: types as any,
         message: value,
@@ -77,7 +75,7 @@ export class SignatureUtils extends Instantiable {
       typeof account === 'string' ? this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
-      return await nvmAccount.getZeroDevSigner().signTransaction({ data: tx })
+      return await nvmAccount.getAccountSigner().signTransaction({ data: tx })
       // TODO: Implement ZeroDev signing
       return `0x`
     } else if (nvmAccount.accountType.signerType === 'local') {

@@ -1,4 +1,3 @@
-import { KernelSmartAccount } from '@zerodev/sdk'
 import { JWSHeaderParameters, SignJWT, decodeJwt, importJWK } from 'jose'
 import { Account, Hash, LocalAccount, hexToBytes, toHex } from 'viem'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
@@ -117,14 +116,6 @@ export class JwtUtils extends Instantiable {
     super()
     this.setInstanceConfig(config)
     this.tokenCache = new Map()
-  }
-
-  public async getSigner(account: NvmAccount): Promise<NvmAccount | KernelSmartAccount<any, any>> {
-    const address = getChecksumAddress(account.getId())
-
-    return account.isZeroDev()
-      ? account.getZeroDevSigner()
-      : await this.nevermined.accounts.getAccount(address)
   }
 
   public generateCacheKey(...args: string[]): string {

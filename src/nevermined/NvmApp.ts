@@ -31,7 +31,7 @@ import { SubscribablePromise } from '../utils/SubscribablePromise'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from './ProgressSteps'
 import { createEcdsaKernelAccountClient } from '@zerodev/presets/zerodev'
 import { arbitrumSepolia } from 'viem/chains'
-import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
+import { ENTRYPOINT_ADDRESS_V07, providerToSmartAccountSigner } from 'permissionless'
 
 export enum NVMAppEnvironments {
   Staging = 'staging',
@@ -160,14 +160,15 @@ export class NvmApp {
 
     if (config && config.zeroDevProjectId) {
       const signer = this.fullSDK.accounts.getAccount(account as string)
-      if (!signer) {
+      const smartAccountSigner = providerToSmartAccountSigner(config.web3Provider)
+      if (!smartAccountSigner) {
         throw new Web3Error('Account not found')
       }
 
       const kernelClient = await createEcdsaKernelAccountClient({
         chain: arbitrumSepolia,
         projectId: config.zeroDevProjectId,
-        signer: signer.getAccountSigner(),
+        signer: smartAccountSigner,
         paymaster: 'SPONSOR',
         entryPointAddress: ENTRYPOINT_ADDRESS_V07,
       })
