@@ -138,7 +138,7 @@ export abstract class ContractBase extends Instantiable {
         params,
         params.progress,
       )
-    } else if (from.getType() === 'json-rpc') {
+    } else if (from.getType() === 'json-rpc' || from.getType() === 'zerodev') {
       this.logger.debug(`Blockchain Send using JSON-RPC account to ${functionName}`)
       return await this.localAccountSend(
         functionName,
@@ -147,31 +147,34 @@ export abstract class ContractBase extends Instantiable {
         params,
         params.progress,
       )
-    } else if (from.getType() === 'zerodev') {
-      this.logger.debug(`Blockchain Send using ZeroDev account`)
-      // TODO: Enable ZeroDev & Session Key Provider setup
-      // if (params.zeroDevSigner) {
-      //   const paramsFixed = { ...params, signer: undefined }
-      //   const contract = this.contract.connect(params.zeroDevSigner as any)
-      //   return await this.internalSendZeroDev(
-      //     name,
-      //     from,
-      //     args,
-      //     paramsFixed,
-      //     contract,
-      //     params.progress,
-      //   )
-      // } else if (params.sessionKeyProvider) {
-      //   const paramsFixed = { ...params, signer: undefined }
-      //   return await this.internalSendSessionKeyProvider(
-      //     name,
-      //     from,
-      //     args,
-      //     paramsFixed,
-      //     params.progress,
-      //   )
-      // }
-    } else {
+    }
+    // else if (from.getType() === 'zerodev') {
+    //   this.logger.debug(`Blockchain Send using ZeroDev account`)
+
+    // TODO: Enable ZeroDev & Session Key Provider setup
+    // if (params.zeroDevSigner) {
+    //   const paramsFixed = { ...params, signer: undefined }
+    //   const contract = this.contract.connect(params.zeroDevSigner as any)
+    //   return await this.internalSendZeroDev(
+    //     name,
+    //     from,
+    //     args,
+    //     paramsFixed,
+    //     contract,
+    //     params.progress,
+    //   )
+    // } else if (params.sessionKeyProvider) {
+    //   const paramsFixed = { ...params, signer: undefined }
+    //   return await this.internalSendSessionKeyProvider(
+    //     name,
+    //     from,
+    //     args,
+    //     paramsFixed,
+    //     params.progress,
+    //   )
+    // }
+    // }
+    else {
       throw new KeeperError(`Account not supported`)
     }
   }
