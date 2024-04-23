@@ -2,7 +2,6 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors/NeverminedErrors'
 import {
   getInputsOfFunctionFormatted,
-  getKernelClient,
   getSignatureOfFunction,
 } from '../../nevermined/utils/BlockchainViemUtils'
 import { Account, TransactionReceipt, parseEventLogs } from 'viem'
@@ -13,7 +12,6 @@ import { SubgraphEvent } from '../../events/SubgraphEvent'
 import { NvmAccount } from '../../models/NvmAccount'
 import { ContractHandler } from '../../keeper/ContractHandler'
 import { jsonReplacer } from '../../common/helpers'
-import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
@@ -151,7 +149,7 @@ export abstract class ContractBase extends Instantiable {
       )
     } else if (from.getType() === 'zerodev') {
       this.logger.debug(`Blockchain Send using ZeroDev account`)
-      return await this.internalSendZeroDev(functionName, signer, args, params, params.progress)
+      return await this.internalSendZeroDev(functionName, from, args, params, params.progress)
 
       // TODO: Enable ZeroDev & Session Key Provider setup
       // if (params.zeroDevSigner) {
@@ -182,7 +180,7 @@ export abstract class ContractBase extends Instantiable {
 
   private async internalSendZeroDev(
     name: string,
-    from: any,
+    from: NvmAccount,
     args: any[],
     txparams: any,
     progress: ((data: any) => void) | undefined,
@@ -194,7 +192,7 @@ export abstract class ContractBase extends Instantiable {
         stage: 'sending',
         args: functionInputs,
         method: name,
-        from,
+        from: from.getAccountSigner(),
         value,
         contractName: this.contractName,
         contractAddress: this.address,
@@ -206,15 +204,11 @@ export abstract class ContractBase extends Instantiable {
       abi: this.contract.abi,
       functionName: name,
       args,
-      account: from,
+      account: from.getAccountSigner(),
       ...(txparams.value && { value: txparams.value }),
     })
-    const kernelClient = await getKernelClient(
-      from,
-      this.config.chainId!,
-      ENTRYPOINT_ADDRESS_V07,
-      this.config.zeroDevProjectId!,
-    )
+
+    const kernelClient = from.getKernelClient()
     // @ts-ignore
     const txHash = await kernelClient.writeContract(request)
     if (progress) {
@@ -223,7 +217,7 @@ export abstract class ContractBase extends Instantiable {
         args: functionInputs,
         txHash,
         method: name,
-        from,
+        from: from.getAccountSigner(),
         value,
         contractName: this.contractName,
         contractAddress: this.address,
@@ -238,7 +232,7 @@ export abstract class ContractBase extends Instantiable {
         args: functionInputs,
         txReceipt,
         method: name,
-        from,
+        from: from.getAccountSigner(),
         value,
         contractName: this.contractName,
         contractAddress: this.address,

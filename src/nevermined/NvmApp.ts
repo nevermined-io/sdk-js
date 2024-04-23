@@ -71,7 +71,7 @@ export class NvmApp {
   private searchSDK: Nevermined
   private fullSDK: Nevermined | undefined
   // private useZeroDevSigner: boolean = false
-  // private zeroDevSignerAccount?: ZeroDevAccountSigner<'ECDSA'>
+  // private zeroDevSignerAccount: SmartAccountSigner<"custom", `0x${string}`> | undefined
   private assetProviders: string[] = []
   private loginCredentials: string | undefined
   private subscriptionNFTContractAddress: string | undefined
@@ -173,7 +173,7 @@ export class NvmApp {
       )
 
       // const kernelClient = await createEcdsaKernelAccountClient({
-      //   chain: arbitrumSepolia,
+      //   chain: config.chainId!,
       //   projectId: config.zeroDevProjectId,
       //   signer: smartAccountSigner,
       //   paymaster: 'SPONSOR',
@@ -181,9 +181,8 @@ export class NvmApp {
       // })
 
       // const zerodevAccountSigner = zerodevProvider.getAccountSigner()
-      this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient.account)
-
-      // this.zeroDevSignerAccount = zerodevAccountSigner
+      this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient)
+      // this.zeroDevSignerAccount = smartAccountSigner
       // this.useZeroDevSigner = true
     } else if (account instanceof NvmAccount) {
       // TODO Review ZeroDev integration as part of the NvmAccount
@@ -240,7 +239,7 @@ export class NvmApp {
     return {
       marketplaceAuthToken: this.loginCredentials,
       userAccount: this.userAccount,
-      //zeroDevSignerAccount: this.zeroDevSignerAccount,
+      // zeroDevSignerAccount: this.zeroDevSignerAccount,
     }
   }
 

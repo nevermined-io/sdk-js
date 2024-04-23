@@ -32,6 +32,7 @@ import { didZeroX } from '../../utils/ConversionTypeHelpers'
 import { EntryPoint } from 'permissionless/types'
 import { signerToEcdsaValidator } from '@zerodev/ecdsa-validator'
 import {
+  KernelAccountClient,
   SponsorUserOperationParameters,
   createKernelAccount,
   createKernelAccountClient,
@@ -374,7 +375,7 @@ export async function getKernelClient(
   chainId: number,
   entryPointAddress: EntryPoint,
   zeroDevProjectId: string,
-) {
+): KernelAccountClient<any, any, any, any> {
   const publicClient = createPublicClient({
     transport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
   })
