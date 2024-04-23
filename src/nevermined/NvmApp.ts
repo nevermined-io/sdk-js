@@ -169,6 +169,7 @@ export class NvmApp {
         smartAccountSigner,
         config.chainId!,
         ENTRYPOINT_ADDRESS_V07,
+        config.zeroDevProjectId,
       )
 
       // const kernelClient = await createEcdsaKernelAccountClient({

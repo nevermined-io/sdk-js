@@ -369,9 +369,14 @@ export const formatEther = (value: bigint): string => {
 
 /////// ZERO DEV
 
-export async function getKernelClient(signer: any, chainId: number, entryPointAddress: EntryPoint) {
+export async function getKernelClient(
+  signer: any,
+  chainId: number,
+  entryPointAddress: EntryPoint,
+  zeroDevProjectId: string,
+) {
   const publicClient = createPublicClient({
-    transport: http(`https://rpc.zerodev.app/api/v2/bundler/${process.env.PROJECT_ID}`),
+    transport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
   })
 
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
@@ -391,12 +396,12 @@ export async function getKernelClient(signer: any, chainId: number, entryPointAd
     account,
     entryPoint: entryPointAddress,
     chain: getChain(chainId),
-    bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${process.env.PROJECT_ID}`),
+    bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
     middleware: {
       sponsorUserOperation: async ({ userOperation }) => {
         const paymasterClient = createZeroDevPaymasterClient({
           chain: getChain(chainId),
-          transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${process.env.PROJECT_ID}`),
+          transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
           entryPoint: entryPointAddress,
         })
         const _userOperation =

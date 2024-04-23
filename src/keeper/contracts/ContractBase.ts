@@ -209,7 +209,12 @@ export abstract class ContractBase extends Instantiable {
       account: from,
       ...(txparams.value && { value: txparams.value }),
     })
-    const kernelClient = await getKernelClient(from, this.config.chainId!, ENTRYPOINT_ADDRESS_V07)
+    const kernelClient = await getKernelClient(
+      from,
+      this.config.chainId!,
+      ENTRYPOINT_ADDRESS_V07,
+      this.config.zeroDevProjectId!,
+    )
     // @ts-ignore
     const txHash = await kernelClient.writeContract(request)
     if (progress) {
