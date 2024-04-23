@@ -1,4 +1,4 @@
-import { ENTRYPOINT_ADDRESS_V07, providerToSmartAccountSigner } from 'permissionless'
+import { ENTRYPOINT_ADDRESS_V06, providerToSmartAccountSigner } from 'permissionless'
 import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
 import { DDO } from '../ddo/DDO'
 import { Web3Error } from '../errors/NeverminedErrors'
@@ -168,17 +168,9 @@ export class NvmApp {
       const kernelClient = await getKernelClient(
         smartAccountSigner,
         config.chainId!,
-        ENTRYPOINT_ADDRESS_V07,
+        ENTRYPOINT_ADDRESS_V06,
         config.zeroDevProjectId,
       )
-
-      // const kernelClient = await createEcdsaKernelAccountClient({
-      //   chain: config.chainId!,
-      //   projectId: config.zeroDevProjectId,
-      //   signer: smartAccountSigner,
-      //   paymaster: 'SPONSOR',
-      //   entryPointAddress: ENTRYPOINT_ADDRESS_V07,
-      // })
 
       // const zerodevAccountSigner = zerodevProvider.getAccountSigner()
       this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient)
