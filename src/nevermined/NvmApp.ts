@@ -1,6 +1,4 @@
-import { createEcdsaKernelAccountClient } from '@zerodev/presets/zerodev'
 import { ENTRYPOINT_ADDRESS_V07, providerToSmartAccountSigner } from 'permissionless'
-import { arbitrumSepolia } from 'viem/chains'
 import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
 import { DDO } from '../ddo/DDO'
 import { Web3Error } from '../errors/NeverminedErrors'
@@ -31,7 +29,7 @@ import { Nevermined } from './Nevermined'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from './ProgressSteps'
 import { SearchApi } from './api/SearchApi'
 import { ServicesApi } from './api/ServicesApi'
-import { isValidAddress } from './utils/BlockchainViemUtils'
+import { getKernelClient, isValidAddress } from './utils/BlockchainViemUtils'
 
 export enum NVMAppEnvironments {
   Staging = 'staging',
@@ -167,15 +165,19 @@ export class NvmApp {
         throw new Web3Error('Account not found')
       }
 
-      const kernelClient = await createEcdsaKernelAccountClient({
-        chain: arbitrumSepolia,
-        projectId: config.zeroDevProjectId,
-        signer: smartAccountSigner,
-        paymaster: 'SPONSOR',
-        entryPointAddress: ENTRYPOINT_ADDRESS_V07,
-      })
-      console.log('Kernel client: ', kernelClient.account)
-      console.log('Kernel signer: ', signer)
+      const kernelClient = await getKernelClient(
+        smartAccountSigner,
+        config.chainId!,
+        ENTRYPOINT_ADDRESS_V07,
+      )
+
+      // const kernelClient = await createEcdsaKernelAccountClient({
+      //   chain: arbitrumSepolia,
+      //   projectId: config.zeroDevProjectId,
+      //   signer: smartAccountSigner,
+      //   paymaster: 'SPONSOR',
+      //   entryPointAddress: ENTRYPOINT_ADDRESS_V07,
+      // })
 
       // const zerodevAccountSigner = zerodevProvider.getAccountSigner()
       this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient.account)

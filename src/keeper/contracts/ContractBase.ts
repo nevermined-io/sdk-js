@@ -2,6 +2,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { KeeperError } from '../../errors/NeverminedErrors'
 import {
   getInputsOfFunctionFormatted,
+  getKernelClient,
   getSignatureOfFunction,
 } from '../../nevermined/utils/BlockchainViemUtils'
 import { Account, TransactionReceipt, parseEventLogs } from 'viem'
@@ -12,6 +13,7 @@ import { SubgraphEvent } from '../../events/SubgraphEvent'
 import { NvmAccount } from '../../models/NvmAccount'
 import { ContractHandler } from '../../keeper/ContractHandler'
 import { jsonReplacer } from '../../common/helpers'
+import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
@@ -138,7 +140,7 @@ export abstract class ContractBase extends Instantiable {
         params,
         params.progress,
       )
-    } else if (from.getType() === 'json-rpc' || from.getType() === 'zerodev') {
+    } else if (from.getType() === 'json-rpc') {
       this.logger.debug(`Blockchain Send using JSON-RPC account to ${functionName}`)
       return await this.localAccountSend(
         functionName,
@@ -147,36 +149,99 @@ export abstract class ContractBase extends Instantiable {
         params,
         params.progress,
       )
-    }
-    // else if (from.getType() === 'zerodev') {
-    //   this.logger.debug(`Blockchain Send using ZeroDev account`)
+    } else if (from.getType() === 'zerodev') {
+      this.logger.debug(`Blockchain Send using ZeroDev account`)
+      return await this.internalSendZeroDev(functionName, signer, args, params, params.progress)
 
-    // TODO: Enable ZeroDev & Session Key Provider setup
-    // if (params.zeroDevSigner) {
-    //   const paramsFixed = { ...params, signer: undefined }
-    //   const contract = this.contract.connect(params.zeroDevSigner as any)
-    //   return await this.internalSendZeroDev(
-    //     name,
-    //     from,
-    //     args,
-    //     paramsFixed,
-    //     contract,
-    //     params.progress,
-    //   )
-    // } else if (params.sessionKeyProvider) {
-    //   const paramsFixed = { ...params, signer: undefined }
-    //   return await this.internalSendSessionKeyProvider(
-    //     name,
-    //     from,
-    //     args,
-    //     paramsFixed,
-    //     params.progress,
-    //   )
-    // }
-    // }
-    else {
+      // TODO: Enable ZeroDev & Session Key Provider setup
+      // if (params.zeroDevSigner) {
+      //   const paramsFixed = { ...params, signer: undefined }
+      //   const contract = this.contract.connect(params.zeroDevSigner as any)
+      //   return await this.internalSendZeroDev(
+      //     name,
+      //     from,
+      //     args,
+      //     paramsFixed,
+      //     contract,
+      //     params.progress,
+      //   )
+      // } else if (params.sessionKeyProvider) {
+      //   const paramsFixed = { ...params, signer: undefined }
+      //   return await this.internalSendSessionKeyProvider(
+      //     name,
+      //     from,
+      //     args,
+      //     paramsFixed,
+      //     params.progress,
+      //   )
+      // }
+    } else {
       throw new KeeperError(`Account not supported`)
     }
+  }
+
+  private async internalSendZeroDev(
+    name: string,
+    from: any,
+    args: any[],
+    txparams: any,
+    progress: ((data: any) => void) | undefined,
+  ) {
+    const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
+    const { gasLimit, value } = txparams
+    if (progress) {
+      progress({
+        stage: 'sending',
+        args: functionInputs,
+        method: name,
+        from,
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+    const { request } = await this.client.public.simulateContract({
+      address: this.address,
+      abi: this.contract.abi,
+      functionName: name,
+      args,
+      account: from,
+      ...(txparams.value && { value: txparams.value }),
+    })
+    const kernelClient = await getKernelClient(from, this.config.chainId!, ENTRYPOINT_ADDRESS_V07)
+    // @ts-ignore
+    const txHash = await kernelClient.writeContract(request)
+    if (progress) {
+      progress({
+        stage: 'sent',
+        args: functionInputs,
+        txHash,
+        method: name,
+        from,
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+    const txReceipt = this.nevermined.utils.blockchain.getTransactionReceipt(txHash)
+
+    if (progress) {
+      progress({
+        stage: 'receipt',
+        args: functionInputs,
+        txReceipt,
+        method: name,
+        from,
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    return txReceipt
   }
 
   private async localAccountSend(

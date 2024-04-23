@@ -60,7 +60,9 @@ export async function getWeb3ViemClients(
   const walletClient = createWalletClient({
     // cacheTime: 0 as number,
     chain,
-    transport: providerTransport,
+    transport: config.zeroDevProjectId
+      ? http(`https://rpc.zerodev.app/api/v2/bundler/${config.zeroDevProjectId}`)
+      : providerTransport,
   })
 
   return {

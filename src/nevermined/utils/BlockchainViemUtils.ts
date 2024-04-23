@@ -4,11 +4,13 @@ import {
   AbiFunction,
   PublicClient,
   TransactionReceiptNotFoundError,
+  createPublicClient,
   encodeAbiParameters,
   getAbiItem,
   getAddress,
   getContract,
   hexToBigInt,
+  http,
   isAddress,
   pad,
   stringToBytes,
@@ -27,6 +29,15 @@ import { _sleep } from '../../common/helpers'
 import { KeeperError } from '../../errors/NeverminedErrors'
 import { NvmAccount } from '../../models/NvmAccount'
 import { didZeroX } from '../../utils/ConversionTypeHelpers'
+import { EntryPoint } from 'permissionless/types'
+import { signerToEcdsaValidator } from '@zerodev/ecdsa-validator'
+import {
+  SponsorUserOperationParameters,
+  createKernelAccount,
+  createKernelAccountClient,
+  createZeroDevPaymasterClient,
+} from '@zerodev/sdk'
+import { getChain } from '../../utils/Network'
 
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -357,6 +368,47 @@ export const formatEther = (value: bigint): string => {
 }
 
 /////// ZERO DEV
+
+export async function getKernelClient(signer: any, chainId: number, entryPointAddress: EntryPoint) {
+  const publicClient = createPublicClient({
+    transport: http(`https://rpc.zerodev.app/api/v2/bundler/${process.env.PROJECT_ID}`),
+  })
+
+  const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
+    signer,
+    entryPoint: entryPointAddress,
+  })
+
+  const account = await createKernelAccount(publicClient, {
+    plugins: {
+      sudo: ecdsaValidator,
+    },
+    entryPoint: entryPointAddress,
+  })
+  console.log('My account:', account.address)
+
+  return createKernelAccountClient({
+    account,
+    entryPoint: entryPointAddress,
+    chain: getChain(chainId),
+    bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${process.env.PROJECT_ID}`),
+    middleware: {
+      sponsorUserOperation: async ({ userOperation }) => {
+        const paymasterClient = createZeroDevPaymasterClient({
+          chain: getChain(chainId),
+          transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${process.env.PROJECT_ID}`),
+          entryPoint: entryPointAddress,
+        })
+        const _userOperation =
+          userOperation as SponsorUserOperationParameters<EntryPoint>['userOperation']
+        return paymasterClient.sponsorUserOperation({
+          userOperation: _userOperation,
+          entryPoint: entryPointAddress,
+        })
+      },
+    },
+  })
+}
 
 // zerodev ethersV6 compatibility
 // export function convertEthersV6SignerToAccountSigner(signer: Signer | Wallet): SmartAccountSigner {

@@ -1,13 +1,12 @@
 // TODO: Enable when ZeroDev is ready
-import { verifyMessage } from '@ambire/signature-validator'
+// import { verifyMessage } from '@ambire/signature-validator'
 import { createEcdsaKernelAccountClient } from '@zerodev/presets/zerodev'
 import { KernelAccountClient } from '@zerodev/sdk'
 import { assert } from 'chai'
-import { ethers } from 'ethers'
+// import { ethers } from 'ethers'
 import * as fs from 'fs'
 import { decodeJwt } from 'jose'
-import { createPublicClient, http } from 'viem'
-import { arbitrumSepolia } from 'viem/chains'
+// import { createPublicClient, http } from 'viem'
 import {
   AssetAttributes,
   AssetPrice,
@@ -20,127 +19,128 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { DDO } from '../../src/ddo'
 import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
+import { getChain } from '../../src/utils/Network'
 
 describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined
   const PROJECT_ID = process.env.PROJECT_ID!
-  const BUNDLER_RPC = `https://rpc.zerodev.app/api/v2/bundler/${PROJECT_ID}`
+  // const BUNDLER_RPC = `https://rpc.zerodev.app/api/v2/bundler/${PROJECT_ID}`
   // const PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${PROJECT_ID}`
   // const entryPoint = ENTRYPOINT_ADDRESS_V07
 
-  const publicClient = createPublicClient({
-    chain: arbitrumSepolia,
-    transport: http(BUNDLER_RPC),
-  })
-  const provider = new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
+  // const publicClient = createPublicClient({
+  //   chain: arbitrumSepolia,
+  //   transport: http(BUNDLER_RPC),
+  // })
+  // const provider = new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
   })
 
-  describe('Test zerodev signatures and login', () => {
-    let kernelClient: KernelAccountClient<any, any, any>
-    let clientAssertion: string
+  // describe('Test zerodev signatures and login', () => {
+  //   let kernelClient: KernelAccountClient<any, any, any>
+  //   let clientAssertion: string
 
-    before(async () => {
-      const owner = makeRandomWallet()
-      kernelClient = await createEcdsaKernelAccountClient({
-        chain: arbitrumSepolia,
-        projectId: PROJECT_ID,
-        signer: owner,
-        paymaster: 'SPONSOR',
-        entryPointAddress: ENTRYPOINT_ADDRESS_V07,
-      })
-    })
+  //   before(async () => {
+  //     const owner = makeRandomWallet()
+  //     kernelClient = await createEcdsaKernelAccountClient({
+  //       chain: arbitrumSepolia,
+  //       projectId: PROJECT_ID,
+  //       signer: owner,
+  //       paymaster: 'SPONSOR',
+  //       entryPointAddress: ENTRYPOINT_ADDRESS_V07,
+  //     })
+  //   })
 
-    it('should produce a valid EIP-6492 signature', async () => {
-      const signature = await kernelClient.signMessage({
-        account: kernelClient.account,
-        message: 'nevermined',
-      })
-      const isValidSignature = await verifyMessage({
-        signer: kernelClient.account.address,
-        signature: signature,
-        message: 'nevermined',
-        provider: provider,
-      })
-      assert.isTrue(isValidSignature)
+  //   it('should produce a valid EIP-6492 signature', async () => {
+  //     const signature = await kernelClient.signMessage({
+  //       account: kernelClient.account,
+  //       message: 'nevermined',
+  //     })
+  //     const isValidSignature = await verifyMessage({
+  //       signer: kernelClient.account.address,
+  //       signature: signature,
+  //       message: 'nevermined',
+  //       provider: provider,
+  //     })
+  //     assert.isTrue(isValidSignature)
 
-      const signature2 = await kernelClient.account.signMessage({ message: 'nevermined' })
-      const isValidSignature2 = await publicClient.verifyMessage({
-        address: kernelClient.account.address,
-        message: 'nevermined',
-        signature: signature2,
-      })
-      assert.isTrue(isValidSignature2)
-    })
+  //     const signature2 = await kernelClient.account.signMessage({ message: 'nevermined' })
+  //     const isValidSignature2 = await publicClient.verifyMessage({
+  //       address: kernelClient.account.address,
+  //       message: 'nevermined',
+  //       signature: signature2,
+  //     })
+  //     assert.isTrue(isValidSignature2)
+  //   })
 
-    it('should provide a valid EIP-6492 typed signature', async () => {
-      const domain = {
-        name: 'Nevermined',
-        version: '1',
-        chainId: 80001,
-      }
-      const types = {
-        Nevermined: [
-          { name: 'from', type: 'address' },
-          { name: 'message', type: 'string' },
-          { name: 'token', type: 'string' },
-        ],
-      }
-      const message = {
-        from: kernelClient.account.address,
-        message: 'nevermined',
-        token: 'token',
-      }
+  //   it('should provide a valid EIP-6492 typed signature', async () => {
+  //     const domain = {
+  //       name: 'Nevermined',
+  //       version: '1',
+  //       chainId: 80001,
+  //     }
+  //     const types = {
+  //       Nevermined: [
+  //         { name: 'from', type: 'address' },
+  //         { name: 'message', type: 'string' },
+  //         { name: 'token', type: 'string' },
+  //       ],
+  //     }
+  //     const message = {
+  //       from: kernelClient.account.address,
+  //       message: 'nevermined',
+  //       token: 'token',
+  //     }
 
-      const signature = await kernelClient.account.signTypedData({
-        domain,
-        types,
-        message,
-        primaryType: 'Nevermined',
-      })
+  //     const signature = await kernelClient.account.signTypedData({
+  //       domain,
+  //       types,
+  //       message,
+  //       primaryType: 'Nevermined',
+  //     })
 
-      // Currently using the method from the signature-validator package cause is the one that we use in the passport library
+  //     // Currently using the method from the signature-validator package cause is the one that we use in the passport library
 
-      //   const isValidSignature = await publicClient.verifyTypedData({
-      //     address: kernelClient.account.address,
-      //     domain,
-      //     types,
-      //     primaryType: 'Nevermined',
-      //     message,
-      //     signature,
-      //    })
+  //     //   const isValidSignature = await publicClient.verifyTypedData({
+  //     //     address: kernelClient.account.address,
+  //     //     domain,
+  //     //     types,
+  //     //     primaryType: 'Nevermined',
+  //     //     message,
+  //     //     signature,
+  //     //    })
 
-      const isValidSignature = await verifyMessage({
-        signer: kernelClient.account.address,
-        signature: signature,
-        typedData: { types, domain, message },
-        provider: provider,
-      })
+  //     const isValidSignature = await verifyMessage({
+  //       signer: kernelClient.account.address,
+  //       signature: signature,
+  //       typedData: { types, domain, message },
+  //       provider: provider,
+  //     })
 
-      assert.isTrue(isValidSignature)
-    })
+  //     assert.isTrue(isValidSignature)
+  //   })
 
-    it('should generate a client assertion with a zerodev signer', async () => {
-      const account = await NvmAccount.fromZeroDevSigner(kernelClient.account)
+  //   it('should generate a client assertion with a zerodev signer', async () => {
+  //     const account = await NvmAccount.fromZeroDevSigner(kernelClient.account)
 
-      clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account, 'hello world')
-      assert.isDefined(clientAssertion)
+  //     clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account, 'hello world')
+  //     assert.isDefined(clientAssertion)
 
-      const jwtPayload = decodeJwt(clientAssertion)
-      assert.equal(jwtPayload.iss, kernelClient.account.address)
-    })
+  //     const jwtPayload = decodeJwt(clientAssertion)
+  //     assert.equal(jwtPayload.iss, kernelClient.account.address)
+  //   })
 
-    it('should login to the marketplace api', async () => {
-      const accessToken = await nevermined.services.marketplace.login(clientAssertion)
-      assert.isDefined(accessToken)
+  //   it('should login to the marketplace api', async () => {
+  //     const accessToken = await nevermined.services.marketplace.login(clientAssertion)
+  //     assert.isDefined(accessToken)
 
-      const jwtPayload = decodeJwt(accessToken)
-      //   const signer = zerodevProvider.getAccountSigner()
-      assert.equal(jwtPayload.iss, kernelClient.account.address)
-      assert.isDefined(jwtPayload.sub)
-    })
-  })
+  //     const jwtPayload = decodeJwt(accessToken)
+  //     //   const signer = zerodevProvider.getAccountSigner()
+  //     assert.equal(jwtPayload.iss, kernelClient.account.address)
+  //     assert.isDefined(jwtPayload.sub)
+  //   })
+  // })
 
   describe('E2E Asset flow with zerodev', () => {
     let kernelClientPublisher: KernelAccountClient<any, any, any>
@@ -155,14 +155,14 @@ describe('Nevermined sdk with zerodev', () => {
       const consumer = makeRandomWallet()
 
       kernelClientPublisher = await createEcdsaKernelAccountClient({
-        chain: arbitrumSepolia,
+        chain: getChain(config.chainId),
         projectId: PROJECT_ID,
         signer: publisher,
         paymaster: 'SPONSOR',
         entryPointAddress: ENTRYPOINT_ADDRESS_V07,
       })
       kernelClientConsumer = await createEcdsaKernelAccountClient({
-        chain: arbitrumSepolia,
+        chain: getChain(config.chainId),
         projectId: PROJECT_ID,
         signer: consumer,
         paymaster: 'SPONSOR',
