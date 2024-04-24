@@ -41,6 +41,10 @@ export {
   SignatureUtils,
   WebServiceConnector,
   checkContractExists,
+  createKernelClient,
+  deployContractInstance,
+  didToTokenId,
+  encodeBytes32String,
   formatEther,
   formatUnits,
   getBytes,
@@ -59,6 +63,7 @@ export {
   makeWallets,
   parseEther,
   parseUnits,
+  searchAbiEvent,
   searchAbiFunction,
   zeroPadValue,
 } from './utils'

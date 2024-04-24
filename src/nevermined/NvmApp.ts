@@ -29,7 +29,7 @@ import { Nevermined } from './Nevermined'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from './ProgressSteps'
 import { SearchApi } from './api/SearchApi'
 import { ServicesApi } from './api/ServicesApi'
-import { getKernelClient, isValidAddress } from './utils/BlockchainViemUtils'
+import { createKernelClient, isValidAddress } from './utils/BlockchainViemUtils'
 
 export enum NVMAppEnvironments {
   Staging = 'staging',
@@ -165,7 +165,7 @@ export class NvmApp {
         throw new Web3Error('Account not found')
       }
 
-      const kernelClient = await getKernelClient(
+      const kernelClient = await createKernelClient(
         smartAccountSigner,
         config.chainId!,
         ENTRYPOINT_ADDRESS_V06,

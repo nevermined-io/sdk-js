@@ -370,7 +370,7 @@ export const formatEther = (value: bigint): string => {
 
 /////// ZERO DEV
 
-export async function getKernelClient(
+export async function createKernelClient(
   signer: any,
   chainId: number,
   entryPointAddress: EntryPoint,

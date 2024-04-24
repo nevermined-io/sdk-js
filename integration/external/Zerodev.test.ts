@@ -18,7 +18,7 @@ import { config } from '../config'
 import { getMetadata } from '../utils'
 import { DDO } from '../../src/ddo'
 import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless'
-import { getKernelClient } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { createKernelClient } from '../../src/nevermined/utils/BlockchainViemUtils'
 import { arbitrumSepolia } from 'viem/chains'
 
 describe('Nevermined sdk with zerodev', () => {
@@ -43,7 +43,7 @@ describe('Nevermined sdk with zerodev', () => {
 
     before(async () => {
       const owner = makeRandomWallet()
-      kernelClient = await getKernelClient(
+      kernelClient = await createKernelClient(
         owner,
         config.chainId as number,
         ENTRYPOINT_ADDRESS_V06,
@@ -168,14 +168,14 @@ describe('Nevermined sdk with zerodev', () => {
       //   entryPointAddress: ENTRYPOINT_ADDRESS_V07,
       // })
 
-      kernelClientPublisher = await getKernelClient(
+      kernelClientPublisher = await createKernelClient(
         publisher,
         config.chainId as number,
         ENTRYPOINT_ADDRESS_V06,
         PROJECT_ID,
       )
 
-      kernelClientConsumer = await getKernelClient(
+      kernelClientConsumer = await createKernelClient(
         consumer,
         config.chainId as number,
         ENTRYPOINT_ADDRESS_V06,

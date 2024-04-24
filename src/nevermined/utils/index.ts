@@ -11,7 +11,7 @@ export {
   getContractInstance,
   getInputsOfFunction,
   getInputsOfFunctionFormatted,
-  getKernelClient,
+  createKernelClient,
   getSignatureOfFunction,
   isValidAddress,
   keccak256,
