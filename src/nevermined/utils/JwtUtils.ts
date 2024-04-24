@@ -52,7 +52,7 @@ export class EthSignJWT extends SignJWT {
       }
 
       const value = {
-        from: await account.getAddress(),
+        from: account.getId(),
         message: eip712Data.message,
         token: decoder.decode(data),
       }

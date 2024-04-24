@@ -171,16 +171,9 @@ export class NvmApp {
         ENTRYPOINT_ADDRESS_V06,
         config.zeroDevProjectId,
       )
-
-      // const zerodevAccountSigner = zerodevProvider.getAccountSigner()
       this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient)
-      // this.zeroDevSignerAccount = smartAccountSigner
-      // this.useZeroDevSigner = true
     } else if (account instanceof NvmAccount) {
-      // TODO Review ZeroDev integration as part of the NvmAccount
       this.userAccount = account
-      // this.zeroDevSignerAccount = account
-      // this.useZeroDevSigner = true
     } else {
       this.userAccount = this.fullSDK.accounts.getAccount(account)
     }

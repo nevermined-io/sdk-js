@@ -1,6 +1,9 @@
 export {
   BlockchainViemUtils,
   checkContractExists,
+  deployContractInstance,
+  didToTokenId,
+  encodeBytes32String,
   formatEther,
   formatUnits,
   getBytes,
@@ -8,6 +11,7 @@ export {
   getContractInstance,
   getInputsOfFunction,
   getInputsOfFunctionFormatted,
+  getKernelClient,
   getSignatureOfFunction,
   isValidAddress,
   keccak256,
@@ -19,6 +23,7 @@ export {
   makeWallets,
   parseEther,
   parseUnits,
+  searchAbiEvent,
   searchAbiFunction,
   zeroPadValue,
 } from './BlockchainViemUtils'
