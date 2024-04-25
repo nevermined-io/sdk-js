@@ -1,3 +1,11 @@
+export type {
+  AgreementConditionsStatus,
+  ConditionInstanceSmall,
+  ConditionMethod,
+  ConditionState,
+  ConditionStateNames,
+  PaymentData,
+} from './ContractTypes'
 export {
   ChargeType,
   DefaultPaymentAttributes,
