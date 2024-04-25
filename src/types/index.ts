@@ -1,9 +1,8 @@
+export { ConditionState, ConditionStateNames } from './ContractTypes'
 export type {
   AgreementConditionsStatus,
   ConditionInstanceSmall,
   ConditionMethod,
-  ConditionState,
-  ConditionStateNames,
   PaymentData,
 } from './ContractTypes'
 export {
