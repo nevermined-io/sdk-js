@@ -1,4 +1,4 @@
-import { ENTRYPOINT_ADDRESS_V06, providerToSmartAccountSigner } from 'permissionless'
+import { providerToSmartAccountSigner } from 'permissionless'
 import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
 import { DDO } from '../ddo/DDO'
 import { Web3Error } from '../errors/NeverminedErrors'
@@ -168,7 +168,6 @@ export class NvmApp {
       const kernelClient = await createKernelClient(
         smartAccountSigner,
         config.chainId!,
-        ENTRYPOINT_ADDRESS_V06,
         config.zeroDevProjectId,
       )
       this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient)

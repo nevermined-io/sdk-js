@@ -49,7 +49,7 @@
     "outDir": "./dist/node/",
     "rootDir": "./src/",
     "baseUrl": "./",
-    "typeRoots": ["node_modules/@types", "src/permissionless.d.ts"],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
       "@/": ["./src/"],
       "permissionless/*": ["src/permissionless.d.ts"],

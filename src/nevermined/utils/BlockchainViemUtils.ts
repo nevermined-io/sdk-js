@@ -39,6 +39,7 @@ import {
   createZeroDevPaymasterClient,
 } from '@zerodev/sdk'
 import { getChain } from '../../utils/Network'
+import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless'
 
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -373,7 +374,6 @@ export const formatEther = (value: bigint): string => {
 export async function createKernelClient(
   signer: any,
   chainId: number,
-  entryPointAddress: EntryPoint,
   zeroDevProjectId: string,
 ): KernelAccountClient<any, any, any, any> {
   const publicClient = createPublicClient({
@@ -382,20 +382,20 @@ export async function createKernelClient(
 
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
     signer,
-    entryPoint: entryPointAddress,
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
   })
 
   const account = await createKernelAccount(publicClient, {
     plugins: {
       sudo: ecdsaValidator,
     },
-    entryPoint: entryPointAddress,
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
   })
   console.log('My account:', account.address)
 
   return createKernelAccountClient({
     account,
-    entryPoint: entryPointAddress,
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
     chain: getChain(chainId),
     bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
     middleware: {
@@ -403,13 +403,13 @@ export async function createKernelClient(
         const paymasterClient = createZeroDevPaymasterClient({
           chain: getChain(chainId),
           transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
-          entryPoint: entryPointAddress,
+          entryPoint: ENTRYPOINT_ADDRESS_V06,
         })
         const _userOperation =
           userOperation as SponsorUserOperationParameters<EntryPoint>['userOperation']
         return paymasterClient.sponsorUserOperation({
           userOperation: _userOperation,
-          entryPoint: entryPointAddress,
+          entryPoint: ENTRYPOINT_ADDRESS_V06,
         })
       },
     },

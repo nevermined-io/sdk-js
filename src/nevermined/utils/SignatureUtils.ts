@@ -1,3 +1,4 @@
+import { KernelSmartAccount } from '@zerodev/sdk'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { NvmAccountError } from '../../errors/NeverminedErrors'
 import { NvmAccount } from '../../models/NvmAccount'
@@ -44,7 +45,9 @@ export class SignatureUtils extends Instantiable {
       typeof account === 'string' ? this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
-      const signature = await nvmAccount.getKernelClient().signTypedData({
+      const signature = await (
+        nvmAccount.getZeroDevSigner() as KernelSmartAccount<any, any, any>
+      ).signTypedData({
         domain,
         types: types,
         message: value,
