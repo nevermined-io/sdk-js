@@ -1,4 +1,3 @@
-import { providerToSmartAccountSigner } from 'permissionless'
 import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
 import { DDO } from '../ddo/DDO'
 import { Web3Error } from '../errors/NeverminedErrors'
@@ -30,6 +29,7 @@ import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from './Pro
 import { SearchApi } from './api/SearchApi'
 import { ServicesApi } from './api/ServicesApi'
 import { createKernelClient, isValidAddress } from './utils/BlockchainViemUtils'
+import { SmartAccountSigner } from 'permissionless/accounts'
 
 export enum NVMAppEnvironments {
   Staging = 'staging',
@@ -71,7 +71,7 @@ export class NvmApp {
   private searchSDK: Nevermined
   private fullSDK: Nevermined | undefined
   // private useZeroDevSigner: boolean = false
-  // private zeroDevSignerAccount: SmartAccountSigner<"custom", `0x${string}`> | undefined
+  private zeroDevSignerAccount: SmartAccountSigner<'custom', `0x${string}`> | undefined
   private assetProviders: string[] = []
   private loginCredentials: string | undefined
   private subscriptionNFTContractAddress: string | undefined
@@ -146,7 +146,7 @@ export class NvmApp {
    * @returns An object containing the marketplace authentication token, user account, and zeroDev signer account (if applicable).
    */
   public async connect(
-    account: string | NvmAccount,
+    account: string | NvmAccount | SmartAccountSigner<'custom', `0x${string}`>,
     message?: string,
     config?: NeverminedOptions,
     initOptions?: NeverminedInitializationOptions,
@@ -157,24 +157,23 @@ export class NvmApp {
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
     if (config && config.zeroDevProjectId) {
-      const signer = this.fullSDK.accounts.getAccount(account as string)
-      const smartAccountSigner = await providerToSmartAccountSigner(config.web3Provider, {
-        signerAddress: signer.getAddress(),
-      })
-      if (!smartAccountSigner) {
-        throw new Web3Error('Account not found')
-      }
+      // const signer = this.fullSDK.accounts.getAccount(account as string)
+      // const smartAccountSigner = await providerToSmartAccountSigner(config.web3Provider, {
+      //   signerAddress: signer.getAddress(),
+      // })
 
       const kernelClient = await createKernelClient(
-        smartAccountSigner,
+        account,
         config.chainId!,
         config.zeroDevProjectId,
       )
       this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient)
+      // this.zeroDevSignerAccount = smartAccountSigner
+      // this.useZeroDevSigner = true
     } else if (account instanceof NvmAccount) {
       this.userAccount = account
     } else {
-      this.userAccount = this.fullSDK.accounts.getAccount(account)
+      this.userAccount = this.fullSDK.accounts.getAccount(account as string)
     }
 
     console.log(
@@ -223,7 +222,7 @@ export class NvmApp {
     return {
       marketplaceAuthToken: this.loginCredentials,
       userAccount: this.userAccount,
-      // zeroDevSignerAccount: this.zeroDevSignerAccount,
+      zeroDevSignerAccount: this.zeroDevSignerAccount,
     }
   }
 
@@ -236,7 +235,7 @@ export class NvmApp {
       this.fullSDK = undefined
       this.userAccount = undefined
       // this.useZeroDevSigner = false
-      // this.zeroDevSignerAccount = undefined
+      this.zeroDevSignerAccount = undefined
       this.loginCredentials = undefined
     }
   }

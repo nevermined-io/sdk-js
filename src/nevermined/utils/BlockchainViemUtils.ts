@@ -451,7 +451,7 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
   return serializeSessionKeyAccount(sessionKeyAccount, sessionPrivateKey)
 }
 
-export async function useSessionKey(
+export async function getSessionKey(
   serializedSessionKey: string,
   zeroDevProjectId: string,
   publicClient: any,

@@ -67,5 +67,5 @@ export {
   searchAbiFunction,
   zeroPadValue,
   createSessionKey,
-  useSessionKey,
+  getSessionKey,
 } from './utils'
