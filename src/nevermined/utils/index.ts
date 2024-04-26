@@ -26,6 +26,8 @@ export {
   searchAbiEvent,
   searchAbiFunction,
   zeroPadValue,
+  createSessionKey,
+  useSessionKey,
 } from './BlockchainViemUtils'
 export { EthSignJWT, JwtUtils } from './JwtUtils'
 export { ServiceAgreement } from './ServiceAgreement'

@@ -1,17 +1,18 @@
+import { Account, TransactionReceipt, encodeFunctionData, parseEventLogs } from 'viem'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { jsonReplacer } from '../../common/helpers'
 import { KeeperError } from '../../errors/NeverminedErrors'
+import { ContractEvent } from '../../events/ContractEvent'
+import { EventHandler } from '../../events/EventHandler'
+import { SubgraphEvent } from '../../events/SubgraphEvent'
+import { ContractHandler } from '../../keeper/ContractHandler'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
 import {
   getInputsOfFunctionFormatted,
   getSignatureOfFunction,
 } from '../../nevermined/utils/BlockchainViemUtils'
-import { Account, TransactionReceipt, parseEventLogs } from 'viem'
-import { TxParameters } from '../../models/Transactions'
-import { ContractEvent } from '../../events/ContractEvent'
-import { EventHandler } from '../../events/EventHandler'
-import { SubgraphEvent } from '../../events/SubgraphEvent'
-import { NvmAccount } from '../../models/NvmAccount'
-import { ContractHandler } from '../../keeper/ContractHandler'
-import { jsonReplacer } from '../../common/helpers'
+import { ENTRYPOINT_ADDRESS_V06, bundlerActions } from 'permissionless'
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
@@ -150,32 +151,81 @@ export abstract class ContractBase extends Instantiable {
     } else if (from.getType() === 'zerodev') {
       this.logger.debug(`Blockchain Send using ZeroDev account`)
       return await this.internalSendZeroDev(functionName, from, args, params, params.progress)
-
-      // TODO: Enable ZeroDev & Session Key Provider setup
-      // if (params.zeroDevSigner) {
-      //   const paramsFixed = { ...params, signer: undefined }
-      //   const contract = this.contract.connect(params.zeroDevSigner as any)
-      //   return await this.internalSendZeroDev(
-      //     name,
-      //     from,
-      //     args,
-      //     paramsFixed,
-      //     contract,
-      //     params.progress,
-      //   )
-      // } else if (params.sessionKeyProvider) {
-      //   const paramsFixed = { ...params, signer: undefined }
-      //   return await this.internalSendSessionKeyProvider(
-      //     name,
-      //     from,
-      //     args,
-      //     paramsFixed,
-      //     params.progress,
-      //   )
-      // }
+    } else if (from.getType() === 'sessionKey') {
+      this.logger.debug('Session Key account used for send')
+      return await this.internalSendSessionKey(functionName, from, args, params, params.progress)
     } else {
       throw new KeeperError(`Account not supported`)
     }
+  }
+
+  private async internalSendSessionKey(
+    name: string,
+    from: NvmAccount,
+    args: any[],
+    txparams: any,
+    progress: ((data: any) => void) | undefined,
+  ) {
+    const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
+
+    const { gasLimit, value } = txparams
+    if (progress) {
+      progress({
+        stage: 'sending',
+        args: functionInputs,
+        method: name,
+        from: from.getAccountSigner(),
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    const kernelClient = from.getKernelClient()
+    const data = encodeFunctionData({ abi: this.contract.abi, functionName: name, args })
+    const txHash = await kernelClient.sendUserOperation({
+      userOperation: {
+        callData: await kernelClient.account.encodeCallData({
+          to: this.address,
+          value: txparams.value || 0n,
+          data,
+        }),
+      },
+    })
+
+    if (progress) {
+      progress({
+        stage: 'sent',
+        args: functionInputs,
+        txHash,
+        method: name,
+        from: from.getAccountSigner(),
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    const bundlerClient = kernelClient.extend(bundlerActions(ENTRYPOINT_ADDRESS_V06))
+    const txReceipt = await bundlerClient.waitForUserOperationReceipt({ hash: txHash })
+
+    if (progress) {
+      progress({
+        stage: 'receipt',
+        args: functionInputs,
+        txReceipt,
+        method: name,
+        from: from.getAccountSigner(),
+        value,
+        contractName: this.contractName,
+        contractAddress: this.address,
+        gasLimit,
+      })
+    }
+
+    return txReceipt
   }
 
   private async internalSendZeroDev(

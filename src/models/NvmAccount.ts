@@ -58,6 +58,14 @@ export class NvmAccount {
     return account
   }
 
+  static fromZeroDevSessionKey(kernelClient: KernelAccountClient<any, any, any, any>) {
+    const address = kernelClient.account.address
+    const account = new NvmAccount(address, { signerType: 'sessionKey', isZeroDev: true })
+    account.kernelClient = kernelClient
+    account.zeroDevSigner = kernelClient.account
+    return account
+  }
+
   private constructor(
     private id: string,
     accountType: NvmAccountType = { signerType: 'local', isZeroDev: false },

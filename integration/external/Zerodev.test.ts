@@ -1,54 +1,162 @@
 // TODO: Enable when ZeroDev is ready
 import { verifyMessage } from '@ambire/signature-validator'
-import { KernelAccountClient } from '@zerodev/sdk'
 import { assert } from 'chai'
 import { ethers } from 'ethers'
 import * as fs from 'fs'
 import { decodeJwt } from 'jose'
-import { createPublicClient, http } from 'viem'
+import { createPublicClient, http, parseAbi } from 'viem'
+import { arbitrumSepolia } from 'viem/chains'
 import {
   AssetAttributes,
   AssetPrice,
+  ERCType,
   MetaData,
+  NETWORK_FEE_DENOMINATOR,
+  NFTAttributes,
   Nevermined,
+  NeverminedNFT1155Type,
   NvmAccount,
+  PublishMetadataOptions,
+  ServiceAttributes,
+  SubscriptionType,
   makeRandomWallet,
 } from '../../src'
+import { DDO } from '../../src/ddo'
+import {
+  createKernelClient,
+  createSessionKey,
+  useSessionKey,
+} from '../../src/nevermined/utils/BlockchainViemUtils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
-import { DDO } from '../../src/ddo'
-import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless'
-import { createKernelClient } from '../../src/nevermined/utils/BlockchainViemUtils'
-import { arbitrumSepolia } from 'viem/chains'
 
 describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined
   const PROJECT_ID = process.env.PROJECT_ID!
   const BUNDLER_RPC = `https://rpc.zerodev.app/api/v2/bundler/${PROJECT_ID}`
   // const PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${PROJECT_ID}`
-  // const entryPoint = ENTRYPOINT_ADDRESS_V07
 
   const publicClient = createPublicClient({
     chain: arbitrumSepolia,
     transport: http(BUNDLER_RPC),
   })
   const provider = new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
+
   before(async () => {
-    nevermined = await Nevermined.getInstance(config)
+    nevermined = await Nevermined.getInstance({ ...config, web3Provider: BUNDLER_RPC })
+  })
+
+  describe('Test zerodev sessionKeys', () => {
+    // let kernelClient: any // TODO: KernelAccountClient<any, any, any, any>
+    const contractAddress = '0x93605C644181f3dD03A37228528649A76822Fcf1' as '0x{string}' // DIDRegistry address
+
+    const owner = makeRandomWallet()
+
+    it('should generate a session key', async () => {
+      console.log('Owner address:', owner.address)
+      const permissions = [
+        {
+          target: contractAddress,
+          abi: parseAbi([
+            'function registerMintableDID(bytes32 _didSeed, address _nftContractAddress, bytes32 _checksum, address[] memory _providers, string memory _url, uint256 _cap, uint256 _royalties, bool _mint, bytes32 _activityId, string memory _nftMetadata, string memory _immutableUrl) public',
+          ]),
+          functionName: 'registerMintableDID',
+        },
+        {
+          target: contractAddress,
+          abi: parseAbi[
+            'function registerMintableDID(bytes32 _didSeed,address _nftContractAddress,bytes32 _checksum,address[] memory _providers,string memory _url,uint256 _cap,uint256 _royalties,bytes32 _activityId,string memory _nftMetadata,string memory _immutableUrl) public'
+          ],
+          functionName: 'registerMintableDID',
+        },
+      ]
+      const sessionKey = await createSessionKey(owner, publicClient, permissions)
+      assert.isDefined(sessionKey)
+
+      const deserializedSessionKey = await useSessionKey(sessionKey, PROJECT_ID, publicClient)
+
+      // Login to the marketplace
+      const acc = NvmAccount.fromAccount(owner)
+      const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(acc)
+      await nevermined.services.marketplace.login(clientAssertion)
+
+      const account = deserializedSessionKey
+
+      const subscriptionNFT = await nevermined.contracts.loadNft1155(
+        '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5',
+      )
+      const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+
+      const assetPrice = new AssetPrice(account.getId(), 0n).adjustToIncludeNetworkFees(
+        feeReceiver,
+        NETWORK_FEE_DENOMINATOR,
+      )
+      assetPrice.setTokenAddress('0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d')
+
+      const date = new Date().toISOString().replace(/\.\d{3}/, '')
+      const subscriptionLimitType = SubscriptionType.Credits
+      const metadata: MetaData = {
+        main: {
+          name: 'TEST FROM ZERODEV USING SESSION KEY',
+          author: account.getId(),
+          dateCreated: date,
+          datePublished: date,
+          type: 'subscription',
+          license: 'No License Specified',
+          files: [],
+          ercType: ERCType.nft1155,
+          nftType: NeverminedNFT1155Type.nft1155Credit,
+          subscription: {
+            timeMeasure: 'days',
+            subscriptionType: subscriptionLimitType,
+          },
+        },
+        additionalInformation: {
+          description: 'test',
+          tags: [],
+          customData: {
+            dateMeasure: 'days',
+            plan: 'custom',
+            subscriptionLimitType,
+          },
+        },
+      }
+      const services: ServiceAttributes[] = [
+        {
+          serviceType: 'nft-sales',
+          price: assetPrice,
+          nft: {
+            // duration,
+            amount: 10n,
+            nftTransfer: false,
+          },
+        },
+      ]
+
+      const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
+        metadata,
+        services,
+        providers: ['0x046d0698926aFa3ab6D6591f03063488F3Fb4327'],
+        nftContractAddress: subscriptionNFT.address,
+        preMint: false,
+        royaltyAttributes: undefined,
+      })
+
+      const ddo = await nevermined.nfts1155.create(nftAttributes, account, {
+        metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      })
+
+      assert.isDefined(ddo)
+    })
   })
 
   describe('Test zerodev signatures and login', () => {
-    let kernelClient: KernelAccountClient<any, any, any>
+    let kernelClient: any // TODO: KernelAccountClient<any, any, any, any>
     let clientAssertion: string
 
     before(async () => {
       const owner = makeRandomWallet()
-      kernelClient = await createKernelClient(
-        owner,
-        config.chainId as number,
-        ENTRYPOINT_ADDRESS_V06,
-        PROJECT_ID,
-      )
+      kernelClient = await createKernelClient(owner, config.chainId as number, PROJECT_ID)
     })
 
     it('should produce a valid EIP-6492 signature', async () => {
@@ -142,8 +250,8 @@ describe('Nevermined sdk with zerodev', () => {
   })
 
   describe('E2E Asset flow with zerodev', () => {
-    let kernelClientPublisher: KernelAccountClient<any, any, any, any>
-    let kernelClientConsumer: KernelAccountClient<any, any, any, any>
+    let kernelClientPublisher: any // TODO: KernelAccountClient<any, any, any, any>
+    let kernelClientConsumer: any // TODO:  KernelAccountClient<any, any, any, any>
 
     let metadata: MetaData
     let ddo: DDO
@@ -171,14 +279,12 @@ describe('Nevermined sdk with zerodev', () => {
       kernelClientPublisher = await createKernelClient(
         publisher,
         config.chainId as number,
-        ENTRYPOINT_ADDRESS_V06,
         PROJECT_ID,
       )
 
       kernelClientConsumer = await createKernelClient(
         consumer,
         config.chainId as number,
-        ENTRYPOINT_ADDRESS_V06,
         PROJECT_ID,
       )
 

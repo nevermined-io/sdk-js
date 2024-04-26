@@ -1,3 +1,18 @@
+import { signerToEcdsaValidator } from '@zerodev/ecdsa-validator'
+import {
+  SponsorUserOperationParameters,
+  createKernelAccount,
+  createKernelAccountClient,
+  createZeroDevPaymasterClient,
+} from '@zerodev/sdk'
+import {
+  deserializeSessionKeyAccount,
+  oneAddress,
+  serializeSessionKeyAccount,
+  signerToSessionKeyValidator,
+} from '@zerodev/session-key'
+import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless'
+import { EntryPoint } from 'permissionless/types'
 import {
   Abi,
   AbiEvent,
@@ -23,23 +38,19 @@ import {
   parseEther as viemParseEther,
   parseUnits as viemParseUnits,
 } from 'viem'
-import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
+import {
+  english,
+  generateMnemonic,
+  generatePrivateKey,
+  mnemonicToAccount,
+  privateKeyToAccount,
+} from 'viem/accounts'
 import { Instantiable, InstantiableConfig, Web3Clients } from '../../Instantiable.abstract'
 import { _sleep } from '../../common/helpers'
 import { KeeperError } from '../../errors/NeverminedErrors'
 import { NvmAccount } from '../../models/NvmAccount'
 import { didZeroX } from '../../utils/ConversionTypeHelpers'
-import { EntryPoint } from 'permissionless/types'
-import { signerToEcdsaValidator } from '@zerodev/ecdsa-validator'
-import {
-  KernelAccountClient,
-  SponsorUserOperationParameters,
-  createKernelAccount,
-  createKernelAccountClient,
-  createZeroDevPaymasterClient,
-} from '@zerodev/sdk'
 import { getChain } from '../../utils/Network'
-import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless'
 
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -371,12 +382,9 @@ export const formatEther = (value: bigint): string => {
 
 /////// ZERO DEV
 
-export async function createKernelClient(
-  signer: any,
-  chainId: number,
-  zeroDevProjectId: string,
-): KernelAccountClient<any, any, any, any> {
+export async function createKernelClient(signer: any, chainId: number, zeroDevProjectId: string) {
   const publicClient = createPublicClient({
+    chain: getChain(chainId),
     transport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
   })
 
@@ -391,7 +399,6 @@ export async function createKernelClient(
     },
     entryPoint: ENTRYPOINT_ADDRESS_V06,
   })
-  console.log('My account:', account.address)
 
   return createKernelAccountClient({
     account,
@@ -416,47 +423,58 @@ export async function createKernelClient(
   })
 }
 
-// zerodev ethersV6 compatibility
-// export function convertEthersV6SignerToAccountSigner(signer: Signer | Wallet): SmartAccountSigner {
-//   return {
-//     signerType: '',
-//     getAddress: async () => Promise.resolve((await signer.getAddress()) as `0x${string}`),
-//     signMessage: async (msg: Uint8Array | string) =>
-//       (await signer.signMessage(msg)) as `0x${string}`,
-//     signTypedData: async (params: SignTypedDataParams) => {
-//       if (!isWalletEthersV6(signer)) {
-//         throw Error('signTypedData method not implemented in signer')
-//       }
-//       return (await signer.signTypedData(
-//         params.domain!,
-//         params.types as unknown as Record<string, TypedDataField[]>,
-//         params.message,
-//       )) as Hex
-//     },
-//   }
-// }
+export async function createSessionKey(signer: any, publicClient: any, permissions: any[]) {
+  const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    signer,
+  })
+  const sessionPrivateKey = generatePrivateKey()
+  const sessionKeySigner = privateKeyToAccount(sessionPrivateKey)
 
-// const isWalletEthersV6 = (signer: any): signer is Wallet =>
-//   signer && signer.signTypedData !== undefined
+  const sessionKeyValidator = await signerToSessionKeyValidator(publicClient, {
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    signer: sessionKeySigner,
+    validatorData: {
+      paymaster: oneAddress,
+      validAfter: 0,
+      validUntil: 0,
+      permissions,
+    },
+  })
+  const sessionKeyAccount = await createKernelAccount(publicClient, {
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    plugins: {
+      sudo: ecdsaValidator,
+      regular: sessionKeyValidator,
+    },
+  })
+  return serializeSessionKeyAccount(sessionKeyAccount, sessionPrivateKey)
+}
 
-// export const estimateGas = async (
-//   contract: ethers.BaseContract,
-//   methodSignature: string,
-//   args: any[],
-//   from: string,
-//   value: string,
-//   gasMultiplier?: number,
-// ): Promise<bigint> => {
-//   let gasLimit: bigint = await contract[methodSignature].estimateGas(...args, {
-//     from,
-//     value,
-//   })
-//   if (value) gasLimit = gasLimit + 21500n
-
-//   if (gasMultiplier) {
-//     const gasMultiplierParsed = parseUnits(gasMultiplier.toString(), 2)
-//     gasLimit = (gasLimit * gasMultiplierParsed) / 100n
-//   }
-
-//   return gasLimit
-// }
+export async function useSessionKey(
+  serializedSessionKey: string,
+  zeroDevProjectId: string,
+  publicClient: any,
+) {
+  const chainId = await publicClient.getChainId()
+  const sessionKeyAccount = await deserializeSessionKeyAccount(
+    publicClient,
+    ENTRYPOINT_ADDRESS_V06,
+    serializedSessionKey,
+  )
+  const kernelPaymaster = createZeroDevPaymasterClient({
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    chain: getChain(chainId),
+    transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
+  })
+  const kernelClient = createKernelAccountClient({
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    account: sessionKeyAccount,
+    chain: getChain(chainId),
+    bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
+    middleware: {
+      sponsorUserOperation: kernelPaymaster.sponsorUserOperation,
+    },
+  })
+  return NvmAccount.fromZeroDevSessionKey(kernelClient)
+}
