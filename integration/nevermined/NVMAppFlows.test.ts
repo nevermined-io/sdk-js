@@ -56,8 +56,8 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   const nftTransfer = false
 
   const subscriptionBronzeDuration = 9 // in blocks
-  const subscriptionSilverDuration = 10 // in blocks
-  const subscriptionGoldDuration = 20 // in blocks
+  const subscriptionSilverDuration = 20 // in blocks
+  const subscriptionGoldDuration = 50 // in blocks
 
   const subscriptionBronzePrice = 15n
   const subscriptionSilverPrice = 20n
