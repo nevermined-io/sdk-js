@@ -26,7 +26,6 @@ export class ServiceAgreement extends Instantiable {
       throw new Error('TemplateId not found in DDO.')
     }
 
-    console.log(`Signing service agreement`)
     const serviceAgreementHashSignature = await this.createHashSignature(
       service.templateId,
       serviceAgreementId,
@@ -57,7 +56,6 @@ export class ServiceAgreement extends Instantiable {
       timeoutValues,
     )
 
-    console.log(`Signing text using agreement: ${serviceAgreementHash}`)
     const serviceAgreementHashSignature = await this.nevermined.utils.signature.signText(
       getBytes(serviceAgreementHash),
       consumer,

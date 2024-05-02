@@ -168,19 +168,11 @@ export class NvmApp {
         config.zeroDevProjectId,
       )
       this.userAccount = await NvmAccount.fromZeroDevSigner(kernelClient)
-      // this.zeroDevSignerAccount = smartAccountSigner
-      // this.useZeroDevSigner = true
     } else if (account instanceof NvmAccount) {
       this.userAccount = account
     } else {
       this.userAccount = this.fullSDK.accounts.getAccount(account as string)
     }
-
-    console.log(
-      `Using account: ${this.userAccount.getAddress()} with type ${
-        this.userAccount.accountType.signerType
-      }`,
-    )
 
     if (
       config &&
@@ -193,16 +185,13 @@ export class NvmApp {
         this.userAccount,
         message,
       )
-      console.log('Client assertion: ', clientAssertion)
 
       this.loginCredentials = await this.fullSDK.services.marketplace.login(clientAssertion)
-      console.log('Login credentials: ', this.loginCredentials)
     }
 
     const nodeInfo = await this.fullSDK.services.node.getNeverminedNodeInfo()
     this.assetProviders = [nodeInfo['provider-address']]
 
-    console.log('Asset Providers: ', this.assetProviders)
     if (!isValidAddress(this.configNVM.nftContractAddress as string)) {
       const contractABI = await ContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
@@ -644,8 +633,6 @@ export class NvmApp {
       const numberCredits = salesService.attributes.main.nftAttributes.amount
 
       const subscriptionOwner = await this.fullSDK.assets.owner(subscriptionDid)
-      console.log(`Subscription Owner: ${subscriptionOwner}`)
-      console.log(`User Address: ${address}`)
       const balance = await this.fullSDK.nfts1155.balance(subscriptionDid, address)
       const isOwner = address.toLowerCase() === subscriptionOwner.toLowerCase()
       const canAccess = isOwner || balance >= numberCredits

@@ -439,7 +439,6 @@ export class ConditionsApi extends Instantiable {
     const duration = DDO.getDurationFromService(service)
     const expirationBlock =
       duration > 0 ? Number(await this.client.public.getBlockNumber()) + duration : 0
-    console.log(`ConditionsApi :: transferNft with expiration block = ${expirationBlock}`)
 
     const params = template.params(
       accessConsumer,
@@ -497,9 +496,6 @@ export class ConditionsApi extends Instantiable {
     const duration = DDO.getDurationFromService(service) || 0
     const expirationBlock =
       duration > 0 ? Number(await this.client.public.getBlockNumber()) + duration : 0
-    console.log(
-      `ConditionsApi :: transferNftForDelegate with expiration block = ${expirationBlock}`,
-    )
 
     const params = template.params(
       accessConsumer,
