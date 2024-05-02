@@ -2,14 +2,18 @@ import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import * as fs from 'fs'
 
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
 
-import { Nevermined, DDO, Account, MetaData, AssetAttributes } from '../../src'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { MetaData } from '../../src/types/DDOTypes'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Publisher Download Asset', () => {
   let nevermined: Nevermined
-  let publisher: Account
+  let publisher: NvmAccount
   let metadata: MetaData
   let ddo: DDO
 
@@ -17,7 +21,7 @@ describe('Publisher Download Asset', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[publisher] = await nevermined.accounts.list()
+    ;[publisher] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
@@ -53,7 +57,7 @@ describe('Publisher Download Asset', () => {
     assert.include(path, folder, 'The storage path is not correct.')
 
     const files = await new Promise<string[]>((resolve) => {
-      fs.readdir(path, (e, fileList) => {
+      fs.readdir(path, (_e, fileList) => {
         resolve(fileList)
       })
     })
@@ -68,7 +72,7 @@ describe('Publisher Download Asset', () => {
     assert.include(path, folder, 'The storage path is not correct.')
 
     const files = await new Promise<string[]>((resolve) => {
-      fs.readdir(path, (e, fileList) => {
+      fs.readdir(path, (_e, fileList) => {
         resolve(fileList)
       })
     })

@@ -1,54 +1,80 @@
-import { ethers } from 'ethers'
-import { ZeroDevEthersProvider } from '@zerodev/sdk'
+// TODO: Enable when ZeroDev is ready
 import { verifyMessage } from '@ambire/signature-validator'
+import { assert } from 'chai'
+import { ethers } from 'ethers'
 import * as fs from 'fs'
+import { decodeJwt } from 'jose'
+import { createPublicClient, http, parseAbi } from 'viem'
+import { arbitrumSepolia } from 'viem/chains'
 import {
-  Account,
   AssetAttributes,
   AssetPrice,
-  DDO,
+  ERCType,
   MetaData,
+  NETWORK_FEE_DENOMINATOR,
+  NFTAttributes,
   Nevermined,
-  convertEthersV6SignerToAccountSigner,
+  NeverminedNFT1155Type,
+  NvmAccount,
+  PublishMetadataOptions,
+  ServiceAttributes,
+  SubscriptionType,
+  makeRandomWallet,
 } from '../../src'
-import { assert } from 'chai'
-import { decodeJwt } from 'jose'
+import { DDO } from '../../src/ddo'
+import {
+  createKernelClient,
+  createSessionKey,
+  getSessionKey,
+} from '../../src/nevermined/utils/BlockchainViemUtils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
 
 describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined
+  const PROJECT_ID = process.env.PROJECT_ID!
+  const BUNDLER_RPC = `https://rpc.zerodev.app/api/v2/bundler/${PROJECT_ID}`
+  // const PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${PROJECT_ID}`
+
+  const publicClient = createPublicClient({
+    chain: arbitrumSepolia,
+    transport: http(BUNDLER_RPC),
+  })
+  const provider = new ethers.providers.JsonRpcProvider(config.web3ProviderUri)
 
   before(async () => {
-    nevermined = await Nevermined.getInstance(config)
+    nevermined = await Nevermined.getInstance({ ...config, web3Provider: BUNDLER_RPC })
   })
 
   describe('Test zerodev signatures and login', () => {
-    let zerodevProvider: ZeroDevEthersProvider<'ECDSA'>
+    let kernelClient: any // TODO: KernelAccountClient<any, any, any, any>
     let clientAssertion: string
+    const owner = makeRandomWallet()
 
     before(async () => {
-      const projectId = process.env.PROJECT_ID!
-      const owner = ethers.Wallet.createRandom()
-
-      zerodevProvider = await ZeroDevEthersProvider.init('ECDSA', {
-        projectId,
-        owner: convertEthersV6SignerToAccountSigner(owner),
-      })
+      kernelClient = await createKernelClient(owner, config.chainId as number, PROJECT_ID)
     })
 
     it('should produce a valid EIP-6492 signature', async () => {
-      const signer = zerodevProvider.getAccountSigner()
-
-      const signature = await signer.signMessageWith6492('nevermined')
-      const isValidSignature = await verifyMessage({
-        signer: await signer.getAddress(),
+      const signature = await kernelClient.signMessage({
+        account: kernelClient.account,
         message: 'nevermined',
-        signature: signature,
-        provider: zerodevProvider,
       })
-
+      const isValidSignature = await verifyMessage({
+        signer: kernelClient.account.address,
+        signature: signature,
+        message: 'nevermined',
+        provider: provider,
+      })
       assert.isTrue(isValidSignature)
+
+      const signature2 = await kernelClient.account.signMessage({ message: 'nevermined' })
+      const isValidSignature2 = await publicClient.verifyMessage({
+        address: kernelClient.account.address,
+        message: 'nevermined',
+        signature: signature2,
+      })
+      assert.isTrue(isValidSignature2)
     })
 
     it('should provide a valid EIP-6492 typed signature', async () => {
@@ -58,43 +84,54 @@ describe('Nevermined sdk with zerodev', () => {
         chainId: 80001,
       }
       const types = {
-        Nevermined: [{ name: 'message', type: 'string' }],
+        Nevermined: [
+          { name: 'from', type: 'address' },
+          { name: 'message', type: 'string' },
+          { name: 'token', type: 'string' },
+        ],
       }
       const message = {
+        from: kernelClient.account.address,
         message: 'nevermined',
+        token: 'token',
       }
 
-      const signer = zerodevProvider.getAccountSigner()
-      const signature = await signer.signTypedDataWith6492({
+      const signature = await kernelClient.account.signTypedData({
         domain,
         types,
         message,
-        primaryType: '',
+        primaryType: 'Nevermined',
       })
 
+      // Currently using the method from the signature-validator package cause is the one that we use in the passport library
+
+      //   const isValidSignature = await publicClient.verifyTypedData({
+      //     address: kernelClient.account.address,
+      //     domain,
+      //     types,
+      //     primaryType: 'Nevermined',
+      //     message,
+      //     signature,
+      //    })
+
       const isValidSignature = await verifyMessage({
-        signer: await signer.getAddress(),
+        signer: kernelClient.account.address,
         signature: signature,
-        typedData: {
-          types,
-          domain,
-          message,
-        },
-        provider: zerodevProvider,
+        typedData: { types, domain, message },
+        provider: provider,
       })
 
       assert.isTrue(isValidSignature)
     })
 
     it('should generate a client assertion with a zerodev signer', async () => {
-      const signer = zerodevProvider.getAccountSigner()
-      const account = await Account.fromZeroDevSigner(signer)
+      const account = await NvmAccount.fromZeroDevSigner(kernelClient)
 
       clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account, 'hello world')
       assert.isDefined(clientAssertion)
 
       const jwtPayload = decodeJwt(clientAssertion)
-      assert.equal(jwtPayload.iss, await signer.getAddress())
+      assert.equal(jwtPayload.iss, kernelClient.account.address)
     })
 
     it('should login to the marketplace api', async () => {
@@ -102,36 +139,63 @@ describe('Nevermined sdk with zerodev', () => {
       assert.isDefined(accessToken)
 
       const jwtPayload = decodeJwt(accessToken)
-      const signer = zerodevProvider.getAccountSigner()
-      assert.equal(jwtPayload.iss, await signer.getAddress())
+      //   const signer = zerodevProvider.getAccountSigner()
+      assert.equal(jwtPayload.iss, kernelClient.account.address)
       assert.isDefined(jwtPayload.sub)
     })
   })
 
   describe('E2E Asset flow with zerodev', () => {
-    let zerodevProviderPublisher: ZeroDevEthersProvider<'ECDSA'>
-    let zerodevProviderConsumer: ZeroDevEthersProvider<'ECDSA'>
+    let kernelClientPublisher: any // TODO: KernelAccountClient<any, any, any, any>
+    let kernelClientConsumer: any // TODO:  KernelAccountClient<any, any, any, any>
+
     let metadata: MetaData
     let ddo: DDO
     let agreementId: string
 
     before(async () => {
-      const projectId = process.env.PROJECT_ID!
-      const publisher = ethers.Wallet.createRandom()
-      const consumer = ethers.Wallet.createRandom()
+      const publisher = makeRandomWallet()
+      const consumer = makeRandomWallet()
 
-      zerodevProviderPublisher = await ZeroDevEthersProvider.init('ECDSA', {
-        projectId,
-        owner: convertEthersV6SignerToAccountSigner(publisher),
-      })
+      // kernelClientPublisher = await createEcdsaKernelAccountClient({
+      //   chain: getChain(config.chainId),
+      //   projectId: PROJECT_ID,
+      //   signer: publisher,
+      //   paymaster: 'SPONSOR',
+      //   entryPointAddress: ENTRYPOINT_ADDRESS_V07,
+      // })
+      // kernelClientConsumer = await createEcdsaKernelAccountClient({
+      //   chain: getChain(config.chainId),
+      //   projectId: PROJECT_ID,
+      //   signer: consumer,
+      //   paymaster: 'SPONSOR',
+      //   entryPointAddress: ENTRYPOINT_ADDRESS_V07,
+      // })
 
-      zerodevProviderConsumer = await ZeroDevEthersProvider.init('ECDSA', {
-        projectId,
-        owner: convertEthersV6SignerToAccountSigner(consumer),
-      })
+      kernelClientPublisher = await createKernelClient(
+        publisher,
+        config.chainId as number,
+        PROJECT_ID,
+      )
 
-      const signerPublisher = zerodevProviderPublisher.getAccountSigner()
-      const accountPublisher = await Account.fromZeroDevSigner(signerPublisher)
+      kernelClientConsumer = await createKernelClient(
+        consumer,
+        config.chainId as number,
+        PROJECT_ID,
+      )
+
+      // zerodevProviderPublisher = await ZeroDevEthersProvider.init('ECDSA', {
+      //   projectId,
+      //   owner: convertEthersV6SignerToAccountSigner(publisher),
+      // })
+
+      // zerodevProviderConsumer = await ZeroDevEthersProvider.init('ECDSA', {
+      //   projectId,
+      //   owner: convertEthersV6SignerToAccountSigner(consumer),
+      // })
+
+      // const signerPublisher = kernelClientPublisher.getAccountSigner()
+      const accountPublisher = await NvmAccount.fromZeroDevSigner(kernelClientPublisher)
       const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(accountPublisher)
 
       const accessToken = await nevermined.services.marketplace.login(clientAssertion)
@@ -150,28 +214,26 @@ describe('Nevermined sdk with zerodev', () => {
             price: new AssetPrice(),
           },
         ],
-        providers: [config.neverminedNodeAddress],
+        providers: [config.neverminedNodeAddress as string],
       })
 
-      const signerPublisher = zerodevProviderPublisher.getAccountSigner()
-      const publisher = await Account.fromZeroDevSigner(signerPublisher)
-      ddo = await nevermined.assets.create(assetAttributes, publisher, undefined, {
-        zeroDevSigner: signerPublisher,
-      })
+      // const signerPublisher = kernelClientPublisher.getAccountSigner()
+      const publisher = await NvmAccount.fromZeroDevSigner(kernelClientPublisher)
+      ddo = await nevermined.assets.create(assetAttributes, publisher)
 
       assert.isDefined(ddo)
-      assert.equal(ddo.publicKey[0].owner, await signerPublisher.getAddress())
-      assert.equal(ddo.proof.creator, await signerPublisher.getAddress())
+      assert.equal(ddo.publicKey[0].owner, publisher.getAddress())
+      assert.equal(ddo.proof.creator, publisher.getAddress())
     })
 
     it('owner should be able to download the asset', async () => {
-      const signerPublisher = zerodevProviderPublisher.getAccountSigner()
-      const publisher = await Account.fromZeroDevSigner(signerPublisher)
+      // const signerPublisher = kernelClientPublisher.getAccountSigner()
+      const publisher = await NvmAccount.fromZeroDevSigner(kernelClientPublisher)
       const folder = '/tmp/nevermined/sdk-js'
 
       const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
       const files = await new Promise<string[]>((resolve) => {
-        fs.readdir(path, (e, fileList) => {
+        fs.readdir(path, (_e, fileList) => {
           resolve(fileList)
         })
       })
@@ -180,18 +242,18 @@ describe('Nevermined sdk with zerodev', () => {
     })
 
     it('consumer should be able to order the asset with a zerodev account', async () => {
-      const signerConsumer = zerodevProviderConsumer.getAccountSigner()
-      const consumer = await Account.fromZeroDevSigner(signerConsumer)
+      // const signerConsumer = kernelClientConsumer.getAccountSigner()
+      const consumer = await NvmAccount.fromZeroDevSigner(kernelClientConsumer)
       agreementId = await nevermined.assets.order(ddo.id, 'access', consumer, {
-        zeroDevSigner: signerConsumer,
+        // zeroDevSigner: signerConsumer,
       })
 
       assert.isDefined(agreementId)
     })
 
     it('consumer should be able to access ordered assets with zerodev account', async () => {
-      const signerConsumer = zerodevProviderConsumer.getAccountSigner()
-      const consumer = await Account.fromZeroDevSigner(signerConsumer)
+      // const signerConsumer = kernelClientConsumer.getAccountSigner()
+      const consumer = await NvmAccount.fromZeroDevSigner(kernelClientConsumer)
       const folder = '/tmp/nevermined/sdk-js'
 
       const path = (await nevermined.assets.access(
@@ -204,12 +266,115 @@ describe('Nevermined sdk with zerodev', () => {
       )) as string
 
       const files = await new Promise<string[]>((resolve) => {
-        fs.readdir(path, (e, fileList) => {
+        fs.readdir(path, (_e, fileList) => {
           resolve(fileList)
         })
       })
 
       assert.deepEqual(files, ['README.md', 'ddo-example.json'])
+    })
+  })
+
+  describe('Test zerodev sessionKeys', () => {
+    // let kernelClient: any // TODO: KernelAccountClient<any, any, any, any>
+    const contractAddress = '0x93605C644181f3dD03A37228528649A76822Fcf1' as '0x{string}' // DIDRegistry address
+
+    const owner = makeRandomWallet()
+
+    it('should generate a session key', async () => {
+      const permissions = [
+        {
+          target: contractAddress,
+          abi: parseAbi([
+            'function registerMintableDID(bytes32 _didSeed, address _nftContractAddress, bytes32 _checksum, address[] memory _providers, string memory _url, uint256 _cap, uint256 _royalties, bool _mint, bytes32 _activityId, string memory _nftMetadata, string memory _immutableUrl) public',
+          ]),
+          functionName: 'registerMintableDID',
+        },
+        {
+          target: contractAddress,
+          abi: parseAbi([
+            'function registerMintableDID(bytes32 _didSeed,address _nftContractAddress,bytes32 _checksum,address[] memory _providers,string memory _url,uint256 _cap,uint256 _royalties,bytes32 _activityId,string memory _nftMetadata,string memory _immutableUrl) public',
+          ]),
+          functionName: 'registerMintableDID',
+        },
+      ]
+      const sessionKey = await createSessionKey(owner, publicClient, permissions)
+      assert.isDefined(sessionKey)
+
+      const deserializedSessionKey = await getSessionKey(sessionKey, PROJECT_ID, publicClient)
+
+      // Login to the marketplace
+      const acc = NvmAccount.fromAccount(owner)
+      const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(acc)
+      await nevermined.services.marketplace.login(clientAssertion)
+
+      const account = deserializedSessionKey
+
+      const subscriptionNFT = await nevermined.contracts.loadNft1155(
+        '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5',
+      )
+      const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+
+      const assetPrice = new AssetPrice(account.getId(), 0n).adjustToIncludeNetworkFees(
+        feeReceiver,
+        NETWORK_FEE_DENOMINATOR,
+      )
+      assetPrice.setTokenAddress('0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d')
+
+      const date = new Date().toISOString().replace(/\.\d{3}/, '')
+      const subscriptionLimitType = SubscriptionType.Credits
+      const metadata: MetaData = {
+        main: {
+          name: 'TEST FROM ZERODEV USING SESSION KEY',
+          author: account.getId(),
+          dateCreated: date,
+          datePublished: date,
+          type: 'subscription',
+          license: 'No License Specified',
+          files: [],
+          ercType: ERCType.nft1155,
+          nftType: NeverminedNFT1155Type.nft1155Credit,
+          subscription: {
+            timeMeasure: 'days',
+            subscriptionType: subscriptionLimitType,
+          },
+        },
+        additionalInformation: {
+          description: 'test',
+          tags: [],
+          customData: {
+            dateMeasure: 'days',
+            plan: 'custom',
+            subscriptionLimitType,
+          },
+        },
+      }
+      const services: ServiceAttributes[] = [
+        {
+          serviceType: 'nft-sales',
+          price: assetPrice,
+          nft: {
+            // duration,
+            amount: 10n,
+            nftTransfer: false,
+          },
+        },
+      ]
+
+      const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
+        metadata,
+        services,
+        providers: ['0x046d0698926aFa3ab6D6591f03063488F3Fb4327'],
+        nftContractAddress: subscriptionNFT.address,
+        preMint: false,
+        royaltyAttributes: undefined,
+      })
+
+      const ddo = await nevermined.nfts1155.create(nftAttributes, account, {
+        metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      })
+
+      assert.isDefined(ddo)
     })
   })
 })

@@ -1,15 +1,15 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
+import { DDO } from '../../../../ddo/DDO'
 import {
   Condition,
   ConditionContext,
-  ConditionMethod,
   ConditionParameters,
   ProviderCondition,
-} from '../Condition.abstract'
-import { Account } from '../../../../nevermined'
-import { TxParameters } from '../../ContractBase'
-import { DDO } from '../../../../ddo/DDO'
+} from '../../../../keeper/contracts/conditions/Condition.abstract'
+import { NvmAccount } from '../../../../models/NvmAccount'
+import { TxParameters } from '../../../../models/Transactions'
+import { ConditionMethod } from '../../../../types/ContractTypes'
+import { didZeroX, zeroX } from '../../../../utils/ConversionTypeHelpers'
 
 export interface TransferNFT721ConditionContext extends ConditionContext {
   consumerId: string
@@ -49,7 +49,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
         didZeroX(did),
         zeroX(nftHolder),
         zeroX(nftReceiver),
-        String(1),
+        BigInt(1),
         lockCondition,
         nftTokenAddress,
         willBeTransferred,
@@ -59,7 +59,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
           return [
             didZeroX(did),
             zeroX(nftReceiver),
-            String(1),
+            BigInt(1),
             lockCondition,
             nftTokenAddress,
             willBeTransferred,
@@ -69,7 +69,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
             didZeroX(did),
             zeroX(nftHolder),
             zeroX(nftReceiver),
-            String(1),
+            BigInt(1),
             lockCondition,
             willBeTransferred,
             nftTokenAddress,
@@ -88,11 +88,11 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     if (!transfer) throw new Error('TransferNFT condition not found!')
 
     const nftAddress = transfer.parameters.find((p) => p.name === '_contractAddress')
-      .value as string
-    const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder').value as string
+      ?.value as string
+    const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder')?.value as string
 
     const nftTransferString = transfer.parameters.find((p) => p.name === '_nftTransfer')
-      .value as string
+      ?.value as string
     return this.params(
       ddo.shortId(),
       nftHolder,
@@ -112,11 +112,11 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     if (!transfer) throw new Error('TransferNFT condition not found!')
 
     const nftAddress = transfer.parameters.find((p) => p.name === '_contractAddress')
-      .value as string
-    const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder').value as string
+      ?.value as string
+    const nftHolder = transfer.parameters.find((p) => p.name === '_nftHolder')?.value as string
 
     const nftTransferString = transfer.parameters.find((p) => p.name === '_nftTransfer')
-      .value as string
+      ?.value as string
     return this.params(
       ddo.shortId(),
       nftHolder,
@@ -150,7 +150,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
     lockPaymentCondition: string,
     nftTokenAddress: string,
     willBeTransferred = true,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(
@@ -158,7 +158,7 @@ export class TransferNFT721Condition extends ProviderCondition<TransferNFT721Con
       [
         didZeroX(did),
         zeroX(nftReceiver),
-        String(1),
+        BigInt(1),
         lockPaymentCondition,
         nftTokenAddress,
         willBeTransferred,

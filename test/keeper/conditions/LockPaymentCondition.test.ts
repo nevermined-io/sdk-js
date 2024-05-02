@@ -1,15 +1,17 @@
-import { assert } from 'chai'
+import chai, { assert } from 'chai'
 import {
   EscrowPaymentCondition,
   LockPaymentCondition,
   Token,
   ConditionStoreManager,
 } from '../../../src/keeper'
-import { Nevermined } from '../../../src/nevermined'
-import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { Account, AssetPrice } from '../../../src'
-import { generateId, ZeroAddress } from '../../../src/utils'
+import { AssetPrice } from '../../../src/models/AssetPrice'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId } from '../../../src/common/helpers'
+import { ZeroAddress } from '../../../src/constants/AssetConstants'
+import chaiAsPromised from 'chai-as-promised'
+chai.use(chaiAsPromised)
 
 let conditionStoreManager: ConditionStoreManager
 let lockPaymentCondition: LockPaymentCondition
@@ -17,14 +19,16 @@ let escrowPaymentCondition: EscrowPaymentCondition
 let assetPrice: AssetPrice
 let token: Token
 
-let owner: Account
-let buyer: Account
-let seller: Account
+let deployer: NvmAccount
+let owner: NvmAccount
+let buyer: NvmAccount
+let seller: NvmAccount
 
 describe('LockPaymentCondition', () => {
   const amount = 15n
   let agreementId
   let did
+  let nevermined
 
   beforeEach(() => {
     agreementId = generateId(64)
@@ -32,14 +36,15 @@ describe('LockPaymentCondition', () => {
   })
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
+    const prepare = await TestContractHandler.prepareContracts()
+    nevermined = prepare.nevermined
+    deployer = prepare.deployerAccount
 
-    const nevermined = await Nevermined.getInstance(config)
-    await nevermined.keeper.nvmConfig.setNetworkFees(0, ZeroAddress)
+    await nevermined.keeper.nvmConfig.setNetworkFees(0, ZeroAddress, deployer)
     ;({ conditionStoreManager } = nevermined.keeper)
     ;({ lockPaymentCondition, escrowPaymentCondition } = nevermined.keeper.conditions)
     ;({ token } = nevermined.keeper)
-    ;[owner, seller, buyer] = await nevermined.accounts.list()
+    ;[owner, seller, buyer] = nevermined.accounts.list()
     assetPrice = new AssetPrice(seller.getId(), amount)
   })
 
@@ -85,7 +90,7 @@ describe('LockPaymentCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, lockPaymentCondition.address, owner)
 
-      await buyer.requestTokens(assetPrice.getTotalPrice())
+      await nevermined.accounts.requestTokens(buyer, assetPrice.getTotalPrice())
 
       await token.approve(lockPaymentCondition.address, assetPrice.getTotalPrice(), buyer)
 
@@ -122,7 +127,7 @@ describe('LockPaymentCondition', () => {
         assetPrice.getAmounts(),
         assetPrice.getReceivers(),
         buyer,
-        { value: String(assetPrice.getTotalPrice()) },
+        { value: assetPrice.getTotalPrice() },
       )
 
       assert.match(conditionId, /^0x[a-f0-9]{64}$/i)
@@ -175,7 +180,7 @@ describe('LockPaymentCondition', () => {
           assetPrice.getAmounts(),
           assetPrice.getReceivers(),
           buyer,
-          { value: String(assetPrice.getTotalPrice() - 1n) },
+          { value: assetPrice.getTotalPrice() - 1n },
         ),
         /Transaction value does not match amount/,
       )

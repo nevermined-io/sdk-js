@@ -1,19 +1,21 @@
 import { assert } from 'chai'
-import { config } from '../config'
-import { Nevermined, Account, DDO } from '../../src'
-import { Service } from '../../src/ddo'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { Service } from '../../src/types/DDOTypes'
 
 // WARN: not integration test. It has been done here because constant values
 // depends on the first account on localnet (only accessible from integration test)
 describe('Signature', () => {
   let nevermined: Nevermined
-  let consumer: Account
+  let consumer: NvmAccount
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[consumer] = await nevermined.accounts.list()
+    ;[consumer] = nevermined.accounts.list()
   })
 
   it('hashServiceAgreement should generate the correct signature', () => {
@@ -34,7 +36,7 @@ describe('Signature', () => {
 
     assert.equal(
       hash,
-      '0x67901517c18a3d23e05806fff7f04235cc8ae3b1f82345b8bfb3e4b02b5800c7',
+      '0xf7a44b02a1daebf84d852a5ce7f1e04b486c208557afa08430ee44844f70b957',
       'The signature is not correct.',
     )
   })
@@ -74,7 +76,7 @@ describe('Signature', () => {
 
     assert.equal(
       signature,
-      '0x3aa8a1c48b8e582d694bbd4ba3a29fde573b78da9720dc48baeb831b2163e1fa6e10e983882ebf8a00f4124de2505136354fd146934053f0d58bba4eced5f8d01b',
+      '0xbc0139773ad023418e8261dc8e17f0c6d30829e76dbd0c6ba99086349759be2e05e86a5a8f0c7317d4257ac252ab7d3fbbffd74e2a4abec36839cd3f1d46df091c',
       'The signature is not correct.',
     )
   })

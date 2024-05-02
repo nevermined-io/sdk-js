@@ -1,8 +1,9 @@
-import ContractBase, { TxParameters } from '../ContractBase'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { ContractBase } from '../../../keeper/contracts/ContractBase'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
 
-export default class NeverminedConfig extends ContractBase {
+export class NeverminedConfig extends ContractBase {
   templates: any
 
   public static async getInstance(config: InstantiableConfig): Promise<NeverminedConfig> {
@@ -31,11 +32,11 @@ export default class NeverminedConfig extends ContractBase {
     return this.call('isGovernor', [address])
   }
 
-  public async setGovernor(address: string, from?: Account, txParams?: TxParameters) {
+  public async setGovernor(address: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('setGovernor', [address], from, txParams)
   }
 
-  public async setTrustedForwarder(address: string, from?: Account, txParams?: TxParameters) {
+  public async setTrustedForwarder(address: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('setTrustedForwarder', [address], from, txParams)
   }
 
@@ -46,7 +47,7 @@ export default class NeverminedConfig extends ContractBase {
   public async setNetworkFees(
     networkFee: number,
     feeReceiver: string,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom('setMarketplaceFees', [networkFee, feeReceiver], from, txParams)

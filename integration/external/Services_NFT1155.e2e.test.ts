@@ -1,45 +1,38 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
 import {
-  Account,
-  DDO,
-  MetaData,
-  Nevermined,
-  AssetPrice,
-  NFTAttributes,
-  ResourceAuthentication,
-  NeverminedNFT1155Type,
-} from '../../src'
-import {
-  EscrowPaymentCondition,
-  TransferNFTCondition,
-  Token,
-  ContractHandler,
-} from '../../src/keeper'
-import { config } from '../config'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { ethers } from 'ethers'
-import { didZeroX } from '../../src/utils'
-import { EventOptions } from '../../src/events'
-import {
-  getRoyaltyAttributes,
-  RoyaltyAttributes,
-  RoyaltyKind,
-  DID,
-  NFT1155Api,
-  SubscriptionCreditsNFTApi,
   PublishMetadataOptions,
   PublishOnChainOptions,
-} from '../../src/nevermined'
+  RoyaltyKind,
+} from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { Token } from '../../src/keeper/contracts/Token'
+import { EscrowPaymentCondition, TransferNFTCondition } from '../../src/keeper/contracts/conditions'
+import { MetaData, ResourceAuthentication } from '../../src/types/DDOTypes'
+import TestContractHandler from '../../test/keeper/TestContractHandler'
+import { EventOptions } from '../../src/types/EventTypes'
+import { didZeroX } from '../../src/utils/ConversionTypeHelpers'
+import { getChecksumAddress } from '../../src/nevermined/utils/BlockchainViemUtils'
 import { RequestInit } from 'node-fetch'
 import fetch from 'node-fetch'
 import { sleep } from '../utils/utils'
 import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
+import { NFT1155Api } from '../../src/nevermined/api/nfts/NFT1155Api'
+import { ContractHandler } from '../../src/keeper/ContractHandler'
+import { SubscriptionCreditsNFTApi } from '../../src/nevermined/api/nfts/SubscriptionCreditsNFTApi'
+import { DID } from '../../src/nevermined/DID'
+import { NeverminedNFT1155Type } from '../../src/types/GeneralTypes'
 
 describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
-  let publisher: Account
-  let subscriber: Account
-  let reseller: Account
+  let publisher: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -107,7 +100,6 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
   let initialBalances: any
   let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: NFT1155Api
   let neverminedNodeAddress
 
@@ -119,7 +111,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     TestContractHandler.setConfig(config)
 
     nevermined = await Nevermined.getInstance(config)
-    ;[, publisher, subscriber, , reseller] = await nevermined.accounts.list()
+    ;[, publisher, subscriber, , reseller] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
@@ -183,7 +175,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await ContractHandler.getABI(
+      const contractABI = await ContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
         config.artifactsFolder,
         await nevermined.keeper.getNetworkName(),
@@ -337,7 +329,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice / scale)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
       assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
@@ -411,7 +403,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getChecksumAddress(eventValues._receiver), subscriber.getId())
     })
 
     it('The publisher can access the service endpoints available', async () => {

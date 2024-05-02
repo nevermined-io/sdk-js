@@ -1,32 +1,20 @@
-import { ethers } from 'ethers'
-import { LogLevel } from '../utils'
-import { AaveConfig } from './'
-
-export interface NeverminedInitializationOptions {
-  loadCore: boolean // NVMConfig, DIDRegistry
-  loadServiceAgreements: boolean // TemplateStoreManager, AgreementStoreManager, ConditionStoreManager
-  loadNFTs721: boolean // NFT721HolderCondition, NFT721LockCondition, NFT721AccessTemplate, NFT721SalesTemplate
-  loadNFTs1155: boolean // NFTHolderCondition, NFTLockCondition, NFTAccessTemplate, NFTSalesTemplate
-  loadDispenser: boolean // Dispenser
-  loadERC20Token: boolean // Token
-  loadAccessFlow: boolean // LockPaymentCondition, EscrowPaymentCondition, AccessCondition, AccessTemplate
-  loadDIDTransferFlow: boolean // TransferDIDOwnershipCondition, DIDSalesTemplate
-  loadRewards: boolean // RewardsDistributor
-  loadRoyalties: boolean // StandardRoyalties, CurveRoyalties
-  loadCompute: boolean // ComputeExecutionCondition, EscrowComputeExecutionTemplate
-}
+import { NvmAccount } from '../models/NvmAccount'
+import { LogLevel } from '../models/Logger'
 
 export class NeverminedOptions {
-  /**
-   * The Nevermined App URL.
-   */
-  public appUrl?: string
+  public chainId?: number
   /**
    * Ethereum Web3 Provider URL. This Url allows the SDK to connect to a blockchain.
    * This provider depends on the network where you want to connect (Ethereum Mainnet, Rinkeby, Polygon Matic, etc).
    * It's possible to use a public available provider or a private/paid one like Infura, Alchemy, etc.
    */
   public web3ProviderUri?: string
+
+  /**
+   * The Nevermined App URL.
+   */
+  public appUrl?: string
+
   /**
    * URL to the MarketPlace API use to record some Nevermined assets metadata. In a Nevermined network there could be
    * multiple Marketplace API instances. Each of them typically records the metadata of a specific domain/vertical deployed on a Nevermined network.
@@ -73,8 +61,6 @@ export class NeverminedOptions {
    */
   public graphHttpUri?: string
 
-  public aaveConfig?: AaveConfig
-
   /**
    * The folder where the nevermined contract artifacts are located.
    */
@@ -84,7 +70,7 @@ export class NeverminedOptions {
    */
   public circuitsFolder?: string
 
-  public accounts?: ethers.Signer[]
+  public accounts?: NvmAccount[]
 
   /**
    * IPFS variables enable the resolution of DDOs (via `assets.resolve`) from CID urls

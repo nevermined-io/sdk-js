@@ -1,16 +1,23 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, AssetPrice, NFTAttributes } from '../../src'
-import { parseEther, ZeroAddress } from '../../src/utils'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
+
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { parseEther } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { ZeroAddress } from '../../src/constants/AssetConstants'
 
 describe('Nfts operations', () => {
   let nevermined: Nevermined
 
-  let artist: Account
-  let collector: Account
+  let artist: NvmAccount
+  let collector: NvmAccount
   let ddo: DDO
 
   let payload: JWTPayload
@@ -20,7 +27,7 @@ describe('Nfts operations', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[artist, collector] = await nevermined.accounts.list()
+    ;[artist, collector] = nevermined.accounts.list()
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(artist)
 
     await nevermined.services.marketplace.login(clientAssertion)

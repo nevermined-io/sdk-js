@@ -4,14 +4,14 @@ import { decodeJwt } from 'jose'
 import { config } from '../config'
 import { workflowMetadatas } from '../utils'
 
-import { Nevermined, DDO, Account, AssetPrice, AssetAttributes } from '../../src'
+import { Nevermined, DDO, NvmAccount, AssetPrice, AssetAttributes } from '../../src/sdk'
 import { sleep } from '../utils/utils'
 
 describe('Compute Asset', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let algorithmDdo: DDO
   let computeDdo: DDO
@@ -26,7 +26,7 @@ describe('Compute Asset', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[publisher, consumer] = await nevermined.accounts.list()
+    ;[publisher, consumer] = nevermined.accounts.list()
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
     await nevermined.services.marketplace.login(clientAssertion)
@@ -97,7 +97,7 @@ describe('Compute Asset', () => {
   const getResultDidFromStatus = async (
     argoWorkflowId: string,
     agreementID: string,
-    account: Account,
+    account: NvmAccount,
     nvm: Nevermined,
     maxAttempts = -1,
     wait = 5000,

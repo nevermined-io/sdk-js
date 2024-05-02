@@ -1,6 +1,8 @@
-import { DDO, ServiceType } from '../../../ddo'
-import { Account, OrderProgressStep } from '../../../nevermined'
-import { TxParameters } from '../ContractBase'
+import { DDO } from '../../../ddo/DDO'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { OrderProgressStep } from '../../../nevermined/ProgressSteps'
+import { ServiceType } from '../../../types/DDOTypes'
 
 export interface GenericAccess {
   createAgreementWithPaymentFromDDO(
@@ -8,8 +10,8 @@ export interface GenericAccess {
     ddo: DDO,
     serviceReference: ServiceType | number,
     parameters: any,
-    consumer: Account,
-    from: Account,
+    consumer: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
     observer?: (orderProgressStep: OrderProgressStep) => void,
   ): Promise<string>

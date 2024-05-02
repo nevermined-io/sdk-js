@@ -1,13 +1,17 @@
 import chai, { assert, expect } from 'chai'
-import { Account, DDO, Nevermined, AssetAttributes, AssetPrice } from '../../src'
-import { DIDRegistry } from '../../src/keeper'
-import { DDOStatus } from '../../src/services'
-import { config } from '../config'
-import { getAssetPrice, getMetadata } from '../utils'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { DDOStatus } from '../../src/services/metadata/MetadataService'
+import { DIDRegistry } from '../../src/keeper/contracts/DIDRegistry'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getAssetPrice, getMetadata } from '../utils/ddo-metadata-generator'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe.skip('Get DDO status', () => {
   let nevermined: Nevermined
-  let publisher: Account
+  let publisher: NvmAccount
   let assetPrice: AssetPrice
   let ddo: DDO
   let ddoStatus: DDOStatus
@@ -16,7 +20,7 @@ describe.skip('Get DDO status', () => {
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
     ;({ didRegistry } = nevermined.keeper)
-    ;[publisher] = await nevermined.accounts.list()
+    ;[publisher] = nevermined.accounts.list()
     assetPrice = getAssetPrice(publisher.getId())
   })
 

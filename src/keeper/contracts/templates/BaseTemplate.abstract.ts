@@ -1,18 +1,26 @@
+import { getConditionsByParams } from '../../../ddo/DDO'
 import { AgreementTemplate } from './AgreementTemplate.abstract'
-import { getConditionsByParams, zeroX } from '../../../utils'
+
 import {
-  PricedMetadataInformation,
+  Condition,
+  ConditionInstance,
+} from '../../../keeper/contracts/conditions/Condition.abstract'
+import { NFTAttributes } from '../../../models/NFTAttributes'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { isValidAddress } from '../../../nevermined/utils/BlockchainViemUtils'
+import { ConditionState } from '../../../types/ContractTypes'
+import {
   Service,
-  ServiceAttributes,
-  serviceIndex,
   ServicePlugin,
   ServiceType,
+  MetaData,
+  ServiceAttributes,
+  PricedMetadataInformation,
+  serviceIndex,
   ValidationParams,
-} from '../../../ddo'
-import { Account, Condition, MetaData, NFTAttributes } from '../../../sdk'
-import { TxParameters } from '../ContractBase'
-import { ConditionInstance, ConditionState } from '../conditions'
-import { isAddress } from 'ethers'
+} from '../../../types/DDOTypes'
+import { zeroX } from '../../../utils/ConversionTypeHelpers'
 
 export abstract class BaseTemplate<Params, S extends Service>
   extends AgreementTemplate<Params>
@@ -20,8 +28,13 @@ export abstract class BaseTemplate<Params, S extends Service>
 {
   public async getAgreementData(
     agreementId: string,
-  ): Promise<{ accessProvider: string; accessConsumer: string }> {
-    return this.call<any>('getAgreementData', [zeroX(agreementId)])
+  ): Promise<{ accessProvider: string; accessConsumer: string; did: string }> {
+    const data = await this.call<any>('getAgreementData', [zeroX(agreementId)])
+    return {
+      accessConsumer: data[0],
+      accessProvider: data[1],
+      did: data[2],
+    }
   }
 
   public abstract name(): string
@@ -33,15 +46,15 @@ export abstract class BaseTemplate<Params, S extends Service>
   }
 
   public createService(
-    publisher: Account,
+    publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
     priceData?: PricedMetadataInformation,
   ): S {
     const assetPrice = serviceAttributes.price
-    let tokenAddress = undefined
-    if (assetPrice && isAddress(assetPrice.getTokenAddress()))
+    let tokenAddress: string | undefined
+    if (assetPrice && isValidAddress(assetPrice.getTokenAddress()))
       tokenAddress = assetPrice.getTokenAddress()
     else if (this.nevermined.keeper.token) {
       tokenAddress = this.nevermined.keeper.token.address
@@ -104,7 +117,7 @@ export abstract class BaseTemplate<Params, S extends Service>
 
   public async track(
     _params: ValidationParams,
-    _from: Account,
+    _from: NvmAccount,
     _txparams?: TxParameters,
   ): Promise<boolean> {
     return false
@@ -112,7 +125,7 @@ export abstract class BaseTemplate<Params, S extends Service>
 
   public async process(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<void> {
     await this.validateAgreement(
@@ -129,7 +142,7 @@ export abstract class BaseTemplate<Params, S extends Service>
     agreement_id: string,
     did: string,
     params: Params,
-    from: Account,
+    from: NvmAccount,
     extra: any = {},
     txparams?: TxParameters,
   ): Promise<void> {

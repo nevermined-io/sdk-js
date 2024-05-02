@@ -1,27 +1,29 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
-import { Nevermined, Account, DDO, AssetAttributes } from '../../src'
-import { generateId } from '../../src/utils'
-
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { generateId } from '../../src/common/helpers'
 describe('Search Asset', () => {
   let nevermined: Nevermined
   let neverminedOffline: Nevermined
-  let account: Account
+  let account: NvmAccount
   let appId: string
   let userId: string
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
     neverminedOffline = await Nevermined.getSearchOnlyInstance(config)
-    ;[account] = await nevermined.accounts.list()
+    ;[account] = nevermined.accounts.list()
     appId = generateId()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account)
     await nevermined.services.marketplace.login(clientAssertion)
     const payload = decodeJwt(config.marketplaceAuthToken)
-    userId = payload.sub
+    userId = payload.sub as string
   })
 
   it('should register the assets', async () => {

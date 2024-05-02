@@ -1,15 +1,14 @@
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
-import { BaseTemplate } from './BaseTemplate.abstract'
-import { DDO, ServiceCompute, ServiceType, ValidationParams } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-
-import { escrowComputeExecutionTemplateServiceAgreementTemplate } from './EscrowComputeExecutionTemplate.serviceAgreementTemplate'
-import { Account } from '../../../sdk'
-import {
-  ComputeExecutionCondition,
-  EscrowPaymentCondition,
-  LockPaymentCondition,
-} from '../conditions'
+import { DDO } from '../../../ddo/DDO'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { AgreementInstance } from '../../../types/ContractTypes'
+import { ServiceCompute, ValidationParams, ServiceType } from '../../../types/DDOTypes'
+import { ComputeExecutionCondition } from '../conditions/ComputeExecutionCondition'
+import { EscrowPaymentCondition } from '../conditions/EscrowPaymentCondition'
+import { LockPaymentCondition } from '../conditions/LockPaymentCondition'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
+import { BaseTemplate } from './BaseTemplate.abstract'
+import { lockPaymentTemplate, serviceExecutionTemplate, escrowTemplate } from './ConditionTemplates'
 
 export interface EscrowComputeExecutionParams {
   consumerId: string
@@ -88,14 +87,38 @@ export class EscrowComputeExecutionTemplate extends BaseTemplate<
   }
 
   public getServiceAgreementTemplate() {
-    return { ...escrowComputeExecutionTemplateServiceAgreementTemplate() }
+    return {
+      contractName: 'EscrowComputeExecutionTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'serviceExecutionTemplate',
+            functionName: 'fulfillLockPaymentCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: [
+        'lockPayment.fulfill',
+        'serviceExecution.fulfill',
+        'escrowPayment.fulfill',
+      ],
+      conditionDependency: {
+        lockPayment: [],
+        serviceExecution: [],
+        escrowPaymentCondition: ['lockPayment', 'serviceExecution'],
+      },
+      conditions: [lockPaymentTemplate(), serviceExecutionTemplate(), escrowTemplate()],
+    }
   }
 
   public service(): ServiceType {
     return 'compute'
   }
 
-  public params(consumer: Account): EscrowComputeExecutionParams {
+  public params(consumer: NvmAccount): EscrowComputeExecutionParams {
     return { consumerId: consumer.getId() }
   }
 

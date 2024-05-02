@@ -1,39 +1,38 @@
 import chai, { assert } from 'chai'
 import { decodeJwt } from 'jose'
 import chaiAsPromised from 'chai-as-promised'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO, getConditionsByParams } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { Token } from '../../src/keeper/contracts/Token'
+import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
 import {
-  Account,
-  DDO,
-  Nevermined,
-  generateId,
-  AssetPrice,
-  AssetAttributes,
-  NFTAttributes,
-} from '../../src'
-import { Service } from '../../src/ddo'
-import {
-  ConditionState,
-  EscrowPaymentCondition,
   LockPaymentCondition,
+  EscrowPaymentCondition,
   TransferNFTCondition,
-  Nft1155Contract,
-  NFTAccessTemplate,
-  NFTSalesTemplate,
-  Token,
-} from '../../src/keeper'
-import { formatUnits, getConditionsByParams, parseUnits } from '../../src/utils'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
+} from '../../src/keeper/contracts/conditions'
+import { NFTSalesTemplate } from '../../src/keeper/contracts/templates/NFTSalesTemplate'
+import { NFTAccessTemplate } from '../../src/keeper/contracts/templates/NFTAccessTemplate'
+import { Service } from '../../src/types/DDOTypes'
+import { formatUnits, parseUnits } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { generateId } from '../../src/common/helpers'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { ConditionState } from '../../src/types/ContractTypes'
 
 chai.use(chaiAsPromised)
 
 describe('Secondary Markets', () => {
-  let owner: Account
-  let artist: Account
-  let collector1: Account
-  let collector2: Account
-  let gallery: Account
+  let owner: NvmAccount
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let collector2: NvmAccount
+  let gallery: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -87,7 +86,7 @@ describe('Secondary Markets', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[owner, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
+    ;[owner, artist, collector1, collector2, gallery] = nevermined.accounts.list()
 
     receivers = [artist.getId(), gallery.getId()]
     receivers2 = [collector1.getId(), artist.getId()]
@@ -224,7 +223,7 @@ describe('Secondary Markets', () => {
       })
 
       it('I am locking the payment', async () => {
-        await collector1.requestTokens(formatUnits(nftPrice, decimals))
+        await nevermined.accounts.requestTokens(collector1, BigInt(formatUnits(nftPrice, decimals)))
 
         const collector1BalanceBefore = await token.balanceOf(collector1.getId())
         assert.equal(collector1BalanceBefore, initialBalances.collector1 + nftPrice)
@@ -234,8 +233,8 @@ describe('Secondary Markets', () => {
           ddo.id,
           assetPrice1.getAmounts(),
           assetPrice1.getReceivers(),
-          token.address,
           collector1,
+          token.address,
         )
         assert.isTrue(receipt)
 
@@ -315,6 +314,8 @@ describe('Secondary Markets', () => {
           ddo.id,
           collector1.getId(),
           numberNFTs,
+          nftUpgradeable.address,
+          collector1,
         )
         assert.isTrue(result)
       })
@@ -404,7 +405,10 @@ describe('Secondary Markets', () => {
       it('As collector2 I am locking the payment', async () => {
         // Collector2 gets the price from some marketplace
         // (query the service agreements from the metadata)
-        await collector2.requestTokens(formatUnits(nftPrice2, decimals))
+        await nevermined.accounts.requestTokens(
+          collector2,
+          BigInt(formatUnits(nftPrice2, decimals)),
+        )
 
         const collector2BalanceBefore = await token.balanceOf(collector2.getId())
         assert.equal(collector2BalanceBefore, initialBalances.collector2 + nftPrice2)
@@ -419,8 +423,8 @@ describe('Secondary Markets', () => {
           ddo.id,
           assetPriceFromServiceAgreement.getAmounts(),
           assetPriceFromServiceAgreement.getReceivers(),
-          payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
           collector2,
+          payment.parameters.find((p) => p.name === '_tokenAddress')?.value as string,
         )
         assert.isTrue(receipt)
 
@@ -529,6 +533,8 @@ describe('Secondary Markets', () => {
           ddo.id,
           collector2.getId(),
           numberNFTs,
+          nftUpgradeable.address,
+          collector2,
         )
         assert.isTrue(result)
       })
@@ -551,6 +557,8 @@ describe('Secondary Markets', () => {
             ddo.id,
             collector1.getId(),
             numberNFTs,
+            nftUpgradeable.address,
+            collector1,
           ),
         )
       })
@@ -572,7 +580,10 @@ describe('Secondary Markets', () => {
       })
 
       it('As collector1 I buy the secondary market NFT', async () => {
-        await collector1.requestTokens(formatUnits(nftPrice2, decimals))
+        await nevermined.accounts.requestTokens(
+          collector1,
+          BigInt(formatUnits(nftPrice2, decimals)),
+        )
 
         nftBalanceCollector1Before = await nftUpgradeable.balance(collector1.getId(), ddo.id)
         nftBalanceCollector2Before = await nftUpgradeable.balance(collector2.getId(), ddo.id)

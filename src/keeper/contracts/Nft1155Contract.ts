@@ -1,11 +1,12 @@
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../utils'
-import { Account } from '../../nevermined'
-import { TxParameters } from './ContractBase'
-import { ethers } from 'ethers'
-import { NFTContractsBase } from './NFTContractsBase'
-import { ContractHandler } from '../ContractHandler'
-import { ContractEvent, EventHandler } from '../../events'
+import { ContractEvent } from '../../events/ContractEvent'
+import { EventHandler } from '../../events/EventHandler'
+import { ContractHandler } from '../../keeper/ContractHandler'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { didToTokenId, getContractInstance } from '../../nevermined/utils/BlockchainViemUtils'
+import { didZeroX, zeroX } from '../../utils/ConversionTypeHelpers'
+import { NFT1155MintedEntry, NFTContractsBase } from './NFTContractsBase'
 
 /**
  * NFTs contracts DTO allowing to manage Nevermined ERC-1155 NFTs
@@ -25,12 +26,16 @@ export class Nft1155Contract extends NFTContractsBase {
 
       // We don't have a subgraph for NFT1155 so we can only use ContractEvent
       const eventEmitter = new EventHandler()
-      nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
+      nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, nft.client)
 
-      const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
-      await new ContractHandler(config).checkExists(address)
-      nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
-      nft.address = await nft.contract.getAddress()
+      const solidityABI = await ContractHandler.getABIArtifact(
+        contractName,
+        artifactsFolder,
+        networkName,
+      )
+
+      nft.contract = await getContractInstance(address, solidityABI.abi, nft.client)
+      nft.address = await nft.contract.address
     }
 
     return nft
@@ -47,11 +52,10 @@ export class Nft1155Contract extends NFTContractsBase {
 
     // We don't have a subgraph for NFT1155 so we can only use ContractEvent
     const eventEmitter = new EventHandler()
-    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
+    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, nft.client)
 
-    await new ContractHandler(config).checkExists(address)
-    nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
-    nft.address = await nft.contract.getAddress()
+    nft.contract = await getContractInstance(address, solidityABI.abi, nft.client)
+    nft.address = await nft.contract.address
 
     return nft
   }
@@ -71,7 +75,7 @@ export class Nft1155Contract extends NFTContractsBase {
     symbol: string,
     uri: string,
     operators: string[] = [],
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this._createClone(1155, name, symbol, uri, undefined, operators, from, txParams)
@@ -100,7 +104,7 @@ export class Nft1155Contract extends NFTContractsBase {
   public setApprovalForAll(
     operatorAddress: string,
     approved: boolean,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom('setApprovalForAll', [zeroX(operatorAddress), approved], from, txParams)
@@ -114,7 +118,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @returns
    */
   public async balance(address: string, did: string): Promise<bigint> {
-    return this.call('balanceOf', [zeroX(address), didZeroX(did)])
+    return this.call('balanceOf', [zeroX(address), didToTokenId(did)])
   }
 
   /**
@@ -123,7 +127,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param did - The NFT id
    * @param to - Account address of the NFT receiver
    * @param amount - Number of editions to transfer. Typically just 1
-   * @param from - Account address transferring the NFT
+   * @param from - Account transferring the NFT
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
@@ -131,10 +135,10 @@ export class Nft1155Contract extends NFTContractsBase {
     did: string,
     to: string,
     amount: bigint,
-    from: string,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.send('safeTransferFrom', from, [from, to, didZeroX(did), amount, []], txParams)
+    return this.send('safeTransferFrom', from, [from, to, didToTokenId(did), amount, []], txParams)
   }
 
   /**
@@ -143,7 +147,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param to - Account address of the NFT receiver
    * @param did - The NFT id to mint
    * @param amount - Number of editions to mint
-   * @param from - Account address minting the NFT
+   * @param from - Account minting the NFT
    * @param data - Data
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
@@ -152,24 +156,30 @@ export class Nft1155Contract extends NFTContractsBase {
     to: string,
     did: string,
     amount: bigint,
-    from: string,
+    from: NvmAccount,
     data?: string,
     txParams?: TxParameters,
   ) {
-    return this.send('mint', from, [to, didZeroX(did), amount, data || '0x'], txParams)
+    const args: any[] = [to, didToTokenId(did), amount, data || '0x']
+    return this.send('mint', from, args, txParams)
   }
 
   /**
    * It burns some editions of a NFT (ERC-1155)
    *
-   * @param from - Account address burning the NFT editions
+   * @param from - Account burning the NFT editions
    * @param tokenId - The NFT id to burn
    * @param amount - Number of editions to burn
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(from: string, tokenId: string, amount: bigint, txParams?: TxParameters) {
-    return this.send('burn', from, [from, didZeroX(tokenId), amount], txParams)
+  public async burn(from: NvmAccount, tokenId: string, amount: bigint, txParams?: TxParameters) {
+    return this.send(
+      'burn',
+      from,
+      [from.getAddress(), didToTokenId(tokenId), BigInt(amount)],
+      txParams,
+    )
   }
 
   /**
@@ -178,7 +188,7 @@ export class Nft1155Contract extends NFTContractsBase {
    * @param holder - Address of the account holding the NFT editions that are going to be burned
    * @param tokenId - The NFT id to burn
    * @param amount - Number of editions to burn
-   * @param from - Account address burning the NFT editions
+   * @param from - Account burning the NFT editions
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
@@ -186,10 +196,10 @@ export class Nft1155Contract extends NFTContractsBase {
     holder: string,
     tokenId: string,
     amount: bigint,
-    from: string,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.send('burn', from, [holder, didZeroX(tokenId), amount], txParams)
+    return this.send('burn', from, [holder, didToTokenId(tokenId), BigInt(amount)], txParams)
   }
 
   /**
@@ -199,6 +209,28 @@ export class Nft1155Contract extends NFTContractsBase {
    * @returns The NFT metadata url
    */
   public async uri(did: string): Promise<string> {
-    return this.call('uri', [didZeroX(did)])
+    return this.call('uri', [didToTokenId(did)])
+  }
+
+  /**
+   * It gets all the `NFT1155MintedEntry` events from the NFT Contract
+   * @param owner the user owning the NFT
+   * @param did the tokenId of the NFT
+   * @returns An array of `NFT1155MintedEntry` objects
+   */
+  public async getMintedEntries(owner: string, did?: string): Promise<NFT1155MintedEntry[]> {
+    const minted: any[][] = await this.call(
+      'getMintedEntries',
+      did ? [owner, didZeroX(did)] : [owner],
+    )
+    const entries: NFT1155MintedEntry[] = []
+    minted.map((entry) => {
+      entries.push({
+        amountMinted: BigInt(entry['amountMinted']),
+        expirationBlock: BigInt(entry['expirationBlock']),
+        mintBlock: BigInt(entry['mintBlock']),
+      })
+    })
+    return entries
   }
 }

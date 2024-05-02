@@ -1,8 +1,12 @@
-import { MarketplaceApi } from './MarketplaceAPI'
-import { NewPermission, Permission, PermissionType } from './types'
-import { HttpError, ApiError } from '../../errors'
-import { MarketplaceResults } from '../../common/interfaces'
-import { SearchQuery } from '../../common/interfaces'
+import { MarketplaceApi } from '../../services/metadata/MarketplaceAPI'
+import {
+  NewPermission,
+  SearchQuery,
+  MarketplaceResults,
+  PermissionType,
+  Permission,
+} from '../../types/MetadataTypes'
+import { ApiError, HttpError } from '../../errors/NeverminedErrors'
 import { buildQuery } from '../../common/helpers'
 
 const permissionPath = '/api/v1/permissions'

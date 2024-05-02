@@ -1,7 +1,8 @@
-import ContractBase, { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { Account } from '../../nevermined'
-import { formatEther } from '../../sdk'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { formatEther } from 'viem'
+import { ContractBase } from '../../keeper/contracts/ContractBase'
 
 export class Token extends ContractBase {
   static ERC20_ABI = [
@@ -24,12 +25,12 @@ export class Token extends ContractBase {
     return token
   }
 
-  public async approve(to: string, price: bigint, from?: Account, txParams?: TxParameters) {
+  public async approve(to: string, price: bigint, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('approve', [to, price.toString()], from, txParams)
   }
 
   public async decimals(): Promise<number> {
-    return this.call('decimals', [])
+    return this.call('decimals', []) as Promise<number>
   }
 
   public async balanceOfConverted(address: string): Promise<bigint> {
@@ -56,7 +57,7 @@ export class Token extends ContractBase {
     return this.call('totalSupply', [])
   }
 
-  public async transfer(to: string, amount: bigint, from: string, txParams?: TxParameters) {
+  public async transfer(to: string, amount: bigint, from: NvmAccount, txParams?: TxParameters) {
     return this.send('transfer', from, [to, amount.toString()], txParams)
   }
 }

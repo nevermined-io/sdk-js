@@ -1,24 +1,22 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, Nevermined, NFTAttributes, AssetPrice } from '../../src'
-import {
-  TransferNFT721Condition,
-  Token,
-  Nft721Contract,
-  ConditionState,
-  ContractHandler,
-} from '../../src/keeper'
-import { config } from '../config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { generateId } from '../../src/common/helpers'
+import { DDO } from '../../src/ddo/DDO'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { TransferNFT721Condition, Token, Nft721Contract, ContractHandler } from '../../src/keeper'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
-import { ethers } from 'ethers'
-import { generateId } from '../../src/utils'
 import '../globals'
 import { mineBlocks } from '../utils/utils'
+import { ConditionState } from '../../src/types/ContractTypes'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 
 describe('Claim aborted agreements End-to-End', () => {
-  let publisher: Account
-  let collector1: Account
-  let other: Account
+  let publisher: NvmAccount
+  let collector1: NvmAccount
+  let other: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -38,7 +36,7 @@ describe('Claim aborted agreements End-to-End', () => {
   let scale: bigint
   let neverminedNodeAddress: string
 
-  let nft: ethers.BaseContract
+  let nft
   let nftContract: Nft721Contract
 
   let payload: JWTPayload
@@ -48,16 +46,16 @@ describe('Claim aborted agreements End-to-End', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[, publisher, collector1, , other] = await nevermined.accounts.list()
+    ;[, publisher, collector1, , other] = nevermined.accounts.list()
 
     const networkName = await nevermined.keeper.getNetworkName()
-    const erc721ABI = await ContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABIArtifact(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
-    nft = await nevermined.utils.contractHandler.deployAbi(erc721ABI, publisher, [
+    nft = await nevermined.utils.blockchain.deployAbi(erc721ABI, publisher, [
       publisher.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
@@ -69,7 +67,7 @@ describe('Claim aborted agreements End-to-End', () => {
 
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
-      await nft.getAddress(),
+      await nft.address,
     )
     await nevermined.contracts.loadNft721(nftContract.address)
 
@@ -101,7 +99,7 @@ describe('Claim aborted agreements End-to-End', () => {
     )
 
     await nftContract.grantOperatorRole(transferNft721Condition.address, publisher)
-    await collector1.requestTokens((nftPrice / scale) * 10n)
+    await nevermined.accounts.requestTokens(collector1, (nftPrice / scale) * 10n)
   })
 
   describe('As a publisher I want to register a new asset', () => {

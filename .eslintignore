@@ -4,3 +4,4 @@ webpack*
 plugins
 scripts
 test/mocks
+coverage*

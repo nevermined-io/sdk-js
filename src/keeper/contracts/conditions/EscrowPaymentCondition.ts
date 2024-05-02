@@ -1,14 +1,10 @@
-import {
-  Condition,
-  ConditionContext,
-  ConditionInstanceSmall,
-  ProviderCondition,
-} from './Condition.abstract'
-import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
-import { TxParameters } from '../ContractBase'
-import { DDO } from '../../../ddo'
+import { DDO } from '../../../ddo/DDO'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { ConditionInstanceSmall } from '../../../types/ContractTypes'
+import { didZeroX, zeroX } from '../../../utils/ConversionTypeHelpers'
+import { ConditionContext, ProviderCondition, Condition } from './Condition.abstract'
 
 export interface EscrowPaymentConditionContext extends ConditionContext {
   consumerId: string
@@ -45,13 +41,14 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
   ) {
     const escrow = DDO.findServiceConditionByName(service, 'escrowPayment')
     if (!escrow) throw new Error('Escrow Condition not found!')
+    const tokenAddress = escrow.parameters.find((p) => p.name === '_tokenAddress')?.value as string
     return this.params(
       ddo.shortId(),
       rewards.getAmounts(),
       rewards.getReceivers(),
       consumerId,
       this.nevermined.keeper.conditions.escrowPaymentCondition.address,
-      escrow.parameters.find((p) => p.name === '_tokenAddress').value as string,
+      tokenAddress,
       lock.id,
       access.id,
     )
@@ -67,7 +64,7 @@ export class EscrowPaymentCondition extends ProviderCondition<EscrowPaymentCondi
     tokenAddress: string,
     lockCondition: string,
     releaseCondition: string,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     const amountsString = amounts.map((v) => v.toString())

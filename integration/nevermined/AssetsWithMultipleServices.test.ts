@@ -1,22 +1,22 @@
+// @ts-nocheck
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { config } from '../config'
 import { getMetadata } from '../utils'
-import {
-  Nevermined,
-  Account,
-  MetaData,
-  DDO,
-  AssetPrice,
-  AssetAttributes,
-  ConditionState,
-  Token,
-} from '../../src'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { MetaData } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+
 import { repeat } from '../utils/utils'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { Token } from '../../src/keeper/contracts/Token'
+import { ConditionState } from '../../src/types/ContractTypes'
 
 let nevermined: Nevermined
-let publisher: Account
-let consumer: Account
+let publisher: NvmAccount
+let consumer: NvmAccount
 let metadata: MetaData
 let createdMetadata: MetaData
 let assetPrice1: AssetPrice
@@ -37,7 +37,7 @@ describe('Assets with multiple services', () => {
     nevermined = await Nevermined.getInstance(config)
     ;({ token } = nevermined.keeper)
     // Accounts
-    ;[publisher, consumer] = await nevermined.accounts.list()
+    ;[publisher, consumer] = nevermined.accounts.list()
 
     neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
@@ -50,7 +50,7 @@ describe('Assets with multiple services', () => {
     assetPrice2 = new AssetPrice(publisher.getId(), BigInt(totalAmount2))
 
     try {
-      await consumer.requestTokens(BigInt(totalAmount1) * 10n)
+      await nevermined.accounts.requestTokens(consumer, BigInt(totalAmount1) * 10n)
     } catch (error) {
       console.error(error)
     }

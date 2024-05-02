@@ -1,38 +1,38 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { generateId } from '../../src/common/helpers'
+
+import { Token } from '../../src/keeper/contracts/Token'
+import { ConditionStoreManager } from '../../src/keeper/contracts/managers/ConditionStoreManager'
 import {
-  Account,
-  DDO,
-  Nevermined,
-  generateId,
-  AssetPrice,
-  NFTAttributes,
-  AssetAttributes,
-} from '../../src'
-import {
-  ConditionState,
   EscrowPaymentCondition,
   LockPaymentCondition,
   NFTAccessCondition,
-  NFTHolderCondition,
   TransferNFTCondition,
-  Nft1155Contract,
-  ConditionStoreManager,
-  NFTAccessTemplate,
-  NFTSalesTemplate,
-  Token,
-} from '../../src/keeper'
-import { getRoyaltyAttributes, RoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import { EventLog } from 'ethers'
+  NFTHolderCondition,
+} from '../../src/keeper/contracts/conditions'
+import { RoyaltyAttributes, getRoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
+import { ConditionState } from '../../src/types/ContractTypes'
+import { Nft1155Contract } from '../../src/keeper/contracts/Nft1155Contract'
+import { NFTSalesTemplate } from '../../src/keeper/contracts/templates/NFTSalesTemplate'
+import { NFTAccessTemplate } from '../../src/keeper/contracts/templates/NFTAccessTemplate'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('NFTTemplates E2E', () => {
-  let owner: Account
-  let artist: Account
-  let collector1: Account
-  let collector2: Account
-  let gallery: Account
+  let owner: NvmAccount
+  let artist: NvmAccount
+  let collector1: NvmAccount
+  let collector2: NvmAccount
+  let gallery: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -87,7 +87,7 @@ describe('NFTTemplates E2E', () => {
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[owner, artist, collector1, collector2, gallery] = await nevermined.accounts.list()
+    ;[owner, artist, collector1, collector2, gallery] = nevermined.accounts.list()
 
     receivers = [artist.getId(), gallery.getId()]
     receivers2 = [collector1.getId(), artist.getId()]
@@ -244,8 +244,9 @@ describe('NFTTemplates E2E', () => {
           [collector1.getId()],
           collector1,
         )
-        assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.equal(result.status, 'success')
+        const logs = nftSalesTemplate.getTransactionLogs(result, 'AgreementCreated')
+        assert.isTrue(logs.length > 0)
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment[1])).state,
@@ -262,7 +263,7 @@ describe('NFTTemplates E2E', () => {
       })
 
       it('I am locking the payment', async () => {
-        await collector1.requestTokens(nftPrice / scale)
+        await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
         const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
         const collector1BalanceBefore = await token.balanceOf(collector1.getId())
         assert.equal(collector1BalanceBefore, initialBalances.collector1 + nftPrice)
@@ -300,9 +301,9 @@ describe('NFTTemplates E2E', () => {
           numberNFTs,
           nevermined.keeper.nftUpgradeable.address,
           conditionIdLockPayment[1],
+          artist,
           true,
           TransferNFTCondition.NO_EXPIRY,
-          artist,
         )
 
         const { state } = await conditionStoreManager.getCondition(conditionIdTransferNFT[1])
@@ -380,8 +381,9 @@ describe('NFTTemplates E2E', () => {
           [collector1.getId()],
           collector1,
         )
-        assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.equal(result.status, 'success')
+        const logs = nftAccessTemplate.getTransactionLogs(result, 'AgreementCreated')
+        assert.isTrue(logs.length > 0)
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdNFTAccess[1])).state,
@@ -400,6 +402,7 @@ describe('NFTTemplates E2E', () => {
           collector1.getId(),
           numberNFTs,
           nevermined.keeper.nftUpgradeable.address,
+          collector1,
         )
 
         assert.equal(
@@ -476,8 +479,9 @@ describe('NFTTemplates E2E', () => {
           [collector2.getId()],
           collector2,
         )
-        assert.equal(result.status, 1)
-        assert.isTrue(result.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+        assert.equal(result.status, 'success')
+        const logs = nftSalesTemplate.getTransactionLogs(result, 'AgreementCreated')
+        assert.isTrue(logs.length > 0)
 
         assert.equal(
           (await conditionStoreManager.getCondition(conditionIdLockPayment2[1])).state,
@@ -494,7 +498,7 @@ describe('NFTTemplates E2E', () => {
       })
 
       it('As collector2 I am locking the payment', async () => {
-        await collector2.requestTokens(nftPrice2 / scale)
+        await nevermined.accounts.requestTokens(collector2, nftPrice2 / scale)
         const escrowPaymentConditionBefore = await token.balanceOf(escrowPaymentCondition.address)
         const collector2BalanceBefore = await token.balanceOf(collector2.getId())
         assert.equal(collector2BalanceBefore, initialBalances.collector2 + nftPrice2)
@@ -531,9 +535,9 @@ describe('NFTTemplates E2E', () => {
           numberNFTs2,
           nevermined.keeper.nftUpgradeable.address,
           conditionIdLockPayment2[1],
+          collector1,
           true,
           TransferNFTCondition.NO_EXPIRY,
-          collector1,
         )
 
         const { state } = await conditionStoreManager.getCondition(conditionIdTransferNFT2[1])
@@ -642,7 +646,7 @@ describe('NFTTemplates E2E', () => {
       })
       ddo = await nevermined.nfts1155.create(nftAttributes, artist)
 
-      await collector1.requestTokens(nftPrice / scale)
+      await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
     })
 
     describe('As an artist I want to register a new artwork', () => {
@@ -761,6 +765,8 @@ describe('NFTTemplates E2E', () => {
           ddo.id,
           collector1.getId(),
           numberNFTs,
+          nftUpgradeable.address,
+          collector1,
         )
         assert.isTrue(result)
       })
@@ -808,7 +814,7 @@ describe('NFTTemplates E2E', () => {
       })
 
       it('As collector2 I am locking the payment', async () => {
-        await collector2.requestTokens(nftPrice2 / scale)
+        await nevermined.accounts.requestTokens(collector2, nftPrice2 / scale)
 
         const collector2BalanceBefore = await token.balanceOf(collector2.getId())
         assert.equal(collector2BalanceBefore, initialBalances.collector2 + nftPrice2)
@@ -821,8 +827,8 @@ describe('NFTTemplates E2E', () => {
           ddo.id,
           assetPrice2.getAmounts(),
           assetPrice2.getReceivers(),
-          token.address,
           collector2,
+          token.address,
         )
         assert.isTrue(receipt)
 
@@ -977,7 +983,7 @@ describe('NFTTemplates E2E', () => {
       })
 
       it('I am locking the payment', async () => {
-        await collector1.requestTokens(nftPrice / scale)
+        await nevermined.accounts.requestTokens(collector1, nftPrice / scale)
 
         const collector1BalanceBefore = await token.balanceOf(collector1.getId())
         const escrowPaymentConditionBalanceBefore = await token.balanceOf(
@@ -990,8 +996,8 @@ describe('NFTTemplates E2E', () => {
           ddo.id,
           assetPrice1.getAmounts(),
           assetPrice1.getReceivers(),
-          token.address,
           collector1,
+          token.address,
         )
         assert.isTrue(receipt)
 

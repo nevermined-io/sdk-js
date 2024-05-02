@@ -1,3 +1,12 @@
+import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { AccessTemplate } from '../keeper/contracts/templates/AccessTemplate'
+import { NFT721AccessTemplate } from '../keeper/contracts/templates/NFT721AccessTemplate'
+import { NFT721SalesTemplate } from '../keeper/contracts/templates/NFT721SalesTemplate'
+import { NFTAccessTemplate } from '../keeper/contracts/templates/NFTAccessTemplate'
+import { NFTSalesTemplate } from '../keeper/contracts/templates/NFTSalesTemplate'
+import { NFTAttributes } from '../models/NFTAttributes'
+import { NvmAccount } from '../models/NvmAccount'
+import { TxParameters } from '../models/Transactions'
 import {
   ServiceAccess,
   ServiceNFTAccess,
@@ -8,22 +17,11 @@ import {
   MetaDataMain,
   PricedMetadataInformation,
   ServiceAttributes,
-} from '../ddo'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import {
-  TxParameters,
-  AccessTemplate,
-  NFT721AccessTemplate,
-  NFT721SalesTemplate,
-  NFTAccessTemplate,
-  NFTSalesTemplate,
-} from '../keeper'
-import { Account } from './Account'
-import { NFTAttributes } from '../models'
+} from '../types/DDOTypes'
 
 export interface AccessProofTemplateParams {
   type: 'access-proof'
-  consumer: Account
+  consumer: NvmAccount
   consumerId: string
 }
 
@@ -37,7 +35,7 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
   }
 
   public createService(
-    publisher: Account,
+    publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
@@ -54,7 +52,7 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
 
   public async process(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<void> {
     return this.normal.process(params, from, txparams)
@@ -64,7 +62,7 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
   }
   public async track(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<boolean> {
     return this.normal.track(params, from, txparams)
@@ -83,7 +81,7 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
   }
 
   public createService(
-    publisher: Account,
+    publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
@@ -105,7 +103,7 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
 
   public async process(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<void> {
     const ddo = await this.nevermined.assets.resolve(params.did)
@@ -119,7 +117,7 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
   }
   public async track(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<boolean> {
     const ddo = await this.nevermined.assets.resolve(params.did)
@@ -140,7 +138,7 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
   }
 
   public createService(
-    publisher: Account,
+    publisher: NvmAccount,
     metadata: MetaData,
     serviceAttributes: ServiceAttributes,
     nftAttributes?: NFTAttributes,
@@ -162,7 +160,7 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
 
   public async process(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<void> {
     const ddo = await this.nevermined.assets.resolve(params.did)
@@ -176,7 +174,7 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
   }
   public async track(
     params: ValidationParams,
-    from: Account,
+    from: NvmAccount,
     txparams?: TxParameters,
   ): Promise<boolean> {
     const ddo = await this.nevermined.assets.resolve(params.did)

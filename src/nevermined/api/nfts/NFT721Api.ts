@@ -1,18 +1,23 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO, ServiceType } from '../../../ddo'
-import { NFTAttributes, AssetAttributes } from '../../../models'
-import { generateId, SubscribablePromise, zeroX } from '../../../utils'
-import { Account } from '../../Account'
-import { Nft721Contract, TxParameters } from '../../../keeper'
+import { DDO } from '../../../ddo/DDO'
+import { Nft721Contract } from '../../../keeper/contracts/Nft721Contract'
+import { AssetAttributes } from '../../../models/AssetAttributes'
+import { NFTAttributes } from '../../../models/NFTAttributes'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { CreateProgressStep, OrderProgressStep } from '../../../nevermined/ProgressSteps'
+import { keccak256WithEncode } from '../../../nevermined/utils/BlockchainViemUtils'
+import { ServiceType } from '../../../types/DDOTypes'
 import {
   AssetPublicationOptions,
   PublishMetadataOptions,
   PublishOnChainOptions,
-} from '../AssetsApi'
-import { NFTError } from '../../../errors/NFTError'
-import { ContractTransactionReceipt, ethers } from 'ethers'
+} from '../../../types/MetadataTypes'
+import { zeroX } from '../../../utils/ConversionTypeHelpers'
+import { SubscribablePromise } from '../../../utils/SubscribablePromise'
 import { NFTsBaseApi } from './NFTsBaseApi'
-import { CreateProgressStep, OrderProgressStep } from '../../ProgressSteps'
+import { NFTError } from '../../../errors/NeverminedErrors'
+import { generateId } from '../../../common/helpers'
 
 /**
  * Allows the interaction with external ERC-721 NFT contracts built on top of the Nevermined NFT extra features.
@@ -96,7 +101,7 @@ export class NFT721Api extends NFTsBaseApi {
    */
   public create(
     nftAttributes: NFTAttributes,
-    publisher: Account,
+    publisher: NvmAccount,
     publicationOptions: AssetPublicationOptions = {
       metadata: PublishMetadataOptions.OnlyMetadataAPI,
       did: PublishOnChainOptions.DIDRegistry,
@@ -133,7 +138,7 @@ export class NFT721Api extends NFTsBaseApi {
    */
   public order(
     did: string,
-    consumer: Account,
+    consumer: NvmAccount,
     serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
@@ -226,7 +231,7 @@ export class NFT721Api extends NFTsBaseApi {
   public async transfer(
     agreementId: string,
     did: string,
-    publisher: Account,
+    publisher: NvmAccount,
     serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
@@ -277,7 +282,7 @@ export class NFT721Api extends NFTsBaseApi {
   public async releaseRewards(
     agreementId: string,
     did: string,
-    publisher: Account,
+    publisher: NvmAccount,
     serviceReference: number | ServiceType = 'nft-sales',
     txParams?: TxParameters,
   ): Promise<boolean> {
@@ -314,14 +319,10 @@ export class NFT721Api extends NFTsBaseApi {
    * @param did - The Decentralized Identifier of the NFT asset.
    * @param publisher - The account of the minter
    * @param txParams - Optional transaction parameters.
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
-  public async mint(
-    did: string,
-    publisher: Account,
-    txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
-    return await this.nftContract.mint(did, publisher.getId(), txParams)
+  public async mint(did: string, publisher: NvmAccount, txParams?: TxParameters) {
+    return await this.nftContract.mint(did, publisher, txParams)
   }
 
   /**
@@ -342,9 +343,9 @@ export class NFT721Api extends NFTsBaseApi {
    * @param account - The account of the publisher of the NFT.
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
-  public async burn(tokenId: string, account: Account, txParams?: TxParameters) {
+  public async burn(tokenId: string, account: NvmAccount, txParams?: TxParameters) {
     return await this.nftContract.burn(tokenId, account, txParams)
   }
 
@@ -362,15 +363,15 @@ export class NFT721Api extends NFTsBaseApi {
    * @param url - The URL with NFT metadata
    * @param from - The account of the minter
    * @param txParams - Optional transaction parameters.
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
   public async mintWithURL(
     to: string,
     did: string,
     url: string,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     return await this.nftContract.mintWithURL(to, did, url, from, txParams)
   }
 
@@ -390,15 +391,15 @@ export class NFT721Api extends NFTsBaseApi {
    * @param approved - Give or remove transfer rights from the operator.
    * @param from - The account that wants to give transfer rights to the operator.
    * @param txParams - Optional transaction parameters.
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
   public async setApprovalForAll(
     target: string,
     approved: boolean,
-    from: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
-    return await this.nftContract.setApprovalForAll(target, approved, from.getId(), txParams)
+  ) {
+    return await this.nftContract.setApprovalForAll(target, approved, from, txParams)
   }
 
   /**
@@ -406,7 +407,7 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @example
    * ```ts
-   * const nftContractOwner = new Account(
+   * const nftContractOwner = new NvmAccount(
    *      await nevermined.nfts721.ownerOf()
    * )
    * ```
@@ -466,9 +467,9 @@ export class NFT721Api extends NFTsBaseApi {
    * @returns The address of the NFT owner.
    */
   public async ownerOfAssetByAgreement(did: string, agreementId: string) {
-    const abiCoder = ethers.AbiCoder.defaultAbiCoder()
-    const tokenId = ethers.keccak256(
-      abiCoder.encode(['bytes32', 'bytes32'], [zeroX(did), zeroX(agreementId)]),
+    const tokenId = keccak256WithEncode(
+      [{ type: 'bytes32' }, { type: 'bytes32' }],
+      [zeroX(did), zeroX(agreementId)],
     )
     return this.ownerOfTokenId(tokenId)
   }
@@ -503,8 +504,8 @@ export class NFT721Api extends NFTsBaseApi {
    *
    * @returns The balance of NFTs owned by the account.
    */
-  public async balanceOf(account: Account | string): Promise<bigint> {
-    const _address = account instanceof Account ? account.getId() : account
+  public async balanceOf(account: NvmAccount | string): Promise<bigint> {
+    const _address = account instanceof NvmAccount ? account.getId() : account
     return await this.nftContract.balanceOf(_address)
   }
 
@@ -527,8 +528,8 @@ export class NFT721Api extends NFTsBaseApi {
    * Thrown if there is an error releasing the rewards.
    */
   public async releaseSecondaryMarketRewards(
-    owner: Account,
-    account: Account,
+    owner: NvmAccount,
+    account: NvmAccount,
     agreementIdSeed: string,
     txParams?: TxParameters,
   ): Promise<boolean> {
@@ -580,13 +581,13 @@ export class NFT721Api extends NFTsBaseApi {
    * @param from - The account giving operator permissions
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
   public async grantOperatorRole(
     operatorAddress: string,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     return this.nftContract.grantOperatorRole(operatorAddress, from, txParams)
   }
 
@@ -606,13 +607,13 @@ export class NFT721Api extends NFTsBaseApi {
    * @param from - The account revoking operator permissions
    * @param txParams - Optional transaction parameters.
    *
-   * @returns The {@link ethers.ContractTransactionReceipt}
+   * @returns The {@link TransactionReceipt}
    */
   public async revokeOperatorRole(
     operatorAddress: string,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     return this.nftContract.revokeOperatorRole(operatorAddress, from, txParams)
   }
 

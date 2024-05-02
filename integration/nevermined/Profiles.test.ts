@@ -1,11 +1,14 @@
 import { assert } from 'chai'
-import { config } from '../config'
-import { Nevermined, Account, Logger, NewProfile, State } from '../../src'
+import config from '../../test/config'
 import { faker } from '@faker-js/faker'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { NewProfile, State } from '../../src/types/MetadataTypes'
+import Logger from '../../src/models/Logger'
 
 describe('User Profiles', () => {
   let nevermined: Nevermined
-  let account3: Account
+  let account3: NvmAccount
   let newProfile: NewProfile
   let userId: string
 
@@ -24,7 +27,7 @@ describe('User Profiles', () => {
 
     nevermined = await Nevermined.getInstance(profilesConfig)
 
-    account3 = (await nevermined.accounts.list())[0] // eslint-disable-line prefer-destructuring
+    account3 = nevermined.accounts.list()[0] // eslint-disable-line prefer-destructuring
 
     //TODO admin token which will expire within 3 years. In the future an admin account will be created in elasticsearch directly to run theses tests
     profilesConfig.marketplaceAuthToken =

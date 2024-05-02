@@ -1,14 +1,16 @@
-import { DDO, ServiceType } from '../../../ddo'
-import { getConditionsByParams, zeroX } from '../../../utils'
-import { AssetPrice, Babysig, ERCType } from '../../../models'
-import { RoyaltyKind } from '../AssetsApi'
-import { Account } from '../../Account'
-import { Token, TxParameters } from '../../../keeper'
-import { ServiceSecondary } from '../../../ddo'
-import { NFTError } from '../../../errors'
-import { generateId } from '../../../utils'
+import { generateId } from '../../../common/helpers'
+import { DDO, getConditionsByParams } from '../../../ddo/DDO'
+import { NFTError } from '../../../errors/NeverminedErrors'
+import { Token } from '../../../keeper/contracts/Token'
+import { AssetPrice } from '../../../models/AssetPrice'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { SubscriptionToken } from '../../../services/node/NeverminedNode'
+import { ServiceSecondary, ServiceType } from '../../../types/DDOTypes'
+import { Babysig, ERCType } from '../../../types/GeneralTypes'
+import { RoyaltyKind } from '../../../types/MetadataTypes'
+import { zeroX } from '../../../utils/ConversionTypeHelpers'
 import { RegistryBaseApi } from '../RegistryBaseApi'
-import { SubscriptionToken } from '../../../services'
 
 /**
  * Abstract class providing common NFT methods for different ERC implementations.
@@ -148,7 +150,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * @returns The details of the NFT.
    */
   protected async _details(did: string, ercType: ERCType) {
-    const details = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
+    const details: any = await this.nevermined.keeper.didRegistry.getDIDRegister(did)
     const royaltySchemeAddress = await this.nevermined.keeper.didRegistry.getDIDRoyalties(did)
     let royalties = Number(details[8])
     let royaltyScheme = RoyaltyKind.Legacy
@@ -166,7 +168,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       royalties = await this.nevermined.keeper.royalties.standard.getRoyalty(did)
     }
 
-    const nftInfo = await this.nevermined.keeper.didRegistry.getNFTInfo(did)
+    const nftInfo: any = await this.nevermined.keeper.didRegistry.getNFTInfo(did)
     let nftSupply = 0n
     let mintCap = 0n
     let nftURI = ''
@@ -264,7 +266,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     nftTransfer: boolean,
     provider: string,
     token: Token,
-    owner: Account,
+    owner: NvmAccount,
   ): Promise<string> {
     const serviceType: ServiceType = 'nft-sales'
     const { nftSalesTemplate } = this.nevermined.keeper.templates
@@ -339,7 +341,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * Thrown if there is an error buying the NFT.
    */
   public async buySecondaryMarketNft(
-    consumer: Account,
+    consumer: NvmAccount,
     nftAmount = 1n,
     agreementIdSeed: string,
     conditionsTimeout: number[] = [86400, 86400, 86400],
@@ -357,7 +359,9 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     // has no privkeys, so we can't sign
     let currentNftHolder
     try {
-      currentNftHolder = new Account(DDO.getNftHolderFromService(service))
+      currentNftHolder = NvmAccount.fromAddress(
+        DDO.getNftHolderFromService(service) as `0x${string}`,
+      )
     } catch (_e) {
       currentNftHolder = undefined
     }
@@ -380,13 +384,16 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
 
     const payment = DDO.findServiceConditionByName(service, 'lockPayment')
 
+    const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress')
+    if (!tokenAddress) throw new Error('Token address not found')
+
     const receipt = await this.nevermined.agreements.conditions.lockPayment(
       agreementId,
       ddo.id,
       assetPrice.getAmounts(),
       assetPrice.getReceivers(),
-      payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
       consumer,
+      tokenAddress.value as string,
       txParams,
     )
 
@@ -418,7 +425,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    */
   public async access(
     did: string,
-    consumer: Account,
+    consumer: NvmAccount,
     destination?: string,
     fileIndex?: number,
     agreementId = '0x',
@@ -429,6 +436,9 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     const ddo = await this.nevermined.assets.resolve(did)
     const { attributes } = ddo.findServiceByType('metadata')
     const { files } = attributes.main
+    if (!files) {
+      throw new Error('No files in the asset')
+    }
 
     const accessService = ddo.findServiceByReference(serviceReference)
 
@@ -476,7 +486,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    *
    * @returns {@link SubscriptionToken}
    */
-  public async getSubscriptionToken(did: string, account: Account): Promise<SubscriptionToken> {
+  public async getSubscriptionToken(did: string, account: NvmAccount): Promise<SubscriptionToken> {
     return this.nevermined.services.node.getSubscriptionToken(did, account)
   }
 }

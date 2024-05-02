@@ -1,9 +1,13 @@
-import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
-import { zeroX, didZeroX, didPrefixed } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
-import { TxParameters } from '../ContractBase'
-import { EventOptions } from '../../../events/NeverminedEvent'
+import {
+  Condition,
+  ConditionContext,
+  ProviderCondition,
+} from '../../../keeper/contracts/conditions/Condition.abstract'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { EventOptions } from '../../../types/EventTypes'
+import { didZeroX, zeroX, didPrefixed } from '../../../utils/ConversionTypeHelpers'
 
 export interface AccessConditionContext extends ConditionContext {
   creator: string
@@ -26,13 +30,13 @@ export class AccessCondition extends ProviderCondition<AccessConditionContext> {
     agreementId: string,
     did: string,
     grantee: string,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(agreementId, [didZeroX(did), grantee].map(zeroX), from, txParams)
   }
 
-  public checkPermissions(grantee: string, did: string, from?: Account) {
+  public checkPermissions(grantee: string, did: string, from?: NvmAccount) {
     return this.call<boolean>(
       'checkPermissions',
       [grantee, didZeroX(did)].map(zeroX),
@@ -54,7 +58,7 @@ export class AccessCondition extends ProviderCondition<AccessConditionContext> {
         _conditionId: true,
       },
     }
-    const events = await this.events.getPastEvents(evOptions)
+    const events = await this.events!.getPastEvents(evOptions)
     const values = events.map((e) => e.args || e)
 
     return values.map((v) => ({

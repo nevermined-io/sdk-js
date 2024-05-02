@@ -1,53 +1,46 @@
-import { ContractBase } from './contracts/ContractBase'
+// @ts-nocheck
+import { ContractBase } from '../keeper/contracts/ContractBase'
 
-import NeverminedConfig from './contracts/governance/NeverminedConfig'
-import {
-  LockPaymentCondition,
-  EscrowPaymentCondition,
-  AccessCondition,
-  ComputeExecutionCondition,
-  NFTHolderCondition,
-  NFTLockCondition,
-  NFTAccessCondition,
-  TransferNFTCondition,
-  TransferDIDOwnershipCondition,
-  TransferNFT721Condition,
-  NFT721HolderCondition,
-  AaveBorrowCondition,
-  AaveCollateralDepositCondition,
-  AaveCollateralWithdrawCondition,
-  AaveRepayCondition,
-  NFT721LockCondition,
-  DistributeNFTCollateralCondition,
-  ConditionSmall,
-  DIDRegistry,
-  Dispenser,
-  Token,
-  AccessTemplate,
-  EscrowComputeExecutionTemplate,
-  DIDSalesTemplate,
-  NFTAccessTemplate,
-  NFT721AccessTemplate,
-  NFTSalesTemplate,
-  NFT721SalesTemplate,
-  AaveCreditTemplate,
-  TemplateStoreManager,
-  AgreementStoreManager,
-  ConditionStoreManager,
-  RewardsDistributor,
-  StandardRoyalties,
-  CurveRoyalties,
-  Nft1155Contract,
-  GenericAccess,
-} from './contracts'
-import * as KeeperUtils from './utils'
-import { objectPromiseAll } from '../utils'
 import { EventHandler } from '../events/EventHandler'
+import * as NetworkUtils from '../utils/Network'
 
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { KeeperError } from '../errors'
-import { NeverminedInitializationOptions } from '../models'
-import { isAddress } from 'ethers'
+import { KeeperError } from '../errors/NeverminedErrors'
+import { ConditionSmall } from '../keeper/contracts/conditions/Condition.abstract'
+import { NFT721LockCondition } from '../keeper/contracts/conditions/NFTs/NFT721LockCondition'
+import { isValidAddress } from '../nevermined/utils/BlockchainViemUtils'
+import { NeverminedInitializationOptions } from '../types/GeneralTypes'
+import { objectPromiseAll } from '../utils/PromiseResolver'
+import { DIDRegistry } from './contracts/DIDRegistry'
+import { Dispenser } from './contracts/Dispenser'
+import { Nft1155Contract } from './contracts/Nft1155Contract'
+import { Token } from './contracts/Token'
+import { AccessCondition } from './contracts/conditions/AccessCondition'
+import { ComputeExecutionCondition } from './contracts/conditions/ComputeExecutionCondition'
+import { EscrowPaymentCondition } from './contracts/conditions/EscrowPaymentCondition'
+import { LockPaymentCondition } from './contracts/conditions/LockPaymentCondition'
+import { NFT721HolderCondition } from './contracts/conditions/NFTs/NFT721HolderCondition'
+import { NFTAccessCondition } from './contracts/conditions/NFTs/NFTAccessCondition'
+import { NFTHolderCondition } from './contracts/conditions/NFTs/NFTHolderCondition'
+import { NFTLockCondition } from './contracts/conditions/NFTs/NFTLockCondition'
+import { TransferNFT721Condition } from './contracts/conditions/NFTs/TransferNFT721Condition'
+import { TransferNFTCondition } from './contracts/conditions/NFTs/TransferNFTCondition'
+import { TransferDIDOwnershipCondition } from './contracts/conditions/TransferDIDOwnershipCondition'
+import { AgreementStoreManager } from './contracts/managers/AgreementStoreManager'
+import { ConditionStoreManager } from './contracts/managers/ConditionStoreManager'
+import { TemplateStoreManager } from './contracts/managers/TemplateStoreManager'
+import { CurveRoyalties } from './contracts/royalties/CurveRoyalties'
+import { RewardsDistributor } from './contracts/royalties/RewardsDistributor'
+import { StandardRoyalties } from './contracts/royalties/StandardRoyalties'
+import { AccessTemplate } from './contracts/templates/AccessTemplate'
+import { DIDSalesTemplate } from './contracts/templates/DIDSalesTemplate'
+import { EscrowComputeExecutionTemplate } from './contracts/templates/EscrowComputeExecutionTemplate'
+import { GenericAccess } from './contracts/templates/GenericAccess'
+import { NFT721AccessTemplate } from './contracts/templates/NFT721AccessTemplate'
+import { NFT721SalesTemplate } from './contracts/templates/NFT721SalesTemplate'
+import { NFTAccessTemplate } from './contracts/templates/NFTAccessTemplate'
+import { NFTSalesTemplate } from './contracts/templates/NFTSalesTemplate'
+import { NeverminedConfig } from './contracts/governance/NeverminedConfig'
 
 /**
  * Interface with Nevermined contracts.
@@ -75,12 +68,8 @@ export class Keeper extends Instantiable {
         token: undefined, // Optional
         curveRoyalties: undefined, // Optional
         // CORE Contracts
-        nvmConfig: initOptions.loadCore
-          ? NeverminedConfig.getInstance(this.instanceConfig)
-          : undefined,
-        didRegistry: initOptions.loadCore
-          ? DIDRegistry.getInstance(this.instanceConfig)
-          : undefined,
+        nvmConfig: NeverminedConfig.getInstance(this.instanceConfig),
+        didRegistry: DIDRegistry.getInstance(this.instanceConfig),
         // ServiceAgrements Manager Contracts
         templateStoreManager: initOptions.loadServiceAgreements
           ? TemplateStoreManager.getInstance(this.instanceConfig)
@@ -162,14 +151,6 @@ export class Keeper extends Instantiable {
           ? DIDSalesTemplate.getInstance(this.instanceConfig)
           : undefined,
 
-        // Aave instances are optional
-        aaveBorrowCondition: undefined,
-        aaveCollateralDepositCondition: undefined,
-        aaveCollateralWithdrawCondition: undefined,
-        aaveRepayCondition: undefined,
-        aaveCreditTemplate: undefined,
-        distributeNftCollateralCondition: undefined,
-
         // Royalties & Rewards
         standardRoyalties: initOptions.loadRoyalties
           ? StandardRoyalties.getInstance(this.instanceConfig)
@@ -213,9 +194,11 @@ export class Keeper extends Instantiable {
         `Keeper could not connect to ${await this.getNetworkName()} - ${err.message} ${err.stack}`,
       )
     }
-    const chainId = Number((await this.web3.getNetwork()).chainId)
 
-    if (KeeperUtils.isTestnet(chainId)) {
+    // const chainId = Number((await this.web3.getNetwork()).chainId)
+    const chainId = await this.publicClient.getChainId()
+
+    if (NetworkUtils.isTestnet(chainId)) {
       this.instances.dispenser = initOptions.loadDispenser
         ? await Dispenser.getInstance(this.instantiableConfig)
         : undefined
@@ -247,12 +230,7 @@ export class Keeper extends Instantiable {
       transferNftCondition: this.instances.transferNftCondition,
       transferNft721Condition: this.instances.transferNft721Condition,
       transferDidOwnershipCondition: this.instances.transferDidOwnershipCondition,
-      aaveBorrowCondition: undefined,
-      aaveCollateralDepositCondition: undefined,
-      aaveCollateralWithdrawCondition: undefined,
-      aaveRepayCondition: undefined,
       nft721LockCondition: this.instances.nft721LockCondition,
-      distributeNftCollateralCondition: this.instances.distributeNftCollateralCondition,
     }
     this.conditionsList = Object.values(this.conditions).filter(
       (condition) => condition !== undefined,
@@ -266,7 +244,6 @@ export class Keeper extends Instantiable {
       nft721AccessTemplate: this.instances.nft721AccessTemplate,
       nftSalesTemplate: this.instances.nftSalesTemplate,
       nft721SalesTemplate: this.instances.nft721SalesTemplate,
-      // aaveCreditTemplate: undefined,
     }
     if (initOptions.loadServiceAgreements) {
       this.templateList = Object.values(this.templates).filter((template) => template !== undefined)
@@ -280,7 +257,7 @@ export class Keeper extends Instantiable {
     this.network = {
       chainId,
       version: this.didRegistry.version.replace('v', ''),
-      name: await KeeperUtils.getNetworkName(chainId),
+      name: await NetworkUtils.getNetworkName(chainId),
       loading: false,
     }
   }
@@ -346,11 +323,6 @@ export class Keeper extends Instantiable {
     transferNft721Condition: TransferNFT721Condition
     transferDidOwnershipCondition: TransferDIDOwnershipCondition
     nft721LockCondition: NFT721LockCondition
-    aaveCollateralDepositCondition: AaveCollateralDepositCondition
-    aaveBorrowCondition: AaveBorrowCondition
-    aaveRepayCondition: AaveRepayCondition
-    aaveCollateralWithdrawCondition: AaveCollateralWithdrawCondition
-    distributeNftCollateralCondition: DistributeNFTCollateralCondition
   }
 
   public conditionsList: ConditionSmall[]
@@ -367,7 +339,6 @@ export class Keeper extends Instantiable {
     nft721AccessTemplate: NFT721AccessTemplate
     nftSalesTemplate: NFTSalesTemplate
     nft721SalesTemplate: NFT721SalesTemplate
-    aaveCreditTemplate?: AaveCreditTemplate
   }
 
   public royalties: {
@@ -417,8 +388,8 @@ export class Keeper extends Instantiable {
    */
   public getConditionByAddress(address: string): ConditionSmall {
     return this.conditionsList
-      .filter((condition) => condition.address && isAddress(condition.address))
-      .find((condition) => condition.address === address)
+      .filter((condition) => condition.address && isValidAddress(condition.address))
+      .find((condition) => condition.address.toLowerCase() === address.toLowerCase())
   }
 
   /**
@@ -436,7 +407,7 @@ export class Keeper extends Instantiable {
    */
   public async getNetworkName(): Promise<string> {
     if (!this.network.name) {
-      this.network.name = await KeeperUtils.getNetworkName(await this.getNetworkId())
+      this.network.name = await NetworkUtils.getNetworkName(await this.getNetworkId())
     }
     return this.network.name
   }
@@ -448,7 +419,7 @@ export class Keeper extends Instantiable {
   public async getNetworkId(): Promise<number> {
     if (!this.network.chainId) {
       this.network.loading = false
-      this.network.chainId = Number((await this.web3.getNetwork()).chainId)
+      this.network.chainId = this.client.chain.id
     }
 
     while (!this.network.chainId) {
@@ -491,29 +462,6 @@ export class Keeper extends Instantiable {
     return this.instances
   }
 
-  public async loadAaveInstances() {
-    if (this.instances.aaveCreditTemplate) return this
-
-    this.logger.debug('Loading Aave contracts')
-    this.instances.aaveBorrowCondition = await AaveBorrowCondition.getInstance(this.instanceConfig)
-    this.instances.aaveCollateralDepositCondition =
-      await AaveCollateralDepositCondition.getInstance(this.instanceConfig)
-    this.instances.aaveCollateralWithdrawCondition =
-      await AaveCollateralWithdrawCondition.getInstance(this.instanceConfig)
-    this.instances.aaveRepayCondition = await AaveRepayCondition.getInstance(this.instanceConfig)
-
-    this.conditions.aaveBorrowCondition = this.instances.aaveBorrowCondition
-    this.conditions.aaveCollateralDepositCondition = this.instances.aaveCollateralDepositCondition
-    this.conditions.aaveCollateralWithdrawCondition = this.instances.aaveCollateralWithdrawCondition
-    this.conditions.aaveRepayCondition = this.instances.aaveRepayCondition
-    this.conditionsList = Object.values(this.conditions)
-
-    this.instances.aaveCreditTemplate = await AaveCreditTemplate.getInstance(this.instanceConfig)
-    this.templates.aaveCreditTemplate = this.instances.aaveCreditTemplate
-    this.agreementStoreManager.addTemplate('AaveCreditTemplate', this.instances.aaveCreditTemplate)
-    return this
-  }
-
   public async loadCurveRoyaltiesInstance() {
     if (this.royalties.curve) return this.royalties.curve
 
@@ -525,5 +473,3 @@ export class Keeper extends Instantiable {
     return this.royalties.curve
   }
 }
-
-export default Keeper

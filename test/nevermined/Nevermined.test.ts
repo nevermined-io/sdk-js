@@ -1,9 +1,9 @@
 import { assert, spy, use } from 'chai'
 import spies from 'chai-spies'
 
-import { Account } from '../../src/nevermined'
-import { Nevermined } from '../../src/nevermined'
 import config from '../config'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import TestContractHandler from '../keeper/TestContractHandler'
 
 use(spies)
@@ -33,10 +33,11 @@ describe('Nevermined', () => {
 
   describe('#getAccounts()', () => {
     it('should list accounts', async () => {
-      const accs: Account[] = await nevermined.accounts.list()
+      const accs: NvmAccount[] = nevermined.accounts.list()
 
       assert(accs.length === 10, `Expected 10 but the length is ${accs.length}`)
-      assert.equal((await accs[5].getBalance()).nevermined, 0n)
+      const balance = await nevermined.accounts.getBalance(accs[5].getAddress())
+      assert.equal(balance.nevermined, 0n)
       assert(typeof accs[0].getId() === 'string')
     })
   })

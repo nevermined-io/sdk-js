@@ -1,25 +1,25 @@
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import {
-  Nevermined,
-  Account,
-  MetaData,
-  DDO,
-  AssetPrice,
-  Token,
-  ContractHandler,
-  Nft721Contract,
-  NFTAttributes,
-  ConditionState,
-} from '../../src'
-import { ethers } from 'ethers'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import config from '../../test/config'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+
+import { Token } from '../../src/keeper/contracts/Token'
+import { ConditionState } from '../../src/types/ContractTypes'
+
+import { ContractHandler } from '../../src/keeper/ContractHandler'
+import { Nft721Contract } from '../../src/keeper/contracts/Nft721Contract'
+import { MetaData } from '../../src/types/DDOTypes'
 import { repeat } from '../utils/utils'
 
 let nevermined: Nevermined
-let publisher: Account
-let collector1: Account
+let publisher: NvmAccount
+let collector1: NvmAccount
 let metadata: MetaData
 let assetPrice1: AssetPrice
 let assetPrice2: AssetPrice
@@ -29,7 +29,7 @@ let token: Token
 let service
 let agreementId
 let neverminedNodeAddress
-let nft: ethers.BaseContract
+let nft
 let nftContract: Nft721Contract
 let salesServices
 const totalAmount1 = '100'
@@ -40,18 +40,18 @@ describe('E2E Flow for NFTs with multiple services', () => {
     nevermined = await Nevermined.getInstance(config)
     ;({ token } = nevermined.keeper)
     // Accounts
-    ;[publisher, collector1] = await nevermined.accounts.list()
+    ;[publisher, collector1] = nevermined.accounts.list()
 
     neverminedNodeAddress = await nevermined.services.node.getProviderAddress()
 
     const networkName = await nevermined.keeper.getNetworkName()
-    const erc721ABI = await ContractHandler.getABI(
+    const erc721ABI = await ContractHandler.getABIArtifact(
       'NFT721Upgradeable',
       config.artifactsFolder,
       networkName,
     )
 
-    nft = await nevermined.utils.contractHandler.deployAbi(erc721ABI, publisher, [
+    nft = await nevermined.utils.blockchain.deployAbi(erc721ABI, publisher, [
       publisher.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
@@ -63,7 +63,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
 
     nftContract = await Nft721Contract.getInstance(
       (nevermined.keeper as any).instanceConfig,
-      await nft.getAddress(),
+      await nft.address,
     )
 
     await nevermined.contracts.loadNft721(nftContract.address)
@@ -82,7 +82,7 @@ describe('E2E Flow for NFTs with multiple services', () => {
     assetPrice2 = new AssetPrice(publisher.getId(), BigInt(totalAmount2))
 
     try {
-      await collector1.requestTokens(BigInt(totalAmount1) * 10n)
+      await nevermined.accounts.requestTokens(collector1, BigInt(totalAmount1) * 10n)
     } catch (error) {
       console.error(error)
     }

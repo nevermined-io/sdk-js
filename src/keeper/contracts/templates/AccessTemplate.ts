@@ -1,10 +1,19 @@
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
-import { DDO, ServiceAccess, ServiceType, ValidationParams } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { accessTemplateServiceAgreementTemplate } from './AccessTemplate.serviceAgreementTemplate'
-import { Account } from '../../../sdk'
-import { AccessCondition, EscrowPaymentCondition, LockPaymentCondition } from '../conditions'
+import { DDO } from '../../../ddo/DDO'
+
+import {
+  lockPaymentTemplate,
+  accessTemplate,
+  escrowTemplate,
+} from '../../../keeper/contracts/templates/ConditionTemplates'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { AgreementInstance } from '../../../types/ContractTypes'
+import { ServiceType, ServiceAccess, ValidationParams } from '../../../types/DDOTypes'
+import { AccessCondition } from '../conditions/AccessCondition'
+import { EscrowPaymentCondition } from '../conditions/EscrowPaymentCondition'
+import { LockPaymentCondition } from '../conditions/LockPaymentCondition'
 
 export interface AccessTemplateParams {
   type: 'access'
@@ -37,10 +46,30 @@ export class AccessTemplate extends BaseTemplate<AccessTemplateParams, ServiceAc
   }
 
   public getServiceAgreementTemplate() {
-    return accessTemplateServiceAgreementTemplate()
+    return {
+      contractName: 'AccessTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'escrowAccessTemplate',
+            functionName: 'fulfillLockPaymentCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['access.fulfill', 'lockPayment.fulfill', 'escrowPayment.fulfill'],
+      conditionDependency: {
+        lockPayment: [],
+        access: [],
+        escrowPayment: ['lockPayment', 'access'],
+      },
+      conditions: [lockPaymentTemplate(), accessTemplate(), escrowTemplate()],
+    }
   }
 
-  public params(consumer: Account, serviceType: ServiceType = 'access'): AccessTemplateParams {
+  public params(consumer: NvmAccount, serviceType: ServiceType = 'access'): AccessTemplateParams {
     return {
       consumerId: consumer.getId(),
       serviceType,

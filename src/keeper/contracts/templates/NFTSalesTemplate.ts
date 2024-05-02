@@ -1,15 +1,18 @@
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { DDO } from '../../../ddo/DDO'
+import { AgreementInstance } from '../../../types/ContractTypes'
 import {
-  ServiceAgreementTemplate,
   ServiceNFTSales,
   ServiceType,
   ValidationParams,
-} from '../../../ddo'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../sdk'
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
+  ServiceAgreementTemplate,
+} from '../../../types/DDOTypes'
+import { EscrowPaymentCondition } from '../conditions/EscrowPaymentCondition'
+import { LockPaymentCondition } from '../conditions/LockPaymentCondition'
+import { TransferNFTCondition } from '../conditions/NFTs/TransferNFTCondition'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
-import { nftSalesTemplateServiceAgreementTemplate } from './NFTSalesTemplate.serviceAgreementTemplate'
-import { EscrowPaymentCondition, LockPaymentCondition, TransferNFTCondition } from '../conditions'
+import { lockPaymentTemplate, transferNftTemplate, escrowTemplate } from './ConditionTemplates'
 
 export interface NFTSalesTemplateParams {
   consumerId: string
@@ -48,7 +51,14 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
     providerId?: string,
     nftTransfer?: boolean,
   ): NFTSalesTemplateParams {
-    return { consumerId, providerId, nftAmount, duration, expiration, nftTransfer }
+    return {
+      consumerId,
+      providerId: providerId as string,
+      nftAmount,
+      duration: duration as number,
+      expiration: expiration as number,
+      nftTransfer: nftTransfer as boolean,
+    }
   }
 
   public async getParamsFromService(
@@ -57,7 +67,8 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
     service: ServiceNFTSales,
   ): Promise<NFTSalesTemplateParams> {
     const duration = DDO.getDurationFromService(service) || 0
-    const expiration = duration > 0 ? (await this.nevermined.web3.getBlockNumber()) + duration : 0
+    const expiration =
+      duration > 0 ? Number(await this.nevermined.client.public.getBlockNumber()) + duration : 0
     const nftTransfer = DDO.getNFTTransferFromService(service)
     return {
       consumerId,
@@ -65,13 +76,13 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
       duration,
       expiration,
       nftTransfer,
-      providerId: undefined,
+      providerId: '',
     }
   }
 
   public async paramsGen({
     consumer_address,
-    nft_amount,
+    nft_amount = 0n,
     duration = 0,
     expiration = 0,
   }: ValidationParams): Promise<NFTSalesTemplateParams> {
@@ -134,6 +145,26 @@ export class NFTSalesTemplate extends BaseTemplate<NFTSalesTemplateParams, Servi
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return { ...nftSalesTemplateServiceAgreementTemplate() }
+    return {
+      contractName: 'NFTSalesTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'nftSalesTemplate',
+            functionName: 'fulfillLockPaymentCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['lockPayment.fulfill', 'transferNFT.fulfill', 'escrowPayment.fulfill'],
+      conditionDependency: {
+        lockPayment: [],
+        transferNFT: [],
+        escrowPayment: ['lockPayment', 'transferNFT'],
+      },
+      conditions: [lockPaymentTemplate(), transferNftTemplate(), escrowTemplate()],
+    }
   }
 }

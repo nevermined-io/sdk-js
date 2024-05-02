@@ -1,19 +1,12 @@
-import ContractBase, { TxParameters } from '../ContractBase'
-import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
-import { AssetPrice } from '../../../models'
-import { Service, DDO } from '../../../ddo'
-import { ContractTransactionReceipt } from 'ethers'
-
-export enum ConditionState {
-  Uninitialized = 0,
-  Unfulfilled = 1,
-  Fulfilled = 2,
-  Aborted = 3,
-}
-
-export type ConditionMethod = 'fulfill' | 'fulfillForDelegate'
+import { DDO } from '../../../ddo/DDO'
+import { ContractBase } from '../../../keeper/contracts/ContractBase'
+import { AssetPrice } from '../../../models/AssetPrice'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { ConditionInstanceSmall, ConditionMethod } from '../../../types/ContractTypes'
+import { Service } from '../../../types/DDOTypes'
+import { zeroX } from '../../../utils/ConversionTypeHelpers'
 
 export interface ConditionContext {
   ddo: DDO
@@ -24,26 +17,16 @@ export interface ConditionContext {
 
 export interface ConditionParameters<Extra> {
   list: any[]
-  params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
-}
-
-export interface ConditionInstanceSmall {
-  list: any[]
-  seed: string
-  id: string
-  agreementId: string
-  condition: string // Condition contract name
+  params: (method: ConditionMethod, arg: Extra) => Promise<any[] | undefined> // for fullfill
 }
 
 export interface ConditionInstance<Extra> extends ConditionInstanceSmall {
-  params: (method: ConditionMethod, arg: Extra) => Promise<any[]> // for fullfill
+  params: (method: ConditionMethod, arg: Extra) => Promise<any[] | undefined> // for fullfill
 }
 
-export const conditionStateNames = ['Uninitialized', 'Unfulfilled', 'Fulfilled', 'Aborted']
-
 export abstract class ConditionSmall extends ContractBase {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public static async getInstance<Ctx extends ConditionContext, Extra>(
+  // public static async getInstance<Ctx extends ConditionContext, Extra>(
+  public static async getInstance(
     config: InstantiableConfig,
     conditionName: string,
     conditionsClass: any,
@@ -54,8 +37,9 @@ export abstract class ConditionSmall extends ContractBase {
     return condition
   }
 
-  public hashValues(...args: any[]): Promise<string> {
-    return this.call('hashValues', args)
+  public async hashValues(...args: any[]): Promise<string> {
+    //console.log(`HashingValues: ${JSON.stringify(args, jsonReplacer)}`)
+    return (await this.call('hashValues', args)) as string
   }
 
   public abstract fulfill(agreementId: string, ...args: any[])
@@ -63,7 +47,7 @@ export abstract class ConditionSmall extends ContractBase {
   public fulfillPlain(
     agreementId: string,
     args: any[],
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
     method: ConditionMethod = 'fulfill',
   ) {
@@ -74,23 +58,26 @@ export abstract class ConditionSmall extends ContractBase {
     return this.generateId(agreementId, await this.hashValues(...values))
   }
 
-  public generateId(agreementId: string, valueHash: string) {
-    return this.call<string>('generateId', [zeroX(agreementId), valueHash])
+  public generateId(agreementId: string, valueHash: string): Promise<`0x${string}`> {
+    return this.call('generateId', [zeroX(agreementId), valueHash])
   }
 
   public async generateIdWithSeed(
     agreementId: string,
     valueHash: string,
   ): Promise<[string, string]> {
-    return [valueHash, await this.call<string>('generateId', [zeroX(agreementId), valueHash])]
+    return [valueHash, await this.call('generateId', [zeroX(agreementId), valueHash])] as [
+      string,
+      string,
+    ]
   }
 
-  public abortByTimeOut(conditionId: string, from?: Account, params?: TxParameters) {
+  public abortByTimeOut(conditionId: string, from: NvmAccount, params?: TxParameters) {
     return this.sendFrom('abortByTimeOut', [zeroX(conditionId)], from, params)
   }
 
   public getConditionFulfilledEvent(agreementId: string) {
-    return this.events.getEventData({
+    return this.events?.getEventData({
       eventName: 'Fulfilled',
       filterJsonRpc: { agreementId: zeroX(agreementId) },
       filterSubgraph: { where: { _agreementId: zeroX(agreementId) } },
@@ -127,6 +114,8 @@ export abstract class Condition<
   }
 
   public hashValues(...args: any[]): Promise<string> {
+    // console.log(`-- ARGS: `, ...args)
+    // console.log(`-- PARAMS LIST: `, ...this.params(...args).list)
     return super.hashValues(...this.params(...args).list)
   }
 
@@ -150,15 +139,15 @@ export abstract class Condition<
   public async fulfillInstance(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
     method: ConditionMethod = 'fulfill',
   ) {
-    const _params = await cond.params(method, additionalParams)
+    await cond.params(method, additionalParams)
 
     return this.sendFrom(
       method,
-      [zeroX(cond.agreementId), ...(await cond.params(method, additionalParams))],
+      [zeroX(cond.agreementId), ...((await cond.params(method, additionalParams)) ?? [])],
       from,
       txParams,
     )
@@ -167,9 +156,9 @@ export abstract class Condition<
   public abstract fulfillWithNode(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt | void>
+  )
 
   public async instance(
     agreementId: string,
@@ -180,7 +169,7 @@ export abstract class Condition<
       condition: this.contractName,
       seed: valueHash,
       agreementId,
-      id: await this.call<string>('generateId', [zeroX(agreementId), valueHash]),
+      id: (await this.call('generateId', [zeroX(agreementId), valueHash])) as string,
       list: params.list,
       params: params.params,
     }
@@ -194,12 +183,15 @@ export abstract class ProviderCondition<
   public async fulfillWithNode(
     cond: ConditionInstance<Extra>,
     additionalParams: Extra,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom(
       this.nodeMethod(),
-      [zeroX(cond.agreementId), ...(await cond.params(this.nodeMethod(), additionalParams))],
+      [
+        zeroX(cond.agreementId),
+        ...((await cond.params(this.nodeMethod(), additionalParams)) ?? []),
+      ],
       from,
       txParams,
     )
@@ -217,7 +209,7 @@ export abstract class ConsumerCondition<
   public async fulfillWithNode(
     _cond: ConditionInstance<Extra>,
     _additionalParams: Extra,
-    _from?: Account,
+    _from: NvmAccount,
     _txParams?: TxParameters,
   ) {
     return

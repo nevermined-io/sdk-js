@@ -1,13 +1,10 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import {
-  MarketplaceApi,
-  MetadataService,
-  NeverminedNode,
-  Profiles,
-  Permissions,
-  AaveCredit,
-  Bookmarks,
-} from '../../services'
+import { Bookmarks } from '../../services/metadata/Bookmarks'
+import { MarketplaceApi } from '../../services/metadata/MarketplaceAPI'
+import { MetadataService } from '../../services/metadata/MetadataService'
+import { Permissions } from '../../services/metadata/Permissions'
+import { Profiles } from '../../services/metadata/Profiles'
+import { NeverminedNode } from '../../services/node/NeverminedNode'
 
 /**
  * Utils internal submodule of Nevermined.
@@ -44,11 +41,6 @@ export class ServicesApi extends Instantiable {
   public bookmarks: Bookmarks
 
   /**
-   * Aave instance.
-   */
-  public aave: AaveCredit
-
-  /**
    * Creates a new ServicesApi
    * @param config - Configuration of the Nevermined instance
    * @returns {@link ServicesApi}
@@ -63,9 +55,5 @@ export class ServicesApi extends Instantiable {
     this.profiles = new Profiles(config)
     this.bookmarks = new Bookmarks(config)
     this.permissions = new Permissions(config)
-  }
-
-  public async initializeAave() {
-    this.aave = await AaveCredit.getInstance(this.instantiableConfig)
   }
 }

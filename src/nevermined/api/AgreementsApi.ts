@@ -1,10 +1,10 @@
-import { generateId } from '../../utils'
-import { Account } from '../Account'
-import { zeroX } from '../../utils'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { ConditionsApi } from './ConditionsApi'
-import { ServiceType } from '../../ddo'
-import { TxParameters } from '../../keeper'
+import { generateId } from '../../common/helpers'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { ConditionsApi } from '../../nevermined/api/ConditionsApi'
+import { ServiceType } from '../../types/DDOTypes'
+import { zeroX } from '../../utils/ConversionTypeHelpers'
 
 export interface AgreementPrepareResult {
   agreementIdSeed: string
@@ -45,7 +45,7 @@ export class AgreementsApi extends Instantiable {
   public async prepareSignature(
     did: string,
     serviceType: ServiceType,
-    consumer: Account,
+    consumer: NvmAccount,
   ): Promise<AgreementPrepareResult> {
     const ddo = await this.nevermined.assets.resolve(did)
     const agreementIdSeed: string = zeroX(generateId())
@@ -89,8 +89,8 @@ export class AgreementsApi extends Instantiable {
     agreementIdSeed: string,
     serviceType: ServiceType,
     agreementParams: any,
-    consumer: Account,
-    publisher: Account,
+    consumer: NvmAccount,
+    publisher: NvmAccount,
     params?: TxParameters,
   ) {
     const ddo = await this.nevermined.assets.resolve(did)
@@ -100,7 +100,7 @@ export class AgreementsApi extends Instantiable {
 
     const agreementId = await this.nevermined.keeper
       .getTemplateByName(templateName)
-      .createAgreementFromDDO(
+      ?.createAgreementFromDDO(
         agreementIdSeed,
         ddo,
         agreementParams,
@@ -110,7 +110,7 @@ export class AgreementsApi extends Instantiable {
         params,
       )
 
-    return agreementId
+    return agreementId as string
   }
 
   /**
@@ -125,7 +125,7 @@ export class AgreementsApi extends Instantiable {
     )
     const fullStatus = await this.nevermined.keeper
       .getTemplateByAddress(templateId)
-      .getAgreementStatus(agreementId)
+      ?.getAgreementStatus(agreementId)
 
     if (!fullStatus) {
       return
@@ -170,7 +170,7 @@ export class AgreementsApi extends Instantiable {
     agreementId: string,
     did: string,
     consumerAddress: string,
-    account: Account,
+    account: NvmAccount,
   ): Promise<boolean> {
     const { accessConsumer } =
       await this.nevermined.keeper.templates.accessTemplate.getAgreementData(agreementId)

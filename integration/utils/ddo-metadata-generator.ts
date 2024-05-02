@@ -1,14 +1,14 @@
+import { AssetPrice } from '../../src/models/AssetPrice'
 import {
-  MetaData,
-  AssetPrice,
-  ResourceAuthentication,
-  PaymentAttributes,
   DefaultPaymentAttributes,
-} from '../../src'
+  MetaData,
+  PaymentAttributes,
+  ResourceAuthentication,
+} from '../../src/types/DDOTypes'
 
 const metadata: Partial<MetaData> = {
   main: {
-    name: undefined,
+    name: '',
     type: 'dataset',
     dateCreated: '2012-10-10T17:00:00Z',
     datePublished: '2012-10-10T17:00:00Z',
@@ -51,7 +51,7 @@ const metadata: Partial<MetaData> = {
 
 const webServiceMetadata: Partial<MetaData> = {
   main: {
-    name: undefined,
+    name: '',
     type: 'service',
     dateCreated: '2022-10-10T17:00:00Z',
     datePublished: '2022-10-10T17:00:00Z',
@@ -92,7 +92,7 @@ const webServiceMetadata: Partial<MetaData> = {
 
 const subscriptionMetadata: Partial<MetaData> = {
   main: {
-    name: undefined,
+    name: '',
     type: 'subscription',
     dateCreated: '2022-10-10T17:00:00Z',
     datePublished: '2022-10-10T17:00:00Z',

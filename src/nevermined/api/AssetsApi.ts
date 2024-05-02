@@ -1,65 +1,33 @@
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { DDO } from '../../ddo/DDO'
+import { AssetError, DDOError } from '../../errors/NeverminedErrors'
+import { RoyaltyScheme } from '../../keeper/contracts/royalties/RoyaltyScheme.abstract'
+import { AssetAttributes } from '../../models/AssetAttributes'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { apiPath } from '../../services/metadata/MetadataService'
 import {
-  DDO,
   MetaData,
   NvmConfigVersions,
   ServiceNFTAccess,
   ServiceNFTSales,
   ServiceType,
-} from '../../ddo'
-import { Account } from '../Account'
-import { SubscribablePromise, didZeroX } from '../../utils'
-import { InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters, RoyaltyScheme } from '../../keeper'
-import { AssetError, DDOError } from '../../errors'
-import { Nevermined, apiPath } from '../../sdk'
-import { ContractTransactionReceipt } from 'ethers'
-import { RegistryBaseApi } from './RegistryBaseApi'
+} from '../../types/DDOTypes'
+import { Babysig } from '../../types/GeneralTypes'
+import {
+  AssetPublicationOptions,
+  DIDResolvePolicy,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+  RoyaltyKind,
+} from '../../types/MetadataTypes'
+import { didZeroX } from '../../utils/ConversionTypeHelpers'
+import { SubscribablePromise } from '../../utils/SubscribablePromise'
+import { Nevermined } from '../Nevermined'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { Providers } from '../Provider'
-import { Babysig, AssetAttributes } from '../../models'
-
-/**
- * Where the metadata will be published. Options:
- * - OnlyMetadataAPI, The metadata will be stored only in the Metadata/Marketplace API
- * - IPFS, The metadata will be stored in the Metadata/Marketplace API and IPFS
- * - Filecoin, The metadata will be stored in the Metadata/Marketplace API and Filecoin
- * - Arweave, The metadata will be stored in the Metadata/Marketplace API and Arweave
- */
-export enum PublishMetadataOptions {
-  OnlyMetadataAPI,
-  IPFS,
-  Filecoin,
-  Arweave,
-}
-
-/**
- * It specifies if the DID will be published on-chain initially or not.
- */
-export enum PublishOnChainOptions {
-  DIDRegistry, // The DID and the reference to the DDO will be stored in the DIDRegistry contract
-  OnlyOffchain, // THE DID won't be stored on-chain and will be lazy-registered when needed
-}
-
-export class AssetPublicationOptions {
-  metadata?: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI
-  did?: PublishOnChainOptions = PublishOnChainOptions.DIDRegistry
-}
-
-/**
- * It described the policy to be used when resolving an asset. It has the following options:
- * * ImmutableFirst - It checks if there is a reference to an immutable data-store (IPFS, Filecoin, etc) on-chain. If that's the case uses the URL to resolve the Metadata. If not try to resolve the metadata using the URL of the Metadata/Marketplace API
- * * MetadataAPIFirst - Try to resolve the metadata from the Marketplace/Metadata API, if it can't tries to resolve using the immutable url
- * * OnlyImmutable - Try to resolve the metadata only from the immutable data store URL
- * * OnlyMetadataAPI - Try to resolve the metadata only from the Metadata API. It gets the metadata api url from the DIDRegistry
- * * NoRegisry - Gets the metadata from the Metadata API using as endpoint the metadata api url from the SDK config. This method don't gets any on-chain information because assumes the DID is not registered on-chain
- */
-export enum DIDResolvePolicy {
-  ImmutableFirst,
-  MetadataAPIFirst,
-  OnlyImmutable,
-  OnlyMetadataAPI,
-  NoRegistry,
-}
+import { SignatureUtils } from '../utils/SignatureUtils'
+import { RegistryBaseApi } from './RegistryBaseApi'
 
 /**
  * Attributes defining the royalties model attached to the asset
@@ -71,21 +39,12 @@ export interface RoyaltyAttributes {
 }
 
 /**
- * The type of royalty
- */
-export enum RoyaltyKind {
-  Standard,
-  Curve,
-  Legacy,
-}
-
-/**
  * It gets the on-chain royalties scheme
  * @param nvm Nevermined instance
  * @param kind The type of royalty
  * @returns The royalty scheme
  */
-export function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltyScheme {
+export function getRoyaltyScheme(nvm: Nevermined, kind: RoyaltyKind): RoyaltyScheme | undefined {
   if (kind == RoyaltyKind.Standard) {
     return nvm.keeper.royalties.standard
   } else if (kind == RoyaltyKind.Curve) {
@@ -160,7 +119,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public create(
     assetAttributes: AssetAttributes,
-    publisherAccount: Account,
+    publisherAccount: NvmAccount,
     publicationOptions: AssetPublicationOptions = {
       metadata: PublishMetadataOptions.OnlyMetadataAPI,
       did: PublishOnChainOptions.DIDRegistry,
@@ -199,7 +158,7 @@ export class AssetsApi extends RegistryBaseApi {
   public update(
     did: string,
     metadata: MetaData,
-    publisherAccount: Account,
+    publisherAccount: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -220,7 +179,7 @@ export class AssetsApi extends RegistryBaseApi {
   public order(
     did: string,
     serviceReference: ServiceType | number = 'access',
-    consumerAccount: Account,
+    consumerAccount: NvmAccount,
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return this.orderAsset(did, serviceReference, consumerAccount, txParams)
@@ -243,7 +202,7 @@ export class AssetsApi extends RegistryBaseApi {
     agreementId: string,
     did: string,
     serviceReference: ServiceType | number,
-    consumerAccount: Account,
+    consumerAccount: NvmAccount,
     resultPath?: string,
     fileIndex = -1,
     buyer?: string,
@@ -258,6 +217,10 @@ export class AssetsApi extends RegistryBaseApi {
       service = ddo.findServiceByType(serviceReference)
     }
     const { files } = attributes.main
+
+    if (!files) {
+      throw new AssetError('No files found in the metadata')
+    }
 
     const serviceEndpoint = service.serviceEndpoint
       ? service.serviceEndpoint
@@ -307,7 +270,7 @@ export class AssetsApi extends RegistryBaseApi {
     const ddo = await this.resolve(did)
     const checksum = ddo.checksum(didZeroX(did))
     const { creator, signatureValue } = ddo.proof
-    const signer = await this.nevermined.utils.signature.verifyText(checksum, signatureValue)
+    const signer = await SignatureUtils.recoverSignerAddress(checksum, signatureValue)
 
     if (signer.toLowerCase() !== creator.toLowerCase()) {
       this.logger.warn(
@@ -334,17 +297,17 @@ export class AssetsApi extends RegistryBaseApi {
    * @param owner - Account owning the DID and doing the transfer of ownership
    * @param newUserId - User Id of the new user getting the ownership of the asset
    * @param txParams - Transaction parameters
-   * @returns Returns ethers transaction receipt.
+   * @returns Returns transaction receipt.
    */
   public async transferOwnership(
     did: string,
     newOwner: string,
-    owner: string | Account,
+    owner: NvmAccount,
     newUserId?: string,
     txParams?: TxParameters,
-  ): Promise<ContractTransactionReceipt> {
+  ) {
     // const owner = await this.nevermined.assets.owner(did)
-    const ownerAddress = owner instanceof Account ? owner.getId() : owner
+    const ownerAddress = owner.getAddress()
     const ddo = await this.resolveAsset(did)
 
     ddo.proof = await ddo.generateProof(newOwner)
@@ -368,14 +331,9 @@ export class AssetsApi extends RegistryBaseApi {
     updatedDDO._nvm.versions = versions
     updatedDDO.updated = ddoVersion.updated
 
-    const _storedDdo = await this.nevermined.services.metadata.updateDDO(did, updatedDDO)
+    await this.nevermined.services.metadata.updateDDO(did, updatedDDO)
 
-    return this.nevermined.keeper.didRegistry.transferDIDOwnership(
-      did,
-      newOwner,
-      ownerAddress,
-      txParams,
-    )
+    return this.nevermined.keeper.didRegistry.transferDIDOwnership(did, newOwner, owner, txParams)
   }
 
   /**
@@ -410,7 +368,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public async download(
     did: string,
-    ownerAccount: Account,
+    ownerAccount: NvmAccount,
     resultPath?: string,
     fileIndex = -1,
     serviceType: ServiceType = 'access',
@@ -420,6 +378,10 @@ export class AssetsApi extends RegistryBaseApi {
     const ddo = await this.resolve(did)
     const { attributes } = ddo.findServiceByType('metadata')
     const { files } = attributes.main
+
+    if (!files) {
+      throw new AssetError('No files found in the metadata')
+    }
 
     let serviceEndpoint, index
     if (ddo.serviceExists(serviceType)) {
@@ -464,13 +426,13 @@ export class AssetsApi extends RegistryBaseApi {
   public async grantPermissions(
     did: string,
     address: string,
-    ownerAccount: Account,
+    ownerAccount: NvmAccount,
     txParams?: TxParameters,
   ) {
     return await this.nevermined.keeper.didRegistry.grantPermission(
       did,
       address,
-      ownerAccount.getId(),
+      ownerAccount,
       txParams,
     )
   }
@@ -486,13 +448,13 @@ export class AssetsApi extends RegistryBaseApi {
   public async revokePermissions(
     did: string,
     address: string,
-    ownerAccount: Account,
+    ownerAccount: NvmAccount,
     txParams?: TxParameters,
   ) {
     return await this.nevermined.keeper.didRegistry.revokePermission(
       did,
       address,
-      ownerAccount.getId(),
+      ownerAccount,
       txParams,
     )
   }

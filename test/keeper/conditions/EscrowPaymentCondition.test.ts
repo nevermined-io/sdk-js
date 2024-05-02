@@ -1,7 +1,5 @@
 import { assert } from 'chai'
-import { EscrowPaymentCondition, Token } from '../../../src/keeper'
-import { Nevermined } from '../../../src/nevermined'
-import config from '../../config'
+import { EscrowPaymentCondition, Token } from '../../../src/keeper/contracts'
 import TestContractHandler from '../TestContractHandler'
 
 let condition: EscrowPaymentCondition
@@ -19,9 +17,10 @@ describe('EscrowPaymentCondition', () => {
   let releaseCondition: string
 
   before(async () => {
-    const { keeper } = await Nevermined.getInstance(config)
+    const prepare = await TestContractHandler.prepareContracts()
+    const keeper = prepare.nevermined.keeper
+    //deployer = prepare.deployerAccount
 
-    await TestContractHandler.prepareContracts()
     condition = keeper.conditions.escrowPaymentCondition
     ;({ token } = keeper)
 

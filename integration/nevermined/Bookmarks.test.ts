@@ -1,11 +1,13 @@
 import { assert } from 'chai'
-import { config } from '../config'
-import { Nevermined, Account, NewBookmark } from '../../src'
+import config from '../../test/config'
 import { faker } from '@faker-js/faker'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { NewBookmark } from '../../src/types/MetadataTypes'
 
 describe('Bookmarks', () => {
   let nevermined: Nevermined
-  let account1: Account
+  let account1: NvmAccount
   let newBookmark: NewBookmark
   let id: string
 
@@ -13,7 +15,7 @@ describe('Bookmarks', () => {
     config.marketplaceAuthToken = undefined
 
     nevermined = await Nevermined.getInstance(config)
-    ;[account1] = await nevermined.accounts.list()
+    ;[account1] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account1)
 

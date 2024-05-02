@@ -1,6 +1,5 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Account, ConditionState, Nevermined } from '../../../src'
 import {
   AgreementStoreManager,
   TemplateStoreManager,
@@ -8,23 +7,27 @@ import {
   TransferDIDOwnershipCondition,
   DIDRegistry,
 } from '../../../src/keeper'
-
-import { didZeroX, zeroX, generateId } from '../../../src/utils'
-import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { generateId } from '../../../src/common/helpers'
+import { ConditionState } from '../../../src/types/ContractTypes'
+import { Log } from 'viem'
+import { didZeroX, zeroX } from '../../../src/utils/ConversionTypeHelpers'
 
 chai.use(chaiAsPromised)
 
 describe('TransferDIDOwnershipCondition', () => {
+  let nevermined: Nevermined
   let transferDidOwnershipCondition: TransferDIDOwnershipCondition
   let conditionStoreManager: ConditionStoreManager
   let templateStoreManager: TemplateStoreManager
   let agreementStoreManager: AgreementStoreManager
   let didRegistry: DIDRegistry
-  let receiver: Account
-  let owner: Account
-  let templateId: Account
+  let receiver: NvmAccount
+  let owner: NvmAccount
+  let deployer: NvmAccount
+  let templateId: NvmAccount
 
   let agreementId: string
   let checksum: string
@@ -32,28 +35,26 @@ describe('TransferDIDOwnershipCondition', () => {
   const value = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    const nevermined = await Nevermined.getInstance(config)
+    const prepare = await TestContractHandler.prepareContracts()
+    nevermined = prepare.nevermined
+    deployer = prepare.deployerAccount
     ;({ transferDidOwnershipCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, templateStoreManager, agreementStoreManager } =
       nevermined.keeper)
-    ;[owner, receiver, templateId] = await nevermined.accounts.list()
+    ;[owner, receiver, templateId] = nevermined.accounts.list()
 
-    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, owner.getId())
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, deployer)
 
     try {
-      await templateStoreManager.proposeTemplate(templateId.getId())
-      await templateStoreManager.approveTemplate(templateId.getId())
+      await templateStoreManager.proposeTemplate(templateId.getId(), deployer)
+      await templateStoreManager.approveTemplate(templateId.getId(), deployer)
     } catch (err) {
       if (!err.toString().includes('Template already exist')) {
         throw err
       }
     }
 
-    await didRegistry.grantRegistryOperatorRole(
-      transferDidOwnershipCondition.address,
-      owner.getId(),
-    )
+    await didRegistry.grantRegistryOperatorRole(transferDidOwnershipCondition.address, deployer)
   })
 
   beforeEach(async () => {
@@ -93,7 +94,7 @@ describe('TransferDIDOwnershipCondition', () => {
 
   describe('fulfill existing condition', () => {
     it('should fulfill if condition exist', async () => {
-      await didRegistry.registerAttribute(didSeed, checksum, [], value, owner.getId())
+      await didRegistry.registerAttribute(didSeed, checksum, [], value, owner)
       const did = await didRegistry.hashDID(didSeed, owner.getId())
 
       const hashValues = await transferDidOwnershipCondition.hashValues(did, receiver.getId())
@@ -115,17 +116,24 @@ describe('TransferDIDOwnershipCondition', () => {
       )
 
       const storedDIDRegister: any = await didRegistry.getDIDRegister(did)
-      assert.equal(storedDIDRegister.owner, owner.getId())
 
-      const contractReceipt: ContractTransactionReceipt =
-        await transferDidOwnershipCondition.fulfill(agreementId, did, receiver.getId(), owner)
+      assert.equal(storedDIDRegister[0], owner.getId())
+
+      const txReceipt = await transferDidOwnershipCondition.fulfill(
+        agreementId,
+        did,
+        receiver.getId(),
+        owner,
+      )
 
       const { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
 
-      const event: EventLog = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'Fulfilled',
-      ) as EventLog
+      const logs = transferDidOwnershipCondition.getTransactionLogs(txReceipt, 'Fulfilled')
+      assert.isTrue(logs.length > 0)
+
+      const event: Log = logs[0]
+      // @ts-ignore
       const { _agreementId, _conditionId, _did, _receiver } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))

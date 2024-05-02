@@ -1,7 +1,7 @@
 import { assert } from 'chai'
-import { Nevermined } from '../../src'
-import { LockPaymentCondition } from '../../src/keeper'
-import { config } from '../config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import config from '../../test/config'
+import { LockPaymentCondition } from '../../src/keeper/contracts/conditions/LockPaymentCondition'
 
 describe('Test Encoding', () => {
   let lockPaymentCondition: LockPaymentCondition

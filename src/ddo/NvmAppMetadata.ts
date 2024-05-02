@@ -1,11 +1,11 @@
 import { MetadataValidationResults } from '../nevermined/NvmApp'
 import {
-  ChargeType,
   MetaData,
+  SubscriptionType,
   MetaDataMain,
   ResourceAuthentication,
-  SubscriptionType,
-} from './types'
+  ChargeType,
+} from '../types/DDOTypes'
 
 export class NvmAppMetadata {
   public static getTimeSubscriptionMetadataTemplate(
@@ -19,6 +19,7 @@ export class NvmAppMetadata {
       subscriptionType: SubscriptionType.Time,
       timeMeasure,
     }
+    metadata.additionalInformation = metadata.additionalInformation || {}
     metadata.additionalInformation.customData = {
       ...customData,
       subscriptionLimitType: SubscriptionType.Time,
@@ -36,6 +37,7 @@ export class NvmAppMetadata {
     metadata.main.subscription = {
       subscriptionType: SubscriptionType.Credits,
     }
+    metadata.additionalInformation = metadata.additionalInformation || {}
     metadata.additionalInformation.customData = {
       ...customData,
       subscriptionLimitType: SubscriptionType.Credits,

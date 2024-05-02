@@ -1,9 +1,14 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
-import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
-import { Account } from '../../../../nevermined'
-import { TxParameters } from '../../ContractBase'
-import { DDO, ServiceCommon } from '../../../../ddo'
+import { DDO } from '../../../../ddo/DDO'
+import {
+  Condition,
+  ConditionContext,
+  ConsumerCondition,
+} from '../../../../keeper/contracts/conditions/Condition.abstract'
+import { NvmAccount } from '../../../../models/NvmAccount'
+import { TxParameters } from '../../../../models/Transactions'
+import { ServiceCommon } from '../../../../types/DDOTypes'
+import { didZeroX, zeroX } from '../../../../utils/ConversionTypeHelpers'
 
 export interface NFTHolderConditionContext extends ConditionContext {
   holderAddress: string
@@ -39,13 +44,13 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
   public amountFromService(service: ServiceCommon): bigint {
     const holder = DDO.findServiceConditionByName(service, 'nftHolder')
     if (!holder) throw new Error('Holder condition not found!')
-    return BigInt(holder.parameters.find((p) => p.name === '_numberNfts').value as string)
+    return BigInt(holder.parameters.find((p) => p.name === '_numberNfts')?.value as string)
   }
 
   public nftContractFromService(service: ServiceCommon): string {
     const holder = DDO.findServiceConditionByName(service, 'nftHolder')
     if (!holder) throw new Error('Holder condition not found!')
-    const res = holder.parameters.find((p) => p.name === '_contractAddress').value as string
+    const res = holder.parameters.find((p) => p.name === '_contractAddress')?.value as string
     return res || this.nevermined.keeper.nftUpgradeable.address
   }
 
@@ -77,12 +82,12 @@ export class NFTHolderCondition extends ConsumerCondition<NFTHolderConditionCont
     holderAddress: string,
     amount: bigint,
     nftContractAddress: string,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(
       agreementId,
-      [didZeroX(did), zeroX(holderAddress), String(amount), zeroX(nftContractAddress)],
+      [didZeroX(did), zeroX(holderAddress), amount, zeroX(nftContractAddress)],
       from,
       txParams,
     )

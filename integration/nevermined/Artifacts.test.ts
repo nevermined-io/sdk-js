@@ -1,6 +1,7 @@
+import { NeverminedOptions } from '../../src/models/NeverminedOptions'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import { assert } from 'chai'
 import { mkdtempSync, writeFileSync } from 'fs'
-import { NeverminedOptions, Nevermined } from '../../src'
 import fetch from 'node-fetch'
 import { x } from 'tar'
 
@@ -8,10 +9,10 @@ describe('Artifacts', () => {
   const artifactsRepo = 'https://artifacts.nevermined.network/'
   const tests = [
     {
-      web3ProviderUri: 'https://goerli-rollup.arbitrum.io/rpc',
-      networkName: ['arbitrum-goerli'],
-      networkId: [421613],
-      versions: ['v3.2.2'],
+      web3ProviderUri: 'https://sepolia-rollup.arbitrum.io/rpc',
+      networkName: ['arbitrum-sepolia'],
+      networkId: [421614],
+      versions: ['v3.5.6'],
       tag: 'public',
     },
   ]
@@ -40,6 +41,7 @@ describe('Artifacts', () => {
 
       const nvm = await Nevermined.getInstance({
         web3ProviderUri: web3ProviderUri,
+        chainId: networkId[0],
         artifactsFolder: tempDir,
       } as NeverminedOptions)
 

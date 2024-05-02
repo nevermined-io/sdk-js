@@ -1,11 +1,12 @@
 import { BodyInit, RequestInit, Response } from 'node-fetch'
 import fs, { ReadStream } from 'fs'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { InstantiableConfig } from '../../Instantiable.abstract'
 import FormData from 'form-data'
 import * as path from 'path'
 import fileDownload from 'js-file-download'
-import { HttpError } from '../../errors'
 import { URL } from 'whatwg-url'
+import { JwtUtils } from '../../nevermined/utils/JwtUtils'
+import { HttpError } from '../../errors/NeverminedErrors'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -17,10 +18,15 @@ if (typeof window !== 'undefined') {
 /**
  * Provides a common interface to web services.
  */
-export class WebServiceConnector extends Instantiable {
+export class WebServiceConnector {
+  // extends Instantiable {
+
+  config: InstantiableConfig
+
   constructor(config: InstantiableConfig) {
-    super()
-    this.setInstanceConfig(config)
+    // super()
+    // this.setInstanceConfig(config)
+    this.config = config
   }
 
   public post(
@@ -87,6 +93,7 @@ export class WebServiceConnector extends Instantiable {
 
     if (destination) {
       await new Promise((resolve, reject) => {
+        // @ts-ignore
         fs.mkdirSync(destination, { recursive: true })
         const fileStream = fs.createWriteStream(`${destination}${name}`)
         response.body.pipe(fileStream)
@@ -100,7 +107,6 @@ export class WebServiceConnector extends Instantiable {
       destination = process.cwd()
     }
     const d = path.join(destination, name)
-    this.logger.log(`Downloaded: ${d}`)
     return d
   }
 
@@ -116,10 +122,11 @@ export class WebServiceConnector extends Instantiable {
 
     let name: string
     try {
-      //prettier-ignore
-      [, name] = response.headers.get('content-disposition').match(/attachment;filename=(.+)/)
+      // @ts-ignore
+      ;[, name] = response.headers.get('content-disposition').match(/attachment;filename=(.+)/)
     } catch {
       try {
+        // @ts-ignore
         name = url.split('/').pop()
       } catch {
         name = `file${index}`
@@ -147,7 +154,6 @@ export class WebServiceConnector extends Instantiable {
   }
 
   public async uploadFile(url: string, data: ReadStream, encrypt?: boolean): Promise<any> {
-    console.log(`Trying to upload file`)
     const form = new FormData()
     form.append('file', data)
     if (encrypt) {
@@ -157,12 +163,12 @@ export class WebServiceConnector extends Instantiable {
   }
 
   public async fetchToken(url: string, grantToken: string, numberTries = 1): Promise<Response> {
-    return await this.nevermined.utils.fetch.fetch(
+    return await fetch(
       url,
       {
         method: 'POST',
         body: `client_assertion_type=${encodeURI(
-          this.nevermined.utils.jwt.CLIENT_ASSERTION_TYPE,
+          JwtUtils.CLIENT_ASSERTION_TYPE,
         )}&client_assertion=${encodeURI(grantToken)}`,
         headers: {
           'Content-type': 'application/x-www-form-urlencoded',
@@ -173,7 +179,7 @@ export class WebServiceConnector extends Instantiable {
   }
 
   public async fetchCID(cid: string): Promise<string> {
-    const url = `${this.config.ipfsGateway}/api/v0/cat?arg=${cid.replace('cid://', '')}`
+    const url = `${this.config.config?.ipfsGateway}/api/v0/cat?arg=${cid.replace('cid://', '')}`
     const authToken = WebServiceConnector.getIPFSAuthToken()
     const options = {
       method: 'POST',
@@ -202,14 +208,13 @@ export class WebServiceConnector extends Instantiable {
 
   private async fetch(url: string | URL, opts: RequestInit, numberTries = 1): Promise<Response> {
     let counterTries = 1
-    let result: Response
+    let result
     while (counterTries <= numberTries) {
       result = await fetch(url, opts)
       if (result.ok) return result
 
       counterTries++
-      this.logger.debug(`Sleeping ...`)
-      await this.nevermined.utils.fetch._sleep(500)
+      await this._sleep(500)
     }
 
     throw new HttpError(

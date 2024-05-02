@@ -1,19 +1,18 @@
+import { InstantiableConfig } from '../../../Instantiable.abstract'
+import { DDO } from '../../../ddo/DDO'
+import { AgreementInstance } from '../../../types/ContractTypes'
 import {
-  ServiceAgreementTemplate,
   ServiceNFTSales,
   ServiceType,
   ValidationParams,
-} from '../../../ddo'
-import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../sdk'
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
+  ServiceAgreementTemplate,
+} from '../../../types/DDOTypes'
+import { EscrowPaymentCondition } from '../conditions/EscrowPaymentCondition'
+import { LockPaymentCondition } from '../conditions/LockPaymentCondition'
+import { TransferNFT721Condition } from '../conditions/NFTs/TransferNFT721Condition'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
-import { nft721SalesTemplateServiceAgreementTemplate } from './NFT721SalesTemplate.serviceAgreementTemplate'
-import {
-  LockPaymentCondition,
-  EscrowPaymentCondition,
-  TransferNFT721Condition,
-} from '../conditions'
+import { lockPaymentTemplate, transferNFT721Template, escrowTemplate } from './ConditionTemplates'
 
 export interface NFT721SalesTemplateParams {
   consumerId: string
@@ -103,6 +102,26 @@ export class NFT721SalesTemplate extends BaseTemplate<NFT721SalesTemplateParams,
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return { ...nft721SalesTemplateServiceAgreementTemplate() }
+    return {
+      contractName: 'NFT721SalesTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'nft721SalesTemplate',
+            functionName: 'fulfillLockPaymentCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['lockPayment.fulfill', 'transferNFT.fulfill', 'escrowPayment.fulfill'],
+      conditionDependency: {
+        lockPayment: [],
+        transferNFT: [],
+        escrowPayment: ['lockPayment', 'transferNFT'],
+      },
+      conditions: [lockPaymentTemplate(), transferNFT721Template(), escrowTemplate()],
+    }
   }
 }

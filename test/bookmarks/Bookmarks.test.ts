@@ -1,11 +1,10 @@
 import { assert, expect, spy, use } from 'chai'
 import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
-import { Nevermined } from '../../src'
-import { MarketplaceResults } from '../../src/common/interfaces'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { Bookmarks } from '../../src/services/metadata/Bookmarks'
+import { NewBookmark, Bookmark, MarketplaceResults } from '../../src/types'
 import config from '../config'
-import { Bookmark, Bookmarks, NewBookmark } from '../../src/services'
-import TestContractHandler from '../keeper/TestContractHandler'
 
 use(spies)
 
@@ -22,7 +21,6 @@ describe('Bookmarks', () => {
   let bookmarksResults: MarketplaceResults<Bookmark>
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
     nevermined = await Nevermined.getInstance(config)
   })
 

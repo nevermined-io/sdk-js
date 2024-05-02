@@ -1,11 +1,20 @@
+// @ts-nocheck
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, Nevermined, NFTAttributes, AssetAttributes, AssetPrice } from '../../src'
-import { CustomToken } from '../../src/keeper'
-import { getRoyaltyAttributes, RoyaltyKind } from '../../src/nevermined'
-import { generateId, parseUnits } from '../../src/utils'
-import { config } from '../config'
+import { generateId } from '../../src/common/helpers'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+
+import config from '../../test/config'
 import { getMetadata } from '../utils'
+import { CustomToken } from '../../src/keeper/contracts/CustomToken'
+import { parseUnits } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { getRoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
 
 describe('Assets Query by Price', () => {
   let nevermined: Nevermined
@@ -13,8 +22,8 @@ describe('Assets Query by Price', () => {
   let price2: bigint
   let royalties: bigint
   let payload: JWTPayload
-  let account: Account
-  let account2: Account
+  let account: NvmAccount
+  let account2: NvmAccount
   let appId: string
   let token: CustomToken
   let ddoAccess: DDO
@@ -28,7 +37,7 @@ describe('Assets Query by Price', () => {
     price2 = parseUnits('17.86', await token.decimals())
     royalties = parseUnits('2', await token.decimals())
     appId = generateId()
-    ;[account, account2] = await nevermined.accounts.list()
+    ;[account, account2] = nevermined.accounts.list()
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account)
     await nevermined.services.marketplace.login(clientAssertion)
     payload = decodeJwt(config.marketplaceAuthToken)

@@ -2,17 +2,21 @@ import { assert } from 'chai'
 import * as fs from 'fs'
 import { decodeJwt } from 'jose'
 
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
-
-import { Nevermined, Account, DDO, MetaData, Logger, AssetAttributes } from '../../src'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { MetaData } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import Logger from '../../src/models/Logger'
 
 // Ensure that your network is fast enough and you have some free ram before run it.
 describe.skip('Consume Asset (Large size)', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let ddo: DDO
   let agreementId: string
@@ -24,7 +28,7 @@ describe.skip('Consume Asset (Large size)', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[publisher, consumer] = await nevermined.accounts.list()
+    ;[publisher, consumer] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
@@ -56,7 +60,8 @@ describe.skip('Consume Asset (Large size)', () => {
 
   it('should order the asset', async () => {
     try {
-      await consumer.requestTokens(
+      await nevermined.accounts.requestTokens(
+        consumer,
         ddo.getPriceByService() * 10n ** -BigInt(await nevermined.keeper.token.decimals()),
       )
     } catch (error) {
@@ -81,7 +86,7 @@ describe.skip('Consume Asset (Large size)', () => {
     assert.include(path, folder, 'The storage path is not correct.')
 
     const files = await new Promise<string[]>((resolve) => {
-      fs.readdir(path, (e, fileList) => {
+      fs.readdir(path, (_e, fileList) => {
         resolve(fileList)
       })
     })

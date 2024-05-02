@@ -2,27 +2,24 @@ import { assert } from 'chai'
 import * as fs from 'fs'
 import { decodeJwt } from 'jose'
 
-import { config } from '../config'
+import config from '../../test/config'
 import { getMetadata } from '../utils'
-
-import {
-  Nevermined,
-  Account,
-  DDO,
-  ConditionState,
-  MetaData,
-  Logger,
-  AssetPrice,
-  AssetAttributes,
-} from '../../src'
 import { repeat } from '../utils/utils'
-import { ethers } from 'ethers'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { MetaData } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import Logger from '../../src/models/Logger'
+import { ConditionState } from '../../src/types/ContractTypes'
+import { getChecksumAddress } from '../../src/nevermined/utils/BlockchainViemUtils'
 
 describe('Consume Asset (Nevermined Node)', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let ddo: DDO
   let agreementId: string
@@ -34,7 +31,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[publisher, consumer] = await nevermined.accounts.list()
+    ;[publisher, consumer] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
@@ -62,7 +59,7 @@ describe('Consume Asset (Nevermined Node)', () => {
   })
 
   it('should register an asset', async () => {
-    const steps = []
+    const steps: any[] = []
 
     const assetAttributes = AssetAttributes.getInstance({
       metadata,
@@ -82,11 +79,11 @@ describe('Consume Asset (Nevermined Node)', () => {
     assert.deepEqual(steps, [0, 1, 2, 3, 4, 5, 6, 9, 10, 12])
 
     const assetProviders = await nevermined.assets.providers.list(ddo.id)
-    assert.deepEqual(assetProviders, [ethers.getAddress(config.neverminedNodeAddress)])
+    assert.deepEqual(assetProviders, [getChecksumAddress(config.neverminedNodeAddress)])
   })
 
   it('should order the asset', async () => {
-    const steps = []
+    const steps: any[] = []
     agreementId = await nevermined.assets
       .order(ddo.id, 'access', consumer)
       .next((step) => steps.push(step))
@@ -110,7 +107,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
     assert.include(path, folder, 'The storage path is not correct.')
     const files = await new Promise<string[]>((resolve) => {
-      fs.readdir(path, (e, fileList) => {
+      fs.readdir(path, (_e, fileList) => {
         resolve(fileList)
       })
     })
@@ -132,7 +129,7 @@ describe('Consume Asset (Nevermined Node)', () => {
     assert.include(path, folder, 'The storage path is not correct.')
 
     const files = await new Promise<string[]>((resolve) => {
-      fs.readdir(path, (e, fileList) => {
+      fs.readdir(path, (_e, fileList) => {
         resolve(fileList)
       })
     })

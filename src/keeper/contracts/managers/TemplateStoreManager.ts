@@ -1,7 +1,8 @@
-import ContractBase, { TxParameters } from '../ContractBase'
-import { zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { zeroX } from '../../../utils/ConversionTypeHelpers'
+import { ContractBase } from '../../../keeper/contracts/ContractBase'
 
 export enum TemplateState {
   Uninitialized = 0,
@@ -32,12 +33,12 @@ export class TemplateStoreManager extends ContractBase {
 
   public async proposeTemplate(
     address: string,
-    from?: Account,
+    from: NvmAccount,
     ignoreExists?: boolean,
     txParams?: TxParameters,
   ) {
     const template = await this.getTemplate(address)
-    if (template.blockNumberUpdated !== 0) {
+    if (template.blockNumberUpdated && template.blockNumberUpdated > 0) {
       this.logger.warn(`Template "${address}" already exist.`)
       if (!ignoreExists) {
         throw new Error('Template already exist.')
@@ -49,7 +50,7 @@ export class TemplateStoreManager extends ContractBase {
 
   public async approveTemplate(
     address: string,
-    from?: Account,
+    from: NvmAccount,
     ignoreApproved?: boolean,
     txParams?: TxParameters,
   ) {
@@ -64,17 +65,17 @@ export class TemplateStoreManager extends ContractBase {
     }
   }
 
-  public revokeTemplate(address: string, from?: Account, txParams?: TxParameters) {
+  public revokeTemplate(address: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('revokeTemplate', [zeroX(address)], from, txParams)
   }
 
   public async getTemplate(templateId: string) {
     const t: any = await this.call('getTemplate', [zeroX(templateId)])
     return {
-      state: Number(t.state),
-      owner: t.owner,
-      lastUpdatedBy: t.lastUpdatedBy,
-      blockNumberUpdated: Number(t.blockNumberUpdated),
+      state: Number(t[0]),
+      owner: t[1],
+      lastUpdatedBy: t[2],
+      blockNumberUpdated: Number(t[3]),
     } as TemplateMetadata
   }
 

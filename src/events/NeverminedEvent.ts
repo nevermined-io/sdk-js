@@ -1,35 +1,18 @@
-import { ContractBase } from '../keeper'
 import { Instantiable } from '../Instantiable.abstract'
-
-export interface Filter {
-  [key: string]: number | string | string[] | number[]
-}
-export interface EventOptions {
-  eventName: string
-  filterJsonRpc?: Filter
-  filterSubgraph?: Record<string, unknown>
-  result?: Record<string, unknown>
-  fromBlock?: number | string
-  toBlock?: number | string
-}
-
-export interface EventEmitter {
-  subscribe: (callback: () => Promise<void>, arg1: () => Promise<number>) => void
-  unsubscribe: (arg0: () => Promise<void>) => void
-}
-
-export interface ContractEventSubscription {
-  unsubscribe: () => void
-}
-
-export type EventResult = Promise<Array<any>>
+import { ContractBase } from '../keeper/contracts/ContractBase'
+import {
+  EventEmitter,
+  EventOptions,
+  EventResult,
+  ContractEventSubscription,
+} from '../types/EventTypes'
 
 export abstract class NeverminedEvent extends Instantiable {
   protected eventEmitter: EventEmitter
-  protected contract: ContractBase = null
+  protected contract: ContractBase
   public abstract getEventData(options: EventOptions): EventResult
   public abstract getPastEvents(options: EventOptions): EventResult
-  public abstract getBlockNumber(...args: any[]): Promise<number>
+  public abstract getBlockNumber(...args: any[]): Promise<bigint>
 
   protected constructor(contract: ContractBase, eventEmitter: EventEmitter) {
     super()
@@ -45,6 +28,7 @@ export abstract class NeverminedEvent extends Instantiable {
       const events = await this.getEventData(options)
       callback(events)
     }
+
     this.eventEmitter.subscribe(onEvent, () => this.getBlockNumber())
     return {
       unsubscribe: () => this.eventEmitter.unsubscribe(onEvent),
@@ -52,8 +36,8 @@ export abstract class NeverminedEvent extends Instantiable {
   }
 
   public async once(
-    callback?: (events: EventResult[]) => void,
-    options?: EventOptions,
+    callback: (events: EventResult[]) => void,
+    options: EventOptions,
   ): Promise<EventResult> {
     // Check if the event already happened and return that instead
     // before subscribing

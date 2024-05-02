@@ -1,12 +1,13 @@
 import { assert, expect, spy, use } from 'chai'
 import spies from 'chai-spies'
 
-import { DDO, Service } from '../../src/ddo'
-import { Nevermined } from '../../src/nevermined'
 import config from '../config'
 import TestContractHandler from '../keeper/TestContractHandler'
 
 import * as jsonDDO from '../testdata/ddo.json'
+import { Service } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 
 use(spies)
 

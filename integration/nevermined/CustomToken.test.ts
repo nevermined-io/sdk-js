@@ -1,17 +1,18 @@
 import { assert } from 'chai'
-import { Account, Nevermined } from '../../src'
-import { CustomToken } from '../../src/keeper'
-import { config } from '../config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import config from '../../test/config'
+import { CustomToken } from '../../src/keeper/contracts/CustomToken'
 
 describe('CustomToken', () => {
-  let account: Account
+  let account: NvmAccount
   let nevermined: Nevermined
   let erc20TokenAddress: string
   let customErc20Token: CustomToken
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[account] = await nevermined.accounts.list()
+    ;[account] = nevermined.accounts.list()
     erc20TokenAddress = process.env.TOKEN_ADDRESS || nevermined.utils.token.getAddress()
   })
 

@@ -1,8 +1,8 @@
 import { assert } from 'chai'
 
-import { config } from '../config'
-
-import { Nevermined, PlatformTechStatus } from '../../src'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { PlatformTechStatus } from '../../src/nevermined/Versions'
 
 describe('Versions', () => {
   let nevermined: Nevermined

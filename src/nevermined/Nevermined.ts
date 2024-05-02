@@ -1,17 +1,21 @@
-import { AccountsApi } from './api/AccountsApi'
-import { AgreementsApi } from './api/AgreementsApi'
-import { AssetsApi } from './api/AssetsApi'
-import { ProvenanceApi } from './api/ProvenanceApi'
-import { UtilsApi } from './api/UtilsApi'
-import { Keeper, CustomToken, Nft1155Contract, Nft721Contract } from '../keeper'
-import { NeverminedInitializationOptions, NeverminedOptions } from '../models'
 import { Instantiable, generateInstantiableConfigFromConfig } from '../Instantiable.abstract'
-import { NFT1155Api } from './api/nfts/NFT1155Api'
-import { NFT721Api } from './api/nfts/NFT721Api'
-import { SearchApi } from './api/SearchApi'
-import { ServicesApi } from './api/ServicesApi'
-import { ComputeApi } from './api'
-import { Logger } from '../sdk'
+import { Keeper } from '../keeper'
+import { CustomToken } from '../keeper/contracts/CustomToken'
+import { Nft1155Contract } from '../keeper/contracts/Nft1155Contract'
+import { Nft721Contract } from '../keeper/contracts/Nft721Contract'
+import { LoggerInstance } from '../models/Logger'
+import { NeverminedOptions } from '../models/NeverminedOptions'
+import { AccountsApi } from '../nevermined/api/AccountsApi'
+import { AgreementsApi } from '../nevermined/api/AgreementsApi'
+import { AssetsApi } from '../nevermined/api/AssetsApi'
+import { ComputeApi } from '../nevermined/api/ComputeApi'
+import { ProvenanceApi } from '../nevermined/api/ProvenanceApi'
+import { SearchApi } from '../nevermined/api/SearchApi'
+import { ServicesApi } from '../nevermined/api/ServicesApi'
+import { UtilsApi } from '../nevermined/api/UtilsApi'
+import { NFT1155Api } from '../nevermined/api/nfts/NFT1155Api'
+import { NFT721Api } from '../nevermined/api/nfts/NFT721Api'
+import { NeverminedInitializationOptions } from '../types/GeneralTypes'
 
 /**
  * Main interface for Nevermined Protocol.
@@ -50,15 +54,15 @@ export class Nevermined extends Instantiable {
   ): Promise<Nevermined> {
     const instance = new Nevermined()
 
-    const instanceConfig = {
-      ...(await generateInstantiableConfigFromConfig(config)),
-      nevermined: instance,
-    }
-    instance.setInstanceConfig(instanceConfig)
-
     // Nevermined main API
 
     try {
+      const instanceConfig = {
+        ...(await generateInstantiableConfigFromConfig(config, initOptions.loadCore)),
+        nevermined: instance,
+      }
+      instance.setInstanceConfig(instanceConfig)
+
       instance.search = new SearchApi(instanceConfig)
       instance.services = new ServicesApi(instanceConfig)
       instance.utils = new UtilsApi(instanceConfig, initOptions)
@@ -85,8 +89,9 @@ export class Nevermined extends Instantiable {
       instance.isKeeperConnected = initOptions.loadCore
     } catch (error) {
       instance.isKeeperConnected = false
-      Logger.error(error)
-      Logger.error(
+
+      LoggerInstance.error(error)
+      LoggerInstance.error(
         "Contracts didn't initialize because for the above mentioned reason. Loading SDK in offchain mode...",
       )
     }
@@ -244,6 +249,11 @@ export class Nevermined extends Instantiable {
    * Utils submodule
    */
   public utils: UtilsApi
+
+  /**
+   * Web3 Clients
+   */
+  // public web3: Web3Clients
 
   /**
    * If keeper is connected

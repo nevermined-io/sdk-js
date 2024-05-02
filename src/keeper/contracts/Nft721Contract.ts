@@ -1,11 +1,12 @@
-import { TxParameters } from './ContractBase'
 import { InstantiableConfig } from '../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../utils'
-import { Account } from '../../nevermined'
-import { ethers } from 'ethers'
-import { ContractEvent, EventHandler } from '../../events'
-import { NFTContractsBase } from './NFTContractsBase'
-import { ContractHandler } from '../ContractHandler'
+import { ContractEvent } from '../../events/ContractEvent'
+import { EventHandler } from '../../events/EventHandler'
+import { ContractHandler } from '../../keeper/ContractHandler'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { didToTokenId, getContractInstance } from '../../nevermined/utils/BlockchainViemUtils'
+import { didZeroX } from '../../utils/ConversionTypeHelpers'
+import { NFT721MintedEntry, NFTContractsBase } from './NFTContractsBase'
 
 export class Nft721Contract extends NFTContractsBase {
   public static async getInstance(
@@ -20,14 +21,16 @@ export class Nft721Contract extends NFTContractsBase {
 
     // We don't have a subgraph for NFT721 so we can only use ContractEvent
     const eventEmitter = new EventHandler()
-    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
+    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, nft.client)
 
-    const solidityABI = await ContractHandler.getABI(contractName, artifactsFolder, networkName)
+    const solidityABI = await ContractHandler.getABIArtifact(
+      contractName,
+      artifactsFolder,
+      networkName,
+    )
 
-    console.log(`Checking Address =${address}=`)
-    await new ContractHandler(config).checkExists(address)
-    nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
-    nft.address = await nft.contract.getAddress()
+    nft.contract = await getContractInstance(address, solidityABI.abi, nft.nevermined.client)
+    nft.address = address as `0x${string}`
 
     return nft
   }
@@ -43,11 +46,10 @@ export class Nft721Contract extends NFTContractsBase {
 
     // We don't have a subgraph for NFT721 so we can only use ContractEvent
     const eventEmitter = new EventHandler()
-    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, config.web3)
+    nft.events = ContractEvent.getInstance(nft, eventEmitter, config.nevermined, nft.client)
 
-    await new ContractHandler(config).checkExists(address)
-    nft.contract = new ethers.Contract(address, solidityABI.abi, nft.web3)
-    nft.address = await nft.contract.getAddress()
+    nft.contract = await getContractInstance(address, solidityABI.abi, nft.client)
+    nft.address = await nft.contract.address
 
     return nft
   }
@@ -69,24 +71,24 @@ export class Nft721Contract extends NFTContractsBase {
     uri: string,
     cap: bigint,
     operators: string[] = [],
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this._createClone(721, name, symbol, uri, cap, operators, from, txParams)
   }
 
-  public async mint(did: string, from: string, txParams?: TxParameters) {
-    return this.send('mint', from, [didZeroX(did)], txParams)
+  public async mint(did: string, from: NvmAccount, txParams?: TxParameters) {
+    return this.send('mint', from, [didToTokenId(did)], txParams)
   }
 
   public async mintWithURL(
     to: string,
     did: string,
     url: string,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.sendFrom('mint', [to, didZeroX(did), url], from, txParams)
+    return this.sendFrom('mint', [to, didToTokenId(did), url], from, txParams)
   }
 
   /**
@@ -97,14 +99,14 @@ export class Nft721Contract extends NFTContractsBase {
    * @param txParams - Transaction additional parameters
    * @returns Contract Receipt
    */
-  public async burn(tokenId: string, from?: Account, txParams?: TxParameters) {
-    return this.sendFrom('burn', [zeroX(tokenId)], from, txParams)
+  public async burn(tokenId: string, from: NvmAccount, txParams?: TxParameters) {
+    return this.sendFrom('burn', [didToTokenId(tokenId)], from, txParams)
   }
 
   public async setApprovalForAll(
     target: string,
     state: boolean,
-    from: string,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.send('setApprovalForAll', from, [target, state], txParams)
@@ -119,10 +121,32 @@ export class Nft721Contract extends NFTContractsBase {
   }
 
   public async ownerOf(did: string): Promise<string> {
-    return this.call('ownerOf', [didZeroX(did)])
+    return this.call('ownerOf', [didToTokenId(did)])
   }
 
   public async tokenURI(did: string): Promise<string> {
-    return this.call('tokenURI', [didZeroX(did)])
+    return this.call('tokenURI', [didToTokenId(did)])
+  }
+
+  /**
+   * It gets all the `NFT721MintedEntry` events from the NFT Contract
+   * @param owner the user owning the NFT
+   * @param did the tokenId of the NFT
+   * @returns An array of `NFT721MintedEntry` objects
+   */
+  public async getMintedEntries(owner: string, did?: string): Promise<NFT721MintedEntry[]> {
+    const minted: any[][] = await this.call(
+      'getMintedEntries',
+      did ? [owner, didZeroX(did)] : [owner],
+    )
+    const entries: NFT721MintedEntry[] = []
+    minted.map((entry) => {
+      entries.push({
+        tokenId: entry['tokenId'],
+        expirationBlock: BigInt(entry['expirationBlock']),
+        mintBlock: BigInt(entry['mintBlock']),
+      })
+    })
+    return entries
   }
 }

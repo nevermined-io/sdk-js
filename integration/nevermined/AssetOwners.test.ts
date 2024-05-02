@@ -1,16 +1,15 @@
 import { assert } from 'chai'
-import { config } from '../config'
-import { getMetadata } from '../utils'
-import {
-  Nevermined,
-  Account,
-  generateId,
-  NeverminedOptions,
-  AssetAttributes,
-  MetaData,
-} from '../../src'
+import config from '../../test/config'
+
 import { decodeJwt } from 'jose'
 import { mineBlocks } from '../utils/utils'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NeverminedOptions } from '../../src/models/NeverminedOptions'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { MetaData } from '../../src/types/DDOTypes'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { generateId } from '../../src/common/helpers'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
 
 describe('Asset Owners', () => {
   let nevermined: Nevermined
@@ -19,9 +18,9 @@ describe('Asset Owners', () => {
   let config2: NeverminedOptions
   let config3: NeverminedOptions
 
-  let account1: Account
-  let account2: Account
-  let account3: Account
+  let account1: NvmAccount
+  let account2: NvmAccount
+  let account3: NvmAccount
 
   let newMetadata: (token: string) => MetaData
 
@@ -33,7 +32,7 @@ describe('Asset Owners', () => {
     nevermined3 = await Nevermined.getInstance(config3)
 
     // Accounts
-    ;[account1, account2, account3] = await nevermined.accounts.list()
+    ;[account1, account2, account3] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account1)
 
@@ -88,7 +87,7 @@ describe('Asset Owners', () => {
 
     assert.isFalse(await nevermined.keeper.didRegistry.getPermission(ddo.id, account2.getId()))
 
-    await nevermined.keeper.didRegistry.grantPermission(ddo.id, account2.getId(), account1.getId())
+    await nevermined.keeper.didRegistry.grantPermission(ddo.id, account2.getId(), account1)
 
     assert.isTrue(await nevermined.keeper.didRegistry.getPermission(ddo.id, account2.getId()))
   })
@@ -108,7 +107,7 @@ describe('Asset Owners', () => {
     )
     const ddo = await nevermined2.assets.create(
       AssetAttributes.getInstance({
-        metadata: newMetadata(config2.marketplaceAuthToken),
+        metadata: newMetadata(config2.marketplaceAuthToken!),
       }),
       account2,
     )

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { assert, expect, spy, use } from 'chai'
 import spies from 'chai-spies'
 

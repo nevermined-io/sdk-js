@@ -1,8 +1,10 @@
-import ContractBase, { TxParameters } from '../ContractBase'
-import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
-import { KeeperError } from '../../../errors'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { KeeperError } from '../../../errors/NeverminedErrors'
+import { zeroX, didZeroX } from '../../../utils/ConversionTypeHelpers'
+import { ContractBase } from '../../../keeper/contracts/ContractBase'
+import { getChecksumAddress } from '../../../nevermined/utils/BlockchainViemUtils'
 
 export interface AgreementData {
   did: string
@@ -39,13 +41,18 @@ export class AgreementStoreManager extends ContractBase {
   }
 
   public async getAgreement(agreementId: string): Promise<AgreementData> {
-    const templateId: string = await this.call('getAgreementTemplate', [zeroX(agreementId)])
+    const templateId: string = getChecksumAddress(
+      await this.call('getAgreementTemplate', [zeroX(agreementId)]),
+    )
+    const template = this.templates[templateId]
 
-    if (!this.templates[templateId]) {
-      throw new KeeperError(`Could not find template for agreementId: ${agreementId}`)
+    if (!template) {
+      throw new KeeperError(
+        `Could not find template for agreementId: ${agreementId} and templateId: ${templateId}`,
+      )
     }
-
-    const events = await this.templates[templateId].getAgreementCreatedEvent(agreementId)
+    // TODO: Evaluate getting this information from the contracts and not the events
+    const events = await template.getAgreementCreatedEvent(agreementId)
 
     if (!Array.isArray(events) || events.length == 0) {
       throw new KeeperError(`Could not find agreement with id: ${agreementId}`)
@@ -53,6 +60,7 @@ export class AgreementStoreManager extends ContractBase {
 
     const values = events.map((e) => e.args || e)
     const [{ _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator }] = values
+
     return {
       did: _did,
       agreementId,
@@ -84,12 +92,12 @@ export class AgreementStoreManager extends ContractBase {
     conditionIds: string[],
     timeLocks: number[],
     timeOuts: number[],
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.send(
       'createAgreement',
-      from && from.getId(),
+      from,
       [
         zeroX(agreementId),
         didZeroX(did),

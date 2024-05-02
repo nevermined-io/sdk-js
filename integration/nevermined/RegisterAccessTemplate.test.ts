@@ -1,19 +1,24 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
 
-import { config } from '../config'
+import config from '../../test/config'
+import { getMetadata } from '../utils'
 
-import { Nevermined, Account, Keeper, DDO, Logger, AssetAttributes, AssetPrice } from '../../src'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import Logger from '../../src/models/Logger'
+import { Keeper } from '../../src/keeper/Keeper'
+import { generateId } from '../../src/common/helpers'
 import {
-  Token,
   AccessCondition,
   EscrowPaymentCondition,
   LockPaymentCondition,
-  AccessTemplate,
-} from '../../src/keeper'
-import { getMetadata } from '../utils'
-import { generateId } from '../../src/utils'
-import { EventLog } from 'ethers'
+} from '../../src/keeper/contracts/conditions'
+import { AccessTemplate } from '../../src/keeper/contracts/templates/AccessTemplate'
+import { Token } from '../../src/keeper/contracts/Token'
+import { AssetPrice } from '../../src/models/AssetPrice'
 
 describe('Register Escrow Access Template', () => {
   let nevermined: Nevermined
@@ -26,10 +31,10 @@ describe('Register Escrow Access Template', () => {
   const totalAmount = 12n
   const amounts = [10n, 2n]
 
-  let templateManagerOwner: Account
-  let publisher: Account
-  let consumer: Account
-  let provider: Account
+  let templateManagerOwner: NvmAccount
+  let publisher: NvmAccount
+  let consumer: NvmAccount
+  let provider: NvmAccount
   let receivers: string[]
 
   let accessCondition: AccessCondition
@@ -44,7 +49,7 @@ describe('Register Escrow Access Template', () => {
     ;({ token } = keeper)
 
     // Accounts
-    ;[templateManagerOwner, publisher, consumer, provider] = await nevermined.accounts.list()
+    ;[templateManagerOwner, publisher, consumer, provider] = nevermined.accounts.list()
 
     receivers = [publisher.getId(), provider.getId()]
 
@@ -87,7 +92,7 @@ describe('Register Escrow Access Template', () => {
     })
 
     it('should register a DID', async () => {
-      await keeper.didRegistry.registerAttribute(didSeed, checksum, [], url, publisher.getId())
+      await keeper.didRegistry.registerAttribute(didSeed, checksum, [], url, publisher)
     })
 
     it('should generate the condition IDs', async () => {
@@ -159,7 +164,7 @@ describe('Register Escrow Access Template', () => {
         publisher,
       )
 
-      assert.equal(agreement.status, 1)
+      assert.equal(agreement.status, 'success')
     })
 
     it('should not grant the access to the consumer', async () => {
@@ -170,14 +175,14 @@ describe('Register Escrow Access Template', () => {
 
     it('should fulfill LockPaymentCondition', async () => {
       try {
-        await consumer.requestTokens(totalAmount)
+        await nevermined.accounts.requestTokens(consumer, totalAmount)
       } catch (error) {
         Logger.error(error)
       }
 
       await keeper.token.approve(lockPaymentCondition.address, totalAmount, consumer)
 
-      const contractReceipt = await lockPaymentCondition.fulfill(
+      const txReceipt = await lockPaymentCondition.fulfill(
         agreementId,
         did,
         escrowPaymentCondition.address,
@@ -187,28 +192,19 @@ describe('Register Escrow Access Template', () => {
         consumer,
       )
 
-      assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
-        'Not Fulfilled event.',
-      )
+      const logs = lockPaymentCondition.getTransactionLogs(txReceipt, 'Fulfilled')
+      assert.isTrue(logs.length > 0)
     })
 
     it('should fulfill AccessCondition', async () => {
-      const contractReceipt = await accessCondition.fulfill(
-        agreementId,
-        did,
-        consumer.getId(),
-        publisher,
-      )
+      const txReceipt = await accessCondition.fulfill(agreementId, did, consumer.getId(), publisher)
 
-      assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
-        'Not Fulfilled event.',
-      )
+      const logs = accessCondition.getTransactionLogs(txReceipt, 'Fulfilled')
+      assert.isTrue(logs.length > 0)
     })
 
     it('should fulfill EscrowPaymentCondition', async () => {
-      const contractReceipt = await escrowPaymentCondition.fulfill(
+      const txReceipt = await escrowPaymentCondition.fulfill(
         agreementId,
         did,
         amounts,
@@ -221,10 +217,8 @@ describe('Register Escrow Access Template', () => {
         consumer,
       )
 
-      assert.isTrue(
-        contractReceipt.logs.some((e: EventLog) => e.eventName === 'Fulfilled'),
-        'Not Fulfilled event.',
-      )
+      const logs = escrowPaymentCondition.getTransactionLogs(txReceipt, 'Fulfilled')
+      assert.isTrue(logs.length > 0)
     })
 
     it('should grant the access to the consumer', async () => {
@@ -287,7 +281,7 @@ describe('Register Escrow Access Template', () => {
 
     it('should fulfill the conditions from consumer side', async () => {
       try {
-        await consumer.requestTokens(totalAmount)
+        await nevermined.accounts.requestTokens(consumer, totalAmount)
       } catch (error) {
         Logger.error(error)
       }
@@ -297,8 +291,8 @@ describe('Register Escrow Access Template', () => {
         ddo.shortId(),
         amounts,
         receivers,
-        token.address,
         consumer,
+        token.address,
       )
     })
 
@@ -315,8 +309,8 @@ describe('Register Escrow Access Template', () => {
         receivers,
         consumer.getId(),
         ddo.shortId(),
-        token.address,
         publisher,
+        token.address,
       )
     })
 

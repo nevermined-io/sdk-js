@@ -1,6 +1,6 @@
-import { EventEmitter, EventOptions, EventResult, NeverminedEvent } from '../events/NeverminedEvent'
-import { ContractBase } from '../keeper'
-import { GraphError } from '../errors'
+import { NeverminedEvent } from '../events/NeverminedEvent'
+import { EventEmitter, EventOptions, EventResult } from '../types/EventTypes'
+import { ContractBase } from '../keeper/contracts/ContractBase'
 import {
   ApolloClient,
   InMemoryCache,
@@ -11,6 +11,7 @@ import {
 import fetch from 'cross-fetch'
 import _ from 'lodash'
 import { GqlArgs, generateGql, getMethodName } from './utils'
+import { GraphError } from '../errors/NeverminedErrors'
 
 export class SubgraphEvent extends NeverminedEvent {
   public subgraph: ApolloClient<NormalizedCacheObject>
@@ -44,7 +45,7 @@ export class SubgraphEvent extends NeverminedEvent {
   }
 
   public async getEventData(options: EventOptions): EventResult {
-    if (!this.subgraph) {
+    if (!this.subgraph || !options.filterSubgraph) {
       throw new GraphError(`Subgraph client for ${this.contract.contractName} is not implemented!`)
     }
 
@@ -65,7 +66,7 @@ export class SubgraphEvent extends NeverminedEvent {
     return this.getEventData(options)
   }
 
-  public async getBlockNumber(): Promise<number> {
+  public async getBlockNumber(): Promise<bigint> {
     const result = await this.subgraph.query({
       query: gql`
         query {

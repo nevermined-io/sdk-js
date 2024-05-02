@@ -12,13 +12,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
       - uses: actions/checkout@v4
         with:
           repository: nevermined-io/node
           path: node
           # TODO: remove this when Node integrated with SDKv2 is integraged
-          ref: develop
+          ref: feat/integrate-new-sdk
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: nevermined-io/nvm-tools-actions@v0.15.0
         with:

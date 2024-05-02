@@ -1,28 +1,37 @@
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { config } from '../config'
-import POAPUpgradeable from '../../test/resources/artifacts/NFT721SubscriptionUpgradeable.json'
+import fs from 'fs'
+
 import { assert } from 'chai'
-import { ethers } from 'ethers'
-import { getMetadata } from '../utils'
-import { getRoyaltyAttributes, NFT721Api, RoyaltyKind } from '../../src/nevermined'
 import { decodeJwt } from 'jose'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { MetaData } from '../../src/types/DDOTypes'
+import { NFT721Api } from '../../src/nevermined/api/nfts/NFT721Api'
+import { getRoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
 
 describe('POAPs with Assets', () => {
   let nevermined: Nevermined
-  let poapContract: ethers.BaseContract
-  let editor: Account
-  let user: Account
+  let poapContract
+  let editor: NvmAccount
+  let user: NvmAccount
   let gatewayAddress: string
   let poapDDO: DDO
   let agreementId: string
   let metadata: MetaData
   let nft721Api: NFT721Api
+  const ARTIFACT_FILE = 'artifacts/NFT721SubscriptionUpgradeable.geth-localnet.json'
 
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
     gatewayAddress = await nevermined.services.node.getProviderAddress()
-    ;[editor, user] = await nevermined.accounts.list()
+    ;[editor, user] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(editor)
 
@@ -35,7 +44,8 @@ describe('POAPs with Assets', () => {
 
   it('should deploy the contract', async () => {
     TestContractHandler.setConfig(config)
-    poapContract = await nevermined.utils.contractHandler.deployAbi(POAPUpgradeable, editor, [
+    const POAPUpgradeable = JSON.parse(fs.readFileSync(ARTIFACT_FILE).toString())
+    poapContract = await nevermined.utils.blockchain.deployAbi(POAPUpgradeable, editor, [
       editor.getId(),
       nevermined.keeper.didRegistry.address,
       'NFT721',
@@ -46,7 +56,7 @@ describe('POAPs with Assets', () => {
     ])
     assert.isDefined(poapContract)
 
-    nft721Api = await nevermined.contracts.loadNft721(await poapContract.getAddress())
+    nft721Api = await nevermined.contracts.loadNft721(await poapContract.address)
 
     // INFO: We allow transferNFT condition to mint NFTs
     // Typically this only needs to happen once per NFT contract
@@ -54,7 +64,7 @@ describe('POAPs with Assets', () => {
       nevermined.keeper.conditions.transferNft721Condition.address,
       editor,
     )
-    assert.equal(response.status, 1)
+    assert.equal(response.status, 'success')
 
     // INFO: We allow the gateway to fulfill the transfer condition in behalf of the user
     // Typically this only needs to happen once per NFT contract
@@ -78,7 +88,7 @@ describe('POAPs with Assets', () => {
         },
       ],
       providers: [gatewayAddress],
-      nftContractAddress: await poapContract.getAddress(),
+      nftContractAddress: poapContract.address,
       preMint: false,
       royaltyAttributes: getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, 0),
     })

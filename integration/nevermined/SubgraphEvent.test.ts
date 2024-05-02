@@ -1,11 +1,10 @@
-import { Account, Nevermined, generateId } from '../../src'
-import { config } from '../config'
+import { NvmAccount, Nevermined, generateId, getChecksumAddress } from '../../src'
+import config from '../../test/config'
 import { assert } from 'chai'
 import { awaitTimeout, mineBlocks, sleep } from '../utils/utils'
-import { ethers } from 'ethers'
 
 describe('SubgraphEvent', () => {
-  let account: Account
+  let account: NvmAccount
   let nevermined: Nevermined
   let executeTransaction: () => Promise<any>
 
@@ -14,11 +13,11 @@ describe('SubgraphEvent', () => {
       this.skip()
     }
     nevermined = await Nevermined.getInstance(config)
-    ;[account] = await nevermined.accounts.list()
+    ;[account] = nevermined.accounts.list()
 
-    await nevermined.keeper.dispenser.requestTokens(1, account.getId())
+    await nevermined.keeper.dispenser.requestTokens(1, account)
 
-    executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account.getId())
+    executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account)
   })
 
   it('should query for the event', async () => {
@@ -41,7 +40,7 @@ describe('SubgraphEvent', () => {
     })
 
     const event = response[0]
-    assert.strictEqual(ethers.getAddress(event.to), ethers.getAddress(account.getId()))
+    assert.strictEqual(getChecksumAddress(event.to), getChecksumAddress(account.getId()))
   })
 
   it('should be able to listen to events', async () => {

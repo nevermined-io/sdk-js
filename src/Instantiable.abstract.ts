@@ -1,20 +1,34 @@
-import { NeverminedOptions } from './'
-import { Logger, LoggerInstance, LogLevel } from './utils'
-import { Web3Provider } from './keeper/Web3Provider'
-import { Nevermined } from './nevermined'
-import { ethers } from 'ethers'
+import { getChain } from './utils/Network'
+import {
+  Chain,
+  createPublicClient,
+  createWalletClient,
+  http,
+  PublicClient,
+  WalletClient,
+} from 'viem'
+import { Logger, LoggerInstance, LogLevel } from './models/Logger'
+import { NeverminedOptions } from './models/NeverminedOptions'
+import { Nevermined } from './nevermined/Nevermined'
 
 export interface InstantiableConfig {
   nevermined: Nevermined
   config?: NeverminedOptions
-  web3?: ethers.JsonRpcProvider | ethers.BrowserProvider
+  client?: Web3Clients
   logger?: Logger
   artifactsFolder?: string
   circuitsFolder?: string
 }
 
+export interface Web3Clients {
+  public: PublicClient
+  wallet: WalletClient
+  chain?: Chain
+}
+
 export async function generateInstantiableConfigFromConfig(
   config: NeverminedOptions,
+  loadCore: boolean = true,
 ): Promise<Partial<InstantiableConfig>> {
   const logLevel =
     typeof config.verbose !== 'number'
@@ -22,29 +36,73 @@ export async function generateInstantiableConfigFromConfig(
         ? LogLevel.Log
         : LogLevel.None
       : (config.verbose as LogLevel)
+
   return {
     config,
-    web3: await Web3Provider.getWeb3(config),
+    client: loadCore ? await getWeb3ViemClients(config) : undefined,
     logger: new Logger(logLevel),
     artifactsFolder: config.artifactsFolder,
     circuitsFolder: config.circuitsFolder,
   }
 }
 
+export async function getWeb3ViemClients(
+  config: Partial<NeverminedOptions> = {},
+): Promise<Web3Clients> {
+  const chain = getChain(config.chainId)
+  const providerTransport = config.web3ProviderUri ? http(config.web3ProviderUri) : http()
+
+  const publicClient = createPublicClient({
+    chain,
+    transport: http(),
+  })
+
+  const walletClient = createWalletClient({
+    // cacheTime: 0 as number,
+    chain,
+    transport: config.zeroDevProjectId
+      ? http(`https://rpc.zerodev.app/api/v2/bundler/${config.zeroDevProjectId}`)
+      : providerTransport,
+  })
+
+  return {
+    public: publicClient,
+    wallet: walletClient,
+    chain,
+  } as Web3Clients
+}
+
 export abstract class Instantiable {
   protected get nevermined() {
     if (!this._instantiableConfig?.nevermined) {
       this.logger.error('Nevermined instance is not defined.')
+      throw new Error('Nevermined instance is not defined.')
     }
     return this._instantiableConfig.nevermined
   }
 
-  public get web3() {
-    if (!this._instantiableConfig?.web3) {
+  public get client() {
+    if (!this._instantiableConfig?.client) {
       this.logger.error('Web3 Provider not initialized')
       throw new Error('Web3 Provider not initialized')
     }
-    return this._instantiableConfig.web3
+    return this._instantiableConfig.client
+  }
+
+  public get publicClient(): PublicClient {
+    if (!this._instantiableConfig?.client?.public) {
+      this.logger.error('Web3 Provider not initialized')
+      throw new Error('Web3 Provider not initialized')
+    }
+    return this._instantiableConfig.client?.public
+  }
+
+  public get walletClient(): WalletClient {
+    if (!this._instantiableConfig?.client?.wallet) {
+      this.logger.error('Web3 Provider not initialized')
+      throw new Error('Web3 Provider not initialized')
+    }
+    return this._instantiableConfig.client?.wallet
   }
 
   protected get instantiableConfig() {
@@ -57,6 +115,7 @@ export abstract class Instantiable {
   protected get config() {
     if (!this._instantiableConfig?.config) {
       this.logger.error('Config instance is not defined.')
+      throw new Error('Config instance is not defined.')
     }
     return this._instantiableConfig.config
   }
@@ -79,8 +138,8 @@ export abstract class Instantiable {
   }
 
   protected get instanceConfig(): InstantiableConfig {
-    const { nevermined, web3, config, logger, artifactsFolder, circuitsFolder } = this
-    return { nevermined, web3, config, logger, artifactsFolder, circuitsFolder }
+    const { nevermined, client, config, logger, artifactsFolder, circuitsFolder } = this
+    return { nevermined, client, config, logger, artifactsFolder, circuitsFolder }
   }
 
   public static getInstance(..._args: any): any {

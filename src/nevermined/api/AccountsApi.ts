@@ -1,8 +1,9 @@
-import { Balance } from '../../models'
-import { Account } from '../../nevermined'
+// import { Balance, TypedDataDomain, TypedDataTypes } from '../../models'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { TxParameters as txParams } from '../../keeper'
-import { ethers } from 'ethers'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters as txParams } from '../../models/Transactions'
+import { Balance, TypedDataDomain, TypedDataTypes } from '../../types/GeneralTypes'
+import { Hash, toHex } from 'viem'
 
 /**
  * Nevermined Accounts API. It allows execute operations related with Ethereum accounts.
@@ -19,13 +20,23 @@ export class AccountsApi extends Instantiable {
   }
 
   /**
-   * Returns the list of accounts including the addresses not controlled by the node,
+   * Returns the list of accounts (Local or Json-Rpc)
+   * @returns The list of accounts.
+   */
+  public list(): NvmAccount[] {
+    return this.config.accounts || []
+  }
+
+  /**
+   * Returns the list of accounts (JSON-RPC),
    * only can be used by providers like metamask, Status or Trustwallet but not by default
    * provider
    * @returns The list of accounts.
    */
-  public async list(): Promise<Account[]> {
-    return (await this.addresses()).map((address) => new Account(address, this.instanceConfig))
+  public async listBrowserAccounts(): Promise<NvmAccount[]> {
+    return (await this.addresses()).map((address) =>
+      NvmAccount.fromAddress(address as `0x${string}`),
+    )
   }
 
   /**
@@ -34,17 +45,59 @@ export class AccountsApi extends Instantiable {
    *
    * @returns The account
    */
-  public getAccount(address: string): Account {
-    return new Account(address, this.instanceConfig)
+  public getAccount(address: string): NvmAccount {
+    return NvmAccount.fromAddress(address as `0x${string}`)
   }
 
-  /**
-   * Return account balance.
-   * @param account - Account instance.
-   * @returns Ether and Nevermined Token balance.
-   */
-  public balance(account: Account): Promise<Balance> {
-    return account.getBalance()
+  public findAccount(from: string): NvmAccount | undefined {
+    for (const acc of this.config.accounts || []) {
+      const addr = acc.getAddress()
+      if (addr.toLowerCase() === from.toLowerCase()) {
+        return acc
+      }
+    }
+    return undefined
+  }
+
+  public async addresses(): Promise<string[]> {
+    return await Promise.all((this.config.accounts || []).map((a) => a.getAddress()))
+  }
+
+  public async signTextWithRemoteAccount(
+    text: string | Uint8Array,
+    from: string,
+  ): Promise<`0x${string}`> {
+    const message = typeof text === 'string' ? text : toHex(text)
+    return await this.walletClient.signMessage({
+      account: from as `0x${string}`,
+      message: message as `0x${string}`,
+    })
+  }
+
+  public async signTransactionWithRemoteAccount(
+    data: `0x${string}`,
+    from: string,
+  ): Promise<`0x${string}`> {
+    return await this.walletClient.signTransaction({
+      data,
+      account: from as `0x${string}`,
+      chain: this.client.chain,
+    })
+  }
+
+  public async signTypedData(
+    domain: TypedDataDomain,
+    types: TypedDataTypes,
+    value: Record<string, any>,
+    from: string,
+  ): Promise<Hash> {
+    return await this.walletClient.signTypedData({
+      domain,
+      types: types as any,
+      message: value,
+      primaryType: 'Nevermined',
+      account: from as `0x${string}`,
+    })
   }
 
   /**
@@ -55,39 +108,57 @@ export class AccountsApi extends Instantiable {
    * @returns {@link true} if the call was successful. {@link false} otherwise.
    */
   public async requestTokens(
-    account: Account,
-    amount: number,
-    params?: txParams,
+    account: NvmAccount | string,
+    amount: bigint,
+    txParams?: txParams,
   ): Promise<boolean> {
     try {
-      await account.requestTokens(amount, params)
+      const nvmAccount =
+        typeof account === 'string' ? await this.nevermined.accounts.getAccount(account) : account
+
+      if (!this.nevermined.keeper.dispenser) {
+        this.logger.log('Dispenser not available on this network.')
+        return false
+      }
+      await this.nevermined.keeper.dispenser.requestTokens(amount, nvmAccount, txParams)
       return true
     } catch (e) {
+      this.logger.log(`Error requesting tokens: ${e}`)
       return false
     }
   }
 
-  public async findSigner(from: string): Promise<ethers.Signer> {
-    for (const acc of this.config.accounts || []) {
-      const addr = await acc.getAddress()
-      if (addr.toLowerCase() === from.toLowerCase()) {
-        return acc.connect(this.web3)
-      }
-    }
-    return this.web3.getSigner(from)
+  /**
+   * Balance of Nevermined Token.
+   * @returns
+   */
+  public async getNeverminedBalance(address: string | NvmAccount): Promise<bigint> {
+    const accountAddress =
+      address instanceof NvmAccount ? address.getAddress() : (address as `0x${string}`)
+    const { token } = this.nevermined.keeper
+    if (!token) return 0n
+    return ((await token.balanceOf(accountAddress)) / 10n) * BigInt(await token.decimals())
   }
 
-  public async findSignerStatic(from: string): Promise<ethers.Signer> {
-    for (const acc of this.config.accounts || []) {
-      const addr = await acc.getAddress()
-      if (addr.toLowerCase() === from.toLowerCase()) {
-        return acc.connect(this.web3)
-      }
-    }
-    return this.web3.getSigner(from)
+  /**
+   * Balance of Ether.
+   * @returns
+   */
+  public async getEtherBalance(address: string | NvmAccount): Promise<bigint> {
+    const accountAddress =
+      address instanceof NvmAccount ? address.getAddress() : (address as `0x${string}`)
+    return this.client.public.getBalance({ address: accountAddress })
   }
 
-  public async addresses(): Promise<string[]> {
-    return await Promise.all((this.config.accounts || []).map((a) => a.getAddress()))
+  /**
+   * Balances of Ether and Nevermined Token.
+   * @returns
+   */
+  public async getBalance(address: string | NvmAccount): Promise<Balance> {
+    const accountAddress = address instanceof NvmAccount ? address.getId() : address
+    return {
+      eth: await this.getEtherBalance(accountAddress),
+      nevermined: await this.getNeverminedBalance(accountAddress),
+    }
   }
 }

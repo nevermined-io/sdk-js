@@ -1,8 +1,12 @@
 import { InstantiableConfig } from '../../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../../utils'
-import { Condition, ConditionContext, ConsumerCondition } from '../Condition.abstract'
-import { Account } from '../../../../nevermined'
-import { TxParameters } from '../../ContractBase'
+import {
+  Condition,
+  ConditionContext,
+  ConsumerCondition,
+} from '../../../../keeper/contracts/conditions/Condition.abstract'
+import { NvmAccount } from '../../../../models/NvmAccount'
+import { TxParameters } from '../../../../models/Transactions'
+import { didZeroX, zeroX } from '../../../../utils/ConversionTypeHelpers'
 
 export interface NFTLockConditionContext extends ConditionContext {
   rewardAddress: string
@@ -25,7 +29,7 @@ export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext>
    * @returns Hash of all the values.
    */
   public params(did: string, rewardAddress: string, amount: number) {
-    return super.params(didZeroX(did), zeroX(rewardAddress), String(amount))
+    return super.params(didZeroX(did), zeroX(rewardAddress), amount)
   }
 
   public async paramsFromDDO({ ddo, rewardAddress, amount }: NFTLockConditionContext) {
@@ -47,7 +51,7 @@ export class NFTLockCondition extends ConsumerCondition<NFTLockConditionContext>
     did: string,
     rewardAddress: string,
     amount: bigint,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(

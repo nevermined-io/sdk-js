@@ -1,19 +1,19 @@
 import { assert } from 'chai'
-import { Account } from '../../src/nevermined'
-import { Nevermined } from '../../src/nevermined'
-import config from '../config'
-import ContractBaseMock from '../mocks/ContractBase.Mock'
+import { NvmAccount } from '../../src/models'
+import { getSignatureOfFunction } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { ContractBaseMock } from '../mocks/ContractBase.Mock'
 import TestContractHandler from './TestContractHandler'
 
 let wrappedContract: ContractBaseMock
-let accounts: Account[]
+let accounts: NvmAccount[]
 
 describe('ContractWrapperBase', () => {
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    const nevermined: Nevermined = await Nevermined.getInstance(config)
+    const deployer = await TestContractHandler.prepareContracts()
+    const nevermined = deployer.nevermined
+
     wrappedContract = new ContractBaseMock('NeverminedToken')
-    accounts = await nevermined.accounts.list()
+    accounts = nevermined.accounts.list()
     wrappedContract = new ContractBaseMock('NeverminedToken')
     await wrappedContract.initMock((nevermined as any).instanceConfig)
   })
@@ -32,13 +32,15 @@ describe('ContractWrapperBase', () => {
     })
 
     it('should fail to call on an unknown contract function', (done) => {
-      wrappedContract.sendMock('balanceOfxxx', '0x00', ['0x00']).catch(() => {
-        done()
-      })
+      wrappedContract
+        .sendMock('balanceOfxxx', NvmAccount.fromAddress('0x00'), ['0x00'])
+        .catch(() => {
+          done()
+        })
     })
 
     it('should fail to call on an contract function with wrong set of parameters', (done) => {
-      wrappedContract.sendMock('approve', '0x000', []).catch(() => {
+      wrappedContract.sendMock('approve', NvmAccount.fromAddress('0x00'), []).catch(() => {
         done()
       })
     })
@@ -46,17 +48,19 @@ describe('ContractWrapperBase', () => {
 
   describe('#send()', () => {
     it('should fail to call on an unknown contract function', (done) => {
-      wrappedContract.sendMock('transferxxx', accounts[0].getId(), []).catch(() => {
-        done()
-      })
+      wrappedContract
+        .sendMock('transferxxx', NvmAccount.fromAddress(accounts[0].getId()), [])
+        .catch(() => {
+          done()
+        })
     })
   })
 
-  describe('#getSignatureOfMethod()', () => {
+  describe('#getSignatureOfFunction()', () => {
     it('should a signature of the function', async () => {
-      const sig = wrappedContract.getSignatureOfMethod('name')
+      const sig = getSignatureOfFunction(wrappedContract.interface, 'name')
       assert(sig)
-      assert(typeof sig === 'string')
+      assert(sig.type === 'function')
     })
   })
 

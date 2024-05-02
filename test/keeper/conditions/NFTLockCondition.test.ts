@@ -1,22 +1,22 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import {
-  Account,
-  ConditionState,
-  Nevermined,
-  NeverminedNFT1155Type,
-  NFTAttributes,
-} from '../../../src'
+
 import {
   DIDRegistry,
   NFTLockCondition,
   Nft1155Contract,
   ConditionStoreManager,
 } from '../../../src/keeper'
-import { didZeroX, zeroX, generateId } from '../../../src/utils'
 import config from '../../config'
 import TestContractHandler from '../TestContractHandler'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId } from '../../../src/common/helpers'
+import { NFTAttributes } from '../../../src/models/NFTAttributes'
+import { NeverminedNFT1155Type } from '../../../src/types/GeneralTypes'
+import { ConditionState } from '../../../src/types/ContractTypes'
+import { Log } from 'viem'
+import { didZeroX, zeroX } from '../../../src/utils/ConversionTypeHelpers'
 
 chai.use(chaiAsPromised)
 
@@ -26,8 +26,8 @@ describe('NFTLockCondition', () => {
   let conditionStoreManager: ConditionStoreManager
   let didRegistry: DIDRegistry
   let nftUpgradeable: Nft1155Contract
-  let rewardAddress: Account
-  let owner: Account
+  let rewardAddress: NvmAccount
+  let owner: NvmAccount
 
   let agreementId: string
   let checksum: string
@@ -41,7 +41,7 @@ describe('NFTLockCondition', () => {
     nevermined = await Nevermined.getInstance(config)
     ;({ nftLockCondition } = nevermined.keeper.conditions)
     ;({ conditionStoreManager, didRegistry, nftUpgradeable } = nevermined.keeper)
-    ;[owner, rewardAddress] = await nevermined.accounts.list()
+    ;[owner, rewardAddress] = nevermined.accounts.list()
   })
 
   beforeEach(async () => {
@@ -96,7 +96,7 @@ describe('NFTLockCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
@@ -109,11 +109,12 @@ describe('NFTLockCondition', () => {
 
       await conditionStoreManager.createCondition(conditionId, nftLockCondition.address, owner)
 
-      const contractReceipt: ContractTransactionReceipt = await nftLockCondition.fulfill(
+      const txReceipt = await nftLockCondition.fulfill(
         agreementId,
         did,
         rewardAddress.getId(),
         amount,
+        owner,
       )
 
       const { state } = await conditionStoreManager.getCondition(conditionId)
@@ -121,10 +122,12 @@ describe('NFTLockCondition', () => {
 
       const nftBalance = await nftUpgradeable.balance(rewardAddress.getId(), did)
       assert.equal(nftBalance, amount)
+      const logs = nftLockCondition.getTransactionLogs(txReceipt, 'Fulfilled')
+      assert.isTrue(logs.length > 0)
 
-      const event: EventLog = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'Fulfilled',
-      ) as EventLog
+      const event: Log = logs[0]
+
+      // @ts-ignore
       const { _agreementId, _did, _lockAddress, _conditionId, _amount } = event.args
 
       assert.equal(_agreementId, zeroX(agreementId))
@@ -162,7 +165,7 @@ describe('NFTLockCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
@@ -172,7 +175,7 @@ describe('NFTLockCondition', () => {
       const did = await didRegistry.hashDID(didSeed, owner.getId())
 
       await assert.isRejected(
-        nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount),
+        nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount, owner),
         /Condition doesnt exist/,
       )
     })
@@ -203,14 +206,14 @@ describe('NFTLockCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
         activityId,
       )
       const did = await didRegistry.hashDID(didSeed, owner.getId())
-      await nftUpgradeable.mint(owner.getId(), did, 1n, owner.getId())
+      await nftUpgradeable.mint(owner.getId(), did, 1n, owner)
 
       const hashValues = await nftLockCondition.hashValues(did, rewardAddress.getId(), amount)
       const conditionId = await nftLockCondition.generateId(agreementId, hashValues)
@@ -218,7 +221,7 @@ describe('NFTLockCondition', () => {
       await conditionStoreManager.createCondition(conditionId, nftLockCondition.address, owner)
 
       await assert.isRejected(
-        nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount + 1n),
+        nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount + 1n, owner),
         /insufficient balance/,
       )
     })
@@ -249,26 +252,25 @@ describe('NFTLockCondition', () => {
         nftUpgradeable.address,
         checksum,
         [],
-        owner.getId(),
+        owner,
         nftAttributes,
         value,
         '',
         activityId,
       )
       const did = await didRegistry.hashDID(didSeed, owner.getId())
-      // await didRegistry.mint(did, amount, owner.getId())
 
       const hashValues = await nftLockCondition.hashValues(did, rewardAddress.getId(), amount)
       const conditionId = await nftLockCondition.generateId(agreementId, hashValues)
 
       await conditionStoreManager.createCondition(conditionId, nftLockCondition.address, owner)
 
-      await nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount)
+      await nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount, owner)
       let { state } = await conditionStoreManager.getCondition(conditionId)
       assert.equal(state, ConditionState.Fulfilled)
 
       await assert.isRejected(
-        nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount),
+        nftLockCondition.fulfill(agreementId, did, rewardAddress.getId(), amount, owner),
         undefined,
       )
       ;({ state } = await conditionStoreManager.getCondition(conditionId))

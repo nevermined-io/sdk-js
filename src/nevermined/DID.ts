@@ -1,6 +1,6 @@
-import { generateId } from '../utils'
+import { generateId } from '../common/helpers'
 
-const prefix = 'did:nv:'
+const DID_PREFIX = 'did:nv:'
 /**
  * Decentralized ID.
  */
@@ -15,7 +15,8 @@ export class DID {
     if (didString instanceof DID) {
       didString = didString.getDid()
     }
-    let did: DID
+
+    let did: DID | null = null
 
     const did0xMatch = didString.match(/^0x([a-f0-9]{64})$/i)
 
@@ -89,7 +90,7 @@ export class DID {
    * @returns A string with the prefixed id.
    */
   public getDid(): string {
-    return `${prefix}${this.id}`
+    return `${DID_PREFIX}${this.id}`
   }
 
   /**

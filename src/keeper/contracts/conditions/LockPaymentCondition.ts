@@ -1,9 +1,9 @@
-import { Condition, ConditionContext, ConsumerCondition } from './Condition.abstract'
-import { didZeroX, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { Account } from '../../../nevermined'
-import { TxParameters } from '../ContractBase'
-import { DDO } from '../../../ddo'
+import { DDO } from '../../../ddo/DDO'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { didZeroX, zeroX } from '../../../utils/ConversionTypeHelpers'
+import { ConsumerCondition, ConditionContext, Condition } from './Condition.abstract'
 
 export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
   public static async getInstance(config: InstantiableConfig): Promise<LockPaymentCondition> {
@@ -33,7 +33,7 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     return this.params(
       ddo.shortId(),
       this.nevermined.keeper.conditions.escrowPaymentCondition.address,
-      payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
+      payment.parameters.find((p) => p.name === '_tokenAddress')?.value as string,
       rewards.getAmounts(),
       rewards.getReceivers(),
     )
@@ -46,13 +46,13 @@ export class LockPaymentCondition extends ConsumerCondition<ConditionContext> {
     tokenAddress: string,
     amounts: bigint[],
     receivers: string[],
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    const amountsString = amounts.map((v) => v.toString())
+    // const amountsString = amounts.map((v) => v.toString())
     return super.fulfillPlain(
       agreementId,
-      [didZeroX(did), zeroX(rewardAddress), zeroX(tokenAddress), amountsString, receivers],
+      [didZeroX(did), zeroX(rewardAddress), zeroX(tokenAddress), amounts, receivers],
       from,
       txParams,
     )

@@ -1,11 +1,12 @@
-import { Service, MetaData, ServiceAttributes, ServiceType } from '../ddo'
-import { EncryptionMethod } from '../services'
-import { ZeroAddress } from '../utils'
-import { AssetPrice } from './AssetPrice'
+import { MetaData, Service, ServiceAttributes, ServiceType } from '../types/DDOTypes'
+import { AssetPrice } from '../models/AssetPrice'
+import {
+  EncryptionMethod,
+  DEFAULT_ENCRYPTION_METHOD,
+  ZeroAddress,
+} from '../constants/AssetConstants'
 
 export class AssetAttributes {
-  static DEFAULT_ENCRYPTION_METHOD = 'PSK-RSA' as EncryptionMethod
-
   /**
    * Metadata describing the asset
    * @see {@link MetaData}
@@ -67,7 +68,7 @@ export class AssetAttributes {
   fulfillAccessTimelock?: number
 
   static defaultValues = {
-    encryptionMethod: AssetAttributes.DEFAULT_ENCRYPTION_METHOD, // The default encryption method for the internal metadata attributes is PSK-RSA
+    encryptionMethod: DEFAULT_ENCRYPTION_METHOD, // The default encryption method for the internal metadata attributes is PSK-RSA
     services: [
       {
         serviceType: 'access' as ServiceType,

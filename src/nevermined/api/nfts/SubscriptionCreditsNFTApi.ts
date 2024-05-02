@@ -1,9 +1,10 @@
-import { NeverminedOptions } from '../../../models'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { ContractHandler, Nft1155Contract } from '../../../keeper'
+import { ContractHandler } from '../../../keeper/ContractHandler'
+import { Nft1155Contract } from '../../../keeper/contracts/Nft1155Contract'
+import { NeverminedOptions } from '../../../models/NeverminedOptions'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { Nevermined } from '../../../nevermined/Nevermined'
 import { NFT1155Api } from './NFT1155Api'
-import { Nevermined } from '../../Nevermined'
-import { Account } from '../../Account'
 
 export class SubscriptionCreditsNFTApi extends NFT1155Api {
   public static async getInstanceUsingABI(
@@ -26,7 +27,7 @@ export class SubscriptionCreditsNFTApi extends NFT1155Api {
   public static async deployInstance(
     config: NeverminedOptions,
     contractABI: any,
-    from: Account,
+    from: NvmAccount,
     args = [],
   ): Promise<SubscriptionCreditsNFTApi> {
     const { instanceConfig } = (await Nevermined.getInstance(config)) as any
@@ -34,7 +35,7 @@ export class SubscriptionCreditsNFTApi extends NFT1155Api {
     const nftContract = await contractHandler.deployAbi(contractABI, from, args)
     return SubscriptionCreditsNFTApi.getInstanceUsingABI(
       instanceConfig,
-      await nftContract.getAddress(),
+      nftContract.address,
       contractABI,
     )
   }

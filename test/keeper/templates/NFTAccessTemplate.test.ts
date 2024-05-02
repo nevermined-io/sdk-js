@@ -1,6 +1,5 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { Nevermined, Account, ConditionState } from '../../../src'
 import {
   DIDRegistry,
   AgreementStoreManager,
@@ -8,10 +7,13 @@ import {
   TemplateStoreManager,
   NFTAccessTemplate,
 } from '../../../src/keeper'
-import { didZeroX, zeroX, generateId } from '../../../src/utils'
-import config from '../../config'
+import { didZeroX, zeroX } from '../../../src/utils'
 import TestContractHandler from '../TestContractHandler'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
+import { Nevermined } from '../../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../../src/models/NvmAccount'
+import { generateId, jsonReplacer } from '../../../src/common/helpers'
+import { Log } from 'viem'
+import { ConditionState } from '../../../src/types/ContractTypes'
 
 chai.use(chaiAsPromised)
 
@@ -28,23 +30,25 @@ describe('NFTAccessTemplate', () => {
   let conditionIdSeeds: string[]
   let timeLocks: number[]
   let timeOuts: number[]
-  let sender: Account
-  let receiver: Account
+  let deployer: NvmAccount
+  let sender: NvmAccount
+  let receiver: NvmAccount
   let didSeed: string
   let checksum: string
   const url = 'https://nevermined.io/did/nevermined/test-attr-example.txt'
 
   before(async () => {
-    await TestContractHandler.prepareContracts()
-    nevermined = await Nevermined.getInstance(config)
+    const prepare = await TestContractHandler.prepareContracts()
+    nevermined = prepare.nevermined
+    deployer = prepare.deployerAccount
     ;({ nftAccessTemplate } = nevermined.keeper.templates)
     ;({ templateStoreManager, didRegistry, conditionStoreManager, agreementStoreManager } =
       nevermined.keeper)
-    ;[sender, receiver] = await nevermined.accounts.list()
+    ;[sender, receiver] = nevermined.accounts.list()
     timeLocks = [0, 0]
     timeOuts = [0, 0]
 
-    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, sender.getId())
+    await conditionStoreManager.delegateCreateRole(agreementStoreManager.address, deployer)
   })
 
   beforeEach(async () => {
@@ -84,8 +88,12 @@ describe('NFTAccessTemplate', () => {
 
     it('should fail if DID is not registered', async () => {
       // propose and approve template
-      await templateStoreManager.proposeTemplate(nftAccessTemplate.address)
-      await templateStoreManager.approveTemplate(nftAccessTemplate.address)
+      const txReceipt = await templateStoreManager.proposeTemplate(
+        nftAccessTemplate.address,
+        deployer,
+      )
+      console.log(JSON.stringify(txReceipt, jsonReplacer))
+      await templateStoreManager.approveTemplate(nftAccessTemplate.address, deployer)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
       await assert.isRejected(
@@ -103,10 +111,10 @@ describe('NFTAccessTemplate', () => {
     })
 
     it('should create agreement', async () => {
-      await didRegistry.registerAttribute(didSeed, checksum, [], url, sender.getId())
+      await didRegistry.registerAttribute(didSeed, checksum, [], url, sender)
       const did = await didRegistry.hashDID(didSeed, sender.getId())
 
-      const contractReceipt: ContractTransactionReceipt = await nftAccessTemplate.createAgreement(
+      const txReceipt = await nftAccessTemplate.createAgreement(
         agreementIdSeed,
         didZeroX(did),
         conditionIdSeeds,
@@ -115,12 +123,13 @@ describe('NFTAccessTemplate', () => {
         [receiver.getId()],
         sender,
       )
-      assert.equal(contractReceipt.status, 1)
-      assert.isTrue(contractReceipt.logs.some((e: EventLog) => e.eventName === 'AgreementCreated'))
+      assert.equal(txReceipt.status, 'success')
+      const logs = nftAccessTemplate.getTransactionLogs(txReceipt, 'AgreementCreated')
+      assert.isTrue(logs.length > 0)
+      // console.log(JSON.stringify(logs, jsonReplacer))
+      const event: Log = logs[0]
 
-      const event: EventLog = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'AgreementCreated',
-      ) as EventLog
+      // @ts-ignore
       const { _agreementId, _did } = event.args
       assert.equal(_agreementId, zeroX(agreementId))
       assert.equal(_did, didZeroX(did))
@@ -132,6 +141,7 @@ describe('NFTAccessTemplate', () => {
       await Promise.all(
         conditionIds.map(async (conditionId, i) => {
           const storedCondition = await conditionStoreManager.getCondition(conditionId)
+          console.log(JSON.stringify(storedCondition, jsonReplacer))
           assert.equal(storedCondition.typeRef, conditionTypes[i])
           assert.equal(storedCondition.state, ConditionState.Unfulfilled)
           assert.equal(storedCondition.timeLock, timeLocks[i])

@@ -1,10 +1,17 @@
-import ContractBase, { TxParameters } from './ContractBase'
-import { didZeroX, zeroX } from '../../utils'
-import { Account } from '../../nevermined'
-import { ContractTransactionReceipt, EventLog } from 'ethers'
-import { KeeperError } from '../../errors'
+import { KeeperError } from '../../errors/NeverminedErrors'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
+import { didZeroX, zeroX } from '../../utils/ConversionTypeHelpers'
+import { ContractBase } from './ContractBase'
+import { isValidAddress } from '../../nevermined/utils/BlockchainViemUtils'
 
-export interface MintedEntry {
+export interface NFT721MintedEntry {
+  tokenId: string
+  expirationBlock: bigint
+  mintBlock: bigint
+}
+
+export interface NFT1155MintedEntry {
   amountMinted: bigint
   expirationBlock: bigint
   mintBlock: bigint
@@ -38,22 +45,30 @@ export class NFTContractsBase extends ContractBase {
     uri: string,
     cap: bigint | undefined,
     operators: string[] = [],
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     try {
-      const contractReceipt: ContractTransactionReceipt = await this.sendFrom(
+      const txReceipt = await this.sendFrom(
         'createClone',
-        ercType === 721
-          ? [name, symbol, uri, String(cap), operators]
-          : [name, symbol, uri, operators],
+        ercType === 721 ? [name, symbol, uri, cap, operators] : [name, symbol, uri, operators],
         from,
         txParams,
       )
-      const event = contractReceipt.logs.find(
-        (e: EventLog) => e.eventName === 'NFTCloned',
-      ) as EventLog
-      return event.args._newAddress
+      const logs = this.getTransactionLogs(txReceipt, 'NFTCloned')
+
+      let newContractAddress
+      const found = logs
+        .filter((e: any) => e.args._newAddress)
+        .some((e: any) => {
+          newContractAddress = e.args._newAddress
+          return true
+        })
+      if (!found || !isValidAddress(newContractAddress))
+        throw new KeeperError(
+          `Unable to get address of the cloned contract on tx: ${txReceipt.transactionHash}`,
+        )
+      return newContractAddress
     } catch (error) {
       throw new KeeperError(`Unable to clone contract: ${(error as Error).message}`)
     }
@@ -66,7 +81,7 @@ export class NFTContractsBase extends ContractBase {
    * @param from - Sender account
    * @returns Contract Receipt
    */
-  public grantOperatorRole(operatorAddress: string, from?: Account, txParams?: TxParameters) {
+  public grantOperatorRole(operatorAddress: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('grantOperatorRole', [zeroX(operatorAddress)], from, txParams)
   }
 
@@ -85,7 +100,7 @@ export class NFTContractsBase extends ContractBase {
     mintCap: bigint
     nftURI: string
   }> {
-    const registeredValues = await this.call('getNFTAttributes', [didZeroX(did)])
+    const registeredValues: any = await this.call('getNFTAttributes', [didZeroX(did)])
     if (!registeredValues[0]) {
       // If `nftInitialized` is because the NFT information is not on-chain
       // It could be also a ERC-721 NFT
@@ -112,30 +127,7 @@ export class NFTContractsBase extends ContractBase {
    * @param from - Sender account
    * @returns Contract Receipt
    */
-  public revokeOperatorRole(operatorAddress: string, from?: Account, txParams?: TxParameters) {
+  public revokeOperatorRole(operatorAddress: string, from: NvmAccount, txParams?: TxParameters) {
     return this.sendFrom('revokeOperatorRole', [zeroX(operatorAddress)], from, txParams)
-  }
-
-  /**
-   * It gets all the `MintedEntries` events from the NFT Contract
-   * @param owner the user owning the NFT
-   * @param did the tokenId of the NFT
-   * @returns An array of `MintedEntry` objects
-   */
-  public async getMintedEntries(owner: string, did?: string): Promise<MintedEntry[]> {
-    const minted: string[][] = await this.call(
-      'getMintedEntries',
-      did ? [owner, didZeroX(did)] : [owner],
-    )
-
-    const entries: MintedEntry[] = []
-    for (let i = 0; i < minted.length; i++) {
-      entries.push({
-        amountMinted: BigInt(minted[i][0]),
-        expirationBlock: BigInt(minted[i][1]),
-        mintBlock: BigInt(minted[i][2]),
-      })
-    }
-    return entries
   }
 }

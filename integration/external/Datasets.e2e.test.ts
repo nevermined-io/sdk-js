@@ -1,33 +1,35 @@
-import { assert } from 'chai'
+import chai, { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
+import chaiAsPromised from 'chai-as-promised'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { DDO } from '../../src/ddo/DDO'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { generateMetadata, getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { Token } from '../../src/keeper/contracts/Token'
 import {
-  Account,
-  DDO,
-  MetaData,
-  Nevermined,
-  AssetPrice,
-  NFTAttributes,
-  NeverminedNFT721Type,
-} from '../../src'
-import { EscrowPaymentCondition, TransferNFT721Condition, Token } from '../../src/keeper'
-import { config } from '../config'
-import { generateMetadata, getMetadata } from '../utils'
+  EscrowPaymentCondition,
+  TransferNFT721Condition,
+} from '../../src/keeper/contracts/conditions'
+import { MetaData } from '../../src/types/DDOTypes'
+import { NFT721Api } from '../../src/nevermined/api/nfts/NFT721Api'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { ethers } from 'ethers'
-import { didZeroX } from '../../src/utils'
-import { EventOptions } from '../../src/events'
-import {
-  getRoyaltyAttributes,
-  RoyaltyAttributes,
-  RoyaltyKind,
-  NFT721Api,
-  SubscriptionNFTApi,
-} from '../../src/nevermined'
+import { SubscriptionNFTApi } from '../../src/nevermined/api/nfts/SubscriptionNFTApi'
+import { EventOptions } from '../../src/types/EventTypes'
+import { didZeroX } from '../../src/utils/ConversionTypeHelpers'
+import { getChecksumAddress } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { NeverminedNFT721Type } from '../../src/types/GeneralTypes'
+
+chai.use(chaiAsPromised)
 
 describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
-  let publisher: Account
-  let subscriber: Account
-  let reseller: Account
+  let publisher: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -63,7 +65,6 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
   let initialBalances: any
   let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: NFT721Api
   let neverminedNodeAddress
 
@@ -113,7 +114,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     TestContractHandler.setConfig(config)
 
     nevermined = await Nevermined.getInstance(config)
-    ;[, publisher, subscriber, , reseller] = await nevermined.accounts.list()
+    ;[, publisher, subscriber, , reseller] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
@@ -159,7 +160,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT721SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )
@@ -236,7 +237,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice / scale)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)
 
       const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
       assert.isTrue(subscriberBalanceBefore == initialBalances.subscriber + subscriptionPrice)
@@ -308,7 +309,7 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
       assert.equal(eventValues._did, didZeroX(subscriptionDDO.id))
 
       // thegraph stores the addresses in lower case
-      assert.equal(ethers.getAddress(eventValues._receiver), subscriber.getId())
+      assert.equal(getChecksumAddress(eventValues._receiver), subscriber.getId())
     })
 
     it('The Subscriber should have an NFT balance', async () => {
@@ -425,7 +426,11 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should be able to retrieve datasets associated with a subscription filtering by tags', async () => {
-      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter)
+      const result = await nevermined.search.datasetsBySubscription(
+        subscriptionDDO.id,
+        NeverminedNFT721Type.nft721Subscription,
+        tagsFilter,
+      )
       assert.equal(result.totalResults.value, 1)
 
       assert.isTrue(
@@ -438,7 +443,11 @@ describe('Gate-keeping of Dataset using NFT ERC-721 End-to-End', () => {
     })
 
     it('should not be able to retrieve any datasets associated with a subscription filtering by tags which do not exist', async () => {
-      const result = await nevermined.search.datasetsBySubscription(subscriptionDDO.id, tagsFilter2)
+      const result = await nevermined.search.datasetsBySubscription(
+        subscriptionDDO.id,
+        NeverminedNFT721Type.nft721Subscription,
+        tagsFilter2,
+      )
       assert.equal(result.totalResults.value, 0)
     })
   })

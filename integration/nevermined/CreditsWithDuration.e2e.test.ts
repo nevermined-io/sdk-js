@@ -2,25 +2,28 @@ import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
-import { EscrowPaymentCondition, Token, TransferNFTCondition } from '../../src/keeper'
-import { config } from '../config'
-import { getMetadata } from '../utils'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { MetaData } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { Token } from '../../src/keeper/contracts/Token'
+import { EscrowPaymentCondition, TransferNFTCondition } from '../../src/keeper/contracts/conditions'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { SubscriptionCreditsNFTApi } from '../../src/nevermined/api'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
-import {
-  getRoyaltyAttributes,
-  RoyaltyAttributes,
-  RoyaltyKind,
-  SubscriptionCreditsNFTApi,
-} from '../../src/nevermined'
+import { getMetadata } from '../utils/ddo-metadata-generator'
+import { RoyaltyKind } from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
 import { mineBlocks } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
 describe('Credit and Duration Subscriptions with Multiple services using NFT ERC-1155 End-to-End', () => {
-  let editor: Account
-  let subscriber: Account
-  let reseller: Account
+  let editor: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -31,8 +34,8 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
 
   let agreementId: string
 
-  const subscriptionDuration1 = 10 // in blocks
-  const subscriptionDuration2 = 20 // in blocks
+  const subscriptionDuration1 = 50 // in blocks
+  const subscriptionDuration2 = 100 // in blocks
   // Configuration of First Sale:
   // Editor -> Subscriber, the Reseller get a cut (25%)
   const subscriptionPrice1 = 20n
@@ -64,9 +67,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
   let salesServices
   let accessServices
   let initialBalances: any
-  // let scale: bigint
 
-  // let nft: ethers.Contract
   let subscriptionNFT: SubscriptionCreditsNFTApi
   let neverminedNodeAddress
 
@@ -76,7 +77,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
     TestContractHandler.setConfig(config)
 
     nevermined = await Nevermined.getInstance(config)
-    ;[, editor, subscriber, , reseller] = await nevermined.accounts.list()
+    ;[, editor, subscriber, , reseller] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(editor)
 
@@ -134,7 +135,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
         './test/resources/artifacts/',
       )
@@ -149,7 +150,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
           'CRED',
           '',
           nevermined.keeper.nvmConfig.address,
-        ],
+        ] as any,
       )
 
       console.debug(`Deployed ERC-1155 Subscription NFT on address: ${subscriptionNFT.address}`)
@@ -246,7 +247,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
     })
 
     it('I am ordering the subscription NFT', async () => {
-      await subscriber.requestTokens(subscriptionPrice1)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionPrice1)
 
       subsSalesService = accessServices[0]
       console.debug(`Ordering with index ${subsSalesService.index}`)
@@ -313,7 +314,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
         }] of the subscriber ${subscriber.getId()}`,
       )
 
-      const blockNumber = await nevermined.web3.getBlockNumber()
+      const blockNumber = await nevermined.client.public.getBlockNumber()
       console.log(`Block Number: ${blockNumber}`)
       const balanceAfter = await subscriptionNFT.getContract.balance(
         subscriber.getId(),
@@ -351,7 +352,7 @@ describe('Credit and Duration Subscriptions with Multiple services using NFT ERC
 
     describe('As a subscriber now Im interested in the more expensive service', () => {
       it('I am ordering the subscription NFT', async () => {
-        await subscriber.requestTokens(subscriptionPrice2)
+        await nevermined.accounts.requestTokens(subscriber, subscriptionPrice2)
 
         const balanceBeforeTopup = await subscriptionNFT.balance(
           subscriptionDDO.id,

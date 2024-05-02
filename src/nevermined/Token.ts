@@ -1,6 +1,6 @@
-import { Account } from './Account'
+import { NvmAccount } from '../models/NvmAccount'
 import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
-import { TxParameters as txParams } from '../keeper'
+import { TxParameters as txParams } from '../models/Transactions'
 
 /**
  * Tokens submodule of Nevermined.
@@ -49,17 +49,17 @@ export class TokenUtils extends Instantiable {
    * Transfer a number of tokens to the mentioned account.
    * @param to - Address that receives the tokens.
    * @param amount - Tokens to transfer.
-   * @param from - Sender account address.
+   * @param from - Sender account
    * @param txParams - Transaction parameters
    * @returns True if the transfer succeeded.
    */
   public async transfer(
     to: string,
     amount: bigint,
-    from: Account,
+    from: NvmAccount,
     txParams?: txParams,
   ): Promise<boolean> {
-    this.nevermined.keeper.token.transfer(to, amount, from.getId(), txParams)
+    this.nevermined.keeper.token.transfer(to, amount, from, txParams)
     return true
   }
 
@@ -70,9 +70,9 @@ export class TokenUtils extends Instantiable {
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded, {@link false} otherwise
    */
-  public async request(account: Account, amount: number, params?: txParams): Promise<boolean> {
+  public async request(account: NvmAccount, amount: bigint, params?: txParams): Promise<boolean> {
     try {
-      await account.requestTokens(amount, params)
+      await this.nevermined.accounts.requestTokens(account, amount, params)
       return true
     } catch (e) {
       return false

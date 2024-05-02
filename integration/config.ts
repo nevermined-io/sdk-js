@@ -1,5 +1,8 @@
-import { NeverminedOptions } from '../src'
-import { LoggerInstance, LogLevel, makeAccounts } from '../src/utils'
+import { Account } from 'viem/accounts'
+import { LogLevel, LoggerInstance } from '../src/models/Logger'
+import { NeverminedOptions } from '../src/models/NeverminedOptions'
+import { NvmAccount } from '../src/models/NvmAccount'
+import { makeWallets } from '../src/nevermined/utils/BlockchainViemUtils'
 
 LoggerInstance.setLevel(LogLevel.Error)
 
@@ -11,6 +14,7 @@ const ipfsProjectId = process.env['IPFS_PROJECT_ID']
 const ipfsProjectSecret = process.env['IPFS_PROJECT_SECRET']
 
 const configBase: NeverminedOptions = {
+  chainId: 1337,
   web3ProviderUri: 'http://contracts.nevermined.localnet',
   marketplaceUri: 'http://marketplace.nevermined.localnet',
   neverminedNodeUri: process.env.NEVERMINED_NODE_URI || 'http://node.nevermined.localnet',
@@ -28,6 +32,7 @@ const configBase: NeverminedOptions = {
 
 if (process.env.NETWORK_NAME === 'testing') {
   Object.assign(configBase, {
+    chainId: 421614,
     web3ProviderUri: 'http://localhost:8545',
     marketplaceUri: 'http://nevermined-metadata:3100',
     neverminedNodeUri: 'http://localhost:8030',
@@ -37,6 +42,7 @@ if (process.env.NETWORK_NAME === 'testing') {
 
 if (process.env.NETWORK_NAME === 'mumbai') {
   Object.assign(configBase, {
+    chainId: 80001,
     marketplaceUri: 'https://marketplace-api.mumbai.nevermined.app',
     neverminedNodeUri: 'https://node.mumbai.nevermined.app',
     web3ProviderUri: `https://polygon-mumbai.infura.io/v3/${infuraToken}`,
@@ -47,6 +53,7 @@ if (process.env.NETWORK_NAME === 'mumbai') {
 
 if (process.env.NETWORK_NAME === 'matic') {
   Object.assign(configBase, {
+    chainId: 137,
     marketplaceUri: 'https://marketplace-api.matic.nevermined.app',
     neverminedNodeUri: 'https://node.matic.nevermined.app',
     web3ProviderUri: `https://polygon-mainnet.infura.io/v3/${infuraToken}`,
@@ -57,6 +64,7 @@ if (process.env.NETWORK_NAME === 'matic') {
 
 if (process.env.NETWORK_NAME === 'gnosis') {
   Object.assign(configBase, {
+    chainId: 100,
     marketplaceUri: 'https://marketplace-api.gnosis.nevermined.app',
     neverminedNodeUri: 'https://node.gnosis.nevermined.app',
     web3ProviderUri: `https://rpc.gnosischain.com/`,
@@ -67,6 +75,7 @@ if (process.env.NETWORK_NAME === 'gnosis') {
 
 if (process.env.NETWORK_NAME === 'one-staging') {
   Object.assign(configBase, {
+    chainId: 421614,
     marketplaceUri: 'https://marketplace-api.staging.nevermined.app',
     neverminedNodeUri: 'https://node.staging.nevermined.app',
     web3ProviderUri: `https://arbitrum-sepolia.infura.io/v3/${infuraToken}`,
@@ -76,7 +85,14 @@ if (process.env.NETWORK_NAME === 'one-staging') {
 }
 
 if (process.env.SEED_WORDS) {
-  configBase.accounts = makeAccounts(process.env.SEED_WORDS)
+  const wallets = makeWallets(process.env.SEED_WORDS)
+  const config = { ...configBase }
+  config.accounts = wallets.map((wallet) => {
+    const a = NvmAccount.fromAccount(wallet)
+    const signer = a.getAccountSigner() as Account
+    LoggerInstance.debug(`Account loaded with address ${a.getAddress()} and type: ${signer.type}`)
+    return a
+  })
 }
 
 export const config: NeverminedOptions & { forceVerbose: NeverminedOptions } = configBase as any

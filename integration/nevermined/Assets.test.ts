@@ -1,28 +1,27 @@
-import { SearchQuery } from '../../src/common'
+// @ts-nocheck
 import { assert } from 'chai'
 import { decodeJwt, JWTPayload } from 'jose'
-import { config } from '../config'
-import { getAssetPrice, getMetadata } from '../utils'
-import {
-  Nevermined,
-  Account,
-  MetaData,
-  DDO,
-  AssetPrice,
-  AssetAttributes,
-  ProvenanceMethod,
-} from '../../src'
-import { generateId } from '../../src/utils'
-import {
-  PublishMetadataOptions,
-  DIDResolvePolicy,
-  PublishOnChainOptions,
-} from '../../src/nevermined'
 import { rejects } from 'assert'
 import * as fs from 'fs'
+import config from '../../test/config'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { MetaData } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { generateId } from '../../src/common/helpers'
+import { getAssetPrice, getMetadata } from '../utils/ddo-metadata-generator'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import {
+  DIDResolvePolicy,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+  SearchQuery,
+} from '../../src/types/MetadataTypes'
+import { ProvenanceMethod } from '../../src/keeper/contracts/Provenance'
 
 let nevermined: Nevermined
-let publisher: Account
+let publisher: NvmAccount
 let metadata: MetaData
 let createdMetadata: MetaData
 let assetPrice: AssetPrice
@@ -34,7 +33,7 @@ describe('Assets', () => {
   before(async () => {
     nevermined = await Nevermined.getInstance(config)
     // Accounts
-    ;[publisher] = await nevermined.accounts.list()
+    ;[publisher] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
@@ -128,7 +127,10 @@ describe('Assets', () => {
       const name = `Updated Metadata Test ${nonce}`
       const updatedMetadata = {
         ...createdMetadata,
-        name,
+        main: {
+          ...createdMetadata.main,
+          name,
+        },
       }
 
       await nevermined.assets.update(
@@ -175,7 +177,10 @@ describe('Assets', () => {
       const name = `Updated Files Test ${nonce}`
       const updatedMetadata = {
         ...createdMetadata,
-        name,
+        main: {
+          ...createdMetadata.main,
+          name,
+        },
       }
       updatedMetadata.main.files = [
         {
@@ -212,7 +217,7 @@ describe('Assets', () => {
       const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
       assert.include(path, folder, 'The storage path is not correct.')
       const files = await new Promise<string[]>((resolve) => {
-        fs.readdir(path, (e, fileList) => {
+        fs.readdir(path, (_e, fileList) => {
           resolve(fileList)
         })
       })
@@ -225,7 +230,10 @@ describe('Assets', () => {
       const name = `Updated Files Test ${nonce}`
       const updatedMetadata = {
         ...createdMetadata,
-        name,
+        main: {
+          ...createdMetadata.main,
+          name,
+        },
       }
       updatedMetadata.main.files = [
         {
@@ -263,7 +271,7 @@ describe('Assets', () => {
       const path = (await nevermined.assets.download(ddo.id, publisher, folder, -1)) as string
       assert.include(path, folder, 'The storage path is not correct.')
       const files = await new Promise<string[]>((resolve) => {
-        fs.readdir(path, (e, fileList) => {
+        fs.readdir(path, (_e, fileList) => {
           resolve(fileList)
         })
       })

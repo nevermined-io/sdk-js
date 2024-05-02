@@ -1,9 +1,11 @@
 import { assert, spy, use } from 'chai'
 import { faker } from '@faker-js/faker'
 import spies from 'chai-spies'
-import { Nevermined, Account, NewProfile, Profile, State } from '../../src'
 import config from '../config'
-import { Profiles } from '../../src/services'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { Profiles } from '../../src/services/metadata/Profiles'
+import { NewProfile, Profile, State } from '../../src/types/MetadataTypes'
 
 use(spies)
 
@@ -15,7 +17,7 @@ const reponsify = async (data) => ({
 describe('Profiles', () => {
   let nevermined: Nevermined
   let profiles: Profiles
-  let account: Account
+  let account: NvmAccount
 
   let newProfile: NewProfile
 
@@ -23,7 +25,7 @@ describe('Profiles', () => {
 
   beforeEach(async () => {
     nevermined = await Nevermined.getInstance(config)
-    ;[account] = await nevermined.accounts.list()
+    ;[account] = nevermined.accounts.list()
 
     profiles = nevermined.services.profiles // eslint-disable-line prefer-destructuring
 

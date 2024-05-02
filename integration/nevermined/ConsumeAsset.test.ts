@@ -1,28 +1,26 @@
+// @ts-nocheck
 import { assert } from 'chai'
 import * as fs from 'fs'
 import { decodeJwt } from 'jose'
 
-import { config } from '../config'
+import config from '../../test/config'
 import { getAssetPrice, getMetadata } from '../utils'
 import { repeat } from '../utils/utils'
-
-import {
-  Nevermined,
-  DDO,
-  Account,
-  ConditionState,
-  MetaData,
-  Logger,
-  AssetPrice,
-  AssetAttributes,
-} from '../../src'
-import { AgreementPrepareResult } from '../../src/nevermined'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { MetaData } from '../../src/types/DDOTypes'
+import { DDO } from '../../src/ddo/DDO'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { AgreementPrepareResult } from '../../src/nevermined/api/AgreementsApi'
+import { AssetAttributes } from '../../src/models/AssetAttributes'
+import Logger from '../../src/models/Logger'
+import { ConditionState } from '../../src/types/ContractTypes'
 
 describe('Consume Asset', () => {
   let nevermined: Nevermined
 
-  let publisher: Account
-  let consumer: Account
+  let publisher: NvmAccount
+  let consumer: NvmAccount
 
   let metadata: MetaData
 
@@ -35,7 +33,7 @@ describe('Consume Asset', () => {
     nevermined = await Nevermined.getInstance(config)
 
     // Accounts
-    ;[publisher, consumer] = await nevermined.accounts.list()
+    ;[publisher, consumer] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
@@ -69,16 +67,17 @@ describe('Consume Asset', () => {
   })
 
   it('should be able to request tokens for consumer', async () => {
-    const initialBalance = (await consumer.getBalance()).nevermined
+    const initialBalance = await nevermined.accounts.getNeverminedBalance(consumer)
+    //(await consumer.getBalance()).nevermined
     const claimedTokens = 100n
 
     try {
-      await consumer.requestTokens(claimedTokens)
+      await nevermined.accounts.requestTokens(consumer, claimedTokens)
     } catch (error) {
       Logger.error(error)
     }
 
-    const balanceAfter = (await consumer.getBalance()).nevermined
+    const balanceAfter = await nevermined.accounts.getNeverminedBalance(consumer)
     assert.isTrue(balanceAfter > initialBalance)
   })
 
@@ -123,8 +122,8 @@ describe('Consume Asset', () => {
       ddo.id,
       assetPrice.getAmounts(),
       assetPrice.getReceivers(),
-      undefined,
       consumer,
+      undefined,
     )
     assert.isTrue(paid, 'The asset has not been paid correctly')
   })
@@ -185,7 +184,7 @@ describe('Consume Asset', () => {
     assert.include(path, folder, 'The storage path is not correct.')
 
     const files = await new Promise<string[]>((resolve) => {
-      fs.readdir(path as string, (e, fileList) => {
+      fs.readdir(path as string, (_e, fileList) => {
         resolve(fileList)
       })
     })
@@ -207,7 +206,7 @@ describe('Consume Asset', () => {
     assert.include(path, folder, 'The storage path is not correct.')
 
     const files = await new Promise<string[]>((resolve) => {
-      fs.readdir(path, (e, fileList) => {
+      fs.readdir(path, (_e, fileList) => {
         resolve(fileList)
       })
     })

@@ -1,4 +1,4 @@
-import { zeroX } from '../utils'
+import { zeroX } from '../utils/ConversionTypeHelpers'
 
 export class BabyjubPublicKey {
   // 32 byte hex strings with 0x

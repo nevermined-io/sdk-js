@@ -1,8 +1,8 @@
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { didZeroX, zeroX } from '../../../utils'
-import { Condition, ConditionContext, ProviderCondition } from './Condition.abstract'
-import { Account } from '../../../nevermined'
-import { TxParameters } from '../ContractBase'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { didZeroX, zeroX } from '../../../utils/ConversionTypeHelpers'
+import { ConditionContext, ProviderCondition, Condition } from './Condition.abstract'
 
 export interface AccessConditionContext extends ConditionContext {
   receiverId: string
@@ -54,7 +54,7 @@ export class TransferDIDOwnershipCondition extends ProviderCondition<AccessCondi
     agreementId: string,
     did: string,
     receiver: string,
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return super.fulfillPlain(agreementId, [didZeroX(did), zeroX(receiver)], from, txParams)

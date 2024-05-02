@@ -1,52 +1,34 @@
-import ContractBase, { TxParameters } from '../ContractBase'
-import {
-  ConditionContext,
-  ConditionInstanceSmall,
-  ConditionSmall,
-  ConditionState,
-  conditionStateNames,
-} from '../conditions'
-import { DDO, ServiceAgreementTemplate, Service, ServiceType } from '../../../ddo'
-import { didZeroX, ZeroAddress, zeroX } from '../../../utils'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { AssetPrice, BabyjubPublicKey } from '../../../models'
-import { Account, OrderProgressStep } from '../../../nevermined'
+import { ZeroAddress } from '../../../constants/AssetConstants'
+import { DDO } from '../../../ddo/DDO'
+import { AssetPrice } from '../../../models/AssetPrice'
+import { BabyjubPublicKey } from '../../../models/KeyTransfer'
+import { NvmAccount } from '../../../models/NvmAccount'
+import { TxParameters } from '../../../models/Transactions'
+import { OrderProgressStep } from '../../../nevermined/ProgressSteps'
+import { isValidAddress } from '../../../nevermined/utils/BlockchainViemUtils'
+import {
+  PaymentData,
+  AgreementInstance,
+  AgreementConditionsStatus,
+  ConditionState,
+  ConditionStateNames,
+} from '../../../types/ContractTypes'
+import { Service, ServiceType, ServiceAgreementTemplate } from '../../../types/DDOTypes'
+import { zeroX, didZeroX } from '../../../utils/ConversionTypeHelpers'
 import { CustomToken } from '../CustomToken'
-import { Token } from '../Token'
-import { isAddress } from 'ethers'
-
-export interface AgreementConditionsStatus {
-  [condition: string]: {
-    condition: string
-    contractName: string
-    state: ConditionState
-    blocked: boolean
-    blockedBy: string[]
-  }
-}
+import { ConditionSmall, ConditionContext } from '../conditions/Condition.abstract'
+import { ContractBase } from '../../../keeper/contracts/ContractBase'
 
 export type ParameterType =
   | string
   | number
   | number[]
-  | Account
+  | NvmAccount
   | BabyjubPublicKey
   | Service
   | ServiceType
   | TxParameters
-
-export interface AgreementInstance<Params> {
-  list: Params
-  agreementId: string
-  instances: ConditionInstanceSmall[]
-}
-
-export interface PaymentData {
-  rewardAddress: string
-  tokenAddress: string
-  amounts: bigint[]
-  receivers: string[]
-}
 
 export abstract class AgreementTemplate<Params> extends ContractBase {
   // cache these values since they are always the same for a template
@@ -82,7 +64,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     if (!payment) throw new Error('Payment Condition not found!')
     return {
       rewardAddress: this.nevermined.keeper.conditions.escrowPaymentCondition.address,
-      tokenAddress: payment.parameters.find((p) => p.name === '_tokenAddress').value as string,
+      tokenAddress: payment.parameters.find((p) => p.name === '_tokenAddress')?.value as string,
       amounts: assetPrice.getAmounts(),
       receivers: assetPrice.getReceivers(),
     }
@@ -95,7 +77,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     timeLocks: number[],
     timeOuts: number[],
     extraArgs: any[],
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom(
@@ -125,7 +107,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     tokenAddress: string,
     amounts: bigint[],
     receivers: string[],
-    from?: Account,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return this.sendFrom(
@@ -140,7 +122,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
         condIdx,
         rewardAddress,
         tokenAddress,
-        amounts.map((a) => a.toString()),
+        amounts,
         receivers,
       ],
       from,
@@ -168,7 +150,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       this._conditions = []
       const conditionTypes = await this.getConditionTypes()
       conditionTypes
-        .filter((address) => isAddress(address))
+        .filter((address) => isValidAddress(address))
         .map((address) => {
           this.logger.bypass(`Getting Condition by Address: ${address}`)
           this._conditions.push(this.nevermined.keeper.getConditionByAddress(address))
@@ -194,7 +176,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return instances.map((a) => a.id)
   }
 
-  public abstract instanceFromDDO?(
+  public abstract instanceFromDDO(
     agreementIdSeed: string,
     ddo: DDO,
     creator: string,
@@ -230,8 +212,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     agreementIdSeed: string,
     ddo: DDO,
     parameters: Params,
-    consumer: Account,
-    from: Account,
+    consumer: NvmAccount,
+    from: NvmAccount,
     timeOuts?: number[],
     txParams?: TxParameters,
   ): Promise<string> {
@@ -261,8 +243,8 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     ddo: DDO,
     serviceReference: ServiceType | number,
     parameters: Params,
-    consumer: Account,
-    from: Account,
+    consumer: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
     observer?: (orderProgressStep: OrderProgressStep) => void,
   ): Promise<string> {
@@ -283,7 +265,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     const payment = DDO.findServiceConditionByName(service, 'lockPayment')
     if (!payment) throw new Error('Payment Condition not found!')
     const rewardAddress = this.nevermined.keeper.conditions.escrowPaymentCondition.address
-    const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress').value as string
+    const tokenAddress = payment.parameters.find((p) => p.name === '_tokenAddress')?.value as string
     const amounts = assetPrice.getAmounts()
     const receivers = assetPrice.getReceivers()
 
@@ -300,10 +282,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     observer(OrderProgressStep.ApprovedPayment)
 
     const totalAmount = AssetPrice.sumAmounts(amounts)
-    const value =
-      tokenAddress && tokenAddress.toLowerCase() === ZeroAddress
-        ? totalAmount.toString()
-        : undefined
+    const value = tokenAddress && tokenAddress.toLowerCase() === ZeroAddress ? totalAmount : 0n
 
     observer(OrderProgressStep.CreatingAgreement)
     await this.createAgreementAndPay(
@@ -336,7 +315,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   public async getServiceAgreementTemplateConditionByRef(ref: string) {
     const name = this.getServiceAgreementTemplateConditions().find(
       ({ name: conditionRef }) => conditionRef === ref,
-    ).contractName
+    )?.contractName
     return (await this.getConditions()).find((condition) => condition.contractName === name)
   }
 
@@ -373,6 +352,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
 
     const states: { ref: string; contractName: string; state: ConditionState }[] = []
     for (const ref in dependencies) {
+      // @ts-ignore
       const { contractName } = await this.getServiceAgreementTemplateConditionByRef(ref)
       states.push({
         ref,
@@ -384,6 +364,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return states.reduce((acc, { contractName, ref, state }) => {
       const blockers = dependencies[ref]
         .map((dependency) => states.find((_) => _.ref === dependency))
+        // @ts-ignore
         .filter((condition) => condition.state !== ConditionState.Fulfilled)
       return {
         ...acc,
@@ -392,6 +373,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
           contractName,
           state,
           blocked: !!blockers.length,
+          // @ts-ignore
           blockedBy: blockers.map((_) => _.ref),
         },
       }
@@ -401,10 +383,10 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
   public async lockTokens(
     tokenAddress,
     amounts,
-    from: Account,
-    txParams: TxParameters,
+    from: NvmAccount,
+    txParams?: TxParameters,
   ): Promise<void> {
-    let token: Token
+    let token
 
     const { lockPaymentCondition } = this.nevermined.keeper.conditions
 
@@ -414,7 +396,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       token = await CustomToken.getInstanceByAddress(
         {
           nevermined: this.nevermined,
-          web3: this.web3,
+          client: this.client,
           logger: this.logger,
           config: this.config,
         },
@@ -452,7 +434,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
           this.logger.bypass('-'.repeat(20))
         }
         this.logger.bypass(`${condition} (${contractName})`)
-        this.logger.bypass('  Status:', state, `(${conditionStateNames[state]})`)
+        this.logger.bypass('  Status:', state, `(${ConditionStateNames[state]})`)
         if (blocked) {
           this.logger.bypass('  Blocked by:', blockedBy)
         }
@@ -467,7 +449,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
    * @returns Agreement created event.
    */
   public async getAgreementCreatedEvent(agreementId: string) {
-    const res = await this.events.once((events) => events, {
+    const res = await this.events?.once((events) => events, {
       eventName: 'AgreementCreated',
       filterJsonRpc: {
         _agreementId: zeroX(agreementId),
@@ -493,7 +475,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     return res
   }
   public async getAgreementsForDID(did: string): Promise<string[]> {
-    const res = await this.events.getPastEvents({
+    const res = await this.events!.getPastEvents({
       eventName: 'AgreementCreated',
       filterJsonRpc: {
         _did: didZeroX(did),

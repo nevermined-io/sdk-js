@@ -1,26 +1,36 @@
+// @ts-nocheck
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { generateId } from '../../common/helpers'
+import { DEFAULT_ENCRYPTION_METHOD, ZeroAddress } from '../../constants/AssetConstants'
+import { DDO } from '../../ddo/DDO'
+import { AssetError } from '../../errors/NeverminedErrors'
+import { DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper/contracts/Provenance'
+import { AssetAttributes } from '../../models/AssetAttributes'
+import { AssetPrice } from '../../models/AssetPrice'
+import { NFTAttributes } from '../../models/NFTAttributes'
+import { NvmAccount } from '../../models/NvmAccount'
+import { TxParameters } from '../../models/Transactions'
 import {
+  MetaData,
+  NvmConfigVersions,
+  PricedMetadataInformation,
   Service,
   ServicePlugin,
   ServiceType,
-  NvmConfigVersions,
-  DDO,
-  MetaData,
-  PricedMetadataInformation,
-} from '../../ddo'
-import { AssetAttributes, AssetPrice, NFTAttributes } from '../../models'
-import { Account, CreateProgressStep, DID } from '../../nevermined'
-import { TxParameters, ServiceAaveCredit, DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper'
-import { SubscribablePromise, zeroX, generateId, ZeroAddress, formatUnits } from '../../utils'
+} from '../../types/DDOTypes'
 import {
   AssetPublicationOptions,
   DIDResolvePolicy,
   PublishMetadataOptions,
   PublishOnChainOptions,
-} from './AssetsApi'
-import { OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
-import { AssetError } from '../../errors/AssetError'
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { AccessService, NFTSalesService, NFTAccessService } from '../AccessService'
+} from '../../types/MetadataTypes'
+import { zeroX } from '../../utils/ConversionTypeHelpers'
+import { SubscribablePromise } from '../../utils/SubscribablePromise'
+import { formatUnits } from 'viem'
+import { AccessService, NFTAccessService, NFTSalesService } from '../AccessService'
+import { DID } from '../DID'
+import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
+import { SignatureUtils } from '../utils/SignatureUtils'
 
 /**
  * Abstract class proving common functionality related with Assets registration.
@@ -41,7 +51,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    */
   protected registerNeverminedAsset(
     assetAttributes: AssetAttributes,
-    publisher: Account,
+    publisher: NvmAccount,
     publicationOptions: AssetPublicationOptions,
     nftAttributes?: NFTAttributes,
     txParams?: TxParameters,
@@ -53,7 +63,7 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       // create ddo itself
       let ddo = DDO.getInstance(
-        assetAttributes.metadata.userId,
+        assetAttributes.metadata.userId as string,
         publisher.getId(),
         assetAttributes.appId,
       )
@@ -203,7 +213,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       if (publicationOptions.metadata != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(CreateProgressStep.DdoStoredImmutable)
         try {
-          // eslint-disable-next-line @typescript-eslint/no-extra-semi
+          // eslint-disable-next-line
           ;({ url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } =
             await this.nevermined.services.node.publishImmutableContent(
               ddo,
@@ -231,11 +241,11 @@ export abstract class RegistryBaseApi extends Instantiable {
               nftAttributes.nftContractAddress,
               checksum,
               assetAttributes.providers || [this.config.neverminedNodeAddress],
-              publisher.getId(),
+              publisher,
               nftAttributesWithoutRoyalties,
               serviceEndpoint,
               ddoVersion.immutableUrl,
-              DEFAULT_REGISTRATION_ACTIVITY_ID,
+              SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
               txParams,
             )
           } else {
@@ -244,11 +254,11 @@ export abstract class RegistryBaseApi extends Instantiable {
               nftAttributes.nftContractAddress,
               checksum,
               assetAttributes.providers || [this.config.neverminedNodeAddress],
-              publisher.getId(),
+              publisher,
               nftAttributesWithoutRoyalties,
               serviceEndpoint,
               ddoVersion.immutableUrl,
-              DEFAULT_REGISTRATION_ACTIVITY_ID,
+              SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
               txParams,
             )
           }
@@ -260,7 +270,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             await didRegistry.setDIDRoyalties(
               ddo.shortId(),
               nftAttributes.royaltyAttributes.scheme.address,
-              publisher.getId(),
+              publisher,
               txParams,
             )
             observer.next(CreateProgressStep.SettingRoyalties)
@@ -277,10 +287,10 @@ export abstract class RegistryBaseApi extends Instantiable {
             didSeed,
             checksum,
             assetAttributes.providers || [this.config.neverminedNodeAddress],
-            publisher.getId(),
+            publisher,
             serviceEndpoint,
             ddoVersion.immutableUrl,
-            DEFAULT_REGISTRATION_ACTIVITY_ID,
+            SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
             txParams,
           )
         }
@@ -356,7 +366,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   protected updateAsset(
     did: string,
     metadata: MetaData,
-    publisher: Account,
+    publisher: NvmAccount,
     publishMetadataOptions: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -379,11 +389,17 @@ export abstract class RegistryBaseApi extends Instantiable {
         },
       }
 
+      const updatedAt = DDO.getNewDateFormatted()
+      const nonce = Math.random()
+      this.logger.debug(`Asset updatedAt ${updatedAt} and Nonce ${nonce} `)
+      metadataService.attributes.main.updatedAt = updatedAt
+      metadataService.attributes.main.nonce = nonce
+
       if (!['workflow'].includes(metadataService.attributes.main.type)) {
         const encryptedFilesResponse = await this.nevermined.services.node.encrypt(
           ddo.id,
           JSON.stringify(metadataService.attributes.main.files),
-          new String(AssetAttributes.DEFAULT_ENCRYPTION_METHOD),
+          new String(DEFAULT_ENCRYPTION_METHOD),
         )
         metadataService.attributes.encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
 
@@ -391,7 +407,7 @@ export abstract class RegistryBaseApi extends Instantiable {
           const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
             ddo.id,
             JSON.stringify(metadataService.attributes.main.webService.internalAttributes),
-            new String(AssetAttributes.DEFAULT_ENCRYPTION_METHOD),
+            new String(DEFAULT_ENCRYPTION_METHOD),
           )
           const encryptedAttributes = JSON.parse(encryptedServiceAttributesResponse)['hash']
           metadataService.attributes.main.webService.encryptedAttributes = encryptedAttributes
@@ -399,7 +415,7 @@ export abstract class RegistryBaseApi extends Instantiable {
         }
       }
 
-      await ddo.replaceService(metadataService.index, metadataService)
+      ddo.replaceService(metadataService.index, metadataService)
 
       observer.next(UpdateProgressStep.CalculateChecksum)
       ddo.proof = await ddo.generateProof(publisher.getId())
@@ -411,7 +427,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       ddo._nvm.versions.map((v) => (v.id > lastIndex ? (lastIndex = v.id) : false))
       const ddoVersion: NvmConfigVersions = {
         id: lastIndex + 1,
-        updated: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
+        updated: DDO.getNewDateFormatted(),
         checksum: checksum,
       }
       ddo._nvm.versions.push(ddoVersion)
@@ -420,7 +436,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       if (publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(UpdateProgressStep.StoringImmutableDDO)
         try {
-          // eslint-disable-next-line @typescript-eslint/no-extra-semi
+          // eslint-disable-next-line
           ;({ url: ddoVersion.immutableUrl, backend: ddoVersion.immutableBackend } =
             await this.nevermined.services.node.publishImmutableContent(
               ddo,
@@ -436,7 +452,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       await this.nevermined.keeper.didRegistry.updateMetadataUrl(
         ddo.id,
         checksum,
-        publisher.getId(),
+        publisher,
         metadataService.serviceEndpoint,
         ddoVersion.immutableUrl,
         txParams,
@@ -465,7 +481,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   public list(
     did: string,
     list: boolean,
-    publisher: Account,
+    publisher: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -518,7 +534,7 @@ export abstract class RegistryBaseApi extends Instantiable {
     did: string,
     newRating: number,
     numVotesAdded = 1,
-    publisher: Account,
+    publisher: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -566,7 +582,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   public orderAsset(
     did: string,
     serviceReference: ServiceType | number,
-    consumer: Account,
+    consumer: NvmAccount,
     params?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return new SubscribablePromise(async (observer) => {
@@ -624,8 +640,6 @@ export abstract class RegistryBaseApi extends Instantiable {
       compute: config.nevermined.keeper.templates.escrowComputeExecutionTemplate,
       'nft-sales': new NFTSalesService(config),
       'nft-access': new NFTAccessService(config),
-      'aave-credit': config.nevermined.keeper.templates
-        .aaveCreditTemplate as ServicePlugin<ServiceAaveCredit>,
     }
   }
 

@@ -1,29 +1,34 @@
+// @ts-nocheck
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 import { decodeJwt, JWTPayload } from 'jose'
-import { Account, DDO, MetaData, Nevermined, AssetPrice, NFTAttributes } from '../../src'
-import { Token, TransferNFTCondition } from '../../src/keeper'
-import { config } from '../config'
-import { generateSubscriptionMetadata, getMetadata } from '../utils'
+import config from '../../test/config'
 import TestContractHandler from '../../test/keeper/TestContractHandler'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { AssetPrice } from '../../src/models/AssetPrice'
+import { SubscriptionCreditsNFTApi } from '../../src/nevermined/api/nfts/SubscriptionCreditsNFTApi'
+import { Token } from '../../src/keeper/contracts/Token'
+import { DDO } from '../../src/ddo/DDO'
+import { TransferNFTCondition } from '../../src/keeper/contracts/conditions/NFTs/TransferNFTCondition'
+import { getRoyaltyAttributes, RoyaltyAttributes } from '../../src/nevermined/api/AssetsApi'
+import { MetaData } from '../../src/types/DDOTypes'
+import { generateSubscriptionMetadata, getMetadata } from '../utils/ddo-metadata-generator'
 import {
-  getRoyaltyAttributes,
   PublishMetadataOptions,
   PublishOnChainOptions,
-  RoyaltyAttributes,
   RoyaltyKind,
-  SubscriptionCreditsNFTApi,
-} from '../../src/nevermined'
-import { mineBlocks } from '../utils/utils'
-import { sleep } from '@opengsn/provider'
+} from '../../src/types/MetadataTypes'
+import { NFTAttributes } from '../../src/models/NFTAttributes'
+import { mineBlocks, sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
 describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
-  let publisher: Account
-  let subscriber: Account
-  let reseller: Account
+  let publisher: NvmAccount
+  let subscriber: NvmAccount
+  let reseller: NvmAccount
 
   let nevermined: Nevermined
   let token: Token
@@ -51,8 +56,8 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   const nftTransfer = false
 
   const subscriptionBronzeDuration = 9 // in blocks
-  const subscriptionSilverDuration = 10 // in blocks
-  const subscriptionGoldDuration = 20 // in blocks
+  const subscriptionSilverDuration = 20 // in blocks
+  const subscriptionGoldDuration = 50 // in blocks
 
   const subscriptionBronzePrice = 15n
   const subscriptionSilverPrice = 20n
@@ -69,7 +74,6 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
   let salesServices
   let accessServices
 
-  // let nft: ethers.Contract
   let subscriptionNFT: SubscriptionCreditsNFTApi
   let neverminedNodeAddress
 
@@ -91,7 +95,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       loadRoyalties: true,
       loadCompute: false,
     })
-    ;[, publisher, subscriber, , reseller] = await nevermined.accounts.list()
+    ;[, publisher, subscriber, , reseller] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
 
@@ -144,7 +148,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await TestContractHandler.getABI(
+      const contractABI = await TestContractHandler.getABIArtifact(
         `NFT1155SubscriptionUpgradeable.${await nevermined.keeper.getNetworkName()}`,
         './artifacts/',
       )
@@ -255,7 +259,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     let agreementId: string
 
     it('I can order and claim the subscription', async () => {
-      await subscriber.requestTokens(subscriptionBronzePrice)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionBronzePrice)
 
       const bronzeSalesService = timeSubscriptionDDO.getServicesByType('nft-sales')[0]
       console.log(
@@ -297,7 +301,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         const result = await nevermined.nfts1155.access(
           datasetDDO.id,
           subscriber,
-          '/tmp/.nevermined/downloads/0/',
+          '/tmp/.nevermined-downloads/0/',
           undefined,
           agreementId,
         )
@@ -310,7 +314,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         subscriber.getId(),
         timeSubscriptionDDO.shortId(),
       )
-      console.log(`Current Block Number: ${await nevermined.web3.getBlockNumber()}`)
+      console.log(`Current Block Number: ${await nevermined.client.public.getBlockNumber()}`)
       console.log(`Minted entries: ${minted.length}`)
       minted.map((m) =>
         console.log(
@@ -336,7 +340,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         await nevermined.nfts1155.access(
           datasetDDO.id,
           subscriber,
-          '/tmp/.nevermined/downloads/0/',
+          '/tmp/.nevermined-downloads/0/',
           undefined,
           agreementId,
         )
@@ -436,7 +440,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     let agreementId: string
 
     it('I can order and claim the subscription', async () => {
-      await subscriber.requestTokens(subscriptionSilverPrice)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionSilverPrice)
 
       const silverSalesService = creditSubscriptionDDO.getServicesByType('nft-sales')[0]
       console.log(
@@ -477,7 +481,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       const result = await nevermined.nfts1155.access(
         datasetDDO.id,
         subscriber,
-        '/tmp/.nevermined/downloads/1/',
+        '/tmp/.nevermined-downloads/1/',
         undefined,
         agreementId,
       )
@@ -511,7 +515,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         await nevermined.nfts1155.access(
           datasetDDO.id,
           subscriber,
-          '/tmp/.nevermined/downloads/1/',
+          '/tmp/.nevermined-downloads/1/',
           undefined,
           agreementId,
         )
@@ -538,7 +542,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
 
       console.log(`Balance Before Topup: ${balanceBeforeTopup}`)
 
-      await subscriber.requestTokens(subscriptionGoldPrice)
+      await nevermined.accounts.requestTokens(subscriber, subscriptionGoldPrice)
 
       const goldSalesService = creditSubscriptionDDO.getServicesByType('nft-sales')[1]
       console.log(
@@ -578,7 +582,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         subscriber.getId(),
         creditSubscriptionDDO.shortId(),
       )
-      console.log(`Current Block Number: ${await nevermined.web3.getBlockNumber()}`)
+      console.log(`Current Block Number: ${await nevermined.client.public.getBlockNumber()}`)
       console.log(`Minted entries: ${minted.length}`)
       minted.map((m) =>
         console.log(
@@ -590,6 +594,8 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     })
 
     it('I can download again using my toped up subscription', async () => {
+      await mineBlocks(nevermined, subscriber, 1)
+
       const balanceBefore = await subscriptionNFT.balance(
         creditSubscriptionDDO.id,
         subscriber.getId(),
@@ -600,7 +606,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       const result = await nevermined.nfts1155.access(
         datasetDDO.id,
         subscriber,
-        '/tmp/.nevermined/downloads/2/',
+        '/tmp/.nevermined-downloads/2/',
         undefined,
         agreementId,
       )
@@ -617,7 +623,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         subscriber.getId(),
         creditSubscriptionDDO.shortId(),
       )
-      console.log(`Current Block Number: ${await nevermined.web3.getBlockNumber()}`)
+      console.log(`Current Block Number: ${await nevermined.client.public.getBlockNumber()}`)
       console.log(`Minted entries: ${minted.length}`)
       minted.map((m) =>
         console.log(

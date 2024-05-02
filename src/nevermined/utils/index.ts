@@ -1,4 +1,35 @@
-export * from './JwtUtils'
-export * from './ServiceAgreement'
-export * from './SignatureUtils'
-export * from './WebServiceConnector'
+export {
+  BlockchainViemUtils,
+  checkContractExists,
+  deployContractInstance,
+  didToTokenId,
+  encodeBytes32String,
+  formatEther,
+  formatUnits,
+  getBytes,
+  getChecksumAddress,
+  getContractInstance,
+  getInputsOfFunction,
+  getInputsOfFunctionFormatted,
+  createKernelClient,
+  getSignatureOfFunction,
+  isValidAddress,
+  keccak256,
+  keccak256Packed,
+  keccak256WithEncode,
+  makeRandomWallet,
+  makeRandomWallets,
+  makeWallet,
+  makeWallets,
+  parseEther,
+  parseUnits,
+  searchAbiEvent,
+  searchAbiFunction,
+  zeroPadValue,
+  createSessionKey,
+  getSessionKey,
+} from './BlockchainViemUtils'
+export { EthSignJWT, JwtUtils } from './JwtUtils'
+export { ServiceAgreement } from './ServiceAgreement'
+export { SignatureUtils } from './SignatureUtils'
+export { WebServiceConnector } from './WebServiceConnector'

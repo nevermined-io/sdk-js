@@ -1,5 +1,5 @@
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
-import { ApiError, HttpError } from '../../errors'
+import { HttpError, ApiError } from '../../errors/NeverminedErrors'
 
 const authPath = '/api/v1/auth'
 
@@ -26,7 +26,7 @@ export class MarketplaceApi extends Instantiable {
 
       this.config.marketplaceAuthToken = (await response.json()).access_token
 
-      return this.config.marketplaceAuthToken
+      return this.config.marketplaceAuthToken as string
     } catch (error) {
       throw new ApiError(error)
     }
@@ -58,7 +58,7 @@ export class MarketplaceApi extends Instantiable {
 
             this.config.marketplaceAuthToken = (await response.json()).access_token
 
-            return this.config.marketplaceAuthToken
+            return this.config.marketplaceAuthToken as string
         } catch (error) {
             throw new ApiError(error)
         }

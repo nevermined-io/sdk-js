@@ -1,14 +1,13 @@
-import { ServiceAgreementTemplate, ServiceType, ValidationParams } from '../../../ddo'
 import { InstantiableConfig } from '../../../Instantiable.abstract'
-import { DDO } from '../../../sdk'
-import { AgreementInstance, AgreementTemplate } from './AgreementTemplate.abstract'
+import { DDO } from '../../../ddo/DDO'
+import { AgreementInstance } from '../../../types/ContractTypes'
+import { ValidationParams, ServiceType, ServiceAgreementTemplate } from '../../../types/DDOTypes'
+import { EscrowPaymentCondition } from '../conditions/EscrowPaymentCondition'
+import { LockPaymentCondition } from '../conditions/LockPaymentCondition'
+import { TransferDIDOwnershipCondition } from '../conditions/TransferDIDOwnershipCondition'
+import { AgreementTemplate } from './AgreementTemplate.abstract'
 import { BaseTemplate } from './BaseTemplate.abstract'
-import { didSalesTemplateServiceAgreementTemplate } from './DIDSalesTemplate.serviceAgreementTemplate'
-import {
-  EscrowPaymentCondition,
-  LockPaymentCondition,
-  TransferDIDOwnershipCondition,
-} from '../conditions'
+import { lockPaymentTemplate, didTransferTemplate, escrowTemplate } from './ConditionTemplates'
 
 export interface DIDSalesTemplateParams {
   receiverId: string
@@ -88,6 +87,26 @@ export class DIDSalesTemplate extends BaseTemplate<DIDSalesTemplateParams, any> 
   }
 
   public getServiceAgreementTemplate(): ServiceAgreementTemplate {
-    return { ...didSalesTemplateServiceAgreementTemplate() }
+    return {
+      contractName: 'DIDSalesTemplate',
+      events: [
+        {
+          name: 'AgreementCreated',
+          actorType: 'consumer',
+          handler: {
+            moduleName: 'didSalesTemplate',
+            functionName: 'fulfillLockPaymentCondition',
+            version: '0.1',
+          },
+        },
+      ],
+      fulfillmentOrder: ['lockPayment.fulfill', 'transferDID.fulfill', 'escrowPayment.fulfill'],
+      conditionDependency: {
+        lockPayment: [],
+        transferDID: [],
+        escrowPayment: ['lockPayment', 'transferNFT'],
+      },
+      conditions: [lockPaymentTemplate(), didTransferTemplate(), escrowTemplate()],
+    }
   }
 }

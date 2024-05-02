@@ -1,25 +1,30 @@
-import { Account, Nevermined, generateId } from '../../src'
-import { config } from '../config'
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-import { ContractEvent } from '../../src/events'
+import config from '../../test/config'
+
 import { mineBlocks, awaitTimeout } from '../utils/utils'
-import { ethers } from 'ethers'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { ContractEvent } from '../../src/events/ContractEvent'
+import { getChecksumAddress } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { generateId } from '../../src/common/helpers'
 
 chai.use(chaiAsPromised)
 
 describe('ContractEvent', () => {
-  let account: Account
+  let account: NvmAccount
+  let account2: NvmAccount
+  let account3: NvmAccount
+  let account4: NvmAccount
+  let account5: NvmAccount
+  let account6: NvmAccount
   let nevermined: Nevermined
-  let executeTransaction: () => Promise<any>
 
   before(async () => {
     nevermined = await Nevermined.getInstance({ ...config, graphHttpUri: undefined })
-    ;[account] = await nevermined.accounts.list()
+    ;[account, account2, account3, account4, account5, account6] = nevermined.accounts.list()
 
-    await nevermined.keeper.dispenser.requestTokens(1, account.getId())
-
-    executeTransaction = () => nevermined.keeper.dispenser.requestTokens(1, account.getId())
+    await nevermined.accounts.requestTokens(account, 1n)
   })
 
   it('should get a ContractEvent instance', async () => {
@@ -38,8 +43,8 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
     })
     assert.strictEqual(
-      ethers.getAddress(response.pop().args.to),
-      ethers.getAddress(account.getId()),
+      getChecksumAddress(response.pop().args.to),
+      getChecksumAddress(account.getId()),
     )
   })
 
@@ -59,17 +64,20 @@ describe('ContractEvent', () => {
         {
           eventName: 'Transfer',
           filterJsonRpc: { to: account.getId() },
-          fromBlock: 0,
+          fromBlock: 0n,
           toBlock: 'latest',
         },
       )
     })
 
-    await Promise.all([executeTransaction()])
+    // await Promise.all([executeTransaction()])
+
+    await nevermined.accounts.requestTokens(account2, 1n)
 
     validResolve = true
 
-    await Promise.all([executeTransaction()])
+    await nevermined.accounts.requestTokens(account3, 1n)
+    // await Promise.all([executeTransaction()])
 
     await waitUntilEvent
 
@@ -98,10 +106,10 @@ describe('ContractEvent', () => {
       )
     })
 
-    await executeTransaction()
+    await nevermined.accounts.requestTokens(account4, 1n)
     canBeRejected = true
 
-    await executeTransaction()
+    await nevermined.accounts.requestTokens(account5, 1n)
 
     await waitUntilEvent
   })
@@ -114,7 +122,8 @@ describe('ContractEvent', () => {
       eventName: 'Transfer',
       filterJsonRpc: { to },
     })
-    await executeTransaction()
+    await nevermined.accounts.requestTokens(account6, 1n)
+    // await executeTransaction()
 
     await waitUntilEvent
   })

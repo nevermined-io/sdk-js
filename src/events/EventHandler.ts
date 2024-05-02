@@ -5,7 +5,7 @@ export class EventHandler {
 
   private events = new Set<(blockNumber) => void>()
 
-  private lastBlock: number
+  private lastBlock: bigint
 
   private interval = 200
 
@@ -13,9 +13,9 @@ export class EventHandler {
 
   private lastTimeout: NodeJS.Timeout
 
-  private getBlockNumber: () => Promise<number>
+  private getBlockNumber: () => Promise<bigint>
 
-  public subscribe(callback: (blockNumber: number) => void, getBlockNumber: () => Promise<number>) {
+  public subscribe(callback: (blockNumber: number) => void, getBlockNumber: () => Promise<bigint>) {
     this.getBlockNumber = getBlockNumber
     this.events.add(callback)
     this.checkBlock()
@@ -29,6 +29,7 @@ export class EventHandler {
     this.events.delete(callback)
     if (!this.count) {
       clearTimeout(this.lastTimeout)
+      // @ts-ignore
       delete this.lastBlock
       this.polling = false
     }
@@ -47,7 +48,7 @@ export class EventHandler {
     }
 
     if (this.lastBlock !== blockNumber) {
-      this.events.forEach((fn) => fn(this.lastBlock + 1))
+      this.events.forEach((fn) => fn(this.lastBlock + 1n))
       this.lastBlock = blockNumber
     }
     this.lastTimeout = global.setTimeout(() => this.checkBlock(true), this.interval)

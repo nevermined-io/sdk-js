@@ -1,6 +1,6 @@
-export class AssetPrice {
-  public static readonly NETWORK_FEE_DENOMINATOR = 10000n
+import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
 
+export class AssetPrice {
   private totalPrice: bigint
 
   private rewards: Map<string, bigint>
@@ -65,7 +65,7 @@ export class AssetPrice {
   }
 
   public getTokenAddress(): string {
-    return this.tokenAddress
+    return this.tokenAddress as string
   }
 
   /**
@@ -75,7 +75,7 @@ export class AssetPrice {
    * @returns the asset rewards object
    */
   public addNetworkFees(feeReceiver: string, networkFeePercent: bigint): AssetPrice {
-    const amount = (this.totalPrice * networkFeePercent) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n
+    const amount = (this.totalPrice * networkFeePercent) / NETWORK_FEE_DENOMINATOR / 100n
     return this.setReceiver(feeReceiver, amount)
   }
 
@@ -86,13 +86,12 @@ export class AssetPrice {
    * @returns the asset rewards object
    */
   public adjustToIncludeNetworkFees(feeReceiver: string, networkFeePercent: bigint): AssetPrice {
-    const feesToInclude =
-      (this.totalPrice * networkFeePercent) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n
+    const feesToInclude = (this.totalPrice * networkFeePercent) / NETWORK_FEE_DENOMINATOR / 100n
 
     if (feesToInclude > 0) {
       const newRewards: Map<string, bigint> = new Map()
       this.rewards.forEach((k, v) => {
-        newRewards.set(v, k - (k * networkFeePercent) / AssetPrice.NETWORK_FEE_DENOMINATOR / 100n)
+        newRewards.set(v, k - (k * networkFeePercent) / NETWORK_FEE_DENOMINATOR / 100n)
       })
       newRewards.set(feeReceiver, feesToInclude)
       this.rewards = newRewards

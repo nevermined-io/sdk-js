@@ -1,29 +1,35 @@
 import { assert } from 'chai'
 import { decodeJwt } from 'jose'
-import { config } from '../config'
-import { Nevermined, SearchQuery, Account, makeAccounts } from '../../src'
+import config from '../../test/config'
+
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
+import { makeWallets } from '../../src/nevermined/utils/BlockchainViemUtils'
+import { SearchQuery } from '../../src/types/MetadataTypes'
 
 describe('Sdk working without artifacts', () => {
   let nevermined: Nevermined
-  let account: Account
+  let account: NvmAccount
   let configCopy
 
   before(async () => {
     configCopy = { ...config }
-    configCopy.artifactsFolder = undefined
-    nevermined = await Nevermined.getInstance(configCopy)
   })
 
-  it('should keeper be disconnected', () => {
-    assert.isFalse(nevermined.isKeeperConnected)
+  it('should keeper be disconnected', async () => {
+    const failNvm = await Nevermined.getInstance({ ...config, chainId: 9999 })
+    assert.isFalse(failNvm.isKeeperConnected)
   })
 
   it('should login to metamask without artifacts', async () => {
-    configCopy.accounts = makeAccounts(process.env.SEED_WORDS)
+    const wallets = makeWallets(process.env.SEED_WORDS!)
+    configCopy.accounts = configCopy.accounts = wallets.map((wallet) => {
+      return NvmAccount.fromAccount(wallet)
+    })
     nevermined = await Nevermined.getInstance(configCopy)
 
     // Accounts
-    ;[account] = await nevermined.accounts.list()
+    ;[account] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(account)
 
