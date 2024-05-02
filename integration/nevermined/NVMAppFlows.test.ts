@@ -301,7 +301,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         const result = await nevermined.nfts1155.access(
           datasetDDO.id,
           subscriber,
-          '/tmp/.nevermined/downloads/0/',
+          '/tmp/.nevermined-downloads/0/',
           undefined,
           agreementId,
         )
@@ -340,7 +340,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         await nevermined.nfts1155.access(
           datasetDDO.id,
           subscriber,
-          '/tmp/.nevermined/downloads/0/',
+          '/tmp/.nevermined-downloads/0/',
           undefined,
           agreementId,
         )
@@ -481,7 +481,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       const result = await nevermined.nfts1155.access(
         datasetDDO.id,
         subscriber,
-        '/tmp/.nevermined/downloads/1/',
+        '/tmp/.nevermined-downloads/1/',
         undefined,
         agreementId,
       )
@@ -515,7 +515,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
         await nevermined.nfts1155.access(
           datasetDDO.id,
           subscriber,
-          '/tmp/.nevermined/downloads/1/',
+          '/tmp/.nevermined-downloads/1/',
           undefined,
           agreementId,
         )
@@ -594,6 +594,8 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
     })
 
     it('I can download again using my toped up subscription', async () => {
+      await mineBlocks(nevermined, subscriber, 1)
+
       const balanceBefore = await subscriptionNFT.balance(
         creditSubscriptionDDO.id,
         subscriber.getId(),
@@ -604,7 +606,7 @@ describe('NVM App main flows using Credit NFTs (ERC-1155)', () => {
       const result = await nevermined.nfts1155.access(
         datasetDDO.id,
         subscriber,
-        '/tmp/.nevermined/downloads/2/',
+        '/tmp/.nevermined-downloads/2/',
         undefined,
         agreementId,
       )
