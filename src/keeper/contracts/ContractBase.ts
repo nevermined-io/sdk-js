@@ -184,8 +184,10 @@ export abstract class ContractBase extends Instantiable {
 
     const kernelClient = from.getKernelClient()
     const data = encodeFunctionData({ abi: this.contract.abi, functionName: name, args })
+    // @ts-ignore
     const txHash = await kernelClient.sendUserOperation({
       userOperation: {
+        // @ts-ignore
         callData: await kernelClient.account.encodeCallData({
           to: this.address,
           value: txparams.value || 0n,
@@ -208,6 +210,7 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
+    // @ts-ignore
     const bundlerClient = kernelClient.extend(bundlerActions(ENTRYPOINT_ADDRESS_V06))
     const txReceipt = await bundlerClient.waitForUserOperationReceipt({ hash: txHash })
 

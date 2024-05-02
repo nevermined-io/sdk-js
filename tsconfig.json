@@ -52,8 +52,7 @@
     "typeRoots": ["node_modules/@types"],
     "paths": {
       "@/": ["./src/"],
-      "permissionless/*": ["src/permissionless.d.ts"],
-      "@zerodev/sdk/*": ["src/permissionless.d.ts"]
+      "permissionless/*": ["src/permissionless.d.ts"]
     }
   },
   "include": ["src/**/*"],

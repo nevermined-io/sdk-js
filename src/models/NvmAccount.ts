@@ -1,4 +1,4 @@
-import { Account, LocalAccount, toHex } from 'viem'
+import { Account, Chain, LocalAccount, Transport, toHex } from 'viem'
 import { NvmAccountError } from '../errors/NeverminedErrors'
 import { NvmAccountType } from '../types/AccountTypes'
 import { parseAccount } from 'viem/utils'
@@ -13,7 +13,12 @@ export class NvmAccount {
   public babyY?: string
   public babySecret?: string
   private accountSigner?: Account
-  private kernelClient?: KernelAccountClient<any>
+  private kernelClient?: KernelAccountClient<
+    '0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789',
+    Transport,
+    Chain,
+    any
+  >
   private zeroDevSigner?: KernelSmartAccount<any> // ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider
   public accountType: NvmAccountType = { signerType: 'local', isZeroDev: false }
 
@@ -49,7 +54,12 @@ export class NvmAccount {
    * @returns The nevermined account
    */
   static async fromZeroDevSigner(
-    kernelClient: KernelAccountClient<any, any, any, any>, // | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
+    kernelClient: KernelAccountClient<
+      '0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789',
+      Transport,
+      Chain,
+      any
+    >, // | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
   ): Promise<NvmAccount> {
     const address = kernelClient.account.address
     const account = new NvmAccount(address, { signerType: 'zerodev', isZeroDev: true })
@@ -58,7 +68,14 @@ export class NvmAccount {
     return account
   }
 
-  static fromZeroDevSessionKey(kernelClient: KernelAccountClient<any, any, any, any>) {
+  static fromZeroDevSessionKey(
+    kernelClient: KernelAccountClient<
+      '0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789',
+      Transport,
+      Chain,
+      any
+    >,
+  ) {
     const address = kernelClient.account.address
     const account = new NvmAccount(address, { signerType: 'sessionKey', isZeroDev: true })
     account.kernelClient = kernelClient
