@@ -79,6 +79,6 @@ export class SubgraphEvent extends NeverminedEvent {
       `,
     })
 
-    return result.data._meta.block.number
+    return BigInt(result.data._meta.block.number)
   }
 }

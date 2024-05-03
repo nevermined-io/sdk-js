@@ -108,6 +108,9 @@ export abstract class ContractBase extends Instantiable {
   public async sendFrom(functionName: string, args: any[], from: NvmAccount, value?: TxParameters) {
     const receipt = await this.send(functionName, from, args, value)
     // receipt.transactionHash
+    if (from.getType() === 'sessionKey') {
+      return receipt
+    }
     const tx = await this.client.public.waitForTransactionReceipt({ hash: receipt.transactionHash })
     if (tx.status !== 'success') {
       this.logger.error(
