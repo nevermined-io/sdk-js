@@ -130,6 +130,7 @@ export abstract class ContractBase extends Instantiable {
     args: any[],
     params: TxParameters = {},
   ) {
+    console.log(functionName, from)
     const signer = from.getAccountSigner()
     if (from.getType() === 'local') {
       this.logger.debug(
