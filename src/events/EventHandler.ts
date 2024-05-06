@@ -3,7 +3,7 @@ export class EventHandler {
     return this.events.size
   }
 
-  private events = new Set<(blockNumber) => void>()
+  private events = new Set<(blockNumber: bigint) => void>()
 
   private lastBlock: bigint
 
@@ -15,7 +15,7 @@ export class EventHandler {
 
   private getBlockNumber: () => Promise<bigint>
 
-  public subscribe(callback: (blockNumber: number) => void, getBlockNumber: () => Promise<bigint>) {
+  public subscribe(callback: (blockNumber: bigint) => void, getBlockNumber: () => Promise<bigint>) {
     this.getBlockNumber = getBlockNumber
     this.events.add(callback)
     this.checkBlock()
@@ -25,7 +25,7 @@ export class EventHandler {
     }
   }
 
-  public unsubscribe(callback: (blockNumber: number) => void) {
+  public unsubscribe(callback: (blockNumber: bigint) => void) {
     this.events.delete(callback)
     if (!this.count) {
       clearTimeout(this.lastTimeout)
