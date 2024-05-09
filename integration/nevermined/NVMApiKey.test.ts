@@ -7,6 +7,7 @@ import { Nevermined } from '../../src/nevermined/Nevermined'
 import { NvmAccount } from '../../src/models/NvmAccount'
 import { JwtUtils } from '../../src'
 import { encryptMessage, decryptMessage } from '../../src/common/helpers'
+import { sleep } from '../utils/utils'
 
 chai.use(chaiAsPromised)
 
@@ -16,6 +17,7 @@ describe('Nevermined API Key', () => {
     let nevermined: Nevermined
     let user: NvmAccount
     let provider: NvmAccount
+    let someone: NvmAccount
     let providerAddress = ''
     let providerPrivateKey
     let providerPublicKey
@@ -26,7 +28,7 @@ describe('Nevermined API Key', () => {
 
     before(async () => {
       nevermined = await Nevermined.getInstance(config)
-      ;[user, provider] = nevermined.accounts.list()
+      ;[user, provider, someone] = nevermined.accounts.list()
 
       providerAddress = provider.getId()
       providerPublicKey = provider.getAccountSigner().publicKey
@@ -103,6 +105,48 @@ describe('Nevermined API Key', () => {
       console.log(jwt)
       assert.isTrue(nevermined.utils.jwt.isNeverminedApiKeyValid(jwt))
       assert.equal(jwt.iss, user.getId())
+    })
+
+    it('The api token is not valid if already expired', async () => {
+      const encryptedNvmApiKey = await nevermined.utils.jwt.generateEncryptedNeverminedApiKey(
+        user,
+        zeroDevSessionKey,
+        marketplaceAuthToken,
+        providerAddress,
+        providerPublicKey,
+        '1s',
+      )
+      assert.isDefined(encryptedNvmApiKey)
+      console.log(`Waiting to expire the JWT token`)
+      await sleep(2000)
+      const jwt = await nevermined.utils.jwt.decryptAndDecodeNeverminedApiKey(
+        encryptedNvmApiKey,
+        providerPrivateKey,
+      )
+      assert.isDefined(jwt)
+      assert.isFalse(nevermined.utils.jwt.isNeverminedApiKeyValid(jwt))
+    })
+
+    it('The api token can no be decripted by a different account to the receiver', async () => {
+      const someonePrivateKey = someone.getAccountSigner().getHdKey().privateKey
+
+      const encryptedNvmApiKey = await nevermined.utils.jwt.generateEncryptedNeverminedApiKey(
+        user,
+        zeroDevSessionKey,
+        marketplaceAuthToken,
+        providerAddress,
+        providerPublicKey,
+      )
+      assert.isDefined(encryptedNvmApiKey)
+      try {
+        await nevermined.utils.jwt.decryptAndDecodeNeverminedApiKey(
+          encryptedNvmApiKey,
+          someonePrivateKey,
+        )
+        assert.fail('The token should not be decrypted')
+      } catch (error) {
+        assert.isDefined(error)
+      }
     })
   })
 })
