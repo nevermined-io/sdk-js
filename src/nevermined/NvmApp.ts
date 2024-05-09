@@ -157,11 +157,6 @@ export class NvmApp {
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
     if (config && config.zeroDevProjectId) {
-      // const signer = this.fullSDK.accounts.getAccount(account as string)
-      // const smartAccountSigner = await providerToSmartAccountSigner(config.web3Provider, {
-      //   signerAddress: signer.getAddress(),
-      // })
-
       const kernelClient = await createKernelClient(
         account,
         config.chainId!,
