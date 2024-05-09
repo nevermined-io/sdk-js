@@ -5,6 +5,13 @@ import { NvmAccount } from '../../models/NvmAccount'
 import { getChecksumAddress } from '../../nevermined/utils/BlockchainViemUtils'
 import { SignatureUtils } from '../../nevermined/utils/SignatureUtils'
 import { Babysig, Eip712Data } from '../../types/GeneralTypes'
+import { deflateSync, inflateSync } from 'fflate'
+import {
+  decryptMessage,
+  encryptMessage,
+  urlSafeBase64Decode,
+  urlSafeBase64Encode,
+} from '../../common/helpers'
 
 export class EthSignJWT extends SignJWT {
   protectedHeader: JWSHeaderParameters
@@ -359,6 +366,100 @@ export class JwtUtils extends Instantiable {
       const now = new Date()
       return now.getTime() < Number(expiry) * 1000
     }
+
     return false
+  }
+
+  public async generateNeverminedApiKey(
+    issuerAccount: NvmAccount,
+    zeroDevSessionKey: string,
+    marketplaceAuthToken: string,
+    receiverAddress: string,
+    expirationTime: string = '1y',
+    chainId: number = 0,
+  ): Promise<string> {
+    const issuerAddress = getChecksumAddress(issuerAccount.getId())
+    const sub = getChecksumAddress(receiverAddress)
+
+    const params = {
+      iss: issuerAddress,
+      aud: chainId.toString(),
+      sub,
+      ver: 'v1',
+      zsk: zeroDevSessionKey,
+      nvt: marketplaceAuthToken,
+    }
+
+    const signed = await new EthSignJWT(params)
+      .setProtectedHeader({ alg: 'ES256K' })
+      .setIssuedAt()
+      .setExpirationTime(expirationTime)
+      .ethSign(this.nevermined.utils.signature, issuerAccount)
+    return JwtUtils.createCompressedJwt(signed)
+  }
+
+  public async generateEncryptedNeverminedApiKey(
+    issuerAccount: NvmAccount,
+    zeroDevSessionKey: string,
+    marketplaceAuthToken: string,
+    receiverAddress: string,
+    receiverPublicKey: string,
+    expirationTime: string = '1y',
+    chainId: number = 0,
+  ): Promise<string> {
+    const nvmApiKey = await this.generateNeverminedApiKey(
+      issuerAccount,
+      zeroDevSessionKey,
+      marketplaceAuthToken,
+      receiverAddress,
+      expirationTime,
+      chainId,
+    )
+    return encryptMessage(nvmApiKey, receiverPublicKey)
+  }
+
+  public async decryptAndDecodeNeverminedApiKey(encryptedJwt: string, privateKey: string) {
+    const decryptedJwt = await decryptMessage(encryptedJwt, privateKey)
+    return JwtUtils.decodeNeverminedApiKey(decryptedJwt)
+  }
+
+  public isNeverminedApiKeyValid(compressedJwt: string): boolean {
+    let decodedToken
+    try {
+      const token = JwtUtils.decompressJwt(compressedJwt)
+      decodedToken = decodeJwt(token)
+    } catch {
+      // Token might be already decompressed
+      decodedToken = compressedJwt
+    }
+
+    if (!decodedToken) {
+      return false
+    }
+    const expiry = decodedToken.exp
+    if (expiry) {
+      const now = new Date()
+      return now.getTime() < Number(expiry) * 1000
+    }
+    if (decodedToken.aud !== '0' && decodedToken.aud !== this.client.chain?.id) {
+      return false
+    }
+    return false
+  }
+
+  static decodeNeverminedApiKey(compressedJwt: string) {
+    const token = JwtUtils.decompressJwt(compressedJwt)
+    return decodeJwt(token)
+  }
+
+  static createCompressedJwt(token: string) {
+    const compressed = deflateSync(new TextEncoder().encode(token))
+    return urlSafeBase64Encode(compressed)
+  }
+
+  static decompressJwt(compressedJwt: string) {
+    const decoded = urlSafeBase64Decode(compressedJwt)
+    const decompressed = inflateSync(decoded)
+    return new TextDecoder().decode(decompressed)
   }
 }

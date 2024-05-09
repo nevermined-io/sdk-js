@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -64,6 +64,8 @@
     "graphql": "^16.7.1",
     "https-browserify": "^1.0.0",
     "jose": "^4.11.2",
+    "fflate": "0.8.2",
+    "eccrypto": "1.1.6",
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.1",
