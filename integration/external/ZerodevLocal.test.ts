@@ -1,33 +1,35 @@
 // TODO: Enable when ZeroDev is ready
 // import { verifyMessage } from '@ambire/signature-validator'
-// import { assert } from 'chai'
+import { assert } from 'chai'
 // import { ethers } from 'ethers'
 // import * as fs from 'fs'
 // import { decodeJwt } from 'jose'
-import { createPublicClient, http } from 'viem'
+import { createPublicClient, http, parseAbi } from 'viem'
 import { arbitrumSepolia } from 'viem/chains'
 import {
   // AssetAttributes,
-  // AssetPrice,
-  // ERCType,
-  // MetaData,
-  // NETWORK_FEE_DENOMINATOR,
-  // NFTAttributes,
+  AssetPrice,
+  ERCType,
+  MetaData,
+  NETWORK_FEE_DENOMINATOR,
+  NFTAttributes,
   Nevermined,
-  // NeverminedNFT1155Type,
-  // NvmAccount,
-  // PublishMetadataOptions,
-  // ServiceAttributes,
-  // SubscriptionType,
-  // makeRandomWallet,
+  NeverminedNFT1155Type,
+  NvmAccount,
+  PublishMetadataOptions,
+  PublishOnChainOptions,
+  ServiceAttributes,
+  SubscriptionType,
+  makeRandomWallet,
 } from '../../src'
 // import { DDO } from '../../src/ddo'
 import {
   // createKernelClient,
-  // createSessionKey,
+  createSessionKey,
   getSessionKey,
 } from '../../src/nevermined/utils/BlockchainViemUtils'
 import { config } from '../config'
+import { getMetadata } from '../utils'
 // import { getMetadata } from '../utils'
 
 describe('Nevermined sdk with zerodev', () => {
@@ -279,149 +281,207 @@ describe('Nevermined sdk with zerodev', () => {
     // let kernelClient: any // TODO: KernelAccountClient<any, any, any, any>
     // const contractAddress = '0x93605C644181f3dD03A37228528649A76822Fcf1' as '0x{string}' // DIDRegistry address
 
-    // const owner = makeRandomWallet()
+    const owner = makeRandomWallet()
+    const consumer = makeRandomWallet()
 
     it('should generate a session key', async () => {
-      // const permissions = [
-      //   {
-      //     target: contractAddress,
-      //     abi: parseAbi([
-      //       'function registerMintableDID(bytes32 _didSeed, address _nftContractAddress, bytes32 _checksum, address[] memory _providers, string memory _url, uint256 _cap, uint256 _royalties, bool _mint, bytes32 _activityId, string memory _nftMetadata, string memory _immutableUrl) public',
-      //     ]),
-      //     functionName: 'registerMintableDID',
-      //   },
-      //   {
-      //     target: contractAddress,
-      //     abi: parseAbi([
-      //       'function registerMintableDID(bytes32 _didSeed,address _nftContractAddress,bytes32 _checksum,address[] memory _providers,string memory _url,uint256 _cap,uint256 _royalties,bytes32 _activityId,string memory _nftMetadata,string memory _immutableUrl) public',
-      //     ]),
-      //     functionName: 'registerMintableDID',
-      //   },
-      //   {
-      //     target: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d' as `0x${string}`,
-      //     abi: parseAbi([
-      //       'function approve(address spender, uint256 amount) external returns (bool)',
-      //     ]),
-      //     functionName: 'approve',
-      //   },
-      //   {
-      //     target: '0x1c52ed414EDd1bCC20Ea670d42289e8bFC03C095',
-      //     abi: parseAbi([
-      //       'function createAgreementAndPayEscrow(bytes32 _id, bytes32 _did, bytes32[] _conditionIds, uint256[] _timeLocks, uint256[] _timeOuts, address _accessConsumer, uint256 _idx, address _rewardAddress, address _tokenAddress, uint256[] _amounts, address[] _receivers) public',
-      //     ]),
-      //     functionName: 'createAgreementAndPayEscrow',
-      //   },
-      //   {
-      //     target: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d' as `0x${string}`,
-      //     abi: parseAbi(['function transfer(address to, uint amount) returns (bool)']),
-      //     functionName: 'transfer',
-      //   },
-      // ]
-      // const sessionKey = await createSessionKey(owner, publicClient, permissions)
-      // assert.isDefined(sessionKey)
-      const sessionKey =
-        'eyJzZXNzaW9uS2V5UGFyYW1zIjp7InBheW1hc3RlciI6IjB4MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInZhbGlkQWZ0ZXIiOjAsInZhbGlkVW50aWwiOjAsInBlcm1pc3Npb25zIjpbeyJ0YXJnZXQiOiIweDkzNjA1QzY0NDE4MWYzZEQwM0EzNzIyODUyODY0OUE3NjgyMkZjZjEiLCJhYmkiOlt7Im5hbWUiOiJyZWdpc3Rlck1pbnRhYmxlRElEIiwidHlwZSI6ImZ1bmN0aW9uIiwic3RhdGVNdXRhYmlsaXR5Ijoibm9ucGF5YWJsZSIsImlucHV0cyI6W3sidHlwZSI6ImJ5dGVzMzIiLCJuYW1lIjoiX2RpZFNlZWQifSx7InR5cGUiOiJhZGRyZXNzIiwibmFtZSI6Il9uZnRDb250cmFjdEFkZHJlc3MifSx7InR5cGUiOiJieXRlczMyIiwibmFtZSI6Il9jaGVja3N1bSJ9LHsidHlwZSI6ImFkZHJlc3NbXSIsIm5hbWUiOiJfcHJvdmlkZXJzIn0seyJ0eXBlIjoic3RyaW5nIiwibmFtZSI6Il91cmwifSx7InR5cGUiOiJ1aW50MjU2IiwibmFtZSI6Il9jYXAifSx7InR5cGUiOiJ1aW50MjU2IiwibmFtZSI6Il9yb3lhbHRpZXMifSx7InR5cGUiOiJib29sIiwibmFtZSI6Il9taW50In0seyJ0eXBlIjoiYnl0ZXMzMiIsIm5hbWUiOiJfYWN0aXZpdHlJZCJ9LHsidHlwZSI6InN0cmluZyIsIm5hbWUiOiJfbmZ0TWV0YWRhdGEifSx7InR5cGUiOiJzdHJpbmciLCJuYW1lIjoiX2ltbXV0YWJsZVVybCJ9XSwib3V0cHV0cyI6W119XSwiZnVuY3Rpb25OYW1lIjoicmVnaXN0ZXJNaW50YWJsZURJRCIsInZhbHVlTGltaXQiOiIwIiwic2lnIjoiMHhjZmZlMWViMyIsInJ1bGVzIjpbXSwiaW5kZXgiOjAsImV4ZWN1dGlvblJ1bGUiOnsidmFsaWRBZnRlciI6MCwiaW50ZXJ2YWwiOjAsInJ1bnMiOjB9LCJvcGVyYXRpb24iOjB9LHsidGFyZ2V0IjoiMHg5MzYwNUM2NDQxODFmM2REMDNBMzcyMjg1Mjg2NDlBNzY4MjJGY2YxIiwiYWJpIjpbeyJuYW1lIjoicmVnaXN0ZXJNaW50YWJsZURJRCIsInR5cGUiOiJmdW5jdGlvbiIsInN0YXRlTXV0YWJpbGl0eSI6Im5vbnBheWFibGUiLCJpbnB1dHMiOlt7InR5cGUiOiJieXRlczMyIiwibmFtZSI6Il9kaWRTZWVkIn0seyJ0eXBlIjoiYWRkcmVzcyIsIm5hbWUiOiJfbmZ0Q29udHJhY3RBZGRyZXNzIn0seyJ0eXBlIjoiYnl0ZXMzMiIsIm5hbWUiOiJfY2hlY2tzdW0ifSx7InR5cGUiOiJhZGRyZXNzW10iLCJuYW1lIjoiX3Byb3ZpZGVycyJ9LHsidHlwZSI6InN0cmluZyIsIm5hbWUiOiJfdXJsIn0seyJ0eXBlIjoidWludDI1NiIsIm5hbWUiOiJfY2FwIn0seyJ0eXBlIjoidWludDI1NiIsIm5hbWUiOiJfcm95YWx0aWVzIn0seyJ0eXBlIjoiYnl0ZXMzMiIsIm5hbWUiOiJfYWN0aXZpdHlJZCJ9LHsidHlwZSI6InN0cmluZyIsIm5hbWUiOiJfbmZ0TWV0YWRhdGEifSx7InR5cGUiOiJzdHJpbmciLCJuYW1lIjoiX2ltbXV0YWJsZVVybCJ9XSwib3V0cHV0cyI6W119XSwiZnVuY3Rpb25OYW1lIjoicmVnaXN0ZXJNaW50YWJsZURJRCIsInZhbHVlTGltaXQiOiIwIiwic2lnIjoiMHgzYmQwMmM0MSIsInJ1bGVzIjpbXSwiaW5kZXgiOjEsImV4ZWN1dGlvblJ1bGUiOnsidmFsaWRBZnRlciI6MCwiaW50ZXJ2YWwiOjAsInJ1bnMiOjB9LCJvcGVyYXRpb24iOjB9LHsidGFyZ2V0IjoiMHg3NWZhZjExNGVhZmIxQkRiZTJGMDMxNkRGODkzZmQ1OENFNDZBQTRkIiwiYWJpIjpbeyJuYW1lIjoiYXBwcm92ZSIsInR5cGUiOiJmdW5jdGlvbiIsInN0YXRlTXV0YWJpbGl0eSI6Im5vbnBheWFibGUiLCJpbnB1dHMiOlt7InR5cGUiOiJhZGRyZXNzIiwibmFtZSI6InNwZW5kZXIifSx7InR5cGUiOiJ1aW50MjU2IiwibmFtZSI6ImFtb3VudCJ9XSwib3V0cHV0cyI6W3sidHlwZSI6ImJvb2wifV19XSwiZnVuY3Rpb25OYW1lIjoiYXBwcm92ZSIsInZhbHVlTGltaXQiOiIwIiwic2lnIjoiMHgwOTVlYTdiMyIsInJ1bGVzIjpbXSwiaW5kZXgiOjIsImV4ZWN1dGlvblJ1bGUiOnsidmFsaWRBZnRlciI6MCwiaW50ZXJ2YWwiOjAsInJ1bnMiOjB9LCJvcGVyYXRpb24iOjB9LHsidGFyZ2V0IjoiMHgxYzUyZWQ0MTRFRGQxYkNDMjBFYTY3MGQ0MjI4OWU4YkZDMDNDMDk1IiwiYWJpIjpbeyJuYW1lIjoiY3JlYXRlQWdyZWVtZW50QW5kUGF5RXNjcm93IiwidHlwZSI6ImZ1bmN0aW9uIiwic3RhdGVNdXRhYmlsaXR5Ijoibm9ucGF5YWJsZSIsImlucHV0cyI6W3sidHlwZSI6ImJ5dGVzMzIiLCJuYW1lIjoiX2lkIn0seyJ0eXBlIjoiYnl0ZXMzMiIsIm5hbWUiOiJfZGlkIn0seyJ0eXBlIjoiYnl0ZXMzMltdIiwibmFtZSI6Il9jb25kaXRpb25JZHMifSx7InR5cGUiOiJ1aW50MjU2W10iLCJuYW1lIjoiX3RpbWVMb2NrcyJ9LHsidHlwZSI6InVpbnQyNTZbXSIsIm5hbWUiOiJfdGltZU91dHMifSx7InR5cGUiOiJhZGRyZXNzIiwibmFtZSI6Il9hY2Nlc3NDb25zdW1lciJ9LHsidHlwZSI6InVpbnQyNTYiLCJuYW1lIjoiX2lkeCJ9LHsidHlwZSI6ImFkZHJlc3MiLCJuYW1lIjoiX3Jld2FyZEFkZHJlc3MifSx7InR5cGUiOiJhZGRyZXNzIiwibmFtZSI6Il90b2tlbkFkZHJlc3MifSx7InR5cGUiOiJ1aW50MjU2W10iLCJuYW1lIjoiX2Ftb3VudHMifSx7InR5cGUiOiJhZGRyZXNzW10iLCJuYW1lIjoiX3JlY2VpdmVycyJ9XSwib3V0cHV0cyI6W119XSwiZnVuY3Rpb25OYW1lIjoiY3JlYXRlQWdyZWVtZW50QW5kUGF5RXNjcm93IiwidmFsdWVMaW1pdCI6IjAiLCJzaWciOiIweGY4ZmUxMDcwIiwicnVsZXMiOltdLCJpbmRleCI6MywiZXhlY3V0aW9uUnVsZSI6eyJ2YWxpZEFmdGVyIjowLCJpbnRlcnZhbCI6MCwicnVucyI6MH0sIm9wZXJhdGlvbiI6MH1dfSwiYWN0aW9uIjp7InNlbGVjdG9yIjoiMHg1MTk0NTQ0NyIsImFkZHJlc3MiOiIweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifSwidmFsaWRpdHlEYXRhIjp7InZhbGlkQWZ0ZXIiOjAsInZhbGlkVW50aWwiOjB9LCJhY2NvdW50UGFyYW1zIjp7ImluaXRDb2RlIjoiMHgiLCJhY2NvdW50QWRkcmVzcyI6IjB4NGZlM2U3ZDQyZkE4M2JlNEU4Y0YwMzQ1MUFjM0YyNTk4MGE3M2ZGNiJ9LCJlbmFibGVTaWduYXR1cmUiOiIweGI4NzYxYjAwOTVlZWFhOTBjODMwODRiMDI4N2E3YTk1MTllYWM5NzVjN2MyMGE4ZDljNzg4ZWQxNDdmM2U0ODQ3MjgyYjhhNjA5NjE5OWQ3YTI1ZGQ4MzJlZTU2ZjM3ZmUxMjBmOWMyMzYyMmYxYWQwNTBkODM4NDE2NWZkMTc4MWMiLCJwcml2YXRlS2V5IjoiMHg5MTNlZDFkZGZiOWIzZDMyNjFhZTYyYWZhMzE1MzI5MDk2OGFiYzcyYTBkMjJhMDZhNzFjNWM4NzlhZjQ5ZGM3In0='
+      console.log('Owner: ', owner.address)
+      console.log('Consumer: ', consumer.address)
+      const permissions = [
+        {
+          target: nevermined.keeper.didRegistry.contract.address,
+          abi: parseAbi([
+            'function registerMintableDID(bytes32 _didSeed, address _nftContractAddress, bytes32 _checksum, address[] memory _providers, string memory _url, uint256 _cap, uint256 _royalties, bool _mint, bytes32 _activityId, string memory _nftMetadata, string memory _immutableUrl) public',
+          ]),
+          functionName: 'registerMintableDID',
+        },
+        {
+          target: nevermined.keeper.didRegistry.contract.address,
+          abi: parseAbi([
+            'function registerMintableDID(bytes32 _didSeed,address _nftContractAddress,bytes32 _checksum,address[] memory _providers,string memory _url,uint256 _cap,uint256 _royalties,bytes32 _activityId,string memory _nftMetadata,string memory _immutableUrl) public',
+          ]),
+          functionName: 'registerMintableDID',
+        },
+        {
+          target: nevermined.keeper.token.address,
+          abi: parseAbi([
+            'function approve(address spender, uint256 amount) external returns (bool)',
+          ]),
+          functionName: 'approve',
+        },
+        {
+          target: nevermined.keeper.templates.nftSalesTemplate.address,
+          abi: parseAbi([
+            'function createAgreementAndPayEscrow(bytes32 _id, bytes32 _did, bytes32[] _conditionIds, uint256[] _timeLocks, uint256[] _timeOuts, address _accessConsumer, uint256 _idx, address _rewardAddress, address _tokenAddress, uint256[] _amounts, address[] _receivers) public',
+          ]),
+          functionName: 'createAgreementAndPayEscrow',
+        },
+        {
+          target: nevermined.keeper.token.address,
+          abi: parseAbi(['function transfer(address to, uint amount) returns (bool)']),
+          functionName: 'transfer',
+        },
+      ]
+      const sessionKeyOwner = await createSessionKey(owner, publicClient, permissions)
+      assert.isDefined(sessionKeyOwner)
 
-      const deserializedSessionKey = await getSessionKey(sessionKey, PROJECT_ID, publicClient)
+      const deserializedSessionKeyOwner = await getSessionKey(
+        sessionKeyOwner,
+        PROJECT_ID,
+        publicClient,
+      )
 
       // Login to the marketplace
-      // const acc = NvmAccount.fromAccount(owner)
-      // const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(deserializedSessionKey)
-      // const marketplaceAuthToken = await nevermined.services.marketplace.login(clientAssertion)
-      // console.log('marketplaceAuthToken', marketplaceAuthToken)
-      const account = deserializedSessionKey
+      const acc = NvmAccount.fromAccount(owner)
+      const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(acc)
+      await nevermined.services.marketplace.login(clientAssertion)
+
+      // const account = deserializedSessionKey
 
       // REGISTRATION OF AN ASSET
       //================================================================================================
-      // const subscriptionNFT = await nevermined.contracts.loadNft1155(
-      //   '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5',
-      // )
-      // const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+      const subscriptionNFT = await nevermined.contracts.loadNft1155(
+        '0xB4e92c6e1a1ad3f7b42463d11804BE6ca2be79D3',
+      )
+      const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
 
-      // const assetPrice = new AssetPrice(account.getId(), 0n).adjustToIncludeNetworkFees(
-      //   feeReceiver,
-      //   NETWORK_FEE_DENOMINATOR,
-      // )
-      // assetPrice.setTokenAddress('0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d')
+      const assetPrice = new AssetPrice(
+        deserializedSessionKeyOwner.getId(),
+        0n,
+      ).adjustToIncludeNetworkFees(feeReceiver, NETWORK_FEE_DENOMINATOR)
+      assetPrice.setTokenAddress(nevermined.keeper.token.address)
 
-      // const date = new Date().toISOString().replace(/\.\d{3}/, '')
-      // const subscriptionLimitType = SubscriptionType.Credits
-      // const metadata: MetaData = {
-      //   main: {
-      //     name: 'TEST FROM ZERODEV USING SESSION KEY',
-      //     author: account.getId(),
-      //     dateCreated: date,
-      //     datePublished: date,
-      //     type: 'subscription',
-      //     license: 'No License Specified',
-      //     files: [],
-      //     ercType: ERCType.nft1155,
-      //     nftType: NeverminedNFT1155Type.nft1155Credit,
-      //     subscription: {
-      //       timeMeasure: 'days',
-      //       subscriptionType: subscriptionLimitType,
-      //     },
-      //   },
-      //   additionalInformation: {
-      //     description: 'test',
-      //     tags: [],
-      //     customData: {
-      //       dateMeasure: 'days',
-      //       plan: 'custom',
-      //       subscriptionLimitType,
-      //     },
-      //   },
-      // }
-      // const services: ServiceAttributes[] = [
-      //   {
-      //     serviceType: 'nft-sales',
-      //     price: assetPrice,
-      //     nft: {
-      //       // duration,
-      //       amount: 10n,
-      //       nftTransfer: false,
-      //     },
-      //   },
-      // ]
+      const date = new Date().toISOString().replace(/\.\d{3}/, '')
+      const subscriptionLimitType = SubscriptionType.Credits
+      const metadata: MetaData = {
+        main: {
+          name: 'TEST FROM ZERODEV USING SESSION KEY',
+          author: deserializedSessionKeyOwner.getId(),
+          dateCreated: date,
+          datePublished: date,
+          type: 'subscription',
+          license: 'No License Specified',
+          files: [],
+          ercType: ERCType.nft1155,
+          nftType: NeverminedNFT1155Type.nft1155Credit,
+          subscription: {
+            timeMeasure: 'days',
+            subscriptionType: subscriptionLimitType,
+          },
+        },
+        additionalInformation: {
+          description: 'test',
+          tags: [],
+          customData: {
+            dateMeasure: 'days',
+            plan: 'custom',
+            subscriptionLimitType,
+          },
+        },
+      }
+      const services: ServiceAttributes[] = [
+        {
+          serviceType: 'nft-sales',
+          price: assetPrice,
+          nft: {
+            // duration,
+            amount: 10n,
+            nftTransfer: false,
+          },
+        },
+      ]
 
-      // const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
-      //   metadata,
-      //   services,
-      //   providers: ['0x046d0698926aFa3ab6D6591f03063488F3Fb4327'],
-      //   nftContractAddress: subscriptionNFT.address,
-      //   preMint: false,
-      //   royaltyAttributes: undefined,
-      // })
+      const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
+        metadata,
+        services,
+        providers: ['0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'],
+        nftContractAddress: subscriptionNFT.address,
+        preMint: false,
+        royaltyAttributes: undefined,
+      })
 
-      // const ddo = await nevermined.nfts1155.create(nftAttributes, account, {
-      //   metadata: PublishMetadataOptions.OnlyMetadataAPI,
-      // })
+      const subscriptionDDO = await nevermined.nfts1155.create(
+        nftAttributes,
+        deserializedSessionKeyOwner,
+        {
+          metadata: PublishMetadataOptions.OnlyMetadataAPI,
+        },
+      )
 
-      // assert.isDefined(ddo)
+      assert.isDefined(subscriptionDDO)
+      console.log('Subscription DDO:', subscriptionDDO)
+
+      // REGISTRATION OF A DATASET
+      //================================================================================================
+
+      const nftDatasetAttributes = NFTAttributes.getCreditsSubscriptionInstance({
+        metadata: getMetadata(),
+        services: [
+          {
+            serviceType: 'nft-access',
+            nft: {
+              tokenId: subscriptionDDO.shortId(),
+              duration: 20,
+              amount: 2n,
+              nftTransfer: false,
+              maxCreditsToCharge: 100n,
+              minCreditsToCharge: 1n,
+            },
+          },
+        ],
+        providers: ['0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'],
+        nftContractAddress: subscriptionNFT.address,
+        preMint: false,
+        royaltyAttributes: undefined,
+      })
+      const datasetDDO = await nevermined.nfts1155.create(
+        nftDatasetAttributes,
+        deserializedSessionKeyOwner,
+        {
+          metadata: PublishMetadataOptions.OnlyMetadataAPI,
+          did: PublishOnChainOptions.OnlyOffchain,
+        },
+      )
+      console.log('Dataset DDO:', datasetDDO.shortId())
 
       // ORDER OF AN ASSET
       //================================================================================================
-      // const subscriptionDid =
-      //   'did:nv:d69d06bedc777963700b3392c494fbfb980d5bb94990252d41403927132837e5'
-      // const agreementId = await nevermined.nfts1155.order(subscriptionDid, 1n, account)
-      // console.log(agreementId)
-      // const subscriptionOwner = await nevermined.assets.owner(subscriptionDid)
-      // console.log('claiming to@', subscriptionOwner)
-      // const claim = await nevermined.nfts1155.claim(
-      //   agreementId,
-      //   subscriptionOwner,
-      //   account.getId(),
-      //   undefined,
-      //   subscriptionDid,
-      //   undefined,
-      // )
-      // console.log(claim)
+      const sessionKeyConsumer = await createSessionKey(consumer, publicClient, permissions)
+      assert.isDefined(sessionKeyOwner)
+      const deserializedSessionKeyConsumer = await getSessionKey(
+        sessionKeyConsumer,
+        PROJECT_ID,
+        publicClient,
+      )
+
+      const subscriptionDid = subscriptionDDO.id
+      const agreementId = await nevermined.nfts1155.order(
+        subscriptionDid,
+        1n,
+        deserializedSessionKeyConsumer,
+      )
+
+      console.log('AgreementID', agreementId)
+      console.log('Subscripcion did', subscriptionDid)
+
+      const subscriptionOwner = await nevermined.assets.owner(subscriptionDid)
+      console.log('claiming to:', subscriptionOwner)
+      const claim = await nevermined.nfts1155.claim(
+        agreementId,
+        subscriptionOwner,
+        deserializedSessionKeyConsumer.getId(),
+        undefined,
+        subscriptionDid,
+        undefined,
+      )
+      console.log(claim)
 
       // DOWNLOAD OF AN ASSET
-      const fileDid = 'did:nv:d65e2726b37510d231a86183d0de5d9281830381b579315c64e1eea7ee3e416f'
+      //================================================================================================
+      const fileDid = datasetDDO.id
       const download = await nevermined.nfts1155.access(
         fileDid,
-        account,
+        deserializedSessionKeyConsumer,
         '/tmp/nevermined/sdk-js',
         -1,
       )
