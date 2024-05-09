@@ -107,6 +107,12 @@ describe('Nevermined API Key', () => {
       assert.equal(jwt.iss, user.getId())
     })
 
+    it('A hash of the api key can be generated', async () => {
+      const hash = JwtUtils.hashNeverminedApiKey(encryptedNvmApiKey)
+      console.log('Hash:', hash)
+      assert.isDefined(hash)
+    })
+
     it('The api token is not valid if already expired', async () => {
       const encryptedNvmApiKey = await nevermined.utils.jwt.generateEncryptedNeverminedApiKey(
         user,

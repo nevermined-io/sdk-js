@@ -462,4 +462,8 @@ export class JwtUtils extends Instantiable {
     const decompressed = inflateSync(decoded)
     return new TextDecoder().decode(decompressed)
   }
+
+  static hashNeverminedApiKey(nvmApiKey: string) {
+    return SignatureUtils.hash(nvmApiKey)
+  }
 }
