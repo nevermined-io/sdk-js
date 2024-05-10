@@ -12,7 +12,7 @@ export class NvmAccount {
   public babyX?: string
   public babyY?: string
   public babySecret?: string
-  private accountSigner?: Account
+  private accountSigner?: Account | PrivateKeyAccount
   private kernelClient?: KernelAccountClient<
     '0x0000000071727De22E5E9d8BAf0edAc6f37da032',
     Transport,
