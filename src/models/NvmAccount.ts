@@ -1,4 +1,4 @@
-import { Account, Chain, LocalAccount, Transport, toHex } from 'viem'
+import { Account, Chain, LocalAccount, PrivateKeyAccount, Transport, toHex } from 'viem'
 import { NvmAccountError } from '../errors/NeverminedErrors'
 import { NvmAccountType } from '../types/AccountTypes'
 import { parseAccount } from 'viem/utils'
@@ -12,7 +12,7 @@ export class NvmAccount {
   public babyX?: string
   public babyY?: string
   public babySecret?: string
-  private accountSigner?: Account
+  private accountSigner?: Account | PrivateKeyAccount
   private kernelClient?: KernelAccountClient<
     '0x0000000071727De22E5E9d8BAf0edAc6f37da032',
     Transport,
@@ -28,7 +28,7 @@ export class NvmAccount {
    * @param account - A viem local account
    * @returns The nevermined account
    */
-  static fromAccount(account: Account): NvmAccount {
+  static fromAccount(account: Account | PrivateKeyAccount): NvmAccount {
     const address = account.address
     const nvmAccount = new NvmAccount(address, { signerType: account.type, isZeroDev: false })
     nvmAccount.accountSigner = account
