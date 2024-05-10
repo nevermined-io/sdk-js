@@ -17,7 +17,7 @@ jobs:
         with:
           repository: nevermined-io/node
           path: node
-          ref: feat/update-node
+          ref: main
           token: ${{ secrets.API_TOKEN_GITHUB }}
       - uses: nevermined-io/nvm-tools-actions@v0.15.0
         with:
