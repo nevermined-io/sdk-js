@@ -12,10 +12,10 @@
   resolved "https://registry.yarnpkg.com/@adraffy/ens-normalize/-/ens-normalize-1.10.1.tgz#63430d04bd8c5e74f8d7d049338f1cd9d4f02069"
   integrity sha512-96Z2IP3mYmF1Xg2cDm8f1gWGf/HUVedQ3FMifV4kG/PQ4yEP51xDtRAEfhVNt5f/uzpNkZHwWQuUcu6D6K+Ekw==
 
-"@alchemy/aa-core@3.12.1":
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/@alchemy/aa-core/-/aa-core-3.12.1.tgz#fd07254d3ae0c3697176fa847d3c947d3726c3e5"
-  integrity sha512-Zq907/RkBEqf3IV/YPaua6F67z6jLsVY3eDvTVe+1Xt2dVfdR1gkjA8/9Faya1Qvy3+AKoIrNbilGsJ2+kRRzg==
+"@alchemy/aa-core@3.12.3":
+  version "3.12.3"
+  resolved "https://registry.yarnpkg.com/@alchemy/aa-core/-/aa-core-3.12.3.tgz#25ddd6533f0fe0590c28eba7d0a444c4f168ea64"
+  integrity sha512-nU2pvGIsWI9Wwo3aNcfke1ZJJiec5rmqkh7McTRK6G8ff1gE0yGZUBzd/73rsdWGmhBN8G5VmX0KN016+amzVQ==
   dependencies:
     abitype "^0.8.3"
     eventemitter3 "^5.0.1"
@@ -11253,10 +11253,10 @@ viem@2.8.6:
     isows "1.0.3"
     ws "8.13.0"
 
-viem@^2.10.3:
-  version "2.10.5"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-2.10.5.tgz#97e53421e20886b34e4e5e03d01f8b6e320d216f"
-  integrity sha512-rzU2y6poYgXu7axcQmwddaJ/nGP3tjtslXdUCu+PvryeXACuuqoyP3chjTEHciG84a663gYbrVGbxNUFA3aURQ==
+viem@2.9.31:
+  version "2.9.31"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.9.31.tgz#cfe8e1bb81d358c9117e5e1144d26a95d8aab3dd"
+  integrity sha512-8aJ8Dm/591Czwb/nRayo0z8Ls5KxqC4QYE33fmHwhx2tDUWC/hHcPZqjLRSTWFtAfi0aZKvP7BeB6UZ3ZkTRhQ==
   dependencies:
     "@adraffy/ens-normalize" "1.10.0"
     "@noble/curves" "1.2.0"
