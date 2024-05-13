@@ -79,7 +79,7 @@ if (process.env.NETWORK_NAME === 'one-staging') {
     marketplaceUri: 'https://marketplace-api.staging.nevermined.app',
     neverminedNodeUri: 'https://node.staging.nevermined.app',
     web3ProviderUri: `https://arbitrum-sepolia.infura.io/v3/${infuraToken}`,
-    neverminedNodeAddress: '0x046d0698926aFa3ab6D6591f03063488F3Fb4327',
+    neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
     graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
   } as NeverminedOptions)
 }

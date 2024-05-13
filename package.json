@@ -52,8 +52,6 @@
   "dependencies": {
     "@alchemy/aa-core": "3.12.1",
     "@apollo/client": "^3.7.16",
-    "@simplewebauthn/browser": "^10.0.0",
-    "@simplewebauthn/typescript-types": "^8.3.4",
     "@turnkey/viem": "0.4.16",
     "@zerodev/ecdsa-validator": "5.2.3",
     "@zerodev/permissions": "5.2.7-alpha-1",
