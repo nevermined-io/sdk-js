@@ -5,12 +5,6 @@ import {
   createKernelAccountClient,
   createZeroDevPaymasterClient,
 } from '@zerodev/sdk'
-import {
-  deserializeSessionKeyAccount,
-  oneAddress,
-  serializeSessionKeyAccount,
-  signerToSessionKeyValidator,
-} from '@zerodev/session-key'
 import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
 import { EntryPoint } from 'permissionless/types'
 import {
@@ -51,6 +45,13 @@ import { KeeperError } from '../../errors/NeverminedErrors'
 import { NvmAccount } from '../../models/NvmAccount'
 import { didZeroX } from '../../utils/ConversionTypeHelpers'
 import { getChain } from '../../utils/Network'
+import {
+  deserializePermissionAccount,
+  serializePermissionAccount,
+  toPermissionValidator,
+} from '@zerodev/permissions'
+import { toECDSASigner } from '@zerodev/permissions/signers'
+import { toCallPolicy } from '@zerodev/permissions/policies'
 
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
@@ -429,26 +430,42 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
     signer,
   })
   const sessionPrivateKey = generatePrivateKey()
-  const sessionKeySigner = privateKeyToAccount(sessionPrivateKey)
+  const masterAccount = privateKeyToAccount(sessionPrivateKey)
 
-  const sessionKeyValidator = await signerToSessionKeyValidator(publicClient, {
+  const sessionKeySigner = await toECDSASigner({
+    signer: masterAccount,
+  })
+
+  // const sessionKeyValidator = await signerToSessionKeyValidator(publicClient, {
+  //   entryPoint: ENTRYPOINT_ADDRESS_V07,
+  //   signer: sessionKeySigner,
+  //   validatorData: {
+  //     paymaster: oneAddress,
+  //     validAfter: 0,
+  //     validUntil: 0,
+  //     permissions,
+  //   },
+  // })
+
+  const callPolicy = toCallPolicy({
+    permissions: permissions,
+  })
+
+  const permissionPlugin = await toPermissionValidator(publicClient, {
     entryPoint: ENTRYPOINT_ADDRESS_V07,
     signer: sessionKeySigner,
-    validatorData: {
-      paymaster: oneAddress,
-      validAfter: 0,
-      validUntil: 0,
-      permissions,
-    },
+    policies: [callPolicy],
   })
+
   const sessionKeyAccount = await createKernelAccount(publicClient, {
     entryPoint: ENTRYPOINT_ADDRESS_V07,
     plugins: {
       sudo: ecdsaValidator,
-      regular: sessionKeyValidator,
+      regular: permissionPlugin,
     },
   })
-  return serializeSessionKeyAccount(sessionKeyAccount, sessionPrivateKey)
+
+  return serializePermissionAccount(sessionKeyAccount, sessionPrivateKey)
 }
 
 export async function getSessionKey(
@@ -457,7 +474,7 @@ export async function getSessionKey(
   publicClient: any,
 ) {
   const chainId = await publicClient.getChainId()
-  const sessionKeyAccount = await deserializeSessionKeyAccount(
+  const sessionKeyAccount = await deserializePermissionAccount(
     publicClient,
     ENTRYPOINT_ADDRESS_V07,
     serializedSessionKey,
