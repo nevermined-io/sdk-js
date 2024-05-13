@@ -8,17 +8,17 @@ import { createPublicClient, http, parseAbi } from 'viem'
 import { arbitrumSepolia } from 'viem/chains'
 import {
   // AssetAttributes,
-  AssetPrice,
-  ERCType,
-  MetaData,
-  NETWORK_FEE_DENOMINATOR,
-  NFTAttributes,
+  // AssetPrice,
+  // ERCType,
+  // MetaData,
+  // NETWORK_FEE_DENOMINATOR,
+  // NFTAttributes,
   Nevermined,
-  NeverminedNFT1155Type,
+  // NeverminedNFT1155Type,
   NvmAccount,
-  PublishMetadataOptions,
-  ServiceAttributes,
-  SubscriptionType,
+  // PublishMetadataOptions,
+  // ServiceAttributes,
+  // SubscriptionType,
   makeRandomWallet,
 } from '../../src'
 // import { DDO } from '../../src/ddo'
@@ -330,89 +330,89 @@ describe('Nevermined sdk with zerodev', () => {
 
       // REGISTRATION OF AN ASSET
       //================================================================================================
-      const subscriptionNFT = await nevermined.contracts.loadNft1155(
-        '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5',
-      )
-      const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
+      // const subscriptionNFT = await nevermined.contracts.loadNft1155(
+      //   '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5',
+      // )
+      // const feeReceiver = await nevermined.keeper.nvmConfig.getFeeReceiver()
 
-      const assetPrice = new AssetPrice(account.getId(), 0n).adjustToIncludeNetworkFees(
-        feeReceiver,
-        NETWORK_FEE_DENOMINATOR,
-      )
-      assetPrice.setTokenAddress('0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d')
+      // const assetPrice = new AssetPrice(account.getId(), 0n).adjustToIncludeNetworkFees(
+      //   feeReceiver,
+      //   NETWORK_FEE_DENOMINATOR,
+      // )
+      // assetPrice.setTokenAddress('0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d')
 
-      const date = new Date().toISOString().replace(/\.\d{3}/, '')
-      const subscriptionLimitType = SubscriptionType.Credits
-      const metadata: MetaData = {
-        main: {
-          name: 'TEST FROM ZERODEV USING SESSION KEY',
-          author: account.getId(),
-          dateCreated: date,
-          datePublished: date,
-          type: 'subscription',
-          license: 'No License Specified',
-          files: [],
-          ercType: ERCType.nft1155,
-          nftType: NeverminedNFT1155Type.nft1155Credit,
-          subscription: {
-            timeMeasure: 'days',
-            subscriptionType: subscriptionLimitType,
-          },
-        },
-        additionalInformation: {
-          description: 'test',
-          tags: [],
-          customData: {
-            dateMeasure: 'days',
-            plan: 'custom',
-            subscriptionLimitType,
-          },
-        },
-      }
-      const services: ServiceAttributes[] = [
-        {
-          serviceType: 'nft-sales',
-          price: assetPrice,
-          nft: {
-            // duration,
-            amount: 10n,
-            nftTransfer: false,
-          },
-        },
-      ]
+      // const date = new Date().toISOString().replace(/\.\d{3}/, '')
+      // const subscriptionLimitType = SubscriptionType.Credits
+      // const metadata: MetaData = {
+      //   main: {
+      //     name: 'TEST FROM ZERODEV USING SESSION KEY',
+      //     author: account.getId(),
+      //     dateCreated: date,
+      //     datePublished: date,
+      //     type: 'subscription',
+      //     license: 'No License Specified',
+      //     files: [],
+      //     ercType: ERCType.nft1155,
+      //     nftType: NeverminedNFT1155Type.nft1155Credit,
+      //     subscription: {
+      //       timeMeasure: 'days',
+      //       subscriptionType: subscriptionLimitType,
+      //     },
+      //   },
+      //   additionalInformation: {
+      //     description: 'test',
+      //     tags: [],
+      //     customData: {
+      //       dateMeasure: 'days',
+      //       plan: 'custom',
+      //       subscriptionLimitType,
+      //     },
+      //   },
+      // }
+      // const services: ServiceAttributes[] = [
+      //   {
+      //     serviceType: 'nft-sales',
+      //     price: assetPrice,
+      //     nft: {
+      //       // duration,
+      //       amount: 10n,
+      //       nftTransfer: false,
+      //     },
+      //   },
+      // ]
 
-      const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
-        metadata,
-        services,
-        providers: ['0x046d0698926aFa3ab6D6591f03063488F3Fb4327'],
-        nftContractAddress: subscriptionNFT.address,
-        preMint: false,
-        royaltyAttributes: undefined,
-      })
+      // const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
+      //   metadata,
+      //   services,
+      //   providers: ['0x046d0698926aFa3ab6D6591f03063488F3Fb4327'],
+      //   nftContractAddress: subscriptionNFT.address,
+      //   preMint: false,
+      //   royaltyAttributes: undefined,
+      // })
 
-      const ddo = await nevermined.nfts1155.create(nftAttributes, account, {
-        metadata: PublishMetadataOptions.OnlyMetadataAPI,
-      })
+      // const ddo = await nevermined.nfts1155.create(nftAttributes, account, {
+      //   metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      // })
 
-      assert.isDefined(ddo)
+      // assert.isDefined(ddo)
 
       // ORDER OF AN ASSET
       //================================================================================================
-      // const subscriptionDid =
-      //   'did:nv:d69d06bedc777963700b3392c494fbfb980d5bb94990252d41403927132837e5'
-      // const agreementId = await nevermined.nfts1155.order(subscriptionDid, 1n, account)
-      // console.log(agreementId)
-      // const subscriptionOwner = await nevermined.assets.owner(subscriptionDid)
-      // console.log('claiming to@', subscriptionOwner)
-      // const claim = await nevermined.nfts1155.claim(
-      //   agreementId,
-      //   subscriptionOwner,
-      //   account.getId(),
-      //   undefined,
-      //   subscriptionDid,
-      //   undefined,
-      // )
-      // console.log(claim)
+      const subscriptionDid =
+        'did:nv:e9da1bc2c9fc2a79ea8047eb4d30ec5ed438dbf9aa1d3f612875bdd882a6c466'
+      const agreementId = await nevermined.nfts1155.order(subscriptionDid, 1n, account)
+      console.log(agreementId)
+      const subscriptionOwner = await nevermined.assets.owner(subscriptionDid)
+      console.log('claiming to@', subscriptionOwner)
+      const claim = await nevermined.nfts1155.claim(
+        agreementId,
+        subscriptionOwner,
+        account.getId(),
+        undefined,
+        subscriptionDid,
+        undefined,
+      )
+      console.log(claim)
 
       // DOWNLOAD OF AN ASSET
       //================================================================================================

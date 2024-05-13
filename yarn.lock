@@ -1709,6 +1709,13 @@
     "@noble/hashes" "~1.3.2"
     "@scure/base" "~1.1.4"
 
+"@simplewebauthn/browser@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@simplewebauthn/browser/-/browser-10.0.0.tgz#8305a57dacb35ab6a71a8b670c699ee7ef1c11c4"
+  integrity sha512-hG0JMZD+LiLUbpQcAjS4d+t4gbprE/dLYop/CkE01ugU/9sKXflxV5s0DRjdz3uNMFecatRfb4ZLG3XvF8m5zg==
+  dependencies:
+    "@simplewebauthn/types" "^10.0.0"
+
 "@simplewebauthn/browser@^9.0.1":
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/@simplewebauthn/browser/-/browser-9.0.1.tgz#46a12c2bcefcb199f7fcb6a7e883531cd6efde17"
@@ -1716,10 +1723,20 @@
   dependencies:
     "@simplewebauthn/types" "^9.0.1"
 
+"@simplewebauthn/types@^10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@simplewebauthn/types/-/types-10.0.0.tgz#a07259d42fbdff7a014473f78401d262b298ed8e"
+  integrity sha512-SFXke7xkgPRowY2E+8djKbdEznTVnD5R6GO7GPTthpHrokLvNKw8C3lFZypTxLI7KkCfGPfhtqB3d7OVGGa9jQ==
+
 "@simplewebauthn/types@^9.0.1":
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/@simplewebauthn/types/-/types-9.0.1.tgz#3a68d50e63d8821cf2067de3324c68d5e8120d0c"
   integrity sha512-tGSRP1QvsAvsJmnOlRQyw/mvK9gnPtjEc5fg2+m8n+QUa+D7rvrKkOYyfpy42GTs90X3RDOnqJgfHt+qO67/+w==
+
+"@simplewebauthn/typescript-types@^8.3.4":
+  version "8.3.4"
+  resolved "https://registry.yarnpkg.com/@simplewebauthn/typescript-types/-/typescript-types-8.3.4.tgz#bd7793653e25f7e4e57215776db57873dfa7d883"
+  integrity sha512-38xtca0OqfRVNloKBrFB5LEM6PN5vzFbJG6rAutPVrtGHFYxPdiV3btYWq0eAZAZmP+dqFPYJxJWeJrGfmYHng==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
@@ -2599,10 +2616,10 @@
   resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.2.3.tgz#19f55620c2254df53677662ce0715172675f28ed"
   integrity sha512-zeJjYhOW5EWK6XnctPt3iVnrqmrHfb81p/fJKaY4yQnL2ZYPrH37ZgtY1z5COETPCDTm65+jPfc1Zn/dziyAXQ==
 
-"@zerodev/permissions@^5.2.6":
-  version "5.2.6"
-  resolved "https://registry.yarnpkg.com/@zerodev/permissions/-/permissions-5.2.6.tgz#3b2d458dd796f67f430ce5efbdf504b993112f4f"
-  integrity sha512-y+Vr7wyhuL3g9//doJ9eEqNkh+zLFsf62sP3q9/SjgRZTvkXxw1Hn5iBJ7mxhHPj5tRxQCzWLojKQAOu731Iig==
+"@zerodev/permissions@5.2.7-alpha-1":
+  version "5.2.7-alpha-1"
+  resolved "https://registry.yarnpkg.com/@zerodev/permissions/-/permissions-5.2.7-alpha-1.tgz#d46f6c4a315338c1fa4876edc55a9332c83755ac"
+  integrity sha512-WOirS5rL2kzSPejqCSlJwJnV8OpQEwT/k9lAEyE5Fp+Ia4tajZn+NMj8R5v9VG8xi4e6oposf4h/aqqLjjrcSg==
   dependencies:
     "@simplewebauthn/browser" "^9.0.1"
     merkletreejs "^0.3.11"
@@ -9052,10 +9069,10 @@ pbkdf2@^3.0.17, pbkdf2@^3.0.3, pbkdf2@^3.1.2:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-permissionless@^0.1.22:
-  version "0.1.22"
-  resolved "https://registry.yarnpkg.com/permissionless/-/permissionless-0.1.22.tgz#9668b8719a6d819677fb479731a09fc15a99595a"
-  integrity sha512-C+1l3dkYKOicCilPXLbm5JfnLOKK+Efprg69SG+WRsNjuXHi4zSdQgex/7lF5hh4WvcaWRRMm1NCA523XlwCJw==
+permissionless@0.1.28:
+  version "0.1.28"
+  resolved "https://registry.yarnpkg.com/permissionless/-/permissionless-0.1.28.tgz#3609b7ee431866eb45821707593651991da65355"
+  integrity sha512-JjE4IofN2B1pqB4L7g/9G325pKXCGuPHfpc390jtVvk4CjnIIVQN1NwO97eb+bAYty+1aoBgYsw6ezxH1WmgWA==
 
 picocolors@^1.0.0:
   version "1.0.0"
@@ -10905,7 +10922,7 @@ typedoc@^0.25.12:
     minimatch "^9.0.3"
     shiki "^0.14.7"
 
-"typescript@^4.6.4 || ^5.2.2", typescript@^5.1, typescript@^5.4.3:
+"typescript@^4.6.4 || ^5.2.2", typescript@^5.1, typescript@^5.2.2:
   version "5.4.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.4.5.tgz#42ccef2c571fdbd0f6718b1d1f5e6e5ef006f611"
   integrity sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==
@@ -11259,10 +11276,10 @@ viem@2.8.6:
     isows "1.0.3"
     ws "8.13.0"
 
-viem@2.9.31:
-  version "2.9.31"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-2.9.31.tgz#cfe8e1bb81d358c9117e5e1144d26a95d8aab3dd"
-  integrity sha512-8aJ8Dm/591Czwb/nRayo0z8Ls5KxqC4QYE33fmHwhx2tDUWC/hHcPZqjLRSTWFtAfi0aZKvP7BeB6UZ3ZkTRhQ==
+viem@^2.10.3:
+  version "2.10.5"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.10.5.tgz#97e53421e20886b34e4e5e03d01f8b6e320d216f"
+  integrity sha512-rzU2y6poYgXu7axcQmwddaJ/nGP3tjtslXdUCu+PvryeXACuuqoyP3chjTEHciG84a663gYbrVGbxNUFA3aURQ==
   dependencies:
     "@adraffy/ens-normalize" "1.10.0"
     "@noble/curves" "1.2.0"

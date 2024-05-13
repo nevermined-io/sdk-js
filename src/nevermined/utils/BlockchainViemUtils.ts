@@ -1,5 +1,12 @@
 import { signerToEcdsaValidator } from '@zerodev/ecdsa-validator'
 import {
+  deserializePermissionAccount,
+  serializePermissionAccount,
+  toPermissionValidator,
+} from '@zerodev/permissions'
+import { toCallPolicy } from '@zerodev/permissions/policies'
+import { toECDSASigner } from '@zerodev/permissions/signers'
+import {
   SponsorUserOperationParameters,
   createKernelAccount,
   createKernelAccountClient,
@@ -45,13 +52,6 @@ import { KeeperError } from '../../errors/NeverminedErrors'
 import { NvmAccount } from '../../models/NvmAccount'
 import { didZeroX } from '../../utils/ConversionTypeHelpers'
 import { getChain } from '../../utils/Network'
-import {
-  deserializePermissionAccount,
-  serializePermissionAccount,
-  toPermissionValidator,
-} from '@zerodev/permissions'
-import { toECDSASigner } from '@zerodev/permissions/signers'
-import { toCallPolicy } from '@zerodev/permissions/policies'
 
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
