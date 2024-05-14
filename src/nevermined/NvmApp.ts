@@ -72,7 +72,7 @@ export class NvmApp {
   private fullSDK: Nevermined | undefined
   // private useZeroDevSigner: boolean = false
   private zeroDevSignerAccount: SmartAccountSigner<'custom', `0x${string}`> | undefined
-  private assetProviders: string[] = []
+  public assetProviders: string[] = []
   private loginCredentials: string | undefined
   private subscriptionNFTContractAddress: string | undefined
   private networkFeeReceiver: string | undefined
@@ -157,6 +157,11 @@ export class NvmApp {
     this.fullSDK = await Nevermined.getInstance(config ? config : this.configNVM, ops)
 
     if (config && config.zeroDevProjectId) {
+      // const signer = this.fullSDK.accounts.getAccount(account as string)
+      // const smartAccountSigner = await providerToSmartAccountSigner(config.web3Provider, {
+      //   signerAddress: signer.getAddress(),
+      // })
+
       const kernelClient = await createKernelClient(
         account,
         config.chainId!,
@@ -283,21 +288,6 @@ export class NvmApp {
     if (!this.fullSDK || !this.isWeb3Connected() || !this.networkFeeReceiver || !this.networkFee)
       throw new Web3Error('Web3 not connected, try calling the connect method first')
     return { receiver: this.networkFeeReceiver, fee: this.networkFee }
-  }
-
-  /**
-   * Gets the asset providers that are associated to the new assets registered.
-   * @returns An array of asset providers.
-   */
-  public get getAssetProviders(): string[] {
-    return this.assetProviders
-  }
-
-  /**
-   * Sets the asset providers for the new assets registered.
-   */
-  public set setAssetProviders(providers: string[]) {
-    this.assetProviders = providers
   }
 
   /**
