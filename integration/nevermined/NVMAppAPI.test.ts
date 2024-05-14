@@ -111,7 +111,7 @@ describe('NVM App API', () => {
       signerAddress = defaultSigner.getAddress()
       console.log(`Account address: ${signerAddress}`)
       await nvmApp.connect(defaultSigner)
-      nvmApp.assetProviders = [publisher.getId()]
+      nvmApp.assetProviders.push(publisher.getId())
 
       assert.isTrue(nvmApp.isWeb3Connected())
 
