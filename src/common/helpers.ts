@@ -2,6 +2,7 @@ import { URL } from 'whatwg-url'
 import { v4 } from 'uuid'
 import { SearchQuery } from '../types'
 import { encrypt, decrypt } from 'eccrypto'
+import { noZeroX } from '../utils/ConversionTypeHelpers'
 
 export const buildQuery = (url: string, query?: SearchQuery) => {
   const fullUrl = new URL(url)
@@ -71,15 +72,16 @@ export function urlSafeBase64Decode(input: string): Uint8Array {
 }
 
 export async function encryptMessage(message: string, receiverPublicKey: string) {
-  const publicKeyBuffer = Buffer.from(receiverPublicKey.slice(2), 'hex')
+  const publicKeyBuffer = Buffer.from(noZeroX(receiverPublicKey), 'hex')
   const messageBuffer = Buffer.from(message)
   const ecies = await encrypt(publicKeyBuffer, messageBuffer)
   return serializeECIES(ecies)
 }
 
-export async function decryptMessage(encryptedMessage: string, privateKey: string) {
+export async function decryptMessage(encryptedMessage: string, privateKey: string | any) {
   const ecies = deserializeECIES(encryptedMessage)
-  const decrypted = await decrypt(Buffer.from(privateKey, 'hex'), ecies)
+  const pk = typeof privateKey === 'string' ? noZeroX(privateKey) : privateKey
+  const decrypted = await decrypt(Buffer.from(pk, 'hex'), ecies)
   return Buffer.from(decrypted, 'hex').toString()
 }
 

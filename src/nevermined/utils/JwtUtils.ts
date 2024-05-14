@@ -381,6 +381,11 @@ export class JwtUtils extends Instantiable {
     const issuerAddress = getChecksumAddress(issuerAccount.getId())
     const sub = getChecksumAddress(receiverAddress)
 
+    const eip712Data = {
+      message: 'Sign this message to generate the API Key',
+      chainId,
+    }
+
     const params = {
       iss: issuerAddress,
       aud: chainId.toString(),
@@ -394,7 +399,7 @@ export class JwtUtils extends Instantiable {
       .setProtectedHeader({ alg: 'ES256K' })
       .setIssuedAt()
       .setExpirationTime(expirationTime)
-      .ethSign(this.nevermined.utils.signature, issuerAccount)
+      .ethSign(this.nevermined.utils.signature, issuerAccount, eip712Data)
     return JwtUtils.createCompressedJwt(signed)
   }
 

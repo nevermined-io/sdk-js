@@ -33,6 +33,10 @@ describe('Nevermined API Key', () => {
       providerAddress = provider.getId()
       providerPublicKey = provider.getAccountSigner().publicKey
       providerPrivateKey = provider.getAccountSigner().getHdKey().privateKey
+
+      console.log('Provider Public Key:', providerPublicKey)
+      console.log('Provider Private Key:', providerPrivateKey)
+      console.log('Private Key encoded: ', Buffer.from(providerPrivateKey, 'hex'))
     })
 
     it('I can compress and decompress', async () => {
@@ -153,6 +157,32 @@ describe('Nevermined API Key', () => {
       } catch (error) {
         assert.isDefined(error)
       }
+    })
+
+    it('As a user I can generate a NVM API Key for the NODE', async () => {
+      const address = '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
+      const publicKey =
+        '0x04d793eb43ef7d191bf64f127c9f1a2c9037406d72706d3be7dc564fb9a9f08f21156b32d1ee3afbe64cc9f676f6facffac1377f7804daf932d3b8aa04fdeb0630'
+      const privateKey = '0x9bf5d7e4978ed5206f760e6daded34d657572bd49fa5b3fe885679329fb16b16'
+
+      encryptedNvmApiKey = await nevermined.utils.jwt.generateEncryptedNeverminedApiKey(
+        user,
+        zeroDevSessionKey,
+        marketplaceAuthToken,
+        address,
+        publicKey,
+      )
+      assert.isDefined(encryptedNvmApiKey)
+      console.log('NVM API Key valid for the Node:', encryptedNvmApiKey)
+      console.log('JWT Compressed size:', encryptedNvmApiKey.length)
+
+      const jwt = await nevermined.utils.jwt.decryptAndDecodeNeverminedApiKey(
+        encryptedNvmApiKey,
+        privateKey,
+      )
+      assert.isDefined(jwt)
+
+      assert.isTrue(nevermined.utils.jwt.isNeverminedApiKeyValid(jwt))
     })
   })
 })
