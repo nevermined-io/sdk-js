@@ -2599,18 +2599,18 @@
   resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.2.3.tgz#19f55620c2254df53677662ce0715172675f28ed"
   integrity sha512-zeJjYhOW5EWK6XnctPt3iVnrqmrHfb81p/fJKaY4yQnL2ZYPrH37ZgtY1z5COETPCDTm65+jPfc1Zn/dziyAXQ==
 
-"@zerodev/permissions@5.2.7-alpha-1":
-  version "5.2.7-alpha-1"
-  resolved "https://registry.yarnpkg.com/@zerodev/permissions/-/permissions-5.2.7-alpha-1.tgz#d46f6c4a315338c1fa4876edc55a9332c83755ac"
-  integrity sha512-WOirS5rL2kzSPejqCSlJwJnV8OpQEwT/k9lAEyE5Fp+Ia4tajZn+NMj8R5v9VG8xi4e6oposf4h/aqqLjjrcSg==
+"@zerodev/permissions@5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@zerodev/permissions/-/permissions-5.2.6.tgz#3b2d458dd796f67f430ce5efbdf504b993112f4f"
+  integrity sha512-y+Vr7wyhuL3g9//doJ9eEqNkh+zLFsf62sP3q9/SjgRZTvkXxw1Hn5iBJ7mxhHPj5tRxQCzWLojKQAOu731Iig==
   dependencies:
     "@simplewebauthn/browser" "^9.0.1"
     merkletreejs "^0.3.11"
 
-"@zerodev/sdk@5.2.11":
-  version "5.2.11"
-  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.2.11.tgz#56841b9416889f0fb1fd9beb461f6c6d6a6c802e"
-  integrity sha512-42wl3vW+CPQTghOnAlVAwEiT7Aa+cb89EztY5NCX03jGHj64D38ZIRytZkIu4pleGGFHL7B29af6RYzGJPO0NQ==
+"@zerodev/sdk@5.2.12":
+  version "5.2.12"
+  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.2.12.tgz#e3b3bcefe2fbe8ceae3ac3341e32a9d45aa9509a"
+  integrity sha512-UvEITrmHKsWZMTUVyG3nKqLEjEmApyMx/rzbQZUeVWTKWiGGNJNd30UHG3mWe0jppahVduODagOzdkLrHdidpQ==
   dependencies:
     semver "^7.6.0"
 

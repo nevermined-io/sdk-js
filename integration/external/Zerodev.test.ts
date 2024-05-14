@@ -28,6 +28,7 @@ import {
   getSessionKey,
 } from '../../src/nevermined/utils/BlockchainViemUtils'
 import { config } from '../config'
+import { toECDSASigner } from '@zerodev/permissions/signers'
 // import { getMetadata } from '../utils'
 
 describe('Nevermined sdk with zerodev', () => {
@@ -317,16 +318,32 @@ describe('Nevermined sdk with zerodev', () => {
           functionName: 'transfer',
         },
       ]
-      const sessionKey = await createSessionKey(owner, publicClient, permissions)
-      assert.isDefined(sessionKey)
-      const deserializedSessionKey = await getSessionKey(sessionKey, PROJECT_ID, publicClient)
 
       // Login to the marketplace
       const acc = NvmAccount.fromAccount(owner)
       const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(acc)
       const marketplaceAuthToken = await nevermined.services.marketplace.login(clientAssertion)
       console.log('marketplaceAuthToken', marketplaceAuthToken)
+
+      console.log(acc.getAddress())
+
+      const sessionKey = await createSessionKey(owner, publicClient, permissions)
+      console.log(sessionKey)
+      assert.isDefined(sessionKey)
+
+      const sessionKeySigner = await toECDSASigner({
+        signer: owner,
+      })
+
+      const deserializedSessionKey = await getSessionKey(
+        sessionKey,
+        PROJECT_ID,
+        publicClient,
+        sessionKeySigner,
+      )
+      console.log(deserializedSessionKey)
       const account = deserializedSessionKey
+      console.log(account)
 
       // REGISTRATION OF AN ASSET
       //================================================================================================
@@ -384,7 +401,7 @@ describe('Nevermined sdk with zerodev', () => {
       // const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
       //   metadata,
       //   services,
-      //   providers: ['0x046d0698926aFa3ab6D6591f03063488F3Fb4327'],
+      //   providers: ['0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'],
       //   nftContractAddress: subscriptionNFT.address,
       //   preMint: false,
       //   royaltyAttributes: undefined,
@@ -399,8 +416,8 @@ describe('Nevermined sdk with zerodev', () => {
       // ORDER OF AN ASSET
       //================================================================================================
       const subscriptionDid =
-        'did:nv:e9da1bc2c9fc2a79ea8047eb4d30ec5ed438dbf9aa1d3f612875bdd882a6c466'
-      const agreementId = await nevermined.nfts1155.order(subscriptionDid, 1n, account)
+        'did:nv:6d6b448eeeb2072717614016269bff28d035e4191783d7335f067b5218c79d64'
+      const agreementId = await nevermined.nfts1155.order(subscriptionDid, 10n, account)
       console.log(agreementId)
       const subscriptionOwner = await nevermined.assets.owner(subscriptionDid)
       console.log('claiming to@', subscriptionOwner)

@@ -1,10 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-<<<<<<< feat/update-session-keys
-  "version": "3.0.6-rc0",
-=======
   "version": "3.0.6",
->>>>>>> main
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -58,8 +54,8 @@
     "@apollo/client": "^3.7.16",
     "@turnkey/viem": "0.4.16",
     "@zerodev/ecdsa-validator": "5.2.3",
-    "@zerodev/permissions": "5.2.7-alpha-1",
-    "@zerodev/sdk": "5.2.11",
+    "@zerodev/permissions": "5.2.6",
+    "@zerodev/sdk": "5.2.12",
     "assert": "^2.0.0",
     "cross-fetch": "^4.0.0",
     "crypto-browserify": "^3.12.0",
