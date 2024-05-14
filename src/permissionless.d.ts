@@ -7,8 +7,16 @@ declare module 'permissionless/accounts' {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     TAddress extends Address = Address,
   > {}
+  export class SignTransactionNotSupportedBySmartAccount extends BaseError {}
 }
 
-declare module 'permissionless/types' {
-  export type EntryPoint = string
+export type EntryPoint = string
+
+declare module '@zerodev/permissions/signers' {
+  export function toECDSASigner<
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    TSource extends string = 'custom',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    TAddress extends Address = Address,
+  >({ signer })
 }

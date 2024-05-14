@@ -1,17 +1,20 @@
 import { signerToEcdsaValidator } from '@zerodev/ecdsa-validator'
 import {
+  ModularSigner,
+  deserializePermissionAccount,
+  serializePermissionAccount,
+  toPermissionValidator,
+} from '@zerodev/permissions'
+import { toCallPolicy } from '@zerodev/permissions/policies'
+import { toECDSASigner } from '@zerodev/permissions/signers'
+import {
   SponsorUserOperationParameters,
+  addressToEmptyAccount,
   createKernelAccount,
   createKernelAccountClient,
   createZeroDevPaymasterClient,
 } from '@zerodev/sdk'
-import {
-  deserializeSessionKeyAccount,
-  oneAddress,
-  serializeSessionKeyAccount,
-  signerToSessionKeyValidator,
-} from '@zerodev/session-key'
-import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless'
+import { ENTRYPOINT_ADDRESS_V07 } from 'permissionless'
 import { EntryPoint } from 'permissionless/types'
 import {
   Abi,
@@ -38,13 +41,7 @@ import {
   parseEther as viemParseEther,
   parseUnits as viemParseUnits,
 } from 'viem'
-import {
-  english,
-  generateMnemonic,
-  generatePrivateKey,
-  mnemonicToAccount,
-  privateKeyToAccount,
-} from 'viem/accounts'
+import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
 import { Instantiable, InstantiableConfig, Web3Clients } from '../../Instantiable.abstract'
 import { _sleep } from '../../common/helpers'
 import { KeeperError } from '../../errors/NeverminedErrors'
@@ -390,19 +387,19 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
 
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
     signer,
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
   })
 
   const account = await createKernelAccount(publicClient, {
     plugins: {
       sudo: ecdsaValidator,
     },
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
   })
 
   return createKernelAccountClient({
     account,
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
     chain: getChain(chainId),
     bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
     middleware: {
@@ -410,13 +407,13 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
         const paymasterClient = createZeroDevPaymasterClient({
           chain: getChain(chainId),
           transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
-          entryPoint: ENTRYPOINT_ADDRESS_V06,
+          entryPoint: ENTRYPOINT_ADDRESS_V07,
         })
         const _userOperation =
           userOperation as SponsorUserOperationParameters<EntryPoint>['userOperation']
         return paymasterClient.sponsorUserOperation({
           userOperation: _userOperation,
-          entryPoint: ENTRYPOINT_ADDRESS_V06,
+          entryPoint: ENTRYPOINT_ADDRESS_V07,
         })
       },
     },
@@ -424,51 +421,74 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
 }
 
 export async function createSessionKey(signer: any, publicClient: any, permissions: any[]) {
+  console.log('signer', signer)
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
     signer,
   })
-  const sessionPrivateKey = generatePrivateKey()
-  const sessionKeySigner = privateKeyToAccount(sessionPrivateKey)
+  // const sessionPrivateKey = generatePrivateKey()
+  // const masterAccount = privateKeyToAccount(sessionPrivateKey)
 
-  const sessionKeyValidator = await signerToSessionKeyValidator(publicClient, {
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
-    signer: sessionKeySigner,
-    validatorData: {
-      paymaster: oneAddress,
-      validAfter: 0,
-      validUntil: 0,
-      permissions,
-    },
+  // const sessionKeySigner = await toECDSASigner({
+  //   signer: masterAccount,
+  // })
+  const emptyAccount = addressToEmptyAccount(signer.address)
+  console.log('emptyAccount', emptyAccount)
+  const emptySessionKeySigner = await toECDSASigner({ signer: emptyAccount })
+  console.log('emptySessionKeySigner', emptySessionKeySigner)
+
+  // const sessionKeyValidator = await signerToSessionKeyValidator(publicClient, {
+  //   entryPoint: ENTRYPOINT_ADDRESS_V07,
+  //   signer: sessionKeySigner,
+  //   validatorData: {
+  //     paymaster: oneAddress,
+  //     validAfter: 0,
+  //     validUntil: 0,
+  //     permissions,
+  //   },
+  // })
+
+  const callPolicy = toCallPolicy({
+    permissions: permissions,
   })
+
+  const permissionPlugin = await toPermissionValidator(publicClient, {
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
+    signer: emptySessionKeySigner,
+    policies: [callPolicy],
+  })
+
   const sessionKeyAccount = await createKernelAccount(publicClient, {
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
     plugins: {
       sudo: ecdsaValidator,
-      regular: sessionKeyValidator,
+      regular: permissionPlugin,
     },
   })
-  return serializeSessionKeyAccount(sessionKeyAccount, sessionPrivateKey)
+
+  return serializePermissionAccount(sessionKeyAccount)
 }
 
 export async function getSessionKey(
   serializedSessionKey: string,
   zeroDevProjectId: string,
   publicClient: any,
+  sessionKeySigner: ModularSigner,
 ) {
   const chainId = await publicClient.getChainId()
-  const sessionKeyAccount = await deserializeSessionKeyAccount(
+  const sessionKeyAccount = await deserializePermissionAccount(
     publicClient,
-    ENTRYPOINT_ADDRESS_V06,
+    ENTRYPOINT_ADDRESS_V07,
     serializedSessionKey,
+    sessionKeySigner,
   )
   const kernelPaymaster = createZeroDevPaymasterClient({
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
     chain: getChain(chainId),
     transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
   })
   const kernelClient = createKernelAccountClient({
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
     account: sessionKeyAccount,
     chain: getChain(chainId),
     bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),

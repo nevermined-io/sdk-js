@@ -1,4 +1,10 @@
-import { Account, TransactionReceipt, encodeFunctionData, parseEventLogs } from 'viem'
+import {
+  Account,
+  PrivateKeyAccount,
+  TransactionReceipt,
+  encodeFunctionData,
+  parseEventLogs,
+} from 'viem'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { jsonReplacer } from '../../common/helpers'
 import { KeeperError } from '../../errors/NeverminedErrors'
@@ -301,20 +307,20 @@ export abstract class ContractBase extends Instantiable {
 
   private async localAccountSend(
     name: string,
-    from: Account | `0x${string}`,
+    from: PrivateKeyAccount | Account | `0x${string}`,
     args: any[],
     txparams: any,
     progress: ((data: any) => void) | undefined,
   ) {
     const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
     // Uncomment to debug contract calls
-    if (name === 'XXXXX') {
-      const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
-      console.debug(`Making contract call ....: ${name} - ${from}`)
-      console.debug(`With args`, args)
-      console.debug(`And signature - ${JSON.stringify(functionSignature, jsonReplacer)}`)
-      console.debug('And amount: ', txparams.value)
-    }
+    // if (name === 'XXXXX') {
+    const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
+    console.debug(`Making contract call ....: ${name} - ${from}`)
+    console.debug(`With args`, args)
+    console.debug(`And signature - ${JSON.stringify(functionSignature, jsonReplacer)}`)
+    console.debug('And amount: ', txparams.value)
+    // }
 
     const { gasLimit, value } = txparams
     // make the call
