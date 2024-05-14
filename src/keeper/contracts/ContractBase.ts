@@ -18,7 +18,7 @@ import {
   getInputsOfFunctionFormatted,
   getSignatureOfFunction,
 } from '../../nevermined/utils/BlockchainViemUtils'
-import { ENTRYPOINT_ADDRESS_V07, bundlerActions } from 'permissionless'
+import { ENTRYPOINT_ADDRESS_V06, bundlerActions } from 'permissionless'
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
@@ -220,7 +220,7 @@ export abstract class ContractBase extends Instantiable {
     }
 
     // @ts-ignore
-    const bundlerClient = kernelClient.extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))
+    const bundlerClient = kernelClient.extend(bundlerActions(ENTRYPOINT_ADDRESS_V06))
     const txReceipt = await bundlerClient.waitForUserOperationReceipt({ hash: txHash })
 
     if (progress) {

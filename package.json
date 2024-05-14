@@ -1,6 +1,10 @@
 {
   "name": "@nevermined-io/sdk",
+<<<<<<< feat/update-session-keys
   "version": "3.0.6-rc0",
+=======
+  "version": "3.0.6",
+>>>>>>> main
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",

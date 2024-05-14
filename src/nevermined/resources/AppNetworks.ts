@@ -29,7 +29,7 @@ export class AppDeploymentStaging extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.staging.nevermined.app'
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.staging.nevermined.app'
-  neverminedNodeAddress = '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'
+  neverminedNodeAddress = '0x046d0698926aFa3ab6D6591f03063488F3Fb4327'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
@@ -45,7 +45,7 @@ export class AppDeploymentTesting extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.testing.nevermined.app'
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.testing.nevermined.app'
-  neverminedNodeAddress = '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'
+  neverminedNodeAddress = '0x046d0698926aFa3ab6D6591f03063488F3Fb4327'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
