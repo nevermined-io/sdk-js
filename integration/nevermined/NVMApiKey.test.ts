@@ -34,9 +34,10 @@ describe('Nevermined API Key', () => {
       providerPublicKey = provider.getAccountSigner().publicKey
       providerPrivateKey = provider.getAccountSigner().getHdKey().privateKey
 
-      console.log('Provider Public Key:', providerPublicKey)
-      console.log('Provider Private Key:', providerPrivateKey)
-      console.log('Private Key encoded: ', Buffer.from(providerPrivateKey, 'hex'))
+      // Uncomment to see the keys
+      // console.log('Provider Public Key:', providerPublicKey)
+      // console.log('Provider Private Key:', providerPrivateKey)
+      // console.log('Private Key encoded: ', Buffer.from(providerPrivateKey, 'hex'))
     })
 
     it('I can compress and decompress', async () => {
