@@ -1,4 +1,7 @@
 import { JWTPayload, decodeJwt } from 'jose'
+import { EthSignJWT, SignatureUtils, getChecksumAddress } from '../nevermined'
+import { NvmAccount } from './NvmAccount'
+import { decryptMessage, encryptMessage } from '../common/helpers'
 
 export class NvmApiKey implements JWTPayload {
   /**
@@ -52,6 +55,83 @@ export class NvmApiKey implements JWTPayload {
 
   public constructor() {}
 
+  public static async generate(
+    signatureUtils: SignatureUtils,
+    issuerAccount: NvmAccount,
+    zeroDevSessionKey: string,
+    marketplaceAuthToken: string,
+    receiverAddress: string,
+    expirationTime: string = '1y',
+    chainId: number = 0,
+    additionalParams = {},
+  ): Promise<NvmApiKey> {
+    const issuerAddress = getChecksumAddress(issuerAccount.getId())
+    const sub = getChecksumAddress(receiverAddress)
+
+    // TODO: Evaluate if eip712Data is needed
+    // const eip712Data = {
+    //   message: 'Sign this message to generate the API Key',
+    //   chainId,
+    // }
+
+    const params = {
+      iss: issuerAddress,
+      aud: chainId.toString(),
+      sub,
+      ver: 'v1',
+      zsk: zeroDevSessionKey,
+      nvt: marketplaceAuthToken,
+      ...additionalParams,
+    }
+
+    const signed = await new EthSignJWT(params)
+      .setProtectedHeader({ alg: 'ES256K' })
+      .setIssuedAt()
+      .setExpirationTime(expirationTime)
+      .ethSign(signatureUtils, issuerAccount) //, eip712Data)
+    return NvmApiKey.fromJWT(NvmApiKey.decode(signed))
+  }
+
+  public static async generateEncrypted(
+    signatureUtils: SignatureUtils,
+    issuerAccount: NvmAccount,
+    zeroDevSessionKey: string,
+    marketplaceAuthToken: string,
+    receiverAddress: string,
+    receiverPublicKey: string,
+    expirationTime: string = '1y',
+    chainId: number = 0,
+    additionalParams = {},
+  ): Promise<string> {
+    const nvmApiKey = await this.generate(
+      signatureUtils,
+      issuerAccount,
+      zeroDevSessionKey,
+      marketplaceAuthToken,
+      receiverAddress,
+      expirationTime,
+      chainId,
+      additionalParams,
+    )
+    return encryptMessage(nvmApiKey.serialize(), receiverPublicKey)
+  }
+
+  public static async decryptAndDecode(encryptedJwt: string, privateKey: string) {
+    const decrypted = await decryptMessage(encryptedJwt, privateKey)
+    return NvmApiKey.deserialize(decrypted)
+  }
+
+  public isValid(chainId = 0): boolean {
+    if (this.exp) {
+      const now = new Date()
+      if (now.getTime() > Number(this.exp) * 1000) return false
+    }
+    if (chainId !== 0 || this.aud !== '0') {
+      if (this.aud !== this.client.chain?.id.toString()) return false
+    }
+    return true
+  }
+
   public static fromJWT(jwt: JWTPayload): NvmApiKey {
     const nvmKey = new NvmApiKey()
     const _obj = JSON.parse(JSON.stringify(jwt))
@@ -77,5 +157,13 @@ export class NvmApiKey implements JWTPayload {
 
   public static decode(str: string) {
     return decodeJwt(str)
+  }
+
+  public hash() {
+    return SignatureUtils.hash(this.serialize())
+  }
+
+  static hash(serialized: string) {
+    return SignatureUtils.hash(serialized)
   }
 }
