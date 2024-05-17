@@ -12,6 +12,7 @@ import {
   urlSafeBase64Decode,
   urlSafeBase64Encode,
 } from '../../common/helpers'
+import { NvmApiKey } from '../../models/NvmApiKey'
 
 export class EthSignJWT extends SignJWT {
   protectedHeader: JWSHeaderParameters
@@ -377,14 +378,16 @@ export class JwtUtils extends Instantiable {
     receiverAddress: string,
     expirationTime: string = '1y',
     chainId: number = 0,
-  ): Promise<string> {
+    additionalParams = {},
+  ): Promise<NvmApiKey> {
     const issuerAddress = getChecksumAddress(issuerAccount.getId())
     const sub = getChecksumAddress(receiverAddress)
 
-    const eip712Data = {
-      message: 'Sign this message to generate the API Key',
-      chainId,
-    }
+    // TODO: Evaluate if eip712Data is needed
+    // const eip712Data = {
+    //   message: 'Sign this message to generate the API Key',
+    //   chainId,
+    // }
 
     const params = {
       iss: issuerAddress,
@@ -393,14 +396,15 @@ export class JwtUtils extends Instantiable {
       ver: 'v1',
       zsk: zeroDevSessionKey,
       nvt: marketplaceAuthToken,
+      ...additionalParams,
     }
 
     const signed = await new EthSignJWT(params)
       .setProtectedHeader({ alg: 'ES256K' })
       .setIssuedAt()
       .setExpirationTime(expirationTime)
-      .ethSign(this.nevermined.utils.signature, issuerAccount, eip712Data)
-    return JwtUtils.createCompressedJwt(signed)
+      .ethSign(this.nevermined.utils.signature, issuerAccount) //, eip712Data)
+    return NvmApiKey.fromJWT(NvmApiKey.decode(signed))
   }
 
   public async generateEncryptedNeverminedApiKey(
@@ -411,6 +415,7 @@ export class JwtUtils extends Instantiable {
     receiverPublicKey: string,
     expirationTime: string = '1y',
     chainId: number = 0,
+    additionalParams = {},
   ): Promise<string> {
     const nvmApiKey = await this.generateNeverminedApiKey(
       issuerAccount,
@@ -419,8 +424,9 @@ export class JwtUtils extends Instantiable {
       receiverAddress,
       expirationTime,
       chainId,
+      additionalParams,
     )
-    return encryptMessage(nvmApiKey, receiverPublicKey)
+    return encryptMessage(nvmApiKey.serialize(), receiverPublicKey)
   }
 
   public async decryptAndDecodeNeverminedApiKey(encryptedJwt: string, privateKey: string) {
@@ -428,33 +434,20 @@ export class JwtUtils extends Instantiable {
     return JwtUtils.decodeNeverminedApiKey(decryptedJwt)
   }
 
-  public isNeverminedApiKeyValid(compressedJwt: string): boolean {
-    let decodedToken
-    try {
-      const token = JwtUtils.decompressJwt(compressedJwt)
-      decodedToken = decodeJwt(token)
-    } catch {
-      // Token might be already decompressed
-      decodedToken = compressedJwt
-    }
-
-    if (!decodedToken) {
-      return false
-    }
+  public isNeverminedApiKeyValid(decodedToken: NvmApiKey): boolean {
     const expiry = decodedToken.exp
     if (expiry) {
       const now = new Date()
       return now.getTime() < Number(expiry) * 1000
     }
-    if (decodedToken.aud !== '0' && decodedToken.aud !== this.client.chain?.id) {
+    if (decodedToken.aud !== '0' && decodedToken.aud !== this.client.chain?.id.toString()) {
       return false
     }
     return false
   }
 
-  static decodeNeverminedApiKey(compressedJwt: string) {
-    const token = JwtUtils.decompressJwt(compressedJwt)
-    return decodeJwt(token)
+  static decodeNeverminedApiKey(jwt: string) {
+    return NvmApiKey.deserialize(jwt)
   }
 
   static createCompressedJwt(token: string) {
