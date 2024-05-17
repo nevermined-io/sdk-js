@@ -1,5 +1,7 @@
 import { JWTPayload, decodeJwt } from 'jose'
-import { EthSignJWT, SignatureUtils, getChecksumAddress } from '../nevermined'
+import { EthSignJWT } from '../nevermined/utils/JwtUtils'
+import { SignatureUtils } from '../nevermined/utils/SignatureUtils'
+import { getChecksumAddress } from '../nevermined/utils/BlockchainViemUtils'
 import { NvmAccount } from './NvmAccount'
 import { decryptMessage, encryptMessage } from '../common/helpers'
 
