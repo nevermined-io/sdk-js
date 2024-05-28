@@ -24,10 +24,10 @@ import fetch from 'node-fetch'
 import { sleep } from '../utils/utils'
 import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
 import { NFT1155Api } from '../../src/nevermined/api/nfts/NFT1155Api'
-import { ContractHandler } from '../../src/keeper/ContractHandler'
 import { SubscriptionCreditsNFTApi } from '../../src/nevermined/api/nfts/SubscriptionCreditsNFTApi'
 import { DID } from '../../src/nevermined/DID'
 import { NeverminedNFT1155Type } from '../../src/types/GeneralTypes'
+import { skip } from 'node:test'
 
 describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
   let publisher: NvmAccount
@@ -64,7 +64,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
   const minCreditsToCharge = 10n
 
   // The service to register into Nevermined and attach to a subscription
-  const SERVICE_ENDPOINT = process.env.SERVICE_ENDPOINT || 'http://127.0.0.1:3000'
+  const SERVICE_ENDPOINT = process.env.SERVICE_ENDPOINT || 'http://127.0.0.1:3005'
 
   // The path of the SERVICE_ENDPOINT open that can be accessed via Proxy without authentication
   const OPEN_PATH = process.env.OPEN_PATH || '/openapi.json'
@@ -175,9 +175,9 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      const contractABI = await ContractHandler.getABIArtifact(
+      const contractABI = await TestContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
-        config.artifactsFolder,
+        './artifacts/',
         await nevermined.keeper.getNetworkName(),
       )
 
@@ -192,7 +192,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
           'NVM',
           '',
           nevermined.keeper.nvmConfig.address,
-        ],
+        ] as any,
       )
 
       await nevermined.contracts.loadNft1155(subscriptionNFT.address)
@@ -234,11 +234,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       serviceMetadata = NvmAppMetadata.getServiceMetadataTemplate(
         'Nevermined Web Service Metadata',
         'Nevermined',
-        [
-          {
-            POST: `${SERVICE_ENDPOINT}(.*)`,
-          },
-        ],
+        [{ POST: `${SERVICE_ENDPOINT}(.*)` }, { POST: `http://tijuana(.*)` }],
         [OPEN_ENDPOINT],
         OPEN_ENDPOINT,
         'RESTful',
@@ -284,10 +280,10 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
   })
 
   describe('As random user I want to get access to the OPEN endpoints WITHOUT a subscription', () => {
-    it('The user can access the open service endpoints directly', async function () {
+    it('The user can access the open service endpoints directly', async () => {
       if (SKIP_OPEN_ENDPOINT) {
         console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
-        this.skip()
+        skip()
       }
       console.log(`Using Open Endpoint: ${OPEN_ENDPOINT}`)
 
@@ -297,10 +293,10 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       assert.isTrue(result.status === 200)
     })
 
-    it('The subscriber can access the open service endpoints through the proxy', async function () {
+    it('The subscriber can access the open service endpoints through the proxy', async () => {
       if (SKIP_OPEN_ENDPOINT) {
         console.log(`Skipping Open Endpoints test because SKIP_OPEN_ENDPOINT is set to true`)
-        this.skip()
+        skip()
       }
 
       const proxyUrl = new URL(PROXY_URL)
@@ -426,8 +422,8 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       }
 
       console.debug(JSON.stringify(opts))
-      console.log(`Proxy Endpoint: ${response.neverminedProxyUri}`)
-      const result = await fetch(response.neverminedProxyUri, opts)
+      console.log(`Proxy Endpoint: ${response.neverminedProxyUri} but using ${PROXY_URL}`)
+      const result = await fetch(PROXY_URL, opts)
 
       console.debug(` ${result.status} - ${await result.text()}`)
 
@@ -436,7 +432,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     })
   })
 
-  describe.skip('As a subscriber I want to get an access token for the web service', () => {
+  describe('As a subscriber I want to get an access token for the web service', () => {
     it('Nevermined One issues an access token', async () => {
       const response = await nevermined.nfts1155.getSubscriptionToken(serviceDDO.id, subscriber)
       accessToken = response.accessToken
@@ -445,7 +441,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
     })
   })
 
-  describe.skip('As Subscriber I want to get access to the web service as part of my subscription', () => {
+  describe('As Subscriber I want to get access to the web service as part of my subscription', () => {
     let creditsBalanceBefore: bigint
     const url = new URL(SERVICE_ENDPOINT)
     const proxyEndpoint = `${PROXY_URL}${url.pathname}`
@@ -584,7 +580,7 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       assert.equal(result.totalResults.value, 1)
 
       const ddo = result.results.pop()
-      assert.equal(ddo.id, serviceDDO.id)
+      assert.equal(ddo?.id, serviceDDO.id)
     })
 
     it('should be able to retrieve services associated with a subscription filtering by endpoints', async () => {
@@ -596,7 +592,8 @@ describe('Gate-keeping of Web Services using NFT ERC-1155 End-to-End', () => {
       assert.equal(result.totalResults.value, 1)
 
       assert.isTrue(
-        result.results.every((r) =>
+        result.results?.every((r) =>
+          // @ts-ignore
           r
             .findServiceByType('metadata')
             .attributes.main.webService.openEndpoints.some((e) => e.includes('.json')),
