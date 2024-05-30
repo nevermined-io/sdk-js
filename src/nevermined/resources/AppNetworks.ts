@@ -61,7 +61,7 @@ export class AppDeploymentArbitrum extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.arbitrum.nevermined.app'
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.arbitrum.nevermined.app'
-  neverminedNodeAddress = '0x0b5297b97655A29dE245700864F5591741e50d2c'
+  neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
