@@ -413,6 +413,7 @@ export class NeverminedNode extends Instantiable {
       })
 
       this.logger.log(`Claiming NFT using endpoint: ${claimNFTEndpoint}`)
+
       const response = await this.nevermined.utils.fetch.post(claimNFTEndpoint, claimBody)
 
       if (!response.ok) {
