@@ -77,7 +77,7 @@ export class BlockchainViemUtils extends Instantiable {
   }
 
   public async getTransactionReceipt(txHash: `0x${string}`, iteration = 1) {
-    if (iteration < 5) {
+    if (iteration < 10) {
       try {
         return await this.client.public.getTransactionReceipt({ hash: txHash })
       } catch (error) {
@@ -85,7 +85,7 @@ export class BlockchainViemUtils extends Instantiable {
           this.logger.log(
             `Unable to get transaction receipt from hash ${txHash} on iteration ${iteration}. Sleeping and retrying.`,
           )
-          await _sleep(100)
+          await _sleep(150)
           return this.getTransactionReceipt(txHash, iteration++)
         } else {
           const errorMessage = `Unknown error getting transaction receipt with hash: ${txHash}. Error: ${error}`

@@ -28,6 +28,7 @@ export class ContractEvent extends NeverminedEvent {
         `Event "${options.eventName}" not found on contract "${this.contract.contractName}"`,
       )
     }
+
     const args = this.filterToArgs(options.eventName, options.filterJsonRpc)
 
     return await this.contract.publicClient.getContractEvents({
@@ -63,9 +64,15 @@ export class ContractEvent extends NeverminedEvent {
 
       // Temporary workaround to work with mumbai
       // Infura as a 1000 blocks limit on their api
-      if (chainId === 80001 || chainId === 42 || chainId === 8453) {
+      if (
+        chainId === 80001 ||
+        chainId === 42 ||
+        chainId === 8453 ||
+        chainId === 10 ||
+        chainId === 42220
+      ) {
         const latestBlock = await this.client.public.getBlockNumber()
-        options.fromBlock = latestBlock - 99n
+        options.fromBlock = latestBlock - 999n
       }
       return await this.getEventData(options)
     } catch {

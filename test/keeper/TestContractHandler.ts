@@ -92,7 +92,6 @@ export default abstract class TestContractHandler extends ContractHandler {
       account,
     })
     let txHash = await TestContractHandler.client.wallet.writeContract(request)
-    //let txHash = await token.write.grantRole(args)
     let tx = await TestContractHandler.client.public.waitForTransactionReceipt({ hash: txHash })
     if (tx.status !== 'success') {
       throw new Error('Error calling "grantRole" on "token"')
