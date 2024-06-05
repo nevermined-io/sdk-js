@@ -38,6 +38,7 @@ export abstract class NeverminedEvent extends Instantiable {
   public async once(
     callback: (events: EventResult[]) => void,
     options: EventOptions,
+    timeout = 15_000,
   ): Promise<EventResult> {
     // Check if the event already happened and return that instead
     // before subscribing
@@ -47,6 +48,7 @@ export abstract class NeverminedEvent extends Instantiable {
       return new Promise((resolve) => resolve(events))
     }
     return new Promise((resolve) => {
+      if (timeout > 0) setTimeout(resolve, timeout)
       const subscription = this.subscribe((events) => {
         if (events.length) {
           subscription.unsubscribe()

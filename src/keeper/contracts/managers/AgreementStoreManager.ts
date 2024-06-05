@@ -55,22 +55,33 @@ export class AgreementStoreManager extends ContractBase {
     const events = await template.getAgreementCreatedEvent(agreementId)
 
     if (!Array.isArray(events) || events.length == 0) {
-      throw new KeeperError(`Could not find agreement with id: ${agreementId}`)
+      //Could not find agreement with id: ${agreementId} - getting agreement data from the contract
+      const agreementData = await template.getAgreementData(agreementId)
+      return {
+        did: agreementData.did,
+        agreementId,
+        agreementIdSeed: '',
+        creator: agreementData.accessProvider,
+        didOwner: agreementData.accessProvider,
+        templateId,
+        conditionIdSeeds: [],
+        conditionIds: [],
+      } as AgreementData
+    } else {
+      const values = events.map((e) => e.args || e)
+      const [{ _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator }] = values
+
+      return {
+        did: _did,
+        agreementId,
+        agreementIdSeed: _idSeed,
+        creator: _creator,
+        didOwner: _didOwner,
+        templateId,
+        conditionIdSeeds: _conditionIdSeeds,
+        conditionIds: _conditionIds,
+      } as AgreementData
     }
-
-    const values = events.map((e) => e.args || e)
-    const [{ _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator }] = values
-
-    return {
-      did: _did,
-      agreementId,
-      agreementIdSeed: _idSeed,
-      creator: _creator,
-      didOwner: _didOwner,
-      templateId,
-      conditionIdSeeds: _conditionIdSeeds,
-      conditionIds: _conditionIds,
-    } as AgreementData
   }
 
   public async getAgreements(did: string): Promise<AgreementData[]> {
