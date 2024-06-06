@@ -147,6 +147,9 @@ export abstract class BaseTemplate<Params, S extends Service>
     txparams?: TxParameters,
   ): Promise<void> {
     const ddo = await this.nevermined.assets.resolve(did)
+    if (!ddo) {
+      throw new Error(`Asset ${did} not found`)
+    }
     const agreement = await this.nevermined.keeper.agreementStoreManager.getAgreement(agreement_id)
 
     const agreementData = await this.instanceFromDDO(
@@ -156,6 +159,7 @@ export abstract class BaseTemplate<Params, S extends Service>
       params,
       extra.service_index,
     )
+
     if (agreementData.agreementId !== agreement_id) {
       throw new Error(
         `Agreement doesn't match ${agreement_id} should be ${agreementData.agreementId}`,

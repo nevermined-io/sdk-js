@@ -29,31 +29,22 @@ export class ContractEvent extends NeverminedEvent {
       )
     }
 
-    const args = this.filterToArgs(options.eventName, options.filterJsonRpc)
+    try {
+      const args = this.filterToArgs(options.eventName, options.filterJsonRpc)
 
-    return await this.contract.publicClient.getContractEvents({
-      address: this.contract.contract.address,
-      abi: this.contract.contract.abi,
-      eventName: options.eventName,
-      args,
-      fromBlock: options.fromBlock,
-      toBlock: options.toBlock,
-    })
-
-    // const eventFilter = this.contract.contract.filters[options.eventName](...args)
-
-    // const logs = await publicClient.getContractEvents({
-    //   address: usdcContractAddress,
-    //   abi: erc20Abi,
-    //   eventName: 'Transfer',
-    //   args: {
-    //     from: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
-    //     to: '0xa5cc3c03994db5b0d9a5eedd10cabab0813678ac'
-    //   },
-    //   fromBlock: 16330000n,
-    //   toBlock: 16330050n
-    // })
-    // return this.contract.contract.queryFilter(eventFilter, options.fromBlock, options.toBlock)
+      const contractEvents = await this.contract.publicClient.getContractEvents({
+        address: this.contract.contract.address,
+        abi: this.contract.contract.abi,
+        eventName: options.eventName,
+        args,
+        fromBlock: options.fromBlock,
+        toBlock: options.toBlock,
+      })
+      return contractEvents
+    } catch (error) {
+      const errorMessage = `Error getting event: ${options.eventName} - ${error}`
+      throw new KeeperError(errorMessage)
+    }
   }
 
   public async getPastEvents(options: EventOptions): EventResult {
@@ -73,9 +64,11 @@ export class ContractEvent extends NeverminedEvent {
       ) {
         const latestBlock = await this.client.public.getBlockNumber()
         options.fromBlock = latestBlock - 999n
+        this.logger.debug(`Getting events from block ${options.fromBlock} to ${latestBlock}`)
       }
       return await this.getEventData(options)
-    } catch {
+    } catch (error) {
+      this.logger.warn(`Error getting past events for ${options.eventName}: ${error}`)
       return []
     }
   }

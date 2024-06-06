@@ -308,13 +308,22 @@ export abstract class ContractBase extends Instantiable {
   ) {
     const functionInputs = getInputsOfFunctionFormatted(this.contract.abi, name, args)
     // Uncomment to debug contract calls
-    if (name === 'XXXXX') {
+    if (name === 'XXXXXX') {
       const functionSignature = getSignatureOfFunction(this.contract.abi, name, args)
       console.debug(`Making contract call ....: ${name} - ${from}`)
       console.debug(`With args`, args)
       console.debug(`And signature - ${JSON.stringify(functionSignature, jsonReplacer)}`)
       console.debug('And amount: ', txparams.value)
     }
+    //  abi.filter(({name, inputs}) => name === 'closeSignals' && inputs.length === 1)
+    // const abiFilter = this.contract.abi.filter((abi) => abi.name === name && abi.inputs.length === args.length)
+    // const abiFilter = this.contract.abi.filter((abi) => abi.name === name && abi.type === 'function')
+    // console.debug('abi', this.contract.abi.filter((abi) => abi.name === name))
+    // console.debug('abiFilter', abiFilter)
+    // if (!abiFilter)
+    //   throw new KeeperError(
+    //     `No ABI found for method "${name}" with ${args.length} arguments on contract "${this.contractName}"`,
+    //   )
 
     const { gasLimit, value } = txparams
     // make the call

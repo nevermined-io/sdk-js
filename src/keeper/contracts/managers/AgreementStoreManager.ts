@@ -40,10 +40,11 @@ export class AgreementStoreManager extends ContractBase {
     return this.call('owner', [])
   }
 
-  public async getAgreement(agreementId: string): Promise<AgreementData> {
+  public async getAgreement(agreementId: string, tryOnchain = false): Promise<AgreementData> {
     const templateId: string = getChecksumAddress(
       await this.call('getAgreementTemplate', [zeroX(agreementId)]),
     )
+
     const template = this.templates[templateId]
 
     if (!template) {
@@ -55,18 +56,22 @@ export class AgreementStoreManager extends ContractBase {
     const events = await template.getAgreementCreatedEvent(agreementId)
 
     if (!Array.isArray(events) || events.length == 0) {
-      //Could not find agreement with id: ${agreementId} - getting agreement data from the contract
-      const agreementData = await template.getAgreementData(agreementId)
-      return {
-        did: agreementData.did,
-        agreementId,
-        agreementIdSeed: '',
-        creator: agreementData.accessProvider,
-        didOwner: agreementData.accessProvider,
-        templateId,
-        conditionIdSeeds: [],
-        conditionIds: [],
-      } as AgreementData
+      if (tryOnchain) {
+        //Could not find agreement with id: ${agreementId} - getting agreement data from the contract
+        const agreementData = await template.getAgreementData(agreementId)
+        return {
+          did: agreementData.did,
+          agreementId,
+          agreementIdSeed: '',
+          creator: agreementData.accessProvider,
+          didOwner: agreementData.accessProvider,
+          templateId,
+          conditionIdSeeds: [],
+          conditionIds: [],
+        } as AgreementData
+      } else {
+        throw new KeeperError(`Could not find agreement with id: ${agreementId}`)
+      }
     } else {
       const values = events.map((e) => e.args || e)
       const [{ _did, _didOwner, _conditionIds, _conditionIdSeeds, _idSeed, _creator }] = values
