@@ -52,13 +52,12 @@ export class SubgraphEvent extends NeverminedEvent {
     try {
       const methodName = getMethodName(options.eventName)
       const query = generateGql(methodName, options.filterSubgraph, options.result as GqlArgs)
-      const response = await this.subgraph.query({
-        query: gql`query ${query}`,
-      })
 
+      const response = await this.subgraph.query({ query: gql`query ${query}` })
       return response.data[methodName]
     } catch (error) {
-      throw new GraphError(`Error calling executing query ${error}`)
+      const errorMessage = `Error getting subgraph event: ${options.eventName} - ${error}`
+      throw new GraphError(errorMessage)
     }
   }
 

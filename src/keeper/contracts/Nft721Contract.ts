@@ -88,7 +88,7 @@ export class Nft721Contract extends NFTContractsBase {
     from: NvmAccount,
     txParams?: TxParameters,
   ) {
-    return this.sendFrom('mint', [to, didToTokenId(did), url], from, txParams)
+    return this.send('mint', from, [to, didToTokenId(did), url], txParams)
   }
 
   /**
