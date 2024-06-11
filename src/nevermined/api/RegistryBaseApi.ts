@@ -43,7 +43,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    * via the Nevermined APIs directly. It must accessed via the `assets`, `compute`, and `nfts` APIs.
    *
    * @param assetAttributes - Attributes describing the asset
-   * @param publisher - The account publishing the asset
+   * @param from - The account publishing the asset
    * @param publicationOptions - Allows to specify the publication options of the off-chain and the on-chain data. @see {@link PublishOnChainOptions} and {@link PublishMetadataOptions}
    * @param nftAttributes -Attributes describing the NFT (ERC-721) associated to the asset
    * @param txParams - Optional transaction parameters
@@ -51,7 +51,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    */
   protected registerNeverminedAsset(
     assetAttributes: AssetAttributes,
-    publisher: NvmAccount,
+    from: NvmAccount,
     publicationOptions: AssetPublicationOptions,
     nftAttributes?: NFTAttributes,
     txParams?: TxParameters,
@@ -64,7 +64,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       // create ddo itself
       let ddo = DDO.getInstance(
         assetAttributes.metadata.userId as string,
-        publisher.getId(),
+        from.getId(),
         assetAttributes.appId,
       )
 
@@ -103,7 +103,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             : undefined
 
           const serviceCreated = plugin.createService(
-            publisher,
+            from,
             assetAttributes.metadata,
             serviceAttributes,
             nftAttributes,
@@ -121,10 +121,10 @@ export abstract class RegistryBaseApi extends Instantiable {
       this.logger.log('Generating proof')
       observer.next(CreateProgressStep.GeneratingProof)
 
-      await ddo.addProof(publisher.getId())
+      await ddo.addProof(from.getId())
 
       const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
-      await ddo.assignDid(didSeed, didRegistry, publisher)
+      await ddo.assignDid(didSeed, didRegistry, from)
       ddo = DDO.findAndReplaceDDOAttribute(ddo, '{DID}', ddo.shortId())
 
       // TODO: Evaluate if we need to add the signature to the DDO
@@ -241,7 +241,7 @@ export abstract class RegistryBaseApi extends Instantiable {
               nftAttributes.nftContractAddress,
               checksum,
               assetAttributes.providers || [this.config.neverminedNodeAddress],
-              publisher,
+              from,
               nftAttributesWithoutRoyalties,
               serviceEndpoint,
               ddoVersion.immutableUrl,
@@ -254,7 +254,7 @@ export abstract class RegistryBaseApi extends Instantiable {
               nftAttributes.nftContractAddress,
               checksum,
               assetAttributes.providers || [this.config.neverminedNodeAddress],
-              publisher,
+              from,
               nftAttributesWithoutRoyalties,
               serviceEndpoint,
               ddoVersion.immutableUrl,
@@ -270,14 +270,14 @@ export abstract class RegistryBaseApi extends Instantiable {
             await didRegistry.setDIDRoyalties(
               ddo.shortId(),
               nftAttributes.royaltyAttributes.scheme.address,
-              publisher,
+              from,
               txParams,
             )
             observer.next(CreateProgressStep.SettingRoyalties)
             await nftAttributes.royaltyAttributes.scheme.setRoyalty(
               ddo.shortId(),
               nftAttributes.royaltyAttributes.amount,
-              publisher,
+              from,
               txParams,
             )
           }
@@ -287,7 +287,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             didSeed,
             checksum,
             assetAttributes.providers || [this.config.neverminedNodeAddress],
-            publisher,
+            from,
             serviceEndpoint,
             ddoVersion.immutableUrl,
             SignatureUtils.hash(DEFAULT_REGISTRATION_ACTIVITY_ID),
@@ -315,7 +315,8 @@ export abstract class RegistryBaseApi extends Instantiable {
   }
 
   /**
-   * Returns a DDO by DID. Depending of the resolution policy it prioritize the Metadata API or Immutable urls.
+   * Given an asset DID it returns the metadata of that asset represented by a DDO object.
+   * Depending of the resolution policy it prioritize fetching that Metadata from the Marketplace API or Immutable urls (like IPFS).
    * @param did - Decentralized ID.
    * @param policy - It specifies the resolve policy to apply. It allows to select that priorities during the asset resolution via Metadata API or Immutable URLs (IPFS, Filecoin, etc)
    * @returns {@link DDO}
@@ -358,7 +359,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    * Given a DID, updates the metadata associated to the asset. It also can upload this metadata to a remote decentralized stored depending on the `publishMetadata` parameter.
    * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
    * @param metadata - Metadata describing the asset
-   * @param publisher - Account of the user updating the metadata
+   * @param from - Account of the user updating the metadata
    * @param publishMetadataOptions - It allows to specify where to store the metadata
    * @param txParams - Optional transaction parameters
    * @returns {@link DDO} The DDO updated
@@ -366,7 +367,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   protected updateAsset(
     did: string,
     metadata: MetaData,
-    publisher: NvmAccount,
+    from: NvmAccount,
     publishMetadataOptions: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -418,7 +419,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       ddo.replaceService(metadataService.index, metadataService)
 
       observer.next(UpdateProgressStep.CalculateChecksum)
-      ddo.proof = await ddo.generateProof(publisher.getId())
+      ddo.proof = await ddo.generateProof(from.getId())
       const checksum = ddo.getProofChecksum()
 
       observer.next(UpdateProgressStep.AddVersionInDDO)
@@ -452,7 +453,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       await this.nevermined.keeper.didRegistry.updateMetadataUrl(
         ddo.id,
         checksum,
-        publisher,
+        from,
         metadataService.serviceEndpoint,
         ddoVersion.immutableUrl,
         txParams,
@@ -473,7 +474,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    *
    * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
    * @param list - Needs the asset to be listed or unlisted
-   * @param publisher - Account of the user updating the metadata
+   * @param from - Account of the user updating the metadata
    * @param publishMetadata - It allows to specify where to store the metadata
    * @param txParams - Optional transaction parameters
    * @returns {@link DDO} The DDO updated
@@ -481,7 +482,7 @@ export abstract class RegistryBaseApi extends Instantiable {
   public list(
     did: string,
     list: boolean,
-    publisher: NvmAccount,
+    from: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -512,7 +513,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       return await this.updateAsset(
         did,
         metadataService.attributes,
-        publisher,
+        from,
         publishMetadata,
         txParams,
       )
@@ -525,7 +526,7 @@ export abstract class RegistryBaseApi extends Instantiable {
    * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
    * @param newRating - New average rating of the asset
    * @param numVotesAdded - Number of new votes added to the rating, typically just 1
-   * @param publisher - Account of the user updating the metadata
+   * @param from - Account of the user updating the metadata
    * @param publishMetadata - It allows to specify where to store the metadata
    * @param txParams - Optional transaction parameters
    * @returns {@link DDO} The DDO updated
@@ -534,7 +535,7 @@ export abstract class RegistryBaseApi extends Instantiable {
     did: string,
     newRating: number,
     numVotesAdded = 1,
-    publisher: NvmAccount,
+    from: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
@@ -564,7 +565,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       return await this.updateAsset(
         did,
         metadataService.attributes,
-        publisher,
+        from,
         publishMetadata,
         txParams,
       )
@@ -574,16 +575,18 @@ export abstract class RegistryBaseApi extends Instantiable {
   /**
    * Start the purchase/order of an asset's service. Starts by signing the service agreement
    * then sends the request to the publisher via the service endpoint (Node http service).
+   *
    * @param did - Decentralized ID.
    * @param serviceReference - Service.
-   * @param consumer - Consumer account.
+   * @param from - Consumer account.
+   * @param txParams - Transaction parameters
    * @returns The agreement ID.
    */
   public orderAsset(
     did: string,
     serviceReference: ServiceType | number,
-    consumer: NvmAccount,
-    params?: TxParameters,
+    from: NvmAccount,
+    txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
     return new SubscribablePromise(async (observer) => {
       const agreementIdSeed = zeroX(generateId())
@@ -601,10 +604,10 @@ export abstract class RegistryBaseApi extends Instantiable {
         agreementIdSeed,
         ddo,
         serviceReference,
-        template.params(consumer),
-        consumer,
-        consumer,
-        params,
+        template.params(from),
+        from,
+        from,
+        txParams,
         (a) => observer.next(a),
       )
 
@@ -617,7 +620,7 @@ export abstract class RegistryBaseApi extends Instantiable {
 
       if (
         agreementData.accessConsumer === ZeroAddress ||
-        agreementData.accessConsumer.toLowerCase() !== consumer.getId().toLowerCase()
+        agreementData.accessConsumer.toLowerCase() !== from.getId().toLowerCase()
       )
         throw new AssetError(
           `Agreement Id ${agreementId} not found on-chain. Agreement Data ${JSON.stringify(
@@ -643,6 +646,11 @@ export abstract class RegistryBaseApi extends Instantiable {
     }
   }
 
+  /**
+   * It returns the priced metadata information of an asset
+   * @param assetPrice the asset price
+   * @returns {@link PricedMetadataInformation}
+   */
   private async getPriced(assetPrice: AssetPrice | undefined): Promise<PricedMetadataInformation> {
     if (assetPrice === undefined) {
       return {

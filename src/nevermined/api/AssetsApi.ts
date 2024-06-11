@@ -109,9 +109,23 @@ export class AssetsApi extends RegistryBaseApi {
    * You can find more information about how different data is stored in Nevermined here:
    * {@link https://docs.nevermined.io/docs/architecture/nevermined-data}
    *
+   *    * @example
+   * ```ts
+   * const assetAttributes = AssetAttributes.getInstance({
+   *           metadata,
+   *           price: assetPrice,
+   *           serviceTypes: ['sales', 'access']
+   * })
+   * const ddo = await nevermined.assets.create(
+   *      assetAttributes,
+   *      publisher,
+   *      PublishMetadata.IPFS
+   * )
+   * ```
+   *
    * @param assetAttributes - Attributes describing the asset
+   * @param from - The account publishing the asset
    * @param publicationOptions - Allows to specify the publication options of the off-chain and the on-chain data. @see {@link PublishOnChainOptions} and {@link PublishMetadataOptions}
-   * @param publisherAccount - The account publishing the asset
    * @param txParams - Optional transaction parameters
    * @returns The metadata of the asset created (DDO)
    *
@@ -119,7 +133,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public create(
     assetAttributes: AssetAttributes,
-    publisherAccount: NvmAccount,
+    from: NvmAccount,
     publicationOptions: AssetPublicationOptions = {
       metadata: PublishMetadataOptions.OnlyMetadataAPI,
       did: PublishOnChainOptions.DIDRegistry,
@@ -128,7 +142,7 @@ export class AssetsApi extends RegistryBaseApi {
   ): SubscribablePromise<CreateProgressStep, DDO> {
     return this.registerNeverminedAsset(
       assetAttributes,
-      publisherAccount,
+      from,
       publicationOptions,
       undefined,
       txParams,
@@ -150,7 +164,7 @@ export class AssetsApi extends RegistryBaseApi {
    *
    * @param did - Decentralized ID representing the unique id of an asset in a Nevermined network.
    * @param metadata - Metadata describing the asset
-   * @param publisherAccount - Account of the user updating the metadata
+   * @param from - Account of the user updating the metadata
    * @param publishMetadata - It allows to specify where to store the metadata
    * @param txParams - Optional transaction parameters
    * @returns {@link DDO} The DDO updated
@@ -158,11 +172,11 @@ export class AssetsApi extends RegistryBaseApi {
   public update(
     did: string,
     metadata: MetaData,
-    publisherAccount: NvmAccount,
+    from: NvmAccount,
     publishMetadata: PublishMetadataOptions = PublishMetadataOptions.OnlyMetadataAPI,
     txParams?: TxParameters,
   ): SubscribablePromise<UpdateProgressStep, DDO> {
-    return this.updateAsset(did, metadata, publisherAccount, publishMetadata, txParams)
+    return this.updateAsset(did, metadata, from, publishMetadata, txParams)
   }
 
   /**
@@ -170,28 +184,30 @@ export class AssetsApi extends RegistryBaseApi {
    * then sends the request to the publisher via the service endpoint (Node http service).
    * If the access service to purchase is having associated some price, it will make the payment
    * for that service.
+   *
    * @param did - Unique identifier of the asset to order
    * @param serviceReference - The service to order. By default is the access service, but it can be specified the service.index to refer a different specific service
-   * @param consumerAccount - The account of the user ordering the asset
+   * @param from - The account of the user ordering the asset
    * @param txParams - Optional transaction parameters
    * @returns The agreement ID identifying the order
    */
   public order(
     did: string,
     serviceReference: ServiceType | number = 'access',
-    consumerAccount: NvmAccount,
+    from: NvmAccount,
     txParams?: TxParameters,
   ): SubscribablePromise<OrderProgressStep, string> {
-    return this.orderAsset(did, serviceReference, consumerAccount, txParams)
+    return this.orderAsset(did, serviceReference, from, txParams)
   }
 
   /**
    * Having previously ordered an "access" service (referenced via an "agreementId").
    * This method allows to download the assets associated to that service.
+   *
    * @param agreementId  - The unique identifier of the order placed for a service
    * @param did - Unique identifier of the asset ordered
    * @param serviceReference - The service to download. By default is the access service, but it can be specified the service.index to refer a different specific service
-   * @param consumerAccount - The account of the user who ordered the asset and is downloading the files
+   * @param from - The account of the user who ordered the asset and is downloading the files
    * @param resultPath - Where the files will be downloaded
    * @param fileIndex - The file to download. If not given or is -1 it will download all of them.
    * @param buyer - Key which represent the buyer
@@ -202,7 +218,7 @@ export class AssetsApi extends RegistryBaseApi {
     agreementId: string,
     did: string,
     serviceReference: ServiceType | number,
-    consumerAccount: NvmAccount,
+    from: NvmAccount,
     resultPath?: string,
     fileIndex = -1,
     buyer?: string,
@@ -236,7 +252,7 @@ export class AssetsApi extends RegistryBaseApi {
       did,
       agreementId,
       serviceEndpoint,
-      consumerAccount,
+      from,
       files,
       resultPath,
       fileIndex,
@@ -262,7 +278,7 @@ export class AssetsApi extends RegistryBaseApi {
   }
 
   /**
-   * Returns the owner of an asset.
+   * Returns the owner from the signature included in the DDO.
    * @param did - Decentralized ID.
    * @returns The address of the owner of the asset
    */
@@ -294,7 +310,7 @@ export class AssetsApi extends RegistryBaseApi {
    * Transfer ownership of an asset.
    * @param did - Asset DID.
    * @param newOwner - Ethereum address of the new owner of the DID.
-   * @param owner - Account owning the DID and doing the transfer of ownership
+   * @param from - Account owning the DID and doing the transfer of ownership
    * @param newUserId - User Id of the new user getting the ownership of the asset
    * @param txParams - Transaction parameters
    * @returns Returns transaction receipt.
@@ -302,12 +318,12 @@ export class AssetsApi extends RegistryBaseApi {
   public async transferOwnership(
     did: string,
     newOwner: string,
-    owner: NvmAccount,
+    from: NvmAccount,
     newUserId?: string,
     txParams?: TxParameters,
   ) {
     // const owner = await this.nevermined.assets.owner(did)
-    const ownerAddress = owner.getAddress()
+    const ownerAddress = from.getAddress()
     const ddo = await this.resolveAsset(did)
 
     ddo.proof = await ddo.generateProof(newOwner)
@@ -333,7 +349,7 @@ export class AssetsApi extends RegistryBaseApi {
 
     await this.nevermined.services.metadata.updateDDO(did, updatedDDO)
 
-    return this.nevermined.keeper.didRegistry.transferDIDOwnership(did, newOwner, owner, txParams)
+    return this.nevermined.keeper.didRegistry.transferDIDOwnership(did, newOwner, from, txParams)
   }
 
   /**
@@ -349,6 +365,11 @@ export class AssetsApi extends RegistryBaseApi {
     ).map(({ did }) => did)
   }
 
+  /**
+   * Retires the metadata of an asset from the Marketplace API. This allows the owner to unlist the asset from the marketplace.
+   * @param did - the unique identifier of the asset
+   * @returns the HTTP response
+   */
   public async retire(did: string) {
     return this.nevermined.services.metadata.delete(did)
   }
@@ -358,7 +379,7 @@ export class AssetsApi extends RegistryBaseApi {
    * This method only can be called successfully by the owner of the asset or a provider.
    *
    * @param did - The Decentralized Identifier of the asset.
-   * @param ownerAccount - The receiver account owner
+   * @param from - The account of the asset owner
    * @param resultPath - Path to be the files downloader
    * @param fileIndex - The index of the file
    * @param serviceType - Service type. 'access' by default
@@ -368,7 +389,7 @@ export class AssetsApi extends RegistryBaseApi {
    */
   public async download(
     did: string,
-    ownerAccount: NvmAccount,
+    from: NvmAccount,
     resultPath?: string,
     fileIndex = -1,
     serviceType: ServiceType = 'access',
@@ -405,7 +426,7 @@ export class AssetsApi extends RegistryBaseApi {
 
     const accessToken = await this.nevermined.utils.jwt.getDownloadGrantToken(
       ddo.id,
-      ownerAccount,
+      from,
       buyer,
       babysig,
     )
@@ -418,21 +439,22 @@ export class AssetsApi extends RegistryBaseApi {
   /**
    * It grants permissions to an account for a specific asset represented by a DID.
    * Only can be called by the asset owner.
+   *
    * @param did - The unique identifier of the assert
-   * @param address - The account to grant the permissions
-   * @param ownerAccount - Account sending the request. It must be the owner of the asset
+   * @param grantAddress - The account address to grant the permissions
+   * @param from - Account sending the request. It must be the owner of the asset
    * @param txParams  - Transaction parameters
    */
   public async grantPermissions(
     did: string,
-    address: string,
-    ownerAccount: NvmAccount,
+    grantAddress: string,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return await this.nevermined.keeper.didRegistry.grantPermission(
       did,
-      address,
-      ownerAccount,
+      grantAddress,
+      from,
       txParams,
     )
   }
@@ -440,21 +462,22 @@ export class AssetsApi extends RegistryBaseApi {
   /**
    * It revokes permissions to an account for a specific asset represented by a DID.
    * Only can be called by the asset owner.
+   *
    * @param did - The unique identifier of the assert
-   * @param address - The account to revoke the permissions
-   * @param ownerAccount - Account sending the request. It must be the owner of the asset
+   * @param revokeAddress - The account address to revoke the permissions
+   * @param from - Account sending the request. It must be the owner of the asset
    * @param txParams  - Transaction parameters
    */
   public async revokePermissions(
     did: string,
-    address: string,
-    ownerAccount: NvmAccount,
+    revokeAddress: string,
+    from: NvmAccount,
     txParams?: TxParameters,
   ) {
     return await this.nevermined.keeper.didRegistry.revokePermission(
       did,
-      address,
-      ownerAccount,
+      revokeAddress,
+      from,
       txParams,
     )
   }

@@ -252,7 +252,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * @param assetPrice - The current setup of asset rewards.
    * @param nftAmount - The number of NFTs put up for secondary sale.
    * @param provider - The address that will be the provider of the secondary sale.
-   * @param owner - The account of the current owner.
+   * @param from - The account of the current owner.
    *
    * @returns  the agreementId of the secondary sale.
    *
@@ -266,7 +266,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     nftTransfer: boolean,
     provider: string,
     token: Token,
-    owner: NvmAccount,
+    from: NvmAccount,
   ): Promise<string> {
     const serviceType: ServiceType = 'nft-sales'
     const { nftSalesTemplate } = this.nevermined.keeper.templates
@@ -276,12 +276,12 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     nftSalesServiceAgreementTemplate.conditions = getConditionsByParams(
       serviceType,
       nftSalesServiceAgreementTemplate.conditions,
-      owner.getId(),
+      from.getId(),
       assetPrice,
       ddo.id,
       token.address,
       undefined,
-      provider || owner.getId(),
+      provider || from.getId(),
       nftAmount,
       nftTransfer,
     )
@@ -296,7 +296,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       attributes: {
         main: {
           name: 'nftSalesAgreement',
-          creator: owner.getId(),
+          creator: from.getId(),
           datePublished: new Date().toISOString().replace(/\.[0-9]{3}/, ''),
           timeout: 86400,
         },
@@ -331,9 +331,11 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    *           )
    * ```
    *
-   * @param consumer - The account of the buyer/consumer.
+   * @param from - The account of the buyer/consumer.
    * @param nftAmount - The number of assets to buy. 1 by default.
-   * @param agreementId - The agreementId of the initial sales agreement created off-chain.
+   * @param agreementIdSeed - The seed of the initial sales agreement created off-chain.
+   * @param conditionsTimeout - The timeout for the conditions.
+   * @param txParams - Optional transaction parameters
    *
    * @returns true if the buy was successful.
    *
@@ -341,7 +343,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * Thrown if there is an error buying the NFT.
    */
   public async buySecondaryMarketNft(
-    consumer: NvmAccount,
+    from: NvmAccount,
     nftAmount = 1n,
     agreementIdSeed: string,
     conditionsTimeout: number[] = [86400, 86400, 86400],
@@ -373,9 +375,8 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
     const agreementId = await nftSalesTemplate.createAgreementFromDDO(
       agreementIdSeed,
       ddo,
-      nftSalesTemplate.params(consumer.getId(), nftAmount, currentNftHolder.getId()),
-      consumer,
-      consumer,
+      nftSalesTemplate.params(from.getId(), nftAmount, currentNftHolder.getId()),
+      from,
       conditionsTimeout,
       txParams,
     )
@@ -392,7 +393,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       ddo.id,
       assetPrice.getAmounts(),
       assetPrice.getReceivers(),
-      consumer,
+      from,
       tokenAddress.value as string,
       txParams,
     )
@@ -414,7 +415,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * ```
    *
    * @param did - The Decentralized Identifier of the NFT asset.
-   * @param consumer - The NFT holder account.
+   * @param from - The user account holding NFTs (after purchase) requesting the access
    * @param destination - The download destination for the files.
    * @param fileIndex - The index of the file. If unset will download all the files in the asset.
    * @param agreementId - The NFT sales agreement id.
@@ -425,7 +426,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    */
   public async access(
     did: string,
-    consumer: NvmAccount,
+    from: NvmAccount,
     destination?: string,
     fileIndex?: number,
     agreementId = '0x',
@@ -446,7 +447,7 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
       agreementId,
       ddo.id,
       accessService.index,
-      consumer,
+      from,
       buyer,
       babysig,
     )
@@ -482,11 +483,11 @@ export abstract class NFTsBaseApi extends RegistryBaseApi {
    * ```
    *
    * @param did - The did of the asset with a webService resource and an associated subscription
-   * @param account - Account of the user requesting the token
+   * @param from - Account of the user requesting the token
    *
    * @returns {@link SubscriptionToken}
    */
-  public async getSubscriptionToken(did: string, account: NvmAccount): Promise<SubscriptionToken> {
-    return this.nevermined.services.node.getSubscriptionToken(did, account)
+  public async getSubscriptionToken(did: string, from: NvmAccount): Promise<SubscriptionToken> {
+    return this.nevermined.services.node.getSubscriptionToken(did, from)
   }
 }

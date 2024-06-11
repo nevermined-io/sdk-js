@@ -50,8 +50,9 @@ export class ConditionsApi extends Instantiable {
    * @param did - The Asset ID.
    * @param amounts - Asset amounts to distribute.
    * @param receivers - Receivers of the rewards
-   * @param erc20TokenAddress - Account of sender.
    * @param from - Account of sender.
+   * @param erc20TokenAddress - ERC20 contract address of the token used for the payment if is the zero address, it will use the native token of the network (i.e ETH)
+   * @param txParams - Transaction parameters
    */
   public async lockPayment(
     agreementId: string,
@@ -174,8 +175,8 @@ export class ConditionsApi extends Instantiable {
    * @param amounts - Asset amounts to distribute.
    * @param receivers - Receivers of the rewards
    * @param did - Asset ID.
-   * @param erc20TokenAddress - Publisher address.
    * @param from - Account of sender.
+   * @param erc20TokenAddress - ERC20 contract address of the token used for the payment if is the zero address, it will use the native token of the network (i.e ETH)
    * @param txParams - Transaction parameters
    */
   public async releaseReward(
@@ -232,8 +233,10 @@ export class ConditionsApi extends Instantiable {
    * Releases the payment in escrow to the provider(s) of the sale
    * @param agreementId - The service agreement id for the nft sale.
    * @param ddo - The decentralized identifier of the asset containing the nfts.
+   * @param serviceReference - The index or reference of the service containing the nfts to transfer
    * @param nftAmount - Number of nfts bought.
-   * @param publisher - The publisher account.
+   * @param from - The account sending the transaction.
+   * @param txParams - Transaction parameters
    * @returns {@link true} if the funds were released successfully.
    */
   public async releaseNftReward(
@@ -241,8 +244,7 @@ export class ConditionsApi extends Instantiable {
     ddo: DDO,
     serviceReference: number | ServiceType = 'nft-sales',
     nftAmount: bigint,
-    publisher: NvmAccount,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: txParams,
   ) {
     const template = this.nevermined.keeper.templates.nftSalesTemplate
@@ -263,7 +265,7 @@ export class ConditionsApi extends Instantiable {
     const txReceipt = await escrowPaymentCondition.fulfillInstance(
       instance.instances[2] as any,
       {},
-      from || publisher,
+      from,
       txParams,
     )
 
@@ -279,15 +281,16 @@ export class ConditionsApi extends Instantiable {
    * Releases the payment in escrow to the provider(s) of the sale
    * @param agreementId - The service agreement id for the nft sale.
    * @param ddo - The decentralized identifier of the asset containing the nfts.
-   * @param publisher - The publisher account.
+   * @param serviceReference - The index or reference of the service containing the nfts to transfer
+   * @param from - The publisher account.
+   * @param txParams - Transaction parameters
    * @returns {@link true} if the funds were released successfully.
    */
   public async releaseNft721Reward(
     agreementId: string,
     ddo: DDO,
     serviceReference: number | ServiceType = 'nft-sales',
-    publisher: NvmAccount,
-    from?: NvmAccount,
+    from: NvmAccount,
     txParams?: txParams,
   ) {
     const serviceIndex = ddo.findServiceByReference(serviceReference).index
@@ -308,7 +311,7 @@ export class ConditionsApi extends Instantiable {
     const txReceipt = await escrowPaymentCondition.fulfillInstance(
       instance.instances[2] as any,
       {},
-      from || publisher,
+      from,
       txParams,
     )
 
@@ -328,7 +331,9 @@ export class ConditionsApi extends Instantiable {
    * @param did - The decentralized identifier of the asset containing the nfts.
    * @param holder - The address of the holder (recipient of a previous nft transfer with `agreementId`).
    * @param nftAmount - The amount of nfts that the `holder` needs to have to fulfill the access condition.
-   * @param from - Account.
+   * @param contractAddress - The address of the nft contract.
+   * @param from - The account sending the transaction.
+   * @param txParams - Transaction parameters
    * @returns {@link true} if the holder is able to fulfill the condition
    */
   public async holderNft(
@@ -338,7 +343,7 @@ export class ConditionsApi extends Instantiable {
     nftAmount: bigint,
     contractAddress: string,
     from: NvmAccount,
-    params?: txParams,
+    txParams?: txParams,
   ) {
     const { nftHolderCondition } = this.nevermined.keeper.conditions
 
@@ -349,7 +354,7 @@ export class ConditionsApi extends Instantiable {
       nftAmount,
       contractAddress || this.nevermined.keeper.nftUpgradeable.address,
       from,
-      params,
+      txParams,
     )
     return this.isFulfilled(txReceipt, ConditionsApi.NFT_HOLDER_EVENT_FULFILLED_ABI)
   }
@@ -361,7 +366,8 @@ export class ConditionsApi extends Instantiable {
    * @param agreementId - The service agreement id of the nft transfer.
    * @param ddo - The decentralized identifier of the asset containing the nfts.
    * @param holderAddress - The address of the holder (recipient of a previous nft transfer with `agreementId`).
-   * @param from - Account.
+   * @param from - The account sending the transaction.
+   * @param txParams - Transaction parameters
    * @returns {@link true} if the holder is able to fulfill the condition
    */
   public async holderNft721(
@@ -369,7 +375,7 @@ export class ConditionsApi extends Instantiable {
     ddo: DDO,
     holderAddress: string,
     from: NvmAccount,
-    params?: txParams,
+    txParams?: txParams,
   ) {
     const { nft721HolderCondition } = this.nevermined.keeper.conditions
     const accessService = ddo.findServiceByType('nft-access')
@@ -382,7 +388,7 @@ export class ConditionsApi extends Instantiable {
       holderAddress,
       holder.parameters.find((p) => p.name === '_contractAddress')?.value as string,
       from,
-      params,
+      txParams,
     )
 
     return this.isFulfilled(txReceipt, ConditionsApi.NFT_HOLDER_EVENT_FULFILLED_ABI)
@@ -394,7 +400,8 @@ export class ConditionsApi extends Instantiable {
    * @param agreementId - The service agreement id of the nft transfer.
    * @param did - The decentralized identifier of the asset containing the nfts.
    * @param grantee - The address of the user trying to get access to the files.
-   * @param from - Account.
+   * @param from - The account sending the transaction.
+   * @param txParams - Transaction parameters
    * @returns {@link true} if the provider is able to fulfill the condition
    */
   public async grantNftAccess(
@@ -402,11 +409,11 @@ export class ConditionsApi extends Instantiable {
     did: string,
     grantee: string,
     from: NvmAccount,
-    params?: txParams,
+    txParams?: txParams,
   ) {
     const { nftAccessCondition } = this.nevermined.keeper.conditions
 
-    const txReceipt = await nftAccessCondition.fulfill(agreementId, did, grantee, from, params)
+    const txReceipt = await nftAccessCondition.fulfill(agreementId, did, grantee, from, txParams)
     return this.isFulfilled(txReceipt, ConditionsApi.GENERIC_EVENT_FULFILLED_ABI)
   }
 
@@ -416,7 +423,8 @@ export class ConditionsApi extends Instantiable {
    * @param ddo - The decentralized identifier of the asset containing the nfts.
    * @param serviceIndex - The index of the service containing the nfts to transfer
    * @param nftAmount - The amount of nfts to transfer.
-   * @param from - Account.
+   * @param from - The account sending the transaction.
+   * @param txParams - Transaction parameters
    * @returns {@link true} if the transfer is successful
    */
   public async transferNft(
@@ -472,7 +480,8 @@ export class ConditionsApi extends Instantiable {
    * @param agreementId - The service agreement id of the nft transfer.
    * @param ddo - The decentralized identifier of the asset containing the nfts.
    * @param nftAmount - The amount of nfts to transfer.
-   * @param from - Account.
+   * @param from - The account sending the transaction.
+   * @param txParams - Transaction parameters
    * @returns {@link true} if the transfer is successful
    */
   public async transferNftForDelegate(
@@ -537,14 +546,15 @@ export class ConditionsApi extends Instantiable {
    * @param agreementId - The service agreement id of the nft transfer.
    * @param ddo - The decentralized identifier of the asset containing the nfts.
    * @param serviceIndex - The index of the service containing the nfts to transfer
-   * @param publisher - Account.
+   * @param from - The account sending the transaction.
+   * @param txParams - Transaction parameters
    * @returns {@link true} if the transfer is successful
    */
   public async transferNft721(
     agreementId: string,
     ddo: DDO,
     serviceIndex: number,
-    publisher: NvmAccount,
+    from: NvmAccount,
     txParams?: txParams,
   ) {
     const { transferNft721Condition } = this.nevermined.keeper.conditions
@@ -563,24 +573,26 @@ export class ConditionsApi extends Instantiable {
 
     const nft = await this.nevermined.contracts.loadNft721(instance.instances[1].list[5])
 
-    await nft.setApprovalForAll(transferNft721Condition.address, true, publisher, txParams)
+    await nft.setApprovalForAll(transferNft721Condition.address, true, from, txParams)
 
     const txReceipt = await transferNft721Condition.fulfillInstance(
       instance.instances[1] as any,
       {},
-      publisher,
+      from,
       txParams,
     )
 
-    await nft.setApprovalForAll(transferNft721Condition.address, false, publisher, txParams)
+    await nft.setApprovalForAll(transferNft721Condition.address, false, from, txParams)
 
     return this.isFulfilled(txReceipt, ConditionsApi.TRANSFER_NFT_EVENT_FULFILLED_ABI)
   }
 
-  // private isFulfilled(contractReceipt: ContractTransactionReceipt): boolean {
-  //   return (contractReceipt.logs as EventLog[]).some((e: EventLog) => e.eventName === 'Fulfilled')
-  // }
-
+  /**
+   * Checks in the transaction receipt if the event Fulfilled was emitted.q
+   * @param txReceipt - the transaction receipt
+   * @param eventAbi - the contract ABI
+   * @returns true if the Fulfilled event was emitted
+   */
   private isFulfilled(txReceipt: TransactionReceipt, eventAbi: Abi): boolean {
     const eventLogs = parseEventLogs({
       abi: eventAbi,

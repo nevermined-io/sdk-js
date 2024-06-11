@@ -8,6 +8,14 @@ import {
 } from '../types/DDOTypes'
 
 export class NvmAppMetadata {
+  /**
+   * It returns a metadata template for a subscription with time limit
+   * @param name the name of the subscription
+   * @param author the author of the subscrpiton
+   * @param timeMeasure the string defining the time measure
+   * @param customData any key-value pair to be included in the metadata
+   * @returns {@link Metadata}
+   */
   public static getTimeSubscriptionMetadataTemplate(
     name: string,
     author: string,
@@ -28,6 +36,13 @@ export class NvmAppMetadata {
     return metadata
   }
 
+  /**
+   * It returns a metadata template for a credits limitted subscription
+   * @param name the name of the subscription
+   * @param author the author of the subscrpiton
+   * @param customData any key-value pair to be included in the metadata
+   * @returns {@link Metadata}
+   */
   public static getCreditsSubscriptionMetadataTemplate(
     name: string,
     author: string,
@@ -46,6 +61,13 @@ export class NvmAppMetadata {
     return metadata
   }
 
+  /**
+   * It returns a metadata template for subscription
+   * @param name the name of the subscription
+   * @param author the author of the subscrpiton
+   * @param customData any key-value pair to be included in the metadata
+   * @returns {@link Metadata}
+   */
   public static getSubscriptionMetadataTemplate(
     name: string,
     author: string,
@@ -73,6 +95,23 @@ export class NvmAppMetadata {
     return _metadata
   }
 
+  /**
+   * It returns a metadata template for Web Service
+   * @param name the name of the subscription
+   * @param author the author of the subscrpiton
+   * @param endpoints the list of endpoints
+   * @param openEndpoints the list of open endpoints (not protected)
+   * @param openApiEndpoint the openApi endpoint endpoint if any
+   * @param serviceType the type of the service
+   * @param authType the type of authentication required by the service
+   * @param authToken the token to be used for authentication (if authType is oauth or bearer)
+   * @param authUser the username to be used for authentication (if authType is basic)
+   * @param authPassword the password to be used for authentication (if authType is basic)
+   * @param isPriceDynamic if the price is dynamic
+   * @param customData any key-value pair to be included in the metadata
+   * @param nonce the nonce to be included in the metadata
+   * @returns {@link Metadata}
+   */
   public static getServiceMetadataTemplate(
     name: string,
     author: string,
@@ -143,6 +182,13 @@ export class NvmAppMetadata {
     return serviceMetadata
   }
 
+  /**
+   * It gets a metadata template for a file type of asset (datasets, moldels, algorithms, etc.)
+   * @param name the name of the asset
+   * @param author the autor of the asset
+   * @param customData key-value pairs to be included in the metadata
+   * @returns {@link Metadata}
+   */
   public static getFileMetadataTemplate(
     name: string,
     author: string,

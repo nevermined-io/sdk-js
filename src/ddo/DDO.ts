@@ -38,12 +38,20 @@ export const DEPENDENCIES_RELEASE_CONDITION = ['access', 'serviceExecution', 'tr
 /**
  * Fill some static parameters that depends on the metadata.
  *
- * @param conditions - Conditions to fill.
- * @param ddo - DDO related to this conditions.
+ * @param serviceType - The type of the service "access", "nft-sales", etc.
+ * @param conditions - List of conditions to fill.
+ * @param owner - Owner of the asset.
  * @param assetPrice -Rewards distribution
+ * @param did - The DID of the asset.
+ * @param erc20TokenContract - The address of the ERC20 token contract used for payment (0x0 address if native token).
+ * @param nftTokenContract - The address of the NFT token contract used.
+ * @param nftHolder - The address of the NFT holder.
  * @param nftAmount - Number of nfts to handle
- * @param erc20TokenContract - Number of nfts to handle
- * @param nftTokenContract - Number of nfts to handle
+ * @param nftTransfer - If the nft will be transferred (true) or minted (false)
+ * @param duration - Duration if it's a subscription
+ * @param fulfillAccessTimeout - Timeout for the fulfill of the access service
+ * @param fulfillAccessTimelock - Timelock for the fulfill of the access service
+ * @param tokenId - The token id of the NFT
  *
  * @returns Filled conditions.
  */
@@ -148,8 +156,8 @@ function getParameter(
 }
 
 /**
- * DID Descriptor Object.
- * Contains all the data related to an asset.
+ * DID Descriptor Object (DDO).
+ * Contains all the metadata related to an asset, including the description and the services available.
  */
 export class DDO {
   /**
@@ -172,6 +180,13 @@ export class DDO {
     return new DDO(ddo)
   }
 
+  /**
+   * It creates an authorization service that can be included later as part of a DDO
+   * @param neverminedNodeUri URL of the Nevermined Node managing this asset
+   * @param publicKey Public key of the user
+   * @param method Encryption method
+   * @returns The authorization service
+   */
   public static createAuthorizationService(
     neverminedNodeUri: string,
     publicKey: string,
@@ -220,6 +235,13 @@ export class DDO {
     })
   }
 
+  /**
+   * It gets an instance of a DDO with the basic structure
+   * @param userId The unique identifier of the user
+   * @param publisherAddress The address of the publisher
+   * @param appId The application id
+   * @returns a {@link DDO} instance
+   */
   public static getInstance(userId: string, publisherAddress: string, appId?: string): DDO {
     return new DDO({
       id: '',
@@ -244,18 +266,27 @@ export class DDO {
     })
   }
 
+  /**
+   * It gets a new date formatted
+   * @param date the date to format
+   * @returns the date string formatted
+   */
   public static getNewDateFormatted(date: Date = new Date()) {
     return date.toISOString().replace(/\.[0-9]{3}/, '')
   }
 
+  /**
+   * It returns the DDO id without the prefix
+   * @returns the DID without the prefix
+   */
   public shortId(): string {
     return this.id.replace('did:nv:', '')
   }
 
   /**
-   * Finds a service of a DDO by index.
+   * Finds a service of a DDO by index number.
    * @param index - index of the service in the DDO.
-   * @returns Service.
+   * @returns {@link Service}.
    */
   public findServiceByIndex<T extends ServiceType>(index: number): Service<T> {
     if (isNaN(index)) {
