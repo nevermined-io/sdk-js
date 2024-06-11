@@ -267,7 +267,6 @@ describe('Register Escrow Access Template', () => {
         ddo,
         accessTemplate.params(consumer),
         consumer,
-        consumer,
       )
 
       assert.match(agreementId, /^0x[a-f0-9]{64}$/i)

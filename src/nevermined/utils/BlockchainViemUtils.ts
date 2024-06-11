@@ -52,12 +52,23 @@ import { NvmAccount } from '../../models/NvmAccount'
 import { didZeroX } from '../../utils/ConversionTypeHelpers'
 import { getChain } from '../../utils/Network'
 
+/**
+ * Utility class with methods that allow the interaction with the blockchain.
+ * This class uses Viem library to interact with the blockchain.
+ */
 export class BlockchainViemUtils extends Instantiable {
   constructor(config: InstantiableConfig) {
     super()
     this.setInstanceConfig(config)
   }
 
+  /**
+   * Given an artifact, it deploys the contract and returns the contract instance.
+   * @param artifact - the contract artifact
+   * @param from - the deployer account
+   * @param args - parameters to be passed to the contract during the initialization
+   * @returns a contract instance
+   */
   public async deployAbi(
     artifact: { name?: string; abi: Abi; bytecode: `0x${string}` },
     from: NvmAccount,
@@ -66,6 +77,12 @@ export class BlockchainViemUtils extends Instantiable {
     return await deployContractInstance(artifact, from, args, this.client)
   }
 
+  /**
+   * Given an already deployed contract address and the ABI, it returns the contract instance.
+   * @param contractAddress - the contract address
+   * @param abi - the contract artifact
+   * @returns a contract instance
+   */
   public async loadContract(contractAddress: string, abi: Abi) {
     await this.checkExists(contractAddress)
     const contract = getContract({
@@ -76,6 +93,13 @@ export class BlockchainViemUtils extends Instantiable {
     return contract
   }
 
+  /**
+   * Given a transaction hash, it returns the transaction receipt.
+   * If this function is called before the transaction is mined, it will iterate a few times in order to wait for the transaction to be mined.
+   * @param txHash - the transaction hash
+   * @param iteration - the iteration number
+   * @returns the transaction receipt
+   */
   public async getTransactionReceipt(txHash: `0x${string}`, iteration = 1) {
     if (iteration < 10) {
       try {
@@ -115,6 +139,14 @@ export class BlockchainViemUtils extends Instantiable {
 
 ///// CONTRACTS
 
+/**
+ * Given an artifact, it deploys the contract and returns the contract instance.
+ * @param artifact - the contract artifact
+ * @param from - the deployer account
+ * @param args - parameters to be passed to the contract during the initialization
+ * @param client - the client to interact with the blockchain
+ * @returns a contract instance
+ */
 export async function deployContractInstance(
   artifact: { name?: string; abi: Abi; bytecode: `0x${string}` },
   from: NvmAccount,
@@ -130,14 +162,6 @@ export async function deployContractInstance(
 
   const tx = await client.public.waitForTransactionReceipt({ hash: txHash })
   const contractAddress = tx.contractAddress
-  // const nonce = await client.public.getTransactionCount({ address: from.getAddress() })
-  // console.log(`Getting contract address from ${from.getAddress()} and nonce: ${nonce}`)
-  // console.log(` |----> but from transaction: ${tx.contractAddress}`)
-
-  // const contractAddress = getContractAddress({
-  //   from: from.getAddress(),
-  //   nonce: BigInt(nonce),
-  // }) as `0x${string}`
 
   const contract = getContract({
     abi: artifact.abi,
@@ -153,17 +177,8 @@ export async function deployContractInstance(
     if (isZos) {
       // @ts-expect-error "viem, wtf?"
       const initHash = await contract.write.initialize({ args, account: from.getAccountSigner() })
-      // const { request } = await client.public.simulateContract({
-      //   address: contractAddress,
-      //   abi: artifact.abi,
-      //   functionName: 'initialize',
-      //   account: from.getAccountSigner() as Account,
-      //   args,
-      // })
-      // const initHash = await client.wallet.writeContract(request)
 
       const initTx = await client.public.waitForTransactionReceipt({ hash: initHash })
-      // console.log(`Initializeing contract with status: ${initTx.status}`)
       if (initTx.status !== 'success') throw new KeeperError(`Unable to initialize contract`)
     }
   } catch (error) {
@@ -173,21 +188,41 @@ export async function deployContractInstance(
   return contract
 }
 
-export async function getContractInstance(address: string, abi: Abi, client: Web3Clients) {
+/**
+ * Given an already deployed contract address and the ABI, it returns the contract instance.
+ *
+ * @param contractAddress - the contract address
+ * @param abi - the contract artifact
+ * @param client - the client to interact with the blockchain
+ * @returns a contract instance
+ */
+export async function getContractInstance(contractAddress: string, abi: Abi, client: Web3Clients) {
   return getContract({
     abi,
-    address: address as `0x${string}`,
+    address: contractAddress as `0x${string}`,
     client: { wallet: client.wallet, public: client.public },
   })
 }
 
-export async function checkContractExists(address: string, client: PublicClient): Promise<boolean> {
-  const storage = await client.getStorageAt({ address: address as `0x${string}`, slot: toHex(0) })
+/**
+ * Given a contract address it checks if the contract exists on the blockchain.
+ * @param contractAddress - the contract address
+ * @param client - the client to interact with the blockchain
+ * @returns true if the contract exists and false otherwise
+ */
+export async function checkContractExists(
+  contractAddress: string,
+  client: PublicClient,
+): Promise<boolean> {
+  const storage = await client.getStorageAt({
+    address: contractAddress as `0x${string}`,
+    slot: toHex(0),
+  })
   // check if storage is 0x0 at position 0, this is the case most of the cases
   if (storage === '0x0000000000000000000000000000000000000000000000000000000000000000') {
     // if the storage is empty, check if there is no code for this contract,
     // if so we can be sure it does not exist
-    const code = await client.getBytecode({ address: address as `0x${string}` })
+    const code = await client.getBytecode({ address: contractAddress as `0x${string}` })
     if (code === '0x0' || code === '0x') {
       // no contract in the blockchain dude
       //throw new Error(`No contract deployed at address ${address}, sorry.`)
@@ -200,6 +235,13 @@ export async function checkContractExists(address: string, client: PublicClient)
 
 ///// ABIs
 
+/**
+ * It searchs an ABI function in the ABI.
+ * @param abi the ABI of the contract
+ * @param funcName the function name
+ * @param args the args of the function
+ * @returns the function found
+ */
 export function searchAbiFunction(abi: Abi, funcName: string, args: any[] = []): AbiFunction {
   const func = getAbiItem({ abi, name: funcName, args })
   if (!func || func.type !== 'function') {
@@ -212,6 +254,12 @@ export function searchAbiFunction(abi: Abi, funcName: string, args: any[] = []):
   return func as AbiFunction
 }
 
+/**
+ * It searchs an ABI event in the ABI.
+ * @param abi the ABI of the contract
+ * @param funcName the event name
+ * @returns the event found
+ */
 export function searchAbiEvent(abi: Abi, eventName: string): AbiEvent {
   const event = getAbiItem({
     abi,
@@ -223,14 +271,35 @@ export function searchAbiEvent(abi: Abi, eventName: string): AbiEvent {
   return event as AbiEvent
 }
 
+/**
+ * It searchs an ABI function in the ABI.
+ * @param abi the ABI of the contract
+ * @param funcName the function name
+ * @param args the args of the function
+ * @returns the function found
+ */
 export function getSignatureOfFunction(abi: Abi, funcName: string, args: any[] = []): AbiFunction {
   return searchAbiFunction(abi, funcName, args)
 }
 
+/**
+ * It searchs an ABI function in the ABI and return the inputs.
+ * @param abi the ABI of the contract
+ * @param funcName the function name
+ * @param args the args of the function
+ * @returns the function found
+ */
 export function getInputsOfFunction(abi: Abi, funcName: string, args: any[] = []) {
   return searchAbiFunction(abi, funcName, args).inputs
 }
 
+/**
+ * It searchs an ABI function in the ABI and return the inputs formatted.
+ * @param abi the ABI of the contract
+ * @param funcName the function name
+ * @param args the args of the function
+ * @returns the function found
+ */
 export function getInputsOfFunctionFormatted(abi: Abi, funcName: string, args: any[] = []) {
   return searchAbiFunction(abi, funcName, args).inputs.map((input, i) => {
     return {
@@ -242,18 +311,40 @@ export function getInputsOfFunctionFormatted(abi: Abi, funcName: string, args: a
 
 //////// UTILS
 
+/**
+ * It converts a DID to a Token ID.
+ * This is useful because in the Solidity Smart contracts the tokenId is a uint256.
+ * @param did the unique identifier of the asset
+ * @returns the token id in a bigint format
+ */
 export function didToTokenId(did: string): bigint {
   return hexToBigInt(didZeroX(did), { size: 32 })
 }
 
+/**
+ * Given an address it returns that address in checksum format.
+ * @param address the address
+ * @returns the same address in checksum format
+ */
 export function getChecksumAddress(address: string): string {
   return getAddress(address)
 }
 
+/**
+ * It checks if the address is a valid address.
+ * @param address the address to check
+ * @returns true of the address is valid
+ */
 export function isValidAddress(address: string): boolean {
   return isAddress(address)
 }
 
+/**
+ * Encodes a UTF-8 string into a byte array.
+
+ * @param message the string to encode
+ * @returns the encoded byte array
+ */
 export function getBytes(message: string): Uint8Array {
   return stringToBytes(message)
 }

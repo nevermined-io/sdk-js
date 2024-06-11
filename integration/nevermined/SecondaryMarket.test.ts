@@ -212,7 +212,6 @@ describe('Secondary Markets', () => {
           ddo,
           nftSalesTemplate.params(collector1.getId(), numberNFTs),
           collector1,
-          collector1,
         )
         assert.isDefined(result)
 
@@ -298,7 +297,6 @@ describe('Secondary Markets', () => {
           agreementAccessIdSeed,
           ddo,
           nftAccessTemplate.params(collector1.getId(), numberNFTs),
-          collector1,
           collector1,
         )
         assert.isDefined(result)
@@ -391,7 +389,6 @@ describe('Secondary Markets', () => {
           agreementId2Seed,
           ddo,
           nftSalesTemplate.params(collector2.getId(), numberNFTs2),
-          collector2,
           collector2,
         )
         assert.isDefined(result)
@@ -517,7 +514,6 @@ describe('Secondary Markets', () => {
           agreementAccessId2Seed,
           ddo,
           nftAccessTemplate.params(collector2.getId(), numberNFTs),
-          collector2,
           collector2,
         )
         assert.isDefined(result)
