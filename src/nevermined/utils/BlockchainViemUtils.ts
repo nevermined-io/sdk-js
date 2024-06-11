@@ -349,19 +349,42 @@ export function getBytes(message: string): Uint8Array {
   return stringToBytes(message)
 }
 
+/**
+ * It pads a value with zeros.
+ * @param value the value to pad
+ * @param length the expected longitutde of the value
+ * @returns the padded value
+ */
 export function zeroPadValue(value: `0x${string}` | Uint8Array, length: number): string {
   return pad(value, { size: length }) as `0x${string}`
 }
 
+/**
+ * Encodes a UTF-8 string into a hex string
+ * @param message the string to encode
+ * @returns the hex string
+ */
 export function encodeBytes32String(message: string) {
   return stringToHex(message, { size: 32 })
 }
-////// ACCOUNTS
 
+////// ACCOUNTS
+/**
+ * Given a seedphrase, it returns an account.
+ * @param seedphrase - the seedphrase to be used to generate the account
+ * @param addressIndex - the address index
+ * @returns an account
+ */
 export function makeWallet(seedphrase: string, addressIndex: number = 0) {
   return mnemonicToAccount(seedphrase, { addressIndex })
 }
 
+/**
+ * Given a seedphrase generates multiple accounts
+ * @param seedphrase - the seedphrase to be used to generate the account
+ * @param numAccounts - the number of accounts to create
+ * @returns the array of accounts
+ */
 export function makeWallets(seedphrase: string, numAccounts = 10) {
   const accounts: any[] = []
   for (let i = 0; i < numAccounts; i++) {
@@ -370,11 +393,20 @@ export function makeWallets(seedphrase: string, numAccounts = 10) {
   return accounts
 }
 
+/**
+ * It generates a random account.
+ * @returns a new account
+ */
 export function makeRandomWallet() {
   const mnemonic = generateMnemonic(english)
   return makeWallet(mnemonic)
 }
 
+/**
+ * It generates a list of random accounts
+ * @param numAccounts - the number of accounts to create
+ * @returns the array of accounts
+ */
 export function makeRandomWallets(numAccounts = 10) {
   const mnemonic = generateMnemonic(english)
   return makeWallets(mnemonic, numAccounts)
@@ -382,18 +414,36 @@ export function makeRandomWallets(numAccounts = 10) {
 
 /////// HASHES
 
+/**
+ * It hashes a string using keccak256.
+ * @param seed the string to hash
+ * @returns the hash
+ */
 export function keccak256(seed: string): string {
   return viemKeccak256(toBytes(seed))
 }
 
+/**
+ * It encodes and hashes a list of primitive values into an ABI-encoded hex value.
+ * @param types the types of the values
+ * @param values the values to encode
+ * @returns the hash
+ */
 export function keccak256WithEncode(types: any[], values: any[]): string {
   const encoded = encodeAbiParameters(types, values as never)
   return keccak256(encoded)
 }
 
+/**
+ * It encodes and hashes a list of primitive values into an ABI-encoded hex value.
+ * @param types the types of the values
+ * @param values the values to encode
+ * @returns the hash
+ */
 export function keccak256Packed(types: any[], values: any[]): string {
   return keccak256WithEncode(types, values)
 }
+
 //// UNITS
 
 /**
@@ -473,6 +523,13 @@ export const formatEther = (value: bigint): string => {
 
 /////// ZERO DEV
 
+/**
+ * It creates a ZeroDev Kernel client.
+ * @param signer the signer account
+ * @param chainId the chain id
+ * @param zeroDevProjectId the zero dev project id, you can get it from the ZeroDev dashboard
+ * @returns the kernel client
+ */
 export async function createKernelClient(signer: any, chainId: number, zeroDevProjectId: string) {
   const publicClient = createPublicClient({
     chain: getChain(chainId),
@@ -514,6 +571,13 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
   })
 }
 
+/**
+ * It creates a ZeroDev Session Key with some specific permissions
+ * @param signer the signer account
+ * @param publicClient the blockchain client
+ * @param permissions the permissions to configure in the session key
+ * @returns the session key serialized
+ */
 export async function createSessionKey(signer: any, publicClient: any, permissions: any[]) {
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
     entryPoint: ENTRYPOINT_ADDRESS_V06,
@@ -542,6 +606,13 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
   return serializeSessionKeyAccount(sessionKeyAccount, sessionPrivateKey)
 }
 
+/**
+ * Given a serialized session key it reconstructs the NvmAccount represented by the session key.
+ * @param serializedSessionKey - the serialized session key
+ * @param zeroDevProjectId - the zero dev project id
+ * @param publicClient - the blockchain client
+ * @returns the NvmAccount represented by the session key
+ */
 export async function getSessionKey(
   serializedSessionKey: string,
   zeroDevProjectId: string,

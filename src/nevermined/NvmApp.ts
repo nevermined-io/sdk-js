@@ -70,7 +70,6 @@ export class NvmApp {
   private userAccount: NvmAccount | undefined
   private searchSDK: Nevermined
   private fullSDK: Nevermined | undefined
-  // private useZeroDevSigner: boolean = false
   private zeroDevSignerAccount: SmartAccountSigner<'custom', `0x${string}`> | undefined
   public assetProviders: string[] = []
   private loginCredentials: string | undefined
@@ -349,7 +348,7 @@ export class NvmApp {
    * @param susbcriptionMetadata - The metadata for the subscription.
    * @param subscriptionPrice - The price of the subscription.
    * @param duration - The duration of the subscription in seconds.
-   * @returns A Promise that resolves to the DDO (Decentralized Data Object) of the created subscription.
+   * @returns A Promise that resolves to the {@link DDO} (Decentralized Data Object) of the created subscription.
    */
   public async createTimeSubscriptionAsync(
     susbcriptionMetadata: MetaData,
@@ -853,7 +852,7 @@ export class NvmApp {
   }
 
   // TODO: Implement subscription validations
-  public validateSubscription(
+  protected validateSubscription(
     metadata: MetaData,
     price: AssetPrice,
     subscriptionType: SubscriptionType,
@@ -879,12 +878,14 @@ export class NvmApp {
   }
 
   // TODO: Implement subscription validations
-  public validateServiceAssetMetadata(_susbcriptionMetadata: MetaData): MetadataValidationResults {
+  protected validateServiceAssetMetadata(
+    _susbcriptionMetadata: MetaData,
+  ): MetadataValidationResults {
     return { isValid: true, messages: [] }
   }
 
   // TODO: Implement subscription validations
-  public validateFileAssetMetadata(_susbcriptionMetadata: MetaData): MetadataValidationResults {
+  protected validateFileAssetMetadata(_susbcriptionMetadata: MetaData): MetadataValidationResults {
     return { isValid: true, messages: [] }
   }
 
