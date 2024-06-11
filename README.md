@@ -1,40 +1,37 @@
 [![banner](https://raw.githubusercontent.com/nevermined-io/assets/main/images/logo/banner_logo.png)](https://nevermined.io)
 
-# Javascript/Typescript API for Nevermined Data platform
+# Javascript/Typescript API for Nevermined platform
 
 > Javascript SDK for connecting with Nevermined Data Platform
 > [nevermined.io](https://nevermined.io)
 
-![CI Build](https://github.com/nevermined-io/sdk-js/workflows/Build/badge.svg)
+[![Testing](https://github.com/nevermined-io/sdk-js/actions/workflows/testing.yml/badge.svg?branch=main)](https://github.com/nevermined-io/sdk-js/actions/workflows/testing.yml)
 
 ---
 
 ## Table of Contents
 
-- [Javascript/Typescript API for Nevermined Data platform](#javascripttypescript-api-for-nevermined-data-platform)
+- [Javascript/Typescript API for Nevermined platform](#javascripttypescript-api-for-nevermined-platform)
   - [Table of Contents](#table-of-contents)
-  - [Get started](#get-started)
+  - [Getting Started](#getting-started)
     - [Examples](#examples)
   - [Documentation](#documentation)
-    - [Migration Guide](#migration-guide)
-  - [Development](#development)
-  - [Testing](#testing)
-    - [Unit Tests](#unit-tests)
-    - [Integration Tests](#integration-tests)
-  - [Code Style](#code-style)
-  - [Production build](#production-build)
-  - [Releases](#releases)
-  - [Attribution](#attribution)
   - [License](#license)
 
 ---
 
-## Get started
+The Nevermined SDK is the official JavaScript library for interacting with the Nevermined network. It provides a convenient way to interact with the Nevermined protocol from a JavaScript/TypeScript application.
+
+## Getting Started
 
 Start by adding the package to your dependencies:
 
 ```bash
 npm i @nevermined-io/sdk
+
+# or
+
+yarn add @nevermined-io/sdk
 ```
 
 The package exposes `Nevermined` and `Logger` which you can import in your code like this:
@@ -47,165 +44,37 @@ import { Nevermined, Logger } from '@nevermined-io/sdk'
 const { Nevermined, Logger } = require('@nevermined-io/sdk')
 ```
 
-You can then connect to the [Smart Contracts](https://github.com/nevermined-io/contracts), [Metadata API](https://github.com/nevermined-io/metadata), [Nevermined Node](https://github.com/nevermined-io/node) instances, e.g.:
+You can then connect to the [Smart Contracts](https://github.com/nevermined-io/contracts), [Marketplace API](https://github.com/nevermined-io/metadata), [Nevermined Node](https://github.com/nevermined-io/node) instances, e.g.:
 
 ```js
 const nevermined: Nevermined = await Nevermined.getInstance({
-  // the node of the blockchain to connect to, could also be infura
-  web3ProviderUri: 'http://localhost:8545',
-  // the uri of metadata
-  metadataUri: 'http://localhost:5000',
-  // the uri of nevermined node
-  neverminedNodeUri: 'http://localhost:8030',
-  // the uri of faucet
-  faucetUri: 'http://localhost:3001',
-  // address that node uses
+  // The node of the blockchain to connect to, could also be infura
+  web3ProviderUri: 'https://sepolia-rollup.arbitrum.io/rpc',
+  // The chain id of the blockchain network
+  chainId: 421614,
+  // The uri of the Nevermined Marketplace API
+  marketplaceUri: 'https://marketplace-api.testing.nevermined.app',
+  // The public address of the Nevermined Node where the SDK will be connected
+  neverminedNodeUri: 'https://node.testing.nevermined.app',
+  // The public address of the Nevermined Node where the SDK will be connected
   neverminedNodeAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e',
 })
 ```
 
 ### Examples
 
-You can see how `nevermined-sdk-js` is used on:
+You can see how `sdk-js` is used on:
 
-- [Integration test](/src/integration/nevermined/)
+- [Integration test](/integration/nevermined/)
 
 ## Documentation
 
-You can generate the raw TypeDoc documentation locally by running:
-
-```bash
-# will output to ./doc folder
-npm run doc
-```
-
-### Migration Guide
-
-Instructions on how to migrate between breaking versions:
-
-- [Migration Guide](MIGRATION.md)
-
-## Development
-
-To start development you need to:
-
-```bash
-npm i
-npm start
-```
-
-## Testing
-
-### Unit Tests
-
-For unit tests, running [`ganache-cli`](https://github.com/trufflesuite/ganache-cli) is required before starting the tests. It's best to start it on a different port so it doesn't clash with anything running in [Nevermined Tools](https://github.com/nevermined-io/tools):
-
-```bash
-npm i -g ganache-cli
-ganache-cli --port 18545
-export ETH_PORT=18545
-```
-
-To start unit tests, run:
-
-```bash
-npm test
-```
-
-or to watch for changes:
-
-```bash
-npm run test:watch
-```
-
-to create code coverage information:
-
-```bash
-npm run test:cover
-```
-
-### Integration Tests
-
-Besides a running `ganache-cli` instance, a locally running Nevermined network is required.
-To do so before running the tests, use [Nevermined Tools](https://github.com/nevermined-io/tools):
-
-```bash
-git clone https://github.com/nevermined-io/tools
-cd tools
-
-./start_nevermined.sh --no-marketplace
-```
-
-In another terminal window, run this script and export the seed phrase:
-
-```bash
-# copies the contract artifacts once the local Nevermined network is up and running
-./scripts/wait-nevermined.sh
-
-# export local accounts seed phrase
-export SEED_WORDS="taxi music thumb unique chat sand crew more leg another off lamp"
-```
-
-Once everything is up, run the integration tests:
-
-```bash
-npm run integration
-```
-
-to generate code coverage information during test, run:
-
-```bash
-npm run integration:cover
-```
-
-## Code Style
-
-For linting and auto-formatting you can use:
-
-```bash
-# lint all ts with eslint
-npm run lint
-
-# auto format all ts with prettier, taking all configs into account
-npm run format
-```
-
-## Production build
-
-To create a production build:
-
-```bash
-npm run build
-```
-
-## Releases
-
-From a clean `main` branch you can run any release task doing the following:
-
-- bumps the project version in `package.json`, `package-lock.json`
-- auto-generates and updates the CHANGELOG.md file from commit messages
-- creates a Git tag
-- commits and pushes everything
-- creates a GitHub release with commit messages as description
-- Git tag push will trigger Travis to do a npm release
-
-You can execute the script using arguments to bump the version accordingly:
-
-- To bump a patch version: `npm run release`
-- To bump a minor version: `npm run release minor`
-- To bump a major version: `npm run release major`
-
-For the GitHub releases steps a GitHub personal access token, exported as `GITHUB_TOKEN` is required. [Setup](https://github.com/release-it/release-it#github-releases)
-
-## Attribution
-
-This library is based in the [Ocean Protocol](https://oceanprotocol.com) [Squid JS](https://github.com/oceanprotocol/squid-js) library.
-It keeps the same Apache v2 License and adds some improvements. See [NOTICE file](NOTICE).
+You can find the full documentation for the SDK in the [Nevermined documentation](https://docs.nevermined.io/docs/nevermined-sdk/intro).
 
 ## License
 
 ```
-Copyright 2022 Nevermined AG
+Copyright 2024 Nevermined AG
 This product includes software developed at
 BigchainDB GmbH and Ocean Protocol (https://www.oceanprotocol.com/)
 
