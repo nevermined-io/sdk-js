@@ -1,4 +1,3 @@
-// import { Balance, TypedDataDomain, TypedDataTypes } from '../../models'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { NvmAccount } from '../../models/NvmAccount'
 import { TxParameters as txParams } from '../../models/Transactions'
@@ -49,6 +48,11 @@ export class AccountsApi extends Instantiable {
     return NvmAccount.fromAddress(address as `0x${string}`)
   }
 
+  /**
+   * Given an address, it returns the account if it exists in the list of accounts.
+   * @param from
+   * @returns
+   */
   public findAccount(from: string): NvmAccount | undefined {
     for (const acc of this.config.accounts || []) {
       const addr = acc.getAddress()
@@ -59,10 +63,20 @@ export class AccountsApi extends Instantiable {
     return undefined
   }
 
+  /**
+   * Returns the list of addresses (Local or Json-Rpc)
+   * @returns The list of addresses.
+   */
   public async addresses(): Promise<string[]> {
     return await Promise.all((this.config.accounts || []).map((a) => a.getAddress()))
   }
 
+  /**
+   * It signs a message using a remote account
+   * @param text the message to sign
+   * @param from the address of the remote account used to sign the message
+   * @returns the message signed message
+   */
   public async signTextWithRemoteAccount(
     text: string | Uint8Array,
     from: string,
@@ -74,6 +88,12 @@ export class AccountsApi extends Instantiable {
     })
   }
 
+  /**
+   * It signs a transaction using a remote account
+   * @param data the transaction data
+   * @param from the address of the remote account used to sign the transaction
+   * @returns the signed transaction
+   */
   public async signTransactionWithRemoteAccount(
     data: `0x${string}`,
     from: string,
@@ -85,6 +105,14 @@ export class AccountsApi extends Instantiable {
     })
   }
 
+  /**
+   * It signs a typed data using a remote account
+   * @param domain the domain of the typed data
+   * @param types the types of the typed data
+   * @param value the value of the typed data
+   * @param from the address of the remote account used to sign the typed data
+   * @returns the signed typed data
+   */
   public async signTypedData(
     domain: TypedDataDomain,
     types: TypedDataTypes,
@@ -102,8 +130,8 @@ export class AccountsApi extends Instantiable {
 
   /**
    * Request tokens for an account.
-   * @param account - Account instance.
-   * @param amount  - Token amount.
+   * @param account - Account instance or the address of the account to receive the tokens
+   * @param amount  - Token amount to request
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call was successful. {@link false} otherwise.
    */
@@ -129,33 +157,36 @@ export class AccountsApi extends Instantiable {
   }
 
   /**
-   * Balance of Nevermined Token.
-   * @returns
+   * It gets the balance of the ERC20 Token loaded in the Nevermined instance
+   * @param account - Account instance or the address of the account to get the balance
+   * @returns the balance of ERC20 Token related to the account
    */
-  public async getNeverminedBalance(address: string | NvmAccount): Promise<bigint> {
+  public async getNeverminedBalance(account: string | NvmAccount): Promise<bigint> {
     const accountAddress =
-      address instanceof NvmAccount ? address.getAddress() : (address as `0x${string}`)
+      account instanceof NvmAccount ? account.getAddress() : (account as `0x${string}`)
     const { token } = this.nevermined.keeper
     if (!token) return 0n
     return ((await token.balanceOf(accountAddress)) / 10n) * BigInt(await token.decimals())
   }
 
   /**
-   * Balance of Ether.
-   * @returns
+   * It gets the native token (i.e ETH) balance of an account
+   * @param account - Account instance or the address of the account to get the balance
+   * @returns the balance of the native token
    */
-  public async getEtherBalance(address: string | NvmAccount): Promise<bigint> {
+  public async getEtherBalance(account: string | NvmAccount): Promise<bigint> {
     const accountAddress =
-      address instanceof NvmAccount ? address.getAddress() : (address as `0x${string}`)
+      account instanceof NvmAccount ? account.getAddress() : (account as `0x${string}`)
     return this.client.public.getBalance({ address: accountAddress })
   }
 
   /**
-   * Balances of Ether and Nevermined Token.
-   * @returns
+   * It gets the balance of the native token (i.e ETH) and the ERC20 token associated to the account
+   * @param account - Account instance or the address of the account to get the balance
+   * @returns The balance of the ERC20 and Native tokens
    */
-  public async getBalance(address: string | NvmAccount): Promise<Balance> {
-    const accountAddress = address instanceof NvmAccount ? address.getId() : address
+  public async getBalance(account: string | NvmAccount): Promise<Balance> {
+    const accountAddress = account instanceof NvmAccount ? account.getId() : account
     return {
       eth: await this.getEtherBalance(accountAddress),
       nevermined: await this.getNeverminedBalance(accountAddress),

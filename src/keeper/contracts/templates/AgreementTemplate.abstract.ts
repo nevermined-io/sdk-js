@@ -213,14 +213,13 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
     ddo: DDO,
     parameters: Params,
     consumer: NvmAccount,
-    from: NvmAccount,
     timeOuts?: number[],
     txParams?: TxParameters,
   ): Promise<string> {
     const { agreementId, instances } = await this.instanceFromDDO(
       agreementIdSeed,
       ddo,
-      from.getId(),
+      consumer.getId(),
       parameters,
     )
 
@@ -231,7 +230,7 @@ export abstract class AgreementTemplate<Params> extends ContractBase {
       new Array(instances.length).fill(0),
       timeOuts ? timeOuts : new Array(instances.length).fill(0),
       [consumer.getId()],
-      from,
+      consumer,
       txParams,
     )
 

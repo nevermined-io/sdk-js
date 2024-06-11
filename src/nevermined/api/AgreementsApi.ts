@@ -39,13 +39,13 @@ export class AgreementsApi extends Instantiable {
    *
    * @param did - Decentralized ID.
    * @param serviceType - Service.
-   * @param  consumer - Consumer account.
+   * @param  from - Consumer account.
    * @returns The agreement ID and signature.
    */
   public async prepareSignature(
     did: string,
     serviceType: ServiceType,
-    consumer: NvmAccount,
+    from: NvmAccount,
   ): Promise<AgreementPrepareResult> {
     const ddo = await this.nevermined.assets.resolve(did)
     const agreementIdSeed: string = zeroX(generateId())
@@ -55,8 +55,8 @@ export class AgreementsApi extends Instantiable {
       await this.nevermined.keeper.templates.accessTemplate.getAgreementIdsFromDDO(
         agreementIdSeed,
         ddo,
-        consumer.getId(),
-        accessTemplate.params(consumer),
+        from.getId(),
+        accessTemplate.params(from),
       )
 
     const signature = await this.nevermined.utils.agreements.signServiceAgreement(
@@ -64,7 +64,7 @@ export class AgreementsApi extends Instantiable {
       serviceType,
       agreementIdSeed,
       agreementConditionsIds,
-      consumer,
+      from,
     )
 
     return { agreementIdSeed, signature }
@@ -78,10 +78,11 @@ export class AgreementsApi extends Instantiable {
    * in this method before submitting on-chain.
    *
    * @param did -  Decentralized ID.
-   * @param agreementId - Service agreement ID.
+   * @param agreementIdSeed - Service agreement ID seed.
    * @param serviceType - Service.
-   * @param consumer - Consumer account.
-   * @param publisher - Publisher account.
+   * @param agreementParams - Agreement parameters.
+   * @param from - The account of the user creating the service agreement
+   * @param txParams - Transaction parameters.
    * @returns The service agreement id
    */
   public async create(
@@ -89,9 +90,8 @@ export class AgreementsApi extends Instantiable {
     agreementIdSeed: string,
     serviceType: ServiceType,
     agreementParams: any,
-    consumer: NvmAccount,
-    publisher: NvmAccount,
-    params?: TxParameters,
+    from: NvmAccount,
+    txParams?: TxParameters,
   ) {
     const ddo = await this.nevermined.assets.resolve(did)
 
@@ -100,15 +100,7 @@ export class AgreementsApi extends Instantiable {
 
     const agreementId = await this.nevermined.keeper
       .getTemplateByName(templateName)
-      ?.createAgreementFromDDO(
-        agreementIdSeed,
-        ddo,
-        agreementParams,
-        consumer,
-        publisher,
-        undefined,
-        params,
-      )
+      ?.createAgreementFromDDO(agreementIdSeed, ddo, agreementParams, from, undefined, txParams)
 
     return agreementId as string
   }
@@ -116,7 +108,7 @@ export class AgreementsApi extends Instantiable {
   /**
    * Get the status of a service agreement.
    * @param agreementId - Service agreement ID.
-   * @param extended - Returns a complete status with dependencies.
+   * @param extended - If true returns a complete status with dependencies.
    * @returns status of the agreement
    */
   public async status(agreementId: string, extended = false) {
@@ -163,14 +155,14 @@ export class AgreementsApi extends Instantiable {
    * @param agreementId the agreement id
    * @param did the unique identifier of the asset
    * @param consumerAddress the address of the consumer
-   * @param account the user account
+   * @param from the user account
    * @returns true if the user has permissions
    */
   public async isAccessGranted(
     agreementId: string,
     did: string,
     consumerAddress: string,
-    account: NvmAccount,
+    from: NvmAccount,
   ): Promise<boolean> {
     const { accessConsumer } =
       await this.nevermined.keeper.templates.accessTemplate.getAgreementData(agreementId)
@@ -181,7 +173,7 @@ export class AgreementsApi extends Instantiable {
     return await this.nevermined.keeper.conditions.accessCondition.checkPermissions(
       accessConsumer,
       did,
-      account,
+      from,
     )
   }
 }

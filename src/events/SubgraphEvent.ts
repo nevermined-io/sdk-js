@@ -13,9 +13,20 @@ import _ from 'lodash'
 import { GqlArgs, generateGql, getMethodName } from './utils'
 import { GraphError } from '../errors/NeverminedErrors'
 
+/**
+ * Class to handle Smart Contract events connected to the contract subgraphs
+ */
 export class SubgraphEvent extends NeverminedEvent {
   public subgraph: ApolloClient<NormalizedCacheObject>
 
+  /**
+   *  It gets a new instance of SubgraphEvent
+   * @param contract contract instance
+   * @param eventEmitter events emitter implementation
+   * @param graphHttpUri url of the subgraph
+   * @param networkName the name of the blockchain network
+   * @returns the SubgraphEvent instance
+   */
   public static getInstance(
     contract: ContractBase,
     eventEmitter: EventEmitter,
@@ -44,6 +55,11 @@ export class SubgraphEvent extends NeverminedEvent {
     return instance
   }
 
+  /**
+   * It returns the events matching a given filter
+   * @param options event filter options
+   * @returns {@link EventResult}
+   */
   public async getEventData(options: EventOptions): EventResult {
     if (!this.subgraph || !options.filterSubgraph) {
       throw new GraphError(`Subgraph client for ${this.contract.contractName} is not implemented!`)
@@ -61,10 +77,19 @@ export class SubgraphEvent extends NeverminedEvent {
     }
   }
 
+  /**
+   * It returns the events matching a given filter
+   * @param options event filter options
+   * @returns {@link EventResult}
+   */
   public async getPastEvents(options: EventOptions): EventResult {
     return this.getEventData(options)
   }
 
+  /**
+   * It returns the block number of the latest block minted in the blockchain
+   * @returns the block number
+   */
   public async getBlockNumber(): Promise<bigint> {
     const result = await this.subgraph.query({
       query: gql`

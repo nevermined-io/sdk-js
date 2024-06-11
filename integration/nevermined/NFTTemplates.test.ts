@@ -750,7 +750,6 @@ describe('NFTTemplates E2E', () => {
           ddo,
           nftAccessTemplate.params(collector1.getId(), numberNFTs),
           collector1,
-          collector1,
         )
         assert.isDefined(result)
 
@@ -802,7 +801,6 @@ describe('NFTTemplates E2E', () => {
           agreementId2Seed,
           ddo,
           nftSalesTemplate.params(collector2.getId(), numberNFTs2),
-          collector2,
           collector2,
         )
         assert.isDefined(result)
@@ -972,7 +970,6 @@ describe('NFTTemplates E2E', () => {
           ddo,
           nftSalesTemplate.params(collector1.getId(), numberNFTs),
           collector1,
-          collector1,
         )
         assert.isDefined(result)
 
@@ -1049,7 +1046,6 @@ describe('NFTTemplates E2E', () => {
           'nft-sales',
           numberNFTs,
           artist,
-          gallery,
         )
         assert.isTrue(receipt)
 

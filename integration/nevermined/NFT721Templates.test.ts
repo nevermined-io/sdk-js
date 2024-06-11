@@ -766,7 +766,6 @@ describe('NFT721Templates E2E', () => {
           ddo,
           nft721AccessTemplate.params(collector1.getId()),
           collector1,
-          collector1,
         )
         assert.isDefined(result)
 
@@ -815,7 +814,6 @@ describe('NFT721Templates E2E', () => {
           agreementId2Seed,
           ddo,
           nft721SalesTemplate.params(collector2.getId()),
-          collector2,
           collector2,
         )
         assert.isDefined(result)

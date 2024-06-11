@@ -291,7 +291,6 @@ describe('Register Escrow Compute Execution Template', () => {
         ddo,
         escrowComputeExecutionTemplate.params(consumer),
         consumer,
-        publisher,
       )
 
       assert.match(agreementId, /^0x[a-f0-9]{64}$/i)

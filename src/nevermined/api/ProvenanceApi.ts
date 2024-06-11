@@ -5,7 +5,7 @@ import { zeroPadValue } from '../../nevermined/utils/BlockchainViemUtils'
 import { TxParameters } from '../../models/Transactions'
 
 /**
- * Nevermined Provenance API. It allows to register and search entries in the Nevermined W3C Provenance registry
+ * The Nevermined Provenance API allows to register and search entries in the Nevermined W3C Provenance registry
  * You can find more information about Nevermined Provenance here:
  * {@link https://docs.nevermined.io/docs/architecture/specs/Spec-PROVENANCE}
  */
@@ -23,14 +23,18 @@ export class ProvenanceApi extends Instantiable {
   /**
    * Given a provenance id it returns the provenance details
    * @param provenanceId Unique identifier of a provenance entry
-   * @returns
+   * @returns {@link ProvenanceRegistry} object with the provenance details
    */
   public async getProvenanceEntry(provenanceId: string) {
     return this.nevermined.keeper.didRegistry.getProvenanceEntry(provenanceId)
   }
 
   /**
-   * Implements the W3C PROV Usage action
+   * Implements the W3C PROV Usage action.
+   *
+   * @remarks
+   * This method can be called when want to track the usage of a DID.
+   *
    * @param provenanceId - Provenance ID
    * @param did - Identifier of the entity created
    * @param agentId - Agent Identifier
@@ -66,6 +70,10 @@ export class ProvenanceApi extends Instantiable {
 
   /**
    * Implements the W3C PROV Derivation action
+   *
+   * @remarks
+   * This method can be called when want to track the derivation of a new DID from an existing DID.
+   *
    * @param provenanceId - Provenance ID
    * @param newEntityDid - Identifier of the new entity derived
    * @param usedEntityDid - Identifier of the entity used to derive the new entity
@@ -101,6 +109,10 @@ export class ProvenanceApi extends Instantiable {
 
   /**
    * Implements the W3C PROV Association action
+   *
+   * @remarks
+   * This method can be called when want to track the association of an agent with a DID.
+   *
    * @param provenanceId - Provenance ID
    * @param did - Identifier of the entity created
    * @param agentId - Agent Identifier
@@ -132,7 +144,11 @@ export class ProvenanceApi extends Instantiable {
   }
 
   /**
-   * Implements the W3C PROV Delegation action
+   * Implements the W3C PROV Delegation action.
+   *
+   * @remarks
+   * This method can be called when want to track the delegation of an agent to act on behalf of another agent.
+   *
    * @param provenanceId - Provenance ID
    * @param did - Identifier of the entity created
    * @param delegateAgentId - Delegate Agent Identifier
@@ -170,22 +186,22 @@ export class ProvenanceApi extends Instantiable {
   }
 
   /**
-   * Add new DID provenance delegate.
+   * Add new DID provenance delegate. The delegate will be able to perform actions on behalf of the DID owner.
    * @param did - Identifier of the entity created
-   * @param delegated - Delegate Address
+   * @param delegatedAddress - Delegate Address
    * @param from - Sender account.
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
   public async addDidProvenanceDelegate(
     did: string,
-    delegated: string,
+    delegatedAddress: string,
     from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.addDidProvenanceDelegate(
       did,
-      delegated,
+      delegatedAddress,
       from,
       txParams,
     )
@@ -193,22 +209,22 @@ export class ProvenanceApi extends Instantiable {
   }
 
   /**
-   * Remove an existing DID delegate.
+   * Remove an existing DID as delegate.
    * @param did - Identifier of the entity created
-   * @param delegated - Delegate Address
+   * @param delegatedAddress - Delegate Address
    * @param from - Sender account.
    * @param txParams - Transaction parameters
    * @returns {@link true} if the call succeeded.
    */
   public async removeDidProvenanceDelegate(
     did: string,
-    delegated: string,
+    delegatedAddress: string,
     from: NvmAccount,
     txParams?: TxParameters,
   ): Promise<boolean> {
     await this.nevermined.keeper.didRegistry.removeDidProvenanceDelegate(
       did,
-      delegated,
+      delegatedAddress,
       from,
       txParams,
     )
@@ -218,15 +234,17 @@ export class ProvenanceApi extends Instantiable {
   /**
    * Check whether a given DID delegate exists
    * @param did - Identifier of the entity created
-   * @param delegated - Delegate Address
+   * @param delegatedAddress - Delegate Address
+   * @returns {@link true} if the address is a delegate.
    */
-  public async isProvenanceDelegate(did: string, delegated: string) {
-    return this.nevermined.keeper.didRegistry.isProvenanceDelegate(did, delegated)
+  public async isProvenanceDelegate(did: string, delegatedAddress: string) {
+    return this.nevermined.keeper.didRegistry.isProvenanceDelegate(did, delegatedAddress)
   }
 
   /**
    * Retrieve the owner of the provenance record.
    * @param did - Identifier of the entity created
+   * @returns Address of the provenance owner.
    */
   public async getProvenanceOwner(did: string) {
     return this.nevermined.keeper.didRegistry.getProvenanceOwner(did)

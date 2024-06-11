@@ -97,7 +97,6 @@ describe('Consume Asset (Documentation example)', () => {
       'access',
       nevermined.keeper.templates.accessTemplate.params(consumer),
       consumer,
-      publisher,
     )
 
     assert.isDefined(agreementId)

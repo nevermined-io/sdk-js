@@ -6,7 +6,18 @@ import { searchAbiEvent } from '../nevermined/utils/BlockchainViemUtils'
 import { Nevermined } from '../nevermined/Nevermined'
 import { Web3Clients } from '../Instantiable.abstract'
 
+/**
+ * Class to handle Smart Contract events directly connected to a blockchain node
+ */
 export class ContractEvent extends NeverminedEvent {
+  /**
+   * It gets a new instance of ContractEvent
+   * @param contract contract instance
+   * @param eventEmitter events emitter implementation
+   * @param nevermined the Nevermined instance
+   * @param client the blockchain client
+   * @returns the ContractEvent instance
+   */
   public static getInstance(
     contract: ContractBase,
     eventEmitter: EventEmitter,
@@ -22,6 +33,11 @@ export class ContractEvent extends NeverminedEvent {
     return instance
   }
 
+  /**
+   * It returns the events matching a given filter
+   * @param options event filter options
+   * @returns {@link EventResult}
+   */
   public async getEventData(options: EventOptions): EventResult {
     if (!this.eventExists(options.eventName) || !options.filterJsonRpc) {
       throw new KeeperError(
@@ -47,6 +63,12 @@ export class ContractEvent extends NeverminedEvent {
     }
   }
 
+  /**
+   * It returns the events matching a given filter depending on the blockchain network connected
+   * This necessary for some networks and/or web3 providers which limit the number of blocks to query
+   * @param options event filter options
+   * @returns {@link EventResult}
+   */
   public async getPastEvents(options: EventOptions): EventResult {
     try {
       const chainId = this.client.chain?.id
@@ -73,10 +95,19 @@ export class ContractEvent extends NeverminedEvent {
     }
   }
 
+  /**
+   * It returns the current block chain block number
+   * @returns the block number
+   */
   public async getBlockNumber(): Promise<bigint> {
     return await this.client.public.getBlockNumber()
   }
 
+  /**
+   * It checks if an event exists on the contract definition
+   * @param eventName the event name
+   * @returns true if the event exists, false otherwise
+   */
   private eventExists(eventName: string): boolean {
     try {
       const signature = searchAbiEvent(this.contract.contract.abi, eventName)
@@ -86,6 +117,12 @@ export class ContractEvent extends NeverminedEvent {
     }
   }
 
+  /**
+   * It returns the indexed parameters of an event
+   * @param eventName the name of the event
+   * @param filter tge event filter
+   * @returns the array of indexed parameters
+   */
   private filterToArgs(eventName: string, filter: FilterContractEvent): Array<any> {
     const signature = searchAbiEvent(this.contract.contract.abi, eventName)
     // @ts-ignore

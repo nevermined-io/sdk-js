@@ -7,6 +7,9 @@ import {
   ContractEventSubscription,
 } from '../types/EventTypes'
 
+/**
+ * Abstract class to handle Smart Contract events
+ */
 export abstract class NeverminedEvent extends Instantiable {
   protected eventEmitter: EventEmitter
   protected contract: ContractBase
@@ -14,12 +17,24 @@ export abstract class NeverminedEvent extends Instantiable {
   public abstract getPastEvents(options: EventOptions): EventResult
   public abstract getBlockNumber(...args: any[]): Promise<bigint>
 
+  /**
+   * Initializes the NeverminedEvent instance
+   * @param contract contract instance
+   * @param eventEmitter events emitter implementation
+   * @returns the NeverminedEvent instance
+   */
   protected constructor(contract: ContractBase, eventEmitter: EventEmitter) {
     super()
     this.contract = contract
     this.eventEmitter = eventEmitter
   }
 
+  /**
+   * Subscribes to a contract event
+   * @param callback function called when the event is triggered
+   * @param options event filter options
+   * @returns {@link ContractEventSubscription}
+   */
   public subscribe(
     callback: (events: EventResult[]) => void,
     options: EventOptions,
@@ -35,6 +50,13 @@ export abstract class NeverminedEvent extends Instantiable {
     }
   }
 
+  /**
+   * Subscribes to a contract event and waits for the first event to happen
+   * @param callback function called when the event is triggered
+   * @param options event filter options
+   * @param timeout maximum time to wait for the event to happen
+   * @returns Promise with the event data
+   */
   public async once(
     callback: (events: EventResult[]) => void,
     options: EventOptions,
