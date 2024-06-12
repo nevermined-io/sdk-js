@@ -31,35 +31,39 @@
 
 ### constructor
 
-• **new EventHandler**()
+• **new EventHandler**(): [`EventHandler`](EventHandler.md)
+
+#### Returns
+
+[`EventHandler`](EventHandler.md)
 
 ## Properties
 
 ### events
 
-• `Private` **events**: `Set`<(`blockNumber`: `any`) => `void`\>
+• `Private` **events**: `Set`\<(`blockNumber`: `bigint`) => `void`\>
 
 #### Defined in
 
-[src/events/EventHandler.ts:6](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L6)
+[src/events/EventHandler.ts:6](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L6)
 
 ---
 
 ### getBlockNumber
 
-• `Private` **getBlockNumber**: () => `Promise`<`number`\>
+• `Private` **getBlockNumber**: () => `Promise`\<`bigint`\>
 
 #### Type declaration
 
-▸ (): `Promise`<`number`\>
+▸ (): `Promise`\<`bigint`\>
 
 ##### Returns
 
-`Promise`<`number`\>
+`Promise`\<`bigint`\>
 
 #### Defined in
 
-[src/events/EventHandler.ts:16](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L16)
+[src/events/EventHandler.ts:16](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L16)
 
 ---
 
@@ -69,17 +73,17 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:10](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L10)
+[src/events/EventHandler.ts:10](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L10)
 
 ---
 
 ### lastBlock
 
-• `Private` **lastBlock**: `number`
+• `Private` **lastBlock**: `bigint`
 
 #### Defined in
 
-[src/events/EventHandler.ts:8](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L8)
+[src/events/EventHandler.ts:8](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L8)
 
 ---
 
@@ -89,7 +93,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:14](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L14)
+[src/events/EventHandler.ts:14](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L14)
 
 ---
 
@@ -99,7 +103,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:12](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L12)
+[src/events/EventHandler.ts:12](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L12)
 
 ## Accessors
 
@@ -113,13 +117,13 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:2](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L2)
+[src/events/EventHandler.ts:2](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L2)
 
 ## Methods
 
 ### checkBlock
 
-▸ `Private` **checkBlock**(`isInterval?`): `Promise`<`void`\>
+▸ **checkBlock**(`isInterval?`): `Promise`\<`void`\>
 
 #### Parameters
 
@@ -129,11 +133,11 @@
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Defined in
 
-[src/events/EventHandler.ts:37](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L37)
+[src/events/EventHandler.ts:38](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L38)
 
 ---
 
@@ -145,8 +149,8 @@
 
 | Name             | Type                                |
 | :--------------- | :---------------------------------- |
-| `callback`       | (`blockNumber`: `number`) => `void` |
-| `getBlockNumber` | () => `Promise`<`number`\>          |
+| `callback`       | (`blockNumber`: `bigint`) => `void` |
+| `getBlockNumber` | () => `Promise`\<`bigint`\>         |
 
 #### Returns
 
@@ -158,7 +162,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:18](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L18)
+[src/events/EventHandler.ts:18](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L18)
 
 ---
 
@@ -170,7 +174,7 @@
 
 | Name       | Type                                |
 | :--------- | :---------------------------------- |
-| `callback` | (`blockNumber`: `number`) => `void` |
+| `callback` | (`blockNumber`: `bigint`) => `void` |
 
 #### Returns
 
@@ -178,4 +182,4 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:28](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/EventHandler.ts#L28)
+[src/events/EventHandler.ts:28](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/events/EventHandler.ts#L28)

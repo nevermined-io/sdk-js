@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:16](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L16)
+[src/types/GeneralTypes.ts:83](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/GeneralTypes.ts#L83)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:14](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L14)
+[src/types/GeneralTypes.ts:81](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/GeneralTypes.ts#L81)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:15](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L15)
+[src/types/GeneralTypes.ts:82](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/GeneralTypes.ts#L82)

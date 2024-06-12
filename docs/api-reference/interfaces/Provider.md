@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:19](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L19)
+[src/types/DDOTypes.ts:14](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L14)
 
 ---
 
@@ -28,17 +28,17 @@
 
 #### Type declaration
 
-| Name                  | Type                                                                                                                                                                               |
-| :-------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `cluster`             | { `type`: `string` ; `url`: `string` }                                                                                                                                             |
-| `cluster.type`        | `string`                                                                                                                                                                           |
-| `cluster.url`         | `string`                                                                                                                                                                           |
-| `supportedContainers` | { `checksum`: `string` ; `image`: `string` ; `tag`: `string` }[]                                                                                                                   |
-| `supportedServers`    | { `cpu`: `string` ; `disk`: `string` ; `gpu`: `string` ; `maxExecutionTime`: `number` ; `memory`: `string` ; `price`: `string` ; `serverId`: `string` ; `serverType`: `string` }[] |
+| Name                  | Type                                                                                                                                                                                |
+| :-------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cluster`             | \{ `type`: `string` ; `url`: `string` }                                                                                                                                             |
+| `cluster.type`        | `string`                                                                                                                                                                            |
+| `cluster.url`         | `string`                                                                                                                                                                            |
+| `supportedContainers` | \{ `checksum`: `string` ; `image`: `string` ; `tag`: `string` }[]                                                                                                                   |
+| `supportedServers`    | \{ `cpu`: `string` ; `disk`: `string` ; `gpu`: `string` ; `maxExecutionTime`: `number` ; `memory`: `string` ; `price`: `string` ; `serverId`: `string` ; `serverType`: `string` }[] |
 
 #### Defined in
 
-[src/ddo/types.ts:20](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L20)
+[src/types/DDOTypes.ts:15](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L15)
 
 ---
 
@@ -48,4 +48,4 @@
 
 #### Defined in
 
-[src/ddo/types.ts:18](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L18)
+[src/types/DDOTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L13)

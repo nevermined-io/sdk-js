@@ -31,7 +31,7 @@ ID of the key.
 
 #### Defined in
 
-[src/ddo/types.ts:447](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L447)
+[src/types/DDOTypes.ts:498](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L498)
 
 ---
 
@@ -49,7 +49,7 @@ Key owner.
 
 #### Defined in
 
-[src/ddo/types.ts:462](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L462)
+[src/types/DDOTypes.ts:513](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L513)
 
 ---
 
@@ -59,7 +59,7 @@ Key owner.
 
 #### Defined in
 
-[src/ddo/types.ts:465](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L465)
+[src/types/DDOTypes.ts:516](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L516)
 
 ---
 
@@ -69,7 +69,7 @@ Key owner.
 
 #### Defined in
 
-[src/ddo/types.ts:466](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L466)
+[src/types/DDOTypes.ts:517](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L517)
 
 ---
 
@@ -79,16 +79,16 @@ Key owner.
 
 #### Defined in
 
-[src/ddo/types.ts:464](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L464)
+[src/types/DDOTypes.ts:515](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L515)
 
 ---
 
 ### type
 
-• **type**: `"Ed25519VerificationKey2018"` \| `"RsaVerificationKey2018"` \| `"EdDsaSAPublicKeySecp256k1"` \| `"EthereumECDSAKey"`
+• **type**: `"EthereumECDSAKey"` \| `"Ed25519VerificationKey2018"` \| `"RsaVerificationKey2018"` \| `"EdDsaSAPublicKeySecp256k1"`
 
 Type of key.
 
 #### Defined in
 
-[src/ddo/types.ts:452](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L452)
+[src/types/DDOTypes.ts:503](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L503)

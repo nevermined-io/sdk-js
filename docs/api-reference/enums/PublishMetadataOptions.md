@@ -26,7 +26,7 @@ Where the metadata will be published. Options:
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:25](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L25)
+[src/types/MetadataTypes.ts:28](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L28)
 
 ---
 
@@ -36,7 +36,7 @@ Where the metadata will be published. Options:
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:24](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L24)
+[src/types/MetadataTypes.ts:27](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L27)
 
 ---
 
@@ -46,7 +46,7 @@ Where the metadata will be published. Options:
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:23](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L23)
+[src/types/MetadataTypes.ts:26](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L26)
 
 ---
 
@@ -56,4 +56,4 @@ Where the metadata will be published. Options:
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:22](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L22)
+[src/types/MetadataTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L25)

@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:9](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/managers/TemplateStoreManager.ts#L9)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:10](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/keeper/contracts/managers/TemplateStoreManager.ts#L10)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:8](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/managers/TemplateStoreManager.ts#L8)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:9](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/keeper/contracts/managers/TemplateStoreManager.ts#L9)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:10](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/managers/TemplateStoreManager.ts#L10)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:11](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/keeper/contracts/managers/TemplateStoreManager.ts#L11)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:7](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/managers/TemplateStoreManager.ts#L7)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:8](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/keeper/contracts/managers/TemplateStoreManager.ts#L8)

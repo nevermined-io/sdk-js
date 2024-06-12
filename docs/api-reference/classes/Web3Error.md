@@ -16,6 +16,7 @@
 
 ### Properties
 
+- [cause](Web3Error.md#cause)
 - [message](Web3Error.md#message)
 - [name](Web3Error.md#name)
 - [stack](Web3Error.md#stack)
@@ -30,7 +31,7 @@
 
 ### constructor
 
-• **new Web3Error**(`message`)
+• **new Web3Error**(`message`): [`Web3Error`](Web3Error.md)
 
 #### Parameters
 
@@ -38,15 +39,33 @@
 | :-------- | :------- |
 | `message` | `string` |
 
+#### Returns
+
+[`Web3Error`](Web3Error.md)
+
 #### Overrides
 
 Error.constructor
 
 #### Defined in
 
-[src/errors/Web3Error.ts:2](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/errors/Web3Error.ts#L2)
+[src/errors/NeverminedErrors.ts:26](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/errors/NeverminedErrors.ts#L26)
 
 ## Properties
+
+### cause
+
+• `Optional` **cause**: `unknown`
+
+#### Inherited from
+
+Error.cause
+
+#### Defined in
+
+node_modules/typescript/lib/lib.es2022.error.d.ts:24
+
+---
 
 ### message
 
@@ -58,7 +77,7 @@ Error.message
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1068
+node_modules/typescript/lib/lib.es5.d.ts:1077
 
 ---
 
@@ -72,7 +91,7 @@ Error.name
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1067
+node_modules/typescript/lib/lib.es5.d.ts:1076
 
 ---
 
@@ -86,7 +105,7 @@ Error.stack
 
 #### Defined in
 
-node_modules/typescript/lib/lib.es5.d.ts:1069
+node_modules/typescript/lib/lib.es5.d.ts:1078
 
 ---
 
@@ -94,11 +113,15 @@ node_modules/typescript/lib/lib.es5.d.ts:1069
 
 ▪ `Static` `Optional` **prepareStackTrace**: (`err`: `Error`, `stackTraces`: `CallSite`[]) => `any`
 
+Optional override for formatting stack traces
+
+**`See`**
+
+https://v8.dev/docs/stack-trace-api#customizing-stack-traces
+
 #### Type declaration
 
 ▸ (`err`, `stackTraces`): `any`
-
-Optional override for formatting stack traces
 
 ##### Parameters
 
@@ -111,17 +134,13 @@ Optional override for formatting stack traces
 
 `any`
 
-**`See`**
-
-https://v8.dev/docs/stack-trace-api#customizing-stack-traces
-
 #### Inherited from
 
 Error.prepareStackTrace
 
 #### Defined in
 
-node_modules/@types/node/globals.d.ts:11
+node_modules/@types/node/globals.d.ts:28
 
 ---
 
@@ -135,13 +154,13 @@ Error.stackTraceLimit
 
 #### Defined in
 
-node_modules/@types/node/globals.d.ts:13
+node_modules/@types/node/globals.d.ts:30
 
 ## Methods
 
 ### captureStackTrace
 
-▸ `Static` **captureStackTrace**(`targetObject`, `constructorOpt?`): `void`
+▸ **captureStackTrace**(`targetObject`, `constructorOpt?`): `void`
 
 Create .stack property on a target object
 
@@ -162,4 +181,4 @@ Error.captureStackTrace
 
 #### Defined in
 
-node_modules/@types/node/globals.d.ts:4
+node_modules/@types/node/globals.d.ts:21

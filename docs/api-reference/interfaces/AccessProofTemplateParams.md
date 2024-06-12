@@ -14,11 +14,11 @@
 
 ### consumer
 
-• **consumer**: [`Account`](../classes/Account.md)
+• **consumer**: [`NvmAccount`](../classes/NvmAccount.md)
 
 #### Defined in
 
-[src/nevermined/AccessService.ts:26](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/AccessService.ts#L26)
+[src/nevermined/AccessService.ts:24](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/AccessService.ts#L24)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/nevermined/AccessService.ts:27](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/AccessService.ts#L27)
+[src/nevermined/AccessService.ts:25](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/AccessService.ts#L25)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/nevermined/AccessService.ts:25](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/AccessService.ts#L25)
+[src/nevermined/AccessService.ts:23](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/AccessService.ts#L23)

@@ -50,7 +50,7 @@ apps using the same marketplace api
 
 #### Defined in
 
-[src/ddo/types.ts:508](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L508)
+[src/types/DDOTypes.ts:559](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L559)
 
 ---
 
@@ -66,7 +66,7 @@ Block networks where the asset is available. It is represented as a map of netwo
 
 #### Defined in
 
-[src/ddo/types.ts:517](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L517)
+[src/types/DDOTypes.ts:568](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L568)
 
 ---
 
@@ -82,7 +82,7 @@ Used to identify a user in the marketplace api
 
 #### Defined in
 
-[src/ddo/types.ts:499](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L499)
+[src/types/DDOTypes.ts:550](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L550)
 
 ---
 
@@ -94,4 +94,4 @@ The `versions` list stores the reference to all the changes done to the Metadata
 
 #### Defined in
 
-[src/ddo/types.ts:512](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L512)
+[src/types/DDOTypes.ts:563](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L563)

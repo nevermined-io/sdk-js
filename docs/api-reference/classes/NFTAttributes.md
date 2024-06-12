@@ -23,6 +23,7 @@
 - [fulfillAccessTimelock](NFTAttributes.md#fulfillaccesstimelock)
 - [fulfillAccessTimeout](NFTAttributes.md#fulfillaccesstimeout)
 - [metadata](NFTAttributes.md#metadata)
+- [nft](NFTAttributes.md#nft)
 - [nftContractAddress](NFTAttributes.md#nftcontractaddress)
 - [nftMetadataUrl](NFTAttributes.md#nftmetadataurl)
 - [nftType](NFTAttributes.md#nfttype)
@@ -31,7 +32,6 @@
 - [providers](NFTAttributes.md#providers)
 - [royaltyAttributes](NFTAttributes.md#royaltyattributes)
 - [services](NFTAttributes.md#services)
-- [DEFAULT_ENCRYPTION_METHOD](NFTAttributes.md#default_encryption_method)
 - [defaultValues](NFTAttributes.md#defaultvalues)
 
 ### Methods
@@ -48,7 +48,11 @@
 
 ### constructor
 
-• **new NFTAttributes**()
+• **new NFTAttributes**(): [`NFTAttributes`](NFTAttributes.md)
+
+#### Returns
+
+[`NFTAttributes`](NFTAttributes.md)
 
 #### Inherited from
 
@@ -69,7 +73,7 @@ That asset association typically helps to search and filter between assets part 
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:47](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L47)
+[src/models/AssetAttributes.ts:48](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L48)
 
 ---
 
@@ -81,7 +85,7 @@ Max number of nfts that can be minted, 0 means uncapped
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:87](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L87)
+[src/models/NFTAttributes.ts:213](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L213)
 
 ---
 
@@ -102,7 +106,7 @@ This method allows to specify the encryption method to be used.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:20](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L20)
+[src/models/AssetAttributes.ts:21](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L21)
 
 ---
 
@@ -119,7 +123,7 @@ The type of ERC used (721 or 1155)
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:55](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L55)
+[src/models/NFTAttributes.ts:176](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L176)
 
 ---
 
@@ -140,7 +144,7 @@ This would allow to create an agreement that can not fulfilled until certain per
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:67](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L67)
+[src/models/AssetAttributes.ts:68](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L68)
 
 ---
 
@@ -161,7 +165,7 @@ This would allow to create an agreement that is not fulfilled after a certain pe
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:57](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L57)
+[src/models/AssetAttributes.ts:58](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L58)
 
 ---
 
@@ -181,7 +185,19 @@ Metadata describing the asset
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:13](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L13)
+[src/models/AssetAttributes.ts:14](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L14)
+
+---
+
+### nft
+
+• `Optional` **nft**: [`NFTServiceAttributes`](NFTServiceAttributes.md)
+
+Attributes related with the NFT service (access or sales)
+
+#### Defined in
+
+[src/models/NFTAttributes.ts:193](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L193)
 
 ---
 
@@ -193,7 +209,7 @@ The address of the deployed NFT Contract
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:67](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L67)
+[src/models/NFTAttributes.ts:188](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L188)
 
 ---
 
@@ -205,7 +221,7 @@ URL to the metadata definition of the NFT contract
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:82](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L82)
+[src/models/NFTAttributes.ts:208](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L208)
 
 ---
 
@@ -219,7 +235,7 @@ This attribute allow to specify between the different Nevermined NFT types
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:62](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L62)
+[src/models/NFTAttributes.ts:183](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L183)
 
 ---
 
@@ -231,7 +247,7 @@ If the asset is pre-minted
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:77](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L77)
+[src/models/NFTAttributes.ts:203](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L203)
 
 ---
 
@@ -251,7 +267,7 @@ List of additional asset services to be included as part of an asset
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:32](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L32)
+[src/models/AssetAttributes.ts:33](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L33)
 
 ---
 
@@ -271,7 +287,7 @@ Typically just the address of one Nevermined Node trusted by the user.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:41](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L41)
+[src/models/AssetAttributes.ts:42](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L42)
 
 ---
 
@@ -283,7 +299,7 @@ Attributes describing the royalties attached to the NFT in the secondary market
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:72](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L72)
+[src/models/NFTAttributes.ts:198](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L198)
 
 ---
 
@@ -303,21 +319,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:26](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L26)
-
----
-
-### DEFAULT_ENCRYPTION_METHOD
-
-▪ `Static` **DEFAULT_ENCRYPTION_METHOD**: [`EncryptionMethod`](../code-reference.md#encryptionmethod)
-
-#### Inherited from
-
-[AssetAttributes](AssetAttributes.md).[DEFAULT_ENCRYPTION_METHOD](AssetAttributes.md#default_encryption_method)
-
-#### Defined in
-
-[src/models/AssetAttributes.ts:7](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L7)
+[src/models/AssetAttributes.ts:27](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L27)
 
 ---
 
@@ -327,26 +329,29 @@ List of services and their attributes offered by an asset.
 
 #### Type declaration
 
-| Name                      | Type                                                                                                                                                                                                                 |
-| :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `appId`                   | `string`                                                                                                                                                                                                             |
-| `cap`                     | `bigint`                                                                                                                                                                                                             |
-| `encryptionMethod`        | [`EncryptionMethod`](../code-reference.md#encryptionmethod)                                                                                                                                                          |
-| `fulfillAccessTimelock`   | `number`                                                                                                                                                                                                             |
-| `fulfillAccessTimeout`    | `number`                                                                                                                                                                                                             |
-| `nft`                     | { `amount`: `bigint` ; `duration`: `number` = 0; `isSubscription`: `boolean` = false; `nftTransfer`: `boolean` = true; `serviceType`: [`ServiceType`](../code-reference.md#servicetype) ; `tokenId`: `string` = '' } |
-| `nft.amount`              | `bigint`                                                                                                                                                                                                             |
-| `nft.duration`            | `number`                                                                                                                                                                                                             |
-| `nft.isSubscription`      | `boolean`                                                                                                                                                                                                            |
-| `nft.nftTransfer`         | `boolean`                                                                                                                                                                                                            |
-| `nft.serviceType`         | [`ServiceType`](../code-reference.md#servicetype)                                                                                                                                                                    |
-| `nft.tokenId`             | `string`                                                                                                                                                                                                             |
-| `nftMetadataUrl`          | `string`                                                                                                                                                                                                             |
-| `preMint`                 | `boolean`                                                                                                                                                                                                            |
-| `predefinedAssetServices` | [`ServiceCommon`](../interfaces/ServiceCommon.md)[]                                                                                                                                                                  |
-| `providers`               | `any`[]                                                                                                                                                                                                              |
-| `royaltyAttributes`       | `any`                                                                                                                                                                                                                |
-| `services`                | { `price`: [`AssetPrice`](AssetPrice.md) ; `serviceType`: [`ServiceType`](../code-reference.md#servicetype) }[]                                                                                                      |
+| Name                      | Type                                                                                                                                                                                                                                                                                                                     |
+| :------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `appId`                   | `string`                                                                                                                                                                                                                                                                                                                 |
+| `cap`                     | `bigint`                                                                                                                                                                                                                                                                                                                 |
+| `encryptionMethod`        | [`EncryptionMethod`](../code-reference.md#encryptionmethod)                                                                                                                                                                                                                                                              |
+| `fulfillAccessTimelock`   | `number`                                                                                                                                                                                                                                                                                                                 |
+| `fulfillAccessTimeout`    | `number`                                                                                                                                                                                                                                                                                                                 |
+| `nft`                     | \{ `amount`: `bigint` ; `duration`: `number` = 0; `isSubscription`: `boolean` = false; `maxCreditsToCharge`: `bigint` ; `minCreditsRequired`: `bigint` ; `minCreditsToCharge`: `bigint` ; `nftTransfer`: `boolean` = true; `serviceType`: [`ServiceType`](../code-reference.md#servicetype) ; `tokenId`: `string` = '' } |
+| `nft.amount`              | `bigint`                                                                                                                                                                                                                                                                                                                 |
+| `nft.duration`            | `number`                                                                                                                                                                                                                                                                                                                 |
+| `nft.isSubscription`      | `boolean`                                                                                                                                                                                                                                                                                                                |
+| `nft.maxCreditsToCharge`  | `bigint`                                                                                                                                                                                                                                                                                                                 |
+| `nft.minCreditsRequired`  | `bigint`                                                                                                                                                                                                                                                                                                                 |
+| `nft.minCreditsToCharge`  | `bigint`                                                                                                                                                                                                                                                                                                                 |
+| `nft.nftTransfer`         | `boolean`                                                                                                                                                                                                                                                                                                                |
+| `nft.serviceType`         | [`ServiceType`](../code-reference.md#servicetype)                                                                                                                                                                                                                                                                        |
+| `nft.tokenId`             | `string`                                                                                                                                                                                                                                                                                                                 |
+| `nftMetadataUrl`          | `string`                                                                                                                                                                                                                                                                                                                 |
+| `preMint`                 | `boolean`                                                                                                                                                                                                                                                                                                                |
+| `predefinedAssetServices` | [`ServiceCommon`](../interfaces/ServiceCommon.md)[]                                                                                                                                                                                                                                                                      |
+| `providers`               | `never`[]                                                                                                                                                                                                                                                                                                                |
+| `royaltyAttributes`       | `undefined`                                                                                                                                                                                                                                                                                                              |
+| `services`                | \{ `price`: [`AssetPrice`](AssetPrice.md) ; `serviceType`: [`ServiceType`](../code-reference.md#servicetype) }[]                                                                                                                                                                                                         |
 
 #### Overrides
 
@@ -354,43 +359,43 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:89](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L89)
+[src/models/NFTAttributes.ts:215](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L215)
 
 ## Methods
 
 ### getCreditsSubscriptionInstance
 
-▸ `Static` **getCreditsSubscriptionInstance**(`nftAttributes`): `Required`<[`NFTAttributes`](NFTAttributes.md)\>
+▸ **getCreditsSubscriptionInstance**(`nftAttributes`): `Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Parameters
 
-| Name            | Type                                            |
-| :-------------- | :---------------------------------------------- |
-| `nftAttributes` | `Partial`<[`NFTAttributes`](NFTAttributes.md)\> |
+| Name            | Type                                             |
+| :-------------- | :----------------------------------------------- |
+| `nftAttributes` | `Partial`\<[`NFTAttributes`](NFTAttributes.md)\> |
 
 #### Returns
 
-`Required`<[`NFTAttributes`](NFTAttributes.md)\>
+`Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:116](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L116)
+[src/models/NFTAttributes.ts:246](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L246)
 
 ---
 
 ### getInstance
 
-▸ `Static` **getInstance**(`nftAttributes`): `Required`<[`NFTAttributes`](NFTAttributes.md)\>
+▸ **getInstance**(`nftAttributes`): `Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Parameters
 
-| Name            | Type                                |
-| :-------------- | :---------------------------------- |
-| `nftAttributes` | [`NFTAttributes`](NFTAttributes.md) |
+| Name            | Type                                             |
+| :-------------- | :----------------------------------------------- |
+| `nftAttributes` | `Partial`\<[`NFTAttributes`](NFTAttributes.md)\> |
 
 #### Returns
 
-`Required`<[`NFTAttributes`](NFTAttributes.md)\>
+`Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Overrides
 
@@ -398,104 +403,104 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:98](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L98)
+[src/models/NFTAttributes.ts:224](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L224)
 
 ---
 
 ### getNFT1155Instance
 
-▸ `Static` **getNFT1155Instance**(`nftAttributes`): `Required`<[`NFTAttributes`](NFTAttributes.md)\>
+▸ **getNFT1155Instance**(`nftAttributes`): `Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Parameters
 
-| Name            | Type                                            |
-| :-------------- | :---------------------------------------------- |
-| `nftAttributes` | `Partial`<[`NFTAttributes`](NFTAttributes.md)\> |
+| Name            | Type                                             |
+| :-------------- | :----------------------------------------------- |
+| `nftAttributes` | `Partial`\<[`NFTAttributes`](NFTAttributes.md)\> |
 
 #### Returns
 
-`Required`<[`NFTAttributes`](NFTAttributes.md)\>
+`Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:105](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L105)
+[src/models/NFTAttributes.ts:235](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L235)
 
 ---
 
 ### getNFT721Instance
 
-▸ `Static` **getNFT721Instance**(`nftAttributes`): `Required`<[`NFTAttributes`](NFTAttributes.md)\>
+▸ **getNFT721Instance**(`nftAttributes`): `Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Parameters
 
-| Name            | Type                                            |
-| :-------------- | :---------------------------------------------- |
-| `nftAttributes` | `Partial`<[`NFTAttributes`](NFTAttributes.md)\> |
+| Name            | Type                                             |
+| :-------------- | :----------------------------------------------- |
+| `nftAttributes` | `Partial`\<[`NFTAttributes`](NFTAttributes.md)\> |
 
 #### Returns
 
-`Required`<[`NFTAttributes`](NFTAttributes.md)\>
+`Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:134](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L134)
+[src/models/NFTAttributes.ts:263](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L263)
 
 ---
 
 ### getPOAPInstance
 
-▸ `Static` **getPOAPInstance**(`nftAttributes`): `Required`<[`NFTAttributes`](NFTAttributes.md)\>
+▸ **getPOAPInstance**(`nftAttributes`): `Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Parameters
 
-| Name            | Type                                            |
-| :-------------- | :---------------------------------------------- |
-| `nftAttributes` | `Partial`<[`NFTAttributes`](NFTAttributes.md)\> |
+| Name            | Type                                             |
+| :-------------- | :----------------------------------------------- |
+| `nftAttributes` | `Partial`\<[`NFTAttributes`](NFTAttributes.md)\> |
 
 #### Returns
 
-`Required`<[`NFTAttributes`](NFTAttributes.md)\>
+`Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:161](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L161)
+[src/models/NFTAttributes.ts:289](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L289)
 
 ---
 
 ### getSoulBoundInstance
 
-▸ `Static` **getSoulBoundInstance**(`nftAttributes`): `Required`<[`NFTAttributes`](NFTAttributes.md)\>
+▸ **getSoulBoundInstance**(`nftAttributes`): `Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Parameters
 
-| Name            | Type                                            |
-| :-------------- | :---------------------------------------------- |
-| `nftAttributes` | `Partial`<[`NFTAttributes`](NFTAttributes.md)\> |
+| Name            | Type                                             |
+| :-------------- | :----------------------------------------------- |
+| `nftAttributes` | `Partial`\<[`NFTAttributes`](NFTAttributes.md)\> |
 
 #### Returns
 
-`Required`<[`NFTAttributes`](NFTAttributes.md)\>
+`Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:173](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L173)
+[src/models/NFTAttributes.ts:301](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L301)
 
 ---
 
 ### getSubscriptionInstance
 
-▸ `Static` **getSubscriptionInstance**(`nftAttributes`): `Required`<[`NFTAttributes`](NFTAttributes.md)\>
+▸ **getSubscriptionInstance**(`nftAttributes`): `Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Parameters
 
-| Name            | Type                                            |
-| :-------------- | :---------------------------------------------- |
-| `nftAttributes` | `Partial`<[`NFTAttributes`](NFTAttributes.md)\> |
+| Name            | Type                                             |
+| :-------------- | :----------------------------------------------- |
+| `nftAttributes` | `Partial`\<[`NFTAttributes`](NFTAttributes.md)\> |
 
 #### Returns
 
-`Required`<[`NFTAttributes`](NFTAttributes.md)\>
+`Required`\<[`NFTAttributes`](NFTAttributes.md)\>
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:145](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NFTAttributes.ts#L145)
+[src/models/NFTAttributes.ts:274](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NFTAttributes.ts#L274)

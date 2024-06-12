@@ -21,54 +21,54 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:8](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/NeverminedEvent.ts#L8)
+[src/types/EventTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/EventTypes.ts#L8)
 
 ---
 
 ### filterJsonRpc
 
-• `Optional` **filterJsonRpc**: [`Filter`](Filter.md)
+• `Optional` **filterJsonRpc**: [`FilterContractEvent`](FilterContractEvent.md)
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:9](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/NeverminedEvent.ts#L9)
+[src/types/EventTypes.ts:9](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/EventTypes.ts#L9)
 
 ---
 
 ### filterSubgraph
 
-• `Optional` **filterSubgraph**: `Record`<`string`, `unknown`\>
+• `Optional` **filterSubgraph**: `Record`\<`string`, `unknown`\>
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:10](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/NeverminedEvent.ts#L10)
+[src/types/EventTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/EventTypes.ts#L10)
 
 ---
 
 ### fromBlock
 
-• `Optional` **fromBlock**: `string` \| `number`
+• `Optional` **fromBlock**: `bigint` \| `BlockTag`
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:12](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/NeverminedEvent.ts#L12)
+[src/types/EventTypes.ts:12](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/EventTypes.ts#L12)
 
 ---
 
 ### result
 
-• `Optional` **result**: `Record`<`string`, `unknown`\>
+• `Optional` **result**: `Record`\<`string`, `unknown`\>
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:11](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/NeverminedEvent.ts#L11)
+[src/types/EventTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/EventTypes.ts#L11)
 
 ---
 
 ### toBlock
 
-• `Optional` **toBlock**: `string` \| `number`
+• `Optional` **toBlock**: `bigint` \| `BlockTag`
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:13](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/NeverminedEvent.ts#L13)
+[src/types/EventTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/EventTypes.ts#L13)

@@ -1,6 +1,6 @@
 [@nevermined-io/sdk](../code-reference.md) / SubscribablePromise
 
-# Class: SubscribablePromise<T, P\>
+# Class: SubscribablePromise\<T, P\>
 
 ## Type parameters
 
@@ -33,7 +33,7 @@
 
 ### constructor
 
-• **new SubscribablePromise**<`T`, `P`\>(`executor`)
+• **new SubscribablePromise**\<`T`, `P`\>(`executor`): [`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Type parameters
 
@@ -44,39 +44,43 @@
 
 #### Parameters
 
-| Name       | Type                                                                                                    |
-| :--------- | :------------------------------------------------------------------------------------------------------ |
-| `executor` | (`observer`: [`SubscribableObserver`](SubscribableObserver.md)<`T`, `P`\>) => `void` \| `Promise`<`P`\> |
+| Name       | Type                                                                                                      |
+| :--------- | :-------------------------------------------------------------------------------------------------------- |
+| `executor` | (`observer`: [`SubscribableObserver`](SubscribableObserver.md)\<`T`, `P`\>) => `void` \| `Promise`\<`P`\> |
+
+#### Returns
+
+[`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:15](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribablePromise.ts#L15)
+[src/utils/SubscribablePromise.ts:15](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribablePromise.ts#L15)
 
 ## Properties
 
 ### observer
 
-• `Private` **observer**: [`SubscribableObserver`](SubscribableObserver.md)<`T`, `P`\>
+• `Private` **observer**: [`SubscribableObserver`](SubscribableObserver.md)\<`T`, `P`\>
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:4](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribablePromise.ts#L4)
+[src/utils/SubscribablePromise.ts:4](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribablePromise.ts#L4)
 
 ---
 
 ### promise
 
-• `Private` **promise**: `Promise`<`P`\> & [`SubscribablePromise`](SubscribablePromise.md)<`T`, `P`\>
+• `Private` **promise**: `Promise`\<`P`\> & [`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:6](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribablePromise.ts#L6)
+[src/utils/SubscribablePromise.ts:6](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribablePromise.ts#L6)
 
 ## Methods
 
 ### catch
 
-▸ **catch**(`onrejected?`): `Promise`<`any`\> & [`SubscribablePromise`](SubscribablePromise.md)<`T`, `P`\>
+▸ **catch**(`onrejected?`): `Promise`\<`any`\> & [`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Parameters
 
@@ -86,17 +90,17 @@
 
 #### Returns
 
-`Promise`<`any`\> & [`SubscribablePromise`](SubscribablePromise.md)<`T`, `P`\>
+`Promise`\<`any`\> & [`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:33](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribablePromise.ts#L33)
+[src/utils/SubscribablePromise.ts:33](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribablePromise.ts#L33)
 
 ---
 
 ### finally
 
-▸ **finally**(`onfinally?`): `Promise`<`P`\> & [`SubscribablePromise`](SubscribablePromise.md)<`T`, `P`\>
+▸ **finally**(`onfinally?`): `Promise`\<`P`\> & [`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Parameters
 
@@ -106,23 +110,23 @@
 
 #### Returns
 
-`Promise`<`P`\> & [`SubscribablePromise`](SubscribablePromise.md)<`T`, `P`\>
+`Promise`\<`P`\> & [`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:37](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribablePromise.ts#L37)
+[src/utils/SubscribablePromise.ts:37](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribablePromise.ts#L37)
 
 ---
 
 ### init
 
-▸ `Private` **init**(`executor`): `void`
+▸ **init**(`executor`): `void`
 
 #### Parameters
 
-| Name       | Type                                                                                                    |
-| :--------- | :------------------------------------------------------------------------------------------------------ |
-| `executor` | (`observer`: [`SubscribableObserver`](SubscribableObserver.md)<`T`, `P`\>) => `void` \| `Promise`<`P`\> |
+| Name       | Type                                                                                                      |
+| :--------- | :-------------------------------------------------------------------------------------------------------- |
+| `executor` | (`observer`: [`SubscribableObserver`](SubscribableObserver.md)\<`T`, `P`\>) => `void` \| `Promise`\<`P`\> |
 
 #### Returns
 
@@ -130,13 +134,13 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:41](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribablePromise.ts#L41)
+[src/utils/SubscribablePromise.ts:41](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribablePromise.ts#L41)
 
 ---
 
 ### next
 
-▸ **next**(`onNext`): [`SubscribablePromise`](SubscribablePromise.md)<`T`, `P`\>
+▸ **next**(`onNext`): [`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Parameters
 
@@ -146,11 +150,11 @@
 
 #### Returns
 
-[`SubscribablePromise`](SubscribablePromise.md)<`T`, `P`\>
+[`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:24](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribablePromise.ts#L24)
+[src/utils/SubscribablePromise.ts:24](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribablePromise.ts#L24)
 
 ---
 
@@ -174,13 +178,13 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:20](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribablePromise.ts#L20)
+[src/utils/SubscribablePromise.ts:20](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribablePromise.ts#L20)
 
 ---
 
 ### then
 
-▸ **then**(`onfulfilled?`, `onrejected?`): `Promise`<`any`\> & [`SubscribablePromise`](SubscribablePromise.md)<`T`, `P`\>
+▸ **then**(`onfulfilled?`, `onrejected?`): `Promise`\<`any`\> & [`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Parameters
 
@@ -191,8 +195,8 @@
 
 #### Returns
 
-`Promise`<`any`\> & [`SubscribablePromise`](SubscribablePromise.md)<`T`, `P`\>
+`Promise`\<`any`\> & [`SubscribablePromise`](SubscribablePromise.md)\<`T`, `P`\>
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:29](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribablePromise.ts#L29)
+[src/utils/SubscribablePromise.ts:29](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribablePromise.ts#L29)

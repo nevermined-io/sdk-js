@@ -17,14 +17,14 @@
 
 #### Defined in
 
-[src/ddo/types.ts:198](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L198)
+[src/types/DDOTypes.ts:226](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L226)
 
 ---
 
 ### headers
 
-• `Optional` **headers**: { `[verb: string]`: `string`; }[]
+• `Optional` **headers**: \{ `[verb: string]`: `string`; }[]
 
 #### Defined in
 
-[src/ddo/types.ts:200](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L200)
+[src/types/DDOTypes.ts:228](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L228)

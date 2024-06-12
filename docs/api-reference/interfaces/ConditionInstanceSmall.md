@@ -2,12 +2,6 @@
 
 # Interface: ConditionInstanceSmall
 
-## Hierarchy
-
-- **`ConditionInstanceSmall`**
-
-  ↳ [`ConditionInstance`](ConditionInstance.md)
-
 ## Table of contents
 
 ### Properties
@@ -26,7 +20,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:34](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L34)
+[src/types/ContractTypes.ts:33](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/ContractTypes.ts#L33)
 
 ---
 
@@ -36,7 +30,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L35)
+[src/types/ContractTypes.ts:34](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/ContractTypes.ts#L34)
 
 ---
 
@@ -46,7 +40,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:33](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L33)
+[src/types/ContractTypes.ts:32](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/ContractTypes.ts#L32)
 
 ---
 
@@ -56,7 +50,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:31](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L31)
+[src/types/ContractTypes.ts:30](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/ContractTypes.ts#L30)
 
 ---
 
@@ -66,4 +60,4 @@
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:32](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/conditions/Condition.abstract.ts#L32)
+[src/types/ContractTypes.ts:31](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/ContractTypes.ts#L31)

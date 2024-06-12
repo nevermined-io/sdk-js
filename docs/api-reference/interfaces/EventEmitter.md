@@ -13,7 +13,7 @@
 
 ### subscribe
 
-• **subscribe**: (`callback`: () => `Promise`<`void`\>, `arg1`: () => `Promise`<`number`\>) => `void`
+• **subscribe**: (`callback`: () => `Promise`\<`void`\>, `arg1`: () => `Promise`\<`bigint`\>) => `void`
 
 #### Type declaration
 
@@ -21,10 +21,10 @@
 
 ##### Parameters
 
-| Name       | Type                       |
-| :--------- | :------------------------- |
-| `callback` | () => `Promise`<`void`\>   |
-| `arg1`     | () => `Promise`<`number`\> |
+| Name       | Type                        |
+| :--------- | :-------------------------- |
+| `callback` | () => `Promise`\<`void`\>   |
+| `arg1`     | () => `Promise`\<`bigint`\> |
 
 ##### Returns
 
@@ -32,13 +32,13 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:17](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/NeverminedEvent.ts#L17)
+[src/types/EventTypes.ts:17](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/EventTypes.ts#L17)
 
 ---
 
 ### unsubscribe
 
-• **unsubscribe**: (`arg0`: () => `Promise`<`void`\>) => `void`
+• **unsubscribe**: (`arg0`: () => `Promise`\<`void`\>) => `void`
 
 #### Type declaration
 
@@ -46,9 +46,9 @@
 
 ##### Parameters
 
-| Name   | Type                     |
-| :----- | :----------------------- |
-| `arg0` | () => `Promise`<`void`\> |
+| Name   | Type                      |
+| :----- | :------------------------ |
+| `arg0` | () => `Promise`\<`void`\> |
 
 ##### Returns
 
@@ -56,4 +56,4 @@
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:18](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/events/NeverminedEvent.ts#L18)
+[src/types/EventTypes.ts:18](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/EventTypes.ts#L18)

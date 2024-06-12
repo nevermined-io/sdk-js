@@ -28,7 +28,7 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:50](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L50)
+[src/types/MetadataTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L10)
 
 ---
 
@@ -38,7 +38,7 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:51](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L51)
+[src/types/MetadataTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L11)
 
 ---
 
@@ -48,7 +48,7 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:54](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L54)
+[src/types/MetadataTypes.ts:14](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L14)
 
 ---
 
@@ -58,7 +58,7 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L52)
+[src/types/MetadataTypes.ts:12](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L12)
 
 ---
 
@@ -68,4 +68,4 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:53](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L53)
+[src/types/MetadataTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L13)

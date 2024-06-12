@@ -6,19 +6,17 @@
 
 - **`ServiceCommon`**
 
-  ↳ [`ServiceMetadata`](ServiceMetadata.md)
+  ↳ [`ServiceAccess`](ServiceAccess.md)
 
   ↳ [`ServiceAuthorization`](ServiceAuthorization.md)
 
-  ↳ [`ServiceAccess`](ServiceAccess.md)
-
   ↳ [`ServiceCompute`](ServiceCompute.md)
+
+  ↳ [`ServiceMetadata`](ServiceMetadata.md)
 
   ↳ [`ServiceNFTAccess`](ServiceNFTAccess.md)
 
   ↳ [`ServiceNFTSales`](ServiceNFTSales.md)
-
-  ↳ [`ServiceAaveCredit`](ServiceAaveCredit.md)
 
 ## Table of contents
 
@@ -38,7 +36,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:595](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L595)
+[src/types/DDOTypes.ts:639](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L639)
 
 ---
 
@@ -48,7 +46,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:592](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L592)
+[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L636)
 
 ---
 
@@ -58,7 +56,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:593](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L593)
+[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L637)
 
 ---
 
@@ -68,7 +66,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:594](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L594)
+[src/types/DDOTypes.ts:638](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L638)
 
 ---
 
@@ -78,4 +76,4 @@
 
 #### Defined in
 
-[src/ddo/types.ts:591](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L591)
+[src/types/DDOTypes.ts:635](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L635)

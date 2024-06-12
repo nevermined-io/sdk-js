@@ -1,6 +1,6 @@
 [@nevermined-io/sdk](../code-reference.md) / SubscribableObserver
 
-# Class: SubscribableObserver<T, P\>
+# Class: SubscribableObserver\<T, P\>
 
 ## Type parameters
 
@@ -33,7 +33,7 @@
 
 ### constructor
 
-• **new SubscribableObserver**<`T`, `P`\>()
+• **new SubscribableObserver**\<`T`, `P`\>(): [`SubscribableObserver`](SubscribableObserver.md)\<`T`, `P`\>
 
 #### Type parameters
 
@@ -41,6 +41,10 @@
 | :--- |
 | `T`  |
 | `P`  |
+
+#### Returns
+
+[`SubscribableObserver`](SubscribableObserver.md)\<`T`, `P`\>
 
 ## Properties
 
@@ -50,17 +54,17 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:2](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribableObserver.ts#L2)
+[src/utils/SubscribableObserver.ts:2](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribableObserver.ts#L2)
 
 ---
 
 ### subscriptions
 
-• `Private` **subscriptions**: `Set`<{ `onComplete?`: (`complete`: `P`) => `void` ; `onError?`: (`error`: `any`) => `void` ; `onNext?`: (`next`: `T`) => `void` }\>
+• `Private` **subscriptions**: `Set`\<\{ `onComplete?`: (`complete`: `P`) => `void` ; `onError?`: (`error`: `any`) => `void` ; `onNext?`: (`next`: `T`) => `void` }\>
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:4](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribableObserver.ts#L4)
+[src/utils/SubscribableObserver.ts:4](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribableObserver.ts#L4)
 
 ## Methods
 
@@ -80,19 +84,19 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:30](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribableObserver.ts#L30)
+[src/utils/SubscribableObserver.ts:30](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribableObserver.ts#L30)
 
 ---
 
 ### emit
 
-▸ `Private` **emit**(`type`, `value`): `void`
+▸ **emit**(`type`, `value`): `void`
 
 #### Parameters
 
 | Name    | Type                                        |
 | :------ | :------------------------------------------ |
-| `type`  | `"onError"` \| `"onNext"` \| `"onComplete"` |
+| `type`  | `"onNext"` \| `"onComplete"` \| `"onError"` |
 | `value` | `any`                                       |
 
 #### Returns
@@ -101,7 +105,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:40](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribableObserver.ts#L40)
+[src/utils/SubscribableObserver.ts:40](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribableObserver.ts#L40)
 
 ---
 
@@ -121,7 +125,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:35](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribableObserver.ts#L35)
+[src/utils/SubscribableObserver.ts:35](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribableObserver.ts#L35)
 
 ---
 
@@ -141,7 +145,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:26](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribableObserver.ts#L26)
+[src/utils/SubscribableObserver.ts:26](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribableObserver.ts#L26)
 
 ---
 
@@ -167,13 +171,13 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:10](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribableObserver.ts#L10)
+[src/utils/SubscribableObserver.ts:10](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribableObserver.ts#L10)
 
 ---
 
 ### unsubscribe
 
-▸ `Private` **unsubscribe**(): `void`
+▸ **unsubscribe**(): `void`
 
 #### Returns
 
@@ -181,4 +185,4 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:47](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/utils/SubscribableObserver.ts#L47)
+[src/utils/SubscribableObserver.ts:47](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/utils/SubscribableObserver.ts#L47)

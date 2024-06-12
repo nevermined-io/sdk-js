@@ -24,7 +24,6 @@
 - [predefinedAssetServices](AssetAttributes.md#predefinedassetservices)
 - [providers](AssetAttributes.md#providers)
 - [services](AssetAttributes.md#services)
-- [DEFAULT_ENCRYPTION_METHOD](AssetAttributes.md#default_encryption_method)
 - [defaultValues](AssetAttributes.md#defaultvalues)
 
 ### Methods
@@ -35,7 +34,11 @@
 
 ### constructor
 
-• **new AssetAttributes**()
+• **new AssetAttributes**(): [`AssetAttributes`](AssetAttributes.md)
+
+#### Returns
+
+[`AssetAttributes`](AssetAttributes.md)
 
 ## Properties
 
@@ -48,7 +51,7 @@ That asset association typically helps to search and filter between assets part 
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:47](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L47)
+[src/models/AssetAttributes.ts:48](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L48)
 
 ---
 
@@ -65,7 +68,7 @@ This method allows to specify the encryption method to be used.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:20](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L20)
+[src/models/AssetAttributes.ts:21](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L21)
 
 ---
 
@@ -82,7 +85,7 @@ This would allow to create an agreement that can not fulfilled until certain per
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:67](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L67)
+[src/models/AssetAttributes.ts:68](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L68)
 
 ---
 
@@ -99,7 +102,7 @@ This would allow to create an agreement that is not fulfilled after a certain pe
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:57](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L57)
+[src/models/AssetAttributes.ts:58](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L58)
 
 ---
 
@@ -115,7 +118,7 @@ Metadata describing the asset
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:13](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L13)
+[src/models/AssetAttributes.ts:14](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L14)
 
 ---
 
@@ -131,7 +134,7 @@ List of additional asset services to be included as part of an asset
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:32](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L32)
+[src/models/AssetAttributes.ts:33](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L33)
 
 ---
 
@@ -147,7 +150,7 @@ Typically just the address of one Nevermined Node trusted by the user.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:41](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L41)
+[src/models/AssetAttributes.ts:42](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L42)
 
 ---
 
@@ -163,17 +166,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:26](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L26)
-
----
-
-### DEFAULT_ENCRYPTION_METHOD
-
-▪ `Static` **DEFAULT_ENCRYPTION_METHOD**: [`EncryptionMethod`](../code-reference.md#encryptionmethod)
-
-#### Defined in
-
-[src/models/AssetAttributes.ts:7](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L7)
+[src/models/AssetAttributes.ts:27](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L27)
 
 ---
 
@@ -183,25 +176,25 @@ List of services and their attributes offered by an asset.
 
 #### Type declaration
 
-| Name                      | Type                                                                                                            |
-| :------------------------ | :-------------------------------------------------------------------------------------------------------------- |
-| `appId`                   | `string`                                                                                                        |
-| `encryptionMethod`        | [`EncryptionMethod`](../code-reference.md#encryptionmethod)                                                     |
-| `fulfillAccessTimelock`   | `number`                                                                                                        |
-| `fulfillAccessTimeout`    | `number`                                                                                                        |
-| `predefinedAssetServices` | [`ServiceCommon`](../interfaces/ServiceCommon.md)[]                                                             |
-| `providers`               | `any`[]                                                                                                         |
-| `services`                | { `price`: [`AssetPrice`](AssetPrice.md) ; `serviceType`: [`ServiceType`](../code-reference.md#servicetype) }[] |
+| Name                      | Type                                                                                                             |
+| :------------------------ | :--------------------------------------------------------------------------------------------------------------- |
+| `appId`                   | `string`                                                                                                         |
+| `encryptionMethod`        | [`EncryptionMethod`](../code-reference.md#encryptionmethod)                                                      |
+| `fulfillAccessTimelock`   | `number`                                                                                                         |
+| `fulfillAccessTimeout`    | `number`                                                                                                         |
+| `predefinedAssetServices` | [`ServiceCommon`](../interfaces/ServiceCommon.md)[]                                                              |
+| `providers`               | `never`[]                                                                                                        |
+| `services`                | \{ `price`: [`AssetPrice`](AssetPrice.md) ; `serviceType`: [`ServiceType`](../code-reference.md#servicetype) }[] |
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:69](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L69)
+[src/models/AssetAttributes.ts:70](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L70)
 
 ## Methods
 
 ### getInstance
 
-▸ `Static` **getInstance**(`assetAttributes`): `Required`<[`AssetAttributes`](AssetAttributes.md)\>
+▸ **getInstance**(`assetAttributes`): `Required`\<[`AssetAttributes`](AssetAttributes.md)\>
 
 #### Parameters
 
@@ -211,8 +204,8 @@ List of services and their attributes offered by an asset.
 
 #### Returns
 
-`Required`<[`AssetAttributes`](AssetAttributes.md)\>
+`Required`\<[`AssetAttributes`](AssetAttributes.md)\>
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:84](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetAttributes.ts#L84)
+[src/models/AssetAttributes.ts:85](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetAttributes.ts#L85)

@@ -28,20 +28,21 @@
 
 #### Type declaration
 
-| Name                                             | Type                                                                                                                                                                                                                                      |
-| :----------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `additionalInformation`                          | { `description`: `string` ; `priceHighestDenomination`: `number` }                                                                                                                                                                        |
-| `additionalInformation.description`              | `string`                                                                                                                                                                                                                                  |
-| `additionalInformation.priceHighestDenomination` | `number`                                                                                                                                                                                                                                  |
-| `main`                                           | { `creator`: `string` ; `datePublished`: `string` ; `ercType`: [`ERCType`](../enums/ERCType.md) ; `name`: `string` ; `nftType`: [`NeverminedNFTType`](../code-reference.md#neverminednfttype) ; `price`: `string` ; `timeout`: `number` } |
-| `main.creator`                                   | `string`                                                                                                                                                                                                                                  |
-| `main.datePublished`                             | `string`                                                                                                                                                                                                                                  |
-| `main.ercType`                                   | [`ERCType`](../enums/ERCType.md)                                                                                                                                                                                                          |
-| `main.name`                                      | `string`                                                                                                                                                                                                                                  |
-| `main.nftType`                                   | [`NeverminedNFTType`](../code-reference.md#neverminednfttype)                                                                                                                                                                             |
-| `main.price`                                     | `string`                                                                                                                                                                                                                                  |
-| `main.timeout`                                   | `number`                                                                                                                                                                                                                                  |
-| `serviceAgreementTemplate?`                      | [`ServiceAgreementTemplate`](ServiceAgreementTemplate.md)                                                                                                                                                                                 |
+| Name                                             | Type                                                                                                                                                                                                                                                                                                                        |
+| :----------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `additionalInformation`                          | \{ `description`: `string` ; `priceHighestDenomination`: `number` }                                                                                                                                                                                                                                                         |
+| `additionalInformation.description`              | `string`                                                                                                                                                                                                                                                                                                                    |
+| `additionalInformation.priceHighestDenomination` | `number`                                                                                                                                                                                                                                                                                                                    |
+| `main`                                           | \{ `creator`: `string` ; `datePublished`: `string` ; `ercType`: [`ERCType`](../enums/ERCType.md) ; `name`: `string` ; `nftAttributes?`: [`NFTServiceAttributes`](../classes/NFTServiceAttributes.md) ; `nftType`: [`NeverminedNFTType`](../code-reference.md#neverminednfttype) ; `price`: `string` ; `timeout`: `number` } |
+| `main.creator`                                   | `string`                                                                                                                                                                                                                                                                                                                    |
+| `main.datePublished`                             | `string`                                                                                                                                                                                                                                                                                                                    |
+| `main.ercType`                                   | [`ERCType`](../enums/ERCType.md)                                                                                                                                                                                                                                                                                            |
+| `main.name`                                      | `string`                                                                                                                                                                                                                                                                                                                    |
+| `main.nftAttributes?`                            | [`NFTServiceAttributes`](../classes/NFTServiceAttributes.md)                                                                                                                                                                                                                                                                |
+| `main.nftType`                                   | [`NeverminedNFTType`](../code-reference.md#neverminednfttype)                                                                                                                                                                                                                                                               |
+| `main.price`                                     | `string`                                                                                                                                                                                                                                                                                                                    |
+| `main.timeout`                                   | `number`                                                                                                                                                                                                                                                                                                                    |
+| `serviceAgreementTemplate?`                      | [`ServiceAgreementTemplate`](ServiceAgreementTemplate.md)                                                                                                                                                                                                                                                                   |
 
 #### Overrides
 
@@ -49,7 +50,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:696](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L696)
+[src/types/DDOTypes.ts:741](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L741)
 
 ---
 
@@ -63,7 +64,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:592](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L592)
+[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L636)
 
 ---
 
@@ -77,7 +78,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:593](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L593)
+[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L637)
 
 ---
 
@@ -91,7 +92,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:695](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L695)
+[src/types/DDOTypes.ts:740](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L740)
 
 ---
 
@@ -105,4 +106,4 @@
 
 #### Defined in
 
-[src/ddo/types.ts:694](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L694)
+[src/types/DDOTypes.ts:739](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L739)

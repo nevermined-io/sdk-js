@@ -33,21 +33,23 @@
 - [setProtectedHeader](EthSignJWT.md#setprotectedheader)
 - [setSubject](EthSignJWT.md#setsubject)
 - [sign](EthSignJWT.md#sign)
-- [signMessage](EthSignJWT.md#signmessage)
 - [signText](EthSignJWT.md#signtext)
-- [signTypedMessage](EthSignJWT.md#signtypedmessage)
 
 ## Constructors
 
 ### constructor
 
-• **new EthSignJWT**(`payload`)
+• **new EthSignJWT**(`payload`): [`EthSignJWT`](EthSignJWT.md)
 
 #### Parameters
 
 | Name      | Type         | Description                |
 | :-------- | :----------- | :------------------------- |
 | `payload` | `JWTPayload` | The JWT Claims Set object. |
+
+#### Returns
+
+[`EthSignJWT`](EthSignJWT.md)
 
 #### Inherited from
 
@@ -79,13 +81,13 @@ node_modules/jose/dist/types/jwt/produce.d.ts:4
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:27](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L27)
+[src/nevermined/utils/JwtUtils.ts:12](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/JwtUtils.ts#L12)
 
 ## Methods
 
 ### base64url
 
-▸ `Private` **base64url**(`input`): `string`
+▸ **base64url**(`input`): `string`
 
 #### Parameters
 
@@ -99,13 +101,13 @@ node_modules/jose/dist/types/jwt/produce.d.ts:4
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:128](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L128)
+[src/nevermined/utils/JwtUtils.ts:91](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/JwtUtils.ts#L91)
 
 ---
 
 ### concat
 
-▸ `Private` **concat**(`...buffers`): `Uint8Array`
+▸ **concat**(`...buffers`): `Uint8Array`
 
 #### Parameters
 
@@ -119,34 +121,35 @@ node_modules/jose/dist/types/jwt/produce.d.ts:4
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:136](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L136)
+[src/nevermined/utils/JwtUtils.ts:99](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/JwtUtils.ts#L99)
 
 ---
 
 ### ethSign
 
-▸ **ethSign**(`signer`, `eip712Data?`): `Promise`<`string`\>
+▸ **ethSign**(`signatureUtils`, `account`, `eip712Data?`): `Promise`\<`string`\>
 
 #### Parameters
 
-| Name          | Type                                           |
-| :------------ | :--------------------------------------------- |
-| `signer`      | `Signer` \| `ZeroDevAccountSigner`<`"ECDSA"`\> |
-| `eip712Data?` | [`Eip712Data`](../interfaces/Eip712Data.md)    |
+| Name             | Type                                        |
+| :--------------- | :------------------------------------------ |
+| `signatureUtils` | [`SignatureUtils`](SignatureUtils.md)       |
+| `account`        | [`NvmAccount`](NvmAccount.md)               |
+| `eip712Data?`    | [`Eip712Data`](../interfaces/Eip712Data.md) |
 
 #### Returns
 
-`Promise`<`string`\>
+`Promise`\<`string`\>
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:34](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L34)
+[src/nevermined/utils/JwtUtils.ts:19](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/JwtUtils.ts#L19)
 
 ---
 
 ### setAudience
 
-▸ **setAudience**(`audience`): [`EthSignJWT`](EthSignJWT.md)
+▸ **setAudience**(`audience`): `this`
 
 Set "aud" (Audience) Claim.
 
@@ -158,7 +161,7 @@ Set "aud" (Audience) Claim.
 
 #### Returns
 
-[`EthSignJWT`](EthSignJWT.md)
+`this`
 
 #### Inherited from
 
@@ -172,7 +175,7 @@ node_modules/jose/dist/types/jwt/produce.d.ts:24
 
 ### setExpirationTime
 
-▸ **setExpirationTime**(`input`): [`EthSignJWT`](EthSignJWT.md)
+▸ **setExpirationTime**(`input`): `this`
 
 Set "exp" (Expiration Time) Claim.
 
@@ -184,7 +187,7 @@ Set "exp" (Expiration Time) Claim.
 
 #### Returns
 
-[`EthSignJWT`](EthSignJWT.md)
+`this`
 
 #### Inherited from
 
@@ -198,7 +201,7 @@ node_modules/jose/dist/types/jwt/produce.d.ts:46
 
 ### setIssuedAt
 
-▸ **setIssuedAt**(`input?`): [`EthSignJWT`](EthSignJWT.md)
+▸ **setIssuedAt**(`input?`): `this`
 
 Set "iat" (Issued At) Claim.
 
@@ -210,7 +213,7 @@ Set "iat" (Issued At) Claim.
 
 #### Returns
 
-[`EthSignJWT`](EthSignJWT.md)
+`this`
 
 #### Inherited from
 
@@ -218,13 +221,13 @@ SignJWT.setIssuedAt
 
 #### Defined in
 
-node_modules/jose/dist/types/jwt/produce.d.ts:52
+node_modules/jose/dist/types/jwt/produce.d.ts:53
 
 ---
 
 ### setIssuer
 
-▸ **setIssuer**(`issuer`): [`EthSignJWT`](EthSignJWT.md)
+▸ **setIssuer**(`issuer`): `this`
 
 Set "iss" (Issuer) Claim.
 
@@ -236,7 +239,7 @@ Set "iss" (Issuer) Claim.
 
 #### Returns
 
-[`EthSignJWT`](EthSignJWT.md)
+`this`
 
 #### Inherited from
 
@@ -250,7 +253,7 @@ node_modules/jose/dist/types/jwt/produce.d.ts:12
 
 ### setJti
 
-▸ **setJti**(`jwtId`): [`EthSignJWT`](EthSignJWT.md)
+▸ **setJti**(`jwtId`): `this`
 
 Set "jti" (JWT ID) Claim.
 
@@ -262,7 +265,7 @@ Set "jti" (JWT ID) Claim.
 
 #### Returns
 
-[`EthSignJWT`](EthSignJWT.md)
+`this`
 
 #### Inherited from
 
@@ -276,7 +279,7 @@ node_modules/jose/dist/types/jwt/produce.d.ts:30
 
 ### setNotBefore
 
-▸ **setNotBefore**(`input`): [`EthSignJWT`](EthSignJWT.md)
+▸ **setNotBefore**(`input`): `this`
 
 Set "nbf" (Not Before) Claim.
 
@@ -288,7 +291,7 @@ Set "nbf" (Not Before) Claim.
 
 #### Returns
 
-[`EthSignJWT`](EthSignJWT.md)
+`this`
 
 #### Inherited from
 
@@ -320,13 +323,13 @@ SignJWT.setProtectedHeader
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:29](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L29)
+[src/nevermined/utils/JwtUtils.ts:14](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/JwtUtils.ts#L14)
 
 ---
 
 ### setSubject
 
-▸ **setSubject**(`subject`): [`EthSignJWT`](EthSignJWT.md)
+▸ **setSubject**(`subject`): `this`
 
 Set "sub" (Subject) Claim.
 
@@ -338,7 +341,7 @@ Set "sub" (Subject) Claim.
 
 #### Returns
 
-[`EthSignJWT`](EthSignJWT.md)
+`this`
 
 #### Inherited from
 
@@ -352,20 +355,20 @@ node_modules/jose/dist/types/jwt/produce.d.ts:18
 
 ### sign
 
-▸ **sign**(`key`, `options?`): `Promise`<`string`\>
+▸ **sign**(`key`, `options?`): `Promise`\<`string`\>
 
 Signs and returns the JWT.
 
 #### Parameters
 
-| Name       | Type                      | Description                                 |
-| :--------- | :------------------------ | :------------------------------------------ |
-| `key`      | `Uint8Array` \| `KeyLike` | Private Key or Secret to sign the JWT with. |
-| `options?` | `SignOptions`             | JWT Sign options.                           |
+| Name       | Type                      | Description                                                                                                                     |
+| :--------- | :------------------------ | :------------------------------------------------------------------------------------------------------------------------------ |
+| `key`      | `Uint8Array` \| `KeyLike` | Private Key or Secret to sign the JWT with. See [Algorithm Key Requirements](https://github.com/panva/jose/issues/210#jws-alg). |
+| `options?` | `SignOptions`             | JWT Sign options.                                                                                                               |
 
 #### Returns
 
-`Promise`<`string`\>
+`Promise`\<`string`\>
 
 #### Inherited from
 
@@ -373,69 +376,25 @@ SignJWT.sign
 
 #### Defined in
 
-node_modules/jose/dist/types/jwt/sign.d.ts:34
-
----
-
-### signMessage
-
-▸ `Static` `Private` **signMessage**(`message`, `signer`): `Promise`<`string`\>
-
-#### Parameters
-
-| Name      | Type                                           |
-| :-------- | :--------------------------------------------- |
-| `message` | `string` \| `Uint8Array`                       |
-| `signer`  | `Signer` \| `ZeroDevAccountSigner`<`"ECDSA"`\> |
-
-#### Returns
-
-`Promise`<`string`\>
-
-#### Defined in
-
-[src/nevermined/utils/JwtUtils.ts:100](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L100)
+node_modules/jose/dist/types/jwt/sign.d.ts:22
 
 ---
 
 ### signText
 
-▸ `Static` **signText**(`text`, `signer`): `Promise`<`string`\>
+▸ **signText**(`text`, `account`): `Promise`\<`undefined` \| `string`\>
 
 #### Parameters
 
-| Name     | Type                     |
-| :------- | :----------------------- |
-| `text`   | `string` \| `Uint8Array` |
-| `signer` | `Signer`                 |
+| Name      | Type                     |
+| :-------- | :----------------------- |
+| `text`    | `string` \| `Uint8Array` |
+| `account` | `Account`                |
 
 #### Returns
 
-`Promise`<`string`\>
+`Promise`\<`undefined` \| `string`\>
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:90](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L90)
-
----
-
-### signTypedMessage
-
-▸ `Static` `Private` **signTypedMessage**(`domain`, `types`, `value`, `signer`): `Promise`<`string`\>
-
-#### Parameters
-
-| Name     | Type                                                  |
-| :------- | :---------------------------------------------------- |
-| `domain` | [`TypedDataDomain`](../interfaces/TypedDataDomain.md) |
-| `types`  | [`TypedDataTypes`](../interfaces/TypedDataTypes.md)   |
-| `value`  | `Record`<`string`, `any`\>                            |
-| `signer` | `Signer` \| `ZeroDevAccountSigner`<`"ECDSA"`\>        |
-
-#### Returns
-
-`Promise`<`string`\>
-
-#### Defined in
-
-[src/nevermined/utils/JwtUtils.ts:111](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/JwtUtils.ts#L111)
+[src/nevermined/utils/JwtUtils.ts:77](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/JwtUtils.ts#L77)

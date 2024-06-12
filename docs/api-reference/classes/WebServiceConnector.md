@@ -4,28 +4,15 @@
 
 Provides a common interface to web services.
 
-## Hierarchy
-
-- [`Instantiable`](Instantiable.md)
-
-  ↳ **`WebServiceConnector`**
-
 ## Table of contents
 
 ### Constructors
 
 - [constructor](WebServiceConnector.md#constructor)
 
-### Accessors
+### Properties
 
-- [artifactsFolder](WebServiceConnector.md#artifactsfolder)
-- [circuitsFolder](WebServiceConnector.md#circuitsfolder)
 - [config](WebServiceConnector.md#config)
-- [instanceConfig](WebServiceConnector.md#instanceconfig)
-- [instantiableConfig](WebServiceConnector.md#instantiableconfig)
-- [logger](WebServiceConnector.md#logger)
-- [nevermined](WebServiceConnector.md#nevermined)
-- [web3](WebServiceConnector.md#web3)
 
 ### Methods
 
@@ -40,18 +27,15 @@ Provides a common interface to web services.
 - [getFileResponse](WebServiceConnector.md#getfileresponse)
 - [post](WebServiceConnector.md#post)
 - [put](WebServiceConnector.md#put)
-- [setInstanceConfig](WebServiceConnector.md#setinstanceconfig)
 - [uploadFile](WebServiceConnector.md#uploadfile)
 - [uploadMessage](WebServiceConnector.md#uploadmessage)
 - [getIPFSAuthToken](WebServiceConnector.md#getipfsauthtoken)
-- [getInstance](WebServiceConnector.md#getinstance)
-- [setInstanceConfig](WebServiceConnector.md#setinstanceconfig-1)
 
 ## Constructors
 
 ### constructor
 
-• **new WebServiceConnector**(`config`)
+• **new WebServiceConnector**(`config`): [`WebServiceConnector`](WebServiceConnector.md)
 
 #### Parameters
 
@@ -59,163 +43,29 @@ Provides a common interface to web services.
 | :------- | :---------------------------------------------------------- |
 | `config` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
 
-#### Overrides
-
-[Instantiable](Instantiable.md).[constructor](Instantiable.md#constructor)
-
-#### Defined in
-
-[src/nevermined/utils/WebServiceConnector.ts:21](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L21)
-
-## Accessors
-
-### artifactsFolder
-
-• `Protected` `get` **artifactsFolder**(): `string`
-
 #### Returns
 
-`string`
-
-#### Inherited from
-
-Instantiable.artifactsFolder
+[`WebServiceConnector`](WebServiceConnector.md)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L73)
+[src/nevermined/utils/WebServiceConnector.ts:26](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L26)
 
----
-
-### circuitsFolder
-
-• `Protected` `get` **circuitsFolder**(): `string`
-
-#### Returns
-
-`string`
-
-#### Inherited from
-
-Instantiable.circuitsFolder
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:77](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L77)
-
----
+## Properties
 
 ### config
 
-• `Protected` `get` **config**(): [`NeverminedOptions`](NeverminedOptions.md)
-
-#### Returns
-
-[`NeverminedOptions`](NeverminedOptions.md)
-
-#### Inherited from
-
-Instantiable.config
+• **config**: [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L57)
-
----
-
-### instanceConfig
-
-• `Protected` `get` **instanceConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
-
-#### Returns
-
-[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
-
-#### Inherited from
-
-Instantiable.instanceConfig
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L81)
-
----
-
-### instantiableConfig
-
-• `Protected` `get` **instantiableConfig**(): [`InstantiableConfig`](../interfaces/InstantiableConfig.md)
-
-#### Returns
-
-[`InstantiableConfig`](../interfaces/InstantiableConfig.md)
-
-#### Inherited from
-
-Instantiable.instantiableConfig
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L50)
-
----
-
-### logger
-
-• `Protected` `get` **logger**(): `Logger`
-
-#### Returns
-
-`Logger`
-
-#### Inherited from
-
-Instantiable.logger
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:64](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L64)
-
----
-
-### nevermined
-
-• `Protected` `get` **nevermined**(): [`Nevermined`](Nevermined.md)
-
-#### Returns
-
-[`Nevermined`](Nevermined.md)
-
-#### Inherited from
-
-Instantiable.nevermined
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:35](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L35)
-
----
-
-### web3
-
-• `get` **web3**(): `JsonRpcProvider` \| `BrowserProvider`
-
-#### Returns
-
-`JsonRpcProvider` \| `BrowserProvider`
-
-#### Inherited from
-
-Instantiable.web3
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:42](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L42)
+[src/nevermined/utils/WebServiceConnector.ts:24](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L24)
 
 ## Methods
 
 ### \_sleep
 
-▸ `Private` **\_sleep**(`ms`): `Promise`<`unknown`\>
+▸ **\_sleep**(`ms`): `Promise`\<`unknown`\>
 
 #### Parameters
 
@@ -225,17 +75,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`unknown`\>
+`Promise`\<`unknown`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:221](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L221)
+[src/nevermined/utils/WebServiceConnector.ts:226](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L226)
 
 ---
 
 ### delete
 
-▸ **delete**(`url`, `payload?`, `headers?`): `Promise`<`Response`\>
+▸ **delete**(`url`, `payload?`, `headers?`): `Promise`\<`Response`\>
 
 #### Parameters
 
@@ -247,17 +97,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`Response`\>
+`Promise`\<`Response`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:65](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L65)
+[src/nevermined/utils/WebServiceConnector.ts:71](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L71)
 
 ---
 
 ### downloadFile
 
-▸ **downloadFile**(`url`, `destination?`, `index?`, `headers?`): `Promise`<`string`\>
+▸ **downloadFile**(`url`, `destination?`, `index?`, `headers?`): `Promise`\<`string`\>
 
 #### Parameters
 
@@ -270,17 +120,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`string`\>
+`Promise`\<`string`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:80](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L80)
+[src/nevermined/utils/WebServiceConnector.ts:86](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L86)
 
 ---
 
 ### downloadUrl
 
-▸ **downloadUrl**(`url`, `headers?`): `Promise`<`string`\>
+▸ **downloadUrl**(`url`, `headers?`): `Promise`\<`string`\>
 
 #### Parameters
 
@@ -291,17 +141,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`string`\>
+`Promise`\<`string`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:132](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L132)
+[src/nevermined/utils/WebServiceConnector.ts:139](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L139)
 
 ---
 
 ### fetch
 
-▸ `Private` **fetch**(`url`, `opts`, `numberTries?`): `Promise`<`Response`\>
+▸ **fetch**(`url`, `opts`, `numberTries?`): `Promise`\<`Response`\>
 
 #### Parameters
 
@@ -313,17 +163,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`Response`\>
+`Promise`\<`Response`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:203](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L203)
+[src/nevermined/utils/WebServiceConnector.ts:209](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L209)
 
 ---
 
 ### fetchCID
 
-▸ **fetchCID**(`cid`): `Promise`<`string`\>
+▸ **fetchCID**(`cid`): `Promise`\<`string`\>
 
 #### Parameters
 
@@ -333,17 +183,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`string`\>
+`Promise`\<`string`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:175](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L175)
+[src/nevermined/utils/WebServiceConnector.ts:181](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L181)
 
 ---
 
 ### fetchToken
 
-▸ **fetchToken**(`url`, `grantToken`, `numberTries?`): `Promise`<`Response`\>
+▸ **fetchToken**(`url`, `grantToken`, `numberTries?`): `Promise`\<`Response`\>
 
 #### Parameters
 
@@ -355,17 +205,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`Response`\>
+`Promise`\<`Response`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:159](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L159)
+[src/nevermined/utils/WebServiceConnector.ts:165](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L165)
 
 ---
 
 ### get
 
-▸ **get**(`url`, `headers?`): `Promise`<`Response`\>
+▸ **get**(`url`, `headers?`): `Promise`\<`Response`\>
 
 #### Parameters
 
@@ -376,17 +226,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`Response`\>
+`Promise`\<`Response`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:41](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L41)
+[src/nevermined/utils/WebServiceConnector.ts:47](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L47)
 
 ---
 
 ### getFileResponse
 
-▸ `Private` **getFileResponse**(`url`, `index?`, `headers?`): `Promise`<{ `name`: `string` ; `response`: `Response` }\>
+▸ **getFileResponse**(`url`, `index?`, `headers?`): `Promise`\<\{ `name`: `string` ; `response`: `Response` }\>
 
 #### Parameters
 
@@ -398,17 +248,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<{ `name`: `string` ; `response`: `Response` }\>
+`Promise`\<\{ `name`: `string` ; `response`: `Response` }\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:107](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L107)
+[src/nevermined/utils/WebServiceConnector.ts:113](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L113)
 
 ---
 
 ### post
 
-▸ **post**(`url`, `payload`, `headers?`): `Promise`<`Response`\>
+▸ **post**(`url`, `payload`, `headers?`): `Promise`\<`Response`\>
 
 #### Parameters
 
@@ -420,17 +270,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`Response`\>
+`Promise`\<`Response`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:26](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L26)
+[src/nevermined/utils/WebServiceConnector.ts:32](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L32)
 
 ---
 
 ### put
 
-▸ **put**(`url`, `payload`, `headers?`): `Promise`<`Response`\>
+▸ **put**(`url`, `payload`, `headers?`): `Promise`\<`Response`\>
 
 #### Parameters
 
@@ -442,41 +292,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`Response`\>
+`Promise`\<`Response`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:50](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L50)
-
----
-
-### setInstanceConfig
-
-▸ `Protected` **setInstanceConfig**(`config`): `void`
-
-#### Parameters
-
-| Name     | Type                                                        |
-| :------- | :---------------------------------------------------------- |
-| `config` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
-
-#### Returns
-
-`void`
-
-#### Inherited from
-
-[Instantiable](Instantiable.md).[setInstanceConfig](Instantiable.md#setinstanceconfig)
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:99](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L99)
+[src/nevermined/utils/WebServiceConnector.ts:56](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L56)
 
 ---
 
 ### uploadFile
 
-▸ **uploadFile**(`url`, `data`, `encrypt?`): `Promise`<`any`\>
+▸ **uploadFile**(`url`, `data`, `encrypt?`): `Promise`\<`any`\>
 
 #### Parameters
 
@@ -488,17 +314,17 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`any`\>
+`Promise`\<`any`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:149](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L149)
+[src/nevermined/utils/WebServiceConnector.ts:156](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L156)
 
 ---
 
 ### uploadMessage
 
-▸ **uploadMessage**(`url`, `data`, `encrypt?`): `Promise`<`any`\>
+▸ **uploadMessage**(`url`, `data`, `encrypt?`): `Promise`\<`any`\>
 
 #### Parameters
 
@@ -510,77 +336,22 @@ Instantiable.web3
 
 #### Returns
 
-`Promise`<`any`\>
+`Promise`\<`any`\>
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:140](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L140)
+[src/nevermined/utils/WebServiceConnector.ts:147](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L147)
 
 ---
 
 ### getIPFSAuthToken
 
-▸ `Static` `Private` **getIPFSAuthToken**(): `string`
+▸ **getIPFSAuthToken**(): `undefined` \| `string`
 
 #### Returns
 
-`string`
+`undefined` \| `string`
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:193](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/utils/WebServiceConnector.ts#L193)
-
----
-
-### getInstance
-
-▸ `Static` **getInstance**(`..._args`): `any`
-
-#### Parameters
-
-| Name       | Type  |
-| :--------- | :---- |
-| `..._args` | `any` |
-
-#### Returns
-
-`any`
-
-#### Inherited from
-
-[Instantiable](Instantiable.md).[getInstance](Instantiable.md#getinstance)
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:86](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L86)
-
----
-
-### setInstanceConfig
-
-▸ `Static` `Protected` **setInstanceConfig**<`T`\>(`instance`, `instantiableConfig`): `void`
-
-#### Type parameters
-
-| Name | Type                                      |
-| :--- | :---------------------------------------- |
-| `T`  | extends [`Instantiable`](Instantiable.md) |
-
-#### Parameters
-
-| Name                 | Type                                                        |
-| :------------------- | :---------------------------------------------------------- |
-| `instance`           | `T`                                                         |
-| `instantiableConfig` | [`InstantiableConfig`](../interfaces/InstantiableConfig.md) |
-
-#### Returns
-
-`void`
-
-#### Inherited from
-
-[Instantiable](Instantiable.md).[setInstanceConfig](Instantiable.md#setinstanceconfig-1)
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L90)
+[src/nevermined/utils/WebServiceConnector.ts:199](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/utils/WebServiceConnector.ts#L199)
