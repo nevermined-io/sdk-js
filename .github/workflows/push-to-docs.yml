@@ -45,7 +45,7 @@ jobs:
           git config --global user.email "devops@nevermined.io"
           git config --global user.name "Nevermined BOT"
           git add ./docs
-          git commit -m "docs: Updating documentation [skip actions]"
+          git commit -m "docs: updating documentation [skip actions]"
           git push
 
       # push to docs repo
