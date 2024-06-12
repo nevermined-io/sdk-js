@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:19](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L19)
+[src/Instantiable.abstract.ts:19](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L19)
 
 ---
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:20](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L20)
+[src/Instantiable.abstract.ts:20](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L20)
 
 ---
 
@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:17](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L17)
+[src/Instantiable.abstract.ts:17](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L17)
 
 ---
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:16](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L16)
+[src/Instantiable.abstract.ts:16](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L16)
 
 ---
 
@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:18](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L18)
+[src/Instantiable.abstract.ts:18](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L18)
 
 ---
 
@@ -71,4 +71,4 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:15](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L15)
+[src/Instantiable.abstract.ts:15](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L15)

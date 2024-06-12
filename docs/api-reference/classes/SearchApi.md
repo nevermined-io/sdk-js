@@ -74,7 +74,7 @@ Creates a new SearchApi
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:30](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L30)
+[src/nevermined/api/SearchApi.ts:30](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L30)
 
 ## Accessors
 
@@ -92,7 +92,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L132)
+[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L132)
 
 ---
 
@@ -110,7 +110,7 @@ Instantiable.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L136)
 
 ---
 
@@ -128,7 +128,7 @@ Instantiable.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L84)
+[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L84)
 
 ---
 
@@ -146,7 +146,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L115)
 
 ---
 
@@ -164,7 +164,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L140)
 
 ---
 
@@ -182,7 +182,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L108)
+[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L108)
 
 ---
 
@@ -200,7 +200,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L123)
+[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L123)
 
 ---
 
@@ -218,7 +218,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L76)
+[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L76)
 
 ---
 
@@ -300,7 +300,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L92)
+[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L92)
 
 ---
 
@@ -351,7 +351,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L100)
 
 ## Methods
 
@@ -376,7 +376,7 @@ DDO of the asset.
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:41](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L41)
+[src/nevermined/api/SearchApi.ts:41](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L41)
 
 ---
 
@@ -410,7 +410,7 @@ const results = await nevermined.search.byPrice(1, 20)
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:110](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L110)
+[src/nevermined/api/SearchApi.ts:110](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L110)
 
 ---
 
@@ -440,7 +440,7 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:163](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L163)
+[src/nevermined/api/SearchApi.ts:163](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L163)
 
 ---
 
@@ -468,7 +468,7 @@ A list of [DDO](DDO.md)s.
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:78](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L78)
+[src/nevermined/api/SearchApi.ts:78](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L78)
 
 ---
 
@@ -499,7 +499,7 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:632](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L632)
+[src/nevermined/api/SearchApi.ts:632](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L632)
 
 ---
 
@@ -529,7 +529,7 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:753](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L753)
+[src/nevermined/api/SearchApi.ts:753](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L753)
 
 ---
 
@@ -558,7 +558,7 @@ returning only DDOs for that appId
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:55](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L55)
+[src/nevermined/api/SearchApi.ts:55](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L55)
 
 ---
 
@@ -589,7 +589,7 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:472](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L472)
+[src/nevermined/api/SearchApi.ts:472](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L472)
 
 ---
 
@@ -619,7 +619,7 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:582](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L582)
+[src/nevermined/api/SearchApi.ts:582](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L582)
 
 ---
 
@@ -643,7 +643,7 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L158)
 
 ---
 
@@ -673,7 +673,7 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:262](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L262)
+[src/nevermined/api/SearchApi.ts:262](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L262)
 
 ---
 
@@ -704,7 +704,7 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/nevermined/api/SearchApi.ts:354](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/nevermined/api/SearchApi.ts#L354)
+[src/nevermined/api/SearchApi.ts:354](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/nevermined/api/SearchApi.ts#L354)
 
 ---
 
@@ -728,7 +728,7 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -759,4 +759,4 @@ Promise<QueryResult>
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L149)
+[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/Instantiable.abstract.ts#L149)

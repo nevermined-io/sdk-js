@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:87](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/GeneralTypes.ts#L87)
+[src/types/GeneralTypes.ts:87](https://github.com/nevermined-io/sdk-js/blob/e4809d494b1dd12cc268e67289765b571409560d/src/types/GeneralTypes.ts#L87)
