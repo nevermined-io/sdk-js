@@ -26,7 +26,7 @@
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix --quiet",
     "format": "prettier --parser typescript --ignore-path .gitignore --write '**/*.{js,jsx,ts,tsx}'",
-    "docs": "typedoc",
+    "docs": "typedoc --out docs ./src",
     "run": "ts-node",
     "release": "release-it --non-interactive",
     "changelog": "auto-changelog --commit-limit false && sed -i 's/keyko-io/nevermind-/nevermined-io//' CHANGELOG.md",
