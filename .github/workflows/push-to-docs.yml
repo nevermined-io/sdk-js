@@ -24,19 +24,19 @@ jobs:
         run: yarn docs
 
       # checkout nvm-docs and test the build with the new documentation
-      - name: Checkout docs
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.API_TOKEN_GITHUB }}
-          repository: nevermined-io/docs
-          path: docs
-      - name: Copy the sdk docs
-        run: cp -r ./sdk/docs ./docs/docs/nevermined-sdk
-      - name: Test nvm-docs build
-        working-directory: ./docs
-        run: |
-          yarn
-          yarn build
+      # - name: Checkout docs
+      #   uses: actions/checkout@v4
+      #   with:
+      #     token: ${{ secrets.API_TOKEN_GITHUB }}
+      #     repository: nevermined-io/docs
+      #     path: docs
+      # - name: Copy the sdk docs
+      #   run: cp -r ./sdk/docs ./docs/docs/nevermined-sdk
+      # - name: Test nvm-docs build
+      #   working-directory: ./docs
+      #   run: |
+      #     yarn
+      #     yarn build
 
       # commit the new generated docs to the sdk repo
       - name: Commit sdk docs
