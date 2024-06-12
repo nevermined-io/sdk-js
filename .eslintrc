@@ -34,5 +34,5 @@
          "caughtErrorsIgnorePattern": "^_"
     }]
   },
-  "ignorePatterns": ["test/resources/proxy-poc/*"]
+  "ignorePatterns": ["test/resources/proxy-poc/*", "docs/*"]
 }
