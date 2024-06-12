@@ -1,8 +1,9 @@
 {
   // "$schema": "https://typedoc.org/schema.json",
-  // "entryPoints": ["./src/index.ts"],
+  "entryPoints": ["./src/index.ts"],
   // "plugin": ["typedoc-plugin-markdown"],
-  "out": "./docs"
+  "out": "./docs",
+  "includeVersion": true
   // "readme": "none",
   // "entryDocument": "code-reference.md"
 }
