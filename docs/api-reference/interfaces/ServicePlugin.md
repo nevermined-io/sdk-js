@@ -1,6 +1,6 @@
 [@nevermined-io/sdk](../code-reference.md) / ServicePlugin
 
-# Interface: ServicePlugin<T\>
+# Interface: ServicePlugin\<T\>
 
 ## Type parameters
 
@@ -28,7 +28,7 @@
 
 ### accept
 
-▸ **accept**(`params`): `Promise`<`boolean`\>
+▸ **accept**(`params`): `Promise`\<`boolean`\>
 
 #### Parameters
 
@@ -38,26 +38,26 @@
 
 #### Returns
 
-`Promise`<`boolean`\>
+`Promise`\<`boolean`\>
 
 #### Defined in
 
-[src/ddo/types.ts:761](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L761)
+[src/types/DDOTypes.ts:805](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L805)
 
 ---
 
 ### createService
 
-▸ **createService**(`publisher`, `metadata`, `serviceAttributes`, `nftAttributes`, `pricedData?`): `T`
+▸ **createService**(`publisher`, `metadata`, `serviceAttributes`, `nftAttributes?`, `pricedData?`): `T`
 
 #### Parameters
 
 | Name                | Type                                                                          |
 | :------------------ | :---------------------------------------------------------------------------- |
-| `publisher`         | [`Account`](../classes/Account.md)                                            |
+| `publisher`         | [`NvmAccount`](../classes/NvmAccount.md)                                      |
 | `metadata`          | [`MetaData`](MetaData.md)                                                     |
 | `serviceAttributes` | [`ServiceAttributes`](ServiceAttributes.md)                                   |
-| `nftAttributes`     | [`NFTAttributes`](../classes/NFTAttributes.md)                                |
+| `nftAttributes?`    | [`NFTAttributes`](../classes/NFTAttributes.md)                                |
 | `pricedData?`       | [`PricedMetadataInformation`](../code-reference.md#pricedmetadatainformation) |
 
 #### Returns
@@ -66,48 +66,48 @@
 
 #### Defined in
 
-[src/ddo/types.ts:751](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L751)
+[src/types/DDOTypes.ts:795](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L795)
 
 ---
 
 ### process
 
-▸ **process**(`params`, `from`, `txparams?`): `Promise`<`void`\>
+▸ **process**(`params`, `from`, `txparams?`): `Promise`\<`void`\>
 
 #### Parameters
 
 | Name        | Type                                      |
 | :---------- | :---------------------------------------- |
 | `params`    | [`ValidationParams`](ValidationParams.md) |
-| `from`      | [`Account`](../classes/Account.md)        |
+| `from`      | [`NvmAccount`](../classes/NvmAccount.md)  |
 | `txparams?` | [`TxParameters`](TxParameters.md)         |
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`\<`void`\>
 
 #### Defined in
 
-[src/ddo/types.ts:759](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L759)
+[src/types/DDOTypes.ts:803](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L803)
 
 ---
 
 ### track
 
-▸ **track**(`params`, `from`, `txparams?`): `Promise`<`boolean`\>
+▸ **track**(`params`, `from`, `txparams?`): `Promise`\<`boolean`\>
 
 #### Parameters
 
 | Name        | Type                                      |
 | :---------- | :---------------------------------------- |
 | `params`    | [`ValidationParams`](ValidationParams.md) |
-| `from`      | [`Account`](../classes/Account.md)        |
+| `from`      | [`NvmAccount`](../classes/NvmAccount.md)  |
 | `txparams?` | [`TxParameters`](TxParameters.md)         |
 
 #### Returns
 
-`Promise`<`boolean`\>
+`Promise`\<`boolean`\>
 
 #### Defined in
 
-[src/ddo/types.ts:763](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L763)
+[src/types/DDOTypes.ts:807](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L807)

@@ -1,6 +1,6 @@
 [@nevermined-io/sdk](../code-reference.md) / MarketplaceResults
 
-# Interface: MarketplaceResults<Entity\>
+# Interface: MarketplaceResults\<Entity\>
 
 ## Type parameters
 
@@ -25,7 +25,7 @@
 
 #### Defined in
 
-[src/common/interfaces.ts:7](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/common/interfaces.ts#L7)
+[src/types/MetadataTypes.ts:59](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L59)
 
 ---
 
@@ -35,7 +35,7 @@
 
 #### Defined in
 
-[src/common/interfaces.ts:8](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/common/interfaces.ts#L8)
+[src/types/MetadataTypes.ts:60](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L60)
 
 ---
 
@@ -45,14 +45,14 @@
 
 #### Defined in
 
-[src/common/interfaces.ts:9](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/common/interfaces.ts#L9)
+[src/types/MetadataTypes.ts:61](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L61)
 
 ---
 
 ### total_results
 
-• **total_results**: `SearchResults`
+• **total_results**: [`SearchResults`](SearchResults.md)
 
 #### Defined in
 
-[src/common/interfaces.ts:10](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/common/interfaces.ts#L10)
+[src/types/MetadataTypes.ts:62](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L62)

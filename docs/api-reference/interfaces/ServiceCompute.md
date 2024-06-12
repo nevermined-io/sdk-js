@@ -28,18 +28,18 @@
 
 #### Type declaration
 
-| Name                                             | Type                                                                                                             |
-| :----------------------------------------------- | :--------------------------------------------------------------------------------------------------------------- |
-| `additionalInformation`                          | { `description`: `string` ; `priceHighestDenomination`: `number` }                                               |
-| `additionalInformation.description`              | `string`                                                                                                         |
-| `additionalInformation.priceHighestDenomination` | `number`                                                                                                         |
-| `main`                                           | { `creator`: `string` ; `datePublished`: `string` ; `name`: `string` ; `price`: `string` ; `timeout`: `number` } |
-| `main.creator`                                   | `string`                                                                                                         |
-| `main.datePublished`                             | `string`                                                                                                         |
-| `main.name`                                      | `string`                                                                                                         |
-| `main.price`                                     | `string`                                                                                                         |
-| `main.timeout`                                   | `number`                                                                                                         |
-| `serviceAgreementTemplate?`                      | [`ServiceAgreementTemplate`](ServiceAgreementTemplate.md)                                                        |
+| Name                                             | Type                                                                                                              |
+| :----------------------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
+| `additionalInformation`                          | \{ `description`: `string` ; `priceHighestDenomination`: `number` }                                               |
+| `additionalInformation.description`              | `string`                                                                                                          |
+| `additionalInformation.priceHighestDenomination` | `number`                                                                                                          |
+| `main`                                           | \{ `creator`: `string` ; `datePublished`: `string` ; `name`: `string` ; `price`: `string` ; `timeout`: `number` } |
+| `main.creator`                                   | `string`                                                                                                          |
+| `main.datePublished`                             | `string`                                                                                                          |
+| `main.name`                                      | `string`                                                                                                          |
+| `main.price`                                     | `string`                                                                                                          |
+| `main.timeout`                                   | `number`                                                                                                          |
+| `serviceAgreementTemplate?`                      | [`ServiceAgreementTemplate`](ServiceAgreementTemplate.md)                                                         |
 
 #### Overrides
 
@@ -47,7 +47,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:658](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L658)
+[src/types/DDOTypes.ts:702](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L702)
 
 ---
 
@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:592](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L592)
+[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L636)
 
 ---
 
@@ -75,7 +75,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:593](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L593)
+[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L637)
 
 ---
 
@@ -89,7 +89,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:657](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L657)
+[src/types/DDOTypes.ts:701](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L701)
 
 ---
 
@@ -103,4 +103,4 @@
 
 #### Defined in
 
-[src/ddo/types.ts:656](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L656)
+[src/types/DDOTypes.ts:700](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L700)

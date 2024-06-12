@@ -13,7 +13,6 @@
 - [rewards](AssetPrice.md#rewards)
 - [tokenAddress](AssetPrice.md#tokenaddress)
 - [totalPrice](AssetPrice.md#totalprice)
-- [NETWORK_FEE_DENOMINATOR](AssetPrice.md#network_fee_denominator)
 
 ### Methods
 
@@ -35,25 +34,33 @@
 
 ### constructor
 
-• **new AssetPrice**()
+• **new AssetPrice**(): [`AssetPrice`](AssetPrice.md)
+
+#### Returns
+
+[`AssetPrice`](AssetPrice.md)
 
 #### Defined in
 
-[src/models/AssetPrice.ts:10](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L10)
+[src/models/AssetPrice.ts:10](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L10)
 
-• **new AssetPrice**(`_rewards`)
+• **new AssetPrice**(`_rewards`): [`AssetPrice`](AssetPrice.md)
 
 #### Parameters
 
-| Name       | Type                       |
-| :--------- | :------------------------- |
-| `_rewards` | `Map`<`string`, `bigint`\> |
+| Name       | Type                        |
+| :--------- | :-------------------------- |
+| `_rewards` | `Map`\<`string`, `bigint`\> |
+
+#### Returns
+
+[`AssetPrice`](AssetPrice.md)
 
 #### Defined in
 
-[src/models/AssetPrice.ts:11](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L11)
+[src/models/AssetPrice.ts:11](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L11)
 
-• **new AssetPrice**(`address`, `amount`)
+• **new AssetPrice**(`address`, `amount`): [`AssetPrice`](AssetPrice.md)
 
 #### Parameters
 
@@ -62,11 +69,15 @@
 | `address` | `string` |
 | `amount`  | `bigint` |
 
+#### Returns
+
+[`AssetPrice`](AssetPrice.md)
+
 #### Defined in
 
-[src/models/AssetPrice.ts:12](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L12)
+[src/models/AssetPrice.ts:12](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L12)
 
-• **new AssetPrice**(`address`, `amount`, `tokenAddress`)
+• **new AssetPrice**(`address`, `amount`, `tokenAddress`): [`AssetPrice`](AssetPrice.md)
 
 #### Parameters
 
@@ -76,19 +87,23 @@
 | `amount`       | `bigint` |
 | `tokenAddress` | `string` |
 
+#### Returns
+
+[`AssetPrice`](AssetPrice.md)
+
 #### Defined in
 
-[src/models/AssetPrice.ts:13](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L13)
+[src/models/AssetPrice.ts:13](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L13)
 
 ## Properties
 
 ### rewards
 
-• `Private` **rewards**: `Map`<`string`, `bigint`\>
+• `Private` **rewards**: `Map`\<`string`, `bigint`\>
 
 #### Defined in
 
-[src/models/AssetPrice.ts:6](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L6)
+[src/models/AssetPrice.ts:6](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L6)
 
 ---
 
@@ -98,7 +113,7 @@
 
 #### Defined in
 
-[src/models/AssetPrice.ts:8](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L8)
+[src/models/AssetPrice.ts:8](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L8)
 
 ---
 
@@ -108,17 +123,7 @@
 
 #### Defined in
 
-[src/models/AssetPrice.ts:4](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L4)
-
----
-
-### NETWORK_FEE_DENOMINATOR
-
-▪ `Static` `Readonly` **NETWORK_FEE_DENOMINATOR**: `10000n`
-
-#### Defined in
-
-[src/models/AssetPrice.ts:2](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L2)
+[src/models/AssetPrice.ts:4](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L4)
 
 ## Methods
 
@@ -147,7 +152,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:75](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L75)
+[src/models/AssetPrice.ts:77](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L77)
 
 ---
 
@@ -176,7 +181,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:88](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L88)
+[src/models/AssetPrice.ts:88](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L88)
 
 ---
 
@@ -190,7 +195,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:46](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L46)
+[src/models/AssetPrice.ts:46](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L46)
 
 ---
 
@@ -204,7 +209,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:103](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L103)
+[src/models/AssetPrice.ts:104](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L104)
 
 ---
 
@@ -218,7 +223,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:50](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L50)
+[src/models/AssetPrice.ts:50](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L50)
 
 ---
 
@@ -232,21 +237,21 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:109](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L109)
+[src/models/AssetPrice.ts:110](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L110)
 
 ---
 
 ### getRewards
 
-▸ **getRewards**(): `Map`<`string`, `bigint`\>
+▸ **getRewards**(): `Map`\<`string`, `bigint`\>
 
 #### Returns
 
-`Map`<`string`, `bigint`\>
+`Map`\<`string`, `bigint`\>
 
 #### Defined in
 
-[src/models/AssetPrice.ts:42](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L42)
+[src/models/AssetPrice.ts:42](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L42)
 
 ---
 
@@ -260,7 +265,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:65](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L65)
+[src/models/AssetPrice.ts:67](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L67)
 
 ---
 
@@ -274,7 +279,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:38](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L38)
+[src/models/AssetPrice.ts:38](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L38)
 
 ---
 
@@ -295,7 +300,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:54](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L54)
+[src/models/AssetPrice.ts:54](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L54)
 
 ---
 
@@ -315,7 +320,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:60](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L60)
+[src/models/AssetPrice.ts:62](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L62)
 
 ---
 
@@ -329,13 +334,13 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:114](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L114)
+[src/models/AssetPrice.ts:115](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L115)
 
 ---
 
 ### sumAmounts
 
-▸ `Static` **sumAmounts**(`amounts`): `bigint`
+▸ **sumAmounts**(`amounts`): `bigint`
 
 #### Parameters
 
@@ -349,4 +354,4 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:34](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/AssetPrice.ts#L34)
+[src/models/AssetPrice.ts:34](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/AssetPrice.ts#L34)

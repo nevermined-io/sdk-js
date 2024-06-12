@@ -20,17 +20,17 @@
 
 #### Defined in
 
-[src/ddo/types.ts:207](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L207)
+[src/types/DDOTypes.ts:235](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L235)
 
 ---
 
 ### privateParameters
 
-• `Optional` **privateParameters**: { `[name: string]`: `string`; }[]
+• `Optional` **privateParameters**: \{ `[name: string]`: `string`; }[]
 
 #### Defined in
 
-[src/ddo/types.ts:209](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L209)
+[src/types/DDOTypes.ts:237](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L237)
 
 ---
 
@@ -40,17 +40,17 @@
 
 #### Defined in
 
-[src/ddo/types.ts:208](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L208)
+[src/types/DDOTypes.ts:236](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L236)
 
 ---
 
 ### type
 
-• **type**: `"none"` \| `"basic"` \| `"oauth"`
+• **type**: `"none"` \| `"basic"` \| `"bearer"` \| `"oauth"`
 
 #### Defined in
 
-[src/ddo/types.ts:204](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L204)
+[src/types/DDOTypes.ts:232](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L232)
 
 ---
 
@@ -60,4 +60,4 @@
 
 #### Defined in
 
-[src/ddo/types.ts:206](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L206)
+[src/types/DDOTypes.ts:234](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L234)

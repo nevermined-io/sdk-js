@@ -10,9 +10,10 @@
 
 ### Properties
 
-- [aaveConfig](NeverminedOptions.md#aaveconfig)
 - [accounts](NeverminedOptions.md#accounts)
+- [appUrl](NeverminedOptions.md#appurl)
 - [artifactsFolder](NeverminedOptions.md#artifactsfolder)
+- [chainId](NeverminedOptions.md#chainid)
 - [circuitsFolder](NeverminedOptions.md#circuitsfolder)
 - [gasMultiplier](NeverminedOptions.md#gasmultiplier)
 - [gasStationUri](NeverminedOptions.md#gasstationuri)
@@ -27,32 +28,39 @@
 - [verbose](NeverminedOptions.md#verbose)
 - [web3Provider](NeverminedOptions.md#web3provider)
 - [web3ProviderUri](NeverminedOptions.md#web3provideruri)
+- [zeroDevProjectId](NeverminedOptions.md#zerodevprojectid)
 
 ## Constructors
 
 ### constructor
 
-• **new NeverminedOptions**()
+• **new NeverminedOptions**(): [`NeverminedOptions`](NeverminedOptions.md)
+
+#### Returns
+
+[`NeverminedOptions`](NeverminedOptions.md)
 
 ## Properties
 
-### aaveConfig
+### accounts
 
-• `Optional` **aaveConfig**: [`AaveConfig`](../interfaces/AaveConfig.md)
+• `Optional` **accounts**: [`NvmAccount`](NvmAccount.md)[]
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:58](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L58)
+[src/models/NeverminedOptions.ts:73](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L73)
 
 ---
 
-### accounts
+### appUrl
 
-• `Optional` **accounts**: `Signer`[]
+• `Optional` **appUrl**: `string`
+
+The Nevermined App URL.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:69](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L69)
+[src/models/NeverminedOptions.ts:16](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L16)
 
 ---
 
@@ -64,7 +72,17 @@ The folder where the nevermined contract artifacts are located.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:63](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L63)
+[src/models/NeverminedOptions.ts:67](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L67)
+
+---
+
+### chainId
+
+• `Optional` **chainId**: `number`
+
+#### Defined in
+
+[src/models/NeverminedOptions.ts:5](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L5)
 
 ---
 
@@ -76,7 +94,7 @@ The folder where the nevermined contract circuits are located.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:67](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L67)
+[src/models/NeverminedOptions.ts:71](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L71)
 
 ---
 
@@ -89,7 +107,7 @@ Can be used to speed up the transactions.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:51](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L51)
+[src/models/NeverminedOptions.ts:57](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L57)
 
 ---
 
@@ -101,7 +119,7 @@ Use a gas station to calculate transaction fees
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:85](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L85)
+[src/models/NeverminedOptions.ts:89](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L89)
 
 ---
 
@@ -113,7 +131,7 @@ Enpoint for the graph-node http query
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:56](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L56)
+[src/models/NeverminedOptions.ts:62](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L62)
 
 ---
 
@@ -127,7 +145,7 @@ the asset resolution requests.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:76](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L76)
+[src/models/NeverminedOptions.ts:80](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L80)
 
 ---
 
@@ -137,7 +155,7 @@ the asset resolution requests.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:78](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L78)
+[src/models/NeverminedOptions.ts:82](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L82)
 
 ---
 
@@ -147,7 +165,7 @@ the asset resolution requests.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:80](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L80)
+[src/models/NeverminedOptions.ts:84](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L84)
 
 ---
 
@@ -159,7 +177,7 @@ Marketplace auth token.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:35](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L35)
+[src/models/NeverminedOptions.ts:41](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L41)
 
 ---
 
@@ -176,7 +194,7 @@ https://docs.nevermined.io/docs/architecture/marketplace-api/
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:17](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L17)
+[src/models/NeverminedOptions.ts:23](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L23)
 
 ---
 
@@ -192,7 +210,7 @@ The public address of the Nevermined Node.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:30](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L30)
+[src/models/NeverminedOptions.ts:36](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L36)
 
 ---
 
@@ -209,7 +227,7 @@ https://docs.nevermined.io/docs/architecture/node/
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:24](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L24)
+[src/models/NeverminedOptions.ts:30](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L30)
 
 ---
 
@@ -221,7 +239,7 @@ Log level.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:45](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L45)
+[src/models/NeverminedOptions.ts:51](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L51)
 
 ---
 
@@ -233,7 +251,7 @@ Web3 Provider.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:40](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L40)
+[src/models/NeverminedOptions.ts:46](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L46)
 
 ---
 
@@ -247,4 +265,16 @@ It's possible to use a public available provider or a private/paid one like Infu
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:11](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/NeverminedOptions.ts#L11)
+[src/models/NeverminedOptions.ts:11](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L11)
+
+---
+
+### zeroDevProjectId
+
+• `Optional` **zeroDevProjectId**: `string`
+
+ZeroDev project id
+
+#### Defined in
+
+[src/models/NeverminedOptions.ts:94](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/NeverminedOptions.ts#L94)

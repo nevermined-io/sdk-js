@@ -22,7 +22,7 @@ The checksum of the document
 
 #### Defined in
 
-[src/ddo/types.ts:542](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L542)
+[src/types/DDOTypes.ts:593](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L593)
 
 ---
 
@@ -38,7 +38,7 @@ This is a self incrementing number
 
 #### Defined in
 
-[src/ddo/types.ts:534](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L534)
+[src/types/DDOTypes.ts:585](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L585)
 
 ---
 
@@ -50,7 +50,7 @@ The immutable solution to record the DDO
 
 #### Defined in
 
-[src/ddo/types.ts:552](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L552)
+[src/types/DDOTypes.ts:603](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L603)
 
 ---
 
@@ -62,7 +62,7 @@ ID Hash of the metadata recorded in an immutable data store (IPFS, Filecoin, Arw
 
 #### Defined in
 
-[src/ddo/types.ts:547](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L547)
+[src/types/DDOTypes.ts:598](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L598)
 
 ---
 
@@ -74,4 +74,4 @@ The date when the update occurred.
 
 #### Defined in
 
-[src/ddo/types.ts:538](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L538)
+[src/types/DDOTypes.ts:589](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L589)

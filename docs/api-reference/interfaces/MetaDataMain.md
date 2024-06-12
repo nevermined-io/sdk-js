@@ -23,8 +23,13 @@ https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metada
 - [license](MetaDataMain.md#license)
 - [name](MetaDataMain.md#name)
 - [nftType](MetaDataMain.md#nfttype)
+- [nonce](MetaDataMain.md#nonce)
+- [paymentAttributes](MetaDataMain.md#paymentattributes)
 - [service](MetaDataMain.md#service)
+- [subType](MetaDataMain.md#subtype)
+- [subscription](MetaDataMain.md#subscription)
 - [type](MetaDataMain.md#type)
+- [updatedAt](MetaDataMain.md#updatedat)
 - [webService](MetaDataMain.md#webservice)
 - [workflow](MetaDataMain.md#workflow)
 
@@ -36,7 +41,7 @@ https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metada
 
 #### Defined in
 
-[src/ddo/types.ts:277](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L277)
+[src/types/DDOTypes.ts:326](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L326)
 
 ---
 
@@ -54,7 +59,7 @@ Name of the entity generating this data (e.g. Tfl, Disney Corp, etc.).
 
 #### Defined in
 
-[src/ddo/types.ts:257](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L257)
+[src/types/DDOTypes.ts:304](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L304)
 
 ---
 
@@ -73,7 +78,7 @@ ISO 8601 format, Coordinated Universal Time.
 
 #### Defined in
 
-[src/ddo/types.ts:243](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L243)
+[src/types/DDOTypes.ts:280](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L280)
 
 ---
 
@@ -93,7 +98,7 @@ so this value can't be set.
 
 #### Defined in
 
-[src/ddo/types.ts:251](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L251)
+[src/types/DDOTypes.ts:288](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L288)
 
 ---
 
@@ -103,7 +108,7 @@ so this value can't be set.
 
 #### Defined in
 
-[src/ddo/types.ts:273](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L273)
+[src/types/DDOTypes.ts:322](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L322)
 
 ---
 
@@ -113,7 +118,7 @@ so this value can't be set.
 
 #### Defined in
 
-[src/ddo/types.ts:281](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L281)
+[src/types/DDOTypes.ts:330](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L330)
 
 ---
 
@@ -125,7 +130,7 @@ Array of File objects including the encrypted file urls and some additional info
 
 #### Defined in
 
-[src/ddo/types.ts:269](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L269)
+[src/types/DDOTypes.ts:316](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L316)
 
 ---
 
@@ -135,7 +140,7 @@ Array of File objects including the encrypted file urls and some additional info
 
 #### Defined in
 
-[src/ddo/types.ts:285](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L285)
+[src/types/DDOTypes.ts:334](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L334)
 
 ---
 
@@ -154,7 +159,7 @@ If it's not specified, the following value will be added: "No License Specified"
 
 #### Defined in
 
-[src/ddo/types.ts:264](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L264)
+[src/types/DDOTypes.ts:311](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L311)
 
 ---
 
@@ -172,7 +177,7 @@ Descriptive name of the Asset.
 
 #### Defined in
 
-[src/ddo/types.ts:221](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L221)
+[src/types/DDOTypes.ts:249](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L249)
 
 ---
 
@@ -182,7 +187,27 @@ Descriptive name of the Asset.
 
 #### Defined in
 
-[src/ddo/types.ts:283](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L283)
+[src/types/DDOTypes.ts:332](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L332)
+
+---
+
+### nonce
+
+• `Optional` **nonce**: `number`
+
+#### Defined in
+
+[src/types/DDOTypes.ts:298](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L298)
+
+---
+
+### paymentAttributes
+
+• `Optional` **paymentAttributes**: [`PaymentAttributes`](PaymentAttributes.md)[]
+
+#### Defined in
+
+[src/types/DDOTypes.ts:336](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L336)
 
 ---
 
@@ -192,16 +217,40 @@ Descriptive name of the Asset.
 
 #### Defined in
 
-[src/ddo/types.ts:279](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L279)
+[src/types/DDOTypes.ts:328](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L328)
+
+---
+
+### subType
+
+• `Optional` **subType**: `string`
+
+Sub type asssociated to the main type of the asset. This subtype is open so final users are not restricted to use anything they need.
+Helps to filter by the sub type of asset, for example if type is a service, the subtype could ai-agent, web-service, web-socket-service, etc
+Another example, if the type is 'dataset' the subtype could be 'tabular', 'parquet', 'csv', etc
+
+#### Defined in
+
+[src/types/DDOTypes.ts:273](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L273)
+
+---
+
+### subscription
+
+• `Optional` **subscription**: [`SubscriptionMetadata`](SubscriptionMetadata.md)
+
+#### Defined in
+
+[src/types/DDOTypes.ts:318](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L318)
 
 ---
 
 ### type
 
-• **type**: `"compute"` \| `"workflow"` \| `"service"` \| `"dataset"` \| `"algorithm"` \| `"subscription"` \| `"other"`
+• **type**: `"compute"` \| `"workflow"` \| `"service"` \| `"dataset"` \| `"algorithm"` \| `"subscription"` \| `"model"` \| `"file"` \| `"other"` \| `"assistant"`
 
 Type of the Asset. Helps to filter by the type of asset,
-initially ("dataset", "algorithm", "compute", "workflow", "compute", "subscription", "other").
+initially ("dataset", "algorithm", "compute", "workflow", "model", "file", "subscription", "other").
 
 **`Example`**
 
@@ -211,7 +260,27 @@ initially ("dataset", "algorithm", "compute", "workflow", "compute", "subscripti
 
 #### Defined in
 
-[src/ddo/types.ts:228](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L228)
+[src/types/DDOTypes.ts:256](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L256)
+
+---
+
+### updatedAt
+
+• `Optional` **updatedAt**: `string`
+
+The date on which the asset DDO was updated into the metadata store.
+This value is created automatically by Metadata upon update,
+so this value can't be set.
+
+**`Example`**
+
+```ts
+'2019-01-31T08:38:32Z'
+```
+
+#### Defined in
+
+[src/types/DDOTypes.ts:296](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L296)
 
 ---
 
@@ -221,7 +290,7 @@ initially ("dataset", "algorithm", "compute", "workflow", "compute", "subscripti
 
 #### Defined in
 
-[src/ddo/types.ts:271](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L271)
+[src/types/DDOTypes.ts:320](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L320)
 
 ---
 
@@ -231,4 +300,4 @@ initially ("dataset", "algorithm", "compute", "workflow", "compute", "subscripti
 
 #### Defined in
 
-[src/ddo/types.ts:275](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L275)
+[src/types/DDOTypes.ts:324](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L324)

@@ -22,7 +22,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:786](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L786)
+[src/types/DDOTypes.ts:830](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L830)
 
 ---
 
@@ -32,7 +32,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:789](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L789)
+[src/types/DDOTypes.ts:833](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L833)
 
 ---
 
@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:787](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L787)
+[src/types/DDOTypes.ts:831](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L831)
 
 ---
 
@@ -52,7 +52,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:783](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L783)
+[src/types/DDOTypes.ts:827](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L827)
 
 ---
 
@@ -62,7 +62,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:788](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L788)
+[src/types/DDOTypes.ts:832](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L832)
 
 ---
 
@@ -72,7 +72,7 @@
 
 #### Defined in
 
-[src/ddo/types.ts:784](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L784)
+[src/types/DDOTypes.ts:828](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L828)
 
 ---
 
@@ -82,4 +82,4 @@
 
 #### Defined in
 
-[src/ddo/types.ts:785](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/ddo/types.ts#L785)
+[src/types/DDOTypes.ts:829](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/DDOTypes.ts#L829)

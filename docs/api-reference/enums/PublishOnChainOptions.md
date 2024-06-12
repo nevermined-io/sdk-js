@@ -19,7 +19,7 @@ It specifies if the DID will be published on-chain initially or not.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:32](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L32)
+[src/types/MetadataTypes.ts:35](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L35)
 
 ---
 
@@ -29,4 +29,4 @@ It specifies if the DID will be published on-chain initially or not.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:33](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/nevermined/api/AssetsApi.ts#L33)
+[src/types/MetadataTypes.ts:36](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/MetadataTypes.ts#L36)

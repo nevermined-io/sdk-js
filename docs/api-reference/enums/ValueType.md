@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/models/types.ts:58](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/types.ts#L58)
+[src/types/GeneralTypes.ts:49](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/GeneralTypes.ts#L49)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/models/types.ts:55](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/types.ts#L55)
+[src/types/GeneralTypes.ts:46](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/GeneralTypes.ts#L46)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/models/types.ts:56](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/types.ts#L56)
+[src/types/GeneralTypes.ts:47](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/GeneralTypes.ts#L47)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/models/types.ts:57](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/models/types.ts#L57)
+[src/types/GeneralTypes.ts:48](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/types/GeneralTypes.ts#L48)

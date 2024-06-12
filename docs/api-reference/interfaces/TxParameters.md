@@ -13,9 +13,7 @@
 - [maxPriorityFeePerGas](TxParameters.md#maxpriorityfeepergas)
 - [nonce](TxParameters.md#nonce)
 - [progress](TxParameters.md#progress)
-- [signer](TxParameters.md#signer)
 - [value](TxParameters.md#value)
-- [zeroDevSigner](TxParameters.md#zerodevsigner)
 
 ## Properties
 
@@ -25,7 +23,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:16](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L16)
+[src/models/Transactions.ts:3](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/Transactions.ts#L3)
 
 ---
 
@@ -35,7 +33,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:17](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L17)
+[src/models/Transactions.ts:4](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/Transactions.ts#L4)
 
 ---
 
@@ -45,7 +43,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L18)
+[src/models/Transactions.ts:5](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/Transactions.ts#L5)
 
 ---
 
@@ -55,7 +53,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L20)
+[src/models/Transactions.ts:7](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/Transactions.ts#L7)
 
 ---
 
@@ -65,7 +63,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L19)
+[src/models/Transactions.ts:6](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/Transactions.ts#L6)
 
 ---
 
@@ -75,7 +73,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L23)
+[src/models/Transactions.ts:8](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/Transactions.ts#L8)
 
 ---
 
@@ -99,34 +97,14 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L24)
-
----
-
-### signer
-
-• `Optional` **signer**: `Signer`
-
-#### Defined in
-
-[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L21)
+[src/models/Transactions.ts:9](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/Transactions.ts#L9)
 
 ---
 
 ### value
 
-• `Optional` **value**: `string`
+• `Optional` **value**: `bigint`
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:15](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L15)
-
----
-
-### zeroDevSigner
-
-• `Optional` **zeroDevSigner**: `ZeroDevAccountSigner`<`"ECDSA"`\>
-
-#### Defined in
-
-[src/keeper/contracts/ContractBase.ts:22](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/keeper/contracts/ContractBase.ts#L22)
+[src/models/Transactions.ts:2](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/models/Transactions.ts#L2)

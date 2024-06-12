@@ -8,10 +8,10 @@
 
 - [artifactsFolder](InstantiableConfig.md#artifactsfolder)
 - [circuitsFolder](InstantiableConfig.md#circuitsfolder)
+- [client](InstantiableConfig.md#client)
 - [config](InstantiableConfig.md#config)
 - [logger](InstantiableConfig.md#logger)
 - [nevermined](InstantiableConfig.md#nevermined)
-- [web3](InstantiableConfig.md#web3)
 
 ## Properties
 
@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:12](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L12)
+[src/Instantiable.abstract.ts:19](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L19)
 
 ---
 
@@ -31,7 +31,17 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:13](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L13)
+[src/Instantiable.abstract.ts:20](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L20)
+
+---
+
+### client
+
+• `Optional` **client**: [`Web3Clients`](Web3Clients.md)
+
+#### Defined in
+
+[src/Instantiable.abstract.ts:17](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L17)
 
 ---
 
@@ -41,7 +51,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:9](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L9)
+[src/Instantiable.abstract.ts:16](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L16)
 
 ---
 
@@ -51,7 +61,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:11](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L11)
+[src/Instantiable.abstract.ts:18](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L18)
 
 ---
 
@@ -61,14 +71,4 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:8](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L8)
-
----
-
-### web3
-
-• `Optional` **web3**: `JsonRpcProvider` \| `BrowserProvider`
-
-#### Defined in
-
-[src/Instantiable.abstract.ts:10](https://github.com/nevermined-io/sdk-js/blob/bb26f8ab/src/Instantiable.abstract.ts#L10)
+[src/Instantiable.abstract.ts:15](https://github.com/nevermined-io/sdk-js/blob/49285bf856ebfc8d44ccb08cdf57963ec73b06d6/src/Instantiable.abstract.ts#L15)
