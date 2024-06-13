@@ -158,7 +158,7 @@ export class SearchApi extends Instantiable {
    * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
-   * @returns {@link Promise<QueryResult>}
+   * @returns {Promise<QueryResult> }
    */
   public async bySubscriptionContractAddress(
     contractAddress: string,
@@ -257,7 +257,7 @@ export class SearchApi extends Instantiable {
    * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
-   * @returns {@link Promise<QueryResult>}
+   * @returns {Promise<QueryResult>}
    */
   public async subscriptionsCreated(
     account: NvmAccount,
@@ -349,7 +349,7 @@ export class SearchApi extends Instantiable {
    * @param nftType - The nftType
    * @param appId - The appId used to filter the results
    *
-   * @returns {@link Promise<QueryResult>}
+   * @returns {Promise<QueryResult>}
    */
   public async subscriptionsPurchased(
     account: NvmAccount,
@@ -467,7 +467,7 @@ export class SearchApi extends Instantiable {
    * @param sort - The sort order
    * @param appId - The appId used to filter the results
    *
-   * @returns {@link Promise<QueryResult>}
+   * @returns {Promise<QueryResult>}
    */
   public async servicesByNftContract(
     nftContractAddress: string,
@@ -577,7 +577,7 @@ export class SearchApi extends Instantiable {
    * @param sort - The sort order
    * @param appId - The appId used to filter the results
    *
-   * @returns {@link Promise<QueryResult>}
+   * @returns {Promise<QueryResult>}
    */
   public async servicesBySubscription(
     subscriptionDid: string,
@@ -627,7 +627,7 @@ export class SearchApi extends Instantiable {
    * @param sort - The sort order
    * @param appId - The appId used to filter the results
    *
-   * @returns {@link Promise<QueryResult>}
+   * @returns {Promise<QueryResult>}
    */
   public async datasetsByNftContract(
     nftContractAddress: string,
@@ -748,7 +748,7 @@ export class SearchApi extends Instantiable {
    * @param sort - The sort order
    * @param appId - The appId used to filter the results
    *
-   * @returns {@link Promise<QueryResult>}
+   * @returns {Promise<QueryResult>}
    */
   public async datasetsBySubscription(
     subscriptionDid: string,
