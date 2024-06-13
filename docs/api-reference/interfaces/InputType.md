@@ -1,4 +1,4 @@
-[@nevermined-io/sdk](../code-reference.md) / InputType
+[@nevermined-io/sdk - v3.0.13](../code-reference.md) / InputType
 
 # Interface: InputType
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/4d0a0baa5afc98578a0eec8d32b14e61f501c376/src/types/GeneralTypes.ts#L10)
+[src/types/GeneralTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/GeneralTypes.ts#L10)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/4d0a0baa5afc98578a0eec8d32b14e61f501c376/src/types/GeneralTypes.ts#L11)
+[src/types/GeneralTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/GeneralTypes.ts#L11)

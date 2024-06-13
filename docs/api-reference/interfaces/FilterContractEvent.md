@@ -1,4 +1,4 @@
-[@nevermined-io/sdk](../code-reference.md) / FilterContractEvent
+[@nevermined-io/sdk - v3.0.13](../code-reference.md) / FilterContractEvent
 
 # Interface: FilterContractEvent
 

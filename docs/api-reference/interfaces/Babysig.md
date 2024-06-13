@@ -1,4 +1,4 @@
-[@nevermined-io/sdk](../code-reference.md) / Babysig
+[@nevermined-io/sdk - v3.0.13](../code-reference.md) / Babysig
 
 # Interface: Babysig
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:66](https://github.com/nevermined-io/sdk-js/blob/4d0a0baa5afc98578a0eec8d32b14e61f501c376/src/types/GeneralTypes.ts#L66)
+[src/types/GeneralTypes.ts:66](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/GeneralTypes.ts#L66)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:67](https://github.com/nevermined-io/sdk-js/blob/4d0a0baa5afc98578a0eec8d32b14e61f501c376/src/types/GeneralTypes.ts#L67)
+[src/types/GeneralTypes.ts:67](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/GeneralTypes.ts#L67)
