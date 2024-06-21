@@ -85,22 +85,6 @@ export class AppDeploymentGnosis extends NeverminedAppOptions {
   tokenAddress = '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83'
 }
 
-export class AppDeploymentMumbai extends NeverminedAppOptions {
-  instanceName = 'appMumbai'
-  appUrl = 'https://mumbai.nevermined.app'
-  chainId = 80001
-  web3ProviderUri = 'https://matic-mumbai.chainstacklabs.com'
-  marketplaceUri = 'https://marketplace-api.mumbai.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
-  neverminedNodeUri = 'https://node.mumbai.nevermined.app'
-  neverminedNodeAddress = '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'
-  verbose = true
-  gasMultiplier = 0
-  gasPriceMultiplier = 0
-  nftContractAddress = undefined
-  tokenAddress = '0x2058a9d7613eee744279e3856ef0eada5fcbaa7e'
-}
-
 export class AppDeploymentMatic extends NeverminedAppOptions {
   instanceName = 'appMatic'
   appUrl = 'https://matic.nevermined.app'

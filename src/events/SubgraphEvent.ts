@@ -23,8 +23,6 @@ export class SubgraphEvent extends NeverminedEvent {
    *  It gets a new instance of SubgraphEvent
    * @param contract contract instance
    * @param eventEmitter events emitter implementation
-   * @param graphHttpUri url of the subgraph
-   * @param networkName the name of the blockchain network
    * @returns the SubgraphEvent instance
    */
   public static getInstance(
@@ -41,7 +39,7 @@ export class SubgraphEvent extends NeverminedEvent {
 
     instance.subgraph = new ApolloClient({
       link: new HttpLink({
-        uri: `${graphHttpUri}${networkNameLower}${majorVersion}${contractName}`,
+        uri: `${graphHttpUri}${networkNameLower}${majorVersion}${contractName}/version/latest`,
         fetch,
       }),
       cache: new InMemoryCache(),
