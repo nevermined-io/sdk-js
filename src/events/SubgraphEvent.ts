@@ -23,6 +23,8 @@ export class SubgraphEvent extends NeverminedEvent {
    *  It gets a new instance of SubgraphEvent
    * @param contract contract instance
    * @param eventEmitter events emitter implementation
+   * @param graphHttpUri url of the subgraph
+   * @param networkName the name of the blockchain network
    * @returns the SubgraphEvent instance
    */
   public static getInstance(
