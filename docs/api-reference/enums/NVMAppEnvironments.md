@@ -13,7 +13,6 @@
 - [Live](NVMAppEnvironments.md#live)
 - [Local](NVMAppEnvironments.md#local)
 - [Matic](NVMAppEnvironments.md#matic)
-- [Mumbai](NVMAppEnvironments.md#mumbai)
 - [Optimism](NVMAppEnvironments.md#optimism)
 - [Staging](NVMAppEnvironments.md#staging)
 - [Testing](NVMAppEnvironments.md#testing)
@@ -87,16 +86,6 @@
 #### Defined in
 
 [src/nevermined/NvmApp.ts:38](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/nevermined/NvmApp.ts#L38)
-
----
-
-### Mumbai
-
-• **Mumbai** = `"mumbai"`
-
-#### Defined in
-
-[src/nevermined/NvmApp.ts:39](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/nevermined/NvmApp.ts#L39)
 
 ---
 

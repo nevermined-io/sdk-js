@@ -13,7 +13,6 @@ import {
   AppDeploymentGnosis,
   AppDeploymentLocal,
   AppDeploymentMatic,
-  AppDeploymentMumbai,
   AppDeploymentOptimism,
   AppDeploymentStaging,
   AppDeploymentTesting,
@@ -36,7 +35,6 @@ export enum NVMAppEnvironments {
   Testing = 'testing',
   Live = 'live',
   Matic = 'matic',
-  Mumbai = 'mumbai',
   Gnosis = 'gnosis',
   Base = 'base',
   Celo = 'celo',
@@ -904,8 +902,6 @@ export class NvmApp {
         return new AppDeploymentArbitrum()
       case NVMAppEnvironments.Matic:
         return new AppDeploymentMatic()
-      case NVMAppEnvironments.Mumbai:
-        return new AppDeploymentMumbai()
       case NVMAppEnvironments.Gnosis:
         return new AppDeploymentGnosis()
       case NVMAppEnvironments.Base:

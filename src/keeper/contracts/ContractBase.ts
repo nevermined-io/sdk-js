@@ -34,6 +34,7 @@ export abstract class ContractBase extends Instantiable {
         optional,
         config.artifactsFolder as string,
         contractAddress,
+        this.config.contractsVersion,
       )
       this.address = await this.contract.address
     } catch {

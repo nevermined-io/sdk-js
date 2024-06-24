@@ -41,7 +41,7 @@ export class SubgraphEvent extends NeverminedEvent {
 
     instance.subgraph = new ApolloClient({
       link: new HttpLink({
-        uri: `${graphHttpUri}${networkNameLower}${majorVersion}${contractName}`,
+        uri: `${graphHttpUri}${networkNameLower}${majorVersion}${contractName}/version/latest`,
         fetch,
       }),
       cache: new InMemoryCache(),

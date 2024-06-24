@@ -1,5 +1,5 @@
-import { NvmAccount } from '../models/NvmAccount'
 import { LogLevel } from '../models/Logger'
+import { NvmAccount } from '../models/NvmAccount'
 
 export class NeverminedOptions {
   public chainId?: number
@@ -92,4 +92,9 @@ export class NeverminedOptions {
    * ZeroDev project id
    */
   public zeroDevProjectId?: string
+
+  /**
+   * Contracts version
+   */
+  public contractsVersion?: string
 }
