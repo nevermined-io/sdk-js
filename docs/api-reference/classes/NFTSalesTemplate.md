@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.13](../code-reference.md) / NFTSalesTemplate
+[@nevermined-io/sdk - v3.0.14](../code-reference.md) / NFTSalesTemplate
 
 # Class: NFTSalesTemplate
 
@@ -106,7 +106,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:51](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L51)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:51](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L51)
 
 ## Properties
 
@@ -120,7 +120,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:22](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L22)
+[src/keeper/contracts/ContractBase.ts:22](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L22)
 
 ---
 
@@ -134,7 +134,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L19)
+[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L19)
 
 ---
 
@@ -148,7 +148,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L18)
+[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L18)
 
 ---
 
@@ -162,7 +162,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L20)
+[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L20)
 
 ---
 
@@ -176,7 +176,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L21)
+[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L21)
 
 ## Accessors
 
@@ -194,7 +194,7 @@ BaseTemplate.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L132)
+[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L132)
 
 ---
 
@@ -212,7 +212,7 @@ BaseTemplate.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L136)
 
 ---
 
@@ -230,7 +230,7 @@ BaseTemplate.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L84)
+[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L84)
 
 ---
 
@@ -248,7 +248,7 @@ BaseTemplate.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L115)
 
 ---
 
@@ -266,7 +266,7 @@ BaseTemplate.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L140)
 
 ---
 
@@ -284,7 +284,7 @@ BaseTemplate.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L108)
+[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L108)
 
 ---
 
@@ -302,7 +302,7 @@ BaseTemplate.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L123)
+[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L123)
 
 ---
 
@@ -320,7 +320,7 @@ BaseTemplate.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L76)
+[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L76)
 
 ---
 
@@ -402,7 +402,7 @@ BaseTemplate.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L92)
+[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L92)
 
 ---
 
@@ -453,7 +453,7 @@ BaseTemplate.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L100)
 
 ## Methods
 
@@ -477,7 +477,7 @@ BaseTemplate.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/templates/BaseTemplate.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L114)
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L114)
 
 ---
 
@@ -502,7 +502,7 @@ BaseTemplate.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:202](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L202)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:202](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L202)
 
 ---
 
@@ -534,7 +534,7 @@ BaseTemplate.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:91](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L91)
+[src/keeper/contracts/ContractBase.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L92)
 
 ---
 
@@ -552,7 +552,7 @@ BaseTemplate.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:96](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L96)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:96](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L96)
 
 ---
 
@@ -583,7 +583,7 @@ BaseTemplate.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L73)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:73](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L73)
 
 ---
 
@@ -619,7 +619,7 @@ BaseTemplate.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L98)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L98)
 
 ---
 
@@ -652,7 +652,7 @@ true if the call was successful.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:211](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L211)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:211](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L211)
 
 ---
 
@@ -683,7 +683,7 @@ true if the call was successful.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:240](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L240)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:240](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L240)
 
 ---
 
@@ -711,7 +711,7 @@ true if the call was successful.
 
 #### Defined in
 
-[src/keeper/contracts/templates/BaseTemplate.abstract.ts:48](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L48)
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:48](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L48)
 
 ---
 
@@ -729,7 +729,7 @@ true if the call was successful.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:42](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L42)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:42](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L42)
 
 ---
 
@@ -753,7 +753,7 @@ true if the call was successful.
 
 #### Defined in
 
-[src/keeper/contracts/templates/BaseTemplate.abstract.ts:110](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L110)
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:110](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L110)
 
 ---
 
@@ -781,7 +781,7 @@ Agreement created event.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:450](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L450)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:450](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L450)
 
 ---
 
@@ -805,7 +805,7 @@ Agreement created event.
 
 #### Defined in
 
-[src/keeper/contracts/templates/BaseTemplate.abstract.ts:29](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L29)
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:29](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L29)
 
 ---
 
@@ -836,7 +836,7 @@ The condition IDs.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:169](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L169)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:169](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L169)
 
 ---
 
@@ -864,7 +864,7 @@ The conditions status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:331](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L331)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:331](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L331)
 
 ---
 
@@ -888,7 +888,7 @@ The conditions status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:476](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L476)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:476](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L476)
 
 ---
 
@@ -910,7 +910,7 @@ A list of condition addresses.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L137)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L137)
 
 ---
 
@@ -932,7 +932,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:148](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L148)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:148](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L148)
 
 ---
 
@@ -956,7 +956,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:67](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L67)
+[src/keeper/contracts/ContractBase.ts:68](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L68)
 
 ---
 
@@ -978,7 +978,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:64](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L64)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:64](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L64)
 
 ---
 
@@ -996,7 +996,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:147](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L147)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:147](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L147)
 
 ---
 
@@ -1020,7 +1020,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:314](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L314)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:314](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L314)
 
 ---
 
@@ -1038,7 +1038,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:309](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L309)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:309](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L309)
 
 ---
 
@@ -1056,7 +1056,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:321](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L321)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:321](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L321)
 
 ---
 
@@ -1081,7 +1081,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:75](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L75)
+[src/keeper/contracts/ContractBase.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L76)
 
 ---
 
@@ -1107,7 +1107,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:29](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L29)
+[src/keeper/contracts/ContractBase.ts:29](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L29)
 
 ---
 
@@ -1135,7 +1135,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:102](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L102)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:102](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L102)
 
 ---
 
@@ -1153,7 +1153,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:92](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L92)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L92)
 
 ---
 
@@ -1180,7 +1180,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:382](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L382)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:382](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L382)
 
 ---
 
@@ -1198,7 +1198,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:39](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L39)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:39](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L39)
 
 ---
 
@@ -1227,7 +1227,7 @@ A list of condition contracts.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:46](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L46)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:46](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L46)
 
 ---
 
@@ -1253,7 +1253,7 @@ Specialize params
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:83](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L83)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:83](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L83)
 
 ---
 
@@ -1277,7 +1277,7 @@ Specialize params
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:61](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L61)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:61](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L61)
 
 ---
 
@@ -1303,7 +1303,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:418](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L418)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:418](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L418)
 
 ---
 
@@ -1329,7 +1329,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/BaseTemplate.abstract.ts:126](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L126)
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:126](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L126)
 
 ---
 
@@ -1356,7 +1356,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:127](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L127)
+[src/keeper/contracts/ContractBase.ts:128](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L128)
 
 ---
 
@@ -1383,7 +1383,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:108](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L108)
+[src/keeper/contracts/ContractBase.ts:109](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L109)
 
 ---
 
@@ -1401,7 +1401,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:31](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L31)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:31](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L31)
 
 ---
 
@@ -1419,7 +1419,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:35](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L35)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:35](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L35)
 
 ---
 
@@ -1443,7 +1443,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L158)
 
 ---
 
@@ -1467,7 +1467,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:84](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/ContractBase.ts#L84)
+[src/keeper/contracts/ContractBase.ts:85](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L85)
 
 ---
 
@@ -1493,7 +1493,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:189](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L189)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:189](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L189)
 
 ---
 
@@ -1519,7 +1519,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/BaseTemplate.abstract.ts:118](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L118)
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:118](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L118)
 
 ---
 
@@ -1548,7 +1548,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/BaseTemplate.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L141)
+[src/keeper/contracts/templates/BaseTemplate.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/BaseTemplate.abstract.ts#L141)
 
 ---
 
@@ -1572,7 +1572,7 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/keeper/contracts/templates/NFTSalesTemplate.ts:27](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/keeper/contracts/templates/NFTSalesTemplate.ts#L27)
+[src/keeper/contracts/templates/NFTSalesTemplate.ts:27](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/NFTSalesTemplate.ts#L27)
 
 ---
 
@@ -1603,4 +1603,4 @@ Prints the agreement status.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L149)
+[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L149)
