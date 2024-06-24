@@ -1,8 +1,8 @@
-import { KeeperError, ApiError } from '../errors/NeverminedErrors'
-import { NvmAccount } from '../models/NvmAccount'
-import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
 import fs from 'fs'
 import { Abi } from 'viem'
+import { Instantiable, InstantiableConfig } from '../Instantiable.abstract'
+import { ApiError, KeeperError } from '../errors/NeverminedErrors'
+import { NvmAccount } from '../models/NvmAccount'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -84,32 +84,21 @@ export class ContractHandler extends Instantiable {
     return this.nevermined.utils.blockchain.deployAbi(artifact, from, args)
   }
 
-  public async getContractArtifact(
-    contractName: string,
-    networkName: string,
-    artifactsFolder: string,
-  ) {
-    this.logger.debug(`Loading ${contractName} from ${networkName} and folder ${artifactsFolder}`)
-    let artifact
-    if (artifactsFolder.startsWith('http'))
-      artifact = await ContractHandler.fetchJson(
-        `${artifactsFolder}/${contractName}.${networkName}.json`,
-      )
-    else
-      artifact = JSON.parse(
-        fs.readFileSync(`${artifactsFolder}/${contractName}.${networkName}.json`, 'utf8'),
-      )
-    return artifact
-  }
-
   private async loadContractFromAbi(
     what: string,
     where: string,
     networkId: number,
-    artifactsFolder: string,
+    artifactsFolder?: string,
     address?: string,
+    contractsVersion: string = 'latest',
   ) {
-    const artifact = await ContractHandler.getABIArtifact(what, artifactsFolder, where) //await this.getContractArtifact(what, where, artifactsFolder)
+    const artifact = await ContractHandler.getABIArtifact(
+      what,
+      artifactsFolder,
+      where,
+      networkId,
+      contractsVersion,
+    )
 
     const _address = address ? address : artifact.address
     this.logger.debug(`Loading from address ${_address}`)
@@ -130,8 +119,9 @@ export class ContractHandler extends Instantiable {
   public async getContractFromArtifacts(
     what: string,
     optional = false,
-    artifactsFolder: string,
+    artifactsFolder?: string,
     address?: string,
+    contractsVersion: string = 'latest',
   ) {
     const chainId = await this.nevermined.keeper.getNetworkId()
     const where = await this.nevermined.keeper.getNetworkName()
@@ -142,7 +132,14 @@ export class ContractHandler extends Instantiable {
       // this.logger.debug(`ContractHandler :: get :: ${artifactsFolder} and address ${address}`)
       return (
         ContractHandler.getContract(what, chainId, address) ||
-        (await this.loadContractFromAbi(what, where, chainId, artifactsFolder, address))
+        (await this.loadContractFromAbi(
+          what,
+          where,
+          chainId,
+          artifactsFolder,
+          address,
+          contractsVersion,
+        ))
       )
     } catch (err) {
       if (!optional) {
@@ -153,15 +150,17 @@ export class ContractHandler extends Instantiable {
 
   public static async getABIArtifact(
     contractName: string,
-    artifactsFolder = '../artifacts',
+    artifactsFolder = 'https://artifacts.nevermined.network',
     networkName?: string,
+    networkId?: number,
+    contractsVersion: string = 'latest',
   ): Promise<any> {
     try {
       let where = ''
       if (networkName && networkName.length > 0) where = `.${networkName}`
 
       if (artifactsFolder.startsWith('http')) {
-        const path = `${artifactsFolder}/${contractName}${where}.json`
+        const path = `${artifactsFolder}/${networkId}/public/${contractsVersion}/${contractName}${where}.json`
         const jsonFile = await fetch(path, {
           method: 'GET',
           headers: { 'Content-type': 'application/json' },
