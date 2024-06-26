@@ -12,3 +12,7 @@ declare module 'permissionless/accounts' {
 declare module 'permissionless/types' {
   export type EntryPoint = string
 }
+
+interface Window {
+  ethereum?: any
+}
