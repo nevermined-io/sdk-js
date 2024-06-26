@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.13](../code-reference.md) / NvmAppMetadata
+[@nevermined-io/sdk - v3.0.14](../code-reference.md) / NvmAppMetadata
 
 # Class: NvmAppMetadata
 
@@ -51,7 +51,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:46](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/ddo/NvmAppMetadata.ts#L46)
+[src/ddo/NvmAppMetadata.ts:46](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/ddo/NvmAppMetadata.ts#L46)
 
 ---
 
@@ -77,7 +77,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:192](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/ddo/NvmAppMetadata.ts#L192)
+[src/ddo/NvmAppMetadata.ts:192](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/ddo/NvmAppMetadata.ts#L192)
 
 ---
 
@@ -113,7 +113,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:115](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/ddo/NvmAppMetadata.ts#L115)
+[src/ddo/NvmAppMetadata.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/ddo/NvmAppMetadata.ts#L115)
 
 ---
 
@@ -139,7 +139,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:71](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/ddo/NvmAppMetadata.ts#L71)
+[src/ddo/NvmAppMetadata.ts:71](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/ddo/NvmAppMetadata.ts#L71)
 
 ---
 
@@ -166,7 +166,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:19](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/ddo/NvmAppMetadata.ts#L19)
+[src/ddo/NvmAppMetadata.ts:19](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/ddo/NvmAppMetadata.ts#L19)
 
 ---
 
@@ -187,4 +187,4 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:216](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/ddo/NvmAppMetadata.ts#L216)
+[src/ddo/NvmAppMetadata.ts:216](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/ddo/NvmAppMetadata.ts#L216)

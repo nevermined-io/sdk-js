@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.13](../code-reference.md) / ExternalResourceFileType
+[@nevermined-io/sdk - v3.0.14](../code-reference.md) / ExternalResourceFileType
 
 # Enumeration: ExternalResourceFileType
 
@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:115](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/DDOTypes.ts#L115)
+[src/types/DDOTypes.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L115)
 
 ---
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:117](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/DDOTypes.ts#L117)
+[src/types/DDOTypes.ts:117](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L117)
 
 ---
 
@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:120](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/DDOTypes.ts#L120)
+[src/types/DDOTypes.ts:120](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L120)
 
 ---
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:116](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/DDOTypes.ts#L116)
+[src/types/DDOTypes.ts:116](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L116)
 
 ---
 
@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:119](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/DDOTypes.ts#L119)
+[src/types/DDOTypes.ts:119](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L119)
 
 ---
 
@@ -71,4 +71,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:118](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/types/DDOTypes.ts#L118)
+[src/types/DDOTypes.ts:118](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L118)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.13](../code-reference.md) / ContractEvent
+[@nevermined-io/sdk - v3.0.14](../code-reference.md) / ContractEvent
 
 # Class: ContractEvent
 
@@ -74,7 +74,7 @@ the NeverminedEvent instance
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:26](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/NeverminedEvent.ts#L26)
+[src/events/NeverminedEvent.ts:26](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/NeverminedEvent.ts#L26)
 
 ## Properties
 
@@ -88,7 +88,7 @@ the NeverminedEvent instance
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:15](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/NeverminedEvent.ts#L15)
+[src/events/NeverminedEvent.ts:15](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/NeverminedEvent.ts#L15)
 
 ---
 
@@ -102,7 +102,7 @@ the NeverminedEvent instance
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:14](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/NeverminedEvent.ts#L14)
+[src/events/NeverminedEvent.ts:14](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/NeverminedEvent.ts#L14)
 
 ## Accessors
 
@@ -120,7 +120,7 @@ NeverminedEvent.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L132)
+[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L132)
 
 ---
 
@@ -138,7 +138,7 @@ NeverminedEvent.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L136)
 
 ---
 
@@ -156,7 +156,7 @@ NeverminedEvent.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L84)
+[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L84)
 
 ---
 
@@ -174,7 +174,7 @@ NeverminedEvent.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L115)
 
 ---
 
@@ -192,7 +192,7 @@ NeverminedEvent.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L140)
 
 ---
 
@@ -210,7 +210,7 @@ NeverminedEvent.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L108)
+[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L108)
 
 ---
 
@@ -228,7 +228,7 @@ NeverminedEvent.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L123)
+[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L123)
 
 ---
 
@@ -246,7 +246,7 @@ NeverminedEvent.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L76)
+[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L76)
 
 ---
 
@@ -328,7 +328,7 @@ NeverminedEvent.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L92)
+[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L92)
 
 ---
 
@@ -379,7 +379,7 @@ NeverminedEvent.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L100)
 
 ## Methods
 
@@ -403,7 +403,7 @@ true if the event exists, false otherwise
 
 #### Defined in
 
-[src/events/ContractEvent.ts:111](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/ContractEvent.ts#L111)
+[src/events/ContractEvent.ts:111](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/ContractEvent.ts#L111)
 
 ---
 
@@ -428,7 +428,7 @@ the array of indexed parameters
 
 #### Defined in
 
-[src/events/ContractEvent.ts:126](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/ContractEvent.ts#L126)
+[src/events/ContractEvent.ts:126](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/ContractEvent.ts#L126)
 
 ---
 
@@ -450,7 +450,7 @@ the block number
 
 #### Defined in
 
-[src/events/ContractEvent.ts:102](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/ContractEvent.ts#L102)
+[src/events/ContractEvent.ts:102](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/ContractEvent.ts#L102)
 
 ---
 
@@ -478,7 +478,7 @@ It returns the events matching a given filter
 
 #### Defined in
 
-[src/events/ContractEvent.ts:41](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/ContractEvent.ts#L41)
+[src/events/ContractEvent.ts:41](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/ContractEvent.ts#L41)
 
 ---
 
@@ -507,7 +507,7 @@ This necessary for some networks and/or web3 providers which limit the number of
 
 #### Defined in
 
-[src/events/ContractEvent.ts:72](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/ContractEvent.ts#L72)
+[src/events/ContractEvent.ts:72](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/ContractEvent.ts#L72)
 
 ---
 
@@ -537,7 +537,7 @@ Promise with the event data
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:60](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/NeverminedEvent.ts#L60)
+[src/events/NeverminedEvent.ts:60](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/NeverminedEvent.ts#L60)
 
 ---
 
@@ -561,7 +561,7 @@ Promise with the event data
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L158)
 
 ---
 
@@ -590,7 +590,7 @@ Subscribes to a contract event
 
 #### Defined in
 
-[src/events/NeverminedEvent.ts:38](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/NeverminedEvent.ts#L38)
+[src/events/NeverminedEvent.ts:38](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/NeverminedEvent.ts#L38)
 
 ---
 
@@ -621,7 +621,7 @@ the ContractEvent instance
 
 #### Defined in
 
-[src/events/ContractEvent.ts:21](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/events/ContractEvent.ts#L21)
+[src/events/ContractEvent.ts:21](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/events/ContractEvent.ts#L21)
 
 ---
 
@@ -652,4 +652,4 @@ the ContractEvent instance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/0d598e72febf7cfaf48859e35dd566c39e7d5682/src/Instantiable.abstract.ts#L149)
+[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L149)
