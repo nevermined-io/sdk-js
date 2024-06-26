@@ -189,6 +189,7 @@ export class NvmApp {
         'NFT1155SubscriptionUpgradeable',
         this.configNVM.artifactsFolder,
         await this.fullSDK.keeper.getNetworkName(),
+        this.configNVM.chainId,
       )
       this.subscriptionNFTContractAddress = contractABI.address
     } else {

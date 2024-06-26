@@ -1,8 +1,8 @@
-import { getChain } from './utils/Network'
 import {
   Chain,
   createPublicClient,
   createWalletClient,
+  custom,
   http,
   PublicClient,
   WalletClient,
@@ -10,6 +10,7 @@ import {
 import { Logger, LoggerInstance, LogLevel } from './models/Logger'
 import { NeverminedOptions } from './models/NeverminedOptions'
 import { Nevermined } from './nevermined/Nevermined'
+import { getChain } from './utils/Network'
 
 export interface InstantiableConfig {
   nevermined: Nevermined
@@ -50,7 +51,11 @@ export async function getWeb3ViemClients(
   config: Partial<NeverminedOptions> = {},
 ): Promise<Web3Clients> {
   const chain = getChain(config.chainId)
-  const providerTransport = config.web3ProviderUri ? http(config.web3ProviderUri) : http()
+  const providerTransport = config.web3ProviderUri
+    ? http(config.web3ProviderUri)
+    : window && window.ethereum
+    ? custom(window.ethereum!)
+    : http()
 
   const publicClient = createPublicClient({
     chain,
