@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.14](../code-reference.md) / Permission
+[@nevermined-io/sdk - v3.0.15](../code-reference.md) / Permission
 
 # Interface: Permission
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:97](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/MetadataTypes.ts#L97)
+[src/types/MetadataTypes.ts:97](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/MetadataTypes.ts#L97)
 
 ---
 
@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:101](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/MetadataTypes.ts#L101)
+[src/types/MetadataTypes.ts:101](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/MetadataTypes.ts#L101)
 
 ---
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:102](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/MetadataTypes.ts#L102)
+[src/types/MetadataTypes.ts:102](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/MetadataTypes.ts#L102)
 
 ---
 
@@ -65,7 +65,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:96](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/MetadataTypes.ts#L96)
+[src/types/MetadataTypes.ts:96](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/MetadataTypes.ts#L96)
 
 ---
 
@@ -79,7 +79,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:95](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/MetadataTypes.ts#L95)
+[src/types/MetadataTypes.ts:95](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/MetadataTypes.ts#L95)
 
 ---
 
@@ -93,4 +93,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:94](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/MetadataTypes.ts#L94)
+[src/types/MetadataTypes.ts:94](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/MetadataTypes.ts#L94)

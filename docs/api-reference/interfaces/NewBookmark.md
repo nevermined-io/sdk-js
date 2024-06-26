@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.14](../code-reference.md) / NewBookmark
+[@nevermined-io/sdk - v3.0.15](../code-reference.md) / NewBookmark
 
 # Interface: NewBookmark
 
@@ -24,7 +24,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:78](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/MetadataTypes.ts#L78)
+[src/types/MetadataTypes.ts:78](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/MetadataTypes.ts#L78)
 
 ---
 
@@ -34,7 +34,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/MetadataTypes.ts#L76)
+[src/types/MetadataTypes.ts:76](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/MetadataTypes.ts#L76)
 
 ---
 
@@ -44,4 +44,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:77](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/MetadataTypes.ts#L77)
+[src/types/MetadataTypes.ts:77](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/MetadataTypes.ts#L77)

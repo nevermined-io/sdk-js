@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.14](../code-reference.md) / NFT1155Api
+[@nevermined-io/sdk - v3.0.15](../code-reference.md) / NFT1155Api
 
 # Class: NFT1155Api
 
@@ -98,7 +98,7 @@ Allows the interaction with external ERC-1155 NFT contracts built on top of the 
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:26](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L26)
+[src/nevermined/api/nfts/NFT1155Api.ts:26](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L26)
 
 ---
 
@@ -116,7 +116,7 @@ Allows the interaction with external ERC-1155 NFT contracts built on top of the 
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L39)
+[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L39)
 
 ## Accessors
 
@@ -134,7 +134,7 @@ The NFT contract address
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:64](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L64)
+[src/nevermined/api/nfts/NFT1155Api.ts:64](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L64)
 
 ---
 
@@ -152,7 +152,7 @@ NFTsBaseApi.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L132)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -170,7 +170,7 @@ NFTsBaseApi.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -188,7 +188,7 @@ NFTsBaseApi.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L84)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -206,7 +206,7 @@ NFTsBaseApi.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -224,7 +224,7 @@ The `Nft1155Contract` instance
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:72](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L72)
+[src/nevermined/api/nfts/NFT1155Api.ts:72](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L72)
 
 ---
 
@@ -242,7 +242,7 @@ NFTsBaseApi.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -260,7 +260,7 @@ NFTsBaseApi.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L108)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -278,7 +278,7 @@ NFTsBaseApi.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L123)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -296,7 +296,7 @@ NFTsBaseApi.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L76)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -354,7 +354,7 @@ NFTsBaseApi.nevermined
 | `multicall`                      | \<contracts, allowFailure\>(`args`: `MulticallParameters`\<`contracts`, `allowFailure`\>) => `Promise`\<`MulticallReturnType`\<`contracts`, `allowFailure`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | -                                                                                       |
 | `name`                           | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | A name for the client.                                                                  |
 | `pollingInterval`                | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
+| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `readContract`                   | \<abi, functionName, args\>(`args`: `ReadContractParameters`\<`abi`, `functionName`, `args`\>) => `Promise`\<`ReadContractReturnType`\<`abi`, `functionName`, `args`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `request`                        | `EIP1193RequestFn`\<`PublicRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Request function wrapped with friendly error handling                                   |
 | `sendRawTransaction`             | (`args`: `SendRawTransactionParameters`) => `Promise`\<\`0x$\{string}\`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | -                                                                                       |
@@ -378,7 +378,7 @@ NFTsBaseApi.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L92)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -407,7 +407,7 @@ NFTsBaseApi.publicClient
 | `key`                       | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A key for the client.                                                                   |
 | `name`                      | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A name for the client.                                                                  |
 | `pollingInterval`           | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
+| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
 | `request`                   | `EIP1193RequestFn`\<`WalletRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Request function wrapped with friendly error handling                                   |
 | `requestAddresses`          | () => `Promise`\<`RequestAddressesReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | -                                                                                       |
 | `requestPermissions`        | (`args`: \{ `eth_accounts`: `Record`\<`string`, `any`\> }) => `Promise`\<`RequestPermissionsReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -                                                                                       |
@@ -429,7 +429,7 @@ NFTsBaseApi.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -472,7 +472,7 @@ assert.equal(details.owner, artist.getId())
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:152](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFTsBaseApi.ts#L152)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:152](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFTsBaseApi.ts#L152)
 
 ---
 
@@ -518,7 +518,7 @@ const result = await nevermined.nfts1155.access(ddo.id, collector, '/tmp/')
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:427](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFTsBaseApi.ts#L427)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:427](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFTsBaseApi.ts#L427)
 
 ---
 
@@ -551,7 +551,7 @@ Given a DID, it adds a vote to the asset curation information.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:534](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L534)
+[src/nevermined/api/RegistryBaseApi.ts:534](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L534)
 
 ---
 
@@ -582,7 +582,7 @@ const balance = await nevermined.nfts1155.balance(ddo.id, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:464](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L464)
+[src/nevermined/api/nfts/NFT1155Api.ts:464](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L464)
 
 ---
 
@@ -619,7 +619,7 @@ await nevermined.nfts1155.burn(did, 2n, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:189](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L189)
+[src/nevermined/api/nfts/NFT1155Api.ts:189](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L189)
 
 ---
 
@@ -657,7 +657,7 @@ await nevermined.nfts1155.burnTo(holder, tokenId, 2n, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:217](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L217)
+[src/nevermined/api/nfts/NFT1155Api.ts:217](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L217)
 
 ---
 
@@ -700,7 +700,7 @@ Thrown if there is an error buying the NFT.
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:345](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFTsBaseApi.ts#L345)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:345](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFTsBaseApi.ts#L345)
 
 ---
 
@@ -750,7 +750,7 @@ const receipt = await nevermined.nfts1155.claim(
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:320](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L320)
+[src/nevermined/api/nfts/NFT1155Api.ts:320](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L320)
 
 ---
 
@@ -809,7 +809,7 @@ const receipt = await nevermined.nfts721.claim(
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFTsBaseApi.ts#L52)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFTsBaseApi.ts#L52)
 
 ---
 
@@ -859,7 +859,7 @@ const ddo = await nevermined.nfts1155.create(nftAttributes, publisher)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:107](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L107)
+[src/nevermined/api/nfts/NFT1155Api.ts:107](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L107)
 
 ---
 
@@ -897,7 +897,7 @@ assert.equal(details.owner, artist.getId())
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:676](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L676)
+[src/nevermined/api/nfts/NFT1155Api.ts:676](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L676)
 
 ---
 
@@ -935,7 +935,7 @@ assert.isDefined(response.neverminedProxyUri)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:490](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFTsBaseApi.ts#L490)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:490](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFTsBaseApi.ts#L490)
 
 ---
 
@@ -968,7 +968,7 @@ await nevermined.nfts1155.grantOperatorRole(someoneElse, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:622](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L622)
+[src/nevermined/api/nfts/NFT1155Api.ts:622](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L622)
 
 ---
 
@@ -1003,7 +1003,7 @@ await nevermined.nfts1155.isApprovedForAll(someoneElse, artist.getId())
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:538](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L538)
+[src/nevermined/api/nfts/NFT1155Api.ts:538](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L538)
 
 ---
 
@@ -1033,7 +1033,7 @@ operator status of address as a boolean
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:118](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFTsBaseApi.ts#L118)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:118](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFTsBaseApi.ts#L118)
 
 ---
 
@@ -1063,7 +1063,7 @@ operator status of address as a boolean
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:93](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFTsBaseApi.ts#L93)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:93](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFTsBaseApi.ts#L93)
 
 ---
 
@@ -1096,7 +1096,7 @@ In a Nevermined environment, when an asset is unlisted, it is not possible to be
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:482](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L482)
+[src/nevermined/api/RegistryBaseApi.ts:482](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L482)
 
 ---
 
@@ -1148,7 +1148,7 @@ Thrown if there is an error listing the NFT.
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:262](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFTsBaseApi.ts#L262)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:262](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFTsBaseApi.ts#L262)
 
 ---
 
@@ -1187,7 +1187,7 @@ await nevermined.nfts1155.mint(did, 10n, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:149](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L149)
+[src/nevermined/api/nfts/NFT1155Api.ts:149](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L149)
 
 ---
 
@@ -1226,7 +1226,7 @@ agreementId = await nevermined.nfts1155.order(ddo.id, numberNFTs, collector)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:250](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L250)
+[src/nevermined/api/nfts/NFT1155Api.ts:250](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L250)
 
 ---
 
@@ -1258,7 +1258,7 @@ The agreement ID.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:585](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L585)
+[src/nevermined/api/RegistryBaseApi.ts:585](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L585)
 
 ---
 
@@ -1282,7 +1282,7 @@ const nftContractOwner = new NvmAccount(await nevermined.nfts1155.owner())
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:483](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L483)
+[src/nevermined/api/nfts/NFT1155Api.ts:483](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L483)
 
 ---
 
@@ -1319,7 +1319,7 @@ The metadata of the asset created (DDO)
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L52)
+[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L52)
 
 ---
 
@@ -1363,7 +1363,7 @@ Thrown if there is an error releasing the rewards
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:423](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L423)
+[src/nevermined/api/nfts/NFT1155Api.ts:423](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L423)
 
 ---
 
@@ -1402,7 +1402,7 @@ Thrown if there is an error releasing the rewards.
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:560](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L560)
+[src/nevermined/api/nfts/NFT1155Api.ts:560](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L560)
 
 ---
 
@@ -1432,7 +1432,7 @@ Depending of the resolution policy it prioritize fetching that Metadata from the
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:324](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L324)
+[src/nevermined/api/RegistryBaseApi.ts:324](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L324)
 
 ---
 
@@ -1465,7 +1465,7 @@ await nevermined.nfts1155.revokeOperatorRole(someoneElse, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:648](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L648)
+[src/nevermined/api/nfts/NFT1155Api.ts:648](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L648)
 
 ---
 
@@ -1502,7 +1502,7 @@ await nevermined.nfts1155.setApprovalForAll(someoneElse, true, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:508](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L508)
+[src/nevermined/api/nfts/NFT1155Api.ts:508](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L508)
 
 ---
 
@@ -1526,7 +1526,7 @@ await nevermined.nfts1155.setApprovalForAll(someoneElse, true, artist)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -1571,7 +1571,7 @@ Thrown if there is an error transferring the NFT
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:367](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L367)
+[src/nevermined/api/nfts/NFT1155Api.ts:367](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L367)
 
 ---
 
@@ -1603,7 +1603,7 @@ Given a DID, updates the metadata associated to the asset. It also can upload th
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:367](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L367)
+[src/nevermined/api/RegistryBaseApi.ts:367](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L367)
 
 ---
 
@@ -1639,7 +1639,7 @@ nfts1155 = await Nft1155Api.getInstance(instanceConfig, nft1155Contract)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT1155Api.ts:44](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFT1155Api.ts#L44)
+[src/nevermined/api/nfts/NFT1155Api.ts:44](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFT1155Api.ts#L44)
 
 ---
 
@@ -1674,7 +1674,7 @@ const nftContractAddress = NFT1155Api.getNFTContractAddress(ddo)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:221](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/nfts/NFTsBaseApi.ts#L221)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:221](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/nfts/NFTsBaseApi.ts#L221)
 
 ---
 
@@ -1709,7 +1709,7 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:640](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L640)
+[src/nevermined/api/RegistryBaseApi.ts:640](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L640)
 
 ---
 
@@ -1740,4 +1740,4 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L149)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L154)

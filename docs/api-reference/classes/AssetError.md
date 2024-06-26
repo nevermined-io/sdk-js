@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.14](../code-reference.md) / AssetError
+[@nevermined-io/sdk - v3.0.15](../code-reference.md) / AssetError
 
 # Class: AssetError
 
@@ -49,7 +49,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:56](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/errors/NeverminedErrors.ts#L56)
+[src/errors/NeverminedErrors.ts:56](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/errors/NeverminedErrors.ts#L56)
 
 ## Properties
 

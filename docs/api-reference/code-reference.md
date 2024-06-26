@@ -1,6 +1,6 @@
 @nevermined-io/sdk
 
-# @nevermined-io/sdk - v3.0.14
+# @nevermined-io/sdk - v3.0.15
 
 ## Table of contents
 
@@ -350,7 +350,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/ContractTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/ContractTypes.ts#L10)
+[src/types/ContractTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/ContractTypes.ts#L10)
 
 ---
 
@@ -360,7 +360,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:606](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L606)
+[src/types/DDOTypes.ts:606](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/DDOTypes.ts#L606)
 
 ---
 
@@ -370,7 +370,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:4](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/constants/AssetConstants.ts#L4)
+[src/constants/AssetConstants.ts:4](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/constants/AssetConstants.ts#L4)
 
 ---
 
@@ -380,7 +380,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/EventTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/EventTypes.ts#L25)
+[src/types/EventTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/EventTypes.ts#L25)
 
 ---
 
@@ -390,7 +390,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:31](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/GeneralTypes.ts#L31)
+[src/types/GeneralTypes.ts:31](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/GeneralTypes.ts#L31)
 
 ---
 
@@ -400,7 +400,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:23](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L23)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:23](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L23)
 
 ---
 
@@ -420,7 +420,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:644](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L644)
+[src/types/DDOTypes.ts:644](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/DDOTypes.ts#L644)
 
 ---
 
@@ -436,7 +436,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:80](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/Provenance.ts#L80)
+[src/keeper/contracts/Provenance.ts:80](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/Provenance.ts#L80)
 
 ---
 
@@ -452,7 +452,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:765](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L765)
+[src/types/DDOTypes.ts:765](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/DDOTypes.ts#L765)
 
 ---
 
@@ -462,7 +462,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:608](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L608)
+[src/types/DDOTypes.ts:608](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/DDOTypes.ts#L608)
 
 ## Variables
 
@@ -472,7 +472,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/ContractTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/ContractTypes.ts#L8)
+[src/types/ContractTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/ContractTypes.ts#L8)
 
 ---
 
@@ -482,7 +482,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:7](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/constants/AssetConstants.ts#L7)
+[src/constants/AssetConstants.ts:7](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/constants/AssetConstants.ts#L7)
 
 ---
 
@@ -496,7 +496,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:7](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/Provenance.ts#L7)
+[src/keeper/contracts/Provenance.ts:7](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/Provenance.ts#L7)
 
 ---
 
@@ -506,7 +506,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/ddo/DDO.ts:36](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/ddo/DDO.ts#L36)
+[src/ddo/DDO.ts:36](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/ddo/DDO.ts#L36)
 
 ---
 
@@ -516,7 +516,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/DDOTypes.ts:74](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L74)
+[src/types/DDOTypes.ts:74](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/DDOTypes.ts#L74)
 
 ---
 
@@ -526,7 +526,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/models/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/models/Logger.ts#L43)
+[src/models/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/models/Logger.ts#L43)
 
 ---
 
@@ -536,7 +536,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:1](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/constants/AssetConstants.ts#L1)
+[src/constants/AssetConstants.ts:1](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/constants/AssetConstants.ts#L1)
 
 ---
 
@@ -546,7 +546,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/ddo/DDO.ts:34](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/ddo/DDO.ts#L34)
+[src/ddo/DDO.ts:34](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/ddo/DDO.ts#L34)
 
 ---
 
@@ -556,7 +556,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:10](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/constants/AssetConstants.ts#L10)
+[src/constants/AssetConstants.ts:10](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/constants/AssetConstants.ts#L10)
 
 ---
 
@@ -566,7 +566,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:8](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L8)
+[src/services/metadata/MetadataService.ts:8](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L8)
 
 ---
 
@@ -583,7 +583,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:40](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/GeneralTypes.ts#L40)
+[src/types/GeneralTypes.ts:40](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/GeneralTypes.ts#L40)
 
 ---
 
@@ -602,7 +602,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:33](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/GeneralTypes.ts#L33)
+[src/types/GeneralTypes.ts:33](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/GeneralTypes.ts#L33)
 
 ---
 
@@ -631,7 +631,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/DDOTypes.ts:618](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/types/DDOTypes.ts#L618)
+[src/types/DDOTypes.ts:618](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/types/DDOTypes.ts#L618)
 
 ---
 
@@ -641,7 +641,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:9](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L9)
+[src/services/metadata/MetadataService.ts:9](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L9)
 
 ## Functions
 
@@ -661,7 +661,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/common/helpers.ts:47](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L47)
+[src/common/helpers.ts:47](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L47)
 
 ---
 
@@ -682,7 +682,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/common/helpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L7)
+[src/common/helpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L7)
 
 ---
 
@@ -742,7 +742,7 @@ Given a contract address it checks if the contract exists on the blockchain.
 | `client.multicall`                      | \<contracts, allowFailure\>(`args`: `MulticallParameters`\<`contracts`, `allowFailure`\>) => `Promise`\<`MulticallReturnType`\<`contracts`, `allowFailure`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Similar to [`readContract`](https://viem.sh/docs/contract/readContract), but batches up multiple functions on a contract in a single RPC call via the [`multicall3` contract](https://github.com/mds1/multicall). - Docs: https://viem.sh/docs/contract/multicall **`Example`** `ts import { createPublicClient, http, parseAbi } from 'viem' import { mainnet } from 'viem/chains' const client = createPublicClient({ chain: mainnet, transport: http(), }) const abi = parseAbi([ 'function balanceOf(address) view returns (uint256)', 'function totalSupply() view returns (uint256)', ]) const result = await client.multicall({ contracts: [ { address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2', abi, functionName: 'balanceOf', args: ['0xA0Cf798816D4b9b9866b5330EEa46a18382f251e'], }, { address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2', abi, functionName: 'totalSupply', }, ], }) // [{ result: 424122n, status: 'success' }, { result: 1000000n, status: 'success' }] `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | `client.name`                           | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | A name for the client.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `client.pollingInterval`                | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `client.prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Prepares a transaction request for signing. - Docs: https://viem.sh/docs/actions/wallet/prepareTransactionRequest **`Example`** `ts import { createWalletClient, custom } from 'viem' import { mainnet } from 'viem/chains' const client = createWalletClient({ chain: mainnet, transport: custom(window.ethereum), }) const request = await client.prepareTransactionRequest({ account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e', to: '0x0000000000000000000000000000000000000000', value: 1n, }) ` **`Example`** `ts // Account Hoisting import { createWalletClient, http } from 'viem' import { privateKeyToAccount } from 'viem/accounts' import { mainnet } from 'viem/chains' const client = createWalletClient({ account: privateKeyToAccount('0x…'), chain: mainnet, transport: custom(window.ethereum), }) const request = await client.prepareTransactionRequest({ to: '0x0000000000000000000000000000000000000000', value: 1n, }) `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `client.prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Prepares a transaction request for signing. - Docs: https://viem.sh/docs/actions/wallet/prepareTransactionRequest **`Example`** `ts import { createWalletClient, custom } from 'viem' import { mainnet } from 'viem/chains' const client = createWalletClient({ chain: mainnet, transport: custom(window.ethereum), }) const request = await client.prepareTransactionRequest({ account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e', to: '0x0000000000000000000000000000000000000000', value: 1n, }) ` **`Example`** `ts // Account Hoisting import { createWalletClient, http } from 'viem' import { privateKeyToAccount } from 'viem/accounts' import { mainnet } from 'viem/chains' const client = createWalletClient({ account: privateKeyToAccount('0x…'), chain: mainnet, transport: custom(window.ethereum), }) const request = await client.prepareTransactionRequest({ to: '0x0000000000000000000000000000000000000000', value: 1n, }) `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `client.readContract`                   | \<abi, functionName, args\>(`args`: `ReadContractParameters`\<`abi`, `functionName`, `args`\>) => `Promise`\<`ReadContractReturnType`\<`abi`, `functionName`, `args`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Calls a read-only function on a contract, and returns the response. - Docs: https://viem.sh/docs/contract/readContract - Examples: https://stackblitz.com/github/wevm/viem/tree/main/examples/contracts/reading-contracts **`Remarks`** A "read-only" function (constant function) on a Solidity contract is denoted by a `view` or `pure` keyword. They can only read the state of the contract, and cannot make any changes to it. Since read-only methods do not change the state of the contract, they do not require any gas to be executed, and can be called by any user without the need to pay for gas. Internally, uses a [Public Client](https://viem.sh/docs/clients/public) to call the [`call` action](https://viem.sh/docs/actions/public/call) with [ABI-encoded `data`](https://viem.sh/docs/contract/encodeFunctionData). **`Example`** `ts import { createPublicClient, http, parseAbi } from 'viem' import { mainnet } from 'viem/chains' import { readContract } from 'viem/contract' const client = createPublicClient({ chain: mainnet, transport: http(), }) const result = await client.readContract({ address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2', abi: parseAbi(['function balanceOf(address) view returns (uint256)']), functionName: 'balanceOf', args: ['0xA0Cf798816D4b9b9866b5330EEa46a18382f251e'], }) // 424122n `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `client.request`                        | `EIP1193RequestFn`\<`PublicRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Request function wrapped with friendly error handling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `client.sendRawTransaction`             | (`args`: `SendRawTransactionParameters`) => `Promise`\<\`0x$\{string}\`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Sends a **signed** transaction to the network - Docs: https://viem.sh/docs/actions/wallet/sendRawTransaction - JSON-RPC Method: [`eth_sendRawTransaction`](https://ethereum.github.io/execution-apis/api-documentation/) **`Example`** `ts import { createWalletClient, custom } from 'viem' import { mainnet } from 'viem/chains' import { sendRawTransaction } from 'viem/wallet' const client = createWalletClient({ chain: mainnet, transport: custom(window.ethereum), }) const hash = await client.sendRawTransaction({ serializedTransaction: '0x02f850018203118080825208808080c080a04012522854168b27e5dc3d5839bab5e6b39e1a0ffd343901ce1622e3d64b48f1a04e00902ae0502c4728cbf12156290df99c3ed7de85b1dbfe20b5c36931733a33' }) `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
@@ -768,7 +768,7 @@ true if the contract exists and false otherwise
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:213](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L213)
+[src/nevermined/utils/BlockchainViemUtils.ts:213](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L213)
 
 ---
 
@@ -794,7 +794,7 @@ the kernel client
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:533](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L533)
+[src/nevermined/utils/BlockchainViemUtils.ts:533](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L533)
 
 ---
 
@@ -820,7 +820,7 @@ the session key serialized
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:581](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L581)
+[src/nevermined/utils/BlockchainViemUtils.ts:581](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L581)
 
 ---
 
@@ -841,7 +841,7 @@ the session key serialized
 
 #### Defined in
 
-[src/common/helpers.ts:81](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L81)
+[src/common/helpers.ts:81](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L81)
 
 ---
 
@@ -871,7 +871,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:150](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L150)
+[src/nevermined/utils/BlockchainViemUtils.ts:150](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L150)
 
 ---
 
@@ -898,7 +898,7 @@ a contract instance
 
 #### Defined in
 
-[src/common/helpers.ts:99](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L99)
+[src/common/helpers.ts:99](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L99)
 
 ---
 
@@ -918,7 +918,7 @@ a contract instance
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:13](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/ConversionTypeHelpers.ts#L13)
+[src/utils/ConversionTypeHelpers.ts:13](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/ConversionTypeHelpers.ts#L13)
 
 ---
 
@@ -943,7 +943,7 @@ the token id in a bigint format
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:320](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L320)
+[src/nevermined/utils/BlockchainViemUtils.ts:320](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L320)
 
 ---
 
@@ -964,7 +964,7 @@ the token id in a bigint format
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:16](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/ConversionTypeHelpers.ts#L16)
+[src/utils/ConversionTypeHelpers.ts:16](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/ConversionTypeHelpers.ts#L16)
 
 ---
 
@@ -984,7 +984,7 @@ the token id in a bigint format
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:22](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/ConversionTypeHelpers.ts#L22)
+[src/utils/ConversionTypeHelpers.ts:22](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/ConversionTypeHelpers.ts#L22)
 
 ---
 
@@ -1008,7 +1008,7 @@ the hex string
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:367](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L367)
+[src/nevermined/utils/BlockchainViemUtils.ts:367](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L367)
 
 ---
 
@@ -1029,7 +1029,7 @@ the hex string
 
 #### Defined in
 
-[src/common/helpers.ts:74](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L74)
+[src/common/helpers.ts:74](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L74)
 
 ---
 
@@ -1049,7 +1049,7 @@ the hex string
 
 #### Defined in
 
-[src/utils/Events.ts:1](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/Events.ts#L1)
+[src/utils/Events.ts:1](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/Events.ts#L1)
 
 ---
 
@@ -1082,7 +1082,7 @@ formatEther(value)
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:520](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L520)
+[src/nevermined/utils/BlockchainViemUtils.ts:520](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L520)
 
 ---
 
@@ -1116,7 +1116,7 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:483](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L483)
+[src/nevermined/utils/BlockchainViemUtils.ts:483](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L483)
 
 ---
 
@@ -1136,7 +1136,7 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/common/helpers.ts:39](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L39)
+[src/common/helpers.ts:39](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L39)
 
 ---
 
@@ -1157,7 +1157,7 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:29](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L29)
+[src/Instantiable.abstract.ts:30](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L30)
 
 ---
 
@@ -1181,7 +1181,7 @@ the encoded byte array
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:348](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L348)
+[src/nevermined/utils/BlockchainViemUtils.ts:348](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L348)
 
 ---
 
@@ -1201,7 +1201,7 @@ the encoded byte array
 
 #### Defined in
 
-[src/utils/Network.ts:148](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/Network.ts#L148)
+[src/utils/Network.ts:148](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/Network.ts#L148)
 
 ---
 
@@ -1225,7 +1225,7 @@ the same address in checksum format
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:329](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L329)
+[src/nevermined/utils/BlockchainViemUtils.ts:329](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L329)
 
 ---
 
@@ -1252,7 +1252,7 @@ the same address in checksum format
 
 #### Defined in
 
-[src/common/helpers.ts:21](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L21)
+[src/common/helpers.ts:21](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L21)
 
 ---
 
@@ -1289,7 +1289,7 @@ Filled conditions.
 
 #### Defined in
 
-[src/ddo/DDO.ts:58](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/ddo/DDO.ts#L58)
+[src/ddo/DDO.ts:58](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/ddo/DDO.ts#L58)
 
 ---
 
@@ -1315,7 +1315,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:199](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L199)
+[src/nevermined/utils/BlockchainViemUtils.ts:199](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L199)
 
 ---
 
@@ -1341,7 +1341,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:292](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L292)
+[src/nevermined/utils/BlockchainViemUtils.ts:292](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L292)
 
 ---
 
@@ -1367,7 +1367,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:303](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L303)
+[src/nevermined/utils/BlockchainViemUtils.ts:303](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L303)
 
 ---
 
@@ -1387,7 +1387,7 @@ the function found
 
 #### Defined in
 
-[src/utils/Network.ts:19](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/Network.ts#L19)
+[src/utils/Network.ts:19](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/Network.ts#L19)
 
 ---
 
@@ -1413,7 +1413,7 @@ The RoyaltyAttributes instance
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:62](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L62)
+[src/nevermined/api/AssetsApi.ts:62](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L62)
 
 ---
 
@@ -1438,7 +1438,7 @@ The royalty scheme
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:47](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L47)
+[src/nevermined/api/AssetsApi.ts:47](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L47)
 
 ---
 
@@ -1464,7 +1464,7 @@ the NvmAccount represented by the session key
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:616](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L616)
+[src/nevermined/utils/BlockchainViemUtils.ts:616](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L616)
 
 ---
 
@@ -1490,7 +1490,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:281](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L281)
+[src/nevermined/utils/BlockchainViemUtils.ts:281](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L281)
 
 ---
 
@@ -1510,7 +1510,7 @@ the function found
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:49](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L49)
+[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L50)
 
 ---
 
@@ -1530,7 +1530,7 @@ the function found
 
 #### Defined in
 
-[src/utils/Network.ts:83](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/Network.ts#L83)
+[src/utils/Network.ts:83](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/Network.ts#L83)
 
 ---
 
@@ -1554,7 +1554,7 @@ true of the address is valid
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:338](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L338)
+[src/nevermined/utils/BlockchainViemUtils.ts:338](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L338)
 
 ---
 
@@ -1575,7 +1575,7 @@ true of the address is valid
 
 #### Defined in
 
-[src/common/helpers.ts:34](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L34)
+[src/common/helpers.ts:34](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L34)
 
 ---
 
@@ -1599,7 +1599,7 @@ the hash
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:422](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L422)
+[src/nevermined/utils/BlockchainViemUtils.ts:422](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L422)
 
 ---
 
@@ -1624,7 +1624,7 @@ the hash
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:443](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L443)
+[src/nevermined/utils/BlockchainViemUtils.ts:443](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L443)
 
 ---
 
@@ -1649,7 +1649,7 @@ the hash
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:432](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L432)
+[src/nevermined/utils/BlockchainViemUtils.ts:432](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L432)
 
 ---
 
@@ -1667,7 +1667,7 @@ a new account
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:400](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L400)
+[src/nevermined/utils/BlockchainViemUtils.ts:400](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L400)
 
 ---
 
@@ -1691,7 +1691,7 @@ the array of accounts
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:410](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L410)
+[src/nevermined/utils/BlockchainViemUtils.ts:410](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L410)
 
 ---
 
@@ -1716,7 +1716,7 @@ an account
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:378](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L378)
+[src/nevermined/utils/BlockchainViemUtils.ts:378](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L378)
 
 ---
 
@@ -1741,7 +1741,7 @@ the array of accounts
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:388](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L388)
+[src/nevermined/utils/BlockchainViemUtils.ts:388](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L388)
 
 ---
 
@@ -1761,7 +1761,7 @@ the array of accounts
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:14](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/ConversionTypeHelpers.ts#L14)
+[src/utils/ConversionTypeHelpers.ts:14](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/ConversionTypeHelpers.ts#L14)
 
 ---
 
@@ -1781,7 +1781,7 @@ the array of accounts
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:5](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/ConversionTypeHelpers.ts#L5)
+[src/utils/ConversionTypeHelpers.ts:5](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/ConversionTypeHelpers.ts#L5)
 
 ---
 
@@ -1801,7 +1801,7 @@ the array of accounts
 
 #### Defined in
 
-[src/utils/PromiseResolver.ts:11](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/PromiseResolver.ts#L11)
+[src/utils/PromiseResolver.ts:11](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/PromiseResolver.ts#L11)
 
 ---
 
@@ -1835,7 +1835,7 @@ parseEther('-0.5')
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:502](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L502)
+[src/nevermined/utils/BlockchainViemUtils.ts:502](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L502)
 
 ---
 
@@ -1870,7 +1870,7 @@ parseUnits('121.0', 9)
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:465](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L465)
+[src/nevermined/utils/BlockchainViemUtils.ts:465](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L465)
 
 ---
 
@@ -1895,7 +1895,7 @@ the event found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:263](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L263)
+[src/nevermined/utils/BlockchainViemUtils.ts:263](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L263)
 
 ---
 
@@ -1921,7 +1921,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:245](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L245)
+[src/nevermined/utils/BlockchainViemUtils.ts:245](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L245)
 
 ---
 
@@ -1941,7 +1941,7 @@ the function found
 
 #### Defined in
 
-[src/common/helpers.ts:88](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L88)
+[src/common/helpers.ts:88](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L88)
 
 ---
 
@@ -1961,7 +1961,7 @@ the function found
 
 #### Defined in
 
-[src/common/helpers.ts:60](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L60)
+[src/common/helpers.ts:60](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L60)
 
 ---
 
@@ -1981,7 +1981,7 @@ the function found
 
 #### Defined in
 
-[src/common/helpers.ts:51](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/common/helpers.ts#L51)
+[src/common/helpers.ts:51](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/common/helpers.ts#L51)
 
 ---
 
@@ -2006,7 +2006,7 @@ the padded value
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:358](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/BlockchainViemUtils.ts#L358)
+[src/nevermined/utils/BlockchainViemUtils.ts:358](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/BlockchainViemUtils.ts#L358)
 
 ---
 
@@ -2026,7 +2026,7 @@ the padded value
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:4](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/ConversionTypeHelpers.ts#L4)
+[src/utils/ConversionTypeHelpers.ts:4](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/ConversionTypeHelpers.ts#L4)
 
 ---
 
@@ -2047,4 +2047,4 @@ the padded value
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/utils/ConversionTypeHelpers.ts#L7)
+[src/utils/ConversionTypeHelpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/utils/ConversionTypeHelpers.ts#L7)

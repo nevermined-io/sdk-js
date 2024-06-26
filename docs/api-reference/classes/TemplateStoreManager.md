@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.14](../code-reference.md) / TemplateStoreManager
+[@nevermined-io/sdk - v3.0.15](../code-reference.md) / TemplateStoreManager
 
 # Class: TemplateStoreManager
 
@@ -77,7 +77,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L24)
+[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L24)
 
 ## Properties
 
@@ -91,7 +91,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:22](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L22)
+[src/keeper/contracts/ContractBase.ts:22](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L22)
 
 ---
 
@@ -105,7 +105,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L19)
+[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L19)
 
 ---
 
@@ -119,7 +119,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L18)
+[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L18)
 
 ---
 
@@ -133,7 +133,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L20)
+[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L20)
 
 ---
 
@@ -147,7 +147,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L21)
+[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L21)
 
 ## Accessors
 
@@ -165,7 +165,7 @@ ContractBase.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L132)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -183,7 +183,7 @@ ContractBase.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -201,7 +201,7 @@ ContractBase.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L84)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -219,7 +219,7 @@ ContractBase.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -237,7 +237,7 @@ ContractBase.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -255,7 +255,7 @@ ContractBase.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L108)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -273,7 +273,7 @@ ContractBase.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L123)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -291,7 +291,7 @@ ContractBase.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L76)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -349,7 +349,7 @@ ContractBase.nevermined
 | `multicall`                      | \<contracts, allowFailure\>(`args`: `MulticallParameters`\<`contracts`, `allowFailure`\>) => `Promise`\<`MulticallReturnType`\<`contracts`, `allowFailure`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | -                                                                                       |
 | `name`                           | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | A name for the client.                                                                  |
 | `pollingInterval`                | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
+| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `readContract`                   | \<abi, functionName, args\>(`args`: `ReadContractParameters`\<`abi`, `functionName`, `args`\>) => `Promise`\<`ReadContractReturnType`\<`abi`, `functionName`, `args`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `request`                        | `EIP1193RequestFn`\<`PublicRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Request function wrapped with friendly error handling                                   |
 | `sendRawTransaction`             | (`args`: `SendRawTransactionParameters`) => `Promise`\<\`0x$\{string}\`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | -                                                                                       |
@@ -373,7 +373,7 @@ ContractBase.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L92)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -402,7 +402,7 @@ ContractBase.publicClient
 | `key`                       | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A key for the client.                                                                   |
 | `name`                      | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A name for the client.                                                                  |
 | `pollingInterval`           | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
+| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
 | `request`                   | `EIP1193RequestFn`\<`WalletRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Request function wrapped with friendly error handling                                   |
 | `requestAddresses`          | () => `Promise`\<`RequestAddressesReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | -                                                                                       |
 | `requestPermissions`        | (`args`: \{ `eth_accounts`: `Record`\<`string`, `any`\> }) => `Promise`\<`RequestPermissionsReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -                                                                                       |
@@ -424,7 +424,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -447,7 +447,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:51](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/managers/TemplateStoreManager.ts#L51)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:51](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/managers/TemplateStoreManager.ts#L51)
 
 ---
 
@@ -479,7 +479,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L92)
+[src/keeper/contracts/ContractBase.ts:92](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L92)
 
 ---
 
@@ -503,7 +503,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:68](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L68)
+[src/keeper/contracts/ContractBase.ts:68](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L68)
 
 ---
 
@@ -517,7 +517,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:86](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/managers/TemplateStoreManager.ts#L86)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:86](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/managers/TemplateStoreManager.ts#L86)
 
 ---
 
@@ -531,7 +531,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:30](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/managers/TemplateStoreManager.ts#L30)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:30](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/managers/TemplateStoreManager.ts#L30)
 
 ---
 
@@ -551,7 +551,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:72](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/managers/TemplateStoreManager.ts#L72)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:72](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/managers/TemplateStoreManager.ts#L72)
 
 ---
 
@@ -576,7 +576,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L76)
+[src/keeper/contracts/ContractBase.ts:76](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L76)
 
 ---
 
@@ -602,7 +602,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:29](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L29)
+[src/keeper/contracts/ContractBase.ts:29](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L29)
 
 ---
 
@@ -622,7 +622,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:82](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/managers/TemplateStoreManager.ts#L82)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:82](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/managers/TemplateStoreManager.ts#L82)
 
 ---
 
@@ -645,7 +645,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:34](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/managers/TemplateStoreManager.ts#L34)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:34](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/managers/TemplateStoreManager.ts#L34)
 
 ---
 
@@ -667,7 +667,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:68](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/managers/TemplateStoreManager.ts#L68)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:68](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/managers/TemplateStoreManager.ts#L68)
 
 ---
 
@@ -694,7 +694,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:128](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L128)
+[src/keeper/contracts/ContractBase.ts:128](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L128)
 
 ---
 
@@ -721,7 +721,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:109](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L109)
+[src/keeper/contracts/ContractBase.ts:109](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L109)
 
 ---
 
@@ -745,7 +745,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -769,7 +769,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:85](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/ContractBase.ts#L85)
+[src/keeper/contracts/ContractBase.ts:85](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/ContractBase.ts#L85)
 
 ---
 
@@ -793,7 +793,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:22](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/keeper/contracts/managers/TemplateStoreManager.ts#L22)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:22](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/keeper/contracts/managers/TemplateStoreManager.ts#L22)
 
 ---
 
@@ -824,4 +824,4 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L149)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L154)

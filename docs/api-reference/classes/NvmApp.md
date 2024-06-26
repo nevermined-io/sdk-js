@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.14](../code-reference.md) / NvmApp
+[@nevermined-io/sdk - v3.0.15](../code-reference.md) / NvmApp
 
 # Class: NvmApp
 
@@ -84,7 +84,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:123](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L123)
+[src/nevermined/NvmApp.ts:123](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L123)
 
 ## Properties
 
@@ -94,7 +94,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:72](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L72)
+[src/nevermined/NvmApp.ts:72](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L72)
 
 ---
 
@@ -104,7 +104,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:67](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L67)
+[src/nevermined/NvmApp.ts:67](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L67)
 
 ---
 
@@ -114,7 +114,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:70](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L70)
+[src/nevermined/NvmApp.ts:70](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L70)
 
 ---
 
@@ -124,7 +124,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:73](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L73)
+[src/nevermined/NvmApp.ts:73](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L73)
 
 ---
 
@@ -134,7 +134,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L76)
+[src/nevermined/NvmApp.ts:76](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L76)
 
 ---
 
@@ -144,7 +144,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:75](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L75)
+[src/nevermined/NvmApp.ts:75](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L75)
 
 ---
 
@@ -154,7 +154,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:69](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L69)
+[src/nevermined/NvmApp.ts:69](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L69)
 
 ---
 
@@ -164,7 +164,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:74](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L74)
+[src/nevermined/NvmApp.ts:74](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L74)
 
 ---
 
@@ -174,7 +174,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:68](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L68)
+[src/nevermined/NvmApp.ts:68](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L68)
 
 ---
 
@@ -184,7 +184,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:71](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L71)
+[src/nevermined/NvmApp.ts:71](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L71)
 
 ---
 
@@ -196,7 +196,7 @@ Default initialization options for the Nevermined application.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:81](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L81)
+[src/nevermined/NvmApp.ts:81](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L81)
 
 ## Accessors
 
@@ -214,7 +214,7 @@ The configuration options for the Nevermined application.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:244](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L244)
+[src/nevermined/NvmApp.ts:245](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L245)
 
 ---
 
@@ -237,7 +237,7 @@ An object containing the receiver and fee.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:279](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L279)
+[src/nevermined/NvmApp.ts:280](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L280)
 
 ---
 
@@ -259,7 +259,7 @@ If Web3 is not connected, try calling the connect method first.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:269](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L269)
+[src/nevermined/NvmApp.ts:270](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L270)
 
 ---
 
@@ -277,7 +277,7 @@ The SearchApi instance.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:252](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L252)
+[src/nevermined/NvmApp.ts:253](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L253)
 
 ---
 
@@ -295,7 +295,7 @@ The Services API instance.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:260](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L260)
+[src/nevermined/NvmApp.ts:261](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L261)
 
 ## Methods
 
@@ -320,7 +320,7 @@ The updated asset price with the network fee included, or the original price if 
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:823](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L823)
+[src/nevermined/NvmApp.ts:824](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L824)
 
 ---
 
@@ -351,7 +351,7 @@ If Web3 is not connected or if there is an error claiming the NFT of the subscri
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:562](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L562)
+[src/nevermined/NvmApp.ts:563](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L563)
 
 ---
 
@@ -378,7 +378,7 @@ An object containing the marketplace authentication token, user account, and zer
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:145](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L145)
+[src/nevermined/NvmApp.ts:145](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L145)
 
 ---
 
@@ -412,7 +412,7 @@ If the validation of the subscription fails.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:369](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L369)
+[src/nevermined/NvmApp.ts:370](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L370)
 
 ---
 
@@ -438,7 +438,7 @@ A Promise that resolves to a DDO (Decentralized Data Object).
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:423](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L423)
+[src/nevermined/NvmApp.ts:424](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L424)
 
 ---
 
@@ -472,7 +472,7 @@ If the validation of the subscription fails.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:295](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L295)
+[src/nevermined/NvmApp.ts:296](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L296)
 
 ---
 
@@ -498,7 +498,7 @@ A Promise that resolves to the [DDO](DDO.md) (Decentralized Data Object) of the 
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:351](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L351)
+[src/nevermined/NvmApp.ts:352](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L352)
 
 ---
 
@@ -515,7 +515,7 @@ Clears the fullSDK instance and resets the user account, zeroDevSigner settings,
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:214](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L214)
+[src/nevermined/NvmApp.ts:215](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L215)
 
 ---
 
@@ -546,7 +546,7 @@ If there is an error downloading the files.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:650](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L650)
+[src/nevermined/NvmApp.ts:651](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L651)
 
 ---
 
@@ -580,7 +580,7 @@ If there is an error retrieving the subscription information.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:597](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L597)
+[src/nevermined/NvmApp.ts:598](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L598)
 
 ---
 
@@ -598,7 +598,7 @@ The login credentials as a string, or undefined if not set.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:236](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L236)
+[src/nevermined/NvmApp.ts:237](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L237)
 
 ---
 
@@ -626,7 +626,7 @@ If Web3 is not connected. Call the connect method first.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:633](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L633)
+[src/nevermined/NvmApp.ts:634](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L634)
 
 ---
 
@@ -650,7 +650,7 @@ A Promise that resolves to void.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:132](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L132)
+[src/nevermined/NvmApp.ts:132](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L132)
 
 ---
 
@@ -674,7 +674,7 @@ A boolean indicating whether the network fee is included.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:838](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L838)
+[src/nevermined/NvmApp.ts:839](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L839)
 
 ---
 
@@ -692,7 +692,7 @@ True if the web3 provider is connected, false otherwise.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:228](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L228)
+[src/nevermined/NvmApp.ts:229](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L229)
 
 ---
 
@@ -726,7 +726,7 @@ If there is an error ordering the subscription.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:532](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L532)
+[src/nevermined/NvmApp.ts:533](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L533)
 
 ---
 
@@ -759,7 +759,7 @@ If there is an error ordering the subscription.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:478](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L478)
+[src/nevermined/NvmApp.ts:479](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L479)
 
 ---
 
@@ -793,7 +793,7 @@ If the file asset metadata is not valid.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:758](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L758)
+[src/nevermined/NvmApp.ts:759](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L759)
 
 ---
 
@@ -819,7 +819,7 @@ A Promise that resolves to the registered DDO (Decentralized Data Object).
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:808](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L808)
+[src/nevermined/NvmApp.ts:809](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L809)
 
 ---
 
@@ -855,7 +855,7 @@ If the metadata validation fails.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:685](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L685)
+[src/nevermined/NvmApp.ts:686](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L686)
 
 ---
 
@@ -879,7 +879,7 @@ If the metadata validation fails.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:732](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L732)
+[src/nevermined/NvmApp.ts:733](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L733)
 
 ---
 
@@ -908,7 +908,7 @@ If Web3 is not connected. Call the `connect` method first.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:443](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L443)
+[src/nevermined/NvmApp.ts:444](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L444)
 
 ---
 
@@ -933,7 +933,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:465](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L465)
+[src/nevermined/NvmApp.ts:466](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L466)
 
 ---
 
@@ -953,7 +953,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:886](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L886)
+[src/nevermined/NvmApp.ts:887](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L887)
 
 ---
 
@@ -973,7 +973,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:879](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L879)
+[src/nevermined/NvmApp.ts:880](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L880)
 
 ---
 
@@ -995,7 +995,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:853](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L853)
+[src/nevermined/NvmApp.ts:854](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L854)
 
 ---
 
@@ -1015,7 +1015,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:890](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L890)
+[src/nevermined/NvmApp.ts:891](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L891)
 
 ---
 
@@ -1040,7 +1040,7 @@ A Promise that resolves to an instance of the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:106](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L106)
+[src/nevermined/NvmApp.ts:106](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L106)
 
 ---
 
@@ -1060,4 +1060,4 @@ A Promise that resolves to an instance of the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:895](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/NvmApp.ts#L895)
+[src/nevermined/NvmApp.ts:896](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/NvmApp.ts#L896)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.14](../code-reference.md) / JwtUtils
+[@nevermined-io/sdk - v3.0.15](../code-reference.md) / JwtUtils
 
 # Class: JwtUtils
 
@@ -75,7 +75,7 @@
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:117](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L117)
+[src/nevermined/utils/JwtUtils.ts:117](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L117)
 
 ## Properties
 
@@ -85,7 +85,7 @@
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:113](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L113)
+[src/nevermined/utils/JwtUtils.ts:113](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L113)
 
 ---
 
@@ -95,7 +95,7 @@
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L115)
+[src/nevermined/utils/JwtUtils.ts:115](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L115)
 
 ---
 
@@ -105,7 +105,7 @@
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:112](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L112)
+[src/nevermined/utils/JwtUtils.ts:112](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L112)
 
 ## Accessors
 
@@ -123,7 +123,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L132)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -141,7 +141,7 @@ Instantiable.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -159,7 +159,7 @@ Instantiable.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L84)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -177,7 +177,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -195,7 +195,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -213,7 +213,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L108)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -231,7 +231,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L123)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -249,7 +249,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L76)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -307,7 +307,7 @@ Instantiable.nevermined
 | `multicall`                      | \<contracts, allowFailure\>(`args`: `MulticallParameters`\<`contracts`, `allowFailure`\>) => `Promise`\<`MulticallReturnType`\<`contracts`, `allowFailure`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | -                                                                                       |
 | `name`                           | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | A name for the client.                                                                  |
 | `pollingInterval`                | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
+| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `readContract`                   | \<abi, functionName, args\>(`args`: `ReadContractParameters`\<`abi`, `functionName`, `args`\>) => `Promise`\<`ReadContractReturnType`\<`abi`, `functionName`, `args`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `request`                        | `EIP1193RequestFn`\<`PublicRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Request function wrapped with friendly error handling                                   |
 | `sendRawTransaction`             | (`args`: `SendRawTransactionParameters`) => `Promise`\<\`0x$\{string}\`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | -                                                                                       |
@@ -331,7 +331,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L92)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -360,7 +360,7 @@ Instantiable.publicClient
 | `key`                       | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A key for the client.                                                                   |
 | `name`                      | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A name for the client.                                                                  |
 | `pollingInterval`           | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
+| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
 | `request`                   | `EIP1193RequestFn`\<`WalletRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Request function wrapped with friendly error handling                                   |
 | `requestAddresses`          | () => `Promise`\<`RequestAddressesReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | -                                                                                       |
 | `requestPermissions`        | (`args`: \{ `eth_accounts`: `Record`\<`string`, `any`\> }) => `Promise`\<`RequestPermissionsReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -                                                                                       |
@@ -382,7 +382,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -402,7 +402,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:127](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L127)
+[src/nevermined/utils/JwtUtils.ts:127](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L127)
 
 ---
 
@@ -426,7 +426,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:169](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L169)
+[src/nevermined/utils/JwtUtils.ts:169](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L169)
 
 ---
 
@@ -446,7 +446,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:123](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L123)
+[src/nevermined/utils/JwtUtils.ts:123](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L123)
 
 ---
 
@@ -467,7 +467,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:148](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L148)
+[src/nevermined/utils/JwtUtils.ts:148](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L148)
 
 ---
 
@@ -489,7 +489,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:277](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L277)
+[src/nevermined/utils/JwtUtils.ts:277](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L277)
 
 ---
 
@@ -512,7 +512,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:216](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L216)
+[src/nevermined/utils/JwtUtils.ts:216](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L216)
 
 ---
 
@@ -534,7 +534,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:257](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L257)
+[src/nevermined/utils/JwtUtils.ts:257](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L257)
 
 ---
 
@@ -559,7 +559,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:297](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L297)
+[src/nevermined/utils/JwtUtils.ts:297](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L297)
 
 ---
 
@@ -583,7 +583,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:193](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L193)
+[src/nevermined/utils/JwtUtils.ts:193](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L193)
 
 ---
 
@@ -606,7 +606,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:238](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L238)
+[src/nevermined/utils/JwtUtils.ts:238](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L238)
 
 ---
 
@@ -631,7 +631,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:325](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L325)
+[src/nevermined/utils/JwtUtils.ts:325](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L325)
 
 ---
 
@@ -651,7 +651,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:354](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L354)
+[src/nevermined/utils/JwtUtils.ts:354](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L354)
 
 ---
 
@@ -675,7 +675,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -695,7 +695,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:368](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L368)
+[src/nevermined/utils/JwtUtils.ts:368](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L368)
 
 ---
 
@@ -715,7 +715,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:373](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/utils/JwtUtils.ts#L373)
+[src/nevermined/utils/JwtUtils.ts:373](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/utils/JwtUtils.ts#L373)
 
 ---
 
@@ -739,7 +739,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -770,4 +770,4 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L149)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L154)

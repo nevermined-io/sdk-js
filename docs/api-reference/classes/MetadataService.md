@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.14](../code-reference.md) / MetadataService
+[@nevermined-io/sdk - v3.0.15](../code-reference.md) / MetadataService
 
 # Class: MetadataService
 
@@ -75,7 +75,7 @@ Metadata provides an off-chain database store for metadata about data assets.
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:7](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MarketplaceAPI.ts#L7)
+[src/services/metadata/MarketplaceAPI.ts:7](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MarketplaceAPI.ts#L7)
 
 ## Accessors
 
@@ -93,7 +93,7 @@ MarketplaceApi.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L132)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -111,7 +111,7 @@ MarketplaceApi.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -129,7 +129,7 @@ MarketplaceApi.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L84)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -147,7 +147,7 @@ MarketplaceApi.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -165,7 +165,7 @@ MarketplaceApi.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -183,7 +183,7 @@ MarketplaceApi.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L108)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -201,7 +201,7 @@ MarketplaceApi.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L123)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -219,7 +219,7 @@ MarketplaceApi.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L76)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -277,7 +277,7 @@ MarketplaceApi.nevermined
 | `multicall`                      | \<contracts, allowFailure\>(`args`: `MulticallParameters`\<`contracts`, `allowFailure`\>) => `Promise`\<`MulticallReturnType`\<`contracts`, `allowFailure`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | -                                                                                       |
 | `name`                           | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | A name for the client.                                                                  |
 | `pollingInterval`                | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
+| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `readContract`                   | \<abi, functionName, args\>(`args`: `ReadContractParameters`\<`abi`, `functionName`, `args`\>) => `Promise`\<`ReadContractReturnType`\<`abi`, `functionName`, `args`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `request`                        | `EIP1193RequestFn`\<`PublicRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Request function wrapped with friendly error handling                                   |
 | `sendRawTransaction`             | (`args`: `SendRawTransactionParameters`) => `Promise`\<\`0x$\{string}\`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | -                                                                                       |
@@ -301,7 +301,7 @@ MarketplaceApi.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L92)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -319,7 +319,7 @@ MarketplaceApi.url
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:12](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MarketplaceAPI.ts#L12)
+[src/services/metadata/MarketplaceAPI.ts:12](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MarketplaceAPI.ts#L12)
 
 ---
 
@@ -348,7 +348,7 @@ MarketplaceApi.url
 | `key`                       | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A key for the client.                                                                   |
 | `name`                      | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A name for the client.                                                                  |
 | `pollingInterval`           | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
+| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
 | `request`                   | `EIP1193RequestFn`\<`WalletRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Request function wrapped with friendly error handling                                   |
 | `requestAddresses`          | () => `Promise`\<`RequestAddressesReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | -                                                                                       |
 | `requestPermissions`        | (`args`: \{ `eth_accounts`: `Record`\<`string`, `any`\> }) => `Promise`\<`RequestPermissionsReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -                                                                                       |
@@ -370,7 +370,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -394,7 +394,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:36](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MarketplaceAPI.ts#L36)
+[src/services/metadata/MarketplaceAPI.ts:36](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MarketplaceAPI.ts#L36)
 
 ---
 
@@ -414,7 +414,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:238](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L238)
+[src/services/metadata/MetadataService.ts:238](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L238)
 
 ---
 
@@ -435,7 +435,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:46](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L46)
+[src/services/metadata/MetadataService.ts:46](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L46)
 
 ---
 
@@ -455,7 +455,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:353](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L353)
+[src/services/metadata/MetadataService.ts:353](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L353)
 
 ---
 
@@ -469,7 +469,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:42](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L42)
+[src/services/metadata/MetadataService.ts:42](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L42)
 
 ---
 
@@ -493,7 +493,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:16](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MarketplaceAPI.ts#L16)
+[src/services/metadata/MarketplaceAPI.ts:16](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MarketplaceAPI.ts#L16)
 
 ---
 
@@ -517,7 +517,7 @@ A list of [QueryResult](../interfaces/QueryResult.md)s.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:74](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L74)
+[src/services/metadata/MetadataService.ts:74](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L74)
 
 ---
 
@@ -541,7 +541,7 @@ A list of [ServiceSecondary](../interfaces/ServiceSecondary.md).
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:106](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L106)
+[src/services/metadata/MetadataService.ts:106](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L106)
 
 ---
 
@@ -566,7 +566,7 @@ DDO of the asset.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:195](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L195)
+[src/services/metadata/MetadataService.ts:195](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L195)
 
 ---
 
@@ -586,7 +586,7 @@ DDO of the asset.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:249](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L249)
+[src/services/metadata/MetadataService.ts:249](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L249)
 
 ---
 
@@ -606,7 +606,7 @@ DDO of the asset.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:227](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L227)
+[src/services/metadata/MetadataService.ts:227](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L227)
 
 ---
 
@@ -631,7 +631,7 @@ Service object.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:288](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L288)
+[src/services/metadata/MetadataService.ts:288](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L288)
 
 ---
 
@@ -655,7 +655,7 @@ Service object.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -680,7 +680,7 @@ DDO of the asset.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:258](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L258)
+[src/services/metadata/MetadataService.ts:258](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L258)
 
 ---
 
@@ -704,7 +704,7 @@ Final DDO.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:163](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L163)
+[src/services/metadata/MetadataService.ts:163](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L163)
 
 ---
 
@@ -727,7 +727,7 @@ the newly stored service object
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:321](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L321)
+[src/services/metadata/MetadataService.ts:321](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L321)
 
 ---
 
@@ -752,7 +752,7 @@ Final DDO.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:132](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/services/metadata/MetadataService.ts#L132)
+[src/services/metadata/MetadataService.ts:132](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/services/metadata/MetadataService.ts#L132)
 
 ---
 
@@ -776,7 +776,7 @@ Final DDO.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -807,4 +807,4 @@ Final DDO.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L149)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L154)

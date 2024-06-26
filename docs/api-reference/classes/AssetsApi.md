@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.14](../code-reference.md) / AssetsApi
+[@nevermined-io/sdk - v3.0.15](../code-reference.md) / AssetsApi
 
 # Class: AssetsApi
 
@@ -92,7 +92,7 @@ Creates a new AssetsApi
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:87](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L87)
+[src/nevermined/api/AssetsApi.ts:87](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L87)
 
 ## Properties
 
@@ -104,7 +104,7 @@ Utilities about the providers associated to an asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:80](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L80)
+[src/nevermined/api/AssetsApi.ts:80](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L80)
 
 ---
 
@@ -122,7 +122,7 @@ Utilities about the providers associated to an asset
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L39)
+[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L39)
 
 ## Accessors
 
@@ -140,7 +140,7 @@ RegistryBaseApi.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:132](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L132)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -158,7 +158,7 @@ RegistryBaseApi.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -176,7 +176,7 @@ RegistryBaseApi.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:84](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L84)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -194,7 +194,7 @@ RegistryBaseApi.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:115](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L115)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -212,7 +212,7 @@ RegistryBaseApi.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -230,7 +230,7 @@ RegistryBaseApi.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:108](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L108)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -248,7 +248,7 @@ RegistryBaseApi.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:123](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L123)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -266,7 +266,7 @@ RegistryBaseApi.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:76](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L76)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -324,7 +324,7 @@ RegistryBaseApi.nevermined
 | `multicall`                      | \<contracts, allowFailure\>(`args`: `MulticallParameters`\<`contracts`, `allowFailure`\>) => `Promise`\<`MulticallReturnType`\<`contracts`, `allowFailure`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | -                                                                                       |
 | `name`                           | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | A name for the client.                                                                  |
 | `pollingInterval`                | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
+| `prepareTransactionRequest`      | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `readContract`                   | \<abi, functionName, args\>(`args`: `ReadContractParameters`\<`abi`, `functionName`, `args`\>) => `Promise`\<`ReadContractReturnType`\<`abi`, `functionName`, `args`\>\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | -                                                                                       |
 | `request`                        | `EIP1193RequestFn`\<`PublicRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Request function wrapped with friendly error handling                                   |
 | `sendRawTransaction`             | (`args`: `SendRawTransactionParameters`) => `Promise`\<\`0x$\{string}\`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | -                                                                                       |
@@ -348,7 +348,7 @@ RegistryBaseApi.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:92](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L92)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -377,7 +377,7 @@ RegistryBaseApi.publicClient
 | `key`                       | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A key for the client.                                                                   |
 | `name`                      | `string`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | A name for the client.                                                                  |
 | `pollingInterval`           | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Frequency (in ms) for polling enabled actions & events. Defaults to 4_000 milliseconds. |
-| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "type" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
+| `prepareTransactionRequest` | \<TRequest, TChainOverride, TAccountOverride\>(`args`: `PrepareTransactionRequestParameters`\<`undefined` \| `Chain`, `undefined` \| `Account`, `TChainOverride`, `TAccountOverride`, `TRequest`\>) => `Promise`\<\{ [K in string \| number \| symbol]: (UnionRequiredBy\<Extract\<UnionOmit\<(...), (...)\> & ((...) extends (...) ? (...) : (...)) & ((...) extends (...) ? (...) : (...)), IsNever\<(...)\> extends true ? unknown : ExactPartial\<(...)\>\> & Object, ParameterTypeToParameters\<TRequest["parameters"] extends readonly PrepareTransactionRequestParameterType[] ? any[any][number] : "type" \| "gas" \| "nonce" \| "blobVersionedHashes" \| "chainId" \| "fees"\>\> & (unknown extends TRequest["kzg"] ? Object : Pick\<TRequest, "kzg"\>))[K] }\> | -                                                                                       |
 | `request`                   | `EIP1193RequestFn`\<`WalletRpcSchema`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Request function wrapped with friendly error handling                                   |
 | `requestAddresses`          | () => `Promise`\<`RequestAddressesReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | -                                                                                       |
 | `requestPermissions`        | (`args`: \{ `eth_accounts`: `Record`\<`string`, `any`\> }) => `Promise`\<`RequestPermissionsReturnType`\>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -                                                                                       |
@@ -399,7 +399,7 @@ RegistryBaseApi.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:100](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L100)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -431,7 +431,7 @@ The result path or true if everything went okay
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:217](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L217)
+[src/nevermined/api/AssetsApi.ts:217](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L217)
 
 ---
 
@@ -464,7 +464,7 @@ Given a DID, it adds a vote to the asset curation information.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:534](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L534)
+[src/nevermined/api/RegistryBaseApi.ts:534](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L534)
 
 ---
 
@@ -488,7 +488,7 @@ List of DIDs.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:360](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L360)
+[src/nevermined/api/AssetsApi.ts:360](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L360)
 
 ---
 
@@ -536,7 +536,7 @@ const ddo = await nevermined.assets.create(assetAttributes, publisher, PublishMe
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:134](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L134)
+[src/nevermined/api/AssetsApi.ts:134](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L134)
 
 ---
 
@@ -567,7 +567,7 @@ Status, path destination if resultPath is provided
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:390](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L390)
+[src/nevermined/api/AssetsApi.ts:390](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L390)
 
 ---
 
@@ -602,7 +602,7 @@ DDOError - If the NFT contract address is not found in the DDO.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:509](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L509)
+[src/nevermined/api/AssetsApi.ts:509](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L509)
 
 ---
 
@@ -627,7 +627,7 @@ True if the address has permissions on the asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:491](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L491)
+[src/nevermined/api/AssetsApi.ts:491](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L491)
 
 ---
 
@@ -653,7 +653,7 @@ Only can be called by the asset owner.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:448](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L448)
+[src/nevermined/api/AssetsApi.ts:448](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L448)
 
 ---
 
@@ -686,7 +686,7 @@ In a Nevermined environment, when an asset is unlisted, it is not possible to be
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:482](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L482)
+[src/nevermined/api/RegistryBaseApi.ts:482](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L482)
 
 ---
 
@@ -716,7 +716,7 @@ The agreement ID identifying the order
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:194](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L194)
+[src/nevermined/api/AssetsApi.ts:194](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L194)
 
 ---
 
@@ -748,7 +748,7 @@ The agreement ID.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:585](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L585)
+[src/nevermined/api/RegistryBaseApi.ts:585](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L585)
 
 ---
 
@@ -772,7 +772,7 @@ The address of the owner of the asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:276](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L276)
+[src/nevermined/api/AssetsApi.ts:276](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L276)
 
 ---
 
@@ -796,7 +796,7 @@ List of DIDs owned by the address
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:305](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L305)
+[src/nevermined/api/AssetsApi.ts:305](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L305)
 
 ---
 
@@ -820,7 +820,7 @@ The address of the owner of the asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:285](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L285)
+[src/nevermined/api/AssetsApi.ts:285](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L285)
 
 ---
 
@@ -857,7 +857,7 @@ The metadata of the asset created (DDO)
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L52)
+[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L52)
 
 ---
 
@@ -882,7 +882,7 @@ Returns a DDO by DID. Depending of the resolution policy it prioritize the Metad
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:100](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L100)
+[src/nevermined/api/AssetsApi.ts:100](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L100)
 
 ---
 
@@ -912,7 +912,7 @@ Depending of the resolution policy it prioritize fetching that Metadata from the
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:324](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L324)
+[src/nevermined/api/RegistryBaseApi.ts:324](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L324)
 
 ---
 
@@ -936,7 +936,7 @@ the HTTP response
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:373](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L373)
+[src/nevermined/api/AssetsApi.ts:373](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L373)
 
 ---
 
@@ -962,7 +962,7 @@ Only can be called by the asset owner.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:471](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L471)
+[src/nevermined/api/AssetsApi.ts:471](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L471)
 
 ---
 
@@ -986,7 +986,7 @@ Only can be called by the asset owner.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:158](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L158)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -1014,7 +1014,7 @@ Returns transaction receipt.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:318](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L318)
+[src/nevermined/api/AssetsApi.ts:318](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L318)
 
 ---
 
@@ -1053,7 +1053,7 @@ const ddoUpdated = await nevermined.assets.update(
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:172](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/AssetsApi.ts#L172)
+[src/nevermined/api/AssetsApi.ts:172](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/AssetsApi.ts#L172)
 
 ---
 
@@ -1085,7 +1085,7 @@ Given a DID, updates the metadata associated to the asset. It also can upload th
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:367](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L367)
+[src/nevermined/api/RegistryBaseApi.ts:367](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L367)
 
 ---
 
@@ -1109,7 +1109,7 @@ Given a DID, updates the metadata associated to the asset. It also can upload th
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -1144,7 +1144,7 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:640](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/nevermined/api/RegistryBaseApi.ts#L640)
+[src/nevermined/api/RegistryBaseApi.ts:640](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/nevermined/api/RegistryBaseApi.ts#L640)
 
 ---
 
@@ -1175,4 +1175,4 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/c199ac5f07bae206285a6910a3ef1031f64d0ed6/src/Instantiable.abstract.ts#L149)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/172733038c5edaf3c10f438cc01aecd8a5cd0ce8/src/Instantiable.abstract.ts#L154)
