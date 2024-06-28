@@ -160,7 +160,12 @@ export class ContractHandler extends Instantiable {
       if (networkName && networkName.length > 0) where = `.${networkName}`
 
       if (artifactsFolder.startsWith('http')) {
-        const path = `${artifactsFolder}/${networkId}/public/${contractsVersion}/${contractName}${where}.json`
+        let path
+        if (artifactsFolder === 'https://artifacts.nevermined.network') {
+          path = `${artifactsFolder}/${networkId}/public/${contractsVersion}/${contractName}${where}.json`
+        } else {
+          path = `${artifactsFolder}/${contractName}${where}.json`
+        }
         const jsonFile = await fetch(path, {
           method: 'GET',
           headers: { 'Content-type': 'application/json' },
