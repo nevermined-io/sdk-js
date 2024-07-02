@@ -2594,7 +2594,7 @@
   dependencies:
     semver "^7.6.0"
 
-"@zerodev/session-key@^5.3.0":
+"@zerodev/session-key@5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@zerodev/session-key/-/session-key-5.3.0.tgz#d347134a359d06ec03f6bb8378345d5d2d3f4c22"
   integrity sha512-HZAFuhUiiG2bx8fqBW1LujH7Rn8zdbraipOoFXh55tDTyA3GX6M4RgiqzZPRoHMYfCYImE6ETBj0a97PjsBRHQ==
