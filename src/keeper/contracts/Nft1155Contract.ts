@@ -23,6 +23,7 @@ export class Nft1155Contract extends NFTContractsBase {
 
     if (address) {
       const networkName = await nft.nevermined.keeper.getNetworkName()
+      const networkId = await nft.nevermined.keeper.getNetworkId()
 
       // We don't have a subgraph for NFT1155 so we can only use ContractEvent
       const eventEmitter = new EventHandler()
@@ -32,6 +33,7 @@ export class Nft1155Contract extends NFTContractsBase {
         contractName,
         artifactsFolder,
         networkName,
+        networkId,
       )
 
       nft.contract = await getContractInstance(address, solidityABI.abi, nft.client)

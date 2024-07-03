@@ -86,18 +86,18 @@ export async function decryptMessage(encryptedMessage: string, privateKey: strin
 }
 
 export function serializeECIES(ecies: any) {
-  return btoa(
-    JSON.stringify({
-      iv: Buffer.from(ecies.iv).toString('base64'),
-      ephemPublicKey: Buffer.from(ecies.ephemPublicKey).toString('base64'),
-      ciphertext: Buffer.from(ecies.ciphertext).toString('base64'),
-      mac: Buffer.from(ecies.mac).toString('base64'),
-    }),
-  )
+  const serialized = JSON.stringify({
+    iv: Buffer.from(ecies.iv).toString('base64'),
+    ephemPublicKey: Buffer.from(ecies.ephemPublicKey).toString('base64'),
+    ciphertext: Buffer.from(ecies.ciphertext).toString('base64'),
+    mac: Buffer.from(ecies.mac).toString('base64'),
+  })
+  return Buffer.from(serialized).toString('binary')
 }
 
 export function deserializeECIES(serialized: any) {
-  const _obj = JSON.parse(atob(serialized))
+  const decoded = Buffer.from(serialized, 'binary').toString()
+  const _obj = JSON.parse(decoded)
   return {
     iv: Buffer.from(_obj.iv, 'base64'),
     ephemPublicKey: Buffer.from(_obj.ephemPublicKey, 'base64'),

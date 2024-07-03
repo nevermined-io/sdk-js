@@ -21,6 +21,7 @@ module.exports = {
       assert: require.resolve('assert/'),
       path: require.resolve('path-browserify'),
       stream: require.resolve('stream-browserify'),
+      vm: require.resolve("vm-browserify"),
       zlib: false,
       fs: false,
     },
