@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.15](../code-reference.md) / PublishMetadataOptions
+[@nevermined-io/sdk - v3.0.16](../code-reference.md) / PublishMetadataOptions
 
 # Enumeration: PublishMetadataOptions
 
@@ -26,7 +26,7 @@ Where the metadata will be published. Options:
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:28](https://github.com/nevermined-io/sdk-js/blob/3d026574f8051d1cb4151e3441edbece52bfb907/src/types/MetadataTypes.ts#L28)
+[src/types/MetadataTypes.ts:28](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/types/MetadataTypes.ts#L28)
 
 ---
 
@@ -36,7 +36,7 @@ Where the metadata will be published. Options:
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:27](https://github.com/nevermined-io/sdk-js/blob/3d026574f8051d1cb4151e3441edbece52bfb907/src/types/MetadataTypes.ts#L27)
+[src/types/MetadataTypes.ts:27](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/types/MetadataTypes.ts#L27)
 
 ---
 
@@ -46,7 +46,7 @@ Where the metadata will be published. Options:
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:26](https://github.com/nevermined-io/sdk-js/blob/3d026574f8051d1cb4151e3441edbece52bfb907/src/types/MetadataTypes.ts#L26)
+[src/types/MetadataTypes.ts:26](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/types/MetadataTypes.ts#L26)
 
 ---
 
@@ -56,4 +56,4 @@ Where the metadata will be published. Options:
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/3d026574f8051d1cb4151e3441edbece52bfb907/src/types/MetadataTypes.ts#L25)
+[src/types/MetadataTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/types/MetadataTypes.ts#L25)

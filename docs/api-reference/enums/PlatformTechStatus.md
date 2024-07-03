@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.15](../code-reference.md) / PlatformTechStatus
+[@nevermined-io/sdk - v3.0.16](../code-reference.md) / PlatformTechStatus
 
 # Enumeration: PlatformTechStatus
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:6](https://github.com/nevermined-io/sdk-js/blob/3d026574f8051d1cb4151e3441edbece52bfb907/src/nevermined/Versions.ts#L6)
+[src/nevermined/Versions.ts:6](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/Versions.ts#L6)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:8](https://github.com/nevermined-io/sdk-js/blob/3d026574f8051d1cb4151e3441edbece52bfb907/src/nevermined/Versions.ts#L8)
+[src/nevermined/Versions.ts:8](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/Versions.ts#L8)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:7](https://github.com/nevermined-io/sdk-js/blob/3d026574f8051d1cb4151e3441edbece52bfb907/src/nevermined/Versions.ts#L7)
+[src/nevermined/Versions.ts:7](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/Versions.ts#L7)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:9](https://github.com/nevermined-io/sdk-js/blob/3d026574f8051d1cb4151e3441edbece52bfb907/src/nevermined/Versions.ts#L9)
+[src/nevermined/Versions.ts:9](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/Versions.ts#L9)
