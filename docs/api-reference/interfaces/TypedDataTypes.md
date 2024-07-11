@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.16](../code-reference.md) / TypedDataTypes
+[@nevermined-io/sdk - v3.0.17](../code-reference.md) / TypedDataTypes
 
 # Interface: TypedDataTypes
 
@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:87](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/types/GeneralTypes.ts#L87)
+[src/types/GeneralTypes.ts:87](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/GeneralTypes.ts#L87)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.16](../code-reference.md) / AccountsApi
+[@nevermined-io/sdk - v3.0.17](../code-reference.md) / AccountsApi
 
 # Class: AccountsApi
 
@@ -73,7 +73,7 @@ Creates a new AccountsApi
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:16](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L16)
+[src/nevermined/api/AccountsApi.ts:16](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L16)
 
 ## Accessors
 
@@ -91,7 +91,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L137)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -109,7 +109,7 @@ Instantiable.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L141)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -127,7 +127,7 @@ Instantiable.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L89)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -145,7 +145,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L120)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -163,7 +163,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -181,7 +181,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L113)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -199,7 +199,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L128)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -217,7 +217,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L81)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -299,7 +299,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L97)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -350,7 +350,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -368,7 +368,7 @@ The list of addresses.
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:70](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L70)
+[src/nevermined/api/AccountsApi.ts:70](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L70)
 
 ---
 
@@ -390,7 +390,7 @@ Given an address, it returns the account if it exists in the list of accounts.
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:56](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L56)
+[src/nevermined/api/AccountsApi.ts:56](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L56)
 
 ---
 
@@ -414,7 +414,7 @@ The account
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:47](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L47)
+[src/nevermined/api/AccountsApi.ts:47](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L47)
 
 ---
 
@@ -438,7 +438,7 @@ The balance of the ERC20 and Native tokens
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:188](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L188)
+[src/nevermined/api/AccountsApi.ts:188](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L188)
 
 ---
 
@@ -462,7 +462,7 @@ the balance of the native token
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:177](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L177)
+[src/nevermined/api/AccountsApi.ts:177](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L177)
 
 ---
 
@@ -486,7 +486,7 @@ the balance of ERC20 Token related to the account
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:164](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L164)
+[src/nevermined/api/AccountsApi.ts:164](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L164)
 
 ---
 
@@ -504,7 +504,7 @@ The list of accounts.
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:25](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L25)
+[src/nevermined/api/AccountsApi.ts:25](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L25)
 
 ---
 
@@ -524,7 +524,7 @@ The list of accounts.
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:35](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L35)
+[src/nevermined/api/AccountsApi.ts:35](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L35)
 
 ---
 
@@ -550,7 +550,7 @@ true if the call was successful. false otherwise.
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:138](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L138)
+[src/nevermined/api/AccountsApi.ts:138](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L138)
 
 ---
 
@@ -574,7 +574,7 @@ true if the call was successful. false otherwise.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L163)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -599,7 +599,7 @@ the message signed message
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:80](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L80)
+[src/nevermined/api/AccountsApi.ts:80](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L80)
 
 ---
 
@@ -624,7 +624,7 @@ the signed transaction
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:97](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L97)
+[src/nevermined/api/AccountsApi.ts:97](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L97)
 
 ---
 
@@ -651,7 +651,7 @@ the signed typed data
 
 #### Defined in
 
-[src/nevermined/api/AccountsApi.ts:116](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/nevermined/api/AccountsApi.ts#L116)
+[src/nevermined/api/AccountsApi.ts:116](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/api/AccountsApi.ts#L116)
 
 ---
 
@@ -675,7 +675,7 @@ the signed typed data
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L150)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -706,4 +706,4 @@ the signed typed data
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/55c3b4ac21ca5824c7e92f5077fc57cd9e47c00a/src/Instantiable.abstract.ts#L154)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/Instantiable.abstract.ts#L154)
