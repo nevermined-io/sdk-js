@@ -31,6 +31,7 @@ import { AccessService, NFTAccessService, NFTSalesService } from '../AccessServi
 import { DID } from '../DID'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { SignatureUtils } from '../utils/SignatureUtils'
+import { Logger } from 'src'
 
 /**
  * Abstract class proving common functionality related with Assets registration.
@@ -434,6 +435,9 @@ export abstract class RegistryBaseApi extends Instantiable {
       ddo._nvm.versions.push(ddoVersion)
       ddo.updated = ddoVersion.updated
 
+      Logger.log(publishMetadataOptions)
+      Logger.log(PublishMetadataOptions.OnlyMetadataAPI)
+      Logger.log(publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI)
       if (publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(UpdateProgressStep.StoringImmutableDDO)
         try {
@@ -444,18 +448,19 @@ export abstract class RegistryBaseApi extends Instantiable {
               publishMetadataOptions,
             ))
           if (ddoVersion.immutableBackend) ddo._nvm.versions[lastIndex + 1] = ddoVersion
+
+          observer.next(UpdateProgressStep.UpdatingAssetOnChain)
+          await this.nevermined.keeper.didRegistry.updateMetadataUrl(
+            ddo.id,
+            checksum,
+            from,
+            metadataService.serviceEndpoint,
+            ddoVersion.immutableUrl,
+            txParams,
+          )
         } catch (error) {
           this.logger.log(`Unable to publish immutable content`)
         }
-        observer.next(UpdateProgressStep.UpdatingAssetOnChain)
-        await this.nevermined.keeper.didRegistry.updateMetadataUrl(
-          ddo.id,
-          checksum,
-          from,
-          metadataService.serviceEndpoint,
-          ddoVersion.immutableUrl,
-          txParams,
-        )
       }
 
       observer.next(UpdateProgressStep.StoringDDOMarketplaceAPI)
