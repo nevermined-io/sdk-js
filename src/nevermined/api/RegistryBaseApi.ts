@@ -31,7 +31,6 @@ import { AccessService, NFTAccessService, NFTSalesService } from '../AccessServi
 import { DID } from '../DID'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
 import { SignatureUtils } from '../utils/SignatureUtils'
-import { Logger } from 'src'
 
 /**
  * Abstract class proving common functionality related with Assets registration.
@@ -435,9 +434,9 @@ export abstract class RegistryBaseApi extends Instantiable {
       ddo._nvm.versions.push(ddoVersion)
       ddo.updated = ddoVersion.updated
 
-      Logger.log(publishMetadataOptions)
-      Logger.log(PublishMetadataOptions.OnlyMetadataAPI)
-      Logger.log(publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI)
+      this.logger.log(publishMetadataOptions)
+      this.logger.log(PublishMetadataOptions.OnlyMetadataAPI)
+      this.logger.log(publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI)
       if (publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(UpdateProgressStep.StoringImmutableDDO)
         try {
