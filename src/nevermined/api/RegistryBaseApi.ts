@@ -434,9 +434,6 @@ export abstract class RegistryBaseApi extends Instantiable {
       ddo._nvm.versions.push(ddoVersion)
       ddo.updated = ddoVersion.updated
 
-      this.logger.log(publishMetadataOptions)
-      this.logger.log(PublishMetadataOptions.OnlyMetadataAPI)
-      this.logger.log(publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI)
       if (publishMetadataOptions != PublishMetadataOptions.OnlyMetadataAPI) {
         observer.next(UpdateProgressStep.StoringImmutableDDO)
         try {
