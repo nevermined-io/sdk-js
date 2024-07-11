@@ -444,20 +444,20 @@ export abstract class RegistryBaseApi extends Instantiable {
               publishMetadataOptions,
             ))
           if (ddoVersion.immutableBackend) ddo._nvm.versions[lastIndex + 1] = ddoVersion
+
+          observer.next(UpdateProgressStep.UpdatingAssetOnChain)
+          await this.nevermined.keeper.didRegistry.updateMetadataUrl(
+            ddo.id,
+            checksum,
+            from,
+            metadataService.serviceEndpoint,
+            ddoVersion.immutableUrl,
+            txParams,
+          )
         } catch (error) {
           this.logger.log(`Unable to publish immutable content`)
         }
       }
-
-      observer.next(UpdateProgressStep.UpdatingAssetOnChain)
-      await this.nevermined.keeper.didRegistry.updateMetadataUrl(
-        ddo.id,
-        checksum,
-        from,
-        metadataService.serviceEndpoint,
-        ddoVersion.immutableUrl,
-        txParams,
-      )
 
       observer.next(UpdateProgressStep.StoringDDOMarketplaceAPI)
       const storedDdo = await this.nevermined.services.metadata.updateDDO(ddo.id, ddo)
