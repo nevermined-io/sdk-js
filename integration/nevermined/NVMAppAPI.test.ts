@@ -84,10 +84,7 @@ describe('NVM App API', () => {
     })
 
     it('I want to search content from the app', async () => {
-      nvmApp = await NvmApp.getInstance(NVMAppEnvironments.Local, {
-        subscriptionNFTContractTimeAddress: subscriptionNFTAddress,
-        subscriptionNFTContractCreditsAddress: subscriptionNFTAddress,
-      })
+      nvmApp = await NvmApp.getInstance(NVMAppEnvironments.Local)
       const results = await nvmApp.search.query({})
       console.log(JSON.stringify(results.totalResults))
 
@@ -101,7 +98,11 @@ describe('NVM App API', () => {
 
     it('Overwrite the default config with some parameters', async () => {
       assert.notEqual(nvmApp.config.artifactsFolder, './artifacts')
-      nvmApp = await NvmApp.getInstance(NVMAppEnvironments.Local, config)
+      nvmApp = await NvmApp.getInstance(NVMAppEnvironments.Local, {
+        ...config,
+        subscriptionNFTContractTimeAddress: subscriptionNFTAddress,
+        subscriptionNFTContractCreditsAddress: subscriptionNFTAddress,
+      })
       assert.equal(nvmApp.config.artifactsFolder, './artifacts')
     })
 
