@@ -2,7 +2,8 @@ import { NeverminedOptions } from '../../models'
 
 export class NeverminedAppOptions extends NeverminedOptions {
   instanceName: string
-  nftContractAddress?: string
+  nftContractTimeAddress?: string
+  nftContractCreditsAddress?: string
   tokenAddress?: string // ERC-20 token address or zero address (0x000..) for native token
 }
 
@@ -18,7 +19,8 @@ export class AppDeploymentLocal extends NeverminedAppOptions {
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
-  nftContractAddress = undefined
+  nftContractTimeAddress = undefined
+  nftContractCreditsAddress = undefined
 }
 
 export class AppDeploymentStaging extends NeverminedAppOptions {
@@ -33,7 +35,8 @@ export class AppDeploymentStaging extends NeverminedAppOptions {
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
-  nftContractAddress = undefined
+  nftContractTimeAddress = undefined
+  nftContractCreditsAddress = undefined
   tokenAddress = '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d'
 }
 
@@ -49,7 +52,8 @@ export class AppDeploymentTesting extends NeverminedAppOptions {
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
-  nftContractAddress = undefined
+  nftContractTimeAddress = undefined
+  nftContractCreditsAddress = undefined
   tokenAddress = '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d'
 }
 
@@ -65,7 +69,8 @@ export class AppDeploymentArbitrum extends NeverminedAppOptions {
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
-  nftContractAddress = undefined
+  nftContractTimeAddress = undefined
+  nftContractCreditsAddress = undefined
   tokenAddress = '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 }
 
@@ -81,7 +86,8 @@ export class AppDeploymentGnosis extends NeverminedAppOptions {
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
-  nftContractAddress = undefined
+  nftContractTimeAddress = undefined
+  nftContractCreditsAddress = undefined
   tokenAddress = '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83'
 }
 
@@ -97,7 +103,8 @@ export class AppDeploymentMatic extends NeverminedAppOptions {
   verbose = true
   gasMultiplier = 1.2
   gasPriceMultiplier = 1.2
-  nftContractAddress = undefined
+  nftContractTimeAddress = undefined
+  nftContractCreditsAddress = undefined
   tokenAddress = '0x2791bca1f2de4661ed88a30c99a7a9449aa84174'
 }
 
@@ -113,7 +120,8 @@ export class AppDeploymentBase extends NeverminedAppOptions {
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
-  nftContractAddress = undefined
+  nftContractTimeAddress = undefined
+  nftContractCreditsAddress = undefined
   tokenAddress = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
 }
 
@@ -129,7 +137,8 @@ export class AppDeploymentCelo extends NeverminedAppOptions {
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
-  nftContractAddress = undefined
+  nftContractTimeAddress = undefined
+  nftContractCreditsAddress = undefined
   tokenAddress = '0xef4229c8c3250C675F21BCefa42f58EfbfF6002a'
 }
 
@@ -145,6 +154,7 @@ export class AppDeploymentOptimism extends NeverminedAppOptions {
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
-  nftContractAddress = undefined
+  nftContractTimeAddress = undefined
+  nftContractCreditsAddress = undefined
   tokenAddress = '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85'
 }

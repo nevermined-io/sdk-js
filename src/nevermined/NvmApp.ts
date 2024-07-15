@@ -1,7 +1,7 @@
+import { SmartAccountSigner } from 'permissionless/accounts'
 import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
 import { DDO } from '../ddo/DDO'
 import { Web3Error } from '../errors/NeverminedErrors'
-import { ContractHandler } from '../keeper/ContractHandler'
 import { AssetPrice } from '../models/AssetPrice'
 import { NFTAttributes } from '../models/NFTAttributes'
 import { NeverminedOptions } from '../models/NeverminedOptions'
@@ -28,7 +28,6 @@ import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from './Pro
 import { SearchApi } from './api/SearchApi'
 import { ServicesApi } from './api/ServicesApi'
 import { createKernelClient, isValidAddress } from './utils/BlockchainViemUtils'
-import { SmartAccountSigner } from 'permissionless/accounts'
 
 export enum NVMAppEnvironments {
   Staging = 'staging',
@@ -71,7 +70,8 @@ export class NvmApp {
   private zeroDevSignerAccount: SmartAccountSigner<'custom', `0x${string}`> | undefined
   public assetProviders: string[] = []
   private loginCredentials: string | undefined
-  private subscriptionNFTContractAddress: string | undefined
+  private subscriptionNFTContractTimeAddress: string | undefined
+  private subscriptionNFTContractCredtisAddress: string | undefined
   private networkFeeReceiver: string | undefined
   private networkFee: bigint | undefined
 
@@ -184,21 +184,17 @@ export class NvmApp {
     const nodeInfo = await this.fullSDK.services.node.getNeverminedNodeInfo()
     this.assetProviders = [nodeInfo['provider-address']]
 
-    if (!isValidAddress(this.configNVM.nftContractAddress as string)) {
-      const contractABI = await ContractHandler.getABIArtifact(
-        'NFT1155SubscriptionUpgradeable',
-        this.configNVM.artifactsFolder,
-        await this.fullSDK.keeper.getNetworkName(),
-        this.configNVM.chainId,
-      )
-      this.subscriptionNFTContractAddress = contractABI.address
-    } else {
-      this.subscriptionNFTContractAddress = this.configNVM.nftContractAddress
+    this.subscriptionNFTContractTimeAddress = this.configNVM.nftContractTimeAddress
+    this.subscriptionNFTContractCredtisAddress = this.configNVM.nftContractCreditsAddress
+
+    if (!isValidAddress(this.subscriptionNFTContractTimeAddress as string)) {
+      throw new Web3Error('Invalid Subscription NFT contract time address')
     }
-    if (!isValidAddress(this.subscriptionNFTContractAddress as string)) {
-      throw new Web3Error('Invalid Subscription NFT contract address')
+    if (!isValidAddress(this.subscriptionNFTContractCredtisAddress as string)) {
+      throw new Web3Error('Invalid Subscription NFT contract credits address')
     }
-    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractAddress as string)
+    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractTimeAddress as string)
+    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractCredtisAddress as string)
     this.networkFeeReceiver = await this.fullSDK.keeper.nvmConfig.getFeeReceiver()
     this.networkFee = await this.fullSDK.keeper.nvmConfig.getNetworkFee()
     return {
@@ -325,7 +321,7 @@ export class NvmApp {
         },
       ],
       providers: this.assetProviders,
-      nftContractAddress: this.subscriptionNFTContractAddress,
+      nftContractAddress: this.subscriptionNFTContractTimeAddress,
       preMint: false,
     })
 
@@ -397,7 +393,7 @@ export class NvmApp {
         },
       ],
       providers: this.assetProviders,
-      nftContractAddress: this.subscriptionNFTContractAddress,
+      nftContractAddress: this.subscriptionNFTContractCredtisAddress,
       preMint: false,
     })
 
@@ -714,7 +710,6 @@ export class NvmApp {
         },
       ],
       providers: this.assetProviders,
-      nftContractAddress: this.subscriptionNFTContractAddress,
       preMint: false,
     })
 
@@ -782,7 +777,6 @@ export class NvmApp {
         },
       ],
       providers: this.assetProviders,
-      nftContractAddress: this.subscriptionNFTContractAddress,
       preMint: false,
     })
 
