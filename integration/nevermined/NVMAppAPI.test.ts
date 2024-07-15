@@ -192,6 +192,7 @@ describe('NVM App API', () => {
         2n, // default cost in credits for every succesful query to the agent
         1n, // min amount of credits to be consumed
         5n, // max amount of credits to be consumed
+        subscriptionNFTAddress,
       )
 
       assert.isDefined(ddo)
@@ -222,6 +223,7 @@ describe('NVM App API', () => {
         datasetMetadata,
         subscriptionDid,
         1n, // every file download costs 1 credit to the subscriber
+        subscriptionNFTAddress,
       )
 
       assert.isDefined(ddo)

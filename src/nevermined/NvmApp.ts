@@ -325,16 +325,10 @@ export class NvmApp {
       preMint: false,
     })
 
-    return this.fullSDK.nfts1155.create(
-      nftAttributes,
-      this.userAccount,
-      {
-        metadata: PublishMetadataOptions.OnlyMetadataAPI,
-        did: PublishOnChainOptions.DIDRegistry,
-      },
-      // TODO: Review ZeroDev integration as part of the NvmAccount
-      // { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
-    )
+    return this.fullSDK.nfts1155.create(nftAttributes, this.userAccount, {
+      metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      did: PublishOnChainOptions.DIDRegistry,
+    })
   }
 
   /**
@@ -675,6 +669,7 @@ export class NvmApp {
    * @param costInCredits - The cost in credits (default: 1).
    * @param minCreditsToCharge - The minimum credits required to charge (default: 1).
    * @param maxCreditsToCharge - The maximum credits to charge (default: 1).
+   * @param nftContractAddress - The address of the NFT contract associated with the file asset.
    * @returns A promise that resolves to the progress steps and the registered DDO.
    * @throws {Web3Error} If Web3 is not connected.
    * @throws {Error} If the metadata validation fails.
@@ -685,6 +680,7 @@ export class NvmApp {
     costInCredits = 1n,
     minCreditsToCharge = 1n,
     maxCreditsToCharge = 1n,
+    nftContractAddress: string,
   ): SubscribablePromise<CreateProgressStep, DDO> {
     if (!this.fullSDK || !this.isWeb3Connected() || !this.userAccount)
       throw new Web3Error('Web3 not connected, try calling the connect method first')
@@ -710,19 +706,14 @@ export class NvmApp {
         },
       ],
       providers: this.assetProviders,
+      nftContractAddress,
       preMint: false,
     })
 
-    return this.fullSDK.nfts1155.create(
-      nftAttributes,
-      this.userAccount,
-      {
-        metadata: PublishMetadataOptions.OnlyMetadataAPI,
-        did: PublishOnChainOptions.DIDRegistry,
-      },
-      // TODO: Review ZeroDev integration as part of the NvmAccount
-      // { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
-    )
+    return this.fullSDK.nfts1155.create(nftAttributes, this.userAccount, {
+      metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      did: PublishOnChainOptions.DIDRegistry,
+    })
   }
 
   public async registerServiceAssetAsync(
@@ -731,6 +722,7 @@ export class NvmApp {
     costInCredits = 1n,
     minCreditsToCharge = 1n,
     maxCreditsToCharge = 1n,
+    nftContractAddress: string,
   ): Promise<DDO> {
     return await this.registerServiceAsset(
       metadata,
@@ -738,6 +730,7 @@ export class NvmApp {
       costInCredits,
       minCreditsToCharge,
       maxCreditsToCharge,
+      nftContractAddress,
     )
   }
 
@@ -747,6 +740,7 @@ export class NvmApp {
    * @param metadata - The metadata of the file asset.
    * @param subscriptionDid - The subscription DID (Decentralized Identifier) associated with the file asset.
    * @param costInCredits - The cost of the file asset in credits (default is 1).
+   * @param nftContractAddress - The address of the NFT contract associated with the file asset.
    * @returns A `SubscribablePromise` that resolves to a `DDO` (Decentralized Data Object) representing the registered file asset.
    * @throws {Web3Error} If the Web3 connection is not established.
    * @throws {Error} If the file asset metadata is not valid.
@@ -755,6 +749,7 @@ export class NvmApp {
     metadata: MetaData,
     subscriptionDid: string,
     costInCredits = 1n,
+    nftContractAddress: string,
   ): SubscribablePromise<CreateProgressStep, DDO> {
     if (!this.fullSDK || !this.isWeb3Connected() || !this.userAccount)
       throw new Web3Error('Web3 not connected, try calling the connect method first')
@@ -777,19 +772,14 @@ export class NvmApp {
         },
       ],
       providers: this.assetProviders,
+      nftContractAddress,
       preMint: false,
     })
 
-    return this.fullSDK.nfts1155.create(
-      nftAttributes,
-      this.userAccount,
-      {
-        metadata: PublishMetadataOptions.OnlyMetadataAPI,
-        did: PublishOnChainOptions.DIDRegistry,
-      },
-      // TODO: Review ZeroDev integration as part of the NvmAccount
-      // { ...(this.useZeroDevSigner && { zeroDevSigner: this.zeroDevSignerAccount }) },
-    )
+    return this.fullSDK.nfts1155.create(nftAttributes, this.userAccount, {
+      metadata: PublishMetadataOptions.OnlyMetadataAPI,
+      did: PublishOnChainOptions.DIDRegistry,
+    })
   }
 
   /**
@@ -804,8 +794,14 @@ export class NvmApp {
     metadata: MetaData,
     subscriptionDid: string,
     costInCredits = 1n,
+    nftContractAddress: string,
   ): Promise<DDO> {
-    return await this.registerFileAsset(metadata, subscriptionDid, costInCredits)
+    return await this.registerFileAsset(
+      metadata,
+      subscriptionDid,
+      costInCredits,
+      nftContractAddress,
+    )
   }
 
   /**
