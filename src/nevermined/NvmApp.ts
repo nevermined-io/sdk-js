@@ -71,7 +71,7 @@ export class NvmApp {
   public assetProviders: string[] = []
   private loginCredentials: string | undefined
   private subscriptionNFTContractTimeAddress: string | undefined
-  private subscriptionNFTContractCredtisAddress: string | undefined
+  private subscriptionNFTContractCreditsAddress: string | undefined
   private networkFeeReceiver: string | undefined
   private networkFee: bigint | undefined
 
@@ -185,16 +185,16 @@ export class NvmApp {
     this.assetProviders = [nodeInfo['provider-address']]
 
     this.subscriptionNFTContractTimeAddress = this.configNVM.nftContractTimeAddress
-    this.subscriptionNFTContractCredtisAddress = this.configNVM.nftContractCreditsAddress
+    this.subscriptionNFTContractCreditsAddress = this.configNVM.nftContractCreditsAddress
 
     if (!isValidAddress(this.subscriptionNFTContractTimeAddress as string)) {
       throw new Web3Error('Invalid Subscription NFT contract time address')
     }
-    if (!isValidAddress(this.subscriptionNFTContractCredtisAddress as string)) {
+    if (!isValidAddress(this.subscriptionNFTContractCreditsAddress as string)) {
       throw new Web3Error('Invalid Subscription NFT contract credits address')
     }
     this.sdk.contracts.loadNft1155(this.subscriptionNFTContractTimeAddress as string)
-    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractCredtisAddress as string)
+    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractCreditsAddress as string)
     this.networkFeeReceiver = await this.fullSDK.keeper.nvmConfig.getFeeReceiver()
     this.networkFee = await this.fullSDK.keeper.nvmConfig.getNetworkFee()
     return {
