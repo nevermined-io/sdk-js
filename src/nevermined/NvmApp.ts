@@ -393,7 +393,7 @@ export class NvmApp {
         },
       ],
       providers: this.assetProviders,
-      nftContractAddress: this.subscriptionNFTContractCredtisAddress,
+      nftContractAddress: this.subscriptionNFTContractCreditsAddress,
       preMint: false,
     })
 
