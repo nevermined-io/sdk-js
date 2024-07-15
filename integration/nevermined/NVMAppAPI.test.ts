@@ -100,8 +100,8 @@ describe('NVM App API', () => {
       assert.notEqual(nvmApp.config.artifactsFolder, './artifacts')
       nvmApp = await NvmApp.getInstance(NVMAppEnvironments.Local, {
         ...config,
-        subscriptionNFTContractTimeAddress: subscriptionNFTAddress,
-        subscriptionNFTContractCreditsAddress: subscriptionNFTAddress,
+        nftContractTimeAddress: subscriptionNFTAddress,
+        nftContractCreditsAddress: subscriptionNFTAddress,
       })
       assert.equal(nvmApp.config.artifactsFolder, './artifacts')
     })
