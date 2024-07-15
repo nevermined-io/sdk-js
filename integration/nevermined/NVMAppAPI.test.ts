@@ -2,17 +2,17 @@
 import chai, { assert } from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
-import config from '../../test/config'
-import TestContractHandler from '../../test/keeper/TestContractHandler'
-import { Nevermined } from '../../src/nevermined/Nevermined'
-import { NvmAccount } from '../../src/models/NvmAccount'
+import { NativeTokenAddress } from '../../src/constants/AssetConstants'
+import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
+import { Web3Error } from '../../src/errors/NeverminedErrors'
 import { AssetPrice } from '../../src/models/AssetPrice'
-import { ResourceAuthentication } from '../../src/types/DDOTypes'
+import { NvmAccount } from '../../src/models/NvmAccount'
+import { Nevermined } from '../../src/nevermined/Nevermined'
 import { NVMAppEnvironments, NvmApp } from '../../src/nevermined/NvmApp'
 import { SubscriptionCreditsNFTApi } from '../../src/nevermined/api/nfts/SubscriptionCreditsNFTApi'
-import { NativeTokenAddress } from '../../src/constants/AssetConstants'
-import { Web3Error } from '../../src/errors/NeverminedErrors'
-import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
+import { ResourceAuthentication } from '../../src/types/DDOTypes'
+import config from '../../test/config'
+import TestContractHandler from '../../test/keeper/TestContractHandler'
 
 chai.use(chaiAsPromised)
 
@@ -84,7 +84,10 @@ describe('NVM App API', () => {
     })
 
     it('I want to search content from the app', async () => {
-      nvmApp = await NvmApp.getInstance(NVMAppEnvironments.Local)
+      nvmApp = await NvmApp.getInstance(NVMAppEnvironments.Local, {
+        subscriptionNFTContractTimeAddress: subscriptionNFTAddress,
+        subscriptionNFTContractCreditsAddress: subscriptionNFTAddress,
+      })
       const results = await nvmApp.search.query({})
       console.log(JSON.stringify(results.totalResults))
 
