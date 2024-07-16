@@ -105,7 +105,7 @@ export class NvmApp {
    */
   public static async getInstance(
     appEnv: NVMAppEnvironments,
-    config?: Partial<NeverminedOptions>,
+    config?: Partial<NeverminedOptions | NeverminedAppOptions>,
   ): Promise<NvmApp> {
     const defaultEnvConfig = this.getConfigFromTagName(appEnv)
     const mergedConfig = config ? { ...defaultEnvConfig, ...config } : defaultEnvConfig
