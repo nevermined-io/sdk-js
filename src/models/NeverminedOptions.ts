@@ -97,4 +97,14 @@ export class NeverminedOptions {
    * Contracts version
    */
   public contractsVersion?: string
+
+  /**
+   * NFT contract address for time-based subscriptions
+   */
+  public nftContractTimeAddress?: string
+
+  /**
+   * NFT contract address for credit-based subscriptions
+   */
+  public nftContractCreditsAddress?: string
 }
