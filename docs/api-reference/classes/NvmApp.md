@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.17](../code-reference.md) / NvmApp
+[@nevermined-io/sdk - v3.0.18](../code-reference.md) / NvmApp
 
 # Class: NvmApp
 
@@ -19,7 +19,8 @@ Represents the NvmApp class which is the main entry point for interacting with t
 - [networkFee](NvmApp.md#networkfee)
 - [networkFeeReceiver](NvmApp.md#networkfeereceiver)
 - [searchSDK](NvmApp.md#searchsdk)
-- [subscriptionNFTContractAddress](NvmApp.md#subscriptionnftcontractaddress)
+- [subscriptionNFTContractCreditsAddress](NvmApp.md#subscriptionnftcontractcreditsaddress)
+- [subscriptionNFTContractTimeAddress](NvmApp.md#subscriptionnftcontracttimeaddress)
 - [userAccount](NvmApp.md#useraccount)
 - [zeroDevSignerAccount](NvmApp.md#zerodevsigneraccount)
 - [defaultAppInitializationOptions](NvmApp.md#defaultappinitializationoptions)
@@ -84,7 +85,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:123](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L123)
+[src/nevermined/NvmApp.ts:123](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L123)
 
 ## Properties
 
@@ -94,7 +95,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:72](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L72)
+[src/nevermined/NvmApp.ts:71](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L71)
 
 ---
 
@@ -104,7 +105,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:67](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L67)
+[src/nevermined/NvmApp.ts:66](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L66)
 
 ---
 
@@ -114,7 +115,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:70](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L70)
+[src/nevermined/NvmApp.ts:69](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L69)
 
 ---
 
@@ -124,7 +125,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:73](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L73)
+[src/nevermined/NvmApp.ts:72](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L72)
 
 ---
 
@@ -134,7 +135,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:76](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L76)
+[src/nevermined/NvmApp.ts:76](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L76)
 
 ---
 
@@ -144,7 +145,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:75](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L75)
+[src/nevermined/NvmApp.ts:75](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L75)
 
 ---
 
@@ -154,17 +155,27 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:69](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L69)
+[src/nevermined/NvmApp.ts:68](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L68)
 
 ---
 
-### subscriptionNFTContractAddress
+### subscriptionNFTContractCreditsAddress
 
-• `Private` **subscriptionNFTContractAddress**: `undefined` \| `string`
+• `Private` **subscriptionNFTContractCreditsAddress**: `undefined` \| `string`
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:74](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L74)
+[src/nevermined/NvmApp.ts:74](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L74)
+
+---
+
+### subscriptionNFTContractTimeAddress
+
+• `Private` **subscriptionNFTContractTimeAddress**: `undefined` \| `string`
+
+#### Defined in
+
+[src/nevermined/NvmApp.ts:73](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L73)
 
 ---
 
@@ -174,7 +185,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:68](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L68)
+[src/nevermined/NvmApp.ts:67](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L67)
 
 ---
 
@@ -184,7 +195,7 @@ Represents the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:71](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L71)
+[src/nevermined/NvmApp.ts:70](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L70)
 
 ---
 
@@ -196,7 +207,7 @@ Default initialization options for the Nevermined application.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:81](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L81)
+[src/nevermined/NvmApp.ts:81](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L81)
 
 ## Accessors
 
@@ -214,7 +225,7 @@ The configuration options for the Nevermined application.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:245](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L245)
+[src/nevermined/NvmApp.ts:241](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L241)
 
 ---
 
@@ -237,7 +248,7 @@ An object containing the receiver and fee.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:280](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L280)
+[src/nevermined/NvmApp.ts:276](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L276)
 
 ---
 
@@ -259,7 +270,7 @@ If Web3 is not connected, try calling the connect method first.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:270](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L270)
+[src/nevermined/NvmApp.ts:266](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L266)
 
 ---
 
@@ -277,7 +288,7 @@ The SearchApi instance.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:253](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L253)
+[src/nevermined/NvmApp.ts:249](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L249)
 
 ---
 
@@ -295,7 +306,7 @@ The Services API instance.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:261](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L261)
+[src/nevermined/NvmApp.ts:257](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L257)
 
 ## Methods
 
@@ -320,7 +331,7 @@ The updated asset price with the network fee included, or the original price if 
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:824](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L824)
+[src/nevermined/NvmApp.ts:814](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L814)
 
 ---
 
@@ -351,7 +362,7 @@ If Web3 is not connected or if there is an error claiming the NFT of the subscri
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:563](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L563)
+[src/nevermined/NvmApp.ts:553](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L553)
 
 ---
 
@@ -378,7 +389,7 @@ An object containing the marketplace authentication token, user account, and zer
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:145](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L145)
+[src/nevermined/NvmApp.ts:145](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L145)
 
 ---
 
@@ -412,7 +423,7 @@ If the validation of the subscription fails.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:370](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L370)
+[src/nevermined/NvmApp.ts:360](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L360)
 
 ---
 
@@ -438,7 +449,7 @@ A Promise that resolves to a DDO (Decentralized Data Object).
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:424](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L424)
+[src/nevermined/NvmApp.ts:414](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L414)
 
 ---
 
@@ -472,7 +483,7 @@ If the validation of the subscription fails.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:296](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L296)
+[src/nevermined/NvmApp.ts:292](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L292)
 
 ---
 
@@ -498,7 +509,7 @@ A Promise that resolves to the [DDO](DDO.md) (Decentralized Data Object) of the 
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:352](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L352)
+[src/nevermined/NvmApp.ts:342](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L342)
 
 ---
 
@@ -515,7 +526,7 @@ Clears the fullSDK instance and resets the user account, zeroDevSigner settings,
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:215](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L215)
+[src/nevermined/NvmApp.ts:211](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L211)
 
 ---
 
@@ -546,7 +557,7 @@ If there is an error downloading the files.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:651](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L651)
+[src/nevermined/NvmApp.ts:641](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L641)
 
 ---
 
@@ -580,7 +591,7 @@ If there is an error retrieving the subscription information.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:598](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L598)
+[src/nevermined/NvmApp.ts:588](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L588)
 
 ---
 
@@ -598,7 +609,7 @@ The login credentials as a string, or undefined if not set.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:237](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L237)
+[src/nevermined/NvmApp.ts:233](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L233)
 
 ---
 
@@ -626,7 +637,7 @@ If Web3 is not connected. Call the connect method first.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:634](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L634)
+[src/nevermined/NvmApp.ts:624](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L624)
 
 ---
 
@@ -650,7 +661,7 @@ A Promise that resolves to void.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:132](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L132)
+[src/nevermined/NvmApp.ts:132](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L132)
 
 ---
 
@@ -674,7 +685,7 @@ A boolean indicating whether the network fee is included.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:839](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L839)
+[src/nevermined/NvmApp.ts:829](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L829)
 
 ---
 
@@ -692,7 +703,7 @@ True if the web3 provider is connected, false otherwise.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:229](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L229)
+[src/nevermined/NvmApp.ts:225](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L225)
 
 ---
 
@@ -726,7 +737,7 @@ If there is an error ordering the subscription.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:533](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L533)
+[src/nevermined/NvmApp.ts:523](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L523)
 
 ---
 
@@ -759,23 +770,24 @@ If there is an error ordering the subscription.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:479](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L479)
+[src/nevermined/NvmApp.ts:469](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L469)
 
 ---
 
 ### registerFileAsset
 
-▸ **registerFileAsset**(`metadata`, `subscriptionDid`, `costInCredits?`): [`SubscribablePromise`](SubscribablePromise.md)\<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **registerFileAsset**(`metadata`, `subscriptionDid`, `costInCredits?`, `nftContractAddress`): [`SubscribablePromise`](SubscribablePromise.md)\<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Registers a file asset by creating a new DDO (Decentralized Data Object) on the network.
 
 #### Parameters
 
-| Name              | Type                                    | Description                                                                     |
-| :---------------- | :-------------------------------------- | :------------------------------------------------------------------------------ |
-| `metadata`        | [`MetaData`](../interfaces/MetaData.md) | The metadata of the file asset.                                                 |
-| `subscriptionDid` | `string`                                | The subscription DID (Decentralized Identifier) associated with the file asset. |
-| `costInCredits`   | `bigint`                                | The cost of the file asset in credits (default is 1).                           |
+| Name                 | Type                                    | Description                                                                     |
+| :------------------- | :-------------------------------------- | :------------------------------------------------------------------------------ |
+| `metadata`           | [`MetaData`](../interfaces/MetaData.md) | The metadata of the file asset.                                                 |
+| `subscriptionDid`    | `string`                                | The subscription DID (Decentralized Identifier) associated with the file asset. |
+| `costInCredits`      | `bigint`                                | The cost of the file asset in credits (default is 1).                           |
+| `nftContractAddress` | `string`                                | The address of the NFT contract associated with the file asset.                 |
 
 #### Returns
 
@@ -793,23 +805,24 @@ If the file asset metadata is not valid.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:759](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L759)
+[src/nevermined/NvmApp.ts:748](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L748)
 
 ---
 
 ### registerFileAssetAsync
 
-▸ **registerFileAssetAsync**(`metadata`, `subscriptionDid`, `costInCredits?`): `Promise`\<[`DDO`](DDO.md)\>
+▸ **registerFileAssetAsync**(`metadata`, `subscriptionDid`, `costInCredits?`, `nftContractAddress`): `Promise`\<[`DDO`](DDO.md)\>
 
 Registers a file asset asynchronously.
 
 #### Parameters
 
-| Name              | Type                                    | Description                        |
-| :---------------- | :-------------------------------------- | :--------------------------------- |
-| `metadata`        | [`MetaData`](../interfaces/MetaData.md) | The metadata of the file asset.    |
-| `subscriptionDid` | `string`                                | The subscription DID.              |
-| `costInCredits`   | `bigint`                                | The cost in credits (default: 1n). |
+| Name                 | Type                                    | Description                        |
+| :------------------- | :-------------------------------------- | :--------------------------------- |
+| `metadata`           | [`MetaData`](../interfaces/MetaData.md) | The metadata of the file asset.    |
+| `subscriptionDid`    | `string`                                | The subscription DID.              |
+| `costInCredits`      | `bigint`                                | The cost in credits (default: 1n). |
+| `nftContractAddress` | `string`                                | -                                  |
 
 #### Returns
 
@@ -819,25 +832,26 @@ A Promise that resolves to the registered DDO (Decentralized Data Object).
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:809](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L809)
+[src/nevermined/NvmApp.ts:793](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L793)
 
 ---
 
 ### registerServiceAsset
 
-▸ **registerServiceAsset**(`metadata`, `subscriptionDid`, `costInCredits?`, `minCreditsToCharge?`, `maxCreditsToCharge?`): [`SubscribablePromise`](SubscribablePromise.md)\<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
+▸ **registerServiceAsset**(`metadata`, `subscriptionDid`, `costInCredits?`, `minCreditsToCharge?`, `maxCreditsToCharge?`, `nftContractAddress`): [`SubscribablePromise`](SubscribablePromise.md)\<[`CreateProgressStep`](../enums/CreateProgressStep.md), [`DDO`](DDO.md)\>
 
 Registers a service asset.
 
 #### Parameters
 
-| Name                 | Type                                    | Description                                          |
-| :------------------- | :-------------------------------------- | :--------------------------------------------------- |
-| `metadata`           | [`MetaData`](../interfaces/MetaData.md) | The metadata of the asset.                           |
-| `subscriptionDid`    | `string`                                | The subscription DID.                                |
-| `costInCredits`      | `bigint`                                | The cost in credits (default: 1).                    |
-| `minCreditsToCharge` | `bigint`                                | The minimum credits required to charge (default: 1). |
-| `maxCreditsToCharge` | `bigint`                                | The maximum credits to charge (default: 1).          |
+| Name                 | Type                                    | Description                                                     |
+| :------------------- | :-------------------------------------- | :-------------------------------------------------------------- |
+| `metadata`           | [`MetaData`](../interfaces/MetaData.md) | The metadata of the asset.                                      |
+| `subscriptionDid`    | `string`                                | The subscription DID.                                           |
+| `costInCredits`      | `bigint`                                | The cost in credits (default: 1).                               |
+| `minCreditsToCharge` | `bigint`                                | The minimum credits required to charge (default: 1).            |
+| `maxCreditsToCharge` | `bigint`                                | The maximum credits to charge (default: 1).                     |
+| `nftContractAddress` | `string`                                | The address of the NFT contract associated with the file asset. |
 
 #### Returns
 
@@ -855,13 +869,13 @@ If the metadata validation fails.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:686](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L686)
+[src/nevermined/NvmApp.ts:677](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L677)
 
 ---
 
 ### registerServiceAssetAsync
 
-▸ **registerServiceAssetAsync**(`metadata`, `subscriptionDid`, `costInCredits?`, `minCreditsToCharge?`, `maxCreditsToCharge?`): `Promise`\<[`DDO`](DDO.md)\>
+▸ **registerServiceAssetAsync**(`metadata`, `subscriptionDid`, `costInCredits?`, `minCreditsToCharge?`, `maxCreditsToCharge?`, `nftContractAddress`): `Promise`\<[`DDO`](DDO.md)\>
 
 #### Parameters
 
@@ -872,6 +886,7 @@ If the metadata validation fails.
 | `costInCredits`      | `bigint`                                |
 | `minCreditsToCharge` | `bigint`                                |
 | `maxCreditsToCharge` | `bigint`                                |
+| `nftContractAddress` | `string`                                |
 
 #### Returns
 
@@ -879,7 +894,7 @@ If the metadata validation fails.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:733](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L733)
+[src/nevermined/NvmApp.ts:719](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L719)
 
 ---
 
@@ -908,7 +923,7 @@ If Web3 is not connected. Call the `connect` method first.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:444](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L444)
+[src/nevermined/NvmApp.ts:434](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L434)
 
 ---
 
@@ -933,7 +948,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:466](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L466)
+[src/nevermined/NvmApp.ts:456](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L456)
 
 ---
 
@@ -953,7 +968,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:887](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L887)
+[src/nevermined/NvmApp.ts:877](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L877)
 
 ---
 
@@ -973,7 +988,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:880](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L880)
+[src/nevermined/NvmApp.ts:870](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L870)
 
 ---
 
@@ -995,7 +1010,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:854](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L854)
+[src/nevermined/NvmApp.ts:844](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L844)
 
 ---
 
@@ -1015,7 +1030,7 @@ A Promise that resolves to the updated DDO (Decentralized Data Object) of the as
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:891](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L891)
+[src/nevermined/NvmApp.ts:881](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L881)
 
 ---
 
@@ -1027,10 +1042,10 @@ Returns an instance of the NvmApp class.
 
 #### Parameters
 
-| Name      | Type                                                     | Description                                             |
-| :-------- | :------------------------------------------------------- | :------------------------------------------------------ |
-| `appEnv`  | [`NVMAppEnvironments`](../enums/NVMAppEnvironments.md)   | The environment for the NvmApp instance.                |
-| `config?` | `Partial`\<[`NeverminedOptions`](NeverminedOptions.md)\> | Optional configuration options for the NvmApp instance. |
+| Name      | Type                                                                               | Description                                             |
+| :-------- | :--------------------------------------------------------------------------------- | :------------------------------------------------------ |
+| `appEnv`  | [`NVMAppEnvironments`](../enums/NVMAppEnvironments.md)                             | The environment for the NvmApp instance.                |
+| `config?` | `Partial`\<[`NeverminedOptions`](NeverminedOptions.md) \| `NeverminedAppOptions`\> | Optional configuration options for the NvmApp instance. |
 
 #### Returns
 
@@ -1040,7 +1055,7 @@ A Promise that resolves to an instance of the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:106](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L106)
+[src/nevermined/NvmApp.ts:106](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L106)
 
 ---
 
@@ -1060,4 +1075,4 @@ A Promise that resolves to an instance of the NvmApp class.
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:896](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/nevermined/NvmApp.ts#L896)
+[src/nevermined/NvmApp.ts:886](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L886)

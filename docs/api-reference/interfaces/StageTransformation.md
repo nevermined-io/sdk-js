@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.17](../code-reference.md) / StageTransformation
+[@nevermined-io/sdk - v3.0.18](../code-reference.md) / StageTransformation
 
 # Interface: StageTransformation
 
@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:44](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/DDOTypes.ts#L44)
+[src/types/DDOTypes.ts:44](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/types/DDOTypes.ts#L44)
