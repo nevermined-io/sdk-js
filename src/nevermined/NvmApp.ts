@@ -19,7 +19,7 @@ import {
   NeverminedAppOptions,
 } from '../nevermined/resources/AppNetworks'
 import { SubscriptionToken } from '../services/node/NeverminedNode'
-import { MetaData, SubscriptionType } from '../types/DDOTypes'
+import { MetaData, ServiceNFTSales, SubscriptionType } from '../types/DDOTypes'
 import { NeverminedInitializationOptions } from '../types/GeneralTypes'
 import { PublishMetadataOptions, PublishOnChainOptions } from '../types/MetadataTypes'
 import { SubscribablePromise } from '../utils/SubscribablePromise'
@@ -481,6 +481,11 @@ export class NvmApp {
       const salesService = ddo.findServiceByReference('nft-sales')
       serviceIndex = salesService.index
       numberCredits = salesService.attributes.main.nftAttributes.amount as bigint
+
+      const subscriptionNftAddress = DDO.getNftContractAddressFromService(
+        salesService as ServiceNFTSales,
+      )
+      this.sdk.contracts.loadNft1155(subscriptionNftAddress)
 
       if (!agreementId)
         agreementId = await this.fullSDK.nfts1155.order(
