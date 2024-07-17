@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.18](../code-reference.md) / AssetResult
+[@nevermined-io/sdk - v3.0.19](../code-reference.md) / AssetResult
 
 # Enumeration: AssetResult
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:20](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/services/node/NeverminedNode.ts#L20)
+[src/services/node/NeverminedNode.ts:20](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/services/node/NeverminedNode.ts#L20)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:21](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/services/node/NeverminedNode.ts#L21)
+[src/services/node/NeverminedNode.ts:21](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/services/node/NeverminedNode.ts#L21)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:22](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/services/node/NeverminedNode.ts#L22)
+[src/services/node/NeverminedNode.ts:22](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/services/node/NeverminedNode.ts#L22)

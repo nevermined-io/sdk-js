@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.18](../code-reference.md) / NFTServiceAttributes
+[@nevermined-io/sdk - v3.0.19](../code-reference.md) / NFTServiceAttributes
 
 # Class: NFTServiceAttributes
 
@@ -47,7 +47,7 @@ Number of editions
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:17](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L17)
+[src/models/NFTAttributes.ts:17](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L17)
 
 ---
 
@@ -59,7 +59,7 @@ If is a subscription this means the number of blocks the subscription last. If 0
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:32](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L32)
+[src/models/NFTAttributes.ts:32](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L32)
 
 ---
 
@@ -71,7 +71,7 @@ If true means the NFT works as a subscription
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:27](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L27)
+[src/models/NFTAttributes.ts:27](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L27)
 
 ---
 
@@ -84,7 +84,7 @@ If not specified, the subscription cost is not capped
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:44](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L44)
+[src/models/NFTAttributes.ts:44](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L44)
 
 ---
 
@@ -97,7 +97,7 @@ If not specified, the amount defined in the service agreement or 1 credit will b
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:56](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L56)
+[src/models/NFTAttributes.ts:56](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L56)
 
 ---
 
@@ -110,7 +110,7 @@ If not specified, the amount defined in the service agreement or 1 credit will b
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:50](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L50)
+[src/models/NFTAttributes.ts:50](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L50)
 
 ---
 
@@ -122,7 +122,7 @@ The asset is transferred (true) or minted (false) with Nevermined contracts
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:22](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L22)
+[src/models/NFTAttributes.ts:22](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L22)
 
 ---
 
@@ -135,7 +135,7 @@ For example if is a NFT Access service requiring holding a NFT, this is the toke
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:38](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L38)
+[src/models/NFTAttributes.ts:38](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L38)
 
 ---
 
@@ -159,7 +159,7 @@ For example if is a NFT Access service requiring holding a NFT, this is the toke
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:58](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L58)
+[src/models/NFTAttributes.ts:58](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L58)
 
 ## Methods
 
@@ -183,7 +183,7 @@ nft attributes validated and configured
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:136](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L136)
+[src/models/NFTAttributes.ts:136](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L136)
 
 ---
 
@@ -209,7 +209,7 @@ amount to consume
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:81](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L81)
+[src/models/NFTAttributes.ts:81](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L81)
 
 ---
 
@@ -223,7 +223,7 @@ amount to consume
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:70](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L70)
+[src/models/NFTAttributes.ts:70](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L70)
 
 ---
 
@@ -249,4 +249,4 @@ boolean
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:115](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/models/NFTAttributes.ts#L115)
+[src/models/NFTAttributes.ts:115](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/models/NFTAttributes.ts#L115)

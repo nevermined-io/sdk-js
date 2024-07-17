@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.18](../code-reference.md) / NVMAppEnvironments
+[@nevermined-io/sdk - v3.0.19](../code-reference.md) / NVMAppEnvironments
 
 # Enumeration: NVMAppEnvironments
 
@@ -25,7 +25,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:38](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L38)
+[src/nevermined/NvmApp.ts:38](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L38)
 
 ---
 
@@ -35,7 +35,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:39](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L39)
+[src/nevermined/NvmApp.ts:39](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L39)
 
 ---
 
@@ -45,7 +45,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:42](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L42)
+[src/nevermined/NvmApp.ts:42](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L42)
 
 ---
 
@@ -55,7 +55,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:37](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L37)
+[src/nevermined/NvmApp.ts:37](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L37)
 
 ---
 
@@ -65,7 +65,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:35](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L35)
+[src/nevermined/NvmApp.ts:35](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L35)
 
 ---
 
@@ -75,7 +75,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:41](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L41)
+[src/nevermined/NvmApp.ts:41](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L41)
 
 ---
 
@@ -85,7 +85,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:36](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L36)
+[src/nevermined/NvmApp.ts:36](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L36)
 
 ---
 
@@ -95,7 +95,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:40](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L40)
+[src/nevermined/NvmApp.ts:40](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L40)
 
 ---
 
@@ -105,7 +105,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:33](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L33)
+[src/nevermined/NvmApp.ts:33](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L33)
 
 ---
 
@@ -115,4 +115,4 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:34](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/NvmApp.ts#L34)
+[src/nevermined/NvmApp.ts:34](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/NvmApp.ts#L34)

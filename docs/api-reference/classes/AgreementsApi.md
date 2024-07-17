@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.18](../code-reference.md) / AgreementsApi
+[@nevermined-io/sdk - v3.0.19](../code-reference.md) / AgreementsApi
 
 # Class: AgreementsApi
 
@@ -71,7 +71,7 @@ Creates a new AgreementsApi
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:28](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/api/AgreementsApi.ts#L28)
+[src/nevermined/api/AgreementsApi.ts:28](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/api/AgreementsApi.ts#L28)
 
 ## Properties
 
@@ -83,7 +83,7 @@ Agreements Conditions submodule.
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:21](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/api/AgreementsApi.ts#L21)
+[src/nevermined/api/AgreementsApi.ts:21](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/api/AgreementsApi.ts#L21)
 
 ## Accessors
 
@@ -101,7 +101,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L137)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -119,7 +119,7 @@ Instantiable.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L141)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -137,7 +137,7 @@ Instantiable.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L89)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -155,7 +155,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L120)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -173,7 +173,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -191,7 +191,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L113)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -209,7 +209,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L128)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -227,7 +227,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L81)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -309,7 +309,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L97)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -360,7 +360,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -394,7 +394,7 @@ in this method before submitting on-chain.
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:88](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/api/AgreementsApi.ts#L88)
+[src/nevermined/api/AgreementsApi.ts:88](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/api/AgreementsApi.ts#L88)
 
 ---
 
@@ -418,7 +418,7 @@ the details of the agreement
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:140](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/api/AgreementsApi.ts#L140)
+[src/nevermined/api/AgreementsApi.ts:140](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/api/AgreementsApi.ts#L140)
 
 ---
 
@@ -442,7 +442,7 @@ the list of agreements
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:149](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/api/AgreementsApi.ts#L149)
+[src/nevermined/api/AgreementsApi.ts:149](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/api/AgreementsApi.ts#L149)
 
 ---
 
@@ -469,7 +469,7 @@ true if the user has permissions
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:161](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/api/AgreementsApi.ts#L161)
+[src/nevermined/api/AgreementsApi.ts:161](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/api/AgreementsApi.ts#L161)
 
 ---
 
@@ -495,7 +495,7 @@ The agreement ID and signature.
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:45](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/api/AgreementsApi.ts#L45)
+[src/nevermined/api/AgreementsApi.ts:45](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/api/AgreementsApi.ts#L45)
 
 ---
 
@@ -519,7 +519,7 @@ The agreement ID and signature.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L163)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -544,7 +544,7 @@ status of the agreement
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:114](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/nevermined/api/AgreementsApi.ts#L114)
+[src/nevermined/api/AgreementsApi.ts:114](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/api/AgreementsApi.ts#L114)
 
 ---
 
@@ -568,7 +568,7 @@ status of the agreement
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L150)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -599,4 +599,4 @@ status of the agreement
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/Instantiable.abstract.ts#L154)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/Instantiable.abstract.ts#L154)
