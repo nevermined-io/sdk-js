@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.17](../code-reference.md) / MethodReflection
+[@nevermined-io/sdk - v3.0.18](../code-reference.md) / MethodReflection
 
 # Interface: MethodReflection
 
@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:60](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/GeneralTypes.ts#L60)
+[src/types/GeneralTypes.ts:60](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/types/GeneralTypes.ts#L60)
 
 ---
 
@@ -30,7 +30,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:58](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/GeneralTypes.ts#L58)
+[src/types/GeneralTypes.ts:58](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/types/GeneralTypes.ts#L58)
 
 ---
 
@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:62](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/GeneralTypes.ts#L62)
+[src/types/GeneralTypes.ts:62](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/types/GeneralTypes.ts#L62)
 
 ---
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:59](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/GeneralTypes.ts#L59)
+[src/types/GeneralTypes.ts:59](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/types/GeneralTypes.ts#L59)
 
 ---
 
@@ -60,4 +60,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:61](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/GeneralTypes.ts#L61)
+[src/types/GeneralTypes.ts:61](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/types/GeneralTypes.ts#L61)

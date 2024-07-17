@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.17](../code-reference.md) / ReducedProfile
+[@nevermined-io/sdk - v3.0.18](../code-reference.md) / ReducedProfile
 
 # Interface: ReducedProfile
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:130](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/MetadataTypes.ts#L130)
+[src/types/MetadataTypes.ts:130](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/types/MetadataTypes.ts#L130)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:129](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/MetadataTypes.ts#L129)
+[src/types/MetadataTypes.ts:129](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/types/MetadataTypes.ts#L129)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:128](https://github.com/nevermined-io/sdk-js/blob/f4768bb40b31fadf971062208adb00e0efb39b34/src/types/MetadataTypes.ts#L128)
+[src/types/MetadataTypes.ts:128](https://github.com/nevermined-io/sdk-js/blob/5a87eb38c1c2c3e15829bd6357608ed347da321e/src/types/MetadataTypes.ts#L128)
