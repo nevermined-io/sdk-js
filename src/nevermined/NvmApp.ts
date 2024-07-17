@@ -482,6 +482,10 @@ export class NvmApp {
       serviceIndex = salesService.index
       numberCredits = salesService.attributes.main.nftAttributes.amount as bigint
 
+      const service = ddo.findServiceByType('nft-sales')
+      const subscriptionNftAddress = DDO.getNftContractAddressFromService(service)
+      this.sdk.contracts.loadNft1155(subscriptionNftAddress)
+
       if (!agreementId)
         agreementId = await this.fullSDK.nfts1155.order(
           subscriptionDid,
