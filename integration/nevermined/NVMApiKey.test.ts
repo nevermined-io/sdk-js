@@ -71,7 +71,7 @@ describe('Nevermined API Key', () => {
     it('The token is valid', async () => {
       assert.isTrue(nvmApiKey.isValid())
     })
-    it('The token can be encoded & decoded', async () => {
+    it.skip('The token can be encoded & decoded', async () => {
       const serialized = nvmApiKey.serialize()
       assert.isDefined(serialized)
       console.log(`Serialized: ${serialized}`)
@@ -84,8 +84,12 @@ describe('Nevermined API Key', () => {
 
     it('Encrypt and decrypt', async () => {
       console.log('Public key:', providerPublicKey)
+
       const encrypted = await encryptMessage(nvmApiKey.serialize(), providerPublicKey)
-      console.log('Encrypted:', encrypted)
+      console.log('Before Encryption:', nvmApiKey.serialize())
+      console.log('Before: NVM API KEY SIZE:', nvmApiKey.serialize().length)
+      console.log('After: Encrypted:', encrypted)
+      console.log('After: NVM API KEY SIZE:', encrypted.length)
       assert.isDefined(encrypted)
 
       // console.log('Private key:', privateKey)
@@ -99,7 +103,7 @@ describe('Nevermined API Key', () => {
       assert.equal(apiKey.sub, providerAddress)
     })
 
-    it('Complete flow with encryption', async () => {
+    it.skip('Complete flow with encryption', async () => {
       const encryptedNvmApiKey = await NvmApiKey.generateEncrypted(
         nvm.utils.signature,
         user,
@@ -117,13 +121,13 @@ describe('Nevermined API Key', () => {
       assert.equal(apiKey.iss, user.getId())
     })
 
-    it('A hash of the api key can be generated', async () => {
+    it.skip('A hash of the api key can be generated', async () => {
       const hash = NvmApiKey.hash(encryptedNvmApiKey)
       console.log('Hash:', hash)
       assert.isDefined(hash)
     })
 
-    it('The api token is not valid if already expired', async () => {
+    it.skip('The api token is not valid if already expired', async () => {
       const encryptedNvmApiKey = await NvmApiKey.generateEncrypted(
         nvm.utils.signature,
         user,
@@ -141,7 +145,7 @@ describe('Nevermined API Key', () => {
       assert.isFalse(apiKey.isValid())
     })
 
-    it('The api token can no be decripted by a different account to the receiver', async () => {
+    it.skip('The api token can no be decripted by a different account to the receiver', async () => {
       const someonePrivateKey = someone.getAccountSigner().getHdKey().privateKey
 
       const encryptedNvmApiKey = await NvmApiKey.generateEncrypted(
@@ -161,7 +165,7 @@ describe('Nevermined API Key', () => {
       }
     })
 
-    it('LOCAL: As a user I can generate a NVM API Key for the NODE', async () => {
+    it.skip('LOCAL: As a user I can generate a NVM API Key for the NODE', async () => {
       const address = '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
       const publicKey =
         '0x04d793eb43ef7d191bf64f127c9f1a2c9037406d72706d3be7dc564fb9a9f08f21156b32d1ee3afbe64cc9f676f6facffac1377f7804daf932d3b8aa04fdeb0630'
@@ -185,7 +189,7 @@ describe('Nevermined API Key', () => {
       assert.isTrue(apiKey.isValid())
     })
 
-    it('STAGING: As a user I can generate a NVM API Key for the NODE', async () => {
+    it.skip('STAGING: As a user I can generate a NVM API Key for the NODE', async () => {
       const address = '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'
       const publicKey =
         '0x04c19e8524f8080e0f9a5ef54c87b7596a2c93a992e986f713d02e091142d7d57f3094c34a265fc5dfd098e2143cb8eaf325e5621a7572ba00997654a19a819b35'

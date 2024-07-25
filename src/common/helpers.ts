@@ -3,6 +3,9 @@ import { v4 } from 'uuid'
 import { SearchQuery } from '../types'
 import { encrypt, decrypt } from 'eccrypto'
 import { noZeroX } from '../utils/ConversionTypeHelpers'
+// import { compress, decompress } from 'lz-string'
+// import { JwtUtils } from '../nevermined/utils/JwtUtils'
+import { compress, decompress } from 'shrink-string'
 
 export const buildQuery = (url: string, query?: SearchQuery) => {
   const fullUrl = new URL(url)
@@ -75,29 +78,45 @@ export async function encryptMessage(message: string, receiverPublicKey: string)
   const publicKeyBuffer = Buffer.from(noZeroX(receiverPublicKey), 'hex')
   const messageBuffer = Buffer.from(message)
   const ecies = await encrypt(publicKeyBuffer, messageBuffer)
-  return serializeECIES(ecies)
+  return await serializeECIES(ecies)
 }
 
 export async function decryptMessage(encryptedMessage: string, privateKey: string | any) {
-  const ecies = deserializeECIES(encryptedMessage)
+  const ecies = await deserializeECIES(encryptedMessage)
   const pk = typeof privateKey === 'string' ? noZeroX(privateKey) : privateKey
   const decrypted = await decrypt(Buffer.from(pk, 'hex'), ecies)
   return Buffer.from(decrypted, 'hex').toString()
 }
+// const ENCRYPTION_ENCODING = 'base64'
 
-export function serializeECIES(ecies: any) {
+export async function serializeECIES(ecies: any) {
   const serialized = JSON.stringify({
     iv: Buffer.from(ecies.iv).toString('base64'),
     ephemPublicKey: Buffer.from(ecies.ephemPublicKey).toString('base64'),
     ciphertext: Buffer.from(ecies.ciphertext).toString('base64'),
     mac: Buffer.from(ecies.mac).toString('base64'),
   })
-  return Buffer.from(serialized).toString('binary')
+  // console.log('Content BEFORE compression', serialized)
+  // console.log('Length BEFORE compression', serialized.length)
+  //const compressed = JwtUtils.createCompressedJwt(serialized)
+  //return serialized
+  //return compressToBase64(serialized)
+  // return compress(serialized)
+  //const compressed = Buffer.from(serialized).toString('utf-8')
+  return await compress(serialized)
+  // console.log('Content AFTER compression', compressed)
+  // console.log('Length AFTER compression', compressed.length)
+  //return compressed
 }
 
-export function deserializeECIES(serialized: any) {
-  const decoded = Buffer.from(serialized, 'binary').toString()
+export async function deserializeECIES(serialized: any) {
+  //const decoded = decompressFromBase64(serialized)
+  //const decoded = decompress(serialized)
+  // const decoded = Buffer.from(serialized, 'utf-8').toString()
+  const decoded = await decompress(serialized)
+  // const decoded = JwtUtils.decompressJwt(serialized)
   const _obj = JSON.parse(decoded)
+  //const _obj = JSON.parse(serialized)
   return {
     iv: Buffer.from(_obj.iv, 'base64'),
     ephemPublicKey: Buffer.from(_obj.ephemPublicKey, 'base64'),
