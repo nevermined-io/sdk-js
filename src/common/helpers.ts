@@ -92,12 +92,13 @@ export function serializeECIES(ecies: any) {
     ciphertext: Buffer.from(ecies.ciphertext).toString('base64'),
     mac: Buffer.from(ecies.mac).toString('base64'),
   })
-  return Buffer.from(serialized).toString('binary')
+  return serialized
+  //return Buffer.from(serialized).toString('binary')
 }
 
 export function deserializeECIES(serialized: any) {
-  const decoded = Buffer.from(serialized, 'binary').toString()
-  const _obj = JSON.parse(decoded)
+  // const decoded = Buffer.from(serialized, 'binary').toString()
+  const _obj = JSON.parse(serialized)
   return {
     iv: Buffer.from(_obj.iv, 'base64'),
     ephemPublicKey: Buffer.from(_obj.ephemPublicKey, 'base64'),
