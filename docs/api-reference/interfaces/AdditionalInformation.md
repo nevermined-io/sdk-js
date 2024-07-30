@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.19](../code-reference.md) / AdditionalInformation
+[@nevermined-io/sdk - v3.0.20](../code-reference.md) / AdditionalInformation
 
 # Interface: AdditionalInformation
 
@@ -44,7 +44,7 @@ Categories used to describe this content. Empty by default.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:425](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L425)
+[src/types/DDOTypes.ts:425](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L425)
 
 ---
 
@@ -54,7 +54,7 @@ Categories used to describe this content. Empty by default.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:459](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L459)
+[src/types/DDOTypes.ts:459](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L459)
 
 ---
 
@@ -72,7 +72,7 @@ The party holding the legal copyright. Empty by default.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:385](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L385)
+[src/types/DDOTypes.ts:385](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L385)
 
 ---
 
@@ -89,7 +89,7 @@ Can be used to store any non-default data, needs to be checked
 
 #### Defined in
 
-[src/types/DDOTypes.ts:454](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L454)
+[src/types/DDOTypes.ts:454](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L454)
 
 ---
 
@@ -108,7 +108,7 @@ explains what the data represents and what it can be used for.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:379](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L379)
+[src/types/DDOTypes.ts:379](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L379)
 
 ---
 
@@ -127,7 +127,7 @@ codes from the [IETF BCP 47 standard](https://tools.ietf.org/html/bcp47).
 
 #### Defined in
 
-[src/types/DDOTypes.ts:419](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L419)
+[src/types/DDOTypes.ts:419](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L419)
 
 ---
 
@@ -157,7 +157,7 @@ to be domain-specific.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:412](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L412)
+[src/types/DDOTypes.ts:412](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L412)
 
 ---
 
@@ -167,7 +167,7 @@ to be domain-specific.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:458](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L458)
+[src/types/DDOTypes.ts:458](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L458)
 
 ---
 
@@ -185,7 +185,7 @@ BigNumbers
 
 #### Defined in
 
-[src/types/DDOTypes.ts:479](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L479)
+[src/types/DDOTypes.ts:479](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L479)
 
 ---
 
@@ -202,7 +202,7 @@ BigNumbers
 
 #### Defined in
 
-[src/types/DDOTypes.ts:461](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L461)
+[src/types/DDOTypes.ts:461](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L461)
 
 ---
 
@@ -219,7 +219,7 @@ BigNumbers
 
 #### Defined in
 
-[src/types/DDOTypes.ts:466](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L466)
+[src/types/DDOTypes.ts:466](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L466)
 
 ---
 
@@ -232,7 +232,7 @@ describing the dataset.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:445](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L445)
+[src/types/DDOTypes.ts:445](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L445)
 
 ---
 
@@ -250,7 +250,7 @@ Keywords or tags used to describe this content. Empty by default.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:431](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L431)
+[src/types/DDOTypes.ts:431](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L431)
 
 ---
 
@@ -270,7 +270,7 @@ to get updated.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:439](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L439)
+[src/types/DDOTypes.ts:439](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L439)
 
 ---
 
@@ -289,4 +289,4 @@ of the metadata, not an external link.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:392](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L392)
+[src/types/DDOTypes.ts:392](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L392)

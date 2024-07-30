@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.19](../code-reference.md) / SubscriptionType
+[@nevermined-io/sdk - v3.0.20](../code-reference.md) / SubscriptionType
 
 # Enumeration: SubscriptionType
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:212](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L212)
+[src/types/DDOTypes.ts:212](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L212)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:211](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L211)
+[src/types/DDOTypes.ts:211](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L211)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:210](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L210)
+[src/types/DDOTypes.ts:210](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L210)

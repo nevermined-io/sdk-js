@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.19](../code-reference.md) / ServiceNFTSales
+[@nevermined-io/sdk - v3.0.20](../code-reference.md) / ServiceNFTSales
 
 # Interface: ServiceNFTSales
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:741](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L741)
+[src/types/DDOTypes.ts:741](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L741)
 
 ---
 
@@ -64,7 +64,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L636)
+[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L636)
 
 ---
 
@@ -78,7 +78,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L637)
+[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L637)
 
 ---
 
@@ -92,7 +92,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:740](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L740)
+[src/types/DDOTypes.ts:740](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L740)
 
 ---
 
@@ -106,4 +106,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:739](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/DDOTypes.ts#L739)
+[src/types/DDOTypes.ts:739](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L739)

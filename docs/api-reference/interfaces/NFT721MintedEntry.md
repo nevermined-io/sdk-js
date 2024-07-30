@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.19](../code-reference.md) / NFT721MintedEntry
+[@nevermined-io/sdk - v3.0.20](../code-reference.md) / NFT721MintedEntry
 
 # Interface: NFT721MintedEntry
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/NFTContractsBase.ts:10](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/keeper/contracts/NFTContractsBase.ts#L10)
+[src/keeper/contracts/NFTContractsBase.ts:10](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/keeper/contracts/NFTContractsBase.ts#L10)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/NFTContractsBase.ts:11](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/keeper/contracts/NFTContractsBase.ts#L11)
+[src/keeper/contracts/NFTContractsBase.ts:11](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/keeper/contracts/NFTContractsBase.ts#L11)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/keeper/contracts/NFTContractsBase.ts:9](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/keeper/contracts/NFTContractsBase.ts#L9)
+[src/keeper/contracts/NFTContractsBase.ts:9](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/keeper/contracts/NFTContractsBase.ts#L9)

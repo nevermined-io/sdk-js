@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.19](../code-reference.md) / EthSignJWT
+[@nevermined-io/sdk - v3.0.20](../code-reference.md) / EthSignJWT
 
 # Class: EthSignJWT
 
@@ -81,7 +81,7 @@ node_modules/jose/dist/types/jwt/produce.d.ts:4
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:12](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/utils/JwtUtils.ts#L12)
+[src/nevermined/utils/JwtUtils.ts:12](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/nevermined/utils/JwtUtils.ts#L12)
 
 ## Methods
 
@@ -101,7 +101,7 @@ node_modules/jose/dist/types/jwt/produce.d.ts:4
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:91](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/utils/JwtUtils.ts#L91)
+[src/nevermined/utils/JwtUtils.ts:91](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/nevermined/utils/JwtUtils.ts#L91)
 
 ---
 
@@ -121,7 +121,7 @@ node_modules/jose/dist/types/jwt/produce.d.ts:4
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:99](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/utils/JwtUtils.ts#L99)
+[src/nevermined/utils/JwtUtils.ts:99](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/nevermined/utils/JwtUtils.ts#L99)
 
 ---
 
@@ -143,7 +143,7 @@ node_modules/jose/dist/types/jwt/produce.d.ts:4
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:19](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/utils/JwtUtils.ts#L19)
+[src/nevermined/utils/JwtUtils.ts:19](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/nevermined/utils/JwtUtils.ts#L19)
 
 ---
 
@@ -323,7 +323,7 @@ SignJWT.setProtectedHeader
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:14](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/utils/JwtUtils.ts#L14)
+[src/nevermined/utils/JwtUtils.ts:14](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/nevermined/utils/JwtUtils.ts#L14)
 
 ---
 
@@ -397,4 +397,4 @@ node_modules/jose/dist/types/jwt/sign.d.ts:22
 
 #### Defined in
 
-[src/nevermined/utils/JwtUtils.ts:77](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/nevermined/utils/JwtUtils.ts#L77)
+[src/nevermined/utils/JwtUtils.ts:77](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/nevermined/utils/JwtUtils.ts#L77)

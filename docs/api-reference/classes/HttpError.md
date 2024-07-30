@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.19](../code-reference.md) / HttpError
+[@nevermined-io/sdk - v3.0.20](../code-reference.md) / HttpError
 
 # Class: HttpError
 
@@ -50,7 +50,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:14](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/errors/NeverminedErrors.ts#L14)
+[src/errors/NeverminedErrors.ts:14](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/errors/NeverminedErrors.ts#L14)
 
 ## Properties
 
