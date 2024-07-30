@@ -65,12 +65,13 @@ describe('Nevermined API Key', () => {
       )
       assert.isDefined(nvmApiKey)
       console.log('NVM API Key:', nvmApiKey)
-      console.log('JWT size:', nvmApiKey.toString().length)
+      console.log('NVM API Key size:', nvmApiKey.toString().length)
     })
 
-    it('The token is valid', async () => {
+    it('The API Key is valid', async () => {
       assert.isTrue(nvmApiKey.isValid())
     })
+
     it('The token can be encoded & decoded', async () => {
       const serialized = nvmApiKey.serialize()
       assert.isDefined(serialized)
@@ -80,6 +81,22 @@ describe('Nevermined API Key', () => {
       console.log(apiKey)
       assert.equal(apiKey.iss, user.getId())
       assert.equal(apiKey.sub, providerAddress)
+    })
+
+    it('The API Key can be encoded to JWT and decoded', async () => {
+      const jwt = await nvmApiKey.toJWT(nvm.utils.signature, user)
+      console.log('JWT:', jwt)
+      assert.isDefined(jwt)
+
+      const apiKey2 = NvmApiKey.fromJWT(jwt)
+      assert.isDefined(apiKey2)
+      assert.deepEqual(apiKey2, nvmApiKey)
+    })
+
+    it('The signer of the API Key can be verified', async () => {
+      const jwt = await nvmApiKey.toJWT(nvm.utils.signature, user)
+      const signerAddress = await NvmApiKey.getSignerAddress(jwt)
+      assert.strictEqual(signerAddress, user.getId())
     })
 
     it('Encrypt and decrypt', async () => {
