@@ -3,7 +3,8 @@ import { EthSignJWT } from '../nevermined/utils/JwtUtils'
 import { SignatureUtils } from '../nevermined/utils/SignatureUtils'
 import { getChecksumAddress } from '../nevermined/utils/BlockchainViemUtils'
 import { NvmAccount } from './NvmAccount'
-import { decryptMessage, encryptMessage } from '../common/helpers'
+import { decryptMessage, encryptMessage, urlSafeBase64Decode } from '../common/helpers'
+import { bytesToHex } from 'viem/utils'
 
 export class NvmApiKey implements JWTPayload {
   /**
@@ -24,7 +25,7 @@ export class NvmApiKey implements JWTPayload {
   /**
    * The version of the key
    */
-  ver: string = 'v1'
+  ver: string = 'v2'
 
   /**
    * The ZeroDev session key
@@ -80,18 +81,19 @@ export class NvmApiKey implements JWTPayload {
       iss: issuerAddress,
       aud: chainId.toString(),
       sub,
-      ver: 'v1',
+      ver: 'v2',
       zsk: zeroDevSessionKey,
       nvt: marketplaceAuthToken,
       ...additionalParams,
     }
 
-    const signed = await new EthSignJWT(params)
+    const signedJWT = await new EthSignJWT(params)
       .setProtectedHeader({ alg: 'ES256K' })
       .setIssuedAt()
       .setExpirationTime(expirationTime)
       .ethSign(signatureUtils, issuerAccount) //, eip712Data)
-    return NvmApiKey.fromJWT(NvmApiKey.decode(signed))
+
+    return NvmApiKey.fromJSON(NvmApiKey.decodeJWT(signedJWT))
   }
 
   public static async generateEncrypted(
@@ -115,12 +117,23 @@ export class NvmApiKey implements JWTPayload {
       chainId,
       additionalParams,
     )
-    return encryptMessage(nvmApiKey.serialize(), receiverPublicKey)
+    const jwt = await nvmApiKey.toJWT(signatureUtils, issuerAccount)
+    return encryptMessage(jwt, receiverPublicKey)
   }
 
   public static async decryptAndDecode(encryptedJwt: string, privateKey: string) {
     const decrypted = await decryptMessage(encryptedJwt, privateKey)
-    return NvmApiKey.deserialize(decrypted)
+    return NvmApiKey.fromJWT(decrypted)
+  }
+
+  public static async getSignerAddress(jwtString: string): Promise<string> {
+    try {
+      const tokens = jwtString.split('.')
+      const signature = bytesToHex(urlSafeBase64Decode(tokens[2]))
+      return SignatureUtils.recoverSignerAddress(`${tokens[0]}.${tokens[1]}`, signature)
+    } catch (e) {
+      throw new Error(`Error recovering signer address: ${e.message}`)
+    }
   }
 
   public isValid(chainId = 0): boolean {
@@ -134,9 +147,23 @@ export class NvmApiKey implements JWTPayload {
     return true
   }
 
-  public static fromJWT(jwt: JWTPayload): NvmApiKey {
+  public async toJWT(signatureUtils: SignatureUtils, issuerAccount: NvmAccount): Promise<string> {
+    const params = {}
+    Object.keys(this)
+      .filter((val) => val !== undefined)
+      .forEach((key) => {
+        if (!key.startsWith('_')) params[key] = this[key]
+      })
+
+    const jwt = new EthSignJWT(params).setProtectedHeader({ alg: 'ES256K' }).setIssuedAt(this.iat)
+    if (this.exp) jwt.setExpirationTime(this.exp)
+    return jwt.ethSign(signatureUtils, issuerAccount)
+  }
+
+  public static fromJSON(jwt: JWTPayload): NvmApiKey {
     const nvmKey = new NvmApiKey()
-    const _obj = JSON.parse(JSON.stringify(jwt))
+    const str = JSON.stringify(jwt)
+    const _obj = JSON.parse(str)
     Object.keys(_obj)
       .filter((val) => val !== undefined)
       .forEach((key) => {
@@ -145,8 +172,13 @@ export class NvmApiKey implements JWTPayload {
     return nvmKey
   }
 
+  public static fromJWT(jwtString: string): NvmApiKey {
+    const jwt = NvmApiKey.decodeJWT(jwtString)
+    return NvmApiKey.fromJSON(jwt)
+  }
+
   public static deserialize(str: string): NvmApiKey {
-    return NvmApiKey.fromJWT(JSON.parse(str))
+    return NvmApiKey.fromJSON(JSON.parse(str))
   }
 
   public serialize(): string {
@@ -157,7 +189,7 @@ export class NvmApiKey implements JWTPayload {
     return JSON.stringify(this)
   }
 
-  public static decode(str: string) {
+  public static decodeJWT(str: string) {
     return decodeJwt(str)
   }
 
