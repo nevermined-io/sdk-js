@@ -134,18 +134,26 @@ export class NvmApiKey implements JWTPayload {
     chainId: number = 0,
     additionalParams = {},
   ): Promise<string> {
-    const nvmApiKey = await this.generate(
-      signatureUtils,
-      issuerAccount,
-      zeroDevSessionKey,
-      marketplaceAuthToken,
-      receiverAddress,
-      expirationTime,
-      chainId,
-      additionalParams,
-    )
-    const jwt = await nvmApiKey.toJWT(signatureUtils, issuerAccount)
-    return encryptMessage(jwt, receiverPublicKey)
+    const issuerAddress = getChecksumAddress(issuerAccount.getId())
+    const sub = getChecksumAddress(receiverAddress)
+
+    const params = {
+      iss: issuerAddress,
+      aud: chainId.toString(),
+      sub,
+      ver: 'v2',
+      zsk: zeroDevSessionKey,
+      nvt: marketplaceAuthToken,
+      ...additionalParams,
+    }
+
+    const signedJWT = await new EthSignJWT(params)
+      .setProtectedHeader({ alg: 'ES256K' })
+      .setIssuedAt()
+      .setExpirationTime(expirationTime)
+      .ethSign(signatureUtils, issuerAccount)
+
+    return encryptMessage(signedJWT, receiverPublicKey)
   }
 
   /**
