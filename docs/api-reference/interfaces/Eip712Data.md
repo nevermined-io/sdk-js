@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.19](../code-reference.md) / Eip712Data
+[@nevermined-io/sdk - v3.0.20](../code-reference.md) / Eip712Data
 
 # Interface: Eip712Data
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:77](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/GeneralTypes.ts#L77)
+[src/types/GeneralTypes.ts:77](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/GeneralTypes.ts#L77)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:76](https://github.com/nevermined-io/sdk-js/blob/065f3decbaad4f3943ea9ea3e7eade094f617f96/src/types/GeneralTypes.ts#L76)
+[src/types/GeneralTypes.ts:76](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/GeneralTypes.ts#L76)
