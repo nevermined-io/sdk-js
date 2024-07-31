@@ -58,6 +58,19 @@ export class NvmApiKey implements JWTPayload {
 
   public constructor() {}
 
+  /**
+   * It generates a new NvmApiKey including the ZeroDev session key and the Marketplace auth token.
+   * The Nevermined API Key (once serialized) can be used to authenticate against the Nevermined API.
+   * @param signatureUtils The SignatureUtils instance
+   * @param issuerAccount The account issuing the key
+   * @param zeroDevSessionKey The ZeroDev session key
+   * @param marketplaceAuthToken The Marketplace  Auth Token
+   * @param receiverAddress The address of the account the key is issued for
+   * @param expirationTime When the key will expire
+   * @param chainId The chain id of the network the key is valid for
+   * @param additionalParams Addintional  params to be added to the Key generated
+   * @returns The @see {@link NvmApiKey}
+   */
   public static async generate(
     signatureUtils: SignatureUtils,
     issuerAccount: NvmAccount,
@@ -96,6 +109,20 @@ export class NvmApiKey implements JWTPayload {
     return NvmApiKey.fromJSON(NvmApiKey.decodeJWT(signedJWT))
   }
 
+  /**
+   * It generates a new serialized and encrypted NvmApiKey including the ZeroDev session key and the Marketplace auth token.
+   * The string  representing this key can be used to authenticate against the Nevermined API.
+   * @param signatureUtils The SignatureUtils instance
+   * @param issuerAccount The account issuing the key
+   * @param zeroDevSessionKey The ZeroDev session key
+   * @param marketplaceAuthToken The Marketplace  Auth Token
+   * @param receiverAddress The address of the account the key is issued for
+   * @param receiverPublicKey The public key of the account the key is issued for
+   * @param expirationTime When the key will expire
+   * @param chainId The chain id of the network the key is valid for
+   * @param additionalParams Addintional  params to be added to the Key generated
+   * @returns The encrypted string representing the @see {@link NvmApiKey}
+   */
   public static async generateEncrypted(
     signatureUtils: SignatureUtils,
     issuerAccount: NvmAccount,
@@ -121,11 +148,22 @@ export class NvmApiKey implements JWTPayload {
     return encryptMessage(jwt, receiverPublicKey)
   }
 
+  /**
+   * Givena an encrypted JWT and a private key, it decrypts and decodes the JWT into a NvmApiKey
+   * @param encryptedJwt The encrypted JWT
+   * @param privateKey The private key representing the account
+   * @returns The @see {@link NvmApiKey}
+   */
   public static async decryptAndDecode(encryptedJwt: string, privateKey: string) {
     const decrypted = await decryptMessage(encryptedJwt, privateKey)
     return NvmApiKey.fromJWT(decrypted)
   }
 
+  /**
+   * Given a signed JWT, it recovers the signer address
+   * @param jwtString The signed JWT
+   * @returns The signer address
+   */
   public static async getSignerAddress(jwtString: string): Promise<string> {
     try {
       const tokens = jwtString.split('.')
@@ -136,6 +174,11 @@ export class NvmApiKey implements JWTPayload {
     }
   }
 
+  /**
+   * It checks if the NVM API Key attributes are valid
+   * @param chainId The chain id of the network the key is valid for
+   * @returns true if the key is valid, false otherwise
+   */
   public isValid(chainId = 0): boolean {
     if (this.exp) {
       const now = new Date()
@@ -147,6 +190,12 @@ export class NvmApiKey implements JWTPayload {
     return true
   }
 
+  /**
+   * It generates a signed JWT from the NvmApiKey
+   * @param signatureUtils The SignatureUtils instance
+   * @param issuerAccount The account issuing the key
+   * @returns the string in JWT format represeting the NvmApiKey
+   */
   public async toJWT(signatureUtils: SignatureUtils, issuerAccount: NvmAccount): Promise<string> {
     const params = {}
     Object.keys(this)
@@ -160,6 +209,31 @@ export class NvmApiKey implements JWTPayload {
     return jwt.ethSign(signatureUtils, issuerAccount)
   }
 
+  /**
+   * It generates the hash in JWT format of the NvmApiKey
+   * @param signatureUtils the SignatureUtils instance
+   * @param issuerAccount the account  issuing the key
+   * @returns a JWT string representing the hash of the NvmApiKey
+   */
+  public async hashJWT(signatureUtils: SignatureUtils, issuerAccount: NvmAccount): Promise<string> {
+    const address = getChecksumAddress(issuerAccount.getId())
+
+    return new EthSignJWT({
+      iss: address,
+      sub: this.hash(),
+      exp: this.exp,
+      eths: 'personal',
+    })
+      .setProtectedHeader({ alg: 'ES256K' })
+      .setIssuedAt()
+      .ethSign(signatureUtils, issuerAccount)
+  }
+
+  /**
+   * It regenerates the NvmApiKey from a JSON object
+   * @param jwt JWTPayload in JSON format
+   * @returns the @see {@link NvmApiKey}
+   */
   public static fromJSON(jwt: JWTPayload): NvmApiKey {
     const nvmKey = new NvmApiKey()
     const str = JSON.stringify(jwt)
@@ -172,31 +246,63 @@ export class NvmApiKey implements JWTPayload {
     return nvmKey
   }
 
+  /**
+   * It regenerates the NvmApiKey from a JWT
+   * @param jwtString the string in JWT format represeting the NvmApiKey
+   * @returns the @see {@link NvmApiKey}
+   */
   public static fromJWT(jwtString: string): NvmApiKey {
     const jwt = NvmApiKey.decodeJWT(jwtString)
     return NvmApiKey.fromJSON(jwt)
   }
 
+  /**
+   * It regenerates the NvmApiKey from a string
+   * @param str the string represeting the NvmApiKey
+   * @returns the @see {@link NvmApiKey}
+   */
   public static deserialize(str: string): NvmApiKey {
     return NvmApiKey.fromJSON(JSON.parse(str))
   }
 
+  /**
+   * It serializes the NVM Api Key into a string
+   * @returns a string representing the NVM API Key
+   */
   public serialize(): string {
     return this.toString()
   }
 
+  /**
+   * It serializes the NVM Api Key into a string
+   * @returns a string representing the NVM API Key
+   */
   public toString(): string {
     return JSON.stringify(this)
   }
 
+  /**
+   * It decodes a string JWT into a JWTPayload
+   * @param str jwt string
+   * @returns the JWTPayload
+   */
   public static decodeJWT(str: string) {
     return decodeJwt(str)
   }
 
+  /**
+   * It generates the hash of the NvmApiKey
+   * @returns a string representing the hash of the NvmApiKey
+   */
   public hash() {
     return SignatureUtils.hash(this.serialize())
   }
 
+  /**
+   * Given a serialized string, it generates the hash
+   * @param serialized the serialized string
+   * @returns the hash
+   */
   static hash(serialized: string) {
     return SignatureUtils.hash(serialized)
   }

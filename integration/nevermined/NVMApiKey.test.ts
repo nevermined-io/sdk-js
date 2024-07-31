@@ -8,6 +8,7 @@ import { NvmAccount } from '../../src/models/NvmAccount'
 import { JwtUtils, NvmApiKey } from '../../src'
 import { encryptMessage, decryptMessage } from '../../src/common/helpers'
 import { sleep } from '../utils/utils'
+import { decodeJwt } from 'jose'
 
 chai.use(chaiAsPromised)
 
@@ -138,6 +139,20 @@ describe('Nevermined API Key', () => {
       const hash = NvmApiKey.hash(encryptedNvmApiKey)
       console.log('Hash:', hash)
       assert.isDefined(hash)
+    })
+
+    it('A hash of the api key in JWT can be generated', async () => {
+      assert.isDefined(nvmApiKey)
+      const hashJwt = await nvmApiKey.hashJWT(nvm.utils.signature, user)
+      console.log('Hash (JWT):', hashJwt)
+      assert.isDefined(hashJwt)
+
+      const hashDecoded = decodeJwt(hashJwt)
+      assert.isDefined(hashDecoded)
+      console.log('Hash (JWT) Decoded:', hashDecoded)
+
+      const signerAddress = await NvmApiKey.getSignerAddress(hashJwt)
+      assert.strictEqual(signerAddress, user.getId())
     })
 
     it('The api token is not valid if already expired', async () => {
