@@ -57,13 +57,15 @@ describe('Nevermined API Key', () => {
     })
 
     it('As a user I can generate a NVM API Key', async () => {
-      nvmApiKey = await NvmApiKey.generate(
+      const encryptedKey = await NvmApiKey.generateEncrypted(
         nvm.utils.signature,
         user,
         zeroDevSessionKey,
         marketplaceAuthToken,
         providerAddress,
+        providerPublicKey,
       )
+      nvmApiKey = await NvmApiKey.decryptAndDecode(encryptedKey, providerPrivateKey)
       assert.isDefined(nvmApiKey)
       console.log('NVM API Key:', nvmApiKey)
       console.log('NVM API Key size:', nvmApiKey.toString().length)
