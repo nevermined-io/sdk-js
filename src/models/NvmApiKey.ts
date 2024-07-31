@@ -72,7 +72,7 @@ export class NvmApiKey implements JWTPayload {
    * @param additionalParams Addintional  params to be added to the Key generated
    * @returns The encrypted string representing the @see {@link NvmApiKey}
    */
-  public static async generateEncrypted(
+  public static async generate(
     signatureUtils: SignatureUtils,
     issuerAccount: NvmAccount,
     zeroDevSessionKey: string,
@@ -80,16 +80,16 @@ export class NvmApiKey implements JWTPayload {
     receiverAddress: string,
     receiverPublicKey: string,
     expirationTime: string = '1y',
-    chainId: number = 0,
     additionalParams = {},
   ): Promise<string> {
     const issuerAddress = getChecksumAddress(issuerAccount.getId())
+    const chainId = signatureUtils.client.chain?.id || 0
     const sub = getChecksumAddress(receiverAddress)
 
-    const eip712Data = {
-      message: 'Sign this message to generate the Encrypted Nevermined API Key',
-      ...(chainId > 0 && { chainId }),
-    }
+    // const eip712Data = {
+    //   message: 'Sign this message to generate the Encrypted Nevermined API Key',
+    //   ...(chainId > 0 && { chainId }),
+    // }
     const params = {
       iss: issuerAddress,
       aud: chainId.toString(),
@@ -97,7 +97,7 @@ export class NvmApiKey implements JWTPayload {
       ver: 'v2',
       zsk: zeroDevSessionKey,
       nvt: marketplaceAuthToken,
-      eip712Data,
+      // eip712Data,
       ...additionalParams,
     }
 
@@ -146,8 +146,8 @@ export class NvmApiKey implements JWTPayload {
       const now = new Date()
       if (now.getTime() > Number(this.exp) * 1000) return false
     }
-    if (chainId !== 0 || this.aud !== '0') {
-      if (this.aud !== this.client.chain?.id.toString()) return false
+    if (chainId !== 0) {
+      if (Number(this.aud) !== chainId) return false
     }
     return true
   }
