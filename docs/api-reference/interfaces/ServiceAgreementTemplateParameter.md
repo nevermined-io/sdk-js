@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.20](../code-reference.md) / ServiceAgreementTemplateParameter
+[@nevermined-io/sdk - v3.0.21](../code-reference.md) / ServiceAgreementTemplateParameter
 
 # Interface: ServiceAgreementTemplateParameter
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:811](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L811)
+[src/types/DDOTypes.ts:811](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/types/DDOTypes.ts#L811)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:812](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L812)
+[src/types/DDOTypes.ts:812](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/types/DDOTypes.ts#L812)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:813](https://github.com/nevermined-io/sdk-js/blob/fda834d746a6bb5136bf84409374b98a30682055/src/types/DDOTypes.ts#L813)
+[src/types/DDOTypes.ts:813](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/types/DDOTypes.ts#L813)
