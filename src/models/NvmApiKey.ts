@@ -222,7 +222,6 @@ export class NvmApiKey implements JWTPayload {
       iss: address,
       sub: this.hash(),
       exp: this.exp,
-      eths: 'personal',
     })
       .setProtectedHeader({ alg: 'ES256K' })
       .setIssuedAt()
