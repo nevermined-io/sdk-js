@@ -59,57 +59,6 @@ export class NvmApiKey implements JWTPayload {
   public constructor() {}
 
   /**
-   * It generates a new NvmApiKey including the ZeroDev session key and the Marketplace auth token.
-   * The Nevermined API Key (once serialized) can be used to authenticate against the Nevermined API.
-   * @param signatureUtils The SignatureUtils instance
-   * @param issuerAccount The account issuing the key
-   * @param zeroDevSessionKey The ZeroDev session key
-   * @param marketplaceAuthToken The Marketplace  Auth Token
-   * @param receiverAddress The address of the account the key is issued for
-   * @param expirationTime When the key will expire
-   * @param chainId The chain id of the network the key is valid for
-   * @param additionalParams Addintional  params to be added to the Key generated
-   * @returns The @see {@link NvmApiKey}
-   */
-  public static async generate(
-    signatureUtils: SignatureUtils,
-    issuerAccount: NvmAccount,
-    zeroDevSessionKey: string,
-    marketplaceAuthToken: string,
-    receiverAddress: string,
-    expirationTime: string = '1y',
-    chainId: number = 0,
-    additionalParams = {},
-  ): Promise<NvmApiKey> {
-    const issuerAddress = getChecksumAddress(issuerAccount.getId())
-    const sub = getChecksumAddress(receiverAddress)
-
-    // TODO: Evaluate if eip712Data is needed
-    // const eip712Data = {
-    //   message: 'Sign this message to generate the API Key',
-    //   chainId,
-    // }
-
-    const params = {
-      iss: issuerAddress,
-      aud: chainId.toString(),
-      sub,
-      ver: 'v2',
-      zsk: zeroDevSessionKey,
-      nvt: marketplaceAuthToken,
-      ...additionalParams,
-    }
-
-    const signedJWT = await new EthSignJWT(params)
-      .setProtectedHeader({ alg: 'ES256K' })
-      .setIssuedAt()
-      .setExpirationTime(expirationTime)
-      .ethSign(signatureUtils, issuerAccount) //, eip712Data)
-
-    return NvmApiKey.fromJSON(NvmApiKey.decodeJWT(signedJWT))
-  }
-
-  /**
    * It generates a new serialized and encrypted NvmApiKey including the ZeroDev session key and the Marketplace auth token.
    * The string  representing this key can be used to authenticate against the Nevermined API.
    * @param signatureUtils The SignatureUtils instance
@@ -123,7 +72,7 @@ export class NvmApiKey implements JWTPayload {
    * @param additionalParams Addintional  params to be added to the Key generated
    * @returns The encrypted string representing the @see {@link NvmApiKey}
    */
-  public static async generateEncrypted(
+  public static async generate(
     signatureUtils: SignatureUtils,
     issuerAccount: NvmAccount,
     zeroDevSessionKey: string,
@@ -131,21 +80,34 @@ export class NvmApiKey implements JWTPayload {
     receiverAddress: string,
     receiverPublicKey: string,
     expirationTime: string = '1y',
-    chainId: number = 0,
     additionalParams = {},
   ): Promise<string> {
-    const nvmApiKey = await this.generate(
-      signatureUtils,
-      issuerAccount,
-      zeroDevSessionKey,
-      marketplaceAuthToken,
-      receiverAddress,
-      expirationTime,
-      chainId,
-      additionalParams,
-    )
-    const jwt = await nvmApiKey.toJWT(signatureUtils, issuerAccount)
-    return encryptMessage(jwt, receiverPublicKey)
+    const issuerAddress = getChecksumAddress(issuerAccount.getId())
+    const chainId = signatureUtils.client.chain?.id || 0
+    const sub = getChecksumAddress(receiverAddress)
+
+    // const eip712Data = {
+    //   message: 'Sign this message to generate the Encrypted Nevermined API Key',
+    //   ...(chainId > 0 && { chainId }),
+    // }
+    const params = {
+      iss: issuerAddress,
+      aud: chainId.toString(),
+      sub,
+      ver: 'v2',
+      zsk: zeroDevSessionKey,
+      nvt: marketplaceAuthToken,
+      // eip712Data,
+      ...additionalParams,
+    }
+
+    const signedJWT = await new EthSignJWT(params)
+      .setProtectedHeader({ alg: 'ES256K' })
+      .setIssuedAt()
+      .setExpirationTime(expirationTime)
+      .ethSign(signatureUtils, issuerAccount)
+
+    return encryptMessage(signedJWT, receiverPublicKey)
   }
 
   /**
@@ -184,8 +146,8 @@ export class NvmApiKey implements JWTPayload {
       const now = new Date()
       if (now.getTime() > Number(this.exp) * 1000) return false
     }
-    if (chainId !== 0 || this.aud !== '0') {
-      if (this.aud !== this.client.chain?.id.toString()) return false
+    if (chainId !== 0) {
+      if (Number(this.aud) !== chainId) return false
     }
     return true
   }

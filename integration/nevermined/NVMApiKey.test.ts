@@ -57,20 +57,24 @@ describe('Nevermined API Key', () => {
     })
 
     it('As a user I can generate a NVM API Key', async () => {
-      nvmApiKey = await NvmApiKey.generate(
+      const encryptedKey = await NvmApiKey.generate(
         nvm.utils.signature,
         user,
         zeroDevSessionKey,
         marketplaceAuthToken,
         providerAddress,
+        providerPublicKey,
       )
+      nvmApiKey = await NvmApiKey.decryptAndDecode(encryptedKey, providerPrivateKey)
       assert.isDefined(nvmApiKey)
       console.log('NVM API Key:', nvmApiKey)
       console.log('NVM API Key size:', nvmApiKey.toString().length)
     })
 
     it('The API Key is valid', async () => {
-      assert.isTrue(nvmApiKey.isValid())
+      assert.isTrue(nvmApiKey.isValid()) // we skip network validation
+      assert.isTrue(nvmApiKey.isValid(nvm.client.chain.id)) // we validate with the network we are using
+      assert.isFalse(nvmApiKey.isValid(1)) // we validate with the wrong network
     })
 
     it('The token can be encoded & decoded', async () => {
@@ -118,7 +122,7 @@ describe('Nevermined API Key', () => {
     })
 
     it('Complete flow with encryption', async () => {
-      const encryptedNvmApiKey = await NvmApiKey.generateEncrypted(
+      const encryptedNvmApiKey = await NvmApiKey.generate(
         nvm.utils.signature,
         user,
         zeroDevSessionKey,
@@ -156,7 +160,7 @@ describe('Nevermined API Key', () => {
     })
 
     it('The api token is not valid if already expired', async () => {
-      const encryptedNvmApiKey = await NvmApiKey.generateEncrypted(
+      const encryptedNvmApiKey = await NvmApiKey.generate(
         nvm.utils.signature,
         user,
         zeroDevSessionKey,
@@ -176,7 +180,7 @@ describe('Nevermined API Key', () => {
     it('The api token can no be decripted by a different account to the receiver', async () => {
       const someonePrivateKey = someone.getAccountSigner().getHdKey().privateKey
 
-      const encryptedNvmApiKey = await NvmApiKey.generateEncrypted(
+      const encryptedNvmApiKey = await NvmApiKey.generate(
         nvm.utils.signature,
         user,
         zeroDevSessionKey,
@@ -199,7 +203,7 @@ describe('Nevermined API Key', () => {
         '0x04d793eb43ef7d191bf64f127c9f1a2c9037406d72706d3be7dc564fb9a9f08f21156b32d1ee3afbe64cc9f676f6facffac1377f7804daf932d3b8aa04fdeb0630'
       const privateKey = '0x9bf5d7e4978ed5206f760e6daded34d657572bd49fa5b3fe885679329fb16b16'
 
-      encryptedNvmApiKey = await NvmApiKey.generateEncrypted(
+      encryptedNvmApiKey = await NvmApiKey.generate(
         nvm.utils.signature,
         user,
         zeroDevSessionKey,
@@ -224,7 +228,7 @@ describe('Nevermined API Key', () => {
       // We should get the private key from the node (STAGING)
       // const privateKey = '0x9bf5d7e4978ed5206f760e6daded34d657572bd49fa5b3fe885679329fb16b16'
 
-      encryptedNvmApiKey = await NvmApiKey.generateEncrypted(
+      encryptedNvmApiKey = await NvmApiKey.generate(
         nvm.utils.signature,
         user,
         zeroDevSessionKey,
@@ -238,7 +242,7 @@ describe('Nevermined API Key', () => {
     })
 
     it('I can generate 2 session keys and they are different', async () => {
-      const key1 = await NvmApiKey.generateEncrypted(
+      const key1 = await NvmApiKey.generate(
         nvm.utils.signature,
         user,
         zeroDevSessionKey,
@@ -250,7 +254,7 @@ describe('Nevermined API Key', () => {
 
       await sleep(2000)
 
-      const key2 = await NvmApiKey.generateEncrypted(
+      const key2 = await NvmApiKey.generate(
         nvm.utils.signature,
         user,
         zeroDevSessionKey,
