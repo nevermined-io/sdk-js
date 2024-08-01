@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.21](../code-reference.md) / TxParameters
+[@nevermined-io/sdk - v3.0.22](../code-reference.md) / TxParameters
 
 # Interface: TxParameters
 
@@ -23,7 +23,7 @@
 
 #### Defined in
 
-[src/models/Transactions.ts:3](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/models/Transactions.ts#L3)
+[src/models/Transactions.ts:3](https://github.com/nevermined-io/sdk-js/blob/362ec9def8e214a7107b1963f195c6d6585b9876/src/models/Transactions.ts#L3)
 
 ---
 
@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[src/models/Transactions.ts:4](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/models/Transactions.ts#L4)
+[src/models/Transactions.ts:4](https://github.com/nevermined-io/sdk-js/blob/362ec9def8e214a7107b1963f195c6d6585b9876/src/models/Transactions.ts#L4)
 
 ---
 
@@ -43,7 +43,7 @@
 
 #### Defined in
 
-[src/models/Transactions.ts:5](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/models/Transactions.ts#L5)
+[src/models/Transactions.ts:5](https://github.com/nevermined-io/sdk-js/blob/362ec9def8e214a7107b1963f195c6d6585b9876/src/models/Transactions.ts#L5)
 
 ---
 
@@ -53,7 +53,7 @@
 
 #### Defined in
 
-[src/models/Transactions.ts:7](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/models/Transactions.ts#L7)
+[src/models/Transactions.ts:7](https://github.com/nevermined-io/sdk-js/blob/362ec9def8e214a7107b1963f195c6d6585b9876/src/models/Transactions.ts#L7)
 
 ---
 
@@ -63,7 +63,7 @@
 
 #### Defined in
 
-[src/models/Transactions.ts:6](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/models/Transactions.ts#L6)
+[src/models/Transactions.ts:6](https://github.com/nevermined-io/sdk-js/blob/362ec9def8e214a7107b1963f195c6d6585b9876/src/models/Transactions.ts#L6)
 
 ---
 
@@ -73,7 +73,7 @@
 
 #### Defined in
 
-[src/models/Transactions.ts:8](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/models/Transactions.ts#L8)
+[src/models/Transactions.ts:8](https://github.com/nevermined-io/sdk-js/blob/362ec9def8e214a7107b1963f195c6d6585b9876/src/models/Transactions.ts#L8)
 
 ---
 
@@ -97,7 +97,7 @@
 
 #### Defined in
 
-[src/models/Transactions.ts:9](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/models/Transactions.ts#L9)
+[src/models/Transactions.ts:9](https://github.com/nevermined-io/sdk-js/blob/362ec9def8e214a7107b1963f195c6d6585b9876/src/models/Transactions.ts#L9)
 
 ---
 
@@ -107,4 +107,4 @@
 
 #### Defined in
 
-[src/models/Transactions.ts:2](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/models/Transactions.ts#L2)
+[src/models/Transactions.ts:2](https://github.com/nevermined-io/sdk-js/blob/362ec9def8e214a7107b1963f195c6d6585b9876/src/models/Transactions.ts#L2)

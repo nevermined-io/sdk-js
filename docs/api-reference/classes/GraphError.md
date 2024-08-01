@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.21](../code-reference.md) / GraphError
+[@nevermined-io/sdk - v3.0.22](../code-reference.md) / GraphError
 
 # Class: GraphError
 
@@ -49,7 +49,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:8](https://github.com/nevermined-io/sdk-js/blob/62acc3ce5a5465941b5118d27b5127e0bb088eae/src/errors/NeverminedErrors.ts#L8)
+[src/errors/NeverminedErrors.ts:8](https://github.com/nevermined-io/sdk-js/blob/362ec9def8e214a7107b1963f195c6d6585b9876/src/errors/NeverminedErrors.ts#L8)
 
 ## Properties
 
