@@ -7,7 +7,6 @@ import {
 } from '@zerodev/sdk'
 import {
   deserializeSessionKeyAccount,
-  oneAddress,
   serializeSessionKeyAccount,
   signerToSessionKeyValidator,
 } from '@zerodev/session-key'
@@ -37,6 +36,7 @@ import {
   keccak256 as viemKeccak256,
   parseEther as viemParseEther,
   parseUnits as viemParseUnits,
+  zeroAddress,
 } from 'viem'
 import {
   english,
@@ -590,7 +590,7 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
     entryPoint: ENTRYPOINT_ADDRESS_V06,
     signer: sessionKeySigner,
     validatorData: {
-      paymaster: oneAddress,
+      paymaster: zeroAddress,
       validAfter: 0,
       validUntil: 0,
       permissions,
