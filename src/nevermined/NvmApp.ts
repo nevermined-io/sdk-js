@@ -4,6 +4,7 @@ import { DDO } from '../ddo/DDO'
 import { Web3Error } from '../errors/NeverminedErrors'
 import { AssetPrice } from '../models/AssetPrice'
 import { NFTAttributes } from '../models/NFTAttributes'
+import { NvmApiKey } from '../models/NvmApiKey'
 import { NeverminedOptions } from '../models/NeverminedOptions'
 import { NvmAccount } from '../models/NvmAccount'
 import {
@@ -59,6 +60,11 @@ export interface SubscriptionBalance {
   balance: bigint
 }
 
+export interface NeverminedNodeInfo {
+  address: string
+  publicKey: string
+}
+
 /**
  * Represents the NvmApp class which is the main entry point for interacting with the Nevermined SDK.
  */
@@ -68,7 +74,7 @@ export class NvmApp {
   private searchSDK: Nevermined
   private fullSDK: Nevermined | undefined
   private zeroDevSignerAccount: SmartAccountSigner<'custom', `0x${string}`> | undefined
-  public assetProviders: string[] = []
+  public assetProviders: NeverminedNodeInfo[] = []
   private loginCredentials: string | undefined
   private subscriptionNFTContractTimeAddress: string | undefined
   private subscriptionNFTContractCreditsAddress: string | undefined
@@ -182,7 +188,12 @@ export class NvmApp {
     }
 
     const nodeInfo = await this.fullSDK.services.node.getNeverminedNodeInfo()
-    this.assetProviders = [nodeInfo['provider-address']]
+    this.assetProviders = [
+      {
+        address: nodeInfo['provider-address'],
+        publicKey: nodeInfo['ecdsa-public-key'],
+      },
+    ]
 
     this.subscriptionNFTContractTimeAddress = this.configNVM.nftContractTimeAddress
     this.subscriptionNFTContractCreditsAddress = this.configNVM.nftContractCreditsAddress
@@ -280,6 +291,27 @@ export class NvmApp {
   }
 
   /**
+   * It gets an encrypted Nevermined API Key that can be used to interact with the Nevermined.
+   * The generation of the API Key requires to have a ZeroDev Session Key that is given as parameter to this method.
+   * @param sessionKey - The Zero Dev Session Key.
+   * @returns A encrypted Nevermined API Key.
+   * @throws {Web3Error} If Web3 is not connected. Call the connect method first.
+   */
+  public async getEncryptedAPIKey(sessionKey: string): Promise<string> {
+    if (!this.fullSDK || !this.isWeb3Connected() || !this.userAccount)
+      throw new Web3Error('Web3 not connected, try calling the connect method first')
+
+    return NvmApiKey.generate(
+      this.fullSDK.utils.signature,
+      this.userAccount,
+      sessionKey,
+      this.getLoginCredentials() as string,
+      this.assetProviders[0].address,
+      this.assetProviders[0].publicKey,
+    )
+  }
+
+  /**
    * Creates a time-based subscription for a given asset.
    *
    * @param susbcriptionMetadata - The metadata of the subscription.
@@ -320,7 +352,7 @@ export class NvmApp {
           },
         },
       ],
-      providers: this.assetProviders,
+      providers: this.assetProviders.map((provider) => provider.address),
       nftContractAddress: this.subscriptionNFTContractTimeAddress,
       preMint: false,
     })
@@ -386,7 +418,7 @@ export class NvmApp {
           },
         },
       ],
-      providers: this.assetProviders,
+      providers: this.assetProviders.map((provider) => provider.address),
       nftContractAddress: this.subscriptionNFTContractCreditsAddress,
       preMint: false,
     })
@@ -710,7 +742,7 @@ export class NvmApp {
           },
         },
       ],
-      providers: this.assetProviders,
+      providers: this.assetProviders.map((provider) => provider.address),
       nftContractAddress,
       preMint: false,
     })
@@ -776,7 +808,7 @@ export class NvmApp {
           },
         },
       ],
-      providers: this.assetProviders,
+      providers: this.assetProviders.map((provider) => provider.address),
       nftContractAddress,
       preMint: false,
     })
