@@ -51,15 +51,40 @@ export function getERC20TransferPermissions(contractAddress: `0x${string}`) {
   ]
 }
 
+export function getBurnNFTPermissions(nftContractAddress: `0x${string}`) {
+  return [
+    {
+      target: nftContractAddress,
+      abi: parseAbi(['function burn(address _1, uint256 _2, uint256 _3) public']),
+      functionName: 'burn',
+    },
+  ]
+}
+
+export function getMintNFTPermissions(nftContractAddress: `0x${string}`) {
+  return [
+    {
+      target: nftContractAddress,
+      abi: parseAbi(['function mint(address _1, uint256 _2, uint256 amount_3, bytes memory _4)']),
+      functionName: 'mint',
+    },
+  ]
+}
+
 export function getFullZeroDevPermissions(
   didRegistryAddress: `0x${string}`,
   salesTemplateAddress: `0x${string}`,
   erc20Address: `0x${string}`,
+  nft1155CreditsAddress: `0x${string}`,
+  nft1155TimeAddress: `0x${string}`,
 ) {
   return [
     ...getRegisterAssetPermissions(didRegistryAddress),
     ...getOrderPermissions(salesTemplateAddress),
     ...getERC20ApprovePermissions(erc20Address),
-    ...getERC20TransferPermissions(erc20Address),
+    ...getMintNFTPermissions(nft1155CreditsAddress),
+    ...getBurnNFTPermissions(nft1155CreditsAddress),
+    ...getMintNFTPermissions(nft1155TimeAddress),
+    ...getBurnNFTPermissions(nft1155TimeAddress),
   ]
 }
