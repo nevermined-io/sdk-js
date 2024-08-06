@@ -311,6 +311,12 @@ export class NvmApp {
     )
   }
 
+  public getProviderAddresses(): string[] {
+    return this.assetProviders
+      .filter((provider) => isValidAddress(provider.address))
+      .map((provider) => provider.address)
+  }
+
   /**
    * Creates a time-based subscription for a given asset.
    *
@@ -352,7 +358,7 @@ export class NvmApp {
           },
         },
       ],
-      providers: this.assetProviders.map((provider) => provider.address),
+      providers: this.getProviderAddresses(),
       nftContractAddress: this.subscriptionNFTContractTimeAddress,
       preMint: false,
     })
@@ -418,7 +424,7 @@ export class NvmApp {
           },
         },
       ],
-      providers: this.assetProviders.map((provider) => provider.address),
+      providers: this.getProviderAddresses(),
       nftContractAddress: this.subscriptionNFTContractCreditsAddress,
       preMint: false,
     })
@@ -742,7 +748,7 @@ export class NvmApp {
           },
         },
       ],
-      providers: this.assetProviders.map((provider) => provider.address),
+      providers: this.getProviderAddresses(),
       nftContractAddress,
       preMint: false,
     })
@@ -808,7 +814,7 @@ export class NvmApp {
           },
         },
       ],
-      providers: this.assetProviders.map((provider) => provider.address),
+      providers: this.getProviderAddresses(),
       nftContractAddress,
       preMint: false,
     })
