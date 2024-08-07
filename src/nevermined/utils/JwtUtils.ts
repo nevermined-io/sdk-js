@@ -1,12 +1,12 @@
+import { deflateSync, inflateSync } from 'fflate'
 import { JWSHeaderParameters, SignJWT, decodeJwt, importJWK } from 'jose'
 import { Account, Hash, LocalAccount, hexToBytes, toHex } from 'viem'
+import { urlSafeBase64Decode, urlSafeBase64Encode } from '../../common/helpers'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { NvmAccount } from '../../models/NvmAccount'
 import { getChecksumAddress } from '../../nevermined/utils/BlockchainViemUtils'
 import { SignatureUtils } from '../../nevermined/utils/SignatureUtils'
 import { Babysig, Eip712Data } from '../../types/GeneralTypes'
-import { deflateSync, inflateSync } from 'fflate'
-import { urlSafeBase64Decode, urlSafeBase64Encode } from '../../common/helpers'
 
 export class EthSignJWT extends SignJWT {
   protectedHeader: JWSHeaderParameters
@@ -63,14 +63,12 @@ export class EthSignJWT extends SignJWT {
     } else {
       sign = await signatureUtils.signText(decoder.decode(data), account)
     }
-
     const input = hexToBytes(sign)
 
     const signed = this.base64url(input)
     const grantToken = `${decoder.decode(encodedHeader)}.${decoder.decode(
       encodedPayload,
     )}.${signed}`
-
     return grantToken
   }
 
@@ -329,6 +327,7 @@ export class JwtUtils extends Instantiable {
     account: NvmAccount,
     buyer?: string,
     babysig?: Babysig,
+    nvmApiKey?: string,
   ): Promise<string> {
     const cacheKey = this.generateCacheKey(agreementId, account.getId(), did)
 
@@ -341,10 +340,14 @@ export class JwtUtils extends Instantiable {
         buyer,
         babysig,
       )
-      const accessToken = await this.nevermined.services.node.fetchToken(grantToken, 1)
+
+      const accessToken =
+        account.getType() === 'sessionKey'
+          ? await this.nevermined.services.node.fetchToken(grantToken, 1, nvmApiKey)
+          : await this.nevermined.services.node.fetchToken(grantToken, 1)
+
       // TODO: enable the cache back when this issue is fixed in the Node: https://github.com/nevermined-io/node/issues/225
       // this.tokenCache.set(cacheKey, accessToken)
-
       return accessToken
     } else {
       return this.nevermined.utils.jwt.tokenCache.get(cacheKey) as string

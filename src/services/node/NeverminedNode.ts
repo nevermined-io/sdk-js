@@ -1,11 +1,11 @@
-import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { ReadStream } from 'fs'
+import { DDO } from '../../ddo/DDO'
+import { HttpError, NeverminedNodeError } from '../../errors/NeverminedErrors'
+import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
+import { NvmAccount } from '../../models/NvmAccount'
+import { ImmutableBackends, MetaDataExternalResource, ServiceType } from '../../types/DDOTypes'
 import { Babysig, ERCType } from '../../types/GeneralTypes'
 import { PublishMetadataOptions } from '../../types/MetadataTypes'
-import { ImmutableBackends, MetaDataExternalResource, ServiceType } from '../../types/DDOTypes'
-import { HttpError, NeverminedNodeError } from '../../errors/NeverminedErrors'
-import { DDO } from '../../ddo/DDO'
-import { NvmAccount } from '../../models/NvmAccount'
 import { noZeroX } from '../../utils/ConversionTypeHelpers'
 
 const apiPath = '/api/v1/node/services'
@@ -83,6 +83,10 @@ export class NeverminedNode extends Instantiable {
 
   public getFetchTokenEndpoint() {
     return `${this.url}${apiPath}/oauth/token`
+  }
+
+  public getFetchTokenWithNvmApiKeyEndpoint() {
+    return `${this.url}${apiPath}/oauth/nvmApiKey`
   }
 
   public getUploadFilecoinEndpoint() {
@@ -425,11 +429,17 @@ export class NeverminedNode extends Instantiable {
     }
   }
 
-  public async fetchToken(grantToken: string, numberTries = 3): Promise<string> {
+  public async fetchToken(
+    grantToken: string,
+    numberTries = 3,
+    nvmApiKey?: string,
+  ): Promise<string> {
+    const url = nvmApiKey ? this.getFetchTokenWithNvmApiKeyEndpoint() : this.getFetchTokenEndpoint()
     const response = await this.nevermined.utils.fetch.fetchToken(
-      this.getFetchTokenEndpoint(),
+      url,
       grantToken,
       numberTries,
+      nvmApiKey,
     )
 
     if (!response.ok) {

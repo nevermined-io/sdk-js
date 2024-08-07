@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "3.0.22",
+  "version": "3.0.23",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -14,7 +14,7 @@
     "jest:test": "jest --no-cache --coverage --rootDir test -w 1 ",
     "test": "mocha --config test/.mocharc.json ",
     "test:all": "mocha --config test/.mocharc.json ./test/**/*.test.ts",
-    "integration": "export NETWORK_NAME=geth-localnet ;mocha --config integration/.mocharc.json  ",
+    "integration": "export NETWORK_NAME=${NETWORK_NAME} ;mocha --config integration/.mocharc.json  ",
     "integration:all": "export NETWORK_NAME=geth-localnet;mocha --config integration/.mocharc.json  ./integration/nevermined/*.test.ts",
     "integration:subgraph": "mocha --config integration/.mocharc.json ./integration/**/*.test.subgraph.ts",
     "integration:aave": "mocha --config aave_integration/.mocharc.json ./aave_integration/**/*.test.ts",
