@@ -768,7 +768,11 @@ export class DDO {
    * @param value the new value
    * @returns the DDO with the replaced attribute
    */
-  public static findAndReplaceDDOAttribute(ddo: DDO, paramName: string, value: string): DDO {
+  public static findAndReplaceDDOAttribute(
+    ddo: DDO,
+    paramName: string | RegExp,
+    value: string,
+  ): DDO {
     return DDO.deserialize(DDO.serialize(ddo).replaceAll(paramName, value))
   }
 }

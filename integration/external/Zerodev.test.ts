@@ -4,7 +4,7 @@ import { assert } from 'chai'
 import { ethers } from 'ethers'
 import * as fs from 'fs'
 import { decodeJwt } from 'jose'
-import { createPublicClient, http, parseAbi } from 'viem'
+import { createPublicClient, http } from 'viem'
 import { arbitrumSepolia } from 'viem/chains'
 import {
   AssetAttributes,
@@ -29,6 +29,7 @@ import {
 } from '../../src/nevermined/utils/BlockchainViemUtils'
 import { config } from '../config'
 import { getMetadata } from '../utils'
+import { getFullZeroDevPermissions } from '../../src/nevermined/resources/ZeroDevPermissions'
 
 describe('Nevermined sdk with zerodev', () => {
   let nevermined: Nevermined
@@ -283,41 +284,11 @@ describe('Nevermined sdk with zerodev', () => {
     const consumer = makeRandomWallet()
 
     it('should generate a session key', async () => {
-      const permissions = [
-        {
-          target: contractAddress,
-          abi: parseAbi([
-            'function registerMintableDID(bytes32 _didSeed, address _nftContractAddress, bytes32 _checksum, address[] memory _providers, string memory _url, uint256 _cap, uint256 _royalties, bool _mint, bytes32 _activityId, string memory _nftMetadata, string memory _immutableUrl) public',
-          ]),
-          functionName: 'registerMintableDID',
-        },
-        {
-          target: contractAddress,
-          abi: parseAbi([
-            'function registerMintableDID(bytes32 _didSeed,address _nftContractAddress,bytes32 _checksum,address[] memory _providers,string memory _url,uint256 _cap,uint256 _royalties,bytes32 _activityId,string memory _nftMetadata,string memory _immutableUrl) public',
-          ]),
-          functionName: 'registerMintableDID',
-        },
-        {
-          target: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d' as `0x${string}`,
-          abi: parseAbi([
-            'function approve(address spender, uint256 amount) external returns (bool)',
-          ]),
-          functionName: 'approve',
-        },
-        {
-          target: '0x1c52ed414EDd1bCC20Ea670d42289e8bFC03C095',
-          abi: parseAbi([
-            'function createAgreementAndPayEscrow(bytes32 _id, bytes32 _did, bytes32[] _conditionIds, uint256[] _timeLocks, uint256[] _timeOuts, address _accessConsumer, uint256 _idx, address _rewardAddress, address _tokenAddress, uint256[] _amounts, address[] _receivers) public',
-          ]),
-          functionName: 'createAgreementAndPayEscrow',
-        },
-        {
-          target: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d' as `0x${string}`,
-          abi: parseAbi(['function transfer(address to, uint amount) returns (bool)']),
-          functionName: 'transfer',
-        },
-      ]
+      const permissions = getFullZeroDevPermissions(
+        contractAddress, // DIDRegistry address
+        '0x1c52ed414EDd1bCC20Ea670d42289e8bFC03C095', // Sales Template address
+        '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d', // ERC20 address
+      )
       const sessionKey = await createSessionKey(owner, publicClient, permissions)
       assert.isDefined(sessionKey)
 

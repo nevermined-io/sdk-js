@@ -126,6 +126,7 @@ export abstract class RegistryBaseApi extends Instantiable {
       const didSeed = await ddo.generateDidSeed(ddo.proof.checksum)
       await ddo.assignDid(didSeed, didRegistry, from)
       ddo = DDO.findAndReplaceDDOAttribute(ddo, '{DID}', ddo.shortId())
+      assetAttributes.metadata.main = ddo.findServiceByReference('metadata').attributes.main
 
       // TODO: Evaluate if we need to add the signature to the DDO
       // Removing it would save a wallet interaction during asset creation

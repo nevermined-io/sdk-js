@@ -24,6 +24,7 @@ import ddoWorkflow from '../resources/ddo-workflow.json'
 import ddoCompute from '../resources/ddo-compute.json'
 import { generateId } from '../../src/common/helpers'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
+import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
 
 chai.use(chaiExclude)
 
@@ -428,5 +429,55 @@ describe('DDO Tests', () => {
         'templateId',
       ] as any,
     )
+  })
+
+  it('should create correct nevermined service DDO', async () => {
+    const metadata = NvmAppMetadata.getServiceMetadataTemplate(
+      'Nevermined Service Metadata TEST',
+      'Nevermined',
+      [{ POST: `http://localhost/did:nv:{DID}/search` }, { POST: `http://localhost/api/(.*)` }],
+      [],
+      `http://localhost/api-json`,
+      'RESTful',
+      'bearer',
+      '1234',
+    )
+    const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
+      metadata,
+      services: [
+        {
+          serviceType: 'nft-access',
+          nft: {
+            tokenId: 'tokenId',
+            duration: 0, // Doesnt expire
+            amount: 1n,
+            maxCreditsToCharge: 2n,
+            minCreditsToCharge: 1n,
+            nftTransfer: false,
+          },
+        },
+      ],
+      providers: [config.neverminedNodeAddress],
+      nftContractAddress: nevermined.nfts1155.nftContract.address,
+      preMint: false,
+    })
+
+    const ddo = await nevermined.nfts1155.create(nftAttributes, publisher)
+
+    console.log(ddo.id)
+    assert.isDefined(ddo)
+
+    assert.isDefined(ddo.findServiceByReference('metadata').attributes.main.webService.endpoints)
+    const endpoints = ddo.findServiceByReference('metadata').attributes.main.webService.endpoints
+
+    assert.isTrue(JSON.stringify(endpoints).includes(ddo.id))
+
+    assert.isTrue(ddo.serviceExists('metadata'))
+    assert.isTrue(ddo.serviceExists('nft-access'))
+    assert.isFalse(ddo.serviceExists('compute'))
+
+    assert.isTrue(ddo.serviceIndexExists(0)) // metadata
+    assert.isTrue(ddo.serviceIndexExists(2)) // nft-access
+    assert.isFalse(ddo.serviceIndexExists(99))
   })
 })
