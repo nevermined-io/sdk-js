@@ -48,7 +48,6 @@ if (process.env.NETWORK_NAME === 'geth-localnet') {
 if (process.env.SEED_WORDS) {
   const wallets = makeWallets(process.env.SEED_WORDS)
   config.accounts = wallets.map((wallet) => {
-    //const a = new NvmAccount(wallet.address)
     const a = NvmAccount.fromAccount(wallet)
     const signer = a.getAccountSigner() as Account
     LoggerInstance.debug(`Account loaded with address ${a.getAddress()} and type: ${signer.type}`)
