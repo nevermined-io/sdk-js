@@ -1,12 +1,12 @@
-import { BodyInit, RequestInit, Response } from 'node-fetch'
-import fs, { ReadStream } from 'fs'
-import { InstantiableConfig } from '../../Instantiable.abstract'
 import FormData from 'form-data'
-import * as path from 'path'
+import fs, { ReadStream } from 'fs'
 import fileDownload from 'js-file-download'
+import { BodyInit, RequestInit, Response } from 'node-fetch'
+import * as path from 'path'
 import { URL } from 'whatwg-url'
-import { JwtUtils } from '../../nevermined/utils/JwtUtils'
 import { HttpError } from '../../errors/NeverminedErrors'
+import { InstantiableConfig } from '../../Instantiable.abstract'
+import { JwtUtils } from '../../nevermined/utils/JwtUtils'
 
 let fetch
 if (typeof window !== 'undefined') {
@@ -162,14 +162,26 @@ export class WebServiceConnector {
     return this.fetch(url, { method: 'POST', body: form })
   }
 
-  public async fetchToken(url: string, grantToken: string, numberTries = 1): Promise<Response> {
+  public async fetchToken(
+    url: string,
+    grantToken: string,
+    numberTries = 1,
+    nvmApiKey?: string,
+  ): Promise<Response> {
+    const bodyParams = new URLSearchParams({
+      client_assertion_type: JwtUtils.CLIENT_ASSERTION_TYPE,
+      client_assertion: grantToken,
+    })
+
+    if (nvmApiKey) {
+      bodyParams.append('nevermined_api_key', nvmApiKey)
+    }
+
     return await fetch(
       url,
       {
         method: 'POST',
-        body: `client_assertion_type=${encodeURI(
-          JwtUtils.CLIENT_ASSERTION_TYPE,
-        )}&client_assertion=${encodeURI(grantToken)}`,
+        body: bodyParams.toString(),
         headers: {
           'Content-type': 'application/x-www-form-urlencoded',
         },
