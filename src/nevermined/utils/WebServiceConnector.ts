@@ -166,15 +166,15 @@ export class WebServiceConnector {
     url: string,
     grantToken: string,
     numberTries = 1,
-    nvmApiKey?: string,
+    apiKeyHash?: string,
   ): Promise<Response> {
     const bodyParams = new URLSearchParams({
       client_assertion_type: JwtUtils.CLIENT_ASSERTION_TYPE,
       client_assertion: grantToken,
     })
 
-    if (nvmApiKey) {
-      bodyParams.append('nevermined_api_key', nvmApiKey)
+    if (apiKeyHash) {
+      bodyParams.append('nvm_key_hash', apiKeyHash)
     }
 
     return await fetch(
