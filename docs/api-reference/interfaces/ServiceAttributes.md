@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23-rc0](../code-reference.md) / ServiceAttributes
+[@nevermined-io/sdk - v3.0.23](../code-reference.md) / ServiceAttributes
 
 # Interface: ServiceAttributes
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:667](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L667)
+[src/types/DDOTypes.ts:667](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L667)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:666](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L666)
+[src/types/DDOTypes.ts:666](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L666)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:665](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L665)
+[src/types/DDOTypes.ts:665](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L665)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:664](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L664)
+[src/types/DDOTypes.ts:664](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L664)

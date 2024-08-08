@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23-rc0](../code-reference.md) / ERCType
+[@nevermined-io/sdk - v3.0.23](../code-reference.md) / ERCType
 
 # Enumeration: ERCType
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:16](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/GeneralTypes.ts#L16)
+[src/types/GeneralTypes.ts:16](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/GeneralTypes.ts#L16)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:15](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/GeneralTypes.ts#L15)
+[src/types/GeneralTypes.ts:15](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/GeneralTypes.ts#L15)

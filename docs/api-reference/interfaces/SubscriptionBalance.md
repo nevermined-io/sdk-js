@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23-rc0](../code-reference.md) / SubscriptionBalance
+[@nevermined-io/sdk - v3.0.23](../code-reference.md) / SubscriptionBalance
 
 # Interface: SubscriptionBalance
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:60](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/nevermined/NvmApp.ts#L60)
+[src/nevermined/NvmApp.ts:60](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/NvmApp.ts#L60)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:58](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/nevermined/NvmApp.ts#L58)
+[src/nevermined/NvmApp.ts:58](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/NvmApp.ts#L58)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:59](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/nevermined/NvmApp.ts#L59)
+[src/nevermined/NvmApp.ts:59](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/NvmApp.ts#L59)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:57](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/nevermined/NvmApp.ts#L57)
+[src/nevermined/NvmApp.ts:57](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/NvmApp.ts#L57)
