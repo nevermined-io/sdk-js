@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23-rc0](../code-reference.md) / ServiceAuthorization
+[@nevermined-io/sdk - v3.0.23](../code-reference.md) / ServiceAuthorization
 
 # Interface: ServiceAuthorization
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:639](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L639)
+[src/types/DDOTypes.ts:639](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L639)
 
 ---
 
@@ -45,7 +45,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L636)
+[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L636)
 
 ---
 
@@ -55,7 +55,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:672](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L672)
+[src/types/DDOTypes.ts:672](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L672)
 
 ---
 
@@ -69,7 +69,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L637)
+[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L637)
 
 ---
 
@@ -83,7 +83,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:638](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L638)
+[src/types/DDOTypes.ts:638](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L638)
 
 ---
 
@@ -97,4 +97,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:671](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L671)
+[src/types/DDOTypes.ts:671](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L671)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23-rc0](../code-reference.md) / Web3Error
+[@nevermined-io/sdk - v3.0.23](../code-reference.md) / Web3Error
 
 # Class: Web3Error
 
@@ -49,7 +49,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:26](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/errors/NeverminedErrors.ts#L26)
+[src/errors/NeverminedErrors.ts:26](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/errors/NeverminedErrors.ts#L26)
 
 ## Properties
 

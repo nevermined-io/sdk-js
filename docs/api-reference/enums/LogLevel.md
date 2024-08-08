@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23-rc0](../code-reference.md) / LogLevel
+[@nevermined-io/sdk - v3.0.23](../code-reference.md) / LogLevel
 
 # Enumeration: LogLevel
 
@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[src/models/Logger.ts:3](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/models/Logger.ts#L3)
+[src/models/Logger.ts:3](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/Logger.ts#L3)
 
 ---
 
@@ -30,7 +30,7 @@
 
 #### Defined in
 
-[src/models/Logger.ts:5](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/models/Logger.ts#L5)
+[src/models/Logger.ts:5](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/Logger.ts#L5)
 
 ---
 
@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[src/models/Logger.ts:2](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/models/Logger.ts#L2)
+[src/models/Logger.ts:2](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/Logger.ts#L2)
 
 ---
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/models/Logger.ts:6](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/models/Logger.ts#L6)
+[src/models/Logger.ts:6](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/Logger.ts#L6)
 
 ---
 
@@ -60,4 +60,4 @@
 
 #### Defined in
 
-[src/models/Logger.ts:4](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/models/Logger.ts#L4)
+[src/models/Logger.ts:4](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/Logger.ts#L4)

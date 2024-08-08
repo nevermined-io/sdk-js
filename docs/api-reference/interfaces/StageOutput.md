@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23-rc0](../code-reference.md) / StageOutput
+[@nevermined-io/sdk - v3.0.23](../code-reference.md) / StageOutput
 
 # Interface: StageOutput
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:49](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L49)
+[src/types/DDOTypes.ts:49](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L49)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:50](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L50)
+[src/types/DDOTypes.ts:50](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L50)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:48](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/types/DDOTypes.ts#L48)
+[src/types/DDOTypes.ts:48](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L48)

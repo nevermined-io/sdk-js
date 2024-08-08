@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23-rc0](../code-reference.md) / AgreementPrepareResult
+[@nevermined-io/sdk - v3.0.23](../code-reference.md) / AgreementPrepareResult
 
 # Interface: AgreementPrepareResult
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:10](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/nevermined/api/AgreementsApi.ts#L10)
+[src/nevermined/api/AgreementsApi.ts:10](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/api/AgreementsApi.ts#L10)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/nevermined/api/AgreementsApi.ts:11](https://github.com/nevermined-io/sdk-js/blob/0917aa7cdaec3f72007eb6710fe0bd1232cfb930/src/nevermined/api/AgreementsApi.ts#L11)
+[src/nevermined/api/AgreementsApi.ts:11](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/api/AgreementsApi.ts#L11)
