@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23](../code-reference.md) / ServiceNFTAccess
+[@nevermined-io/sdk - v3.0.24](../code-reference.md) / ServiceNFTAccess
 
 # Interface: ServiceNFTAccess
 
@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:721](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L721)
+[src/types/DDOTypes.ts:721](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L721)
 
 ---
 
@@ -60,7 +60,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L636)
+[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L636)
 
 ---
 
@@ -74,7 +74,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L637)
+[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L637)
 
 ---
 
@@ -88,7 +88,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:720](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L720)
+[src/types/DDOTypes.ts:720](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L720)
 
 ---
 
@@ -102,4 +102,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:719](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/types/DDOTypes.ts#L719)
+[src/types/DDOTypes.ts:719](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L719)

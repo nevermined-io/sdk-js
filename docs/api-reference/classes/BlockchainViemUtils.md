@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23](../code-reference.md) / BlockchainViemUtils
+[@nevermined-io/sdk - v3.0.24](../code-reference.md) / BlockchainViemUtils
 
 # Class: BlockchainViemUtils
 
@@ -62,7 +62,7 @@ This class uses Viem library to interact with the blockchain.
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:60](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/utils/BlockchainViemUtils.ts#L60)
+[src/nevermined/utils/BlockchainViemUtils.ts:60](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L60)
 
 ## Accessors
 
@@ -80,7 +80,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L137)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -98,7 +98,7 @@ Instantiable.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L141)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -116,7 +116,7 @@ Instantiable.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L89)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -134,7 +134,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L120)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -152,7 +152,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -170,7 +170,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L113)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -188,7 +188,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L128)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -206,7 +206,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L81)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -288,7 +288,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L97)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -339,7 +339,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -363,7 +363,7 @@ true if the contract exists.
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:131](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/utils/BlockchainViemUtils.ts#L131)
+[src/nevermined/utils/BlockchainViemUtils.ts:131](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L131)
 
 ---
 
@@ -392,7 +392,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:72](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/utils/BlockchainViemUtils.ts#L72)
+[src/nevermined/utils/BlockchainViemUtils.ts:72](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L72)
 
 ---
 
@@ -418,7 +418,7 @@ the transaction receipt
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:103](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/utils/BlockchainViemUtils.ts#L103)
+[src/nevermined/utils/BlockchainViemUtils.ts:103](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L103)
 
 ---
 
@@ -443,7 +443,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:86](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/nevermined/utils/BlockchainViemUtils.ts#L86)
+[src/nevermined/utils/BlockchainViemUtils.ts:86](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L86)
 
 ---
 
@@ -467,7 +467,7 @@ a contract instance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L163)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -491,7 +491,7 @@ a contract instance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L150)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -522,4 +522,4 @@ a contract instance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/Instantiable.abstract.ts#L154)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L154)

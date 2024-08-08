@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.23](../code-reference.md) / NvmAccount
+[@nevermined-io/sdk - v3.0.24](../code-reference.md) / NvmAccount
 
 # Class: NvmAccount
 
@@ -60,7 +60,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:86](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L86)
+[src/models/NvmAccount.ts:86](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L86)
 
 ## Properties
 
@@ -70,7 +70,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:15](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L15)
+[src/models/NvmAccount.ts:15](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L15)
 
 ---
 
@@ -80,7 +80,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:23](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L23)
+[src/models/NvmAccount.ts:23](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L23)
 
 ---
 
@@ -90,7 +90,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:14](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L14)
+[src/models/NvmAccount.ts:14](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L14)
 
 ---
 
@@ -100,7 +100,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:12](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L12)
+[src/models/NvmAccount.ts:12](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L12)
 
 ---
 
@@ -110,7 +110,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:13](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L13)
+[src/models/NvmAccount.ts:13](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L13)
 
 ---
 
@@ -120,7 +120,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:87](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L87)
+[src/models/NvmAccount.ts:87](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L87)
 
 ---
 
@@ -130,7 +130,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:16](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L16)
+[src/models/NvmAccount.ts:16](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L16)
 
 ---
 
@@ -140,7 +140,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:11](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L11)
+[src/models/NvmAccount.ts:11](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L11)
 
 ---
 
@@ -150,7 +150,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:22](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L22)
+[src/models/NvmAccount.ts:22](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L22)
 
 ## Methods
 
@@ -164,7 +164,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:94](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L94)
+[src/models/NvmAccount.ts:94](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L94)
 
 ---
 
@@ -178,7 +178,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:113](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L113)
+[src/models/NvmAccount.ts:113](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L113)
 
 ---
 
@@ -192,7 +192,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:117](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L117)
+[src/models/NvmAccount.ts:117](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L117)
 
 ---
 
@@ -206,7 +206,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:98](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L98)
+[src/models/NvmAccount.ts:98](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L98)
 
 ---
 
@@ -224,7 +224,7 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:153](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L153)
+[src/models/NvmAccount.ts:153](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L153)
 
 ---
 
@@ -238,7 +238,7 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:125](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L125)
+[src/models/NvmAccount.ts:125](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L125)
 
 ---
 
@@ -252,7 +252,7 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:102](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L102)
+[src/models/NvmAccount.ts:102](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L102)
 
 ---
 
@@ -266,7 +266,7 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:105](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L105)
+[src/models/NvmAccount.ts:105](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L105)
 
 ---
 
@@ -280,7 +280,7 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:109](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L109)
+[src/models/NvmAccount.ts:109](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L109)
 
 ---
 
@@ -300,7 +300,7 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:121](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L121)
+[src/models/NvmAccount.ts:121](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L121)
 
 ---
 
@@ -322,7 +322,7 @@ Set account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:145](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L145)
+[src/models/NvmAccount.ts:145](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L145)
 
 ---
 
@@ -342,7 +342,7 @@ Set account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:129](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L129)
+[src/models/NvmAccount.ts:129](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L129)
 
 ---
 
@@ -366,7 +366,7 @@ The nevermined account
 
 #### Defined in
 
-[src/models/NvmAccount.ts:31](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L31)
+[src/models/NvmAccount.ts:31](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L31)
 
 ---
 
@@ -390,7 +390,7 @@ The nevermined account
 
 #### Defined in
 
-[src/models/NvmAccount.ts:44](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L44)
+[src/models/NvmAccount.ts:44](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L44)
 
 ---
 
@@ -410,7 +410,7 @@ The nevermined account
 
 #### Defined in
 
-[src/models/NvmAccount.ts:71](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L71)
+[src/models/NvmAccount.ts:71](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L71)
 
 ---
 
@@ -434,4 +434,4 @@ The nevermined account
 
 #### Defined in
 
-[src/models/NvmAccount.ts:56](https://github.com/nevermined-io/sdk-js/blob/1cda883adfb801658f47efa6d7c6cc8f9f8998da/src/models/NvmAccount.ts#L56)
+[src/models/NvmAccount.ts:56](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NvmAccount.ts#L56)
