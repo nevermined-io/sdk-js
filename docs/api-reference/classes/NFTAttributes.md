@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.24](../code-reference.md) / NFTAttributes
+[@nevermined-io/sdk - v3.0.25](../code-reference.md) / NFTAttributes
 
 # Class: NFTAttributes
 
@@ -73,7 +73,7 @@ That asset association typically helps to search and filter between assets part 
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:48](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/AssetAttributes.ts#L48)
+[src/models/AssetAttributes.ts:48](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/AssetAttributes.ts#L48)
 
 ---
 
@@ -85,7 +85,7 @@ Max number of nfts that can be minted, 0 means uncapped
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:213](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L213)
+[src/models/NFTAttributes.ts:213](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L213)
 
 ---
 
@@ -106,7 +106,7 @@ This method allows to specify the encryption method to be used.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:21](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/AssetAttributes.ts#L21)
+[src/models/AssetAttributes.ts:21](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/AssetAttributes.ts#L21)
 
 ---
 
@@ -123,7 +123,7 @@ The type of ERC used (721 or 1155)
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:176](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L176)
+[src/models/NFTAttributes.ts:176](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L176)
 
 ---
 
@@ -144,7 +144,7 @@ This would allow to create an agreement that can not fulfilled until certain per
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:68](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/AssetAttributes.ts#L68)
+[src/models/AssetAttributes.ts:68](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/AssetAttributes.ts#L68)
 
 ---
 
@@ -165,7 +165,7 @@ This would allow to create an agreement that is not fulfilled after a certain pe
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:58](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/AssetAttributes.ts#L58)
+[src/models/AssetAttributes.ts:58](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/AssetAttributes.ts#L58)
 
 ---
 
@@ -185,7 +185,7 @@ Metadata describing the asset
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:14](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/AssetAttributes.ts#L14)
+[src/models/AssetAttributes.ts:14](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/AssetAttributes.ts#L14)
 
 ---
 
@@ -197,7 +197,7 @@ Attributes related with the NFT service (access or sales)
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:193](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L193)
+[src/models/NFTAttributes.ts:193](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L193)
 
 ---
 
@@ -209,7 +209,7 @@ The address of the deployed NFT Contract
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:188](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L188)
+[src/models/NFTAttributes.ts:188](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L188)
 
 ---
 
@@ -221,7 +221,7 @@ URL to the metadata definition of the NFT contract
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:208](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L208)
+[src/models/NFTAttributes.ts:208](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L208)
 
 ---
 
@@ -235,7 +235,7 @@ This attribute allow to specify between the different Nevermined NFT types
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:183](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L183)
+[src/models/NFTAttributes.ts:183](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L183)
 
 ---
 
@@ -247,7 +247,7 @@ If the asset is pre-minted
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:203](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L203)
+[src/models/NFTAttributes.ts:203](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L203)
 
 ---
 
@@ -267,7 +267,7 @@ List of additional asset services to be included as part of an asset
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:33](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/AssetAttributes.ts#L33)
+[src/models/AssetAttributes.ts:33](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/AssetAttributes.ts#L33)
 
 ---
 
@@ -287,7 +287,7 @@ Typically just the address of one Nevermined Node trusted by the user.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:42](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/AssetAttributes.ts#L42)
+[src/models/AssetAttributes.ts:42](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/AssetAttributes.ts#L42)
 
 ---
 
@@ -299,7 +299,7 @@ Attributes describing the royalties attached to the NFT in the secondary market
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:198](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L198)
+[src/models/NFTAttributes.ts:198](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L198)
 
 ---
 
@@ -319,7 +319,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:27](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/AssetAttributes.ts#L27)
+[src/models/AssetAttributes.ts:27](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/AssetAttributes.ts#L27)
 
 ---
 
@@ -359,7 +359,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:215](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L215)
+[src/models/NFTAttributes.ts:215](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L215)
 
 ## Methods
 
@@ -379,7 +379,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:246](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L246)
+[src/models/NFTAttributes.ts:246](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L246)
 
 ---
 
@@ -403,7 +403,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:224](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L224)
+[src/models/NFTAttributes.ts:224](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L224)
 
 ---
 
@@ -423,7 +423,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:235](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L235)
+[src/models/NFTAttributes.ts:235](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L235)
 
 ---
 
@@ -443,7 +443,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:263](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L263)
+[src/models/NFTAttributes.ts:263](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L263)
 
 ---
 
@@ -463,7 +463,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:289](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L289)
+[src/models/NFTAttributes.ts:289](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L289)
 
 ---
 
@@ -483,7 +483,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:301](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L301)
+[src/models/NFTAttributes.ts:301](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L301)
 
 ---
 
@@ -503,4 +503,4 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/NFTAttributes.ts:274](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/NFTAttributes.ts#L274)
+[src/models/NFTAttributes.ts:274](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/NFTAttributes.ts#L274)

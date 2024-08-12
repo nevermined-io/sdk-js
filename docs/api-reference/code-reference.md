@@ -1,6 +1,6 @@
 @nevermined-io/sdk
 
-# @nevermined-io/sdk - v3.0.24
+# @nevermined-io/sdk - v3.0.25
 
 ## Table of contents
 
@@ -298,15 +298,22 @@
 - [formatUnits](code-reference.md#formatunits)
 - [generateId](code-reference.md#generateid)
 - [generateInstantiableConfigFromConfig](code-reference.md#generateinstantiableconfigfromconfig)
+- [getBurnNFTPermissions](code-reference.md#getburnnftpermissions)
 - [getBytes](code-reference.md#getbytes)
 - [getChain](code-reference.md#getchain)
 - [getChecksumAddress](code-reference.md#getchecksumaddress)
 - [getCircularReplacer](code-reference.md#getcircularreplacer)
 - [getConditionsByParams](code-reference.md#getconditionsbyparams)
 - [getContractInstance](code-reference.md#getcontractinstance)
+- [getERC20ApprovePermissions](code-reference.md#geterc20approvepermissions)
+- [getERC20TransferPermissions](code-reference.md#geterc20transferpermissions)
+- [getFullZeroDevPermissions](code-reference.md#getfullzerodevpermissions)
 - [getInputsOfFunction](code-reference.md#getinputsoffunction)
 - [getInputsOfFunctionFormatted](code-reference.md#getinputsoffunctionformatted)
+- [getMintNFTPermissions](code-reference.md#getmintnftpermissions)
 - [getNetworkName](code-reference.md#getnetworkname)
+- [getOrderPermissions](code-reference.md#getorderpermissions)
+- [getRegisterAssetPermissions](code-reference.md#getregisterassetpermissions)
 - [getRoyaltyAttributes](code-reference.md#getroyaltyattributes)
 - [getRoyaltyScheme](code-reference.md#getroyaltyscheme)
 - [getSessionKey](code-reference.md#getsessionkey)
@@ -350,7 +357,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/ContractTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/ContractTypes.ts#L10)
+[src/types/ContractTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/ContractTypes.ts#L10)
 
 ---
 
@@ -360,7 +367,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:606](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L606)
+[src/types/DDOTypes.ts:606](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/DDOTypes.ts#L606)
 
 ---
 
@@ -370,7 +377,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:4](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/constants/AssetConstants.ts#L4)
+[src/constants/AssetConstants.ts:4](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/constants/AssetConstants.ts#L4)
 
 ---
 
@@ -380,7 +387,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/EventTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/EventTypes.ts#L25)
+[src/types/EventTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/EventTypes.ts#L25)
 
 ---
 
@@ -390,7 +397,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:31](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/GeneralTypes.ts#L31)
+[src/types/GeneralTypes.ts:31](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/GeneralTypes.ts#L31)
 
 ---
 
@@ -400,7 +407,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:23](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L23)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:23](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L23)
 
 ---
 
@@ -420,7 +427,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:644](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L644)
+[src/types/DDOTypes.ts:644](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/DDOTypes.ts#L644)
 
 ---
 
@@ -436,7 +443,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:80](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/keeper/contracts/Provenance.ts#L80)
+[src/keeper/contracts/Provenance.ts:80](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/keeper/contracts/Provenance.ts#L80)
 
 ---
 
@@ -452,7 +459,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:765](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L765)
+[src/types/DDOTypes.ts:765](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/DDOTypes.ts#L765)
 
 ---
 
@@ -462,7 +469,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:608](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L608)
+[src/types/DDOTypes.ts:608](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/DDOTypes.ts#L608)
 
 ## Variables
 
@@ -472,7 +479,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/ContractTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/ContractTypes.ts#L8)
+[src/types/ContractTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/ContractTypes.ts#L8)
 
 ---
 
@@ -482,7 +489,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:7](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/constants/AssetConstants.ts#L7)
+[src/constants/AssetConstants.ts:7](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/constants/AssetConstants.ts#L7)
 
 ---
 
@@ -496,7 +503,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:7](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/keeper/contracts/Provenance.ts#L7)
+[src/keeper/contracts/Provenance.ts:7](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/keeper/contracts/Provenance.ts#L7)
 
 ---
 
@@ -506,7 +513,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/ddo/DDO.ts:36](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/ddo/DDO.ts#L36)
+[src/ddo/DDO.ts:36](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/ddo/DDO.ts#L36)
 
 ---
 
@@ -516,7 +523,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/DDOTypes.ts:74](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L74)
+[src/types/DDOTypes.ts:74](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/DDOTypes.ts#L74)
 
 ---
 
@@ -526,7 +533,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/models/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/models/Logger.ts#L43)
+[src/models/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/models/Logger.ts#L43)
 
 ---
 
@@ -536,7 +543,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:1](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/constants/AssetConstants.ts#L1)
+[src/constants/AssetConstants.ts:1](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/constants/AssetConstants.ts#L1)
 
 ---
 
@@ -546,7 +553,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/ddo/DDO.ts:34](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/ddo/DDO.ts#L34)
+[src/ddo/DDO.ts:34](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/ddo/DDO.ts#L34)
 
 ---
 
@@ -556,7 +563,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:10](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/constants/AssetConstants.ts#L10)
+[src/constants/AssetConstants.ts:10](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/constants/AssetConstants.ts#L10)
 
 ---
 
@@ -566,7 +573,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:8](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/services/metadata/MetadataService.ts#L8)
+[src/services/metadata/MetadataService.ts:8](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/services/metadata/MetadataService.ts#L8)
 
 ---
 
@@ -583,7 +590,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:40](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/GeneralTypes.ts#L40)
+[src/types/GeneralTypes.ts:40](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/GeneralTypes.ts#L40)
 
 ---
 
@@ -602,7 +609,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:33](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/GeneralTypes.ts#L33)
+[src/types/GeneralTypes.ts:33](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/GeneralTypes.ts#L33)
 
 ---
 
@@ -631,7 +638,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/DDOTypes.ts:618](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/types/DDOTypes.ts#L618)
+[src/types/DDOTypes.ts:618](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/DDOTypes.ts#L618)
 
 ---
 
@@ -641,7 +648,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:9](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/services/metadata/MetadataService.ts#L9)
+[src/services/metadata/MetadataService.ts:9](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/services/metadata/MetadataService.ts#L9)
 
 ## Functions
 
@@ -661,7 +668,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/common/helpers.ts:47](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L47)
+[src/common/helpers.ts:47](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L47)
 
 ---
 
@@ -682,7 +689,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/common/helpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L7)
+[src/common/helpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L7)
 
 ---
 
@@ -768,7 +775,7 @@ true if the contract exists and false otherwise
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:213](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L213)
+[src/nevermined/utils/BlockchainViemUtils.ts:213](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L213)
 
 ---
 
@@ -794,7 +801,7 @@ the kernel client
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:533](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L533)
+[src/nevermined/utils/BlockchainViemUtils.ts:533](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L533)
 
 ---
 
@@ -820,7 +827,7 @@ the session key serialized
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:581](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L581)
+[src/nevermined/utils/BlockchainViemUtils.ts:581](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L581)
 
 ---
 
@@ -841,7 +848,7 @@ the session key serialized
 
 #### Defined in
 
-[src/common/helpers.ts:81](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L81)
+[src/common/helpers.ts:81](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L81)
 
 ---
 
@@ -871,7 +878,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:150](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L150)
+[src/nevermined/utils/BlockchainViemUtils.ts:150](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L150)
 
 ---
 
@@ -898,7 +905,7 @@ a contract instance
 
 #### Defined in
 
-[src/common/helpers.ts:99](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L99)
+[src/common/helpers.ts:99](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L99)
 
 ---
 
@@ -918,7 +925,7 @@ a contract instance
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:13](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/ConversionTypeHelpers.ts#L13)
+[src/utils/ConversionTypeHelpers.ts:13](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/ConversionTypeHelpers.ts#L13)
 
 ---
 
@@ -943,7 +950,7 @@ the token id in a bigint format
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:320](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L320)
+[src/nevermined/utils/BlockchainViemUtils.ts:320](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L320)
 
 ---
 
@@ -964,7 +971,7 @@ the token id in a bigint format
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:16](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/ConversionTypeHelpers.ts#L16)
+[src/utils/ConversionTypeHelpers.ts:16](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/ConversionTypeHelpers.ts#L16)
 
 ---
 
@@ -984,7 +991,7 @@ the token id in a bigint format
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:22](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/ConversionTypeHelpers.ts#L22)
+[src/utils/ConversionTypeHelpers.ts:22](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/ConversionTypeHelpers.ts#L22)
 
 ---
 
@@ -1008,7 +1015,7 @@ the hex string
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:367](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L367)
+[src/nevermined/utils/BlockchainViemUtils.ts:367](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L367)
 
 ---
 
@@ -1029,7 +1036,7 @@ the hex string
 
 #### Defined in
 
-[src/common/helpers.ts:74](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L74)
+[src/common/helpers.ts:74](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L74)
 
 ---
 
@@ -1049,7 +1056,7 @@ the hex string
 
 #### Defined in
 
-[src/utils/Events.ts:1](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/Events.ts#L1)
+[src/utils/Events.ts:1](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/Events.ts#L1)
 
 ---
 
@@ -1082,7 +1089,7 @@ formatEther(value)
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:520](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L520)
+[src/nevermined/utils/BlockchainViemUtils.ts:520](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L520)
 
 ---
 
@@ -1116,7 +1123,7 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:483](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L483)
+[src/nevermined/utils/BlockchainViemUtils.ts:483](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L483)
 
 ---
 
@@ -1136,7 +1143,7 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/common/helpers.ts:39](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L39)
+[src/common/helpers.ts:39](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L39)
 
 ---
 
@@ -1157,7 +1164,27 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:30](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L30)
+[src/Instantiable.abstract.ts:30](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/Instantiable.abstract.ts#L30)
+
+---
+
+### getBurnNFTPermissions
+
+▸ **getBurnNFTPermissions**(`nftContractAddress`): \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_1"`` ; `type`: ``"address"`` }, \{ `name`: ``"_2"`` ; `type`: ``"uint256"`` }, \{ `name`: ``"_3"`` ; `type`: ``"uint256"`` }] ; `name`: `"burn"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'burn'; `target`: \`0x$\{string}\` = nftContractAddress }[]
+
+#### Parameters
+
+| Name                 | Type             |
+| :------------------- | :--------------- |
+| `nftContractAddress` | \`0x$\{string}\` |
+
+#### Returns
+
+\{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_1"`` ; `type`: ``"address"`` }, \{ `name`: ``"_2"`` ; `type`: ``"uint256"`` }, \{ `name`: ``"_3"`` ; `type`: ``"uint256"`` }] ; `name`: `"burn"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'burn'; `target`: \`0x$\{string}\` = nftContractAddress }[]
+
+#### Defined in
+
+[src/nevermined/resources/ZeroDevPermissions.ts:54](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/resources/ZeroDevPermissions.ts#L54)
 
 ---
 
@@ -1181,7 +1208,7 @@ the encoded byte array
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:348](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L348)
+[src/nevermined/utils/BlockchainViemUtils.ts:348](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L348)
 
 ---
 
@@ -1201,7 +1228,7 @@ the encoded byte array
 
 #### Defined in
 
-[src/utils/Network.ts:148](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/Network.ts#L148)
+[src/utils/Network.ts:148](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/Network.ts#L148)
 
 ---
 
@@ -1225,7 +1252,7 @@ the same address in checksum format
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:329](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L329)
+[src/nevermined/utils/BlockchainViemUtils.ts:329](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L329)
 
 ---
 
@@ -1252,7 +1279,7 @@ the same address in checksum format
 
 #### Defined in
 
-[src/common/helpers.ts:21](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L21)
+[src/common/helpers.ts:21](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L21)
 
 ---
 
@@ -1289,7 +1316,7 @@ Filled conditions.
 
 #### Defined in
 
-[src/ddo/DDO.ts:58](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/ddo/DDO.ts#L58)
+[src/ddo/DDO.ts:58](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/ddo/DDO.ts#L58)
 
 ---
 
@@ -1315,7 +1342,71 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:199](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L199)
+[src/nevermined/utils/BlockchainViemUtils.ts:199](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L199)
+
+---
+
+### getERC20ApprovePermissions
+
+▸ **getERC20ApprovePermissions**(`contractAddress`): \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"spender"`` ; `type`: ``"address"`` }, \{ `name`: ``"amount"`` ; `type`: ``"uint256"`` }] ; `name`: `"approve"` ; `outputs`: readonly [\{ `type`: ``"bool"`` }] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'approve'; `target`: \`0x$\{string}\` = contractAddress }[]
+
+#### Parameters
+
+| Name              | Type             |
+| :---------------- | :--------------- |
+| `contractAddress` | \`0x$\{string}\` |
+
+#### Returns
+
+\{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"spender"`` ; `type`: ``"address"`` }, \{ `name`: ``"amount"`` ; `type`: ``"uint256"`` }] ; `name`: `"approve"` ; `outputs`: readonly [\{ `type`: ``"bool"`` }] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'approve'; `target`: \`0x$\{string}\` = contractAddress }[]
+
+#### Defined in
+
+[src/nevermined/resources/ZeroDevPermissions.ts:34](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/resources/ZeroDevPermissions.ts#L34)
+
+---
+
+### getERC20TransferPermissions
+
+▸ **getERC20TransferPermissions**(`contractAddress`): \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"to"`` ; `type`: ``"address"`` }, \{ `name`: ``"amount"`` ; `type`: ``"uint256"`` }] ; `name`: `"transfer"` ; `outputs`: readonly [\{ `type`: ``"bool"`` }] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'transfer'; `target`: \`0x$\{string}\` = contractAddress }[]
+
+#### Parameters
+
+| Name              | Type             |
+| :---------------- | :--------------- |
+| `contractAddress` | \`0x$\{string}\` |
+
+#### Returns
+
+\{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"to"`` ; `type`: ``"address"`` }, \{ `name`: ``"amount"`` ; `type`: ``"uint256"`` }] ; `name`: `"transfer"` ; `outputs`: readonly [\{ `type`: ``"bool"`` }] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'transfer'; `target`: \`0x$\{string}\` = contractAddress }[]
+
+#### Defined in
+
+[src/nevermined/resources/ZeroDevPermissions.ts:44](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/resources/ZeroDevPermissions.ts#L44)
+
+---
+
+### getFullZeroDevPermissions
+
+▸ **getFullZeroDevPermissions**(`didRegistryAddress`, `salesTemplateAddress`, `erc20Address`, `nft1155CreditsAddress`, `nft1155TimeAddress`): (\{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: `"_didSeed"` ; `type`: `"bytes32"` }, \{ `name`: `"_nftContractAddress"` ; `type`: `"address"` }, \{ `name`: `"_checksum"` ; `type`: `"bytes32"` }, \{ `name`: `"_providers"` ; `type`: `"address[]"` }, \{ `name`: `"_url"` ; `type`: `"string"` }, \{ `name`: `"_cap"` ; `type`: `"uint256"` }, \{ `name`: `"_royalties"` ; `type`: `"uint256"` }, \{ `name`: `"_mint"` ; `type`: `"bool"` }, \{ `name`: `"_activityId"` ; `type`: `"bytes32"` }, \{ `name`: `"_nftMetadata"` ; `type`: `"string"` }, \{ `name`: `"_immutableUrl"` ; `type`: `"string"` }] ; `name`: `"registerMintableDID"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'registerMintableDID'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_didSeed"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_nftContractAddress"`` ; `type`: ``"address"``  }, \{ `name`: ``"_checksum"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_providers"`` ; `type`: ``"address[]"``  }, \{ `name`: ``"_url"`` ; `type`: ``"string"``  }, \{ `name`: ``"_cap"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_royalties"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_activityId"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_nftMetadata"`` ; `type`: ``"string"``  }, \{ `name`: ``"_immutableUrl"`` ; `type`: ``"string"``  }] ; `name`: ``"registerMintableDID"`` ; `outputs`: readonly [] ; `stateMutability`: ``"nonpayable"`` ; `type`: ``"function"``  }] ; `functionName`: `string` = 'registerMintableDID'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: `"_id"` ; `type`: `"bytes32"` }, \{ `name`: `"_did"` ; `type`: `"bytes32"` }, \{ `name`: `"_conditionIds"` ; `type`: `"bytes32[]"` }, \{ `name`: `"_timeLocks"` ; `type`: `"uint256[]"` }, \{ `name`: `"_timeOuts"` ; `type`: `"uint256[]"` }, \{ `name`: `"_accessConsumer"` ; `type`: `"address"` }, \{ `name`: `"_idx"` ; `type`: `"uint256"` }, \{ `name`: `"_rewardAddress"` ; `type`: `"address"` }, \{ `name`: `"_tokenAddress"` ; `type`: `"address"` }, \{ `name`: `"_amounts"` ; `type`: `"uint256[]"` }, \{ `name`: `"_receivers"` ; `type`: `"address[]"` }] ; `name`: `"createAgreementAndPayEscrow"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'createAgreementAndPayEscrow'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"spender"`` ; `type`: ``"address"``  }, \{ `name`: ``"amount"`` ; `type`: ``"uint256"``  }] ; `name`: ``"approve"`` ; `outputs`: readonly [\{ `type`: ``"bool"``  }] ; `stateMutability`: ``"nonpayable"`` ; `type`: ``"function"``  }] ; `functionName`: `string` = 'approve'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_1"`` ; `type`: ``"address"`` }, \{ `name`: ``"_2"`` ; `type`: ``"uint256"`` }, \{ `name`: ``"_3"`` ; `type`: ``"uint256"`` }] ; `name`: `"burn"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'burn'; `target`: \`0x$\{string}\` = nftContractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_1"`` ; `type`: ``"address"``  }, \{ `name`: ``"_2"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"amount_3"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_4"`` ; `type`: ``"bytes"``  }] ; `name`: ``"mint"`` ; `outputs`: readonly [] ; `stateMutability`: ``"nonpayable"`` ; `type`: ``"function"``  }] ; `functionName`: `string` = 'mint'; `target`: \`0x$\{string}\` = nftContractAddress })[]
+
+#### Parameters
+
+| Name                    | Type             |
+| :---------------------- | :--------------- |
+| `didRegistryAddress`    | \`0x$\{string}\` |
+| `salesTemplateAddress`  | \`0x$\{string}\` |
+| `erc20Address`          | \`0x$\{string}\` |
+| `nft1155CreditsAddress` | \`0x$\{string}\` |
+| `nft1155TimeAddress`    | \`0x$\{string}\` |
+
+#### Returns
+
+(\{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: `"_didSeed"` ; `type`: `"bytes32"` }, \{ `name`: `"_nftContractAddress"` ; `type`: `"address"` }, \{ `name`: `"_checksum"` ; `type`: `"bytes32"` }, \{ `name`: `"_providers"` ; `type`: `"address[]"` }, \{ `name`: `"_url"` ; `type`: `"string"` }, \{ `name`: `"_cap"` ; `type`: `"uint256"` }, \{ `name`: `"_royalties"` ; `type`: `"uint256"` }, \{ `name`: `"_mint"` ; `type`: `"bool"` }, \{ `name`: `"_activityId"` ; `type`: `"bytes32"` }, \{ `name`: `"_nftMetadata"` ; `type`: `"string"` }, \{ `name`: `"_immutableUrl"` ; `type`: `"string"` }] ; `name`: `"registerMintableDID"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'registerMintableDID'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_didSeed"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_nftContractAddress"`` ; `type`: ``"address"``  }, \{ `name`: ``"_checksum"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_providers"`` ; `type`: ``"address[]"``  }, \{ `name`: ``"_url"`` ; `type`: ``"string"``  }, \{ `name`: ``"_cap"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_royalties"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_activityId"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_nftMetadata"`` ; `type`: ``"string"``  }, \{ `name`: ``"_immutableUrl"`` ; `type`: ``"string"``  }] ; `name`: ``"registerMintableDID"`` ; `outputs`: readonly [] ; `stateMutability`: ``"nonpayable"`` ; `type`: ``"function"``  }] ; `functionName`: `string` = 'registerMintableDID'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: `"_id"` ; `type`: `"bytes32"` }, \{ `name`: `"_did"` ; `type`: `"bytes32"` }, \{ `name`: `"_conditionIds"` ; `type`: `"bytes32[]"` }, \{ `name`: `"_timeLocks"` ; `type`: `"uint256[]"` }, \{ `name`: `"_timeOuts"` ; `type`: `"uint256[]"` }, \{ `name`: `"_accessConsumer"` ; `type`: `"address"` }, \{ `name`: `"_idx"` ; `type`: `"uint256"` }, \{ `name`: `"_rewardAddress"` ; `type`: `"address"` }, \{ `name`: `"_tokenAddress"` ; `type`: `"address"` }, \{ `name`: `"_amounts"` ; `type`: `"uint256[]"` }, \{ `name`: `"_receivers"` ; `type`: `"address[]"` }] ; `name`: `"createAgreementAndPayEscrow"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'createAgreementAndPayEscrow'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"spender"`` ; `type`: ``"address"``  }, \{ `name`: ``"amount"`` ; `type`: ``"uint256"``  }] ; `name`: ``"approve"`` ; `outputs`: readonly [\{ `type`: ``"bool"``  }] ; `stateMutability`: ``"nonpayable"`` ; `type`: ``"function"``  }] ; `functionName`: `string` = 'approve'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_1"`` ; `type`: ``"address"`` }, \{ `name`: ``"_2"`` ; `type`: ``"uint256"`` }, \{ `name`: ``"_3"`` ; `type`: ``"uint256"`` }] ; `name`: `"burn"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'burn'; `target`: \`0x$\{string}\` = nftContractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_1"`` ; `type`: ``"address"``  }, \{ `name`: ``"_2"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"amount_3"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_4"`` ; `type`: ``"bytes"``  }] ; `name`: ``"mint"`` ; `outputs`: readonly [] ; `stateMutability`: ``"nonpayable"`` ; `type`: ``"function"``  }] ; `functionName`: `string` = 'mint'; `target`: \`0x$\{string}\` = nftContractAddress })[]
+
+#### Defined in
+
+[src/nevermined/resources/ZeroDevPermissions.ts:74](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/resources/ZeroDevPermissions.ts#L74)
 
 ---
 
@@ -1341,7 +1432,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:292](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L292)
+[src/nevermined/utils/BlockchainViemUtils.ts:292](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L292)
 
 ---
 
@@ -1367,7 +1458,27 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:303](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L303)
+[src/nevermined/utils/BlockchainViemUtils.ts:303](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L303)
+
+---
+
+### getMintNFTPermissions
+
+▸ **getMintNFTPermissions**(`nftContractAddress`): \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_1"`` ; `type`: ``"address"`` }, \{ `name`: ``"_2"`` ; `type`: ``"uint256"`` }, \{ `name`: ``"amount_3"`` ; `type`: ``"uint256"`` }, \{ `name`: ``"_4"`` ; `type`: ``"bytes"`` }] ; `name`: `"mint"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'mint'; `target`: \`0x$\{string}\` = nftContractAddress }[]
+
+#### Parameters
+
+| Name                 | Type             |
+| :------------------- | :--------------- |
+| `nftContractAddress` | \`0x$\{string}\` |
+
+#### Returns
+
+\{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_1"`` ; `type`: ``"address"`` }, \{ `name`: ``"_2"`` ; `type`: ``"uint256"`` }, \{ `name`: ``"amount_3"`` ; `type`: ``"uint256"`` }, \{ `name`: ``"_4"`` ; `type`: ``"bytes"`` }] ; `name`: `"mint"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'mint'; `target`: \`0x$\{string}\` = nftContractAddress }[]
+
+#### Defined in
+
+[src/nevermined/resources/ZeroDevPermissions.ts:64](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/resources/ZeroDevPermissions.ts#L64)
 
 ---
 
@@ -1387,7 +1498,47 @@ the function found
 
 #### Defined in
 
-[src/utils/Network.ts:19](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/Network.ts#L19)
+[src/utils/Network.ts:19](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/Network.ts#L19)
+
+---
+
+### getOrderPermissions
+
+▸ **getOrderPermissions**(`contractAddress`): \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: `"_id"` ; `type`: `"bytes32"` }, \{ `name`: `"_did"` ; `type`: `"bytes32"` }, \{ `name`: `"_conditionIds"` ; `type`: `"bytes32[]"` }, \{ `name`: `"_timeLocks"` ; `type`: `"uint256[]"` }, \{ `name`: `"_timeOuts"` ; `type`: `"uint256[]"` }, \{ `name`: `"_accessConsumer"` ; `type`: `"address"` }, \{ `name`: `"_idx"` ; `type`: `"uint256"` }, \{ `name`: `"_rewardAddress"` ; `type`: `"address"` }, \{ `name`: `"_tokenAddress"` ; `type`: `"address"` }, \{ `name`: `"_amounts"` ; `type`: `"uint256[]"` }, \{ `name`: `"_receivers"` ; `type`: `"address[]"` }] ; `name`: `"createAgreementAndPayEscrow"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'createAgreementAndPayEscrow'; `target`: \`0x$\{string}\` = contractAddress }[]
+
+#### Parameters
+
+| Name              | Type             |
+| :---------------- | :--------------- |
+| `contractAddress` | \`0x$\{string}\` |
+
+#### Returns
+
+\{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: `"_id"` ; `type`: `"bytes32"` }, \{ `name`: `"_did"` ; `type`: `"bytes32"` }, \{ `name`: `"_conditionIds"` ; `type`: `"bytes32[]"` }, \{ `name`: `"_timeLocks"` ; `type`: `"uint256[]"` }, \{ `name`: `"_timeOuts"` ; `type`: `"uint256[]"` }, \{ `name`: `"_accessConsumer"` ; `type`: `"address"` }, \{ `name`: `"_idx"` ; `type`: `"uint256"` }, \{ `name`: `"_rewardAddress"` ; `type`: `"address"` }, \{ `name`: `"_tokenAddress"` ; `type`: `"address"` }, \{ `name`: `"_amounts"` ; `type`: `"uint256[]"` }, \{ `name`: `"_receivers"` ; `type`: `"address[]"` }] ; `name`: `"createAgreementAndPayEscrow"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'createAgreementAndPayEscrow'; `target`: \`0x$\{string}\` = contractAddress }[]
+
+#### Defined in
+
+[src/nevermined/resources/ZeroDevPermissions.ts:22](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/resources/ZeroDevPermissions.ts#L22)
+
+---
+
+### getRegisterAssetPermissions
+
+▸ **getRegisterAssetPermissions**(`contractAddress`): (\{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: `"_didSeed"` ; `type`: `"bytes32"` }, \{ `name`: `"_nftContractAddress"` ; `type`: `"address"` }, \{ `name`: `"_checksum"` ; `type`: `"bytes32"` }, \{ `name`: `"_providers"` ; `type`: `"address[]"` }, \{ `name`: `"_url"` ; `type`: `"string"` }, \{ `name`: `"_cap"` ; `type`: `"uint256"` }, \{ `name`: `"_royalties"` ; `type`: `"uint256"` }, \{ `name`: `"_mint"` ; `type`: `"bool"` }, \{ `name`: `"_activityId"` ; `type`: `"bytes32"` }, \{ `name`: `"_nftMetadata"` ; `type`: `"string"` }, \{ `name`: `"_immutableUrl"` ; `type`: `"string"` }] ; `name`: `"registerMintableDID"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'registerMintableDID'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_didSeed"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_nftContractAddress"`` ; `type`: ``"address"``  }, \{ `name`: ``"_checksum"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_providers"`` ; `type`: ``"address[]"``  }, \{ `name`: ``"_url"`` ; `type`: ``"string"``  }, \{ `name`: ``"_cap"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_royalties"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_activityId"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_nftMetadata"`` ; `type`: ``"string"``  }, \{ `name`: ``"_immutableUrl"`` ; `type`: ``"string"``  }] ; `name`: ``"registerMintableDID"`` ; `outputs`: readonly [] ; `stateMutability`: ``"nonpayable"`` ; `type`: ``"function"``  }] ; `functionName`: `string` = 'registerMintableDID'; `target`: \`0x$\{string}\` = contractAddress })[]
+
+#### Parameters
+
+| Name              | Type             |
+| :---------------- | :--------------- |
+| `contractAddress` | \`0x$\{string}\` |
+
+#### Returns
+
+(\{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: `"_didSeed"` ; `type`: `"bytes32"` }, \{ `name`: `"_nftContractAddress"` ; `type`: `"address"` }, \{ `name`: `"_checksum"` ; `type`: `"bytes32"` }, \{ `name`: `"_providers"` ; `type`: `"address[]"` }, \{ `name`: `"_url"` ; `type`: `"string"` }, \{ `name`: `"_cap"` ; `type`: `"uint256"` }, \{ `name`: `"_royalties"` ; `type`: `"uint256"` }, \{ `name`: `"_mint"` ; `type`: `"bool"` }, \{ `name`: `"_activityId"` ; `type`: `"bytes32"` }, \{ `name`: `"_nftMetadata"` ; `type`: `"string"` }, \{ `name`: `"_immutableUrl"` ; `type`: `"string"` }] ; `name`: `"registerMintableDID"` ; `outputs`: readonly [] ; `stateMutability`: `"nonpayable"` ; `type`: `"function"` }] ; `functionName`: `string` = 'registerMintableDID'; `target`: \`0x$\{string}\` = contractAddress } \| \{ `abi`: readonly [\{ `inputs`: readonly [\{ `name`: ``"_didSeed"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_nftContractAddress"`` ; `type`: ``"address"``  }, \{ `name`: ``"_checksum"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_providers"`` ; `type`: ``"address[]"``  }, \{ `name`: ``"_url"`` ; `type`: ``"string"``  }, \{ `name`: ``"_cap"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_royalties"`` ; `type`: ``"uint256"``  }, \{ `name`: ``"_activityId"`` ; `type`: ``"bytes32"``  }, \{ `name`: ``"_nftMetadata"`` ; `type`: ``"string"``  }, \{ `name`: ``"_immutableUrl"`` ; `type`: ``"string"``  }] ; `name`: ``"registerMintableDID"`` ; `outputs`: readonly [] ; `stateMutability`: ``"nonpayable"`` ; `type`: ``"function"``  }] ; `functionName`: `string` = 'registerMintableDID'; `target`: \`0x$\{string}\` = contractAddress })[]
+
+#### Defined in
+
+[src/nevermined/resources/ZeroDevPermissions.ts:3](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/resources/ZeroDevPermissions.ts#L3)
 
 ---
 
@@ -1413,7 +1564,7 @@ The RoyaltyAttributes instance
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:62](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/api/AssetsApi.ts#L62)
+[src/nevermined/api/AssetsApi.ts:62](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/api/AssetsApi.ts#L62)
 
 ---
 
@@ -1438,7 +1589,7 @@ The royalty scheme
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:47](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/api/AssetsApi.ts#L47)
+[src/nevermined/api/AssetsApi.ts:47](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/api/AssetsApi.ts#L47)
 
 ---
 
@@ -1464,7 +1615,7 @@ the NvmAccount represented by the session key
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:616](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L616)
+[src/nevermined/utils/BlockchainViemUtils.ts:616](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L616)
 
 ---
 
@@ -1490,7 +1641,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:281](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L281)
+[src/nevermined/utils/BlockchainViemUtils.ts:281](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L281)
 
 ---
 
@@ -1510,7 +1661,7 @@ the function found
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/Instantiable.abstract.ts#L50)
+[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/Instantiable.abstract.ts#L50)
 
 ---
 
@@ -1530,7 +1681,7 @@ the function found
 
 #### Defined in
 
-[src/utils/Network.ts:83](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/Network.ts#L83)
+[src/utils/Network.ts:83](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/Network.ts#L83)
 
 ---
 
@@ -1554,7 +1705,7 @@ true of the address is valid
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:338](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L338)
+[src/nevermined/utils/BlockchainViemUtils.ts:338](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L338)
 
 ---
 
@@ -1575,7 +1726,7 @@ true of the address is valid
 
 #### Defined in
 
-[src/common/helpers.ts:34](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L34)
+[src/common/helpers.ts:34](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L34)
 
 ---
 
@@ -1599,7 +1750,7 @@ the hash
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:422](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L422)
+[src/nevermined/utils/BlockchainViemUtils.ts:422](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L422)
 
 ---
 
@@ -1624,7 +1775,7 @@ the hash
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:443](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L443)
+[src/nevermined/utils/BlockchainViemUtils.ts:443](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L443)
 
 ---
 
@@ -1649,7 +1800,7 @@ the hash
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:432](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L432)
+[src/nevermined/utils/BlockchainViemUtils.ts:432](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L432)
 
 ---
 
@@ -1667,7 +1818,7 @@ a new account
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:400](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L400)
+[src/nevermined/utils/BlockchainViemUtils.ts:400](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L400)
 
 ---
 
@@ -1691,7 +1842,7 @@ the array of accounts
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:410](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L410)
+[src/nevermined/utils/BlockchainViemUtils.ts:410](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L410)
 
 ---
 
@@ -1716,7 +1867,7 @@ an account
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:378](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L378)
+[src/nevermined/utils/BlockchainViemUtils.ts:378](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L378)
 
 ---
 
@@ -1741,7 +1892,7 @@ the array of accounts
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:388](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L388)
+[src/nevermined/utils/BlockchainViemUtils.ts:388](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L388)
 
 ---
 
@@ -1761,7 +1912,7 @@ the array of accounts
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:14](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/ConversionTypeHelpers.ts#L14)
+[src/utils/ConversionTypeHelpers.ts:14](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/ConversionTypeHelpers.ts#L14)
 
 ---
 
@@ -1781,7 +1932,7 @@ the array of accounts
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:5](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/ConversionTypeHelpers.ts#L5)
+[src/utils/ConversionTypeHelpers.ts:5](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/ConversionTypeHelpers.ts#L5)
 
 ---
 
@@ -1801,7 +1952,7 @@ the array of accounts
 
 #### Defined in
 
-[src/utils/PromiseResolver.ts:11](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/PromiseResolver.ts#L11)
+[src/utils/PromiseResolver.ts:11](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/PromiseResolver.ts#L11)
 
 ---
 
@@ -1835,7 +1986,7 @@ parseEther('-0.5')
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:502](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L502)
+[src/nevermined/utils/BlockchainViemUtils.ts:502](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L502)
 
 ---
 
@@ -1870,7 +2021,7 @@ parseUnits('121.0', 9)
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:465](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L465)
+[src/nevermined/utils/BlockchainViemUtils.ts:465](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L465)
 
 ---
 
@@ -1895,7 +2046,7 @@ the event found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:263](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L263)
+[src/nevermined/utils/BlockchainViemUtils.ts:263](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L263)
 
 ---
 
@@ -1921,7 +2072,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:245](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L245)
+[src/nevermined/utils/BlockchainViemUtils.ts:245](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L245)
 
 ---
 
@@ -1941,7 +2092,7 @@ the function found
 
 #### Defined in
 
-[src/common/helpers.ts:88](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L88)
+[src/common/helpers.ts:88](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L88)
 
 ---
 
@@ -1961,7 +2112,7 @@ the function found
 
 #### Defined in
 
-[src/common/helpers.ts:60](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L60)
+[src/common/helpers.ts:60](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L60)
 
 ---
 
@@ -1981,7 +2132,7 @@ the function found
 
 #### Defined in
 
-[src/common/helpers.ts:51](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/common/helpers.ts#L51)
+[src/common/helpers.ts:51](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/common/helpers.ts#L51)
 
 ---
 
@@ -2006,7 +2157,7 @@ the padded value
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:358](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/nevermined/utils/BlockchainViemUtils.ts#L358)
+[src/nevermined/utils/BlockchainViemUtils.ts:358](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/utils/BlockchainViemUtils.ts#L358)
 
 ---
 
@@ -2026,7 +2177,7 @@ the padded value
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:4](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/ConversionTypeHelpers.ts#L4)
+[src/utils/ConversionTypeHelpers.ts:4](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/ConversionTypeHelpers.ts#L4)
 
 ---
 
@@ -2047,4 +2198,4 @@ the padded value
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/60ae62388d846371ef4803130637a6d86441718c/src/utils/ConversionTypeHelpers.ts#L7)
+[src/utils/ConversionTypeHelpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/utils/ConversionTypeHelpers.ts#L7)
