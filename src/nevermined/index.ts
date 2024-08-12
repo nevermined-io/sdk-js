@@ -1,19 +1,5 @@
 export { AccessService, NFTAccessService, NFTSalesService } from './AccessService'
 export type { AccessProofTemplateParams } from './AccessService'
-export { DID } from './DID'
-export { Nevermined } from './Nevermined'
-export { NVMAppEnvironments, NvmApp } from './NvmApp'
-export type { MetadataValidationResults, OperationResult, SubscriptionBalance } from './NvmApp'
-export {
-  CreateProgressStep,
-  ExecuteProgressStep,
-  OrderProgressStep,
-  UpdateProgressStep,
-} from './ProgressSteps'
-export { Providers } from './Provider'
-export { TokenUtils } from './Token'
-export { PlatformTechStatus, Versions } from './Versions'
-export type { PlatformKeeperTech, PlatformTech, PlatformVersions } from './Versions'
 export {
   AccountsApi,
   AgreementsApi,
@@ -33,6 +19,27 @@ export {
   getRoyaltyScheme,
 } from './api'
 export type { AgreementPrepareResult, RoyaltyAttributes } from './api'
+export { DID } from './DID'
+export { Nevermined } from './Nevermined'
+export { NVMAppEnvironments, NvmApp } from './NvmApp'
+export type { MetadataValidationResults, OperationResult, SubscriptionBalance } from './NvmApp'
+export {
+  CreateProgressStep,
+  ExecuteProgressStep,
+  OrderProgressStep,
+  UpdateProgressStep,
+} from './ProgressSteps'
+export { Providers } from './Provider'
+export {
+  getBurnNFTPermissions,
+  getERC20ApprovePermissions,
+  getERC20TransferPermissions,
+  getFullZeroDevPermissions,
+  getMintNFTPermissions,
+  getOrderPermissions,
+  getRegisterAssetPermissions,
+} from './resources/ZeroDevPermissions'
+export { TokenUtils } from './Token'
 export {
   BlockchainViemUtils,
   EthSignJWT,
@@ -42,6 +49,7 @@ export {
   WebServiceConnector,
   checkContractExists,
   createKernelClient,
+  createSessionKey,
   deployContractInstance,
   didToTokenId,
   encodeBytes32String,
@@ -52,6 +60,7 @@ export {
   getContractInstance,
   getInputsOfFunction,
   getInputsOfFunctionFormatted,
+  getSessionKey,
   getSignatureOfFunction,
   isValidAddress,
   keccak256,
@@ -66,6 +75,6 @@ export {
   searchAbiEvent,
   searchAbiFunction,
   zeroPadValue,
-  createSessionKey,
-  getSessionKey,
 } from './utils'
+export { PlatformTechStatus, Versions } from './Versions'
+export type { PlatformKeeperTech, PlatformTech, PlatformVersions } from './Versions'
