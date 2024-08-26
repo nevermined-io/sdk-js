@@ -204,8 +204,6 @@ export class NvmApp {
     if (!isValidAddress(this.subscriptionNFTContractCreditsAddress as string)) {
       throw new Web3Error('Invalid Subscription NFT contract credits address')
     }
-    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractTimeAddress as string)
-    this.sdk.contracts.loadNft1155(this.subscriptionNFTContractCreditsAddress as string)
     this.networkFeeReceiver = await this.fullSDK.keeper.nvmConfig.getFeeReceiver()
     this.networkFee = await this.fullSDK.keeper.nvmConfig.getNetworkFee()
     return {
