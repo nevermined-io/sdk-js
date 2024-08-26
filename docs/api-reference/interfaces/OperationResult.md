@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.25](../code-reference.md) / OperationResult
+[@nevermined-io/sdk - v3.0.26](../code-reference.md) / OperationResult
 
 # Interface: OperationResult
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:52](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/NvmApp.ts#L52)
+[src/nevermined/NvmApp.ts:52](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/NvmApp.ts#L52)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:53](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/nevermined/NvmApp.ts#L53)
+[src/nevermined/NvmApp.ts:53](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/NvmApp.ts#L53)

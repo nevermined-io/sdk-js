@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.25](../code-reference.md) / AssetPublicationOptions
+[@nevermined-io/sdk - v3.0.26](../code-reference.md) / AssetPublicationOptions
 
 # Class: AssetPublicationOptions
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:41](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/MetadataTypes.ts#L41)
+[src/types/MetadataTypes.ts:41](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/types/MetadataTypes.ts#L41)
 
 ---
 
@@ -41,4 +41,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:40](https://github.com/nevermined-io/sdk-js/blob/94c3826129f75a1cbded6d423b6664e7f6d5daaa/src/types/MetadataTypes.ts#L40)
+[src/types/MetadataTypes.ts:40](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/types/MetadataTypes.ts#L40)
