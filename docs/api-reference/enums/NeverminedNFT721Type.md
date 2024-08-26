@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.26](../code-reference.md) / NeverminedNFT721Type
+[@nevermined-io/sdk - v3.0.27](../code-reference.md) / NeverminedNFT721Type
 
 # Enumeration: NeverminedNFT721Type
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:20](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/types/GeneralTypes.ts#L20)
+[src/types/GeneralTypes.ts:20](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/GeneralTypes.ts#L20)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:22](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/types/GeneralTypes.ts#L22)
+[src/types/GeneralTypes.ts:22](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/GeneralTypes.ts#L22)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:23](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/types/GeneralTypes.ts#L23)
+[src/types/GeneralTypes.ts:23](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/GeneralTypes.ts#L23)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:21](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/types/GeneralTypes.ts#L21)
+[src/types/GeneralTypes.ts:21](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/GeneralTypes.ts#L21)

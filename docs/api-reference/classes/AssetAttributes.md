@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.26](../code-reference.md) / AssetAttributes
+[@nevermined-io/sdk - v3.0.27](../code-reference.md) / AssetAttributes
 
 # Class: AssetAttributes
 
@@ -51,7 +51,7 @@ That asset association typically helps to search and filter between assets part 
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:48](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L48)
+[src/models/AssetAttributes.ts:48](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L48)
 
 ---
 
@@ -68,7 +68,7 @@ This method allows to specify the encryption method to be used.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:21](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L21)
+[src/models/AssetAttributes.ts:21](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L21)
 
 ---
 
@@ -85,7 +85,7 @@ This would allow to create an agreement that can not fulfilled until certain per
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:68](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L68)
+[src/models/AssetAttributes.ts:68](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L68)
 
 ---
 
@@ -102,7 +102,7 @@ This would allow to create an agreement that is not fulfilled after a certain pe
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:58](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L58)
+[src/models/AssetAttributes.ts:58](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L58)
 
 ---
 
@@ -118,7 +118,7 @@ Metadata describing the asset
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:14](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L14)
+[src/models/AssetAttributes.ts:14](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L14)
 
 ---
 
@@ -134,7 +134,7 @@ List of additional asset services to be included as part of an asset
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:33](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L33)
+[src/models/AssetAttributes.ts:33](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L33)
 
 ---
 
@@ -150,7 +150,7 @@ Typically just the address of one Nevermined Node trusted by the user.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:42](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L42)
+[src/models/AssetAttributes.ts:42](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L42)
 
 ---
 
@@ -166,7 +166,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:27](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L27)
+[src/models/AssetAttributes.ts:27](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L27)
 
 ---
 
@@ -188,7 +188,7 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:70](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L70)
+[src/models/AssetAttributes.ts:70](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L70)
 
 ## Methods
 
@@ -208,4 +208,4 @@ List of services and their attributes offered by an asset.
 
 #### Defined in
 
-[src/models/AssetAttributes.ts:85](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/models/AssetAttributes.ts#L85)
+[src/models/AssetAttributes.ts:85](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/models/AssetAttributes.ts#L85)

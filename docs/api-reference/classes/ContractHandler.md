@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.26](../code-reference.md) / ContractHandler
+[@nevermined-io/sdk - v3.0.27](../code-reference.md) / ContractHandler
 
 # Class: ContractHandler
 
@@ -72,7 +72,7 @@
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:51](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L51)
+[src/keeper/ContractHandler.ts:51](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L51)
 
 ## Properties
 
@@ -82,7 +82,7 @@
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:15](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L15)
+[src/keeper/ContractHandler.ts:15](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L15)
 
 ---
 
@@ -92,7 +92,7 @@
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:17](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L17)
+[src/keeper/ContractHandler.ts:17](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L17)
 
 ## Accessors
 
@@ -110,7 +110,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L137)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -128,7 +128,7 @@ Instantiable.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L141)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -146,7 +146,7 @@ Instantiable.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L89)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -164,7 +164,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L120)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -182,7 +182,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -200,7 +200,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L113)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -218,7 +218,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L128)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -236,7 +236,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L81)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -318,7 +318,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L97)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -369,7 +369,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -389,7 +389,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:75](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L75)
+[src/keeper/ContractHandler.ts:75](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L75)
 
 ---
 
@@ -414,7 +414,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:79](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L79)
+[src/keeper/ContractHandler.ts:79](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L79)
 
 ---
 
@@ -438,7 +438,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:119](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L119)
+[src/keeper/ContractHandler.ts:119](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L119)
 
 ---
 
@@ -459,7 +459,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:56](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L56)
+[src/keeper/ContractHandler.ts:56](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L56)
 
 ---
 
@@ -484,7 +484,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:87](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L87)
+[src/keeper/ContractHandler.ts:87](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L87)
 
 ---
 
@@ -508,7 +508,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L163)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -528,7 +528,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:185](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L185)
+[src/keeper/ContractHandler.ts:185](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L185)
 
 ---
 
@@ -552,7 +552,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:151](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L151)
+[src/keeper/ContractHandler.ts:151](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L151)
 
 ---
 
@@ -574,7 +574,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:19](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L19)
+[src/keeper/ContractHandler.ts:19](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L19)
 
 ---
 
@@ -596,7 +596,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:47](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L47)
+[src/keeper/ContractHandler.ts:47](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L47)
 
 ---
 
@@ -620,7 +620,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L150)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -642,7 +642,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:24](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L24)
+[src/keeper/ContractHandler.ts:24](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L24)
 
 ---
 
@@ -664,7 +664,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:41](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L41)
+[src/keeper/ContractHandler.ts:41](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L41)
 
 ---
 
@@ -688,7 +688,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/keeper/ContractHandler.ts:29](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/ContractHandler.ts#L29)
+[src/keeper/ContractHandler.ts:29](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/ContractHandler.ts#L29)
 
 ---
 
@@ -719,4 +719,4 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L154)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L154)

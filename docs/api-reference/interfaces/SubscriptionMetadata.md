@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.26](../code-reference.md) / SubscriptionMetadata
+[@nevermined-io/sdk - v3.0.27](../code-reference.md) / SubscriptionMetadata
 
 # Interface: SubscriptionMetadata
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:221](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/types/DDOTypes.ts#L221)
+[src/types/DDOTypes.ts:221](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/DDOTypes.ts#L221)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:222](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/types/DDOTypes.ts#L222)
+[src/types/DDOTypes.ts:222](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/DDOTypes.ts#L222)

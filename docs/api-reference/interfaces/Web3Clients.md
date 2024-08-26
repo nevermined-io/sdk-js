@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.26](../code-reference.md) / Web3Clients
+[@nevermined-io/sdk - v3.0.27](../code-reference.md) / Web3Clients
 
 # Interface: Web3Clients
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:27](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L27)
+[src/Instantiable.abstract.ts:27](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L27)
 
 ---
 
@@ -94,7 +94,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:25](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L25)
+[src/Instantiable.abstract.ts:25](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L25)
 
 ---
 
@@ -139,4 +139,4 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:26](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L26)
+[src/Instantiable.abstract.ts:26](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L26)

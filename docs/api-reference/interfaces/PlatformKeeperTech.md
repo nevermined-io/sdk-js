@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.26](../code-reference.md) / PlatformKeeperTech
+[@nevermined-io/sdk - v3.0.27](../code-reference.md) / PlatformKeeperTech
 
 # Interface: PlatformKeeperTech
 
@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:15](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/Versions.ts#L15)
+[src/nevermined/Versions.ts:15](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/Versions.ts#L15)
 
 ---
 
@@ -47,7 +47,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:22](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/Versions.ts#L22)
+[src/nevermined/Versions.ts:22](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/Versions.ts#L22)
 
 ---
 
@@ -57,7 +57,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:21](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/Versions.ts#L21)
+[src/nevermined/Versions.ts:21](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/Versions.ts#L21)
 
 ---
 
@@ -71,7 +71,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:13](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/Versions.ts#L13)
+[src/nevermined/Versions.ts:13](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/Versions.ts#L13)
 
 ---
 
@@ -81,7 +81,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:20](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/Versions.ts#L20)
+[src/nevermined/Versions.ts:20](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/Versions.ts#L20)
 
 ---
 
@@ -91,7 +91,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:23](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/Versions.ts#L23)
+[src/nevermined/Versions.ts:23](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/Versions.ts#L23)
 
 ---
 
@@ -105,7 +105,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:16](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/Versions.ts#L16)
+[src/nevermined/Versions.ts:16](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/Versions.ts#L16)
 
 ---
 
@@ -119,4 +119,4 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:14](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/Versions.ts#L14)
+[src/nevermined/Versions.ts:14](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/Versions.ts#L14)

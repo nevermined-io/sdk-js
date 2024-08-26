@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.26](../code-reference.md) / TemplateMetadata
+[@nevermined-io/sdk - v3.0.27](../code-reference.md) / TemplateMetadata
 
 # Interface: TemplateMetadata
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:18](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/contracts/managers/TemplateStoreManager.ts#L18)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:18](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/contracts/managers/TemplateStoreManager.ts#L18)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:17](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/contracts/managers/TemplateStoreManager.ts#L17)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:17](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/contracts/managers/TemplateStoreManager.ts#L17)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:16](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/contracts/managers/TemplateStoreManager.ts#L16)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:16](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/contracts/managers/TemplateStoreManager.ts#L16)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/TemplateStoreManager.ts:15](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/keeper/contracts/managers/TemplateStoreManager.ts#L15)
+[src/keeper/contracts/managers/TemplateStoreManager.ts:15](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/keeper/contracts/managers/TemplateStoreManager.ts#L15)

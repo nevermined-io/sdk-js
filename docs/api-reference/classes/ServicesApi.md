@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.26](../code-reference.md) / ServicesApi
+[@nevermined-io/sdk - v3.0.27](../code-reference.md) / ServicesApi
 
 # Class: ServicesApi
 
@@ -70,7 +70,7 @@ Creates a new ServicesApi
 
 #### Defined in
 
-[src/nevermined/api/ServicesApi.ts:48](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/api/ServicesApi.ts#L48)
+[src/nevermined/api/ServicesApi.ts:48](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/api/ServicesApi.ts#L48)
 
 ## Properties
 
@@ -82,7 +82,7 @@ Bookmarks instance
 
 #### Defined in
 
-[src/nevermined/api/ServicesApi.ts:41](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/api/ServicesApi.ts#L41)
+[src/nevermined/api/ServicesApi.ts:41](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/api/ServicesApi.ts#L41)
 
 ---
 
@@ -94,7 +94,7 @@ Nevermined Node Service
 
 #### Defined in
 
-[src/nevermined/api/ServicesApi.ts:21](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/api/ServicesApi.ts#L21)
+[src/nevermined/api/ServicesApi.ts:21](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/api/ServicesApi.ts#L21)
 
 ---
 
@@ -106,7 +106,7 @@ Marketplace instance.
 
 #### Defined in
 
-[src/nevermined/api/ServicesApi.ts:26](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/api/ServicesApi.ts#L26)
+[src/nevermined/api/ServicesApi.ts:26](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/api/ServicesApi.ts#L26)
 
 ---
 
@@ -118,7 +118,7 @@ Nevermined Node Service
 
 #### Defined in
 
-[src/nevermined/api/ServicesApi.ts:16](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/api/ServicesApi.ts#L16)
+[src/nevermined/api/ServicesApi.ts:16](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/api/ServicesApi.ts#L16)
 
 ---
 
@@ -130,7 +130,7 @@ Permissions service
 
 #### Defined in
 
-[src/nevermined/api/ServicesApi.ts:31](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/api/ServicesApi.ts#L31)
+[src/nevermined/api/ServicesApi.ts:31](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/api/ServicesApi.ts#L31)
 
 ---
 
@@ -142,7 +142,7 @@ Profiles instance
 
 #### Defined in
 
-[src/nevermined/api/ServicesApi.ts:36](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/nevermined/api/ServicesApi.ts#L36)
+[src/nevermined/api/ServicesApi.ts:36](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/nevermined/api/ServicesApi.ts#L36)
 
 ## Accessors
 
@@ -160,7 +160,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L137)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -178,7 +178,7 @@ Instantiable.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L141)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -196,7 +196,7 @@ Instantiable.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L89)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -214,7 +214,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L120)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -232,7 +232,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -250,7 +250,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L113)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -268,7 +268,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L128)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -286,7 +286,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L81)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -368,7 +368,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L97)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -419,7 +419,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -443,7 +443,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L163)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -467,7 +467,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L150)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -498,4 +498,4 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/Instantiable.abstract.ts#L154)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/Instantiable.abstract.ts#L154)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.26](../code-reference.md) / NeverminedNodeError
+[@nevermined-io/sdk - v3.0.27](../code-reference.md) / NeverminedNodeError
 
 # Class: NeverminedNodeError
 
@@ -49,7 +49,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:2](https://github.com/nevermined-io/sdk-js/blob/b9a2e4baad1168fba714b11b15863a80548b40de/src/errors/NeverminedErrors.ts#L2)
+[src/errors/NeverminedErrors.ts:2](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/errors/NeverminedErrors.ts#L2)
 
 ## Properties
 
