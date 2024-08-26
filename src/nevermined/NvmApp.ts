@@ -4,9 +4,9 @@ import { DDO } from '../ddo/DDO'
 import { Web3Error } from '../errors/NeverminedErrors'
 import { AssetPrice } from '../models/AssetPrice'
 import { NFTAttributes } from '../models/NFTAttributes'
-import { NvmApiKey } from '../models/NvmApiKey'
 import { NeverminedOptions } from '../models/NeverminedOptions'
 import { NvmAccount } from '../models/NvmAccount'
+import { NvmApiKey } from '../models/NvmApiKey'
 import {
   AppDeploymentArbitrum,
   AppDeploymentBase,
@@ -76,8 +76,6 @@ export class NvmApp {
   private zeroDevSignerAccount: SmartAccountSigner<'custom', `0x${string}`> | undefined
   public assetProviders: NeverminedNodeInfo[] = []
   private loginCredentials: string | undefined
-  private subscriptionNFTContractTimeAddress: string | undefined
-  private subscriptionNFTContractCreditsAddress: string | undefined
   private networkFeeReceiver: string | undefined
   private networkFee: bigint | undefined
 
@@ -195,15 +193,6 @@ export class NvmApp {
       },
     ]
 
-    this.subscriptionNFTContractTimeAddress = this.configNVM.nftContractTimeAddress
-    this.subscriptionNFTContractCreditsAddress = this.configNVM.nftContractCreditsAddress
-
-    if (!isValidAddress(this.subscriptionNFTContractTimeAddress as string)) {
-      throw new Web3Error('Invalid Subscription NFT contract time address')
-    }
-    if (!isValidAddress(this.subscriptionNFTContractCreditsAddress as string)) {
-      throw new Web3Error('Invalid Subscription NFT contract credits address')
-    }
     this.networkFeeReceiver = await this.fullSDK.keeper.nvmConfig.getFeeReceiver()
     this.networkFee = await this.fullSDK.keeper.nvmConfig.getNetworkFee()
     return {
@@ -329,6 +318,7 @@ export class NvmApp {
     susbcriptionMetadata: MetaData,
     subscriptionPrice: AssetPrice,
     duration: number,
+    subscriptionNFTContractTimeAddress?: string,
   ): SubscribablePromise<CreateProgressStep, DDO> {
     if (!this.fullSDK || !this.isWeb3Connected() || !this.userAccount)
       throw new Web3Error('Web3 not connected, try calling the connect method first')
@@ -343,6 +333,18 @@ export class NvmApp {
     }
 
     this.fullSDK.services.node.getVersionInfo()
+
+    let nftContractAddress = subscriptionNFTContractTimeAddress
+      ? subscriptionNFTContractTimeAddress
+      : this.configNVM.nftContractTimeAddress
+
+    if (!nftContractAddress) {
+      nftContractAddress = this.fullSDK.nfts1155.address
+    }
+    if (!isValidAddress(nftContractAddress as string)) {
+      throw new Web3Error('Invalid Subscription NFT contract time address')
+    }
+
     const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
       metadata: susbcriptionMetadata,
       services: [
@@ -357,7 +359,7 @@ export class NvmApp {
         },
       ],
       providers: this.getProviderAddresses(),
-      nftContractAddress: this.subscriptionNFTContractTimeAddress,
+      nftContractAddress: nftContractAddress,
       preMint: false,
     })
 
@@ -397,6 +399,7 @@ export class NvmApp {
     susbcriptionMetadata: MetaData,
     subscriptionPrice: AssetPrice,
     numberCredits: bigint,
+    subscriptionNFTContractCreditsAddress?: string,
   ): SubscribablePromise<CreateProgressStep, DDO> {
     if (!this.fullSDK || !this.isWeb3Connected() || !this.userAccount)
       throw new Web3Error('Web3 not connected, try calling the connect method first')
@@ -408,6 +411,17 @@ export class NvmApp {
     )
     if (!validationResult.isValid) {
       throw new Error(validationResult.messages.join(','))
+    }
+
+    let nftContractAddress = subscriptionNFTContractCreditsAddress
+      ? subscriptionNFTContractCreditsAddress
+      : this.configNVM.nftContractTimeAddress
+
+    if (!nftContractAddress) {
+      nftContractAddress = this.fullSDK.nfts1155.address
+    }
+    if (!isValidAddress(nftContractAddress as string)) {
+      throw new Web3Error('Invalid Subscription NFT contract credits address')
     }
 
     const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
@@ -423,7 +437,7 @@ export class NvmApp {
         },
       ],
       providers: this.getProviderAddresses(),
-      nftContractAddress: this.subscriptionNFTContractCreditsAddress,
+      nftContractAddress: nftContractAddress,
       preMint: false,
     })
 
