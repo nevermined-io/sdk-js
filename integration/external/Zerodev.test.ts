@@ -288,6 +288,8 @@ describe('Nevermined sdk with zerodev', () => {
         contractAddress, // DIDRegistry address
         '0x1c52ed414EDd1bCC20Ea670d42289e8bFC03C095', // Sales Template address
         '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d', // ERC20 address
+        '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5', // NFT1155 address
+        '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5',
       )
       const sessionKey = await createSessionKey(owner, publicClient, permissions)
       assert.isDefined(sessionKey)
