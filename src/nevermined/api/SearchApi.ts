@@ -788,7 +788,7 @@ export class SearchApi extends Instantiable {
     )
   }
 
-  public async queryByType(assetType: MetaDataMain['type'] = 'agent', offset = 100, page = 1) {
+  public async byType(assetType: MetaDataMain['type'] = 'agent', offset = 100, page = 1) {
     const mustArray: unknown[] = []
     mustArray.push(assetTypeFilter(assetType))
     return this.query({

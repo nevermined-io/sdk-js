@@ -105,4 +105,10 @@ describe('Search Asset', () => {
       nevermined.search.byDID(ddo.id).then((ddo) => assert.instanceOf(ddo, DDO))
     })
   })
+
+  it('should be able to get assets by type', async () => {
+    const { results: ddos } = await neverminedOffline.search.byType('dataset')
+
+    assert.equal(ddos.length, 4)
+  })
 })
