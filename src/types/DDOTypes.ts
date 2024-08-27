@@ -250,7 +250,7 @@ export interface MetaDataMain {
 
   /**
    * Type of the Asset. Helps to filter by the type of asset,
-   * initially ("dataset", "algorithm", "compute", "workflow", "model", "file", "subscription", "other").
+   * initially ("dataset", "algorithm", "compute", "workflow", "model", "file", "subscription", "other", "agent").
    * @example "dataset"
    */
   type:
@@ -264,6 +264,7 @@ export interface MetaDataMain {
     | 'file'
     | 'other'
     | 'assistant'
+    | 'agent'
 
   /**
    * Sub type asssociated to the main type of the asset. This subtype is open so final users are not restricted to use anything they need.

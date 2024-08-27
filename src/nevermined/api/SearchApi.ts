@@ -2,7 +2,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { DDO } from '../../ddo/DDO'
 import { NvmAccount } from '../../models/NvmAccount'
 import { QueryResult } from '../../services/metadata/MetadataService'
-import { ServiceType, Service } from '../../types/DDOTypes'
+import { MetaDataMain, Service, ServiceType } from '../../types/DDOTypes'
 import { EventOptions } from '../../types/EventTypes'
 import { NeverminedNFT1155Type, NeverminedNFT721Type } from '../../types/GeneralTypes'
 import { SearchQuery } from '../../types/MetadataTypes'
@@ -786,5 +786,51 @@ export class SearchApi extends Instantiable {
       sort,
       appId,
     )
+  }
+
+  public async queryByType(assetType: MetaDataMain['type'] = 'agent', offset = 100, page = 1) {
+    const mustArray: unknown[] = []
+    mustArray.push(assetTypeFilter(assetType))
+    return this.query({
+      query: {
+        bool: {
+          must: mustArray,
+        },
+      },
+      sort: {
+        created: 'desc',
+      },
+      page: page,
+      offset: offset,
+    })
+  }
+}
+
+export const assetTypeFilter = (assetType: MetaDataMain['type']) => {
+  const filter: { [field: string]: unknown }[] = [
+    {
+      match: { 'service.type': 'metadata' },
+    },
+    {
+      match: {
+        'service.attributes.main.nftType': 'nft1155-credit',
+      },
+    },
+  ]
+  filter.push({
+    match: {
+      'service.attributes.main.type': assetType,
+    },
+  })
+
+  return {
+    nested: {
+      path: ['service'],
+      query: {
+        bool: {
+          filter,
+        },
+      },
+    },
   }
 }

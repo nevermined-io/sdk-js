@@ -155,7 +155,8 @@ export abstract class RegistryBaseApi extends Instantiable {
 
         if (
           assetAttributes.metadata.main.type === 'service' ||
-          assetAttributes.metadata.main.type === 'assistant'
+          assetAttributes.metadata.main.type === 'assistant' ||
+          assetAttributes.metadata.main.type === 'agent'
         ) {
           const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
             ddo.id,
