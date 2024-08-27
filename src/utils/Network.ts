@@ -44,6 +44,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
       return 'geth-localnet'
     case 3141:
       return 'hyperspace'
+    case 3338:
+      return 'peaq'
     case 8453:
       return 'base'
     case 10200:
@@ -108,6 +110,8 @@ export function isTestnet(networkId: number): boolean {
       return true
     case 3141:
       return true
+    case 3338:
+      return false
     case 8453:
       return false
     case 10200:
@@ -155,6 +159,21 @@ export function getChain(networkId: number | undefined): Chain {
       return gnosis
     case 137:
       return polygon
+    case 3338:
+      return defineChain({
+        id: networkId,
+        name: 'peaq-network',
+        nativeCurrency: {
+          name: 'Peaq',
+          symbol: 'PEAQ',
+          decimals: 18,
+        },
+        rpcUrls: {
+          default: {
+            http: ['https://evm.peaq.network'],
+          },
+        },
+      })
     case 8453:
       return base as Chain
     case 42161:
