@@ -788,9 +788,19 @@ export class SearchApi extends Instantiable {
     )
   }
 
-  public async byType(assetType: MetaDataMain['type'] = 'agent', offset = 100, page = 1) {
+  public async byType(
+    assetType: MetaDataMain['type'] = 'agent',
+    text?: string,
+    offset = 100,
+    page = 1,
+    appId?: string,
+  ) {
     const mustArray: unknown[] = []
     mustArray.push(assetTypeFilter(assetType))
+    if (text) {
+      mustArray.push(textFilter(text))
+    }
+
     return this.query({
       query: {
         bool: {
@@ -802,6 +812,7 @@ export class SearchApi extends Instantiable {
       },
       page: page,
       offset: offset,
+      appId,
     })
   }
 }
@@ -834,3 +845,12 @@ export const assetTypeFilter = (assetType: MetaDataMain['type']) => {
     },
   }
 }
+
+export const textFilter = (searchInputText = '') => ({
+  nested: {
+    path: ['service'],
+    query: {
+      query_string: { query: `*${searchInputText}*`, fields: ['service.attributes.main.name'] },
+    },
+  },
+})
