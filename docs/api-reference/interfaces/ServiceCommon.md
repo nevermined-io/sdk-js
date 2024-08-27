@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.27](../code-reference.md) / ServiceCommon
+[@nevermined-io/sdk - v3.0.28](../code-reference.md) / ServiceCommon
 
 # Interface: ServiceCommon
 
@@ -36,7 +36,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:639](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/DDOTypes.ts#L639)
+[src/types/DDOTypes.ts:640](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/types/DDOTypes.ts#L640)
 
 ---
 
@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/DDOTypes.ts#L636)
+[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/types/DDOTypes.ts#L637)
 
 ---
 
@@ -56,7 +56,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/DDOTypes.ts#L637)
+[src/types/DDOTypes.ts:638](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/types/DDOTypes.ts#L638)
 
 ---
 
@@ -66,7 +66,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:638](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/DDOTypes.ts#L638)
+[src/types/DDOTypes.ts:639](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/types/DDOTypes.ts#L639)
 
 ---
 
@@ -76,4 +76,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:635](https://github.com/nevermined-io/sdk-js/blob/f599b9c0f902236d2a6752e5156929cf2207e660/src/types/DDOTypes.ts#L635)
+[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/types/DDOTypes.ts#L636)
