@@ -45,7 +45,7 @@ export async function getNetworkName(networkId: number): Promise<string> {
     case 3141:
       return 'hyperspace'
     case 3338:
-      return 'peaq'
+      return 'peaq-mainnet'
     case 8453:
       return 'base'
     case 10200:
