@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.28](../code-reference.md) / UpdateProgressStep
+[@nevermined-io/sdk - v3.0.29](../code-reference.md) / UpdateProgressStep
 
 # Enumeration: UpdateProgressStep
 
@@ -23,7 +23,7 @@
 
 #### Defined in
 
-[src/nevermined/ProgressSteps.ts:20](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/nevermined/ProgressSteps.ts#L20)
+[src/nevermined/ProgressSteps.ts:20](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/ProgressSteps.ts#L20)
 
 ---
 
@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[src/nevermined/ProgressSteps.ts:25](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/nevermined/ProgressSteps.ts#L25)
+[src/nevermined/ProgressSteps.ts:25](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/ProgressSteps.ts#L25)
 
 ---
 
@@ -43,7 +43,7 @@
 
 #### Defined in
 
-[src/nevermined/ProgressSteps.ts:21](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/nevermined/ProgressSteps.ts#L21)
+[src/nevermined/ProgressSteps.ts:21](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/ProgressSteps.ts#L21)
 
 ---
 
@@ -53,7 +53,7 @@
 
 #### Defined in
 
-[src/nevermined/ProgressSteps.ts:18](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/nevermined/ProgressSteps.ts#L18)
+[src/nevermined/ProgressSteps.ts:18](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/ProgressSteps.ts#L18)
 
 ---
 
@@ -63,7 +63,7 @@
 
 #### Defined in
 
-[src/nevermined/ProgressSteps.ts:24](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/nevermined/ProgressSteps.ts#L24)
+[src/nevermined/ProgressSteps.ts:24](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/ProgressSteps.ts#L24)
 
 ---
 
@@ -73,7 +73,7 @@
 
 #### Defined in
 
-[src/nevermined/ProgressSteps.ts:22](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/nevermined/ProgressSteps.ts#L22)
+[src/nevermined/ProgressSteps.ts:22](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/ProgressSteps.ts#L22)
 
 ---
 
@@ -83,7 +83,7 @@
 
 #### Defined in
 
-[src/nevermined/ProgressSteps.ts:19](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/nevermined/ProgressSteps.ts#L19)
+[src/nevermined/ProgressSteps.ts:19](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/ProgressSteps.ts#L19)
 
 ---
 
@@ -93,4 +93,4 @@
 
 #### Defined in
 
-[src/nevermined/ProgressSteps.ts:23](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/nevermined/ProgressSteps.ts#L23)
+[src/nevermined/ProgressSteps.ts:23](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/ProgressSteps.ts#L23)

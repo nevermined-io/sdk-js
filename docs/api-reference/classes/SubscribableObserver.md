@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.28](../code-reference.md) / SubscribableObserver
+[@nevermined-io/sdk - v3.0.29](../code-reference.md) / SubscribableObserver
 
 # Class: SubscribableObserver\<T, P\>
 
@@ -54,7 +54,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:2](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/utils/SubscribableObserver.ts#L2)
+[src/utils/SubscribableObserver.ts:2](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/utils/SubscribableObserver.ts#L2)
 
 ---
 
@@ -64,7 +64,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:4](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/utils/SubscribableObserver.ts#L4)
+[src/utils/SubscribableObserver.ts:4](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/utils/SubscribableObserver.ts#L4)
 
 ## Methods
 
@@ -84,7 +84,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:30](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/utils/SubscribableObserver.ts#L30)
+[src/utils/SubscribableObserver.ts:30](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/utils/SubscribableObserver.ts#L30)
 
 ---
 
@@ -105,7 +105,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:40](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/utils/SubscribableObserver.ts#L40)
+[src/utils/SubscribableObserver.ts:40](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/utils/SubscribableObserver.ts#L40)
 
 ---
 
@@ -125,7 +125,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:35](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/utils/SubscribableObserver.ts#L35)
+[src/utils/SubscribableObserver.ts:35](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/utils/SubscribableObserver.ts#L35)
 
 ---
 
@@ -145,7 +145,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:26](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/utils/SubscribableObserver.ts#L26)
+[src/utils/SubscribableObserver.ts:26](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/utils/SubscribableObserver.ts#L26)
 
 ---
 
@@ -171,7 +171,7 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:10](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/utils/SubscribableObserver.ts#L10)
+[src/utils/SubscribableObserver.ts:10](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/utils/SubscribableObserver.ts#L10)
 
 ---
 
@@ -185,4 +185,4 @@
 
 #### Defined in
 
-[src/utils/SubscribableObserver.ts:47](https://github.com/nevermined-io/sdk-js/blob/2c5b70a398b96158415b2a3c97669bf5963dd8f3/src/utils/SubscribableObserver.ts#L47)
+[src/utils/SubscribableObserver.ts:47](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/utils/SubscribableObserver.ts#L47)
