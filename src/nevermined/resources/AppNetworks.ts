@@ -158,3 +158,20 @@ export class AppDeploymentOptimism extends NeverminedAppOptions {
   nftContractCreditsAddress = '0xE24f60aE42F7Cc3B3357480C94165afD86B66583'
   tokenAddress = '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85'
 }
+
+export class AppDeploymentPeaq extends NeverminedAppOptions {
+  instanceName = 'appPeaq'
+  appUrl = 'https://peaq.nevermined.app'
+  chainId = 100
+  web3ProviderUri = window.ethereum ? undefined : 'https://evm.peaq.network'
+  marketplaceUri = 'https://marketplace-api.peaq.nevermined.app'
+  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  neverminedNodeUri = 'https://node.peaq.nevermined.app'
+  neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  verbose = true
+  gasMultiplier = 0
+  gasPriceMultiplier = 0
+  nftContractTimeAddress = '0xE24f60aE42F7Cc3B3357480C94165afD86B66583'
+  nftContractCreditsAddress = '0xE24f60aE42F7Cc3B3357480C94165afD86B66583'
+  tokenAddress = '0x0000000000000000000000000000000000000000'
+}
