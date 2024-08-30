@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.29](../code-reference.md) / EventHandler
+[@nevermined-io/sdk - v3.0.31](../code-reference.md) / EventHandler
 
 # Class: EventHandler
 
@@ -45,7 +45,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:6](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L6)
+[src/events/EventHandler.ts:6](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L6)
 
 ---
 
@@ -63,7 +63,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:16](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L16)
+[src/events/EventHandler.ts:16](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L16)
 
 ---
 
@@ -73,7 +73,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:10](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L10)
+[src/events/EventHandler.ts:10](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L10)
 
 ---
 
@@ -83,7 +83,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:8](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L8)
+[src/events/EventHandler.ts:8](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L8)
 
 ---
 
@@ -93,7 +93,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:14](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L14)
+[src/events/EventHandler.ts:14](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L14)
 
 ---
 
@@ -103,7 +103,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:12](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L12)
+[src/events/EventHandler.ts:12](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L12)
 
 ## Accessors
 
@@ -117,7 +117,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:2](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L2)
+[src/events/EventHandler.ts:2](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L2)
 
 ## Methods
 
@@ -137,7 +137,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:38](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L38)
+[src/events/EventHandler.ts:38](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L38)
 
 ---
 
@@ -162,7 +162,7 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:18](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L18)
+[src/events/EventHandler.ts:18](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L18)
 
 ---
 
@@ -182,4 +182,4 @@
 
 #### Defined in
 
-[src/events/EventHandler.ts:28](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/events/EventHandler.ts#L28)
+[src/events/EventHandler.ts:28](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/events/EventHandler.ts#L28)

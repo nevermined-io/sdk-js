@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.29](../code-reference.md) / PlatformTech
+[@nevermined-io/sdk - v3.0.31](../code-reference.md) / PlatformTech
 
 # Interface: PlatformTech
 
@@ -25,7 +25,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:15](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/Versions.ts#L15)
+[src/nevermined/Versions.ts:15](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/Versions.ts#L15)
 
 ---
 
@@ -35,7 +35,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:13](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/Versions.ts#L13)
+[src/nevermined/Versions.ts:13](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/Versions.ts#L13)
 
 ---
 
@@ -45,7 +45,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:16](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/Versions.ts#L16)
+[src/nevermined/Versions.ts:16](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/Versions.ts#L16)
 
 ---
 
@@ -55,4 +55,4 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:14](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/Versions.ts#L14)
+[src/nevermined/Versions.ts:14](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/Versions.ts#L14)

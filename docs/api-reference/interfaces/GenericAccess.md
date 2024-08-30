@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.29](../code-reference.md) / GenericAccess
+[@nevermined-io/sdk - v3.0.31](../code-reference.md) / GenericAccess
 
 # Interface: GenericAccess
 
@@ -22,7 +22,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/templates/GenericAccess.ts:22](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/keeper/contracts/templates/GenericAccess.ts#L22)
+[src/keeper/contracts/templates/GenericAccess.ts:22](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/templates/GenericAccess.ts#L22)
 
 ## Methods
 
@@ -49,7 +49,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/templates/GenericAccess.ts:8](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/keeper/contracts/templates/GenericAccess.ts#L8)
+[src/keeper/contracts/templates/GenericAccess.ts:8](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/templates/GenericAccess.ts#L8)
 
 ---
 
@@ -69,7 +69,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/templates/GenericAccess.ts:19](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/keeper/contracts/templates/GenericAccess.ts#L19)
+[src/keeper/contracts/templates/GenericAccess.ts:19](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/templates/GenericAccess.ts#L19)
 
 ---
 
@@ -90,4 +90,4 @@
 
 #### Defined in
 
-[src/keeper/contracts/templates/GenericAccess.ts:21](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/keeper/contracts/templates/GenericAccess.ts#L21)
+[src/keeper/contracts/templates/GenericAccess.ts:21](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/templates/GenericAccess.ts#L21)

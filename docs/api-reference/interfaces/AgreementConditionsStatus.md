@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.29](../code-reference.md) / AgreementConditionsStatus
+[@nevermined-io/sdk - v3.0.31](../code-reference.md) / AgreementConditionsStatus
 
 # Interface: AgreementConditionsStatus
 

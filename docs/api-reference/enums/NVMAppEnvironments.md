@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.29](../code-reference.md) / NVMAppEnvironments
+[@nevermined-io/sdk - v3.0.31](../code-reference.md) / NVMAppEnvironments
 
 # Enumeration: NVMAppEnvironments
 
@@ -14,6 +14,7 @@
 - [Local](NVMAppEnvironments.md#local)
 - [Matic](NVMAppEnvironments.md#matic)
 - [Optimism](NVMAppEnvironments.md#optimism)
+- [Peaq](NVMAppEnvironments.md#peaq)
 - [Staging](NVMAppEnvironments.md#staging)
 - [Testing](NVMAppEnvironments.md#testing)
 
@@ -25,7 +26,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:39](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L39)
+[src/nevermined/NvmApp.ts:40](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L40)
 
 ---
 
@@ -35,7 +36,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:40](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L40)
+[src/nevermined/NvmApp.ts:41](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L41)
 
 ---
 
@@ -45,7 +46,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:43](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L43)
+[src/nevermined/NvmApp.ts:45](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L45)
 
 ---
 
@@ -55,7 +56,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:38](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L38)
+[src/nevermined/NvmApp.ts:39](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L39)
 
 ---
 
@@ -65,7 +66,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:36](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L36)
+[src/nevermined/NvmApp.ts:37](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L37)
 
 ---
 
@@ -75,7 +76,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:42](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L42)
+[src/nevermined/NvmApp.ts:44](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L44)
 
 ---
 
@@ -85,7 +86,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:37](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L37)
+[src/nevermined/NvmApp.ts:38](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L38)
 
 ---
 
@@ -95,7 +96,17 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:41](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L41)
+[src/nevermined/NvmApp.ts:42](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L42)
+
+---
+
+### Peaq
+
+• **Peaq** = `"peaq"`
+
+#### Defined in
+
+[src/nevermined/NvmApp.ts:43](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L43)
 
 ---
 
@@ -105,7 +116,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:34](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L34)
+[src/nevermined/NvmApp.ts:35](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L35)
 
 ---
 
@@ -115,4 +126,4 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:35](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/nevermined/NvmApp.ts#L35)
+[src/nevermined/NvmApp.ts:36](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/nevermined/NvmApp.ts#L36)

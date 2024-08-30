@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.29](../code-reference.md) / BabyjubPublicKey
+[@nevermined-io/sdk - v3.0.31](../code-reference.md) / BabyjubPublicKey
 
 # Class: BabyjubPublicKey
 
@@ -36,7 +36,7 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:8](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/models/KeyTransfer.ts#L8)
+[src/models/KeyTransfer.ts:8](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/models/KeyTransfer.ts#L8)
 
 ## Properties
 
@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:5](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/models/KeyTransfer.ts#L5)
+[src/models/KeyTransfer.ts:5](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/models/KeyTransfer.ts#L5)
 
 ---
 
@@ -56,7 +56,7 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:6](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/models/KeyTransfer.ts#L6)
+[src/models/KeyTransfer.ts:6](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/models/KeyTransfer.ts#L6)
 
 ## Methods
 
@@ -70,4 +70,4 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:13](https://github.com/nevermined-io/sdk-js/blob/aa372ff7727c3133a77ceb37ce1a89e86306d2c3/src/models/KeyTransfer.ts#L13)
+[src/models/KeyTransfer.ts:13](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/models/KeyTransfer.ts#L13)
