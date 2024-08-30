@@ -15,6 +15,7 @@ import {
   AppDeploymentLocal,
   AppDeploymentMatic,
   AppDeploymentOptimism,
+  AppDeploymentPeaq,
   AppDeploymentStaging,
   AppDeploymentTesting,
   NeverminedAppOptions,
@@ -39,6 +40,7 @@ export enum NVMAppEnvironments {
   Base = 'base',
   Celo = 'celo',
   Optimism = 'optimism',
+  Peaq = 'peaq',
   Local = 'local',
   Custom = 'custom',
 }
@@ -956,6 +958,8 @@ export class NvmApp {
         return new AppDeploymentCelo()
       case NVMAppEnvironments.Optimism:
         return new AppDeploymentOptimism()
+      case NVMAppEnvironments.Peaq:
+        return new AppDeploymentPeaq()
       case NVMAppEnvironments.Local:
         return new AppDeploymentLocal()
       default:
