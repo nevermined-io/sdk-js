@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.31](../code-reference.md) / ResourceAuthentication
+[@nevermined-io/sdk - v3.0.32](../code-reference.md) / ResourceAuthentication
 
 # Interface: ResourceAuthentication
 
@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:235](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L235)
+[src/types/DDOTypes.ts:235](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L235)
 
 ---
 
@@ -30,7 +30,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:237](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L237)
+[src/types/DDOTypes.ts:237](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L237)
 
 ---
 
@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:236](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L236)
+[src/types/DDOTypes.ts:236](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L236)
 
 ---
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:232](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L232)
+[src/types/DDOTypes.ts:232](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L232)
 
 ---
 
@@ -60,4 +60,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:234](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L234)
+[src/types/DDOTypes.ts:234](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L234)

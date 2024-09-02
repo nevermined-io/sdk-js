@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.31](../code-reference.md) / WasGeneratedByEvent
+[@nevermined-io/sdk - v3.0.32](../code-reference.md) / WasGeneratedByEvent
 
 # Interface: WasGeneratedByEvent
 
@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:53](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/Provenance.ts#L53)
+[src/keeper/contracts/Provenance.ts:53](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L53)
 
 ---
 
@@ -43,7 +43,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:60](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/Provenance.ts#L60)
+[src/keeper/contracts/Provenance.ts:60](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L60)
 
 ---
 
@@ -57,7 +57,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:55](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/Provenance.ts#L55)
+[src/keeper/contracts/Provenance.ts:55](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L55)
 
 ---
 
@@ -71,7 +71,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:56](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/Provenance.ts#L56)
+[src/keeper/contracts/Provenance.ts:56](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L56)
 
 ---
 
@@ -81,7 +81,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:59](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/Provenance.ts#L59)
+[src/keeper/contracts/Provenance.ts:59](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L59)
 
 ---
 
@@ -95,7 +95,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:51](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/Provenance.ts#L51)
+[src/keeper/contracts/Provenance.ts:51](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L51)
 
 ---
 
@@ -109,7 +109,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:52](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/Provenance.ts#L52)
+[src/keeper/contracts/Provenance.ts:52](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L52)
 
 ---
 
@@ -123,4 +123,4 @@
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:54](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/keeper/contracts/Provenance.ts#L54)
+[src/keeper/contracts/Provenance.ts:54](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L54)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.31](../code-reference.md) / SearchResults
+[@nevermined-io/sdk - v3.0.32](../code-reference.md) / SearchResults
 
 # Interface: SearchResults
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:55](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/MetadataTypes.ts#L55)
+[src/types/MetadataTypes.ts:55](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/MetadataTypes.ts#L55)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:54](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/MetadataTypes.ts#L54)
+[src/types/MetadataTypes.ts:54](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/MetadataTypes.ts#L54)

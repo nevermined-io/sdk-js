@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.31](../code-reference.md) / NvmConfigVersions
+[@nevermined-io/sdk - v3.0.32](../code-reference.md) / NvmConfigVersions
 
 # Interface: NvmConfigVersions
 
@@ -22,7 +22,7 @@ The checksum of the document
 
 #### Defined in
 
-[src/types/DDOTypes.ts:594](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L594)
+[src/types/DDOTypes.ts:594](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L594)
 
 ---
 
@@ -38,7 +38,7 @@ This is a self incrementing number
 
 #### Defined in
 
-[src/types/DDOTypes.ts:586](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L586)
+[src/types/DDOTypes.ts:586](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L586)
 
 ---
 
@@ -50,7 +50,7 @@ The immutable solution to record the DDO
 
 #### Defined in
 
-[src/types/DDOTypes.ts:604](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L604)
+[src/types/DDOTypes.ts:604](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L604)
 
 ---
 
@@ -62,7 +62,7 @@ ID Hash of the metadata recorded in an immutable data store (IPFS, Filecoin, Arw
 
 #### Defined in
 
-[src/types/DDOTypes.ts:599](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L599)
+[src/types/DDOTypes.ts:599](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L599)
 
 ---
 
@@ -74,4 +74,4 @@ The date when the update occurred.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:590](https://github.com/nevermined-io/sdk-js/blob/1c7b11ad598c195e6a484cc8f4ca9cc52a947a9f/src/types/DDOTypes.ts#L590)
+[src/types/DDOTypes.ts:590](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L590)
