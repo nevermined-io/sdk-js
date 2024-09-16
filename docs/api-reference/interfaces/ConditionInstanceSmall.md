@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.32](../code-reference.md) / ConditionInstanceSmall
+[@nevermined-io/sdk - v3.0.33](../code-reference.md) / ConditionInstanceSmall
 
 # Interface: ConditionInstanceSmall
 
@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:33](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/ContractTypes.ts#L33)
+[src/types/ContractTypes.ts:33](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/ContractTypes.ts#L33)
 
 ---
 
@@ -30,7 +30,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:34](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/ContractTypes.ts#L34)
+[src/types/ContractTypes.ts:34](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/ContractTypes.ts#L34)
 
 ---
 
@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:32](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/ContractTypes.ts#L32)
+[src/types/ContractTypes.ts:32](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/ContractTypes.ts#L32)
 
 ---
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:30](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/ContractTypes.ts#L30)
+[src/types/ContractTypes.ts:30](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/ContractTypes.ts#L30)
 
 ---
 
@@ -60,4 +60,4 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:31](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/ContractTypes.ts#L31)
+[src/types/ContractTypes.ts:31](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/ContractTypes.ts#L31)

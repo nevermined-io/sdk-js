@@ -1,6 +1,6 @@
 @nevermined-io/sdk
 
-# @nevermined-io/sdk - v3.0.32
+# @nevermined-io/sdk - v3.0.33
 
 ## Table of contents
 
@@ -48,6 +48,16 @@
 - [AgreementTemplate](classes/AgreementTemplate.md)
 - [AgreementsApi](classes/AgreementsApi.md)
 - [ApiError](classes/ApiError.md)
+- [AppDeploymentArbitrum](classes/AppDeploymentArbitrum.md)
+- [AppDeploymentBase](classes/AppDeploymentBase.md)
+- [AppDeploymentCelo](classes/AppDeploymentCelo.md)
+- [AppDeploymentGnosis](classes/AppDeploymentGnosis.md)
+- [AppDeploymentLocal](classes/AppDeploymentLocal.md)
+- [AppDeploymentMatic](classes/AppDeploymentMatic.md)
+- [AppDeploymentOptimism](classes/AppDeploymentOptimism.md)
+- [AppDeploymentPeaq](classes/AppDeploymentPeaq.md)
+- [AppDeploymentStaging](classes/AppDeploymentStaging.md)
+- [AppDeploymentTesting](classes/AppDeploymentTesting.md)
 - [AssetAttributes](classes/AssetAttributes.md)
 - [AssetError](classes/AssetError.md)
 - [AssetPrice](classes/AssetPrice.md)
@@ -111,6 +121,7 @@
 - [NFTServiceAttributes](classes/NFTServiceAttributes.md)
 - [NFTsBaseApi](classes/NFTsBaseApi.md)
 - [Nevermined](classes/Nevermined.md)
+- [NeverminedAppOptions](classes/NeverminedAppOptions.md)
 - [NeverminedEvent](classes/NeverminedEvent.md)
 - [NeverminedNode](classes/NeverminedNode.md)
 - [NeverminedNodeError](classes/NeverminedNodeError.md)
@@ -321,6 +332,7 @@
 - [getWeb3ViemClients](code-reference.md#getweb3viemclients)
 - [isTestnet](code-reference.md#istestnet)
 - [isValidAddress](code-reference.md#isvalidaddress)
+- [isWindowEthereumDefined](code-reference.md#iswindowethereumdefined)
 - [jsonReplacer](code-reference.md#jsonreplacer)
 - [keccak256](code-reference.md#keccak256)
 - [keccak256Packed](code-reference.md#keccak256packed)
@@ -357,7 +369,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/ContractTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/ContractTypes.ts#L10)
+[src/types/ContractTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/ContractTypes.ts#L10)
 
 ---
 
@@ -367,7 +379,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:607](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L607)
+[src/types/DDOTypes.ts:607](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/DDOTypes.ts#L607)
 
 ---
 
@@ -377,7 +389,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:4](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/constants/AssetConstants.ts#L4)
+[src/constants/AssetConstants.ts:4](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/constants/AssetConstants.ts#L4)
 
 ---
 
@@ -387,7 +399,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/EventTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/EventTypes.ts#L25)
+[src/types/EventTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/EventTypes.ts#L25)
 
 ---
 
@@ -397,7 +409,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:31](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/GeneralTypes.ts#L31)
+[src/types/GeneralTypes.ts:31](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/GeneralTypes.ts#L31)
 
 ---
 
@@ -407,7 +419,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:23](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L23)
+[src/keeper/contracts/templates/AgreementTemplate.abstract.ts:23](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/keeper/contracts/templates/AgreementTemplate.abstract.ts#L23)
 
 ---
 
@@ -427,7 +439,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:645](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L645)
+[src/types/DDOTypes.ts:645](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/DDOTypes.ts#L645)
 
 ---
 
@@ -443,7 +455,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:80](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L80)
+[src/keeper/contracts/Provenance.ts:80](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/keeper/contracts/Provenance.ts#L80)
 
 ---
 
@@ -459,7 +471,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:766](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L766)
+[src/types/DDOTypes.ts:766](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/DDOTypes.ts#L766)
 
 ---
 
@@ -469,7 +481,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/DDOTypes.ts:609](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L609)
+[src/types/DDOTypes.ts:609](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/DDOTypes.ts#L609)
 
 ## Variables
 
@@ -479,7 +491,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/types/ContractTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/ContractTypes.ts#L8)
+[src/types/ContractTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/ContractTypes.ts#L8)
 
 ---
 
@@ -489,7 +501,7 @@ Renames and re-exports [Logger](code-reference.md#logger)
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:7](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/constants/AssetConstants.ts#L7)
+[src/constants/AssetConstants.ts:7](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/constants/AssetConstants.ts#L7)
 
 ---
 
@@ -503,7 +515,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/keeper/contracts/Provenance.ts:7](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/keeper/contracts/Provenance.ts#L7)
+[src/keeper/contracts/Provenance.ts:7](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/keeper/contracts/Provenance.ts#L7)
 
 ---
 
@@ -513,7 +525,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/ddo/DDO.ts:36](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/ddo/DDO.ts#L36)
+[src/ddo/DDO.ts:36](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/ddo/DDO.ts#L36)
 
 ---
 
@@ -523,7 +535,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/DDOTypes.ts:74](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L74)
+[src/types/DDOTypes.ts:74](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/DDOTypes.ts#L74)
 
 ---
 
@@ -533,7 +545,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/models/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/models/Logger.ts#L43)
+[src/models/Logger.ts:43](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/models/Logger.ts#L43)
 
 ---
 
@@ -543,7 +555,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:1](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/constants/AssetConstants.ts#L1)
+[src/constants/AssetConstants.ts:1](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/constants/AssetConstants.ts#L1)
 
 ---
 
@@ -553,7 +565,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/ddo/DDO.ts:34](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/ddo/DDO.ts#L34)
+[src/ddo/DDO.ts:34](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/ddo/DDO.ts#L34)
 
 ---
 
@@ -563,7 +575,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/constants/AssetConstants.ts:10](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/constants/AssetConstants.ts#L10)
+[src/constants/AssetConstants.ts:10](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/constants/AssetConstants.ts#L10)
 
 ---
 
@@ -573,7 +585,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:8](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/services/metadata/MetadataService.ts#L8)
+[src/services/metadata/MetadataService.ts:8](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/services/metadata/MetadataService.ts#L8)
 
 ---
 
@@ -590,7 +602,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:40](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/GeneralTypes.ts#L40)
+[src/types/GeneralTypes.ts:40](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/GeneralTypes.ts#L40)
 
 ---
 
@@ -609,7 +621,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:33](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/GeneralTypes.ts#L33)
+[src/types/GeneralTypes.ts:33](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/GeneralTypes.ts#L33)
 
 ---
 
@@ -638,7 +650,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/types/DDOTypes.ts:619](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/types/DDOTypes.ts#L619)
+[src/types/DDOTypes.ts:619](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/types/DDOTypes.ts#L619)
 
 ---
 
@@ -648,7 +660,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:9](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/services/metadata/MetadataService.ts#L9)
+[src/services/metadata/MetadataService.ts:9](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/services/metadata/MetadataService.ts#L9)
 
 ## Functions
 
@@ -668,7 +680,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/common/helpers.ts:47](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L47)
+[src/common/helpers.ts:47](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L47)
 
 ---
 
@@ -689,7 +701,7 @@ an asset is registered. It associates to the new DID created the 'Asset Registra
 
 #### Defined in
 
-[src/common/helpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L7)
+[src/common/helpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L7)
 
 ---
 
@@ -775,7 +787,7 @@ true if the contract exists and false otherwise
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:213](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L213)
+[src/nevermined/utils/BlockchainViemUtils.ts:213](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L213)
 
 ---
 
@@ -801,7 +813,7 @@ the kernel client
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:533](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L533)
+[src/nevermined/utils/BlockchainViemUtils.ts:533](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L533)
 
 ---
 
@@ -827,7 +839,7 @@ the session key serialized
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:581](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L581)
+[src/nevermined/utils/BlockchainViemUtils.ts:581](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L581)
 
 ---
 
@@ -848,7 +860,7 @@ the session key serialized
 
 #### Defined in
 
-[src/common/helpers.ts:81](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L81)
+[src/common/helpers.ts:81](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L81)
 
 ---
 
@@ -878,7 +890,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:150](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L150)
+[src/nevermined/utils/BlockchainViemUtils.ts:150](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L150)
 
 ---
 
@@ -905,7 +917,7 @@ a contract instance
 
 #### Defined in
 
-[src/common/helpers.ts:99](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L99)
+[src/common/helpers.ts:99](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L99)
 
 ---
 
@@ -925,7 +937,7 @@ a contract instance
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:13](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/ConversionTypeHelpers.ts#L13)
+[src/utils/ConversionTypeHelpers.ts:13](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/ConversionTypeHelpers.ts#L13)
 
 ---
 
@@ -950,7 +962,7 @@ the token id in a bigint format
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:320](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L320)
+[src/nevermined/utils/BlockchainViemUtils.ts:320](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L320)
 
 ---
 
@@ -971,7 +983,7 @@ the token id in a bigint format
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:16](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/ConversionTypeHelpers.ts#L16)
+[src/utils/ConversionTypeHelpers.ts:16](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/ConversionTypeHelpers.ts#L16)
 
 ---
 
@@ -991,7 +1003,7 @@ the token id in a bigint format
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:22](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/ConversionTypeHelpers.ts#L22)
+[src/utils/ConversionTypeHelpers.ts:22](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/ConversionTypeHelpers.ts#L22)
 
 ---
 
@@ -1015,7 +1027,7 @@ the hex string
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:367](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L367)
+[src/nevermined/utils/BlockchainViemUtils.ts:367](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L367)
 
 ---
 
@@ -1036,7 +1048,7 @@ the hex string
 
 #### Defined in
 
-[src/common/helpers.ts:74](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L74)
+[src/common/helpers.ts:74](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L74)
 
 ---
 
@@ -1056,7 +1068,7 @@ the hex string
 
 #### Defined in
 
-[src/utils/Events.ts:1](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/Events.ts#L1)
+[src/utils/Events.ts:1](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/Events.ts#L1)
 
 ---
 
@@ -1089,7 +1101,7 @@ formatEther(value)
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:520](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L520)
+[src/nevermined/utils/BlockchainViemUtils.ts:520](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L520)
 
 ---
 
@@ -1123,7 +1135,7 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:483](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L483)
+[src/nevermined/utils/BlockchainViemUtils.ts:483](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L483)
 
 ---
 
@@ -1143,7 +1155,7 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/common/helpers.ts:39](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L39)
+[src/common/helpers.ts:39](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L39)
 
 ---
 
@@ -1164,7 +1176,7 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:30](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/Instantiable.abstract.ts#L30)
+[src/Instantiable.abstract.ts:30](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/Instantiable.abstract.ts#L30)
 
 ---
 
@@ -1184,7 +1196,7 @@ formatUnits(oneEther, 18)
 
 #### Defined in
 
-[src/nevermined/resources/ZeroDevPermissions.ts:54](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/resources/ZeroDevPermissions.ts#L54)
+[src/nevermined/resources/ZeroDevPermissions.ts:54](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/resources/ZeroDevPermissions.ts#L54)
 
 ---
 
@@ -1208,7 +1220,7 @@ the encoded byte array
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:348](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L348)
+[src/nevermined/utils/BlockchainViemUtils.ts:348](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L348)
 
 ---
 
@@ -1228,7 +1240,7 @@ the encoded byte array
 
 #### Defined in
 
-[src/utils/Network.ts:152](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/Network.ts#L152)
+[src/utils/Network.ts:152](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/Network.ts#L152)
 
 ---
 
@@ -1252,7 +1264,7 @@ the same address in checksum format
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:329](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L329)
+[src/nevermined/utils/BlockchainViemUtils.ts:329](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L329)
 
 ---
 
@@ -1279,7 +1291,7 @@ the same address in checksum format
 
 #### Defined in
 
-[src/common/helpers.ts:21](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L21)
+[src/common/helpers.ts:21](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L21)
 
 ---
 
@@ -1316,7 +1328,7 @@ Filled conditions.
 
 #### Defined in
 
-[src/ddo/DDO.ts:58](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/ddo/DDO.ts#L58)
+[src/ddo/DDO.ts:58](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/ddo/DDO.ts#L58)
 
 ---
 
@@ -1342,7 +1354,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:199](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L199)
+[src/nevermined/utils/BlockchainViemUtils.ts:199](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L199)
 
 ---
 
@@ -1362,7 +1374,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/resources/ZeroDevPermissions.ts:34](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/resources/ZeroDevPermissions.ts#L34)
+[src/nevermined/resources/ZeroDevPermissions.ts:34](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/resources/ZeroDevPermissions.ts#L34)
 
 ---
 
@@ -1382,7 +1394,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/resources/ZeroDevPermissions.ts:44](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/resources/ZeroDevPermissions.ts#L44)
+[src/nevermined/resources/ZeroDevPermissions.ts:44](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/resources/ZeroDevPermissions.ts#L44)
 
 ---
 
@@ -1406,7 +1418,7 @@ a contract instance
 
 #### Defined in
 
-[src/nevermined/resources/ZeroDevPermissions.ts:74](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/resources/ZeroDevPermissions.ts#L74)
+[src/nevermined/resources/ZeroDevPermissions.ts:74](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/resources/ZeroDevPermissions.ts#L74)
 
 ---
 
@@ -1432,7 +1444,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:292](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L292)
+[src/nevermined/utils/BlockchainViemUtils.ts:292](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L292)
 
 ---
 
@@ -1458,7 +1470,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:303](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L303)
+[src/nevermined/utils/BlockchainViemUtils.ts:303](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L303)
 
 ---
 
@@ -1478,7 +1490,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/resources/ZeroDevPermissions.ts:64](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/resources/ZeroDevPermissions.ts#L64)
+[src/nevermined/resources/ZeroDevPermissions.ts:64](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/resources/ZeroDevPermissions.ts#L64)
 
 ---
 
@@ -1498,7 +1510,7 @@ the function found
 
 #### Defined in
 
-[src/utils/Network.ts:19](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/Network.ts#L19)
+[src/utils/Network.ts:19](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/Network.ts#L19)
 
 ---
 
@@ -1518,7 +1530,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/resources/ZeroDevPermissions.ts:22](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/resources/ZeroDevPermissions.ts#L22)
+[src/nevermined/resources/ZeroDevPermissions.ts:22](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/resources/ZeroDevPermissions.ts#L22)
 
 ---
 
@@ -1538,7 +1550,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/resources/ZeroDevPermissions.ts:3](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/resources/ZeroDevPermissions.ts#L3)
+[src/nevermined/resources/ZeroDevPermissions.ts:3](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/resources/ZeroDevPermissions.ts#L3)
 
 ---
 
@@ -1564,7 +1576,7 @@ The RoyaltyAttributes instance
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:62](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/api/AssetsApi.ts#L62)
+[src/nevermined/api/AssetsApi.ts:62](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/api/AssetsApi.ts#L62)
 
 ---
 
@@ -1589,7 +1601,7 @@ The royalty scheme
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:47](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/api/AssetsApi.ts#L47)
+[src/nevermined/api/AssetsApi.ts:47](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/api/AssetsApi.ts#L47)
 
 ---
 
@@ -1615,7 +1627,7 @@ the NvmAccount represented by the session key
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:616](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L616)
+[src/nevermined/utils/BlockchainViemUtils.ts:616](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L616)
 
 ---
 
@@ -1641,7 +1653,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:281](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L281)
+[src/nevermined/utils/BlockchainViemUtils.ts:281](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L281)
 
 ---
 
@@ -1661,7 +1673,7 @@ the function found
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/Instantiable.abstract.ts#L50)
+[src/Instantiable.abstract.ts:50](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/Instantiable.abstract.ts#L50)
 
 ---
 
@@ -1681,7 +1693,7 @@ the function found
 
 #### Defined in
 
-[src/utils/Network.ts:85](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/Network.ts#L85)
+[src/utils/Network.ts:85](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/Network.ts#L85)
 
 ---
 
@@ -1705,7 +1717,21 @@ true of the address is valid
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:338](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L338)
+[src/nevermined/utils/BlockchainViemUtils.ts:338](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L338)
+
+---
+
+### isWindowEthereumDefined
+
+▸ **isWindowEthereumDefined**(): `boolean`
+
+#### Returns
+
+`boolean`
+
+#### Defined in
+
+[src/nevermined/resources/AppNetworks.ts:189](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/resources/AppNetworks.ts#L189)
 
 ---
 
@@ -1726,7 +1752,7 @@ true of the address is valid
 
 #### Defined in
 
-[src/common/helpers.ts:34](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L34)
+[src/common/helpers.ts:34](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L34)
 
 ---
 
@@ -1750,7 +1776,7 @@ the hash
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:422](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L422)
+[src/nevermined/utils/BlockchainViemUtils.ts:422](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L422)
 
 ---
 
@@ -1775,7 +1801,7 @@ the hash
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:443](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L443)
+[src/nevermined/utils/BlockchainViemUtils.ts:443](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L443)
 
 ---
 
@@ -1800,7 +1826,7 @@ the hash
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:432](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L432)
+[src/nevermined/utils/BlockchainViemUtils.ts:432](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L432)
 
 ---
 
@@ -1818,7 +1844,7 @@ a new account
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:400](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L400)
+[src/nevermined/utils/BlockchainViemUtils.ts:400](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L400)
 
 ---
 
@@ -1842,7 +1868,7 @@ the array of accounts
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:410](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L410)
+[src/nevermined/utils/BlockchainViemUtils.ts:410](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L410)
 
 ---
 
@@ -1867,7 +1893,7 @@ an account
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:378](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L378)
+[src/nevermined/utils/BlockchainViemUtils.ts:378](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L378)
 
 ---
 
@@ -1892,7 +1918,7 @@ the array of accounts
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:388](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L388)
+[src/nevermined/utils/BlockchainViemUtils.ts:388](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L388)
 
 ---
 
@@ -1912,7 +1938,7 @@ the array of accounts
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:14](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/ConversionTypeHelpers.ts#L14)
+[src/utils/ConversionTypeHelpers.ts:14](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/ConversionTypeHelpers.ts#L14)
 
 ---
 
@@ -1932,7 +1958,7 @@ the array of accounts
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:5](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/ConversionTypeHelpers.ts#L5)
+[src/utils/ConversionTypeHelpers.ts:5](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/ConversionTypeHelpers.ts#L5)
 
 ---
 
@@ -1952,7 +1978,7 @@ the array of accounts
 
 #### Defined in
 
-[src/utils/PromiseResolver.ts:11](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/PromiseResolver.ts#L11)
+[src/utils/PromiseResolver.ts:11](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/PromiseResolver.ts#L11)
 
 ---
 
@@ -1986,7 +2012,7 @@ parseEther('-0.5')
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:502](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L502)
+[src/nevermined/utils/BlockchainViemUtils.ts:502](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L502)
 
 ---
 
@@ -2021,7 +2047,7 @@ parseUnits('121.0', 9)
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:465](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L465)
+[src/nevermined/utils/BlockchainViemUtils.ts:465](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L465)
 
 ---
 
@@ -2046,7 +2072,7 @@ the event found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:263](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L263)
+[src/nevermined/utils/BlockchainViemUtils.ts:263](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L263)
 
 ---
 
@@ -2072,7 +2098,7 @@ the function found
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:245](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L245)
+[src/nevermined/utils/BlockchainViemUtils.ts:245](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L245)
 
 ---
 
@@ -2092,7 +2118,7 @@ the function found
 
 #### Defined in
 
-[src/common/helpers.ts:88](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L88)
+[src/common/helpers.ts:88](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L88)
 
 ---
 
@@ -2112,7 +2138,7 @@ the function found
 
 #### Defined in
 
-[src/common/helpers.ts:60](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L60)
+[src/common/helpers.ts:60](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L60)
 
 ---
 
@@ -2132,7 +2158,7 @@ the function found
 
 #### Defined in
 
-[src/common/helpers.ts:51](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/common/helpers.ts#L51)
+[src/common/helpers.ts:51](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/common/helpers.ts#L51)
 
 ---
 
@@ -2157,7 +2183,7 @@ the padded value
 
 #### Defined in
 
-[src/nevermined/utils/BlockchainViemUtils.ts:358](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/utils/BlockchainViemUtils.ts#L358)
+[src/nevermined/utils/BlockchainViemUtils.ts:358](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/utils/BlockchainViemUtils.ts#L358)
 
 ---
 
@@ -2177,7 +2203,7 @@ the padded value
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:4](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/ConversionTypeHelpers.ts#L4)
+[src/utils/ConversionTypeHelpers.ts:4](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/ConversionTypeHelpers.ts#L4)
 
 ---
 
@@ -2198,4 +2224,4 @@ the padded value
 
 #### Defined in
 
-[src/utils/ConversionTypeHelpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/utils/ConversionTypeHelpers.ts#L7)
+[src/utils/ConversionTypeHelpers.ts:7](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/utils/ConversionTypeHelpers.ts#L7)

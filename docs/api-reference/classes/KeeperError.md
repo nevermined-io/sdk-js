@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.32](../code-reference.md) / KeeperError
+[@nevermined-io/sdk - v3.0.33](../code-reference.md) / KeeperError
 
 # Class: KeeperError
 
@@ -49,7 +49,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:20](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/errors/NeverminedErrors.ts#L20)
+[src/errors/NeverminedErrors.ts:20](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/errors/NeverminedErrors.ts#L20)
 
 ## Properties
 

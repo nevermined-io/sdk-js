@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.32](../code-reference.md) / AccessProofTemplateParams
+[@nevermined-io/sdk - v3.0.33](../code-reference.md) / AccessProofTemplateParams
 
 # Interface: AccessProofTemplateParams
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/nevermined/AccessService.ts:24](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/AccessService.ts#L24)
+[src/nevermined/AccessService.ts:24](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/AccessService.ts#L24)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/nevermined/AccessService.ts:25](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/AccessService.ts#L25)
+[src/nevermined/AccessService.ts:25](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/AccessService.ts#L25)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/nevermined/AccessService.ts:23](https://github.com/nevermined-io/sdk-js/blob/aebb2d7041e6f22aa25122a9a516bc8a7030d8ab/src/nevermined/AccessService.ts#L23)
+[src/nevermined/AccessService.ts:23](https://github.com/nevermined-io/sdk-js/blob/dda0d3b9d354dc639765282b5c8e9aea02544763/src/nevermined/AccessService.ts#L23)
