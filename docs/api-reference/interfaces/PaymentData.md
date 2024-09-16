@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/ContractTypes.ts#L25)
+[src/types/ContractTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/ContractTypes.ts#L25)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:26](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/ContractTypes.ts#L26)
+[src/types/ContractTypes.ts:26](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/ContractTypes.ts#L26)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:23](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/ContractTypes.ts#L23)
+[src/types/ContractTypes.ts:23](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/ContractTypes.ts#L23)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:24](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/ContractTypes.ts#L24)
+[src/types/ContractTypes.ts:24](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/ContractTypes.ts#L24)

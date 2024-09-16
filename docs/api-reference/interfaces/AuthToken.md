@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:34](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/services/metadata/MetadataService.ts#L34)
+[src/services/metadata/MetadataService.ts:34](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/services/metadata/MetadataService.ts#L34)

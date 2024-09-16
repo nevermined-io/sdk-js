@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/EventTypes.ts#L8)
+[src/types/EventTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/EventTypes.ts#L8)
 
 ---
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:9](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/EventTypes.ts#L9)
+[src/types/EventTypes.ts:9](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/EventTypes.ts#L9)
 
 ---
 
@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/EventTypes.ts#L10)
+[src/types/EventTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/EventTypes.ts#L10)
 
 ---
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:12](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/EventTypes.ts#L12)
+[src/types/EventTypes.ts:12](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/EventTypes.ts#L12)
 
 ---
 
@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/EventTypes.ts#L11)
+[src/types/EventTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/EventTypes.ts#L11)
 
 ---
 
@@ -71,4 +71,4 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/EventTypes.ts#L13)
+[src/types/EventTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/EventTypes.ts#L13)

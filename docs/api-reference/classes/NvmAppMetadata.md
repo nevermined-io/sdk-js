@@ -51,7 +51,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:46](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/ddo/NvmAppMetadata.ts#L46)
+[src/ddo/NvmAppMetadata.ts:46](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/ddo/NvmAppMetadata.ts#L46)
 
 ---
 
@@ -77,7 +77,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:192](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/ddo/NvmAppMetadata.ts#L192)
+[src/ddo/NvmAppMetadata.ts:192](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/ddo/NvmAppMetadata.ts#L192)
 
 ---
 
@@ -113,7 +113,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:115](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/ddo/NvmAppMetadata.ts#L115)
+[src/ddo/NvmAppMetadata.ts:115](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/ddo/NvmAppMetadata.ts#L115)
 
 ---
 
@@ -139,7 +139,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:71](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/ddo/NvmAppMetadata.ts#L71)
+[src/ddo/NvmAppMetadata.ts:71](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/ddo/NvmAppMetadata.ts#L71)
 
 ---
 
@@ -166,7 +166,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:19](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/ddo/NvmAppMetadata.ts#L19)
+[src/ddo/NvmAppMetadata.ts:19](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/ddo/NvmAppMetadata.ts#L19)
 
 ---
 
@@ -187,4 +187,4 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:216](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/ddo/NvmAppMetadata.ts#L216)
+[src/ddo/NvmAppMetadata.ts:216](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/ddo/NvmAppMetadata.ts#L216)

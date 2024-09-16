@@ -25,7 +25,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:15](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/nevermined/Versions.ts#L15)
+[src/nevermined/Versions.ts:15](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/nevermined/Versions.ts#L15)
 
 ---
 
@@ -35,7 +35,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:13](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/nevermined/Versions.ts#L13)
+[src/nevermined/Versions.ts:13](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/nevermined/Versions.ts#L13)
 
 ---
 
@@ -45,7 +45,7 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:16](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/nevermined/Versions.ts#L16)
+[src/nevermined/Versions.ts:16](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/nevermined/Versions.ts#L16)
 
 ---
 
@@ -55,4 +55,4 @@
 
 #### Defined in
 
-[src/nevermined/Versions.ts:14](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/nevermined/Versions.ts#L14)
+[src/nevermined/Versions.ts:14](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/nevermined/Versions.ts#L14)

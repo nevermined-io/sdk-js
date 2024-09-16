@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:97](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/MetadataTypes.ts#L97)
+[src/types/MetadataTypes.ts:97](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/MetadataTypes.ts#L97)
 
 ---
 
@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:101](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/MetadataTypes.ts#L101)
+[src/types/MetadataTypes.ts:101](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/MetadataTypes.ts#L101)
 
 ---
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:102](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/MetadataTypes.ts#L102)
+[src/types/MetadataTypes.ts:102](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/MetadataTypes.ts#L102)
 
 ---
 
@@ -65,7 +65,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:96](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/MetadataTypes.ts#L96)
+[src/types/MetadataTypes.ts:96](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/MetadataTypes.ts#L96)
 
 ---
 
@@ -79,7 +79,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:95](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/MetadataTypes.ts#L95)
+[src/types/MetadataTypes.ts:95](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/MetadataTypes.ts#L95)
 
 ---
 
@@ -93,4 +93,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:94](https://github.com/nevermined-io/sdk-js/blob/52fd1167668ed7223a94e3de0b05f43aa729e3f8/src/types/MetadataTypes.ts#L94)
+[src/types/MetadataTypes.ts:94](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/types/MetadataTypes.ts#L94)
