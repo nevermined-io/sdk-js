@@ -5,6 +5,7 @@ export class NeverminedAppOptions extends NeverminedOptions {
   nftContractTimeAddress?: string
   nftContractCreditsAddress?: string
   tokenAddress?: string // ERC-20 token address or zero address (0x000..) for native token
+  neverminedBackendUri?: string
 }
 
 export class AppDeploymentLocal extends NeverminedAppOptions {
@@ -32,6 +33,7 @@ export class AppDeploymentStaging extends NeverminedAppOptions {
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.staging.nevermined.app'
   neverminedNodeAddress = '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'
+  neverminedBackendUri = 'https://one-backend.staging.nevermined.app'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
@@ -49,6 +51,7 @@ export class AppDeploymentTesting extends NeverminedAppOptions {
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.testing.nevermined.app'
   neverminedNodeAddress = '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'
+  neverminedBackendUri = 'https://one-backend.testing.nevermined.app'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
@@ -66,6 +69,7 @@ export class AppDeploymentArbitrum extends NeverminedAppOptions {
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.arbitrum.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  neverminedBackendUri = 'https://one-backend.arbitrum.nevermined.app'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
@@ -83,6 +87,7 @@ export class AppDeploymentGnosis extends NeverminedAppOptions {
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.gnosis.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  neverminedBackendUri = 'https://one-backend.gnosis.nevermined.app'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
@@ -100,6 +105,7 @@ export class AppDeploymentMatic extends NeverminedAppOptions {
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.matic.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  neverminedBackendUri = 'https://one-backend.matic.nevermined.app'
   verbose = true
   gasMultiplier = 1.2
   gasPriceMultiplier = 1.2
@@ -117,6 +123,7 @@ export class AppDeploymentBase extends NeverminedAppOptions {
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.base.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  neverminedBackendUri = 'https://one-backend.base.nevermined.app'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
@@ -134,6 +141,7 @@ export class AppDeploymentCelo extends NeverminedAppOptions {
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.celo.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  neverminedBackendUri = 'https://one-backend.celo.nevermined.app'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
@@ -151,6 +159,7 @@ export class AppDeploymentOptimism extends NeverminedAppOptions {
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.optimism.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  neverminedBackendUri = 'https://one-backend.optimism.nevermined.app'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0
@@ -168,6 +177,7 @@ export class AppDeploymentPeaq extends NeverminedAppOptions {
   graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
   neverminedNodeUri = 'https://node.peaq.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  neverminedBackendUri = 'https://one-backend.peaq.nevermined.app'
   verbose = true
   gasMultiplier = 0
   gasPriceMultiplier = 0

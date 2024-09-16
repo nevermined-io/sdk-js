@@ -197,6 +197,24 @@ describe('Nevermined API Key', () => {
       }
     })
 
+    it('Complete flow WITHOUT ZeroDev', async () => {
+      const encryptedNvmApiKey = await NvmApiKey.generateWithoutSessionKey(
+        nvm.utils.signature,
+        user,
+        marketplaceAuthToken,
+        providerAddress,
+        providerPublicKey,
+      )
+      assert.isDefined(encryptedNvmApiKey)
+
+      const apiKey = await NvmApiKey.decryptAndDecode(encryptedNvmApiKey, providerPrivateKey)
+      assert.isDefined(apiKey)
+      console.log(apiKey)
+      assert.isTrue(apiKey.isValid())
+      assert.isUndefined(apiKey.zsk)
+      assert.equal(apiKey.iss, user.getId())
+    })
+
     it('LOCAL: As a user I can generate a NVM API Key for the NODE', async () => {
       const address = '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0'
       const publicKey =

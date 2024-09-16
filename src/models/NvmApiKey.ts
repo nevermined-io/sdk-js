@@ -75,7 +75,7 @@ export class NvmApiKey implements JWTPayload {
   public static async generate(
     signatureUtils: SignatureUtils,
     issuerAccount: NvmAccount,
-    zeroDevSessionKey: string,
+    zeroDevSessionKey: string | undefined,
     marketplaceAuthToken: string,
     receiverAddress: string,
     receiverPublicKey: string,
@@ -108,6 +108,27 @@ export class NvmApiKey implements JWTPayload {
       .ethSign(signatureUtils, issuerAccount)
 
     return encryptMessage(signedJWT, receiverPublicKey)
+  }
+
+  public static async generateWithoutSessionKey(
+    signatureUtils: SignatureUtils,
+    issuerAccount: NvmAccount,
+    marketplaceAuthToken: string,
+    receiverAddress: string,
+    receiverPublicKey: string,
+    expirationTime: string = '1y',
+    additionalParams = {},
+  ): Promise<string> {
+    return NvmApiKey.generate(
+      signatureUtils,
+      issuerAccount,
+      undefined,
+      marketplaceAuthToken,
+      receiverAddress,
+      receiverPublicKey,
+      expirationTime,
+      additionalParams,
+    )
   }
 
   /**
