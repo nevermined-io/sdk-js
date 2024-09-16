@@ -76,5 +76,6 @@ export {
   searchAbiFunction,
   zeroPadValue,
 } from './utils'
+export * from './resources/AppNetworks'
 export { PlatformTechStatus, Versions } from './Versions'
 export type { PlatformKeeperTech, PlatformTech, PlatformVersions } from './Versions'
