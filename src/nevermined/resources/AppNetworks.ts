@@ -30,7 +30,7 @@ export class AppDeploymentStaging extends NeverminedAppOptions {
   chainId = 421614
   web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://sepolia-rollup.arbitrum.io/rpc'
   marketplaceUri = 'https://marketplace-api.staging.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78072/public'
   neverminedNodeUri = 'https://node.staging.nevermined.app'
   neverminedNodeAddress = '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'
   neverminedBackendUri = 'https://one-backend.staging.nevermined.app'
@@ -48,7 +48,7 @@ export class AppDeploymentTesting extends NeverminedAppOptions {
   chainId = 421614
   web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://sepolia-rollup.arbitrum.io/rpc'
   marketplaceUri = 'https://marketplace-api.testing.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78072/public'
   neverminedNodeUri = 'https://node.testing.nevermined.app'
   neverminedNodeAddress = '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'
   neverminedBackendUri = 'https://one-backend.testing.nevermined.app'
@@ -66,7 +66,7 @@ export class AppDeploymentArbitrum extends NeverminedAppOptions {
   chainId = 42161
   web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://arb1.arbitrum.io/rpc'
   marketplaceUri = 'https://marketplace-api.arbitrum.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.arbitrum.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
   neverminedBackendUri = 'https://one-backend.arbitrum.nevermined.app'
@@ -84,7 +84,7 @@ export class AppDeploymentGnosis extends NeverminedAppOptions {
   chainId = 100
   web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://rpc.gnosischain.com/'
   marketplaceUri = 'https://marketplace-api.gnosis.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.gnosis.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
   neverminedBackendUri = 'https://one-backend.gnosis.nevermined.app'
@@ -102,7 +102,7 @@ export class AppDeploymentMatic extends NeverminedAppOptions {
   chainId = 137
   web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://polygon-rpc.com'
   marketplaceUri = 'https://marketplace-api.matic.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.matic.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
   neverminedBackendUri = 'https://one-backend.matic.nevermined.app'
@@ -120,7 +120,7 @@ export class AppDeploymentBase extends NeverminedAppOptions {
   chainId = 8453
   web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://1rpc.io/base'
   marketplaceUri = 'https://marketplace-api.base.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.base.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
   neverminedBackendUri = 'https://one-backend.base.nevermined.app'
@@ -138,7 +138,7 @@ export class AppDeploymentCelo extends NeverminedAppOptions {
   chainId = 42220
   web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://forno.celo.org'
   marketplaceUri = 'https://marketplace-api.celo.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.celo.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
   neverminedBackendUri = 'https://one-backend.celo.nevermined.app'
@@ -156,7 +156,7 @@ export class AppDeploymentOptimism extends NeverminedAppOptions {
   chainId = 10
   web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://optimism.drpc.org'
   marketplaceUri = 'https://marketplace-api.optimism.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.optimism.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
   neverminedBackendUri = 'https://one-backend.optimism.nevermined.app'
@@ -174,7 +174,7 @@ export class AppDeploymentPeaq extends NeverminedAppOptions {
   chainId = 3338
   web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://evm.peaq.network'
   marketplaceUri = 'https://marketplace-api.peaq.nevermined.app'
-  graphHttpUri = 'https://api.thegraph.com/subgraphs/name/nevermined-io/public'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.peaq.nevermined.app'
   neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
   neverminedBackendUri = 'https://one-backend.peaq.nevermined.app'
