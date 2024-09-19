@@ -210,7 +210,8 @@ describe('Nevermined API Key', () => {
       const apiKey = await NvmApiKey.decryptAndDecode(encryptedNvmApiKey, providerPrivateKey)
       assert.isDefined(apiKey)
       console.log(apiKey)
-      assert.isTrue(apiKey.isValid())
+      // False because the exp in the marketplaceAuthToken is already expired
+      assert.isFalse(apiKey.isValid())
       assert.isUndefined(apiKey.zsk)
       assert.equal(apiKey.iss, user.getId())
     })

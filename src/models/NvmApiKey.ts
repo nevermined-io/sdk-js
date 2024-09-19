@@ -78,6 +78,7 @@ export class NvmApiKey implements JWTPayload {
     marketplaceAuthToken: string,
     receiverAddress: string,
     receiverPublicKey: string,
+    expirationTime: number | string = '1y',
     additionalParams = {},
   ): Promise<string> {
     const issuerAddress = getChecksumAddress(issuerAccount.getId())
@@ -98,12 +99,11 @@ export class NvmApiKey implements JWTPayload {
       // eip712Data,
       ...additionalParams,
     }
-    const { exp } = NvmApiKey.decodeJWT(marketplaceAuthToken)
 
     const signedJWT = await new EthSignJWT(params)
       .setProtectedHeader({ alg: 'ES256K' })
       .setIssuedAt()
-      .setExpirationTime(exp!)
+      .setExpirationTime(expirationTime)
       .ethSign(signatureUtils, issuerAccount)
 
     return encryptMessage(signedJWT, receiverPublicKey)
@@ -117,6 +117,8 @@ export class NvmApiKey implements JWTPayload {
     receiverPublicKey: string,
     additionalParams = {},
   ): Promise<string> {
+    const { exp } = NvmApiKey.decodeJWT(marketplaceAuthToken)
+
     return NvmApiKey.generate(
       signatureUtils,
       issuerAccount,
@@ -124,6 +126,7 @@ export class NvmApiKey implements JWTPayload {
       marketplaceAuthToken,
       receiverAddress,
       receiverPublicKey,
+      exp!,
       additionalParams,
     )
   }

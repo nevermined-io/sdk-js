@@ -290,6 +290,10 @@ export class NvmApp {
     if (!this.fullSDK || !this.isWeb3Connected() || !this.userAccount)
       throw new Web3Error('Web3 not connected, try calling the connect method first')
 
+    const marketplaceAuthToken = this.getLoginCredentials() as string
+
+    const { exp } = NvmApiKey.decodeJWT(marketplaceAuthToken)
+
     return NvmApiKey.generate(
       this.fullSDK.utils.signature,
       this.userAccount,
@@ -297,6 +301,7 @@ export class NvmApp {
       this.getLoginCredentials() as string,
       this.assetProviders[0].address,
       this.assetProviders[0].publicKey,
+      exp,
     )
   }
 
