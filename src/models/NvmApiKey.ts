@@ -67,7 +67,6 @@ export class NvmApiKey implements JWTPayload {
    * @param marketplaceAuthToken The Marketplace  Auth Token
    * @param receiverAddress The address of the account the key is issued for
    * @param receiverPublicKey The public key of the account the key is issued for
-   * @param expirationTime When the key will expire
    * @param chainId The chain id of the network the key is valid for
    * @param additionalParams Addintional  params to be added to the Key generated
    * @returns The encrypted string representing the @see {@link NvmApiKey}
@@ -79,7 +78,7 @@ export class NvmApiKey implements JWTPayload {
     marketplaceAuthToken: string,
     receiverAddress: string,
     receiverPublicKey: string,
-    expirationTime: string = '1y',
+    expirationTime: number | string = '1y',
     additionalParams = {},
   ): Promise<string> {
     const issuerAddress = getChecksumAddress(issuerAccount.getId())
@@ -116,9 +115,10 @@ export class NvmApiKey implements JWTPayload {
     marketplaceAuthToken: string,
     receiverAddress: string,
     receiverPublicKey: string,
-    expirationTime: string = '1y',
     additionalParams = {},
   ): Promise<string> {
+    const { exp } = NvmApiKey.decodeJWT(marketplaceAuthToken)
+
     return NvmApiKey.generate(
       signatureUtils,
       issuerAccount,
@@ -126,7 +126,7 @@ export class NvmApiKey implements JWTPayload {
       marketplaceAuthToken,
       receiverAddress,
       receiverPublicKey,
-      expirationTime,
+      exp!,
       additionalParams,
     )
   }
