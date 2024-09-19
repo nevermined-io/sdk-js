@@ -53,7 +53,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:38](https://github.com/nevermined-io/sdk-js/blob/a526f8f91dd570a90afee06fd5e4f65189b252b8/src/errors/NeverminedErrors.ts#L38)
+[src/errors/NeverminedErrors.ts:38](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/errors/NeverminedErrors.ts#L38)
 
 ## Properties
 
