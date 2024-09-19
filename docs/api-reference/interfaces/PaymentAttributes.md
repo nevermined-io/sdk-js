@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.33](../code-reference.md) / PaymentAttributes
+[@nevermined-io/sdk - v3.0.34](../code-reference.md) / PaymentAttributes
 
 # Interface: PaymentAttributes
 
@@ -22,7 +22,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:69](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L69)
+[src/types/DDOTypes.ts:69](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L69)
 
 ---
 
@@ -32,7 +32,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:68](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L68)
+[src/types/DDOTypes.ts:68](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L68)
 
 ---
 
@@ -42,4 +42,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:67](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L67)
+[src/types/DDOTypes.ts:67](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L67)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.33](../code-reference.md) / DIDRegistry
+[@nevermined-io/sdk - v3.0.34](../code-reference.md) / DIDRegistry
 
 # Class: DIDRegistry
 
@@ -108,7 +108,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L24)
+[src/keeper/contracts/ContractBase.ts:24](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L24)
 
 ## Properties
 
@@ -122,7 +122,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:22](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L22)
+[src/keeper/contracts/ContractBase.ts:22](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L22)
 
 ---
 
@@ -136,7 +136,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L19)
+[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L19)
 
 ---
 
@@ -150,7 +150,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L18)
+[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L18)
 
 ---
 
@@ -164,7 +164,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L20)
+[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L20)
 
 ---
 
@@ -178,7 +178,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L21)
+[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L21)
 
 ## Accessors
 
@@ -196,7 +196,7 @@ ContractBase.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L137)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -214,7 +214,7 @@ ContractBase.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L141)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -232,7 +232,7 @@ ContractBase.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L89)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -250,7 +250,7 @@ ContractBase.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L120)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -268,7 +268,7 @@ ContractBase.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -286,7 +286,7 @@ ContractBase.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L113)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -304,7 +304,7 @@ ContractBase.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L128)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -322,7 +322,7 @@ ContractBase.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L81)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -404,7 +404,7 @@ ContractBase.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L97)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -455,7 +455,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -483,7 +483,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:552](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L552)
+[src/keeper/contracts/DIDRegistry.ts:552](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L552)
 
 ---
 
@@ -506,7 +506,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:579](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L579)
+[src/keeper/contracts/DIDRegistry.ts:579](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L579)
 
 ---
 
@@ -529,7 +529,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:623](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L623)
+[src/keeper/contracts/DIDRegistry.ts:623](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L623)
 
 ---
 
@@ -552,7 +552,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:619](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L619)
+[src/keeper/contracts/DIDRegistry.ts:619](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L619)
 
 ---
 
@@ -584,7 +584,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:92](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L92)
+[src/keeper/contracts/ContractBase.ts:92](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L92)
 
 ---
 
@@ -616,7 +616,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:216](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L216)
+[src/keeper/contracts/DIDRegistry.ts:216](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L216)
 
 ---
 
@@ -647,7 +647,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:246](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L246)
+[src/keeper/contracts/DIDRegistry.ts:246](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L246)
 
 ---
 
@@ -667,7 +667,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:300](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L300)
+[src/keeper/contracts/DIDRegistry.ts:300](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L300)
 
 ---
 
@@ -687,7 +687,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:275](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L275)
+[src/keeper/contracts/DIDRegistry.ts:275](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L275)
 
 ---
 
@@ -707,7 +707,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:266](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L266)
+[src/keeper/contracts/DIDRegistry.ts:266](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L266)
 
 ---
 
@@ -727,7 +727,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:262](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L262)
+[src/keeper/contracts/DIDRegistry.ts:262](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L262)
 
 ---
 
@@ -747,7 +747,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:371](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L371)
+[src/keeper/contracts/DIDRegistry.ts:371](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L371)
 
 ---
 
@@ -774,7 +774,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:416](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L416)
+[src/keeper/contracts/DIDRegistry.ts:416](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L416)
 
 ---
 
@@ -794,7 +794,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:636](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L636)
+[src/keeper/contracts/DIDRegistry.ts:636](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L636)
 
 ---
 
@@ -814,7 +814,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:353](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L353)
+[src/keeper/contracts/DIDRegistry.ts:353](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L353)
 
 ---
 
@@ -838,7 +838,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:68](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L68)
+[src/keeper/contracts/ContractBase.ts:68](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L68)
 
 ---
 
@@ -858,7 +858,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:640](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L640)
+[src/keeper/contracts/DIDRegistry.ts:640](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L640)
 
 ---
 
@@ -879,7 +879,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:357](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L357)
+[src/keeper/contracts/DIDRegistry.ts:357](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L357)
 
 ---
 
@@ -899,7 +899,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:465](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L465)
+[src/keeper/contracts/DIDRegistry.ts:465](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L465)
 
 ---
 
@@ -919,7 +919,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:611](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L611)
+[src/keeper/contracts/DIDRegistry.ts:611](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L611)
 
 ---
 
@@ -939,7 +939,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:631](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L631)
+[src/keeper/contracts/DIDRegistry.ts:631](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L631)
 
 ---
 
@@ -964,7 +964,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:76](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L76)
+[src/keeper/contracts/ContractBase.ts:76](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L76)
 
 ---
 
@@ -987,7 +987,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:326](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L326)
+[src/keeper/contracts/DIDRegistry.ts:326](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L326)
 
 ---
 
@@ -1009,7 +1009,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:648](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L648)
+[src/keeper/contracts/DIDRegistry.ts:648](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L648)
 
 ---
 
@@ -1030,7 +1030,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:644](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L644)
+[src/keeper/contracts/DIDRegistry.ts:644](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L644)
 
 ---
 
@@ -1056,7 +1056,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:29](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L29)
+[src/keeper/contracts/ContractBase.ts:29](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L29)
 
 ---
 
@@ -1077,7 +1077,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:271](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L271)
+[src/keeper/contracts/DIDRegistry.ts:271](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L271)
 
 ---
 
@@ -1098,7 +1098,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:607](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L607)
+[src/keeper/contracts/DIDRegistry.ts:607](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L607)
 
 ---
 
@@ -1121,7 +1121,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:615](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L615)
+[src/keeper/contracts/DIDRegistry.ts:615](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L615)
 
 ---
 
@@ -1150,7 +1150,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:38](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L38)
+[src/keeper/contracts/DIDRegistry.ts:38](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L38)
 
 ---
 
@@ -1181,7 +1181,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:67](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L67)
+[src/keeper/contracts/DIDRegistry.ts:67](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L67)
 
 ---
 
@@ -1214,7 +1214,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:99](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L99)
+[src/keeper/contracts/DIDRegistry.ts:99](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L99)
 
 ---
 
@@ -1247,7 +1247,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:145](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L145)
+[src/keeper/contracts/DIDRegistry.ts:145](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L145)
 
 ---
 
@@ -1270,7 +1270,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:593](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L593)
+[src/keeper/contracts/DIDRegistry.ts:593](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L593)
 
 ---
 
@@ -1293,7 +1293,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:627](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L627)
+[src/keeper/contracts/DIDRegistry.ts:627](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L627)
 
 ---
 
@@ -1316,7 +1316,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:335](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L335)
+[src/keeper/contracts/DIDRegistry.ts:335](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L335)
 
 ---
 
@@ -1343,7 +1343,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:128](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L128)
+[src/keeper/contracts/ContractBase.ts:128](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L128)
 
 ---
 
@@ -1370,7 +1370,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:109](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L109)
+[src/keeper/contracts/ContractBase.ts:109](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L109)
 
 ---
 
@@ -1393,7 +1393,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:344](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L344)
+[src/keeper/contracts/DIDRegistry.ts:344](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L344)
 
 ---
 
@@ -1417,7 +1417,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L163)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -1441,7 +1441,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:85](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/ContractBase.ts#L85)
+[src/keeper/contracts/ContractBase.ts:85](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/ContractBase.ts#L85)
 
 ---
 
@@ -1464,7 +1464,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:361](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L361)
+[src/keeper/contracts/DIDRegistry.ts:361](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L361)
 
 ---
 
@@ -1493,7 +1493,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:186](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L186)
+[src/keeper/contracts/DIDRegistry.ts:186](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L186)
 
 ---
 
@@ -1520,7 +1520,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:485](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L485)
+[src/keeper/contracts/DIDRegistry.ts:485](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L485)
 
 ---
 
@@ -1546,7 +1546,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:535](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L535)
+[src/keeper/contracts/DIDRegistry.ts:535](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L535)
 
 ---
 
@@ -1573,7 +1573,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:510](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L510)
+[src/keeper/contracts/DIDRegistry.ts:510](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L510)
 
 ---
 
@@ -1597,7 +1597,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/DIDRegistry.ts:21](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/keeper/contracts/DIDRegistry.ts#L21)
+[src/keeper/contracts/DIDRegistry.ts:21](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/keeper/contracts/DIDRegistry.ts#L21)
 
 ---
 
@@ -1628,4 +1628,4 @@ Contract Receipt
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/Instantiable.abstract.ts#L154)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/Instantiable.abstract.ts#L154)

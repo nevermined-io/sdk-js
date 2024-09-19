@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.33](../code-reference.md) / ServicePlugin
+[@nevermined-io/sdk - v3.0.34](../code-reference.md) / ServicePlugin
 
 # Interface: ServicePlugin\<T\>
 
@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:806](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L806)
+[src/types/DDOTypes.ts:806](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L806)
 
 ---
 
@@ -66,7 +66,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:796](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L796)
+[src/types/DDOTypes.ts:796](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L796)
 
 ---
 
@@ -88,7 +88,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:804](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L804)
+[src/types/DDOTypes.ts:804](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L804)
 
 ---
 
@@ -110,4 +110,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:808](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L808)
+[src/types/DDOTypes.ts:808](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L808)

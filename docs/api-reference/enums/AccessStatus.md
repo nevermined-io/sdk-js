@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.33](../code-reference.md) / AccessStatus
+[@nevermined-io/sdk - v3.0.34](../code-reference.md) / AccessStatus
 
 # Enumeration: AccessStatus
 
@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:3](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/GeneralTypes.ts#L3)
+[src/types/GeneralTypes.ts:3](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/GeneralTypes.ts#L3)
 
 ---
 
@@ -30,7 +30,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:4](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/GeneralTypes.ts#L4)
+[src/types/GeneralTypes.ts:4](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/GeneralTypes.ts#L4)
 
 ---
 
@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:2](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/GeneralTypes.ts#L2)
+[src/types/GeneralTypes.ts:2](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/GeneralTypes.ts#L2)
 
 ---
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:6](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/GeneralTypes.ts#L6)
+[src/types/GeneralTypes.ts:6](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/GeneralTypes.ts#L6)
 
 ---
 
@@ -60,4 +60,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:5](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/GeneralTypes.ts#L5)
+[src/types/GeneralTypes.ts:5](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/GeneralTypes.ts#L5)

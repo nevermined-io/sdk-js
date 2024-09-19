@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.33](../code-reference.md) / DIDResolvePolicy
+[@nevermined-io/sdk - v3.0.34](../code-reference.md) / DIDResolvePolicy
 
 # Enumeration: DIDResolvePolicy
 
@@ -28,7 +28,7 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/MetadataTypes.ts#L10)
+[src/types/MetadataTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/MetadataTypes.ts#L10)
 
 ---
 
@@ -38,7 +38,7 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/MetadataTypes.ts#L11)
+[src/types/MetadataTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/MetadataTypes.ts#L11)
 
 ---
 
@@ -48,7 +48,7 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:14](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/MetadataTypes.ts#L14)
+[src/types/MetadataTypes.ts:14](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/MetadataTypes.ts#L14)
 
 ---
 
@@ -58,7 +58,7 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:12](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/MetadataTypes.ts#L12)
+[src/types/MetadataTypes.ts:12](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/MetadataTypes.ts#L12)
 
 ---
 
@@ -68,4 +68,4 @@ It described the policy to be used when resolving an asset. It has the following
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/MetadataTypes.ts#L13)
+[src/types/MetadataTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/MetadataTypes.ts#L13)

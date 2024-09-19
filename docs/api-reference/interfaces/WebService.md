@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.33](../code-reference.md) / WebService
+[@nevermined-io/sdk - v3.0.34](../code-reference.md) / WebService
 
 # Interface: WebService
 
@@ -23,7 +23,7 @@ Interface describing an asset of type `service`
 
 #### Defined in
 
-[src/types/DDOTypes.ts:206](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L206)
+[src/types/DDOTypes.ts:206](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L206)
 
 ---
 
@@ -33,7 +33,7 @@ Interface describing an asset of type `service`
 
 #### Defined in
 
-[src/types/DDOTypes.ts:204](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L204)
+[src/types/DDOTypes.ts:204](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L204)
 
 ---
 
@@ -43,7 +43,7 @@ Interface describing an asset of type `service`
 
 #### Defined in
 
-[src/types/DDOTypes.ts:198](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L198)
+[src/types/DDOTypes.ts:198](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L198)
 
 ---
 
@@ -53,7 +53,7 @@ Interface describing an asset of type `service`
 
 #### Defined in
 
-[src/types/DDOTypes.ts:202](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L202)
+[src/types/DDOTypes.ts:202](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L202)
 
 ---
 
@@ -63,7 +63,7 @@ Interface describing an asset of type `service`
 
 #### Defined in
 
-[src/types/DDOTypes.ts:200](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L200)
+[src/types/DDOTypes.ts:200](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L200)
 
 ---
 
@@ -73,4 +73,4 @@ Interface describing an asset of type `service`
 
 #### Defined in
 
-[src/types/DDOTypes.ts:196](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L196)
+[src/types/DDOTypes.ts:196](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L196)

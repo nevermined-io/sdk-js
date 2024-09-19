@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.33](../code-reference.md) / ServiceAgreementTemplateCondition
+[@nevermined-io/sdk - v3.0.34](../code-reference.md) / ServiceAgreementTemplateCondition
 
 # Interface: ServiceAgreementTemplateCondition
 
@@ -22,7 +22,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:831](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L831)
+[src/types/DDOTypes.ts:831](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L831)
 
 ---
 
@@ -32,7 +32,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:834](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L834)
+[src/types/DDOTypes.ts:834](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L834)
 
 ---
 
@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:832](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L832)
+[src/types/DDOTypes.ts:832](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L832)
 
 ---
 
@@ -52,7 +52,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:828](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L828)
+[src/types/DDOTypes.ts:828](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L828)
 
 ---
 
@@ -62,7 +62,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:833](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L833)
+[src/types/DDOTypes.ts:833](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L833)
 
 ---
 
@@ -72,7 +72,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:829](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L829)
+[src/types/DDOTypes.ts:829](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L829)
 
 ---
 
@@ -82,4 +82,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:830](https://github.com/nevermined-io/sdk-js/blob/3d639fcb0e672437e35812b11fb840dbd7e96061/src/types/DDOTypes.ts#L830)
+[src/types/DDOTypes.ts:830](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L830)
