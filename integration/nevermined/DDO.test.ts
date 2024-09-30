@@ -497,6 +497,7 @@ describe('DDO Tests', () => {
       true,
       'v1',
     )
+    metadata.main.type = 'agent'
     const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
       metadata,
       services: [
