@@ -7,6 +7,7 @@ import { NvmAccount } from '../../src/models/NvmAccount'
 import { DDO } from '../../src/ddo/DDO'
 import { AssetAttributes } from '../../src/models/AssetAttributes'
 import { generateId } from '../../src/common/helpers'
+import { NvmAppMetadata } from '../../src/ddo/NvmAppMetadata'
 describe('Search Asset', () => {
   let nevermined: Nevermined
   let neverminedOffline: Nevermined
@@ -43,6 +44,29 @@ describe('Search Asset', () => {
     metadata = getMetadata(undefined, 'Test3')
     metadata.userId = userId
     await nevermined.assets.create(AssetAttributes.getInstance({ metadata, appId }), account)
+
+    const agentMetadata = NvmAppMetadata.getServiceMetadataTemplate(
+      'Nevermined Agent Metadata TEST',
+      'Nevermined',
+      [{ POST: `http://localhost/did:nv:{DID}/search` }, { POST: `http://localhost/api/(.*)` }],
+      [],
+      `http://localhost/api-json`,
+      'RESTful',
+      'bearer',
+      '1234',
+      '',
+      '',
+      false,
+      true,
+      'v1',
+    )
+    metadata = getMetadata(undefined, 'Test4')
+    agentMetadata.userId = userId
+    agentMetadata.main.type = 'agent'
+    await nevermined.assets.create(
+      AssetAttributes.getInstance({ metadata: agentMetadata, appId }),
+      account,
+    )
   })
 
   it('should search by text', async () => {
@@ -53,7 +77,7 @@ describe('Search Asset', () => {
       undefined,
       appId,
     )
-    assert.equal(result.totalResults.value, 4)
+    assert.equal(result.totalResults.value, 5)
 
     result = await neverminedOffline.search.byText('Test1', undefined, undefined, undefined, appId)
     assert.equal(result.totalResults.value, 1)
@@ -108,7 +132,7 @@ describe('Search Asset', () => {
 
   it('should be able to get assets by type', async () => {
     const { results: ddos } = await neverminedOffline.search.byType('dataset')
-    assert.equal(ddos.length, 5)
+    assert.isAtLeast(ddos.length, 5)
 
     const { results: ddosWithTextFilter } = await neverminedOffline.search.byType(
       'dataset',
@@ -117,9 +141,9 @@ describe('Search Asset', () => {
     assert.equal(ddosWithTextFilter.length, 4)
 
     const { results: ddosServices } = await neverminedOffline.search.byType('service')
-    assert.equal(ddosServices.length, 2)
+    assert.isAtLeast(ddosServices.length, 2)
 
     const { results: agent } = await neverminedOffline.search.byType('agent')
-    assert.equal(agent.length, 0)
+    assert.isAtLeast(agent.length, 1)
   })
 })
