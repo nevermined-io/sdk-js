@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.34](../code-reference.md) / DynamicCreditsUnderLimit
+[@nevermined-io/sdk - v3.0.35](../code-reference.md) / DynamicCreditsUnderLimit
 
 # Class: DynamicCreditsUnderLimit
 
@@ -49,7 +49,7 @@
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:50](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/errors/NeverminedErrors.ts#L50)
+[src/errors/NeverminedErrors.ts:50](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/errors/NeverminedErrors.ts#L50)
 
 ## Properties
 
