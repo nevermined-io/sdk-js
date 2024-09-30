@@ -193,17 +193,48 @@ export interface MetaDataExternalResource {
  * Interface describing an asset of type `service`
  */
 export interface WebService {
+  /**
+   * Type of Web service
+   */
   type?: 'RESTful' | 'GrapQL' | 'RPC' | 'Other'
 
+  /**
+   * List of endpoints available for the service
+   */
   endpoints?: { [verb: string]: string }[]
 
+  /**
+   * List of open endpoints available for the service. These endpoints are not protected.
+   * This attribute is useful to indicate which endpoints are available for public access (documentation, definitions, etc).
+   */
   openEndpoints?: string[]
 
   internalAttributes?: WebServiceInternalAttributes
 
   encryptedAttributes?: string
 
+  /**
+   * The type of charge for the service (fixed or dymanic).
+   * If fixed the amount of credits to charge will be always the same.
+   */
   chargeType?: ChargeType
+
+  /**
+   * Flag to indicate if the service is hosted by Nevermined infrastructure.
+   * If true, the service/agent will be running using the Nevermined Backend service.
+   */
+  isNeverminedHosted?: boolean
+
+  /**
+   * Flag to indicate if the service implements the Nevermined Query Protocol.
+   * See {@link https://docs.nevermined.io/docs/protocol/query-protocol}
+   */
+  implementsQueryProtocol?: boolean
+
+  /**
+   * The version of the Query Protocol implemented by the service.
+   */
+  queryProtocolVersion?: string
 }
 
 export enum SubscriptionType {

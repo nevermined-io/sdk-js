@@ -124,6 +124,8 @@ export class NvmAppMetadata {
     authUser?: string,
     authPassword?: string,
     isPriceDynamic: boolean = false,
+    isNeverminedHosted: boolean = false,
+    queryProtocol: string | undefined = undefined,
     customData: { [key: string]: any } = {},
     nonce: string | number = Math.random(),
   ): MetaData {
@@ -142,6 +144,9 @@ export class NvmAppMetadata {
           openEndpoints,
           internalAttributes: {},
           chargeType: isPriceDynamic ? ChargeType.Dynamic : ChargeType.Fixed,
+          isNeverminedHosted,
+          implementsQueryProtocol: queryProtocol ? true : false,
+          queryProtocolVersion: queryProtocol ? queryProtocol : undefined,
         },
         ...({ nonce } as any),
       },
