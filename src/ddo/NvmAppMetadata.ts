@@ -126,6 +126,7 @@ export class NvmAppMetadata {
     isPriceDynamic: boolean = false,
     isNeverminedHosted: boolean = false,
     queryProtocol: string | undefined = undefined,
+    serviceHost: string | undefined = undefined,
     customData: { [key: string]: any } = {},
     nonce: string | number = Math.random(),
   ): MetaData {
@@ -147,6 +148,7 @@ export class NvmAppMetadata {
           isNeverminedHosted,
           implementsQueryProtocol: queryProtocol ? true : false,
           queryProtocolVersion: queryProtocol ? queryProtocol : undefined,
+          ...(serviceHost && { serviceHost }),
         },
         ...({ nonce } as any),
       },

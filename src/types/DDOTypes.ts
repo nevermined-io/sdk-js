@@ -189,6 +189,17 @@ export interface MetaDataExternalResource {
   encryption?: 'dtp' | 'dleq'
 }
 
+export const NeverminedQueryProtocolEndpoints: { [verb: string]: string }[] = [
+  { GET: '/api/v1/agents' },
+  { POST: '/api/v1/agents/search' },
+  { GET: '/api/v1/agents/steps' },
+  { GET: '/api/v1/agents/{DID}/tasks/(.*)/steps' },
+  { POST: '/api/v1/agents/{DID}/tasks/(.*)/steps' },
+  { PUT: '/api/v1/agents/{DID}/tasks/(.*)/step/(.*)' },
+  { POST: '/api/v1/agents/{DID}/tasks' },
+  { GET: '/api/v1/agents/{DID}/tasks/(.*)' },
+]
+
 /**
  * Interface describing an asset of type `service`
  */
@@ -224,6 +235,14 @@ export interface WebService {
    * If true, the service/agent will be running using the Nevermined Backend service.
    */
   isNeverminedHosted?: boolean
+
+  /**
+   * Host of the service where the service is running.
+   * This attribute when is given AND the service is hosted by Nevermined or implements the Query Protocol,
+   * allows to populate automatically the endpoints using the service host.
+   * Example: https://my-service.com or https://backend.nevermined.app
+   */
+  serviceHost?: string
 
   /**
    * Flag to indicate if the service implements the Nevermined Query Protocol.

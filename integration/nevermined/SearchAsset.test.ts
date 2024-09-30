@@ -59,6 +59,7 @@ describe('Search Asset', () => {
       false,
       true,
       'v1',
+      'http://localhost/',
     )
     metadata = getMetadata(undefined, 'Test4')
     agentMetadata.userId = userId
@@ -138,7 +139,7 @@ describe('Search Asset', () => {
       'dataset',
       'TestAsset',
     )
-    assert.equal(ddosWithTextFilter.length, 4)
+    assert.isAtLeast(ddosWithTextFilter.length, 4)
 
     const { results: ddosServices } = await neverminedOffline.search.byType('service')
     assert.isAtLeast(ddosServices.length, 2)

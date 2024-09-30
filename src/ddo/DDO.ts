@@ -1,6 +1,7 @@
 import { jsonReplacer } from '../common/helpers'
 import {
   DDOConditionNotFoundError,
+  DDOError,
   DDOParamNotFoundError,
   DDOPriceNotFoundError,
   DDOServiceAlreadyExists,
@@ -17,6 +18,7 @@ import {
   ConditionType,
   MetaData,
   MetaDataMain,
+  NeverminedQueryProtocolEndpoints,
   NvmConfig,
   Proof,
   PublicKey,
@@ -27,6 +29,7 @@ import {
   ServiceNFTAccess,
   ServiceNFTSales,
   ServiceType,
+  WebService,
 } from '../types/DDOTypes'
 import { didPrefixed, zeroX } from '../utils/ConversionTypeHelpers'
 
@@ -774,5 +777,43 @@ export class DDO {
     value: string,
   ): DDO {
     return DDO.deserialize(DDO.serialize(ddo).replaceAll(paramName, value))
+  }
+
+  public static parseDDOWebServiceAttributes(webService: WebService, did: string) {
+    try {
+      if (webService.implementsQueryProtocol === true || webService.isNeverminedHosted === true) {
+        if (!webService.serviceHost) {
+          const errorMessage = `Metadata error: Attribute serviceHost is mandatory when implementsQueryProtocol or isNeverminedHosted`
+          throw new Error(errorMessage)
+        }
+        const serviceHostUrl = new URL(webService.serviceHost)
+        const serviceHost = serviceHostUrl.origin
+
+        NeverminedQueryProtocolEndpoints.map((endpoint) => {
+          Object.entries(endpoint).flatMap(([key, value]) => {
+            const endpointUrl = `${serviceHost}${value}`.replace('{DID}', did)
+            webService.endpoints?.push({ [key]: endpointUrl })
+          })
+        })
+
+        if (webService?.isNeverminedHosted) {
+          const openApiEndpoint = `${serviceHost}/api/v1/docs-json`
+
+          if (webService.openEndpoints) webService.openEndpoints.push(openApiEndpoint)
+          else webService.openEndpoints = [openApiEndpoint]
+        }
+
+        webService.internalAttributes = {
+          authentication: {
+            type: 'bearer',
+            token: '',
+          },
+          headers: [{ Authorization: `Bearer ` }],
+        }
+      }
+      return webService
+    } catch (error) {
+      throw new DDOError(`Unable to parse service attributes: ${error.message}`)
+    }
   }
 }

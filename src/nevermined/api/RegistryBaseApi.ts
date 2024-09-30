@@ -3,7 +3,7 @@ import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { generateId } from '../../common/helpers'
 import { DEFAULT_ENCRYPTION_METHOD, ZeroAddress } from '../../constants/AssetConstants'
 import { DDO } from '../../ddo/DDO'
-import { AssetError } from '../../errors/NeverminedErrors'
+import { AssetError, DDOError } from '../../errors/NeverminedErrors'
 import { DEFAULT_REGISTRATION_ACTIVITY_ID } from '../../keeper/contracts/Provenance'
 import { AssetAttributes } from '../../models/AssetAttributes'
 import { AssetPrice } from '../../models/AssetPrice'
@@ -158,14 +158,32 @@ export abstract class RegistryBaseApi extends Instantiable {
           assetAttributes.metadata.main.type === 'assistant' ||
           assetAttributes.metadata.main.type === 'agent'
         ) {
-          const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
-            ddo.id,
-            JSON.stringify(assetAttributes.metadata.main.webService.internalAttributes),
-            new String(assetAttributes.encryptionMethod),
-          )
-          encryptedAttributes = JSON.parse(encryptedServiceAttributesResponse)['hash']
-          assetAttributes.metadata.main.webService.encryptedAttributes = encryptedAttributes
-          assetAttributes.metadata.main.webService.internalAttributes = undefined
+          try {
+            const _attr = { ...assetAttributes.metadata.main.webService }
+            assetAttributes.metadata.main.webService = DDO.parseDDOWebServiceAttributes(
+              _attr,
+              ddo.id,
+            )
+
+            assetAttributes.metadata.additionalInformation = {
+              ...assetAttributes.metadata.additionalInformation,
+              customData: {
+                openApi: assetAttributes.metadata.main.webService?.openEndpoints[0],
+              },
+            }
+
+            const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
+              ddo.id,
+              JSON.stringify(assetAttributes.metadata.main.webService.internalAttributes),
+              new String(assetAttributes.encryptionMethod),
+            )
+            encryptedAttributes = JSON.parse(encryptedServiceAttributesResponse)['hash']
+            assetAttributes.metadata.main.webService.encryptedAttributes = encryptedAttributes
+            assetAttributes.metadata.main.webService.internalAttributes = undefined
+          } catch (error) {
+            this.logger.log(`Unable to parse service attributes: ${error.message}`)
+            throw new DDOError(`Unable to parse service attributes: ${error.message}`)
+          }
         }
       }
 
