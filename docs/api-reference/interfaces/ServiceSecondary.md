@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.34](../code-reference.md) / ServiceSecondary
+[@nevermined-io/sdk - v3.0.35](../code-reference.md) / ServiceSecondary
 
 # Interface: ServiceSecondary
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:762](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L762)
+[src/types/DDOTypes.ts:793](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L793)
 
 ---
 
@@ -42,7 +42,7 @@ Service.attributes
 
 #### Defined in
 
-[src/types/DDOTypes.ts:640](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L640)
+[src/types/DDOTypes.ts:671](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L671)
 
 ---
 
@@ -52,7 +52,7 @@ Service.attributes
 
 #### Defined in
 
-[src/types/DDOTypes.ts:763](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L763)
+[src/types/DDOTypes.ts:794](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L794)
 
 ---
 
@@ -66,7 +66,7 @@ Service.index
 
 #### Defined in
 
-[src/types/DDOTypes.ts:637](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L637)
+[src/types/DDOTypes.ts:668](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L668)
 
 ---
 
@@ -80,7 +80,7 @@ Service.serviceEndpoint
 
 #### Defined in
 
-[src/types/DDOTypes.ts:638](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L638)
+[src/types/DDOTypes.ts:669](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L669)
 
 ---
 
@@ -94,7 +94,7 @@ Service.templateId
 
 #### Defined in
 
-[src/types/DDOTypes.ts:639](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L639)
+[src/types/DDOTypes.ts:670](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L670)
 
 ---
 
@@ -108,4 +108,4 @@ Service.type
 
 #### Defined in
 
-[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/types/DDOTypes.ts#L636)
+[src/types/DDOTypes.ts:667](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L667)
