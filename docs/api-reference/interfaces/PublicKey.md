@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.35](../code-reference.md) / PublicKey
+[@nevermined-io/sdk - v3.0.36](../code-reference.md) / PublicKey
 
 # Interface: PublicKey
 
@@ -31,7 +31,7 @@ ID of the key.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:530](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L530)
+[src/types/DDOTypes.ts:549](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L549)
 
 ---
 
@@ -49,7 +49,7 @@ Key owner.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:545](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L545)
+[src/types/DDOTypes.ts:564](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L564)
 
 ---
 
@@ -59,7 +59,7 @@ Key owner.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:548](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L548)
+[src/types/DDOTypes.ts:567](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L567)
 
 ---
 
@@ -69,7 +69,7 @@ Key owner.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:549](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L549)
+[src/types/DDOTypes.ts:568](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L568)
 
 ---
 
@@ -79,7 +79,7 @@ Key owner.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:547](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L547)
+[src/types/DDOTypes.ts:566](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L566)
 
 ---
 
@@ -91,4 +91,4 @@ Type of key.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:535](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L535)
+[src/types/DDOTypes.ts:554](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L554)

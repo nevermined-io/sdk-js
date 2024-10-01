@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.35](../code-reference.md) / Permissions
+[@nevermined-io/sdk - v3.0.36](../code-reference.md) / Permissions
 
 # Class: Permissions
 
@@ -64,7 +64,7 @@
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:7](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/MarketplaceAPI.ts#L7)
+[src/services/metadata/MarketplaceAPI.ts:7](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/MarketplaceAPI.ts#L7)
 
 ## Accessors
 
@@ -82,7 +82,7 @@ MarketplaceApi.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L137)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -100,7 +100,7 @@ MarketplaceApi.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L141)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -118,7 +118,7 @@ MarketplaceApi.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L89)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -136,7 +136,7 @@ MarketplaceApi.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L120)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -154,7 +154,7 @@ MarketplaceApi.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -172,7 +172,7 @@ MarketplaceApi.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L113)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -190,7 +190,7 @@ MarketplaceApi.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L128)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -208,7 +208,7 @@ MarketplaceApi.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L81)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -290,7 +290,7 @@ MarketplaceApi.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L97)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -308,7 +308,7 @@ MarketplaceApi.url
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:12](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/MarketplaceAPI.ts#L12)
+[src/services/metadata/MarketplaceAPI.ts:12](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/MarketplaceAPI.ts#L12)
 
 ---
 
@@ -359,7 +359,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -383,7 +383,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:36](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/MarketplaceAPI.ts#L36)
+[src/services/metadata/MarketplaceAPI.ts:36](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/MarketplaceAPI.ts#L36)
 
 ---
 
@@ -405,7 +405,7 @@ Create Permission
 
 #### Defined in
 
-[src/services/metadata/Permissions.ts:18](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/Permissions.ts#L18)
+[src/services/metadata/Permissions.ts:18](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/Permissions.ts#L18)
 
 ---
 
@@ -427,7 +427,7 @@ Delele a bookmark by id
 
 #### Defined in
 
-[src/services/metadata/Permissions.ts:142](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/Permissions.ts#L142)
+[src/services/metadata/Permissions.ts:142](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/Permissions.ts#L142)
 
 ---
 
@@ -450,7 +450,7 @@ Get permissions by userId
 
 #### Defined in
 
-[src/services/metadata/Permissions.ts:67](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/Permissions.ts#L67)
+[src/services/metadata/Permissions.ts:67](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/Permissions.ts#L67)
 
 ---
 
@@ -474,7 +474,7 @@ Get permissions by userId and specific type
 
 #### Defined in
 
-[src/services/metadata/Permissions.ts:92](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/Permissions.ts#L92)
+[src/services/metadata/Permissions.ts:92](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/Permissions.ts#L92)
 
 ---
 
@@ -496,7 +496,7 @@ Get a permission by Id
 
 #### Defined in
 
-[src/services/metadata/Permissions.ts:45](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/Permissions.ts#L45)
+[src/services/metadata/Permissions.ts:45](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/Permissions.ts#L45)
 
 ---
 
@@ -520,7 +520,7 @@ Get a permission by Id
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:16](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/MarketplaceAPI.ts#L16)
+[src/services/metadata/MarketplaceAPI.ts:16](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/MarketplaceAPI.ts#L16)
 
 ---
 
@@ -544,7 +544,7 @@ Get a permission by Id
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L163)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -567,7 +567,7 @@ Update a Permission by id
 
 #### Defined in
 
-[src/services/metadata/Permissions.ts:118](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/services/metadata/Permissions.ts#L118)
+[src/services/metadata/Permissions.ts:118](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/services/metadata/Permissions.ts#L118)
 
 ---
 
@@ -591,7 +591,7 @@ Update a Permission by id
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L150)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -622,4 +622,4 @@ Update a Permission by id
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/Instantiable.abstract.ts#L154)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/Instantiable.abstract.ts#L154)

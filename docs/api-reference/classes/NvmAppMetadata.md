@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.35](../code-reference.md) / NvmAppMetadata
+[@nevermined-io/sdk - v3.0.36](../code-reference.md) / NvmAppMetadata
 
 # Class: NvmAppMetadata
 
@@ -51,7 +51,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:46](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L46)
+[src/ddo/NvmAppMetadata.ts:46](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/ddo/NvmAppMetadata.ts#L46)
 
 ---
 
@@ -77,13 +77,13 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:197](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L197)
+[src/ddo/NvmAppMetadata.ts:199](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/ddo/NvmAppMetadata.ts#L199)
 
 ---
 
 ### getServiceMetadataTemplate
 
-▸ **getServiceMetadataTemplate**(`name`, `author`, `endpoints`, `openEndpoints`, `openApiEndpoint`, `serviceType?`, `authType`, `authToken?`, `authUser?`, `authPassword?`, `isPriceDynamic?`, `isNeverminedHosted?`, `queryProtocol?`, `customData?`, `nonce?`): [`MetaData`](../interfaces/MetaData.md)
+▸ **getServiceMetadataTemplate**(`name`, `author`, `endpoints`, `openEndpoints`, `openApiEndpoint`, `serviceType?`, `authType`, `authToken?`, `authUser?`, `authPassword?`, `isPriceDynamic?`, `isNeverminedHosted?`, `queryProtocol?`, `serviceHost?`, `customData?`, `nonce?`): [`MetaData`](../interfaces/MetaData.md)
 
 It returns a metadata template for Web Service
 
@@ -104,6 +104,7 @@ It returns a metadata template for Web Service
 | `isPriceDynamic`     | `boolean`                                        | `false`       | if the price is dynamic                                                  |
 | `isNeverminedHosted` | `boolean`                                        | `false`       | -                                                                        |
 | `queryProtocol`      | `undefined` \| `string`                          | `undefined`   | -                                                                        |
+| `serviceHost`        | `undefined` \| `string`                          | `undefined`   | -                                                                        |
 | `customData`         | `Object`                                         | `{}`          | any key-value pair to be included in the metadata                        |
 | `nonce`              | `string` \| `number`                             | `undefined`   | the nonce to be included in the metadata                                 |
 
@@ -115,7 +116,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:115](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L115)
+[src/ddo/NvmAppMetadata.ts:115](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/ddo/NvmAppMetadata.ts#L115)
 
 ---
 
@@ -141,7 +142,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:71](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L71)
+[src/ddo/NvmAppMetadata.ts:71](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/ddo/NvmAppMetadata.ts#L71)
 
 ---
 
@@ -168,7 +169,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:19](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L19)
+[src/ddo/NvmAppMetadata.ts:19](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/ddo/NvmAppMetadata.ts#L19)
 
 ---
 
@@ -189,4 +190,4 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:221](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L221)
+[src/ddo/NvmAppMetadata.ts:223](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/ddo/NvmAppMetadata.ts#L223)

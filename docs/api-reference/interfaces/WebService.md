@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.35](../code-reference.md) / WebService
+[@nevermined-io/sdk - v3.0.36](../code-reference.md) / WebService
 
 # Interface: WebService
 
@@ -16,6 +16,7 @@ Interface describing an asset of type `service`
 - [isNeverminedHosted](WebService.md#isneverminedhosted)
 - [openEndpoints](WebService.md#openendpoints)
 - [queryProtocolVersion](WebService.md#queryprotocolversion)
+- [serviceHost](WebService.md#servicehost)
 - [type](WebService.md#type)
 
 ## Properties
@@ -29,7 +30,7 @@ If fixed the amount of credits to charge will be always the same.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:220](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L220)
+[src/types/DDOTypes.ts:231](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L231)
 
 ---
 
@@ -39,7 +40,7 @@ If fixed the amount of credits to charge will be always the same.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:214](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L214)
+[src/types/DDOTypes.ts:225](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L225)
 
 ---
 
@@ -51,7 +52,7 @@ List of endpoints available for the service
 
 #### Defined in
 
-[src/types/DDOTypes.ts:204](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L204)
+[src/types/DDOTypes.ts:215](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L215)
 
 ---
 
@@ -64,7 +65,7 @@ See [https://docs.nevermined.io/docs/protocol/query-protocol](https://docs.never
 
 #### Defined in
 
-[src/types/DDOTypes.ts:232](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L232)
+[src/types/DDOTypes.ts:251](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L251)
 
 ---
 
@@ -74,7 +75,7 @@ See [https://docs.nevermined.io/docs/protocol/query-protocol](https://docs.never
 
 #### Defined in
 
-[src/types/DDOTypes.ts:212](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L212)
+[src/types/DDOTypes.ts:223](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L223)
 
 ---
 
@@ -87,7 +88,7 @@ If true, the service/agent will be running using the Nevermined Backend service.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:226](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L226)
+[src/types/DDOTypes.ts:237](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L237)
 
 ---
 
@@ -100,7 +101,7 @@ This attribute is useful to indicate which endpoints are available for public ac
 
 #### Defined in
 
-[src/types/DDOTypes.ts:210](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L210)
+[src/types/DDOTypes.ts:221](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L221)
 
 ---
 
@@ -112,7 +113,22 @@ The version of the Query Protocol implemented by the service.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:237](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L237)
+[src/types/DDOTypes.ts:256](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L256)
+
+---
+
+### serviceHost
+
+• `Optional` **serviceHost**: `string`
+
+Host of the service where the service is running.
+This attribute when is given AND the service is hosted by Nevermined or implements the Query Protocol,
+allows to populate automatically the endpoints using the service host.
+Example: https://my-service.com or https://backend.nevermined.app
+
+#### Defined in
+
+[src/types/DDOTypes.ts:245](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L245)
 
 ---
 
@@ -124,4 +140,4 @@ Type of Web service
 
 #### Defined in
 
-[src/types/DDOTypes.ts:199](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/types/DDOTypes.ts#L199)
+[src/types/DDOTypes.ts:210](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L210)

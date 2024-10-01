@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.35](../code-reference.md) / AssetPrice
+[@nevermined-io/sdk - v3.0.36](../code-reference.md) / AssetPrice
 
 # Class: AssetPrice
 
@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/models/AssetPrice.ts:10](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L10)
+[src/models/AssetPrice.ts:10](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L10)
 
 • **new AssetPrice**(`_rewards`): [`AssetPrice`](AssetPrice.md)
 
@@ -58,7 +58,7 @@
 
 #### Defined in
 
-[src/models/AssetPrice.ts:11](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L11)
+[src/models/AssetPrice.ts:11](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L11)
 
 • **new AssetPrice**(`address`, `amount`): [`AssetPrice`](AssetPrice.md)
 
@@ -75,7 +75,7 @@
 
 #### Defined in
 
-[src/models/AssetPrice.ts:12](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L12)
+[src/models/AssetPrice.ts:12](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L12)
 
 • **new AssetPrice**(`address`, `amount`, `tokenAddress`): [`AssetPrice`](AssetPrice.md)
 
@@ -93,7 +93,7 @@
 
 #### Defined in
 
-[src/models/AssetPrice.ts:13](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L13)
+[src/models/AssetPrice.ts:13](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L13)
 
 ## Properties
 
@@ -103,7 +103,7 @@
 
 #### Defined in
 
-[src/models/AssetPrice.ts:6](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L6)
+[src/models/AssetPrice.ts:6](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L6)
 
 ---
 
@@ -113,7 +113,7 @@
 
 #### Defined in
 
-[src/models/AssetPrice.ts:8](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L8)
+[src/models/AssetPrice.ts:8](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L8)
 
 ---
 
@@ -123,7 +123,7 @@
 
 #### Defined in
 
-[src/models/AssetPrice.ts:4](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L4)
+[src/models/AssetPrice.ts:4](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L4)
 
 ## Methods
 
@@ -152,7 +152,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:77](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L77)
+[src/models/AssetPrice.ts:77](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L77)
 
 ---
 
@@ -181,7 +181,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:88](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L88)
+[src/models/AssetPrice.ts:88](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L88)
 
 ---
 
@@ -195,7 +195,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:46](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L46)
+[src/models/AssetPrice.ts:46](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L46)
 
 ---
 
@@ -209,7 +209,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:104](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L104)
+[src/models/AssetPrice.ts:104](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L104)
 
 ---
 
@@ -223,7 +223,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:50](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L50)
+[src/models/AssetPrice.ts:50](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L50)
 
 ---
 
@@ -237,7 +237,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:110](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L110)
+[src/models/AssetPrice.ts:110](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L110)
 
 ---
 
@@ -251,7 +251,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:42](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L42)
+[src/models/AssetPrice.ts:42](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L42)
 
 ---
 
@@ -265,7 +265,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:67](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L67)
+[src/models/AssetPrice.ts:67](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L67)
 
 ---
 
@@ -279,7 +279,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:38](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L38)
+[src/models/AssetPrice.ts:38](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L38)
 
 ---
 
@@ -300,7 +300,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:54](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L54)
+[src/models/AssetPrice.ts:54](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L54)
 
 ---
 
@@ -320,7 +320,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:62](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L62)
+[src/models/AssetPrice.ts:62](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L62)
 
 ---
 
@@ -334,7 +334,7 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:115](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L115)
+[src/models/AssetPrice.ts:115](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L115)
 
 ---
 
@@ -354,4 +354,4 @@ AssetPrice.NETWORK_FEE_DENOMINATOR
 
 #### Defined in
 
-[src/models/AssetPrice.ts:34](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/models/AssetPrice.ts#L34)
+[src/models/AssetPrice.ts:34](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/models/AssetPrice.ts#L34)
