@@ -496,6 +496,7 @@ describe('DDO Tests', () => {
       false,
       true,
       'v1',
+      'http://localhost:3001/',
     )
     metadata.main.type = 'agent'
     const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
