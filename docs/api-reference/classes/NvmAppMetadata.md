@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.34](../code-reference.md) / NvmAppMetadata
+[@nevermined-io/sdk - v3.0.35](../code-reference.md) / NvmAppMetadata
 
 # Class: NvmAppMetadata
 
@@ -51,7 +51,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:46](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/ddo/NvmAppMetadata.ts#L46)
+[src/ddo/NvmAppMetadata.ts:46](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L46)
 
 ---
 
@@ -77,33 +77,35 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:192](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/ddo/NvmAppMetadata.ts#L192)
+[src/ddo/NvmAppMetadata.ts:197](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L197)
 
 ---
 
 ### getServiceMetadataTemplate
 
-▸ **getServiceMetadataTemplate**(`name`, `author`, `endpoints`, `openEndpoints`, `openApiEndpoint`, `serviceType?`, `authType`, `authToken?`, `authUser?`, `authPassword?`, `isPriceDynamic?`, `customData?`, `nonce?`): [`MetaData`](../interfaces/MetaData.md)
+▸ **getServiceMetadataTemplate**(`name`, `author`, `endpoints`, `openEndpoints`, `openApiEndpoint`, `serviceType?`, `authType`, `authToken?`, `authUser?`, `authPassword?`, `isPriceDynamic?`, `isNeverminedHosted?`, `queryProtocol?`, `customData?`, `nonce?`): [`MetaData`](../interfaces/MetaData.md)
 
 It returns a metadata template for Web Service
 
 #### Parameters
 
-| Name              | Type                                             | Default value | Description                                                              |
-| :---------------- | :----------------------------------------------- | :------------ | :----------------------------------------------------------------------- |
-| `name`            | `string`                                         | `undefined`   | the name of the subscription                                             |
-| `author`          | `string`                                         | `undefined`   | the author of the subscrpiton                                            |
-| `endpoints`       | \{ `[verb: string]`: `string`; }[]               | `undefined`   | the list of endpoints                                                    |
-| `openEndpoints`   | `string`[]                                       | `undefined`   | the list of open endpoints (not protected)                               |
-| `openApiEndpoint` | `undefined` \| `string`                          | `undefined`   | the openApi endpoint endpoint if any                                     |
-| `serviceType`     | `string`                                         | `'RESTful'`   | the type of the service                                                  |
-| `authType`        | `"none"` \| `"basic"` \| `"bearer"` \| `"oauth"` | `undefined`   | the type of authentication required by the service                       |
-| `authToken?`      | `string`                                         | `undefined`   | the token to be used for authentication (if authType is oauth or bearer) |
-| `authUser?`       | `string`                                         | `undefined`   | the username to be used for authentication (if authType is basic)        |
-| `authPassword?`   | `string`                                         | `undefined`   | the password to be used for authentication (if authType is basic)        |
-| `isPriceDynamic`  | `boolean`                                        | `false`       | if the price is dynamic                                                  |
-| `customData`      | `Object`                                         | `{}`          | any key-value pair to be included in the metadata                        |
-| `nonce`           | `string` \| `number`                             | `undefined`   | the nonce to be included in the metadata                                 |
+| Name                 | Type                                             | Default value | Description                                                              |
+| :------------------- | :----------------------------------------------- | :------------ | :----------------------------------------------------------------------- |
+| `name`               | `string`                                         | `undefined`   | the name of the subscription                                             |
+| `author`             | `string`                                         | `undefined`   | the author of the subscrpiton                                            |
+| `endpoints`          | \{ `[verb: string]`: `string`; }[]               | `undefined`   | the list of endpoints                                                    |
+| `openEndpoints`      | `string`[]                                       | `undefined`   | the list of open endpoints (not protected)                               |
+| `openApiEndpoint`    | `undefined` \| `string`                          | `undefined`   | the openApi endpoint endpoint if any                                     |
+| `serviceType`        | `string`                                         | `'RESTful'`   | the type of the service                                                  |
+| `authType`           | `"none"` \| `"basic"` \| `"bearer"` \| `"oauth"` | `undefined`   | the type of authentication required by the service                       |
+| `authToken?`         | `string`                                         | `undefined`   | the token to be used for authentication (if authType is oauth or bearer) |
+| `authUser?`          | `string`                                         | `undefined`   | the username to be used for authentication (if authType is basic)        |
+| `authPassword?`      | `string`                                         | `undefined`   | the password to be used for authentication (if authType is basic)        |
+| `isPriceDynamic`     | `boolean`                                        | `false`       | if the price is dynamic                                                  |
+| `isNeverminedHosted` | `boolean`                                        | `false`       | -                                                                        |
+| `queryProtocol`      | `undefined` \| `string`                          | `undefined`   | -                                                                        |
+| `customData`         | `Object`                                         | `{}`          | any key-value pair to be included in the metadata                        |
+| `nonce`              | `string` \| `number`                             | `undefined`   | the nonce to be included in the metadata                                 |
 
 #### Returns
 
@@ -113,7 +115,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:115](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/ddo/NvmAppMetadata.ts#L115)
+[src/ddo/NvmAppMetadata.ts:115](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L115)
 
 ---
 
@@ -139,7 +141,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:71](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/ddo/NvmAppMetadata.ts#L71)
+[src/ddo/NvmAppMetadata.ts:71](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L71)
 
 ---
 
@@ -166,7 +168,7 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:19](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/ddo/NvmAppMetadata.ts#L19)
+[src/ddo/NvmAppMetadata.ts:19](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L19)
 
 ---
 
@@ -187,4 +189,4 @@ Metadata
 
 #### Defined in
 
-[src/ddo/NvmAppMetadata.ts:216](https://github.com/nevermined-io/sdk-js/blob/839427fa63429fae29c0c8e30540bd2ad8e19f29/src/ddo/NvmAppMetadata.ts#L216)
+[src/ddo/NvmAppMetadata.ts:221](https://github.com/nevermined-io/sdk-js/blob/1c4dd664ca2801e7971e95af825f688095366860/src/ddo/NvmAppMetadata.ts#L221)
