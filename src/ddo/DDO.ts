@@ -797,7 +797,7 @@ export class DDO {
         })
 
         if (webService?.isNeverminedHosted) {
-          const openApiEndpoint = `${serviceHost}/api/v1/docs-json`
+          const openApiEndpoint = `${serviceHost}/api/v1/rest/docs-json`
 
           if (webService.openEndpoints) webService.openEndpoints.push(openApiEndpoint)
           else webService.openEndpoints = [openApiEndpoint]
