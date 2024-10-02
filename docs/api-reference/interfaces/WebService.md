@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.36](../code-reference.md) / WebService
+[@nevermined-io/sdk - v3.0.37](../code-reference.md) / WebService
 
 # Interface: WebService
 
@@ -30,7 +30,7 @@ If fixed the amount of credits to charge will be always the same.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:231](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L231)
+[src/types/DDOTypes.ts:231](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L231)
 
 ---
 
@@ -40,7 +40,7 @@ If fixed the amount of credits to charge will be always the same.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:225](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L225)
+[src/types/DDOTypes.ts:225](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L225)
 
 ---
 
@@ -52,7 +52,7 @@ List of endpoints available for the service
 
 #### Defined in
 
-[src/types/DDOTypes.ts:215](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L215)
+[src/types/DDOTypes.ts:215](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L215)
 
 ---
 
@@ -65,7 +65,7 @@ See [https://docs.nevermined.io/docs/protocol/query-protocol](https://docs.never
 
 #### Defined in
 
-[src/types/DDOTypes.ts:251](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L251)
+[src/types/DDOTypes.ts:251](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L251)
 
 ---
 
@@ -75,7 +75,7 @@ See [https://docs.nevermined.io/docs/protocol/query-protocol](https://docs.never
 
 #### Defined in
 
-[src/types/DDOTypes.ts:223](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L223)
+[src/types/DDOTypes.ts:223](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L223)
 
 ---
 
@@ -88,7 +88,7 @@ If true, the service/agent will be running using the Nevermined Backend service.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:237](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L237)
+[src/types/DDOTypes.ts:237](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L237)
 
 ---
 
@@ -101,7 +101,7 @@ This attribute is useful to indicate which endpoints are available for public ac
 
 #### Defined in
 
-[src/types/DDOTypes.ts:221](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L221)
+[src/types/DDOTypes.ts:221](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L221)
 
 ---
 
@@ -113,7 +113,7 @@ The version of the Query Protocol implemented by the service.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:256](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L256)
+[src/types/DDOTypes.ts:256](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L256)
 
 ---
 
@@ -128,7 +128,7 @@ Example: https://my-service.com or https://backend.nevermined.app
 
 #### Defined in
 
-[src/types/DDOTypes.ts:245](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L245)
+[src/types/DDOTypes.ts:245](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L245)
 
 ---
 
@@ -140,4 +140,4 @@ Type of Web service
 
 #### Defined in
 
-[src/types/DDOTypes.ts:210](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/types/DDOTypes.ts#L210)
+[src/types/DDOTypes.ts:210](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/DDOTypes.ts#L210)

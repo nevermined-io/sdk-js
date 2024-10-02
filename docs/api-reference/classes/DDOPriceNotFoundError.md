@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.36](../code-reference.md) / DDOPriceNotFoundError
+[@nevermined-io/sdk - v3.0.37](../code-reference.md) / DDOPriceNotFoundError
 
 # Class: DDOPriceNotFoundError
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:100](https://github.com/nevermined-io/sdk-js/blob/112a8a40d591ba6fa5736c0c11ad1e067b7b9663/src/errors/NeverminedErrors.ts#L100)
+[src/errors/NeverminedErrors.ts:100](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/errors/NeverminedErrors.ts#L100)
 
 ## Properties
 
