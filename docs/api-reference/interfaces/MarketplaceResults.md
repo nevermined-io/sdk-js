@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.37](../code-reference.md) / MarketplaceResults
+[@nevermined-io/sdk - v3.0.38](../code-reference.md) / MarketplaceResults
 
 # Interface: MarketplaceResults\<Entity\>
 
@@ -25,7 +25,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:59](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/MetadataTypes.ts#L59)
+[src/types/MetadataTypes.ts:59](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/types/MetadataTypes.ts#L59)
 
 ---
 
@@ -35,7 +35,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:60](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/MetadataTypes.ts#L60)
+[src/types/MetadataTypes.ts:60](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/types/MetadataTypes.ts#L60)
 
 ---
 
@@ -45,7 +45,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:61](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/MetadataTypes.ts#L61)
+[src/types/MetadataTypes.ts:61](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/types/MetadataTypes.ts#L61)
 
 ---
 
@@ -55,4 +55,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:62](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/types/MetadataTypes.ts#L62)
+[src/types/MetadataTypes.ts:62](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/types/MetadataTypes.ts#L62)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.37](../code-reference.md) / NvmApiKey
+[@nevermined-io/sdk - v3.0.38](../code-reference.md) / NvmApiKey
 
 # Class: NvmApiKey
 
@@ -59,7 +59,7 @@ Additional attributes
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:59](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L59)
+[src/models/NvmApiKey.ts:59](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L59)
 
 ## Properties
 
@@ -75,7 +75,7 @@ JWTPayload.aud
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:18](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L18)
+[src/models/NvmApiKey.ts:18](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L18)
 
 ---
 
@@ -95,7 +95,7 @@ JWTPayload.exp
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:45](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L45)
+[src/models/NvmApiKey.ts:45](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L45)
 
 ---
 
@@ -115,7 +115,7 @@ JWTPayload.iat
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:52](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L52)
+[src/models/NvmApiKey.ts:52](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L52)
 
 ---
 
@@ -123,7 +123,7 @@ JWTPayload.iat
 
 • **iss**: `string`
 
-The public address of the account issuing the key
+The public address of the account issuing the key.
 
 #### Implementation of
 
@@ -131,7 +131,7 @@ JWTPayload.iss
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:13](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L13)
+[src/models/NvmApiKey.ts:13](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L13)
 
 ---
 
@@ -143,7 +143,7 @@ The Marketplace auth token
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:38](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L38)
+[src/models/NvmApiKey.ts:38](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L38)
 
 ---
 
@@ -151,7 +151,7 @@ The Marketplace auth token
 
 • **sub**: `string`
 
-The public address of the account the key is issued for. Typically the address of the Node/Backend who can process the key
+The public address of the account the key is issued for.
 
 #### Implementation of
 
@@ -159,7 +159,7 @@ JWTPayload.sub
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:23](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L23)
+[src/models/NvmApiKey.ts:23](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L23)
 
 ---
 
@@ -171,7 +171,7 @@ The version of the key
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:28](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L28)
+[src/models/NvmApiKey.ts:28](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L28)
 
 ---
 
@@ -183,7 +183,7 @@ The ZeroDev session key
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:33](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L33)
+[src/models/NvmApiKey.ts:33](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L33)
 
 ## Methods
 
@@ -201,7 +201,7 @@ a string representing the hash of the NvmApiKey
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:279](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L279)
+[src/models/NvmApiKey.ts:280](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L280)
 
 ---
 
@@ -226,7 +226,7 @@ a JWT string representing the hash of the NvmApiKey
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:201](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L201)
+[src/models/NvmApiKey.ts:201](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L201)
 
 ---
 
@@ -250,7 +250,7 @@ true if the key is valid, false otherwise
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:165](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L165)
+[src/models/NvmApiKey.ts:165](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L165)
 
 ---
 
@@ -268,7 +268,7 @@ a string representing the NVM API Key
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:254](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L254)
+[src/models/NvmApiKey.ts:255](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L255)
 
 ---
 
@@ -293,7 +293,7 @@ the string in JWT format represeting the NvmApiKey
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:182](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L182)
+[src/models/NvmApiKey.ts:182](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L182)
 
 ---
 
@@ -311,7 +311,7 @@ a string representing the NVM API Key
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:262](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L262)
+[src/models/NvmApiKey.ts:263](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L263)
 
 ---
 
@@ -335,7 +335,7 @@ the JWTPayload
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:271](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L271)
+[src/models/NvmApiKey.ts:272](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L272)
 
 ---
 
@@ -364,7 +364,7 @@ The
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:140](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L140)
+[src/models/NvmApiKey.ts:140](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L140)
 
 ---
 
@@ -392,7 +392,7 @@ the
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:246](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L246)
+[src/models/NvmApiKey.ts:247](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L247)
 
 ---
 
@@ -420,7 +420,7 @@ the
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:219](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L219)
+[src/models/NvmApiKey.ts:220](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L220)
 
 ---
 
@@ -448,7 +448,7 @@ the
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:236](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L236)
+[src/models/NvmApiKey.ts:237](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L237)
 
 ---
 
@@ -484,7 +484,7 @@ The encrypted string representing the
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:74](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L74)
+[src/models/NvmApiKey.ts:74](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L74)
 
 ---
 
@@ -509,7 +509,7 @@ The encrypted string representing the
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:112](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L112)
+[src/models/NvmApiKey.ts:112](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L112)
 
 ---
 
@@ -533,7 +533,7 @@ The signer address
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:150](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L150)
+[src/models/NvmApiKey.ts:150](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L150)
 
 ---
 
@@ -557,4 +557,4 @@ the hash
 
 #### Defined in
 
-[src/models/NvmApiKey.ts:288](https://github.com/nevermined-io/sdk-js/blob/414db5fba135665acbeecfc29b3292c8e9044af7/src/models/NvmApiKey.ts#L288)
+[src/models/NvmApiKey.ts:289](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/models/NvmApiKey.ts#L289)
