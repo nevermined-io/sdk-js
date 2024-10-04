@@ -245,7 +245,6 @@ describe('Nevermined API Key', () => {
       const publicKey =
         '0x04c19e8524f8080e0f9a5ef54c87b7596a2c93a992e986f713d02e091142d7d57f3094c34a265fc5dfd098e2143cb8eaf325e5621a7572ba00997654a19a819b35'
       // We should get the private key from the node (STAGING)
-      // const privateKey = '0x9bf5d7e4978ed5206f760e6daded34d657572bd49fa5b3fe885679329fb16b16'
 
       encryptedNvmApiKey = await NvmApiKey.generate(
         nvm.utils.signature,

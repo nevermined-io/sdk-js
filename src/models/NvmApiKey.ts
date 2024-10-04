@@ -8,7 +8,7 @@ import { bytesToHex } from 'viem/utils'
 
 export class NvmApiKey implements JWTPayload {
   /**
-   * The public address of the account issuing the key
+   * The public address of the account issuing the key.
    */
   iss: string
 
@@ -18,7 +18,7 @@ export class NvmApiKey implements JWTPayload {
   aud: string
 
   /**
-   * The public address of the account the key is issued for. Typically the address of the Node/Backend who can process the key
+   * The public address of the account the key is issued for.
    */
   sub: string
 
@@ -199,11 +199,12 @@ export class NvmApiKey implements JWTPayload {
    * @returns a JWT string representing the hash of the NvmApiKey
    */
   public async hashJWT(signatureUtils: SignatureUtils, issuerAccount: NvmAccount): Promise<string> {
-    const address = getChecksumAddress(issuerAccount.getId())
+    const issuerAddress = getChecksumAddress(issuerAccount.getId())
 
     return new EthSignJWT({
-      iss: address,
-      sub: this.hash(),
+      iss: issuerAddress, // the account generating the hash (node/provider, etc) is the issuer of the hash
+      sub: this.iss, // the issuer of the NVMApiKey (the user) is the subject of the hash
+      jti: this.hash(),
       exp: this.exp,
     })
       .setProtectedHeader({ alg: 'ES256K' })
