@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.38](../code-reference.md) / NvmConfigVersions
+[@nevermined-io/sdk - v3.0.39](../code-reference.md) / NvmConfigVersions
 
 # Interface: NvmConfigVersions
 
@@ -22,7 +22,7 @@ The checksum of the document
 
 #### Defined in
 
-[src/types/DDOTypes.ts:644](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/types/DDOTypes.ts#L644)
+[src/types/DDOTypes.ts:638](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L638)
 
 ---
 
@@ -38,7 +38,7 @@ This is a self incrementing number
 
 #### Defined in
 
-[src/types/DDOTypes.ts:636](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/types/DDOTypes.ts#L636)
+[src/types/DDOTypes.ts:630](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L630)
 
 ---
 
@@ -50,7 +50,7 @@ The immutable solution to record the DDO
 
 #### Defined in
 
-[src/types/DDOTypes.ts:654](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/types/DDOTypes.ts#L654)
+[src/types/DDOTypes.ts:648](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L648)
 
 ---
 
@@ -62,7 +62,7 @@ ID Hash of the metadata recorded in an immutable data store (IPFS, Filecoin, Arw
 
 #### Defined in
 
-[src/types/DDOTypes.ts:649](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/types/DDOTypes.ts#L649)
+[src/types/DDOTypes.ts:643](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L643)
 
 ---
 
@@ -74,4 +74,4 @@ The date when the update occurred.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:640](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/types/DDOTypes.ts#L640)
+[src/types/DDOTypes.ts:634](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L634)

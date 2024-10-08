@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.38](../code-reference.md) / DDOError
+[@nevermined-io/sdk - v3.0.39](../code-reference.md) / DDOError
 
 # Class: DDOError
 
@@ -60,7 +60,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:62](https://github.com/nevermined-io/sdk-js/blob/19fc2a94ba4543472977483f1df808804d5fb1b7/src/errors/NeverminedErrors.ts#L62)
+[src/errors/NeverminedErrors.ts:62](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/errors/NeverminedErrors.ts#L62)
 
 ## Properties
 
