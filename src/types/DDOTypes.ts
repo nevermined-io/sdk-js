@@ -190,12 +190,6 @@ export interface MetaDataExternalResource {
 }
 
 export const NeverminedQueryProtocolEndpoints: { [verb: string]: string }[] = [
-  { GET: '/api/v1/agents' },
-  { POST: '/api/v1/agents/search' },
-  { GET: '/api/v1/agents/steps' },
-  { GET: '/api/v1/agents/{DID}/tasks/(.*)/steps' },
-  { POST: '/api/v1/agents/{DID}/tasks/(.*)/steps' },
-  { PUT: '/api/v1/agents/{DID}/tasks/(.*)/step/(.*)' },
   { POST: '/api/v1/agents/{DID}/tasks' },
   { GET: '/api/v1/agents/{DID}/tasks/(.*)' },
 ]

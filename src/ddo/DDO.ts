@@ -789,12 +789,14 @@ export class DDO {
         const serviceHostUrl = new URL(webService.serviceHost)
         const serviceHost = serviceHostUrl.origin
 
+        const _queryProtocolEndpoints: { [verb: string]: string }[] = []
         NeverminedQueryProtocolEndpoints.map((endpoint) => {
           Object.entries(endpoint).flatMap(([key, value]) => {
             const endpointUrl = `${serviceHost}${value}`.replace('{DID}', did)
-            webService.endpoints?.push({ [key]: endpointUrl })
+            _queryProtocolEndpoints.push({ [key]: endpointUrl })
           })
         })
+        webService.endpoints = _queryProtocolEndpoints
 
         if (webService?.isNeverminedHosted) {
           const openApiEndpoint = `${serviceHost}/api/v1/rest/docs-json`
