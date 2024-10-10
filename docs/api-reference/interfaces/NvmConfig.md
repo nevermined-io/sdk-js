@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.39](../code-reference.md) / NvmConfig
+[@nevermined-io/sdk - v3.0.40](../code-reference.md) / NvmConfig
 
 # Interface: NvmConfig
 
@@ -50,7 +50,7 @@ apps using the same marketplace api
 
 #### Defined in
 
-[src/types/DDOTypes.ts:604](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L604)
+[src/types/DDOTypes.ts:604](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L604)
 
 ---
 
@@ -66,7 +66,7 @@ Block networks where the asset is available. It is represented as a map of netwo
 
 #### Defined in
 
-[src/types/DDOTypes.ts:613](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L613)
+[src/types/DDOTypes.ts:613](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L613)
 
 ---
 
@@ -82,7 +82,7 @@ Used to identify a user in the marketplace api
 
 #### Defined in
 
-[src/types/DDOTypes.ts:595](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L595)
+[src/types/DDOTypes.ts:595](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L595)
 
 ---
 
@@ -94,4 +94,4 @@ The `versions` list stores the reference to all the changes done to the Metadata
 
 #### Defined in
 
-[src/types/DDOTypes.ts:608](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L608)
+[src/types/DDOTypes.ts:608](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L608)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.39](../code-reference.md) / DDOServiceAlreadyExists
+[@nevermined-io/sdk - v3.0.40](../code-reference.md) / DDOServiceAlreadyExists
 
 # Class: DDOServiceAlreadyExists
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:82](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/errors/NeverminedErrors.ts#L82)
+[src/errors/NeverminedErrors.ts:82](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/errors/NeverminedErrors.ts#L82)
 
 ## Properties
 

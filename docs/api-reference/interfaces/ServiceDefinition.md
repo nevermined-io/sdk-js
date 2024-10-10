@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.39](../code-reference.md) / ServiceDefinition
+[@nevermined-io/sdk - v3.0.40](../code-reference.md) / ServiceDefinition
 
 # Interface: ServiceDefinition
 
@@ -26,7 +26,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:94](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L94)
+[src/types/DDOTypes.ts:94](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L94)
 
 ---
 
@@ -45,4 +45,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:100](https://github.com/nevermined-io/sdk-js/blob/25427eb0c0f0254c08ad8193d966cb0284e2bd07/src/types/DDOTypes.ts#L100)
+[src/types/DDOTypes.ts:100](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L100)
