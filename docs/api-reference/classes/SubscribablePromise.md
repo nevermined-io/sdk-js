@@ -54,7 +54,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:15](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/utils/SubscribablePromise.ts#L15)
+[src/utils/SubscribablePromise.ts:15](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/utils/SubscribablePromise.ts#L15)
 
 ## Properties
 
@@ -64,7 +64,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:4](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/utils/SubscribablePromise.ts#L4)
+[src/utils/SubscribablePromise.ts:4](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/utils/SubscribablePromise.ts#L4)
 
 ---
 
@@ -74,7 +74,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:6](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/utils/SubscribablePromise.ts#L6)
+[src/utils/SubscribablePromise.ts:6](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/utils/SubscribablePromise.ts#L6)
 
 ## Methods
 
@@ -94,7 +94,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:33](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/utils/SubscribablePromise.ts#L33)
+[src/utils/SubscribablePromise.ts:33](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/utils/SubscribablePromise.ts#L33)
 
 ---
 
@@ -114,7 +114,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:37](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/utils/SubscribablePromise.ts#L37)
+[src/utils/SubscribablePromise.ts:37](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/utils/SubscribablePromise.ts#L37)
 
 ---
 
@@ -134,7 +134,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:41](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/utils/SubscribablePromise.ts#L41)
+[src/utils/SubscribablePromise.ts:41](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/utils/SubscribablePromise.ts#L41)
 
 ---
 
@@ -154,7 +154,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:24](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/utils/SubscribablePromise.ts#L24)
+[src/utils/SubscribablePromise.ts:24](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/utils/SubscribablePromise.ts#L24)
 
 ---
 
@@ -178,7 +178,7 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:20](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/utils/SubscribablePromise.ts#L20)
+[src/utils/SubscribablePromise.ts:20](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/utils/SubscribablePromise.ts#L20)
 
 ---
 
@@ -199,4 +199,4 @@
 
 #### Defined in
 
-[src/utils/SubscribablePromise.ts:29](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/utils/SubscribablePromise.ts#L29)
+[src/utils/SubscribablePromise.ts:29](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/utils/SubscribablePromise.ts#L29)

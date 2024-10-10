@@ -22,7 +22,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/ConditionStoreManager.ts:13](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/keeper/contracts/managers/ConditionStoreManager.ts#L13)
+[src/keeper/contracts/managers/ConditionStoreManager.ts:13](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/keeper/contracts/managers/ConditionStoreManager.ts#L13)
 
 ---
 
@@ -32,7 +32,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/ConditionStoreManager.ts:15](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/keeper/contracts/managers/ConditionStoreManager.ts#L15)
+[src/keeper/contracts/managers/ConditionStoreManager.ts:15](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/keeper/contracts/managers/ConditionStoreManager.ts#L15)
 
 ---
 
@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/ConditionStoreManager.ts:14](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/keeper/contracts/managers/ConditionStoreManager.ts#L14)
+[src/keeper/contracts/managers/ConditionStoreManager.ts:14](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/keeper/contracts/managers/ConditionStoreManager.ts#L14)
 
 ---
 
@@ -52,7 +52,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/ConditionStoreManager.ts:10](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/keeper/contracts/managers/ConditionStoreManager.ts#L10)
+[src/keeper/contracts/managers/ConditionStoreManager.ts:10](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/keeper/contracts/managers/ConditionStoreManager.ts#L10)
 
 ---
 
@@ -62,7 +62,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/ConditionStoreManager.ts:11](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/keeper/contracts/managers/ConditionStoreManager.ts#L11)
+[src/keeper/contracts/managers/ConditionStoreManager.ts:11](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/keeper/contracts/managers/ConditionStoreManager.ts#L11)
 
 ---
 
@@ -72,7 +72,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/ConditionStoreManager.ts:12](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/keeper/contracts/managers/ConditionStoreManager.ts#L12)
+[src/keeper/contracts/managers/ConditionStoreManager.ts:12](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/keeper/contracts/managers/ConditionStoreManager.ts#L12)
 
 ---
 
@@ -82,4 +82,4 @@
 
 #### Defined in
 
-[src/keeper/contracts/managers/ConditionStoreManager.ts:9](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/keeper/contracts/managers/ConditionStoreManager.ts#L9)
+[src/keeper/contracts/managers/ConditionStoreManager.ts:9](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/keeper/contracts/managers/ConditionStoreManager.ts#L9)

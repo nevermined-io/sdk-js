@@ -24,4 +24,4 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:22](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/EventTypes.ts#L22)
+[src/types/EventTypes.ts:22](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/EventTypes.ts#L22)

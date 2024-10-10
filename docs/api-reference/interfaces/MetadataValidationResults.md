@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:49](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/nevermined/NvmApp.ts#L49)
+[src/nevermined/NvmApp.ts:49](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/nevermined/NvmApp.ts#L49)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:50](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/nevermined/NvmApp.ts#L50)
+[src/nevermined/NvmApp.ts:50](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/nevermined/NvmApp.ts#L50)

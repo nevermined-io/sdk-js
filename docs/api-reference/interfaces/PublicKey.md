@@ -31,7 +31,7 @@ ID of the key.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:543](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L543)
+[src/types/DDOTypes.ts:543](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L543)
 
 ---
 
@@ -49,7 +49,7 @@ Key owner.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:558](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L558)
+[src/types/DDOTypes.ts:558](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L558)
 
 ---
 
@@ -59,7 +59,7 @@ Key owner.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:561](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L561)
+[src/types/DDOTypes.ts:561](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L561)
 
 ---
 
@@ -69,7 +69,7 @@ Key owner.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:562](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L562)
+[src/types/DDOTypes.ts:562](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L562)
 
 ---
 
@@ -79,7 +79,7 @@ Key owner.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:560](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L560)
+[src/types/DDOTypes.ts:560](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L560)
 
 ---
 
@@ -91,4 +91,4 @@ Type of key.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:548](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/DDOTypes.ts#L548)
+[src/types/DDOTypes.ts:548](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L548)

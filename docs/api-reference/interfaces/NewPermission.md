@@ -25,7 +25,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:97](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/MetadataTypes.ts#L97)
+[src/types/MetadataTypes.ts:97](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/MetadataTypes.ts#L97)
 
 ---
 
@@ -35,7 +35,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:96](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/MetadataTypes.ts#L96)
+[src/types/MetadataTypes.ts:96](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/MetadataTypes.ts#L96)
 
 ---
 
@@ -45,7 +45,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:95](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/MetadataTypes.ts#L95)
+[src/types/MetadataTypes.ts:95](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/MetadataTypes.ts#L95)
 
 ---
 
@@ -55,4 +55,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:94](https://github.com/nevermined-io/sdk-js/blob/6b091f939fe86d73745b456817747b1f06834a7b/src/types/MetadataTypes.ts#L94)
+[src/types/MetadataTypes.ts:94](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/MetadataTypes.ts#L94)
