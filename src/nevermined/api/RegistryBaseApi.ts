@@ -165,12 +165,16 @@ export abstract class RegistryBaseApi extends Instantiable {
               ddo.id,
             )
 
-            assetAttributes.metadata.additionalInformation = {
-              ...assetAttributes.metadata.additionalInformation,
-              customData: {
-                openApi: assetAttributes.metadata.main.webService?.openEndpoints[0],
-              },
-            }
+            if (
+              assetAttributes.metadata.main.webService?.openEndpoints &&
+              assetAttributes.metadata.main.webService?.openEndpoints.length > 0
+            )
+              assetAttributes.metadata.additionalInformation = {
+                ...assetAttributes.metadata.additionalInformation,
+                customData: {
+                  openApi: assetAttributes.metadata.main.webService?.openEndpoints[0],
+                },
+              }
 
             const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
               ddo.id,
