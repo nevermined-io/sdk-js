@@ -172,6 +172,7 @@ export abstract class RegistryBaseApi extends Instantiable {
               assetAttributes.metadata.additionalInformation = {
                 ...assetAttributes.metadata.additionalInformation,
                 customData: {
+                  ...assetAttributes.metadata.additionalInformation?.customData,
                   openApi: assetAttributes.metadata.main.webService?.openEndpoints[0],
                 },
               }
