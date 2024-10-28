@@ -19,7 +19,7 @@ jobs:
           path: node
           ref: main
           token: ${{ secrets.API_TOKEN_GITHUB }}
-      - uses: nevermined-io/nvm-tools-actions@v0.15.0
+      - uses: nevermined-io/nvm-tools-actions@v0.17.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
