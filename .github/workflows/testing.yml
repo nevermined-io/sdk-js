@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - uses: nevermined-io/nvm-tools-actions@v0.15.0
+      - uses: nevermined-io/nvm-tools-actions@v0.18.0
         with:
           token: ${{ secrets.API_TOKEN_GITHUB }}
           opengsn: 'true'
