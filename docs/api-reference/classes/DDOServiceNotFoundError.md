@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.40](../code-reference.md) / DDOServiceNotFoundError
+[@nevermined-io/sdk - v3.0.41](../code-reference.md) / DDOServiceNotFoundError
 
 # Class: DDOServiceNotFoundError
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:76](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/errors/NeverminedErrors.ts#L76)
+[src/errors/NeverminedErrors.ts:76](https://github.com/nevermined-io/sdk-js/blob/3e552f889871135260309ba0e332abffa92609ef/src/errors/NeverminedErrors.ts#L76)
 
 ## Properties
 

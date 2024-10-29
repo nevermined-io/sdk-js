@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.40](../code-reference.md) / AuthToken
+[@nevermined-io/sdk - v3.0.41](../code-reference.md) / AuthToken
 
 # Interface: AuthToken
 
@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:34](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/services/metadata/MetadataService.ts#L34)
+[src/services/metadata/MetadataService.ts:34](https://github.com/nevermined-io/sdk-js/blob/3e552f889871135260309ba0e332abffa92609ef/src/services/metadata/MetadataService.ts#L34)

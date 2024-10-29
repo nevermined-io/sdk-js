@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.40](../code-reference.md) / ChargeType
+[@nevermined-io/sdk - v3.0.41](../code-reference.md) / ChargeType
 
 # Enumeration: ChargeType
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:261](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L261)
+[src/types/DDOTypes.ts:261](https://github.com/nevermined-io/sdk-js/blob/3e552f889871135260309ba0e332abffa92609ef/src/types/DDOTypes.ts#L261)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:260](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L260)
+[src/types/DDOTypes.ts:260](https://github.com/nevermined-io/sdk-js/blob/3e552f889871135260309ba0e332abffa92609ef/src/types/DDOTypes.ts#L260)

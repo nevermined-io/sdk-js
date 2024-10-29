@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.40](../code-reference.md) / ImmutableBackends
+[@nevermined-io/sdk - v3.0.41](../code-reference.md) / ImmutableBackends
 
 # Enumeration: ImmutableBackends
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:619](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L619)
+[src/types/DDOTypes.ts:619](https://github.com/nevermined-io/sdk-js/blob/3e552f889871135260309ba0e332abffa92609ef/src/types/DDOTypes.ts#L619)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:620](https://github.com/nevermined-io/sdk-js/blob/b5e55eab9d0ebcc9023ac5ea2d4b30a77616251e/src/types/DDOTypes.ts#L620)
+[src/types/DDOTypes.ts:620](https://github.com/nevermined-io/sdk-js/blob/3e552f889871135260309ba0e332abffa92609ef/src/types/DDOTypes.ts#L620)
