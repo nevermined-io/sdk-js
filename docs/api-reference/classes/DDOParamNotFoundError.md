@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.41](../code-reference.md) / DDOParamNotFoundError
+[@nevermined-io/sdk - v3.0.42](../code-reference.md) / DDOParamNotFoundError
 
 # Class: DDOParamNotFoundError
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:94](https://github.com/nevermined-io/sdk-js/blob/3e552f889871135260309ba0e332abffa92609ef/src/errors/NeverminedErrors.ts#L94)
+[src/errors/NeverminedErrors.ts:94](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/errors/NeverminedErrors.ts#L94)
 
 ## Properties
 
