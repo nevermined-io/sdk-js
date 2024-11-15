@@ -198,7 +198,7 @@ export class NFT1155Api extends NFTsBaseApi {
    *
    * @example
    * ```ts
-   * await nevermined.nfts1155.burnTo(
+   * await nevermined.nfts1155.burnFromHolder(
    *           holder,
    *           tokenId,
    *           2n,
@@ -222,6 +222,40 @@ export class NFT1155Api extends NFTsBaseApi {
     txParams?: TxParameters,
   ) {
     return await this.nftContract.burnFromHolder(holder, tokenId, nftAmount, from, txParams)
+  }
+
+  /**
+   * Burns NFTs associated with an asset of a specific account.
+   *
+   * @remarks
+   * The publisher can only burn NFTs of an account if is an operator. NFTs that were already transferred cannot be burned by the publisher.
+   *
+   * @example
+   * ```ts
+   * await nevermined.nfts1155.burnBatchFromHolders(
+   *           [holder1, holder2],
+   *           [tokenId, tokenId],
+   *           [2n, 3n],
+   *           burner
+   * )
+   * ```
+   *
+   * @param holders - Array of addresses of the accounts holding the NFT editions that are going to be burned
+   * @param tokenIds - Array of the NFT ids to burn
+   * @param amounts - Array of number of editions to burn
+   * @param from - The account of the publisher of the NFT.
+   * @param txParams - Optional transaction parameters.
+   *
+   * @returns The {@link TransactionReceipt}
+   */
+  public async burnBatchFromHolders(
+    holders: string[],
+    tokenIds: string[],
+    amounts: bigint[],
+    from: NvmAccount,
+    txParams?: TxParameters,
+  ) {
+    return this.nftContract.burnBatchFromHolders(holders, tokenIds, amounts, from, txParams)
   }
 
   // TODO: We need to improve this to allow for secondary market sales
