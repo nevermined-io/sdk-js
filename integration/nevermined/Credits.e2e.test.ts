@@ -123,10 +123,12 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       console.log(`Running first test`)
       // Deploy NFT
       TestContractHandler.setConfig(config)
+      const networkName = await nevermined.keeper.getNetworkName()
 
       const contractABI = await TestContractHandler.getABIArtifact(
         'NFT1155SubscriptionUpgradeable',
-        './test/resources/artifacts/',
+        config.artifactsFolder,
+        networkName,
       )
       subscriptionNFT = await SubscriptionCreditsNFTApi.deployInstance(
         config,
@@ -392,6 +394,20 @@ describe('Credit Subscriptions using NFT ERC-1155 End-to-End', () => {
       )
       console.log(`Balance After TopUp: ${balanceAfterTopUp}`)
       assert.isTrue(balanceAfterTopUp > accessCostInCredits)
+    })
+
+    it('Should be able to burn in batch', async () => {
+      const beforeBalance = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+
+      await nevermined.nfts1155.burnBatchFromHolders(
+        [subscriber.getId(), subscriber.getId()],
+        [subscriptionDDO.id, subscriptionDDO.id],
+        [1n, 2n],
+        editor,
+      )
+
+      const afterBalance = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
+      assert.equal(beforeBalance - 3n, afterBalance)
     })
   })
 })

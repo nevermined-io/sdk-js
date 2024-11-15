@@ -205,6 +205,28 @@ export class Nft1155Contract extends NFTContractsBase {
   }
 
   /**
+   * It burns some editions of a NFT (ERC-1155)
+   *
+   * @param holders - Array of addresses of the accounts holding the NFT editions that are going to be burned
+   * @param tokenIds - Array of the NFT ids to burn
+   * @param amounts - Array of number of editions to burn
+   * @param from - Account burning the NFT editions
+   * @param txParams - Transaction additional parameters
+   * @returns Contract Receipt
+   */
+  public async burnBatchFromHolders(
+    holders: string[],
+    tokenIds: string[],
+    amounts: bigint[],
+    from: NvmAccount,
+    txParams?: TxParameters,
+  ) {
+    const _tokenIds = tokenIds.map((did) => didToTokenId(did))
+    const _amounts = amounts.map((amount) => BigInt(amount))
+    return this.send('burnBatchFromHolders', from, [holders, _tokenIds, _amounts], txParams)
+  }
+
+  /**
    * It returns the NFT metadata uri
    *
    * @param did - The NFT id
