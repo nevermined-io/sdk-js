@@ -38,7 +38,7 @@ export class AppDeploymentStaging extends NeverminedAppOptions {
   gasMultiplier = 0
   gasPriceMultiplier = 0
   nftContractTimeAddress = '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5'
-  nftContractCreditsAddress = '0xb1c2237d0a2b32da39b9a1cdff4a1e6429c0fe52'
+  nftContractCreditsAddress = '0x8ad59c91ae13a63adaea23770a9c013c632ad648'
   tokenAddress = '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d'
 }
 
@@ -56,7 +56,7 @@ export class AppDeploymentTesting extends NeverminedAppOptions {
   gasMultiplier = 0
   gasPriceMultiplier = 0
   nftContractTimeAddress = '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5'
-  nftContractCreditsAddress = '0xb1c2237d0a2b32da39b9a1cdff4a1e6429c0fe52'
+  nftContractCreditsAddress = '0x8ad59c91ae13a63adaea23770a9c013c632ad648'
   tokenAddress = '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d'
 }
 
@@ -74,7 +74,7 @@ export class AppDeploymentArbitrum extends NeverminedAppOptions {
   gasMultiplier = 0
   gasPriceMultiplier = 0
   nftContractTimeAddress = '0x19D7551f112457deb78DadeFfd87D95a0810EDfF'
-  nftContractCreditsAddress = '0xda658962eb23e6343dacc222bac0401a8c8f2879'
+  nftContractCreditsAddress = '0xcc700c5d59a339ec6a2484a723791254da410d62'
   tokenAddress = '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'
 }
 

@@ -422,7 +422,7 @@ export class NvmApp {
 
     let nftContractAddress = subscriptionNFTContractCreditsAddress
       ? subscriptionNFTContractCreditsAddress
-      : this.configNVM.nftContractTimeAddress
+      : this.configNVM.nftContractCreditsAddress
 
     if (!nftContractAddress) {
       nftContractAddress = this.fullSDK.nfts1155.address
