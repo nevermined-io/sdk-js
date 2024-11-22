@@ -431,8 +431,8 @@ export abstract class RegistryBaseApi extends Instantiable {
 
         if (
           (metadataService.attributes.main.type === 'service' ||
-            assetAttributes.metadata.main.type === 'assistant' ||
-            assetAttributes.metadata.main.type === 'agent') &&
+            metadataService.attributes.main.type === 'assistant' ||
+            metadataService.attributes.main.type === 'agent') &&
           metadataService.attributes.main.webService.internalAttributes
         ) {
           const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
