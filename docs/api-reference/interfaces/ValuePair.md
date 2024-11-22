@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.43](../code-reference.md) / ValuePair
+[@nevermined-io/sdk - v3.0.44](../code-reference.md) / ValuePair
 
 # Interface: ValuePair
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:53](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/types/GeneralTypes.ts#L53)
+[src/types/GeneralTypes.ts:53](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/GeneralTypes.ts#L53)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:54](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/types/GeneralTypes.ts#L54)
+[src/types/GeneralTypes.ts:54](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/GeneralTypes.ts#L54)

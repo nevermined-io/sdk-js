@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.43](../code-reference.md) / NodeUploadBackends
+[@nevermined-io/sdk - v3.0.44](../code-reference.md) / NodeUploadBackends
 
 # Enumeration: NodeUploadBackends
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:16](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/services/node/NeverminedNode.ts#L16)
+[src/services/node/NeverminedNode.ts:16](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/services/node/NeverminedNode.ts#L16)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:14](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/services/node/NeverminedNode.ts#L14)
+[src/services/node/NeverminedNode.ts:14](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/services/node/NeverminedNode.ts#L14)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:15](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/services/node/NeverminedNode.ts#L15)
+[src/services/node/NeverminedNode.ts:15](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/services/node/NeverminedNode.ts#L15)

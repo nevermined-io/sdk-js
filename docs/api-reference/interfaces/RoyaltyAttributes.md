@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.43](../code-reference.md) / RoyaltyAttributes
+[@nevermined-io/sdk - v3.0.44](../code-reference.md) / RoyaltyAttributes
 
 # Interface: RoyaltyAttributes
 
@@ -20,7 +20,7 @@ Attributes defining the royalties model attached to the asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:38](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/AssetsApi.ts#L38)
+[src/nevermined/api/AssetsApi.ts:38](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/api/AssetsApi.ts#L38)
 
 ---
 
@@ -30,7 +30,7 @@ Attributes defining the royalties model attached to the asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:36](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/AssetsApi.ts#L36)
+[src/nevermined/api/AssetsApi.ts:36](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/api/AssetsApi.ts#L36)
 
 ---
 
@@ -40,4 +40,4 @@ Attributes defining the royalties model attached to the asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:37](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/AssetsApi.ts#L37)
+[src/nevermined/api/AssetsApi.ts:37](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/api/AssetsApi.ts#L37)

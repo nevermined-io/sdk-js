@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.43](../code-reference.md) / AppDeploymentArbitrum
+[@nevermined-io/sdk - v3.0.44](../code-reference.md) / AppDeploymentArbitrum
 
 # Class: AppDeploymentArbitrum
 
@@ -69,7 +69,7 @@
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:73](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L73)
+[src/models/NeverminedOptions.ts:73](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L73)
 
 ---
 
@@ -85,7 +85,7 @@ The Nevermined App URL.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:65](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L65)
+[src/nevermined/resources/AppNetworks.ts:65](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L65)
 
 ---
 
@@ -101,7 +101,7 @@ The folder where the nevermined contract artifacts are located.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:67](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L67)
+[src/models/NeverminedOptions.ts:67](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L67)
 
 ---
 
@@ -115,7 +115,7 @@ The folder where the nevermined contract artifacts are located.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:66](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L66)
+[src/nevermined/resources/AppNetworks.ts:66](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L66)
 
 ---
 
@@ -131,7 +131,7 @@ The folder where the nevermined contract circuits are located.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:71](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L71)
+[src/models/NeverminedOptions.ts:71](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L71)
 
 ---
 
@@ -147,7 +147,7 @@ Contracts version
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:99](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L99)
+[src/models/NeverminedOptions.ts:99](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L99)
 
 ---
 
@@ -164,7 +164,7 @@ Can be used to speed up the transactions.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:74](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L74)
+[src/nevermined/resources/AppNetworks.ts:74](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L74)
 
 ---
 
@@ -174,7 +174,7 @@ Can be used to speed up the transactions.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:75](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L75)
+[src/nevermined/resources/AppNetworks.ts:75](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L75)
 
 ---
 
@@ -190,7 +190,7 @@ Use a gas station to calculate transaction fees
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:89](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L89)
+[src/models/NeverminedOptions.ts:89](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L89)
 
 ---
 
@@ -206,7 +206,7 @@ Enpoint for the graph-node http query
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:69](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L69)
+[src/nevermined/resources/AppNetworks.ts:69](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L69)
 
 ---
 
@@ -220,7 +220,7 @@ Enpoint for the graph-node http query
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:64](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L64)
+[src/nevermined/resources/AppNetworks.ts:64](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L64)
 
 ---
 
@@ -238,7 +238,7 @@ the asset resolution requests.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:80](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L80)
+[src/models/NeverminedOptions.ts:80](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L80)
 
 ---
 
@@ -252,7 +252,7 @@ the asset resolution requests.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:82](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L82)
+[src/models/NeverminedOptions.ts:82](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L82)
 
 ---
 
@@ -266,7 +266,7 @@ the asset resolution requests.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:84](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L84)
+[src/models/NeverminedOptions.ts:84](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L84)
 
 ---
 
@@ -282,7 +282,7 @@ Marketplace auth token.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:41](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L41)
+[src/models/NeverminedOptions.ts:41](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L41)
 
 ---
 
@@ -303,7 +303,7 @@ https://docs.nevermined.io/docs/architecture/marketplace-api/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:68](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L68)
+[src/nevermined/resources/AppNetworks.ts:68](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L68)
 
 ---
 
@@ -317,7 +317,7 @@ https://docs.nevermined.io/docs/architecture/marketplace-api/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:72](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L72)
+[src/nevermined/resources/AppNetworks.ts:72](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L72)
 
 ---
 
@@ -337,7 +337,7 @@ The public address of the Nevermined Node.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:71](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L71)
+[src/nevermined/resources/AppNetworks.ts:71](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L71)
 
 ---
 
@@ -358,7 +358,7 @@ https://docs.nevermined.io/docs/architecture/node/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:70](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L70)
+[src/nevermined/resources/AppNetworks.ts:70](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L70)
 
 ---
 
@@ -372,7 +372,7 @@ https://docs.nevermined.io/docs/architecture/node/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:77](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L77)
+[src/nevermined/resources/AppNetworks.ts:77](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L77)
 
 ---
 
@@ -386,7 +386,7 @@ https://docs.nevermined.io/docs/architecture/node/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:76](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L76)
+[src/nevermined/resources/AppNetworks.ts:76](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L76)
 
 ---
 
@@ -400,7 +400,7 @@ https://docs.nevermined.io/docs/architecture/node/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:78](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L78)
+[src/nevermined/resources/AppNetworks.ts:78](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L78)
 
 ---
 
@@ -416,7 +416,7 @@ Log level.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:73](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L73)
+[src/nevermined/resources/AppNetworks.ts:73](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L73)
 
 ---
 
@@ -432,7 +432,7 @@ Web3 Provider.
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:46](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L46)
+[src/models/NeverminedOptions.ts:46](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L46)
 
 ---
 
@@ -450,7 +450,7 @@ It's possible to use a public available provider or a private/paid one like Infu
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:67](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/resources/AppNetworks.ts#L67)
+[src/nevermined/resources/AppNetworks.ts:67](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/nevermined/resources/AppNetworks.ts#L67)
 
 ---
 
@@ -466,4 +466,4 @@ ZeroDev project id
 
 #### Defined in
 
-[src/models/NeverminedOptions.ts:94](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/models/NeverminedOptions.ts#L94)
+[src/models/NeverminedOptions.ts:94](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/models/NeverminedOptions.ts#L94)
