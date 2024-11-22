@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.42](../code-reference.md) / NFTsBaseApi
+[@nevermined-io/sdk - v3.0.43](../code-reference.md) / NFTsBaseApi
 
 # Class: NFTsBaseApi
 
@@ -89,7 +89,7 @@ Abstract class providing common NFT methods for different ERC implementations.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/RegistryBaseApi.ts#L39)
+[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/RegistryBaseApi.ts#L39)
 
 ## Accessors
 
@@ -107,7 +107,7 @@ RegistryBaseApi.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L137)
+[src/Instantiable.abstract.ts:137](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L137)
 
 ---
 
@@ -125,7 +125,7 @@ RegistryBaseApi.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L141)
+[src/Instantiable.abstract.ts:141](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L141)
 
 ---
 
@@ -143,7 +143,7 @@ RegistryBaseApi.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L89)
+[src/Instantiable.abstract.ts:89](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L89)
 
 ---
 
@@ -161,7 +161,7 @@ RegistryBaseApi.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L120)
+[src/Instantiable.abstract.ts:120](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L120)
 
 ---
 
@@ -179,7 +179,7 @@ RegistryBaseApi.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L145)
+[src/Instantiable.abstract.ts:145](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L145)
 
 ---
 
@@ -197,7 +197,7 @@ RegistryBaseApi.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L113)
+[src/Instantiable.abstract.ts:113](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L113)
 
 ---
 
@@ -215,7 +215,7 @@ RegistryBaseApi.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L128)
+[src/Instantiable.abstract.ts:128](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L128)
 
 ---
 
@@ -233,7 +233,7 @@ RegistryBaseApi.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L81)
+[src/Instantiable.abstract.ts:81](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L81)
 
 ---
 
@@ -315,7 +315,7 @@ RegistryBaseApi.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L97)
+[src/Instantiable.abstract.ts:97](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L97)
 
 ---
 
@@ -366,7 +366,7 @@ RegistryBaseApi.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L105)
+[src/Instantiable.abstract.ts:105](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L105)
 
 ## Methods
 
@@ -405,7 +405,7 @@ assert.equal(details.owner, artist.getId())
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:152](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/nfts/NFTsBaseApi.ts#L152)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:152](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/nfts/NFTsBaseApi.ts#L152)
 
 ---
 
@@ -447,7 +447,7 @@ const result = await nevermined.nfts1155.access(ddo.id, collector, '/tmp/')
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:427](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/nfts/NFTsBaseApi.ts#L427)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:427](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/nfts/NFTsBaseApi.ts#L427)
 
 ---
 
@@ -480,7 +480,7 @@ Given a DID, it adds a vote to the asset curation information.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:562](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/RegistryBaseApi.ts#L562)
+[src/nevermined/api/RegistryBaseApi.ts:562](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/RegistryBaseApi.ts#L562)
 
 ---
 
@@ -519,7 +519,7 @@ Thrown if there is an error buying the NFT.
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:345](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/nfts/NFTsBaseApi.ts#L345)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:345](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/nfts/NFTsBaseApi.ts#L345)
 
 ---
 
@@ -574,7 +574,7 @@ const receipt = await nevermined.nfts721.claim(
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/nfts/NFTsBaseApi.ts#L52)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/nfts/NFTsBaseApi.ts#L52)
 
 ---
 
@@ -608,7 +608,7 @@ assert.isDefined(response.neverminedProxyUri)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:490](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/nfts/NFTsBaseApi.ts#L490)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:490](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/nfts/NFTsBaseApi.ts#L490)
 
 ---
 
@@ -634,7 +634,7 @@ operator status of address as a boolean
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:118](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/nfts/NFTsBaseApi.ts#L118)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:118](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/nfts/NFTsBaseApi.ts#L118)
 
 ---
 
@@ -660,7 +660,7 @@ operator status of address as a boolean
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:93](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/nfts/NFTsBaseApi.ts#L93)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:93](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/nfts/NFTsBaseApi.ts#L93)
 
 ---
 
@@ -693,7 +693,7 @@ In a Nevermined environment, when an asset is unlisted, it is not possible to be
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:510](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/RegistryBaseApi.ts#L510)
+[src/nevermined/api/RegistryBaseApi.ts:510](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/RegistryBaseApi.ts#L510)
 
 ---
 
@@ -741,7 +741,7 @@ Thrown if there is an error listing the NFT.
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:262](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/nfts/NFTsBaseApi.ts#L262)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:262](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/nfts/NFTsBaseApi.ts#L262)
 
 ---
 
@@ -773,7 +773,7 @@ The agreement ID.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:613](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/RegistryBaseApi.ts#L613)
+[src/nevermined/api/RegistryBaseApi.ts:613](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/RegistryBaseApi.ts#L613)
 
 ---
 
@@ -810,7 +810,7 @@ The metadata of the asset created (DDO)
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/RegistryBaseApi.ts#L52)
+[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/RegistryBaseApi.ts#L52)
 
 ---
 
@@ -840,7 +840,7 @@ Depending of the resolution policy it prioritize fetching that Metadata from the
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:349](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/RegistryBaseApi.ts#L349)
+[src/nevermined/api/RegistryBaseApi.ts:349](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/RegistryBaseApi.ts#L349)
 
 ---
 
@@ -864,7 +864,7 @@ Depending of the resolution policy it prioritize fetching that Metadata from the
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L163)
+[src/Instantiable.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L163)
 
 ---
 
@@ -896,7 +896,7 @@ Given a DID, updates the metadata associated to the asset. It also can upload th
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:392](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/RegistryBaseApi.ts#L392)
+[src/nevermined/api/RegistryBaseApi.ts:392](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/RegistryBaseApi.ts#L392)
 
 ---
 
@@ -920,7 +920,7 @@ Given a DID, updates the metadata associated to the asset. It also can upload th
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L150)
+[src/Instantiable.abstract.ts:150](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L150)
 
 ---
 
@@ -951,7 +951,7 @@ const nftContractAddress = NFT1155Api.getNFTContractAddress(ddo)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:221](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/nfts/NFTsBaseApi.ts#L221)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:221](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/nfts/NFTsBaseApi.ts#L221)
 
 ---
 
@@ -986,7 +986,7 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:668](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/nevermined/api/RegistryBaseApi.ts#L668)
+[src/nevermined/api/RegistryBaseApi.ts:668](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/nevermined/api/RegistryBaseApi.ts#L668)
 
 ---
 
@@ -1017,4 +1017,4 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/Instantiable.abstract.ts#L154)
+[src/Instantiable.abstract.ts:154](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/Instantiable.abstract.ts#L154)

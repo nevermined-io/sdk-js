@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.42](../code-reference.md) / WebServiceInternalAttributes
+[@nevermined-io/sdk - v3.0.43](../code-reference.md) / WebServiceInternalAttributes
 
 # Interface: WebServiceInternalAttributes
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:270](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/types/DDOTypes.ts#L270)
+[src/types/DDOTypes.ts:270](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/types/DDOTypes.ts#L270)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:272](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/types/DDOTypes.ts#L272)
+[src/types/DDOTypes.ts:272](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/types/DDOTypes.ts#L272)

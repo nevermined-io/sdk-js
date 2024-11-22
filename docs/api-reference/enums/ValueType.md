@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.42](../code-reference.md) / ValueType
+[@nevermined-io/sdk - v3.0.43](../code-reference.md) / ValueType
 
 # Enumeration: ValueType
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:49](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/types/GeneralTypes.ts#L49)
+[src/types/GeneralTypes.ts:49](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/types/GeneralTypes.ts#L49)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:46](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/types/GeneralTypes.ts#L46)
+[src/types/GeneralTypes.ts:46](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/types/GeneralTypes.ts#L46)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:47](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/types/GeneralTypes.ts#L47)
+[src/types/GeneralTypes.ts:47](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/types/GeneralTypes.ts#L47)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:48](https://github.com/nevermined-io/sdk-js/blob/6dae17b3b84450d8e4cc72ede504295494f55c56/src/types/GeneralTypes.ts#L48)
+[src/types/GeneralTypes.ts:48](https://github.com/nevermined-io/sdk-js/blob/356dfb328fcf7cee010b48756ca205b2a854f0f8/src/types/GeneralTypes.ts#L48)
