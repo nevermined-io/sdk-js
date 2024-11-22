@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { formatUnits } from 'viem'
 import { Instantiable, InstantiableConfig } from '../../Instantiable.abstract'
 import { generateId } from '../../common/helpers'
 import { DEFAULT_ENCRYPTION_METHOD, ZeroAddress } from '../../constants/AssetConstants'
@@ -26,7 +27,6 @@ import {
 } from '../../types/MetadataTypes'
 import { zeroX } from '../../utils/ConversionTypeHelpers'
 import { SubscribablePromise } from '../../utils/SubscribablePromise'
-import { formatUnits } from 'viem'
 import { AccessService, NFTAccessService, NFTSalesService } from '../AccessService'
 import { DID } from '../DID'
 import { CreateProgressStep, OrderProgressStep, UpdateProgressStep } from '../ProgressSteps'
@@ -430,7 +430,9 @@ export abstract class RegistryBaseApi extends Instantiable {
         metadataService.attributes.encryptedFiles = JSON.parse(encryptedFilesResponse)['hash']
 
         if (
-          metadataService.attributes.main.type === 'service' &&
+          (metadataService.attributes.main.type === 'service' ||
+            metadataService.attributes.main.type === 'assistant' ||
+            metadataService.attributes.main.type === 'agent') &&
           metadataService.attributes.main.webService.internalAttributes
         ) {
           const encryptedServiceAttributesResponse = await this.nevermined.services.node.encrypt(
