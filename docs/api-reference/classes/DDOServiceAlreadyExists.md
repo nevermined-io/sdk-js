@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:82](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/errors/NeverminedErrors.ts#L82)
+[src/errors/NeverminedErrors.ts:82](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/errors/NeverminedErrors.ts#L82)
 
 ## Properties
 

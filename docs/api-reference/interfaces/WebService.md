@@ -30,7 +30,7 @@ If fixed the amount of credits to charge will be always the same.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:225](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L225)
+[src/types/DDOTypes.ts:226](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L226)
 
 ---
 
@@ -40,7 +40,7 @@ If fixed the amount of credits to charge will be always the same.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:219](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L219)
+[src/types/DDOTypes.ts:220](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L220)
 
 ---
 
@@ -52,7 +52,7 @@ List of endpoints available for the service
 
 #### Defined in
 
-[src/types/DDOTypes.ts:209](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L209)
+[src/types/DDOTypes.ts:210](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L210)
 
 ---
 
@@ -65,7 +65,7 @@ See [https://docs.nevermined.io/docs/protocol/query-protocol](https://docs.never
 
 #### Defined in
 
-[src/types/DDOTypes.ts:245](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L245)
+[src/types/DDOTypes.ts:246](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L246)
 
 ---
 
@@ -75,7 +75,7 @@ See [https://docs.nevermined.io/docs/protocol/query-protocol](https://docs.never
 
 #### Defined in
 
-[src/types/DDOTypes.ts:217](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L217)
+[src/types/DDOTypes.ts:218](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L218)
 
 ---
 
@@ -88,7 +88,7 @@ If true, the service/agent will be running using the Nevermined Backend service.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:231](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L231)
+[src/types/DDOTypes.ts:232](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L232)
 
 ---
 
@@ -101,7 +101,7 @@ This attribute is useful to indicate which endpoints are available for public ac
 
 #### Defined in
 
-[src/types/DDOTypes.ts:215](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L215)
+[src/types/DDOTypes.ts:216](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L216)
 
 ---
 
@@ -113,7 +113,7 @@ The version of the Query Protocol implemented by the service.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:250](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L250)
+[src/types/DDOTypes.ts:251](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L251)
 
 ---
 
@@ -128,7 +128,7 @@ Example: https://my-service.com or https://backend.nevermined.app
 
 #### Defined in
 
-[src/types/DDOTypes.ts:239](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L239)
+[src/types/DDOTypes.ts:240](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L240)
 
 ---
 
@@ -140,4 +140,4 @@ Type of Web service
 
 #### Defined in
 
-[src/types/DDOTypes.ts:204](https://github.com/nevermined-io/sdk-js/blob/73bbd7adf913370f1a2da0a0873209115a3fbd62/src/types/DDOTypes.ts#L204)
+[src/types/DDOTypes.ts:205](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L205)
