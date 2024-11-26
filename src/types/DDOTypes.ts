@@ -1,8 +1,8 @@
-import { Babysig, ERCType, NeverminedNFTType } from '../types/GeneralTypes'
-import { TxParameters } from '../models/Transactions'
-import { NvmAccount } from '../models/NvmAccount'
 import { AssetPrice } from '../models/AssetPrice'
-import { NFTServiceAttributes, NFTAttributes } from '../models/NFTAttributes'
+import { NFTAttributes, NFTServiceAttributes } from '../models/NFTAttributes'
+import { NvmAccount } from '../models/NvmAccount'
+import { TxParameters } from '../models/Transactions'
+import { Babysig, ERCType, NeverminedNFTType } from '../types/GeneralTypes'
 
 export interface Authentication {
   type: string
@@ -192,6 +192,7 @@ export interface MetaDataExternalResource {
 export const NeverminedQueryProtocolEndpoints: { [verb: string]: string }[] = [
   { POST: '/api/v1/agents/{DID}/tasks' },
   { GET: '/api/v1/agents/{DID}/tasks/(.*)' },
+  { POST: '/api/v1/agents/search/subscriber/tasks' },
 ]
 
 /**
