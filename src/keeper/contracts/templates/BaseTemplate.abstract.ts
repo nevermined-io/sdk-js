@@ -11,13 +11,13 @@ import { TxParameters } from '../../../models/Transactions'
 import { isValidAddress } from '../../../nevermined/utils/BlockchainViemUtils'
 import { ConditionState } from '../../../types/ContractTypes'
 import {
+  MetaData,
+  PricedMetadataInformation,
   Service,
+  ServiceAttributes,
+  serviceIndex,
   ServicePlugin,
   ServiceType,
-  MetaData,
-  ServiceAttributes,
-  PricedMetadataInformation,
-  serviceIndex,
   ValidationParams,
 } from '../../../types/DDOTypes'
 import { zeroX } from '../../../utils/ConversionTypeHelpers'
@@ -127,8 +127,8 @@ export abstract class BaseTemplate<Params, S extends Service>
     params: ValidationParams,
     from: NvmAccount,
     txparams?: TxParameters,
-  ): Promise<void> {
-    await this.validateAgreement(
+  ): Promise<void | { [key: string]: any }> {
+    return await this.validateAgreement(
       params.agreement_id,
       params.did,
       await this.paramsGen(params),
@@ -145,7 +145,7 @@ export abstract class BaseTemplate<Params, S extends Service>
     from: NvmAccount,
     extra: any = {},
     txparams?: TxParameters,
-  ): Promise<void> {
+  ): Promise<void | { [key: string]: any }> {
     const ddo = await this.nevermined.assets.resolve(did)
     if (!ddo) {
       throw new Error(`Asset ${did} not found`)
@@ -166,12 +166,16 @@ export abstract class BaseTemplate<Params, S extends Service>
       )
     }
 
+    const results: { [key: string]: any } = {}
+
     for (const a of this.conditions()) {
       const condInstance = agreementData.instances.find(
         (c) => c.condition === a.contractName,
       ) as ConditionInstance<any>
 
-      await a.fulfillWithNode(condInstance, extra, from, txparams)
+      const result = await a.fulfillWithNode(condInstance, extra, from, txparams)
+      results[a.contractName] = result
+
       const lock_state = await this.nevermined.keeper.conditionStoreManager.getCondition(
         condInstance.id,
       )
@@ -182,5 +186,7 @@ export abstract class BaseTemplate<Params, S extends Service>
         )
       }
     }
+
+    return results
   }
 }

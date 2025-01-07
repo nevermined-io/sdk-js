@@ -102,8 +102,8 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     params: ValidationParams,
     from: NvmAccount,
     txparams?: TxParameters,
-  ): Promise<void> {
-    await this.validateAgreement(
+  ): Promise<void | { [key: string]: any }> {
+    return await this.validateAgreement(
       params.agreement_id,
       params.did,
       await this.paramsGen(params),
@@ -120,13 +120,14 @@ export class NFTAccessTemplate extends BaseTemplate<NFTAccessTemplateParams, Ser
     from: NvmAccount,
     extra: any = {},
     txparams?: TxParameters,
-  ): Promise<void> {
+  ): Promise<void | { [key: string]: any }> {
     const ddo = await this.nevermined.assets.resolve(did)
     const metadataService = ddo.findServiceByType('metadata')
     const isNft1155Credit =
       (metadataService.attributes.main.nftType as string) ===
       NeverminedNFT1155Type.nft1155Credit.toString()
     if (isNft1155Credit) return
+
     return this.validateAgreement(agreement_id, did, params, from, extra, txparams)
   }
 
