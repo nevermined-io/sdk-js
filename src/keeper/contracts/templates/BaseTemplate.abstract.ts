@@ -174,7 +174,7 @@ export abstract class BaseTemplate<Params, S extends Service>
       ) as ConditionInstance<any>
 
       const result = await a.fulfillWithNode(condInstance, extra, from, txparams)
-      results[a.contractName] = result
+      results[a.contractName] = result.transactionHash
 
       const lock_state = await this.nevermined.keeper.conditionStoreManager.getCondition(
         condInstance.id,
