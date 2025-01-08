@@ -54,7 +54,7 @@ export class AccessService extends Instantiable implements ServicePlugin<Service
     params: ValidationParams,
     from: NvmAccount,
     txparams?: TxParameters,
-  ): Promise<void> {
+  ): Promise<void | { [key: string]: any }> {
     return this.normal.process(params, from, txparams)
   }
   public async accept(params: ValidationParams): Promise<boolean> {
@@ -105,7 +105,7 @@ export class NFTAccessService extends Instantiable implements ServicePlugin<Serv
     params: ValidationParams,
     from: NvmAccount,
     txparams?: TxParameters,
-  ): Promise<void> {
+  ): Promise<void | { [key: string]: any }> {
     const ddo = await this.nevermined.assets.resolve(params.did)
     const metadata = ddo.findServiceByType('metadata').attributes.main
     return this.select(metadata).process(params, from, txparams)
@@ -162,7 +162,7 @@ export class NFTSalesService extends Instantiable implements ServicePlugin<Servi
     params: ValidationParams,
     from: NvmAccount,
     txparams?: TxParameters,
-  ): Promise<void> {
+  ): Promise<void | { [key: string]: any }> {
     const ddo = await this.nevermined.assets.resolve(params.did)
     const metadata = ddo.findServiceByType('metadata').attributes.main
     return this.select(metadata).process(params, from, txparams)

@@ -846,7 +846,11 @@ export interface ServicePlugin<T extends Service> {
     pricedData?: PricedMetadataInformation,
   ): T
   // Process agreement for provider
-  process(params: ValidationParams, from: NvmAccount, txparams?: TxParameters): Promise<void>
+  process(
+    params: ValidationParams,
+    from: NvmAccount,
+    txparams?: TxParameters,
+  ): Promise<void | { [key: string]: any }>
   // Check if service can be granted without agreement
   accept(params: ValidationParams): Promise<boolean>
   // It registers the usage of a service
