@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.44](../code-reference.md) / InstantiableConfig
+[@nevermined-io/sdk - v3.0.46](../code-reference.md) / InstantiableConfig
 
 # Interface: InstantiableConfig
 
@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:20](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/Instantiable.abstract.ts#L20)
+[src/Instantiable.abstract.ts:20](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/Instantiable.abstract.ts#L20)
 
 ---
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:21](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/Instantiable.abstract.ts#L21)
+[src/Instantiable.abstract.ts:21](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/Instantiable.abstract.ts#L21)
 
 ---
 
@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:18](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/Instantiable.abstract.ts#L18)
+[src/Instantiable.abstract.ts:18](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/Instantiable.abstract.ts#L18)
 
 ---
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:17](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/Instantiable.abstract.ts#L17)
+[src/Instantiable.abstract.ts:17](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/Instantiable.abstract.ts#L17)
 
 ---
 
@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:19](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/Instantiable.abstract.ts#L19)
+[src/Instantiable.abstract.ts:19](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/Instantiable.abstract.ts#L19)
 
 ---
 
@@ -71,4 +71,4 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:16](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/Instantiable.abstract.ts#L16)
+[src/Instantiable.abstract.ts:16](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/Instantiable.abstract.ts#L16)
