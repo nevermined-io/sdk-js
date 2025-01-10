@@ -43,6 +43,18 @@ if (process.env.NETWORK_NAME === 'geth-localnet') {
     artifactsFolder: './artifacts',
     circuitsFolder: './circuits',
   } as NeverminedOptions
+} else if (process.env.NETWORK_NAME === 'gnosis') {
+  config = {
+    chainId: 100,
+    marketplaceUri: 'https://marketplace-api.gnosis.nevermined.app',
+    neverminedNodeUri: 'https://node.gnosis.nevermined.app',
+    neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
+    web3ProviderUri: `https://rpc.gnosischain.com/`,
+    graphHttpUri: undefined,
+    // verbose: LogLevel.Verbose,
+    artifactsFolder: './artifacts',
+    circuitsFolder: './circuits',
+  } as NeverminedOptions
 } else {
   // default unit tests
   config = {

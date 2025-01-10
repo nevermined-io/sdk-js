@@ -34,7 +34,7 @@ describe('OLAS e2e tests', () => {
 
   let RECEIVER_NVM_FEE: string
   const RECEIVER_OLAS_FEE = OLAS_MARKETPLACE_ADDRESS
-  const RECEIVER_PLAN_PRICE = process.env.RECEIVER_PLAN_PRICE || ZeroAddress
+  const RECEIVER_PLAN = process.env.RECEIVER_PLAN || ZeroAddress
 
   // This is the number of credits that the subscriber will get when purchase the subscription
   // In the DDO this will be added in the `_numberNFTs` value of the `nft-sales` service of the subscription
@@ -101,7 +101,7 @@ describe('OLAS e2e tests', () => {
 
     RECEIVER_NVM_FEE = await nevermined.keeper.nvmConfig.getFeeReceiver()
     AMOUNT_NVM_FEE = await nevermined.keeper.nvmConfig.getNetworkFee()
-    receivers = [RECEIVER_OLAS_FEE, RECEIVER_PLAN_PRICE]
+    receivers = [RECEIVER_OLAS_FEE, RECEIVER_PLAN]
     amounts = [AMOUNT_OLAS_FEE, AMOUNT_PLAN_PRICE]
 
     planPrice = new AssetPrice(
