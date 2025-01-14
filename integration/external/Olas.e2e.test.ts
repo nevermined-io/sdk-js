@@ -26,10 +26,14 @@ describe('OLAS e2e tests', () => {
   const OLAS_MARKETPLACE_ADDRESS: string = process.env.OLAS_MARKETPLACE_ADDRESS || ZeroAddress
   const TOKEN_ADDRESS: string = process.env.TOKEN_ADDRESS || ZeroAddress
 
+  let IS_NATIVE_TOKEN = false
+
   // 10000
-  let AMOUNT_NVM_FEE: bigint
-  const AMOUNT_OLAS_FEE = 400n
-  const AMOUNT_PLAN_PRICE = 9600n
+  // const AMOUNT_OLAS_FEE = 10000n
+  // const AMOUNT_PLAN_PRICE = 98000n
+  let PLAN_FEE_NVM: bigint
+  let PLAN_FEE_MKT: bigint
+  let PLAN_PRICE_MECHS: bigint
   let AMOUNT_TOTAL: bigint
 
   let RECEIVER_NVM_FEE: string
@@ -52,8 +56,8 @@ describe('OLAS e2e tests', () => {
 
   // Configuration of First Sale:
   // Editor -> Subscriber, the Reseller get a cut (25%)
-  let amounts: bigint[] = []
-  let receivers: string[] = []
+  // let amounts: bigint[] = []
+  // let receivers: string[] = []
   let planPrice: AssetPrice
   // let royaltyAttributes: RoyaltyAttributes
 
@@ -75,7 +79,7 @@ describe('OLAS e2e tests', () => {
     TestContractHandler.setConfig(config)
 
     nevermined = await Nevermined.getInstance(config)
-    ;[, publisher, subscriber] = nevermined.accounts.list()
+    ;[publisher, subscriber] = nevermined.accounts.list()
 
     const clientAssertion = await nevermined.utils.jwt.generateClientAssertion(publisher)
     await nevermined.services.marketplace.login(clientAssertion)
@@ -90,8 +94,10 @@ describe('OLAS e2e tests', () => {
 
     // components
     // ;({ token } = nevermined.keeper)
-    token = await nevermined.contracts.loadErc20(TOKEN_ADDRESS)
-    console.log(`Using Token Address: ${token.address}`)
+
+    console.log(`Using Token Address: ${TOKEN_ADDRESS}`)
+    console.log(`Publisher: ${publisher.getId()}`)
+    console.log(`Subscriber: ${subscriber.getId()}`)
 
     // scale = 10n ** BigInt(await token.decimals())
 
@@ -100,29 +106,54 @@ describe('OLAS e2e tests', () => {
     // receivers = [publisher.getId(), reseller.getId()]
 
     RECEIVER_NVM_FEE = await nevermined.keeper.nvmConfig.getFeeReceiver()
-    AMOUNT_NVM_FEE = await nevermined.keeper.nvmConfig.getNetworkFee()
-    receivers = [RECEIVER_OLAS_FEE, RECEIVER_PLAN]
-    amounts = [AMOUNT_OLAS_FEE, AMOUNT_PLAN_PRICE]
+    // AMOUNT_NVM_FEE = await nevermined.keeper.nvmConfig.getNetworkFee()
+    // receivers = [RECEIVER_OLAS_FEE, RECEIVER_PLAN]
+    // amounts = [PLAN_FEE_MKT, PLAN_PRICE_MECHS]
 
-    planPrice = new AssetPrice(
-      new Map([
-        [receivers[0], amounts[0]],
-        [receivers[1], amounts[1]],
-      ]),
-    )
-      .setTokenAddress(TOKEN_ADDRESS)
-      .adjustToIncludeNetworkFees(RECEIVER_NVM_FEE, AMOUNT_NVM_FEE)
+    PLAN_FEE_NVM = BigInt(process.env.PLAN_FEE_NVM || '0')
+    PLAN_FEE_MKT = BigInt(process.env.PLAN_FEE_MKT || '0')
+    PLAN_PRICE_MECHS = BigInt(process.env.PLAN_PRICE_MECHS || '0')
+
+    console.log(`PLAN_FEES: ${PLAN_FEE_NVM} - ${PLAN_FEE_MKT} - ${PLAN_PRICE_MECHS}`)
+
+    const distPayments = new Map()
+    if (PLAN_FEE_NVM > 0n) distPayments.set(RECEIVER_NVM_FEE, PLAN_FEE_NVM)
+    if (PLAN_FEE_MKT > 0n) distPayments.set(RECEIVER_OLAS_FEE, PLAN_FEE_MKT)
+    if (PLAN_PRICE_MECHS > 0n) distPayments.set(RECEIVER_PLAN, PLAN_PRICE_MECHS)
+
+    console.log(distPayments)
+    assert.isTrue(distPayments.size > 0)
+
+    planPrice = new AssetPrice(distPayments).setTokenAddress(TOKEN_ADDRESS)
+    // .adjustToIncludeNetworkFees(RECEIVER_NVM_FEE, AMOUNT_NVM_FEE)
+
+    console.log(`Distribution of payments: ${JSON.stringify(distPayments.values(), jsonReplacer)}`)
+    console.log(`Plan Price: ${JSON.stringify(planPrice, jsonReplacer)}`)
 
     AMOUNT_TOTAL = planPrice.getTotalPrice()
     // royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, royalties)
+    IS_NATIVE_TOKEN = TOKEN_ADDRESS === ZeroAddress
 
-    initialBalances = {
-      publisher: await token.balanceOf(publisher.getId()),
-      subscriber: await token.balanceOf(subscriber.getId()),
-      olas: await token.balanceOf(OLAS_MARKETPLACE_ADDRESS),
-      escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.address),
+    if (!IS_NATIVE_TOKEN) {
+      token = await nevermined.contracts.loadErc20(TOKEN_ADDRESS)
+      initialBalances = {
+        publisher: await token.balanceOf(publisher.getId()),
+        subscriber: await token.balanceOf(subscriber.getId()),
+        olas: await token.balanceOf(OLAS_MARKETPLACE_ADDRESS),
+        escrowPaymentCondition: await token.balanceOf(escrowPaymentCondition.address),
+      }
+    } else {
+      initialBalances = {
+        publisher: await nevermined.client.public.getBalance({ address: publisher.getId() }),
+        subscriber: await nevermined.client.public.getBalance({ address: subscriber.getId() }),
+        olas: await nevermined.client.public.getBalance({
+          address: OLAS_MARKETPLACE_ADDRESS as `0x${string}`,
+        }),
+        escrowPaymentCondition: nevermined.client.public.getBalance({
+          address: escrowPaymentCondition.address,
+        }),
+      }
     }
-
     console.log(`Initial Balances: ${JSON.stringify(initialBalances, jsonReplacer)}`)
     console.log(`Asset Price: ${JSON.stringify(planPrice, jsonReplacer)}`)
   })
@@ -221,9 +252,15 @@ describe('OLAS e2e tests', () => {
 
       assert.isDefined(agreementId)
       console.debug(`Agreement ID: ${agreementId}`)
-      const subscriberBalanceAfter = await token.balanceOf(subscriber.getId())
+      const subscriberBalanceAfter = IS_NATIVE_TOKEN
+        ? await nevermined.client.public.getBalance({ address: subscriber.getId() })
+        : await token.balanceOf(subscriber.getId())
 
-      assert.equal(subscriberBalanceAfter, initialBalances.subscriber - AMOUNT_TOTAL)
+      if (IS_NATIVE_TOKEN) {
+        assert.isTrue(subscriberBalanceAfter < initialBalances.subscriber)
+      } else {
+        assert.equal(subscriberBalanceAfter, initialBalances.subscriber - AMOUNT_TOTAL)
+      }
     })
 
     it('The credits seller can check the payment and transfer the NFT to the subscriber', async () => {
@@ -275,10 +312,15 @@ describe('OLAS e2e tests', () => {
     })
 
     it('the editor and reseller can receive their payment', async () => {
-      const tokenBalance = await token.balanceOf(OLAS_MARKETPLACE_ADDRESS)
+      const tokenBalance = IS_NATIVE_TOKEN
+        ? await nevermined.client.public.getBalance({
+            address: OLAS_MARKETPLACE_ADDRESS as `0x${string}`,
+          })
+        : await token.balanceOf(OLAS_MARKETPLACE_ADDRESS)
+
       console.log(`OLAS Marketplace Token Balance: ${tokenBalance}`)
       console.log('Initial Balances: ', initialBalances)
-      console.log('Amounts OLAS FEE: ', AMOUNT_OLAS_FEE)
+      console.log('Amounts OLAS FEE: ', PLAN_FEE_MKT)
 
       assert.isTrue(tokenBalance > initialBalances.olas)
     })
