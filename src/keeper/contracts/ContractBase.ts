@@ -12,7 +12,6 @@ import {
   getInputsOfFunctionFormatted,
   getSignatureOfFunction,
 } from '../../nevermined/utils/BlockchainViemUtils'
-import { ENTRYPOINT_ADDRESS_V06, bundlerActions } from 'permissionless'
 
 export abstract class ContractBase extends Instantiable {
   public readonly contractName: string
@@ -188,23 +187,22 @@ export abstract class ContractBase extends Instantiable {
 
     const kernelClient = from.getKernelClient()
     const data = encodeFunctionData({ abi: this.contract.abi, functionName: name, args })
-    // @ts-ignore
-    const txHash = await kernelClient.sendUserOperation({
-      userOperation: {
-        // @ts-ignore
-        callData: await kernelClient.account.encodeCallData({
+
+    const userOpHash = await kernelClient!.sendUserOperation({
+      callData: await kernelClient!.account.encodeCalls([
+        {
           to: this.address,
           value: txparams.value || 0n,
           data,
-        }),
-      },
+        },
+      ]),
     })
 
     if (progress) {
       progress({
         stage: 'sent',
         args: functionInputs,
-        txHash,
+        userOpHash,
         method: name,
         from: from.getAccountSigner(),
         value,
@@ -215,8 +213,8 @@ export abstract class ContractBase extends Instantiable {
     }
 
     // @ts-ignore
-    const bundlerClient = kernelClient.extend(bundlerActions(ENTRYPOINT_ADDRESS_V06))
-    const txReceipt = await bundlerClient.waitForUserOperationReceipt({ hash: txHash })
+    // const bundlerClient = kernelClient.extend(bundlerActions(ENTRYPOINT_ADDRESS_V06))
+    const txReceipt = await kernelClient!.waitForUserOperationReceipt({ hash: userOpHash })
 
     if (progress) {
       progress({

@@ -1,4 +1,4 @@
 export interface NvmAccountType {
-  signerType: 'local' | 'json-rpc' | 'zerodev' | 'sessionKey'
+  signerType: 'local' | 'json-rpc' | 'smart' | 'zerodev' | 'sessionKey'
   isZeroDev: boolean
 }
