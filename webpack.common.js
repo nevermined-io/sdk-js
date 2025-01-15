@@ -10,7 +10,7 @@ module.exports = {
     emitOnErrors: false,
   },
   resolve: {
-    extensions: ['.js', '.mjs', '.ts', '.tsx', '.json'],
+    extensions: ['.js'],
     modules: ['node_modules'],
     fallback: {
       os: require.resolve('os-browserify/browser'),
