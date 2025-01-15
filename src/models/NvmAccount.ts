@@ -14,7 +14,7 @@ export class NvmAccount {
   public babyY?: string
   public babySecret?: string
   private accountSigner?: Account | PrivateKeyAccount
-  private kernelClient?: KernelAccountClient<Transport, Chain, any>
+  private kernelClient?: KernelAccountClient<Transport, Chain, any, any, any>
   private zeroDevSigner?: SmartAccount<any> // ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider
   public accountType: NvmAccountType = { signerType: 'local', isZeroDev: false }
 
@@ -50,7 +50,7 @@ export class NvmAccount {
    * @returns The nevermined account
    */
   static async fromZeroDevSigner(
-    kernelClient: KernelAccountClient<Transport, Chain, any>, // | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
+    kernelClient: KernelAccountClient<Transport, Chain, any, any, any>, // | ZeroDevAccountSigner<'ECDSA'> | SessionKeyProvider,
   ): Promise<NvmAccount> {
     const address = kernelClient.account.address
     const account = new NvmAccount(address, { signerType: 'zerodev', isZeroDev: true })
@@ -59,7 +59,7 @@ export class NvmAccount {
     return account
   }
 
-  static fromZeroDevSessionKey(kernelClient: KernelAccountClient<Transport, Chain, any>) {
+  static fromZeroDevSessionKey(kernelClient: KernelAccountClient<Transport, Chain, any, any, any>) {
     const address = kernelClient.account.address
     const account = new NvmAccount(address, { signerType: 'sessionKey', isZeroDev: true })
     account.kernelClient = kernelClient

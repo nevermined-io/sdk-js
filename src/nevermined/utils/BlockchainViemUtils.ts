@@ -153,9 +153,6 @@ export async function deployContractInstance(
   args: string[] = [],
   client: Web3Clients,
 ) {
-  if (from.getAccountSigner()?.type === 'smart') {
-    throw new KeeperError(`Account not initialized`)
-  }
   const txHash = await client.wallet.deployContract({
     abi: artifact.abi,
     account: from.getAccountSigner() as Account,
