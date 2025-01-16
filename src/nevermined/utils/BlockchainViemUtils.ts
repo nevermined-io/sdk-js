@@ -5,7 +5,7 @@ import {
   createZeroDevPaymasterClient,
   getUserOperationGasPrice,
 } from '@zerodev/sdk'
-import { KERNEL_V2_4, getEntryPoint } from '@zerodev/sdk/constants'
+import { KERNEL_V0_2, getEntryPoint } from '@zerodev/sdk/constants'
 import {
   deserializeSessionKeyAccount,
   oneAddress,
@@ -539,7 +539,7 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
     signer,
     entryPoint: getEntryPoint('0.6'),
-    kernelVersion: KERNEL_V2_4,
+    kernelVersion: KERNEL_V0_2,
   })
 
   const account = await createKernelAccount(publicClient, {
@@ -547,7 +547,7 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
       sudo: ecdsaValidator,
     },
     entryPoint: getEntryPoint('0.6'),
-    kernelVersion: KERNEL_V2_4,
+    kernelVersion: KERNEL_V0_2,
   })
 
   return createKernelAccountClient({
@@ -596,7 +596,7 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
     entryPoint: getEntryPoint('0.6'),
     signer,
-    kernelVersion: KERNEL_V2_4,
+    kernelVersion: KERNEL_V0_2,
   })
   const sessionPrivateKey = generatePrivateKey()
   const sessionKeySigner = privateKeyToAccount(sessionPrivateKey)
@@ -604,7 +604,7 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
   const sessionKeyValidator = await signerToSessionKeyValidator(publicClient, {
     entryPoint: getEntryPoint('0.6'),
     signer: sessionKeySigner,
-    kernelVersion: KERNEL_V2_4,
+    kernelVersion: KERNEL_V0_2,
     validatorData: {
       paymaster: oneAddress,
       validAfter: 0,
@@ -614,7 +614,7 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
   })
   const sessionKeyAccount = await createKernelAccount(publicClient, {
     entryPoint: getEntryPoint('0.6'),
-    kernelVersion: KERNEL_V2_4,
+    kernelVersion: KERNEL_V0_2,
     plugins: {
       sudo: ecdsaValidator,
       regular: sessionKeyValidator,
@@ -639,7 +639,7 @@ export async function getSessionKey(
   const sessionKeyAccount = await deserializeSessionKeyAccount(
     publicClient,
     getEntryPoint('0.6'),
-    KERNEL_V2_4,
+    KERNEL_V0_2,
     serializedSessionKey,
   )
   const kernelPaymaster = createZeroDevPaymasterClient({
