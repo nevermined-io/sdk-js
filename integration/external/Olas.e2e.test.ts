@@ -54,28 +54,20 @@ describe('OLAS e2e tests', () => {
 
   let agreementId: string
 
-  // Configuration of First Sale:
-  // Editor -> Subscriber, the Reseller get a cut (25%)
-  // let amounts: bigint[] = []
-  // let receivers: string[] = []
   let planPrice: AssetPrice
-  // let royaltyAttributes: RoyaltyAttributes
 
   let subscriptionMetadata: MetaData
   let subsSalesService
 
   const preMint = false
-  // const royalties = 0
   const nftTransfer = false
 
   let initialBalances: any
-  // let scale: bigint
 
   let subscriptionNFT: NFT1155Api
   let neverminedNodeAddress
 
   before(async () => {
-    // console.log(JSON.stringify(config, jsonReplacer))
     TestContractHandler.setConfig(config)
 
     nevermined = await Nevermined.getInstance(config)
@@ -92,23 +84,11 @@ describe('OLAS e2e tests', () => {
     // conditions
     ;({ escrowPaymentCondition } = nevermined.keeper.conditions)
 
-    // components
-    // ;({ token } = nevermined.keeper)
-
     console.log(`Using Token Address: ${TOKEN_ADDRESS}`)
     console.log(`Publisher: ${publisher.getId()}`)
     console.log(`Subscriber: ${subscriber.getId()}`)
 
-    // scale = 10n ** BigInt(await token.decimals())
-
-    // subscriptionPrice = subscriptionPrice * scale
-    // amounts = amounts.map((v) => v * scale)
-    // receivers = [publisher.getId(), reseller.getId()]
-
     RECEIVER_NVM_FEE = await nevermined.keeper.nvmConfig.getFeeReceiver()
-    // AMOUNT_NVM_FEE = await nevermined.keeper.nvmConfig.getNetworkFee()
-    // receivers = [RECEIVER_OLAS_FEE, RECEIVER_PLAN]
-    // amounts = [PLAN_FEE_MKT, PLAN_PRICE_MECHS]
 
     PLAN_FEE_NVM = BigInt(process.env.PLAN_FEE_NVM || '0')
     PLAN_FEE_MKT = BigInt(process.env.PLAN_FEE_MKT || '0')
@@ -125,13 +105,11 @@ describe('OLAS e2e tests', () => {
     assert.isTrue(distPayments.size > 0)
 
     planPrice = new AssetPrice(distPayments).setTokenAddress(TOKEN_ADDRESS)
-    // .adjustToIncludeNetworkFees(RECEIVER_NVM_FEE, AMOUNT_NVM_FEE)
 
     console.log(`Distribution of payments: ${JSON.stringify(distPayments.values(), jsonReplacer)}`)
     console.log(`Plan Price: ${JSON.stringify(planPrice, jsonReplacer)}`)
 
     AMOUNT_TOTAL = planPrice.getTotalPrice()
-    // royaltyAttributes = getRoyaltyAttributes(nevermined, RoyaltyKind.Standard, royalties)
     IS_NATIVE_TOKEN = TOKEN_ADDRESS === ZeroAddress
 
     if (!IS_NATIVE_TOKEN) {
@@ -163,38 +141,9 @@ describe('OLAS e2e tests', () => {
       // Deploy NFT
       TestContractHandler.setConfig(config)
 
-      // const networkName = await nevermined.keeper.getNetworkName()
-      // const contractABI = await TestContractHandler.getABIArtifact(
-      //   'NFT1155SubscriptionUpgradeable',
-      //   config.artifactsFolder,
-      //   networkName,
-      // )
-      // subscriptionNFT = await SubscriptionCreditsNFTApi.deployInstance(
-      //   config,
-      //   contractABI,
-      //   publisher,
-      //   [
-      //     publisher.getId(),
-      //     nevermined.keeper.didRegistry.address,
-      //     'Credits Subscription NFT',
-      //     'CRED',
-      //     '',
-      //     nevermined.keeper.nvmConfig.address,
-      //   ] as any,
-      // )
-
-      // console.debug(`Deployed ERC-1155 Subscription NFT on address: ${subscriptionNFT.address}`)
-
-      // await nevermined.contracts.loadNft1155Api(subscriptionNFTAddress)
       subscriptionNFT = await nevermined.contracts.loadNft1155(SUBSCRIPTION_NFT_ADDRESS)
 
       console.debug(`Using Subscription NFT address: ${subscriptionNFT.address}`)
-
-      // await subscriptionNFT.grantOperatorRole(transferNftCondition.address, publisher)
-      // console.debug(`Granting operator role to Nevermined Node Address: ${neverminedNodeAddress}`)
-      // await subscriptionNFT.grantOperatorRole(neverminedNodeAddress, publisher)
-      // console.debug(`Granting operator role to OLAS Marketplace Address: ${OLAS_MARKETPLACE_ADDRESS}`)
-      // await subscriptionNFT.grantOperatorRole(OLAS_MARKETPLACE_ADDRESS, publisher)
 
       assert.equal(nevermined.nfts1155.getContract.address, subscriptionNFT.address)
 
@@ -210,7 +159,6 @@ describe('OLAS e2e tests', () => {
         providers: [neverminedNodeAddress, OLAS_MARKETPLACE_ADDRESS],
         nftContractAddress: subscriptionNFT.address,
         preMint,
-        // royaltyAttributes: royaltyAttributes,
       })
       subscriptionDDO = await nevermined.nfts1155.create(nftAttributes, publisher)
 
@@ -237,11 +185,6 @@ describe('OLAS e2e tests', () => {
     })
 
     it('I am ordering the subscription NFT', async () => {
-      //await nevermined.accounts.requestTokens(subscriber, subscriptionPrice / scale)
-
-      // const subscriberBalanceBefore = await token.balanceOf(subscriber.getId())
-      // assert.equal(subscriberBalanceBefore, initialBalances.subscriber + subscriptionPrice)
-
       subsSalesService = subscriptionDDO.findServiceByType('nft-sales')
       console.debug(`Ordering service with index ${subsSalesService.index}`)
       agreementId = await nevermined.nfts1155.order(
