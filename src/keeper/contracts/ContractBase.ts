@@ -212,8 +212,6 @@ export abstract class ContractBase extends Instantiable {
       })
     }
 
-    // @ts-ignore
-    // const bundlerClient = kernelClient.extend(bundlerActions(ENTRYPOINT_ADDRESS_V06))
     const txReceipt = await kernelClient!.waitForUserOperationReceipt({ hash: userOpHash })
 
     if (progress) {
