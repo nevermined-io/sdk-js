@@ -33,8 +33,8 @@
     "prepublishOnly": "yarn build",
     "prebuild": "yarn build:metadata",
     "prepare": "yarn build:metadata && husky install .husky",
-    "prettier": "prettier --config ./.prettierrc.js --write \"**/*.{js,json,md,sol,ts,yml}\"",
-    "prettier:check": "prettier --check --config ./.prettierrc.js \"**/*.{js,json,md,sol,ts,yml}\"",
+    "prettier": "prettier --config ./.prettierrc.js --write \"**/*.{js,json, sol,ts,yml}\"",
+    "prettier:check": "prettier --check --config ./.prettierrc.js \"**/*.{js,json,sol,ts,yml}\"",
     "artifacts:download": "./scripts/download-artifacts.sh",
     "utils:generate-ddos": "ts-node ./scripts/generate-ddos.ts"
   },
@@ -53,8 +53,10 @@
     "@apollo/client": "^3.7.16",
     "@turnkey/viem": "0.4.16",
     "@zerodev/ecdsa-validator": "^5.4.1",
+    "@zerodev/permissions": "^5.5.1",
     "@zerodev/sdk": "^5.4.9",
     "@zerodev/session-key": "^5.5.0",
+    "@zerodev/webauthn-key": "^5.4.1",
     "assert": "^2.0.0",
     "cross-fetch": "^4.0.0",
     "crypto-browserify": "^3.12.0",
@@ -87,7 +89,7 @@
     "viem": "^2.22.8"
   },
   "devDependencies": {
-    "@ambire/signature-validator": "^1.3.1",
+    "@ambire/signature-validator": "^1.4.1",
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
     "@faker-js/faker": "^6.3.1",
