@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.44](../code-reference.md) / TypedDataDomain
+[@nevermined-io/sdk - v3.0.46](../code-reference.md) / TypedDataDomain
 
 # Interface: TypedDataDomain
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:83](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/GeneralTypes.ts#L83)
+[src/types/GeneralTypes.ts:83](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/GeneralTypes.ts#L83)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:81](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/GeneralTypes.ts#L81)
+[src/types/GeneralTypes.ts:81](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/GeneralTypes.ts#L81)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:82](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/GeneralTypes.ts#L82)
+[src/types/GeneralTypes.ts:82](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/GeneralTypes.ts#L82)

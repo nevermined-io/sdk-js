@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.44](../code-reference.md) / ServicePlugin
+[@nevermined-io/sdk - v3.0.46](../code-reference.md) / ServicePlugin
 
 # Interface: ServicePlugin\<T\>
 
@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:851](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L851)
+[src/types/DDOTypes.ts:855](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/DDOTypes.ts#L855)
 
 ---
 
@@ -66,13 +66,13 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:841](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L841)
+[src/types/DDOTypes.ts:841](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/DDOTypes.ts#L841)
 
 ---
 
 ### process
 
-▸ **process**(`params`, `from`, `txparams?`): `Promise`\<`void`\>
+▸ **process**(`params`, `from`, `txparams?`): `Promise`\<`void` \| \{ `[key: string]`: `any`; }\>
 
 #### Parameters
 
@@ -84,11 +84,11 @@
 
 #### Returns
 
-`Promise`\<`void`\>
+`Promise`\<`void` \| \{ `[key: string]`: `any`; }\>
 
 #### Defined in
 
-[src/types/DDOTypes.ts:849](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L849)
+[src/types/DDOTypes.ts:849](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/DDOTypes.ts#L849)
 
 ---
 
@@ -110,4 +110,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:853](https://github.com/nevermined-io/sdk-js/blob/1f765603c75b92c5d8798f51b63641eb0639883b/src/types/DDOTypes.ts#L853)
+[src/types/DDOTypes.ts:857](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/DDOTypes.ts#L857)
