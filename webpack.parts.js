@@ -37,6 +37,16 @@ const outputs = (base, env, mapping, overrides) => {
         path: paths.bundle,
       },
       plugins: [new AddVendorsPlugin(`${library}.${extension}.${ext}`)],
+      module: {
+        rules: [
+          {
+            test: /\.m?js$/,
+            resolve: {
+              fullySpecified: false,
+            },
+          },
+        ],
+      },
     }
 
     collection.push(merge(base, environment, compiled, overrides))

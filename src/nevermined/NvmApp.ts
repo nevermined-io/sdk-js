@@ -1,4 +1,4 @@
-import { SmartAccountSigner } from 'permissionless/accounts'
+import { SmartAccount } from 'viem/account-abstraction'
 import { NETWORK_FEE_DENOMINATOR } from '../constants/AssetConstants'
 import { DDO } from '../ddo/DDO'
 import { Web3Error } from '../errors/NeverminedErrors'
@@ -75,7 +75,7 @@ export class NvmApp {
   private userAccount: NvmAccount | undefined
   private searchSDK: Nevermined
   private fullSDK: Nevermined | undefined
-  private zeroDevSignerAccount: SmartAccountSigner<'custom', `0x${string}`> | undefined
+  private zeroDevSignerAccount: SmartAccount | undefined
   public assetProviders: NeverminedNodeInfo[] = []
   private loginCredentials: string | undefined
   private networkFeeReceiver: string | undefined
@@ -149,7 +149,7 @@ export class NvmApp {
    * @returns An object containing the marketplace authentication token, user account, and zeroDev signer account (if applicable).
    */
   public async connect(
-    account: string | NvmAccount | SmartAccountSigner<'custom', `0x${string}`>,
+    account: string | NvmAccount | SmartAccount,
     message?: string,
     config?: NeverminedOptions,
     initOptions?: NeverminedInitializationOptions,

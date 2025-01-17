@@ -50,8 +50,7 @@
     "baseUrl": "./",
     "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@/": ["./src/"],
-      "permissionless/*": ["src/permissionless.d.ts"]
+      "@/": ["./src/"]
     }
   },
   "include": ["src/**/*"],
