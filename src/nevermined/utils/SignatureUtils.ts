@@ -75,7 +75,7 @@ export class SignatureUtils extends Instantiable {
       typeof account === 'string' ? this.nevermined.accounts.getAccount(account) : account
 
     if (nvmAccount.isZeroDev()) {
-      return await nvmAccount.getAccountSigner()!.signTransaction({ data: tx })
+      return await nvmAccount.getAccountSigner()?.signTransaction({ data: tx })
     } else if (nvmAccount.accountType.signerType === 'local') {
       return (nvmAccount.getAccountSigner() as LocalAccount).signTransaction({
         data: tx,
