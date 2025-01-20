@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.47](../code-reference.md) / SubscriptionToken
+[@nevermined-io/sdk - v3.0.48](../code-reference.md) / SubscriptionToken
 
 # Interface: SubscriptionToken
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:26](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L26)
+[src/services/node/NeverminedNode.ts:26](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L26)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:27](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L27)
+[src/services/node/NeverminedNode.ts:27](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L27)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.47](../code-reference.md) / NeverminedNode
+[@nevermined-io/sdk - v3.0.48](../code-reference.md) / NeverminedNode
 
 # Class: NeverminedNode
 
@@ -97,7 +97,7 @@ The Nevermined Node is the technical component executed by the Publishers allowi
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:39](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L39)
+[src/services/node/NeverminedNode.ts:39](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L39)
 
 ## Accessors
 
@@ -115,7 +115,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:138](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L138)
+[src/Instantiable.abstract.ts:138](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L138)
 
 ---
 
@@ -133,7 +133,7 @@ Instantiable.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L142)
 
 ---
 
@@ -151,7 +151,7 @@ Instantiable.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L90)
+[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L90)
 
 ---
 
@@ -169,7 +169,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:121](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L121)
+[src/Instantiable.abstract.ts:121](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L121)
 
 ---
 
@@ -187,7 +187,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:146](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L146)
+[src/Instantiable.abstract.ts:146](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L146)
 
 ---
 
@@ -205,7 +205,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L114)
+[src/Instantiable.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L114)
 
 ---
 
@@ -223,7 +223,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L129)
 
 ---
 
@@ -241,7 +241,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:82](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L82)
+[src/Instantiable.abstract.ts:82](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L82)
 
 ---
 
@@ -328,7 +328,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L98)
+[src/Instantiable.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L98)
 
 ---
 
@@ -342,7 +342,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:35](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L35)
+[src/services/node/NeverminedNode.ts:35](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L35)
 
 ---
 
@@ -393,7 +393,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:106](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L106)
+[src/Instantiable.abstract.ts:106](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L106)
 
 ## Methods
 
@@ -419,7 +419,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:383](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L383)
+[src/services/node/NeverminedNode.ts:383](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L383)
 
 ---
 
@@ -441,7 +441,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:313](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L313)
+[src/services/node/NeverminedNode.ts:313](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L313)
 
 ---
 
@@ -463,7 +463,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:348](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L348)
+[src/services/node/NeverminedNode.ts:348](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L348)
 
 ---
 
@@ -492,7 +492,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:177](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L177)
+[src/services/node/NeverminedNode.ts:177](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L177)
 
 ---
 
@@ -516,7 +516,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:244](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L244)
+[src/services/node/NeverminedNode.ts:244](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L244)
 
 ---
 
@@ -538,7 +538,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:224](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L224)
+[src/services/node/NeverminedNode.ts:224](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L224)
 
 ---
 
@@ -560,7 +560,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:273](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L273)
+[src/services/node/NeverminedNode.ts:273](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L273)
 
 ---
 
@@ -582,7 +582,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:432](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L432)
+[src/services/node/NeverminedNode.ts:432](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L432)
 
 ---
 
@@ -596,7 +596,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:56](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L56)
+[src/services/node/NeverminedNode.ts:56](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L56)
 
 ---
 
@@ -610,7 +610,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:60](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L60)
+[src/services/node/NeverminedNode.ts:60](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L60)
 
 ---
 
@@ -624,7 +624,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:143](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L143)
+[src/services/node/NeverminedNode.ts:143](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L143)
 
 ---
 
@@ -638,7 +638,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:116](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L116)
+[src/services/node/NeverminedNode.ts:116](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L116)
 
 ---
 
@@ -658,7 +658,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:68](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L68)
+[src/services/node/NeverminedNode.ts:68](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L68)
 
 ---
 
@@ -678,7 +678,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:72](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L72)
+[src/services/node/NeverminedNode.ts:72](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L72)
 
 ---
 
@@ -692,7 +692,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:52](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L52)
+[src/services/node/NeverminedNode.ts:52](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L52)
 
 ---
 
@@ -706,7 +706,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:148](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L148)
+[src/services/node/NeverminedNode.ts:148](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L148)
 
 ---
 
@@ -720,7 +720,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:138](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L138)
+[src/services/node/NeverminedNode.ts:138](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L138)
 
 ---
 
@@ -734,7 +734,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:80](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L80)
+[src/services/node/NeverminedNode.ts:80](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L80)
 
 ---
 
@@ -754,7 +754,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:76](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L76)
+[src/services/node/NeverminedNode.ts:76](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L76)
 
 ---
 
@@ -768,7 +768,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:84](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L84)
+[src/services/node/NeverminedNode.ts:84](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L84)
 
 ---
 
@@ -782,7 +782,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:88](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L88)
+[src/services/node/NeverminedNode.ts:88](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L88)
 
 ---
 
@@ -796,7 +796,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:124](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L124)
+[src/services/node/NeverminedNode.ts:124](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L124)
 
 ---
 
@@ -810,7 +810,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:108](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L108)
+[src/services/node/NeverminedNode.ts:108](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L108)
 
 ---
 
@@ -824,7 +824,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:112](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L112)
+[src/services/node/NeverminedNode.ts:112](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L112)
 
 ---
 
@@ -838,7 +838,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:104](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L104)
+[src/services/node/NeverminedNode.ts:104](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L104)
 
 ---
 
@@ -852,7 +852,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:128](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L128)
+[src/services/node/NeverminedNode.ts:128](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L128)
 
 ---
 
@@ -866,7 +866,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:48](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L48)
+[src/services/node/NeverminedNode.ts:48](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L48)
 
 ---
 
@@ -880,7 +880,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:133](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L133)
+[src/services/node/NeverminedNode.ts:133](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L133)
 
 ---
 
@@ -900,7 +900,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:64](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L64)
+[src/services/node/NeverminedNode.ts:64](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L64)
 
 ---
 
@@ -921,7 +921,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:507](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L507)
+[src/services/node/NeverminedNode.ts:507](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L507)
 
 ---
 
@@ -941,7 +941,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:120](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L120)
+[src/services/node/NeverminedNode.ts:120](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L120)
 
 ---
 
@@ -955,7 +955,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:92](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L92)
+[src/services/node/NeverminedNode.ts:92](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L92)
 
 ---
 
@@ -969,7 +969,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:96](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L96)
+[src/services/node/NeverminedNode.ts:96](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L96)
 
 ---
 
@@ -983,7 +983,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:100](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L100)
+[src/services/node/NeverminedNode.ts:100](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L100)
 
 ---
 
@@ -997,7 +997,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:44](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L44)
+[src/services/node/NeverminedNode.ts:44](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L44)
 
 ---
 
@@ -1021,7 +1021,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:152](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L152)
+[src/services/node/NeverminedNode.ts:152](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L152)
 
 ---
 
@@ -1042,7 +1042,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:453](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L453)
+[src/services/node/NeverminedNode.ts:453](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L453)
 
 ---
 
@@ -1066,7 +1066,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L164)
+[src/Instantiable.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L164)
 
 ---
 
@@ -1088,7 +1088,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:479](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/node/NeverminedNode.ts#L479)
+[src/services/node/NeverminedNode.ts:479](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L479)
 
 ---
 
@@ -1112,7 +1112,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:151](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L151)
+[src/Instantiable.abstract.ts:151](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L151)
 
 ---
 
@@ -1143,4 +1143,4 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:155](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/Instantiable.abstract.ts#L155)
+[src/Instantiable.abstract.ts:155](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L155)

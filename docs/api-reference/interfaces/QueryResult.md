@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.47](../code-reference.md) / QueryResult
+[@nevermined-io/sdk - v3.0.48](../code-reference.md) / QueryResult
 
 # Interface: QueryResult
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:13](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/metadata/MetadataService.ts#L13)
+[src/services/metadata/MetadataService.ts:13](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/metadata/MetadataService.ts#L13)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:12](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/metadata/MetadataService.ts#L12)
+[src/services/metadata/MetadataService.ts:12](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/metadata/MetadataService.ts#L12)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:14](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/metadata/MetadataService.ts#L14)
+[src/services/metadata/MetadataService.ts:14](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/metadata/MetadataService.ts#L14)
 
 ---
 
@@ -53,4 +53,4 @@
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:15](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/services/metadata/MetadataService.ts#L15)
+[src/services/metadata/MetadataService.ts:15](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/metadata/MetadataService.ts#L15)

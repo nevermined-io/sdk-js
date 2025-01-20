@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.47](../code-reference.md) / EventOptions
+[@nevermined-io/sdk - v3.0.48](../code-reference.md) / EventOptions
 
 # Interface: EventOptions
 
@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/EventTypes.ts#L8)
+[src/types/EventTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/EventTypes.ts#L8)
 
 ---
 
@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:9](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/EventTypes.ts#L9)
+[src/types/EventTypes.ts:9](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/EventTypes.ts#L9)
 
 ---
 
@@ -41,7 +41,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/EventTypes.ts#L10)
+[src/types/EventTypes.ts:10](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/EventTypes.ts#L10)
 
 ---
 
@@ -51,7 +51,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:12](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/EventTypes.ts#L12)
+[src/types/EventTypes.ts:12](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/EventTypes.ts#L12)
 
 ---
 
@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/EventTypes.ts#L11)
+[src/types/EventTypes.ts:11](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/EventTypes.ts#L11)
 
 ---
 
@@ -71,4 +71,4 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/EventTypes.ts#L13)
+[src/types/EventTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/EventTypes.ts#L13)

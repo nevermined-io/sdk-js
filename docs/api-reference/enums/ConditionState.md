@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.47](../code-reference.md) / ConditionState
+[@nevermined-io/sdk - v3.0.48](../code-reference.md) / ConditionState
 
 # Enumeration: ConditionState
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:5](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/ContractTypes.ts#L5)
+[src/types/ContractTypes.ts:5](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/ContractTypes.ts#L5)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:4](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/ContractTypes.ts#L4)
+[src/types/ContractTypes.ts:4](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/ContractTypes.ts#L4)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:3](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/ContractTypes.ts#L3)
+[src/types/ContractTypes.ts:3](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/ContractTypes.ts#L3)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:2](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/ContractTypes.ts#L2)
+[src/types/ContractTypes.ts:2](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/ContractTypes.ts#L2)
