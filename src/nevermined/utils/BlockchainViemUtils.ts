@@ -532,7 +532,12 @@ export const formatEther = (value: bigint): string => {
  * @param zeroDevProjectId the zero dev project id, you can get it from the ZeroDev dashboard
  * @returns the kernel client
  */
-export async function createKernelClient(signer: any, chainId: number, zeroDevProjectId: string) {
+export async function createKernelClient(
+  signer: any,
+  chainId: number,
+  zeroDevProjectId: string,
+  address?: any,
+) {
   const publicClient = createPublicClient({
     chain: getChain(chainId),
     transport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
@@ -550,6 +555,7 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
     },
     entryPoint: getEntryPoint(ENTRY_POINT_VERSION),
     kernelVersion: KERNEL_V2_4,
+    address,
   })
 
   return createKernelAccountClient({
