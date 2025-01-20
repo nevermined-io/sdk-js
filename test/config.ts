@@ -31,6 +31,30 @@ if (process.env.NETWORK_NAME === 'geth-localnet') {
     ipfsProjectSecret,
     verbose: logLevel,
   } as NeverminedOptions
+} else if (process.env.NETWORK_NAME === 'one-staging') {
+  config = {
+    chainId: 421614,
+    marketplaceUri: 'https://marketplace-api.staging.nevermined.app',
+    neverminedNodeUri: 'https://node.staging.nevermined.app',
+    neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
+    web3ProviderUri: `https://arbitrum-sepolia.infura.io/v3/${infuraToken}`,
+    graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
+    // verbose: LogLevel.Verbose,
+    artifactsFolder: './artifacts',
+    circuitsFolder: './circuits',
+  } as NeverminedOptions
+} else if (process.env.NETWORK_NAME === 'gnosis') {
+  config = {
+    chainId: 100,
+    marketplaceUri: 'https://marketplace-api.gnosis.nevermined.app',
+    neverminedNodeUri: 'https://node.gnosis.nevermined.app',
+    neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
+    web3ProviderUri: `https://rpc.gnosischain.com/`,
+    graphHttpUri: undefined,
+    // verbose: LogLevel.Verbose,
+    artifactsFolder: './artifacts',
+    circuitsFolder: './circuits',
+  } as NeverminedOptions
 } else {
   // default unit tests
   config = {
