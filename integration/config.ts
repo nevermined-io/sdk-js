@@ -62,6 +62,17 @@ if (process.env.NETWORK_NAME === 'gnosis') {
   } as NeverminedOptions)
 }
 
+if (process.env.NETWORK_NAME === 'base') {
+  Object.assign(configBase, {
+    chainId: 8453,
+    marketplaceUri: 'https://marketplace-api.base.nevermined.app',
+    neverminedNodeUri: 'https://node.base.nevermined.app',
+    web3ProviderUri: `https://1rpc.io/base`,
+    neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
+    graphHttpUri: undefined,
+  } as NeverminedOptions)
+}
+
 if (process.env.NETWORK_NAME === 'one-staging') {
   Object.assign(configBase, {
     chainId: 421614,
