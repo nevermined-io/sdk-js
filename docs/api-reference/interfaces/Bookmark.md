@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.47](../code-reference.md) / Bookmark
+[@nevermined-io/sdk - v3.0.48](../code-reference.md) / Bookmark
 
 # Interface: Bookmark
 
@@ -26,7 +26,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:83](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/MetadataTypes.ts#L83)
+[src/types/MetadataTypes.ts:83](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/MetadataTypes.ts#L83)
 
 ---
 
@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:78](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/MetadataTypes.ts#L78)
+[src/types/MetadataTypes.ts:78](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/MetadataTypes.ts#L78)
 
 ---
 
@@ -54,7 +54,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:76](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/MetadataTypes.ts#L76)
+[src/types/MetadataTypes.ts:76](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/MetadataTypes.ts#L76)
 
 ---
 
@@ -64,7 +64,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:82](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/MetadataTypes.ts#L82)
+[src/types/MetadataTypes.ts:82](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/MetadataTypes.ts#L82)
 
 ---
 
@@ -78,4 +78,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:77](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/MetadataTypes.ts#L77)
+[src/types/MetadataTypes.ts:77](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/MetadataTypes.ts#L77)

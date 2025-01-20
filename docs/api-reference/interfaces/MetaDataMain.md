@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.47](../code-reference.md) / MetaDataMain
+[@nevermined-io/sdk - v3.0.48](../code-reference.md) / MetaDataMain
 
 # Interface: MetaDataMain
 
@@ -41,7 +41,7 @@ https://github.com/nevermined-io/docs/blob/master/docs/architecture/specs/metada
 
 #### Defined in
 
-[src/types/DDOTypes.ts:372](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L372)
+[src/types/DDOTypes.ts:372](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L372)
 
 ---
 
@@ -59,7 +59,7 @@ Name of the entity generating this data (e.g. Tfl, Disney Corp, etc.).
 
 #### Defined in
 
-[src/types/DDOTypes.ts:350](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L350)
+[src/types/DDOTypes.ts:350](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L350)
 
 ---
 
@@ -78,7 +78,7 @@ ISO 8601 format, Coordinated Universal Time.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:326](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L326)
+[src/types/DDOTypes.ts:326](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L326)
 
 ---
 
@@ -98,7 +98,7 @@ so this value can't be set.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:334](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L334)
+[src/types/DDOTypes.ts:334](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L334)
 
 ---
 
@@ -108,7 +108,7 @@ so this value can't be set.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:368](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L368)
+[src/types/DDOTypes.ts:368](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L368)
 
 ---
 
@@ -118,7 +118,7 @@ so this value can't be set.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:376](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L376)
+[src/types/DDOTypes.ts:376](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L376)
 
 ---
 
@@ -130,7 +130,7 @@ Array of File objects including the encrypted file urls and some additional info
 
 #### Defined in
 
-[src/types/DDOTypes.ts:362](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L362)
+[src/types/DDOTypes.ts:362](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L362)
 
 ---
 
@@ -140,7 +140,7 @@ Array of File objects including the encrypted file urls and some additional info
 
 #### Defined in
 
-[src/types/DDOTypes.ts:380](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L380)
+[src/types/DDOTypes.ts:380](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L380)
 
 ---
 
@@ -159,7 +159,7 @@ If it's not specified, the following value will be added: "No License Specified"
 
 #### Defined in
 
-[src/types/DDOTypes.ts:357](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L357)
+[src/types/DDOTypes.ts:357](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L357)
 
 ---
 
@@ -177,7 +177,7 @@ Descriptive name of the Asset.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:294](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L294)
+[src/types/DDOTypes.ts:294](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L294)
 
 ---
 
@@ -187,7 +187,7 @@ Descriptive name of the Asset.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:378](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L378)
+[src/types/DDOTypes.ts:378](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L378)
 
 ---
 
@@ -197,7 +197,7 @@ Descriptive name of the Asset.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:344](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L344)
+[src/types/DDOTypes.ts:344](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L344)
 
 ---
 
@@ -207,7 +207,7 @@ Descriptive name of the Asset.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:382](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L382)
+[src/types/DDOTypes.ts:382](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L382)
 
 ---
 
@@ -217,7 +217,7 @@ Descriptive name of the Asset.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:374](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L374)
+[src/types/DDOTypes.ts:374](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L374)
 
 ---
 
@@ -231,7 +231,7 @@ Another example, if the type is 'dataset' the subtype could be 'tabular', 'parqu
 
 #### Defined in
 
-[src/types/DDOTypes.ts:319](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L319)
+[src/types/DDOTypes.ts:319](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L319)
 
 ---
 
@@ -241,7 +241,7 @@ Another example, if the type is 'dataset' the subtype could be 'tabular', 'parqu
 
 #### Defined in
 
-[src/types/DDOTypes.ts:364](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L364)
+[src/types/DDOTypes.ts:364](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L364)
 
 ---
 
@@ -260,7 +260,7 @@ initially ("dataset", "algorithm", "compute", "workflow", "model", "file", "subs
 
 #### Defined in
 
-[src/types/DDOTypes.ts:301](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L301)
+[src/types/DDOTypes.ts:301](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L301)
 
 ---
 
@@ -280,7 +280,7 @@ so this value can't be set.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:342](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L342)
+[src/types/DDOTypes.ts:342](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L342)
 
 ---
 
@@ -290,7 +290,7 @@ so this value can't be set.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:366](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L366)
+[src/types/DDOTypes.ts:366](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L366)
 
 ---
 
@@ -300,4 +300,4 @@ so this value can't be set.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:370](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L370)
+[src/types/DDOTypes.ts:370](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L370)

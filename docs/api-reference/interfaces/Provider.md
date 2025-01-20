@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.47](../code-reference.md) / Provider
+[@nevermined-io/sdk - v3.0.48](../code-reference.md) / Provider
 
 # Interface: Provider
 
@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:14](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L14)
+[src/types/DDOTypes.ts:14](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L14)
 
 ---
 
@@ -38,7 +38,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:15](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L15)
+[src/types/DDOTypes.ts:15](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L15)
 
 ---
 
@@ -48,4 +48,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/db42a2a70293f73d5f0e0208dd90541855f3ca93/src/types/DDOTypes.ts#L13)
+[src/types/DDOTypes.ts:13](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/types/DDOTypes.ts#L13)
