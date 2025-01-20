@@ -11,6 +11,7 @@ import { Logger, LoggerInstance, LogLevel } from './models/Logger'
 import { NeverminedOptions } from './models/NeverminedOptions'
 import { Nevermined } from './nevermined/Nevermined'
 import { getChain } from './utils/Network'
+import 'viem/window'
 
 export interface InstantiableConfig {
   nevermined: Nevermined

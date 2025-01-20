@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.46](../code-reference.md) / PaymentData
+[@nevermined-io/sdk - v3.0.47](../code-reference.md) / PaymentData
 
 # Interface: PaymentData
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/ContractTypes.ts#L25)
+[src/types/ContractTypes.ts:25](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/types/ContractTypes.ts#L25)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:26](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/ContractTypes.ts#L26)
+[src/types/ContractTypes.ts:26](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/types/ContractTypes.ts#L26)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:23](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/ContractTypes.ts#L23)
+[src/types/ContractTypes.ts:23](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/types/ContractTypes.ts#L23)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/types/ContractTypes.ts:24](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/types/ContractTypes.ts#L24)
+[src/types/ContractTypes.ts:24](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/types/ContractTypes.ts#L24)

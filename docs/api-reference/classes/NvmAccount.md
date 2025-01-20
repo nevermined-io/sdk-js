@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.46](../code-reference.md) / NvmAccount
+[@nevermined-io/sdk - v3.0.47](../code-reference.md) / NvmAccount
 
 # Class: NvmAccount
 
@@ -60,17 +60,17 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:86](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L86)
+[src/models/NvmAccount.ts:70](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L70)
 
 ## Properties
 
 ### accountSigner
 
-• `Private` `Optional` **accountSigner**: `Account` \| `PrivateKeyAccount`
+• `Private` `Optional` **accountSigner**: `Account` \| \{ `address`: \`0x$\{string}\` ; `experimental_signAuthorization`: (`parameters`: `Authorization`) => `Promise`\<`SignAuthorizationReturnType`\> ; `nonceManager?`: `NonceManager` ; `publicKey`: \`0x$\{string}\` ; `sign`: (`parameters`: \{ `hash`: \`0x$\{string}\`  }) => `Promise`\<\`0x$\{string}\`\> ; `signMessage`: (`__namedParameters`: \{ `message`: `SignableMessage` }) => `Promise`\<\`0x$\{string}\`\> ; `signTransaction`: \<serializer, transaction\>(`transaction`: `transaction`, `options?`: \{ `serializer?`: `serializer`  }) => `Promise`\<`IsNarrowable`\<`TransactionSerialized`\<`GetTransactionType`\<`transaction`\>\>, \`0x$\{string}\`\> extends `true` ? `TransactionSerialized`\<`GetTransactionType`\<`transaction`\>\> : \`0x$\{string}\`\> ; `signTypedData`: \<typedData, primaryType\>(`parameters`: `TypedDataDefinition`\<`typedData`, `primaryType`\>) => `Promise`\<\`0x$\{string}\`\> ; `source`: `"privateKey"` ; `type`: `"local"` }
 
 #### Defined in
 
-[src/models/NvmAccount.ts:15](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L15)
+[src/models/NvmAccount.ts:16](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L16)
 
 ---
 
@@ -80,7 +80,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:23](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L23)
+[src/models/NvmAccount.ts:19](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L19)
 
 ---
 
@@ -90,7 +90,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:14](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L14)
+[src/models/NvmAccount.ts:15](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L15)
 
 ---
 
@@ -100,7 +100,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:12](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L12)
+[src/models/NvmAccount.ts:13](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L13)
 
 ---
 
@@ -110,7 +110,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:13](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L13)
+[src/models/NvmAccount.ts:14](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L14)
 
 ---
 
@@ -120,17 +120,17 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:87](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L87)
+[src/models/NvmAccount.ts:71](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L71)
 
 ---
 
 ### kernelClient
 
-• `Private` `Optional` **kernelClient**: `KernelAccountClient`\<`"0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"`, `Transport`, `Chain`, `any`\>
+• `Private` `Optional` **kernelClient**: `KernelAccountClient`\<`Transport`, `Chain`, `any`, `any`, `any`\>
 
 #### Defined in
 
-[src/models/NvmAccount.ts:16](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L16)
+[src/models/NvmAccount.ts:17](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L17)
 
 ---
 
@@ -140,31 +140,31 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:11](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L11)
+[src/models/NvmAccount.ts:12](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L12)
 
 ---
 
 ### zeroDevSigner
 
-• `Private` `Optional` **zeroDevSigner**: `any`
+• `Private` `Optional` **zeroDevSigner**: `SmartAccount`\<`any`\>
 
 #### Defined in
 
-[src/models/NvmAccount.ts:22](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L22)
+[src/models/NvmAccount.ts:18](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L18)
 
 ## Methods
 
 ### getAccountSigner
 
-▸ **getAccountSigner**(): `any`
+▸ **getAccountSigner**(): `undefined` \| `Account` \| `SmartAccount`\<`any`\> \| \{ `address`: \`0x$\{string}\` ; `experimental_signAuthorization`: (`parameters`: `Authorization`) => `Promise`\<`SignAuthorizationReturnType`\> ; `nonceManager?`: `NonceManager` ; `publicKey`: \`0x$\{string}\` ; `sign`: (`parameters`: \{ `hash`: \`0x$\{string}\`  }) => `Promise`\<\`0x$\{string}\`\> ; `signMessage`: (`__namedParameters`: \{ `message`: `SignableMessage` }) => `Promise`\<\`0x$\{string}\`\> ; `signTransaction`: \<serializer, transaction\>(`transaction`: `transaction`, `options?`: \{ `serializer?`: `serializer`  }) => `Promise`\<`IsNarrowable`\<`TransactionSerialized`\<`GetTransactionType`\<`transaction`\>\>, \`0x$\{string}\`\> extends `true` ? `TransactionSerialized`\<`GetTransactionType`\<`transaction`\>\> : \`0x$\{string}\`\> ; `signTypedData`: \<typedData, primaryType\>(`parameters`: `TypedDataDefinition`\<`typedData`, `primaryType`\>) => `Promise`\<\`0x$\{string}\`\> ; `source`: `"privateKey"` ; `type`: `"local"` }
 
 #### Returns
 
-`any`
+`undefined` \| `Account` \| `SmartAccount`\<`any`\> \| \{ `address`: \`0x$\{string}\` ; `experimental_signAuthorization`: (`parameters`: `Authorization`) => `Promise`\<`SignAuthorizationReturnType`\> ; `nonceManager?`: `NonceManager` ; `publicKey`: \`0x$\{string}\` ; `sign`: (`parameters`: \{ `hash`: \`0x$\{string}\`  }) => `Promise`\<\`0x$\{string}\`\> ; `signMessage`: (`__namedParameters`: \{ `message`: `SignableMessage` }) => `Promise`\<\`0x$\{string}\`\> ; `signTransaction`: \<serializer, transaction\>(`transaction`: `transaction`, `options?`: \{ `serializer?`: `serializer`  }) => `Promise`\<`IsNarrowable`\<`TransactionSerialized`\<`GetTransactionType`\<`transaction`\>\>, \`0x$\{string}\`\> extends `true` ? `TransactionSerialized`\<`GetTransactionType`\<`transaction`\>\> : \`0x$\{string}\`\> ; `signTypedData`: \<typedData, primaryType\>(`parameters`: `TypedDataDefinition`\<`typedData`, `primaryType`\>) => `Promise`\<\`0x$\{string}\`\> ; `source`: `"privateKey"` ; `type`: `"local"` }
 
 #### Defined in
 
-[src/models/NvmAccount.ts:94](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L94)
+[src/models/NvmAccount.ts:78](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L78)
 
 ---
 
@@ -178,7 +178,7 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:113](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L113)
+[src/models/NvmAccount.ts:97](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L97)
 
 ---
 
@@ -192,21 +192,21 @@ Account information.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:117](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L117)
+[src/models/NvmAccount.ts:101](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L101)
 
 ---
 
 ### getKernelClient
 
-▸ **getKernelClient**(): `undefined` \| `KernelAccountClient`\<`"0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"`, `Transport`, `Chain`, `any`\>
+▸ **getKernelClient**(): `undefined` \| `KernelAccountClient`\<`Transport`, `Chain`, `any`, `any`, `any`\>
 
 #### Returns
 
-`undefined` \| `KernelAccountClient`\<`"0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"`, `Transport`, `Chain`, `any`\>
+`undefined` \| `KernelAccountClient`\<`Transport`, `Chain`, `any`, `any`, `any`\>
 
 #### Defined in
 
-[src/models/NvmAccount.ts:98](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L98)
+[src/models/NvmAccount.ts:82](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L82)
 
 ---
 
@@ -224,7 +224,7 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:153](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L153)
+[src/models/NvmAccount.ts:137](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L137)
 
 ---
 
@@ -238,35 +238,35 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:125](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L125)
+[src/models/NvmAccount.ts:109](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L109)
 
 ---
 
 ### getType
 
-▸ **getType**(): `"local"` \| `"json-rpc"` \| `"zerodev"` \| `"sessionKey"`
+▸ **getType**(): `"local"` \| `"json-rpc"` \| `"smart"` \| `"zerodev"` \| `"sessionKey"`
 
 #### Returns
 
-`"local"` \| `"json-rpc"` \| `"zerodev"` \| `"sessionKey"`
+`"local"` \| `"json-rpc"` \| `"smart"` \| `"zerodev"` \| `"sessionKey"`
 
 #### Defined in
 
-[src/models/NvmAccount.ts:102](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L102)
+[src/models/NvmAccount.ts:86](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L86)
 
 ---
 
 ### getZeroDevSigner
 
-▸ **getZeroDevSigner**(): `any`
+▸ **getZeroDevSigner**(): `SmartAccount`\<`any`\>
 
 #### Returns
 
-`any`
+`SmartAccount`\<`any`\>
 
 #### Defined in
 
-[src/models/NvmAccount.ts:105](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L105)
+[src/models/NvmAccount.ts:89](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L89)
 
 ---
 
@@ -280,7 +280,7 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:109](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L109)
+[src/models/NvmAccount.ts:93](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L93)
 
 ---
 
@@ -300,7 +300,7 @@ The account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:121](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L121)
+[src/models/NvmAccount.ts:105](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L105)
 
 ---
 
@@ -322,7 +322,7 @@ Set account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:145](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L145)
+[src/models/NvmAccount.ts:129](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L129)
 
 ---
 
@@ -342,7 +342,7 @@ Set account password.
 
 #### Defined in
 
-[src/models/NvmAccount.ts:129](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L129)
+[src/models/NvmAccount.ts:113](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L113)
 
 ---
 
@@ -354,9 +354,9 @@ Returns a nevermined Account from a viem account
 
 #### Parameters
 
-| Name      | Type                             | Description          |
-| :-------- | :------------------------------- | :------------------- |
-| `account` | `Account` \| `PrivateKeyAccount` | A viem local account |
+| Name      | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Description          |
+| :-------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------- |
+| `account` | `Account` \| \{ `address`: \`0x$\{string}\` ; `experimental_signAuthorization`: (`parameters`: `Authorization`) => `Promise`\<`SignAuthorizationReturnType`\> ; `nonceManager?`: `NonceManager` ; `publicKey`: \`0x$\{string}\` ; `sign`: (`parameters`: \{ `hash`: \`0x$\{string}\`  }) => `Promise`\<\`0x$\{string}\`\> ; `signMessage`: (`__namedParameters`: \{ `message`: `SignableMessage` }) => `Promise`\<\`0x$\{string}\`\> ; `signTransaction`: \<serializer, transaction\>(`transaction`: `transaction`, `options?`: \{ `serializer?`: `serializer`  }) => `Promise`\<`IsNarrowable`\<`TransactionSerialized`\<`GetTransactionType`\<`transaction`\>\>, \`0x$\{string}\`\> extends `true` ? `TransactionSerialized`\<`GetTransactionType`\<`transaction`\>\> : \`0x$\{string}\`\> ; `signTypedData`: \<typedData, primaryType\>(`parameters`: `TypedDataDefinition`\<`typedData`, `primaryType`\>) => `Promise`\<\`0x$\{string}\`\> ; `source`: `"privateKey"` ; `type`: `"local"` } | A viem local account |
 
 #### Returns
 
@@ -366,7 +366,7 @@ The nevermined account
 
 #### Defined in
 
-[src/models/NvmAccount.ts:31](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L31)
+[src/models/NvmAccount.ts:27](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L27)
 
 ---
 
@@ -390,7 +390,7 @@ The nevermined account
 
 #### Defined in
 
-[src/models/NvmAccount.ts:44](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L44)
+[src/models/NvmAccount.ts:40](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L40)
 
 ---
 
@@ -400,9 +400,9 @@ The nevermined account
 
 #### Parameters
 
-| Name           | Type                                                                                                 |
-| :------------- | :--------------------------------------------------------------------------------------------------- |
-| `kernelClient` | `KernelAccountClient`\<`"0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"`, `Transport`, `Chain`, `any`\> |
+| Name           | Type                                                               |
+| :------------- | :----------------------------------------------------------------- |
+| `kernelClient` | `KernelAccountClient`\<`Transport`, `Chain`, `any`, `any`, `any`\> |
 
 #### Returns
 
@@ -410,7 +410,7 @@ The nevermined account
 
 #### Defined in
 
-[src/models/NvmAccount.ts:71](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L71)
+[src/models/NvmAccount.ts:62](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L62)
 
 ---
 
@@ -422,9 +422,9 @@ Returns a nevermined Account from a zerodev signer
 
 #### Parameters
 
-| Name           | Type                                                                                                 |
-| :------------- | :--------------------------------------------------------------------------------------------------- |
-| `kernelClient` | `KernelAccountClient`\<`"0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789"`, `Transport`, `Chain`, `any`\> |
+| Name           | Type                                                               |
+| :------------- | :----------------------------------------------------------------- |
+| `kernelClient` | `KernelAccountClient`\<`Transport`, `Chain`, `any`, `any`, `any`\> |
 
 #### Returns
 
@@ -434,4 +434,4 @@ The nevermined account
 
 #### Defined in
 
-[src/models/NvmAccount.ts:56](https://github.com/nevermined-io/sdk-js/blob/5c9d0f7d6fcba54812075b53cb60060936ceb745/src/models/NvmAccount.ts#L56)
+[src/models/NvmAccount.ts:52](https://github.com/nevermined-io/sdk-js/blob/9fd2122cb8a365d3b370fc0dbe1796198ecfa3b3/src/models/NvmAccount.ts#L52)

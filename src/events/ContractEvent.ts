@@ -1,10 +1,10 @@
-import { EventEmitter, EventOptions, EventResult, FilterContractEvent } from '../types/EventTypes'
-import { NeverminedEvent } from './NeverminedEvent'
 import { KeeperError } from '../errors/NeverminedErrors'
-import { ContractBase } from '../keeper/contracts/ContractBase'
-import { searchAbiEvent } from '../nevermined/utils/BlockchainViemUtils'
-import { Nevermined } from '../nevermined/Nevermined'
 import { Web3Clients } from '../Instantiable.abstract'
+import { ContractBase } from '../keeper/contracts/ContractBase'
+import { Nevermined } from '../nevermined/Nevermined'
+import { searchAbiEvent } from '../nevermined/utils/BlockchainViemUtils'
+import { EventEmitter, EventOptions, EventResult } from '../types/EventTypes'
+import { NeverminedEvent } from './NeverminedEvent'
 
 /**
  * Class to handle Smart Contract events directly connected to a blockchain node
@@ -46,16 +46,15 @@ export class ContractEvent extends NeverminedEvent {
     }
 
     try {
-      const args = this.filterToArgs(options.eventName, options.filterJsonRpc)
-
       const contractEvents = await this.contract.publicClient.getContractEvents({
         address: this.contract.contract.address,
         abi: this.contract.contract.abi,
         eventName: options.eventName,
-        args,
+        args: options.filterJsonRpc,
         fromBlock: options.fromBlock,
         toBlock: options.toBlock,
       })
+
       return contractEvents
     } catch (error) {
       const errorMessage = `Error getting event: ${options.eventName} - ${error}`
@@ -116,17 +115,5 @@ export class ContractEvent extends NeverminedEvent {
     } catch {
       return false
     }
-  }
-
-  /**
-   * It returns the indexed parameters of an event
-   * @param eventName the name of the event
-   * @param filter tge event filter
-   * @returns the array of indexed parameters
-   */
-  private filterToArgs(eventName: string, filter: FilterContractEvent): Array<any> {
-    const signature = searchAbiEvent(this.contract.contract.abi, eventName)
-    // @ts-ignore
-    return signature.inputs.filter((i) => i.indexed).map((i) => filter[i.name])
   }
 }

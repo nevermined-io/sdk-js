@@ -1,22 +1,22 @@
 import { signerToEcdsaValidator } from '@zerodev/ecdsa-validator'
 import {
-  SponsorUserOperationParameters,
   createKernelAccount,
   createKernelAccountClient,
   createZeroDevPaymasterClient,
+  getUserOperationGasPrice,
 } from '@zerodev/sdk'
+import { KERNEL_V0_2, getEntryPoint } from '@zerodev/sdk/constants'
 import {
   deserializeSessionKeyAccount,
   oneAddress,
   serializeSessionKeyAccount,
   signerToSessionKeyValidator,
 } from '@zerodev/session-key'
-import { ENTRYPOINT_ADDRESS_V06 } from 'permissionless'
-import { EntryPoint } from 'permissionless/types'
 import {
   Abi,
   AbiEvent,
   AbiFunction,
+  Account,
   PublicClient,
   TransactionReceiptNotFoundError,
   createPublicClient,
@@ -51,6 +51,8 @@ import { KeeperError } from '../../errors/NeverminedErrors'
 import { NvmAccount } from '../../models/NvmAccount'
 import { didZeroX } from '../../utils/ConversionTypeHelpers'
 import { getChain } from '../../utils/Network'
+
+const ENTRY_POINT_VERSION = '0.6'
 
 /**
  * Utility class with methods that allow the interaction with the blockchain.
@@ -155,7 +157,7 @@ export async function deployContractInstance(
 ) {
   const txHash = await client.wallet.deployContract({
     abi: artifact.abi,
-    account: from.getAccountSigner(),
+    account: from.getAccountSigner() as Account,
     bytecode: artifact.bytecode,
     chain: client.chain,
   })
@@ -538,34 +540,37 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
 
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
     signer,
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: getEntryPoint(ENTRY_POINT_VERSION),
+    kernelVersion: KERNEL_V0_2,
   })
 
   const account = await createKernelAccount(publicClient, {
     plugins: {
       sudo: ecdsaValidator,
     },
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: getEntryPoint(ENTRY_POINT_VERSION),
+    kernelVersion: KERNEL_V0_2,
   })
 
   return createKernelAccountClient({
     account,
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
     chain: getChain(chainId),
     bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
-    middleware: {
-      sponsorUserOperation: async ({ userOperation }) => {
-        const paymasterClient = createZeroDevPaymasterClient({
+    client: publicClient,
+    paymaster: {
+      getPaymasterData: (userOperation) => {
+        const zerodevPaymaster = createZeroDevPaymasterClient({
           chain: getChain(chainId),
           transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
-          entryPoint: ENTRYPOINT_ADDRESS_V06,
         })
-        const _userOperation =
-          userOperation as SponsorUserOperationParameters<EntryPoint>['userOperation']
-        return paymasterClient.sponsorUserOperation({
-          userOperation: _userOperation,
-          entryPoint: ENTRYPOINT_ADDRESS_V06,
+        return zerodevPaymaster.sponsorUserOperation({
+          userOperation,
         })
+      },
+    },
+    userOperation: {
+      estimateFeesPerGas: async ({ bundlerClient }) => {
+        return getUserOperationGasPrice(bundlerClient)
       },
     },
   })
@@ -580,15 +585,17 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
  */
 export async function createSessionKey(signer: any, publicClient: any, permissions: any[]) {
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: getEntryPoint(ENTRY_POINT_VERSION),
     signer,
+    kernelVersion: KERNEL_V0_2,
   })
   const sessionPrivateKey = generatePrivateKey()
   const sessionKeySigner = privateKeyToAccount(sessionPrivateKey)
 
   const sessionKeyValidator = await signerToSessionKeyValidator(publicClient, {
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: getEntryPoint(ENTRY_POINT_VERSION),
     signer: sessionKeySigner,
+    kernelVersion: KERNEL_V0_2,
     validatorData: {
       paymaster: oneAddress,
       validAfter: 0,
@@ -597,7 +604,8 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
     },
   })
   const sessionKeyAccount = await createKernelAccount(publicClient, {
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    entryPoint: getEntryPoint(ENTRY_POINT_VERSION),
+    kernelVersion: KERNEL_V0_2,
     plugins: {
       sudo: ecdsaValidator,
       regular: sessionKeyValidator,
@@ -621,21 +629,23 @@ export async function getSessionKey(
   const chainId = await publicClient.getChainId()
   const sessionKeyAccount = await deserializeSessionKeyAccount(
     publicClient,
-    ENTRYPOINT_ADDRESS_V06,
+    getEntryPoint(ENTRY_POINT_VERSION),
+    KERNEL_V0_2,
     serializedSessionKey,
   )
   const kernelPaymaster = createZeroDevPaymasterClient({
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
     chain: getChain(chainId),
     transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
   })
+
   const kernelClient = createKernelAccountClient({
-    entryPoint: ENTRYPOINT_ADDRESS_V06,
     account: sessionKeyAccount,
     chain: getChain(chainId),
     bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
-    middleware: {
-      sponsorUserOperation: kernelPaymaster.sponsorUserOperation,
+    paymaster: {
+      getPaymasterData(userOperation) {
+        return kernelPaymaster.sponsorUserOperation({ userOperation })
+      },
     },
   })
   return NvmAccount.fromZeroDevSessionKey(kernelClient)
