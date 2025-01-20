@@ -75,7 +75,7 @@ export class NvmApp {
   private userAccount: NvmAccount | undefined
   private searchSDK: Nevermined
   private fullSDK: Nevermined | undefined
-  private zeroDevSignerAccount: SmartAccount | undefined
+  private zeroDevSignerAccount: SmartAccount<any> | undefined
   public assetProviders: NeverminedNodeInfo[] = []
   private loginCredentials: string | undefined
   private networkFeeReceiver: string | undefined
@@ -149,7 +149,7 @@ export class NvmApp {
    * @returns An object containing the marketplace authentication token, user account, and zeroDev signer account (if applicable).
    */
   public async connect(
-    account: string | NvmAccount | SmartAccount,
+    account: string | NvmAccount | SmartAccount<any>,
     message?: string,
     config?: NeverminedOptions,
     initOptions?: NeverminedInitializationOptions,
