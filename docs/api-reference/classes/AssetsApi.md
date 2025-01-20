@@ -92,7 +92,7 @@ Creates a new AssetsApi
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:87](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L87)
+[src/nevermined/api/AssetsApi.ts:87](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L87)
 
 ## Properties
 
@@ -104,7 +104,7 @@ Utilities about the providers associated to an asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:80](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L80)
+[src/nevermined/api/AssetsApi.ts:80](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L80)
 
 ---
 
@@ -122,7 +122,7 @@ Utilities about the providers associated to an asset
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/RegistryBaseApi.ts#L39)
+[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/RegistryBaseApi.ts#L39)
 
 ## Accessors
 
@@ -140,7 +140,7 @@ RegistryBaseApi.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:138](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L138)
+[src/Instantiable.abstract.ts:138](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L138)
 
 ---
 
@@ -158,7 +158,7 @@ RegistryBaseApi.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L142)
 
 ---
 
@@ -176,7 +176,7 @@ RegistryBaseApi.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L90)
+[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L90)
 
 ---
 
@@ -194,7 +194,7 @@ RegistryBaseApi.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:121](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L121)
+[src/Instantiable.abstract.ts:121](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L121)
 
 ---
 
@@ -212,7 +212,7 @@ RegistryBaseApi.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:146](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L146)
+[src/Instantiable.abstract.ts:146](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L146)
 
 ---
 
@@ -230,7 +230,7 @@ RegistryBaseApi.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L114)
+[src/Instantiable.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L114)
 
 ---
 
@@ -248,7 +248,7 @@ RegistryBaseApi.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L129)
 
 ---
 
@@ -266,7 +266,7 @@ RegistryBaseApi.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:82](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L82)
+[src/Instantiable.abstract.ts:82](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L82)
 
 ---
 
@@ -353,7 +353,7 @@ RegistryBaseApi.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L98)
+[src/Instantiable.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L98)
 
 ---
 
@@ -404,7 +404,7 @@ RegistryBaseApi.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:106](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L106)
+[src/Instantiable.abstract.ts:106](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L106)
 
 ## Methods
 
@@ -436,7 +436,7 @@ The result path or true if everything went okay
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:217](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L217)
+[src/nevermined/api/AssetsApi.ts:217](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L217)
 
 ---
 
@@ -469,7 +469,7 @@ Given a DID, it adds a vote to the asset curation information.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:564](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/RegistryBaseApi.ts#L564)
+[src/nevermined/api/RegistryBaseApi.ts:564](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/RegistryBaseApi.ts#L564)
 
 ---
 
@@ -493,7 +493,7 @@ List of DIDs.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:360](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L360)
+[src/nevermined/api/AssetsApi.ts:360](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L360)
 
 ---
 
@@ -541,7 +541,7 @@ const ddo = await nevermined.assets.create(assetAttributes, publisher, PublishMe
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:134](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L134)
+[src/nevermined/api/AssetsApi.ts:134](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L134)
 
 ---
 
@@ -572,7 +572,7 @@ Status, path destination if resultPath is provided
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:390](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L390)
+[src/nevermined/api/AssetsApi.ts:390](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L390)
 
 ---
 
@@ -607,7 +607,7 @@ DDOError - If the NFT contract address is not found in the DDO.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:509](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L509)
+[src/nevermined/api/AssetsApi.ts:509](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L509)
 
 ---
 
@@ -632,7 +632,7 @@ True if the address has permissions on the asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:491](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L491)
+[src/nevermined/api/AssetsApi.ts:491](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L491)
 
 ---
 
@@ -658,7 +658,7 @@ Only can be called by the asset owner.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:448](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L448)
+[src/nevermined/api/AssetsApi.ts:448](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L448)
 
 ---
 
@@ -691,7 +691,7 @@ In a Nevermined environment, when an asset is unlisted, it is not possible to be
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:512](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/RegistryBaseApi.ts#L512)
+[src/nevermined/api/RegistryBaseApi.ts:512](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/RegistryBaseApi.ts#L512)
 
 ---
 
@@ -721,7 +721,7 @@ The agreement ID identifying the order
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:194](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L194)
+[src/nevermined/api/AssetsApi.ts:194](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L194)
 
 ---
 
@@ -753,7 +753,7 @@ The agreement ID.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:615](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/RegistryBaseApi.ts#L615)
+[src/nevermined/api/RegistryBaseApi.ts:615](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/RegistryBaseApi.ts#L615)
 
 ---
 
@@ -777,7 +777,7 @@ The address of the owner of the asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:276](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L276)
+[src/nevermined/api/AssetsApi.ts:276](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L276)
 
 ---
 
@@ -801,7 +801,7 @@ List of DIDs owned by the address
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:305](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L305)
+[src/nevermined/api/AssetsApi.ts:305](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L305)
 
 ---
 
@@ -825,7 +825,7 @@ The address of the owner of the asset
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:285](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L285)
+[src/nevermined/api/AssetsApi.ts:285](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L285)
 
 ---
 
@@ -862,7 +862,7 @@ The metadata of the asset created (DDO)
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/RegistryBaseApi.ts#L52)
+[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/RegistryBaseApi.ts#L52)
 
 ---
 
@@ -887,7 +887,7 @@ Returns a DDO by DID. Depending of the resolution policy it prioritize the Metad
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:100](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L100)
+[src/nevermined/api/AssetsApi.ts:100](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L100)
 
 ---
 
@@ -917,7 +917,7 @@ Depending of the resolution policy it prioritize fetching that Metadata from the
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:349](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/RegistryBaseApi.ts#L349)
+[src/nevermined/api/RegistryBaseApi.ts:349](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/RegistryBaseApi.ts#L349)
 
 ---
 
@@ -941,7 +941,7 @@ the HTTP response
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:373](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L373)
+[src/nevermined/api/AssetsApi.ts:373](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L373)
 
 ---
 
@@ -967,7 +967,7 @@ Only can be called by the asset owner.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:471](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L471)
+[src/nevermined/api/AssetsApi.ts:471](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L471)
 
 ---
 
@@ -991,7 +991,7 @@ Only can be called by the asset owner.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L164)
+[src/Instantiable.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L164)
 
 ---
 
@@ -1019,7 +1019,7 @@ Returns transaction receipt.
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:318](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L318)
+[src/nevermined/api/AssetsApi.ts:318](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L318)
 
 ---
 
@@ -1058,7 +1058,7 @@ const ddoUpdated = await nevermined.assets.update(
 
 #### Defined in
 
-[src/nevermined/api/AssetsApi.ts:172](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/AssetsApi.ts#L172)
+[src/nevermined/api/AssetsApi.ts:172](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/AssetsApi.ts#L172)
 
 ---
 
@@ -1090,7 +1090,7 @@ Given a DID, updates the metadata associated to the asset. It also can upload th
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:392](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/RegistryBaseApi.ts#L392)
+[src/nevermined/api/RegistryBaseApi.ts:392](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/RegistryBaseApi.ts#L392)
 
 ---
 
@@ -1114,7 +1114,7 @@ Given a DID, updates the metadata associated to the asset. It also can upload th
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:151](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L151)
+[src/Instantiable.abstract.ts:151](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L151)
 
 ---
 
@@ -1149,7 +1149,7 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:670](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/RegistryBaseApi.ts#L670)
+[src/nevermined/api/RegistryBaseApi.ts:670](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/RegistryBaseApi.ts#L670)
 
 ---
 
@@ -1180,4 +1180,4 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:155](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L155)
+[src/Instantiable.abstract.ts:155](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L155)

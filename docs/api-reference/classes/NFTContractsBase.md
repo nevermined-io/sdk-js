@@ -80,7 +80,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L23)
+[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L23)
 
 ## Properties
 
@@ -94,7 +94,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L21)
+[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L21)
 
 ---
 
@@ -108,7 +108,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L18)
+[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L18)
 
 ---
 
@@ -122,7 +122,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:17](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L17)
+[src/keeper/contracts/ContractBase.ts:17](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L17)
 
 ---
 
@@ -136,7 +136,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L19)
+[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L19)
 
 ---
 
@@ -150,7 +150,7 @@
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L20)
+[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L20)
 
 ## Accessors
 
@@ -168,7 +168,7 @@ ContractBase.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:138](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L138)
+[src/Instantiable.abstract.ts:138](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L138)
 
 ---
 
@@ -186,7 +186,7 @@ ContractBase.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L142)
 
 ---
 
@@ -204,7 +204,7 @@ ContractBase.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L90)
+[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L90)
 
 ---
 
@@ -222,7 +222,7 @@ ContractBase.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:121](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L121)
+[src/Instantiable.abstract.ts:121](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L121)
 
 ---
 
@@ -240,7 +240,7 @@ ContractBase.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:146](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L146)
+[src/Instantiable.abstract.ts:146](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L146)
 
 ---
 
@@ -258,7 +258,7 @@ ContractBase.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L114)
+[src/Instantiable.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L114)
 
 ---
 
@@ -276,7 +276,7 @@ ContractBase.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L129)
 
 ---
 
@@ -294,7 +294,7 @@ ContractBase.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:82](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L82)
+[src/Instantiable.abstract.ts:82](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L82)
 
 ---
 
@@ -381,7 +381,7 @@ ContractBase.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L98)
+[src/Instantiable.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L98)
 
 ---
 
@@ -432,7 +432,7 @@ ContractBase.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:106](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L106)
+[src/Instantiable.abstract.ts:106](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L106)
 
 ## Methods
 
@@ -463,7 +463,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/NFTContractsBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/NFTContractsBase.ts#L41)
+[src/keeper/contracts/NFTContractsBase.ts:41](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/NFTContractsBase.ts#L41)
 
 ---
 
@@ -495,7 +495,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:91](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L91)
+[src/keeper/contracts/ContractBase.ts:91](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L91)
 
 ---
 
@@ -519,7 +519,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:67](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L67)
+[src/keeper/contracts/ContractBase.ts:67](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L67)
 
 ---
 
@@ -539,7 +539,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/NFTContractsBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/NFTContractsBase.ts#L97)
+[src/keeper/contracts/NFTContractsBase.ts:97](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/NFTContractsBase.ts#L97)
 
 ---
 
@@ -564,7 +564,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:75](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L75)
+[src/keeper/contracts/ContractBase.ts:75](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L75)
 
 ---
 
@@ -590,7 +590,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/NFTContractsBase.ts:84](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/NFTContractsBase.ts#L84)
+[src/keeper/contracts/NFTContractsBase.ts:84](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/NFTContractsBase.ts#L84)
 
 ---
 
@@ -616,7 +616,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L28)
+[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L28)
 
 ---
 
@@ -640,7 +640,7 @@ true if is an operator
 
 #### Defined in
 
-[src/keeper/contracts/NFTContractsBase.ts:93](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/NFTContractsBase.ts#L93)
+[src/keeper/contracts/NFTContractsBase.ts:93](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/NFTContractsBase.ts#L93)
 
 ---
 
@@ -658,7 +658,7 @@ Address of the contract owner
 
 #### Defined in
 
-[src/keeper/contracts/NFTContractsBase.ts:26](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/NFTContractsBase.ts#L26)
+[src/keeper/contracts/NFTContractsBase.ts:26](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/NFTContractsBase.ts#L26)
 
 ---
 
@@ -684,7 +684,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/NFTContractsBase.ts:130](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/NFTContractsBase.ts#L130)
+[src/keeper/contracts/NFTContractsBase.ts:130](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/NFTContractsBase.ts#L130)
 
 ---
 
@@ -711,7 +711,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:127](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L127)
+[src/keeper/contracts/ContractBase.ts:127](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L127)
 
 ---
 
@@ -738,7 +738,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:108](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L108)
+[src/keeper/contracts/ContractBase.ts:108](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L108)
 
 ---
 
@@ -762,7 +762,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L164)
+[src/Instantiable.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L164)
 
 ---
 
@@ -786,7 +786,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:84](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/keeper/contracts/ContractBase.ts#L84)
+[src/keeper/contracts/ContractBase.ts:84](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/keeper/contracts/ContractBase.ts#L84)
 
 ---
 
@@ -810,7 +810,7 @@ Contract Receipt
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:151](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L151)
+[src/Instantiable.abstract.ts:151](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L151)
 
 ---
 
@@ -841,4 +841,4 @@ Contract Receipt
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:155](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L155)
+[src/Instantiable.abstract.ts:155](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L155)

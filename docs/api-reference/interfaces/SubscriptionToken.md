@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:26](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L26)
+[src/services/node/NeverminedNode.ts:26](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/services/node/NeverminedNode.ts#L26)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/services/node/NeverminedNode.ts:27](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/services/node/NeverminedNode.ts#L27)
+[src/services/node/NeverminedNode.ts:27](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/services/node/NeverminedNode.ts#L27)

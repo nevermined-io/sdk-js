@@ -36,7 +36,7 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:8](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/models/KeyTransfer.ts#L8)
+[src/models/KeyTransfer.ts:8](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/models/KeyTransfer.ts#L8)
 
 ## Properties
 
@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:5](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/models/KeyTransfer.ts#L5)
+[src/models/KeyTransfer.ts:5](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/models/KeyTransfer.ts#L5)
 
 ---
 
@@ -56,7 +56,7 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:6](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/models/KeyTransfer.ts#L6)
+[src/models/KeyTransfer.ts:6](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/models/KeyTransfer.ts#L6)
 
 ## Methods
 
@@ -70,4 +70,4 @@
 
 #### Defined in
 
-[src/models/KeyTransfer.ts:13](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/models/KeyTransfer.ts#L13)
+[src/models/KeyTransfer.ts:13](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/models/KeyTransfer.ts#L13)

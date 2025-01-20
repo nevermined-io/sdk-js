@@ -74,7 +74,7 @@ Creates a new ProvenanceApi
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:18](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L18)
+[src/nevermined/api/ProvenanceApi.ts:18](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L18)
 
 ## Accessors
 
@@ -92,7 +92,7 @@ Instantiable.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:138](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L138)
+[src/Instantiable.abstract.ts:138](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L138)
 
 ---
 
@@ -110,7 +110,7 @@ Instantiable.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L142)
+[src/Instantiable.abstract.ts:142](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L142)
 
 ---
 
@@ -128,7 +128,7 @@ Instantiable.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L90)
+[src/Instantiable.abstract.ts:90](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L90)
 
 ---
 
@@ -146,7 +146,7 @@ Instantiable.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:121](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L121)
+[src/Instantiable.abstract.ts:121](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L121)
 
 ---
 
@@ -164,7 +164,7 @@ Instantiable.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:146](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L146)
+[src/Instantiable.abstract.ts:146](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L146)
 
 ---
 
@@ -182,7 +182,7 @@ Instantiable.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L114)
+[src/Instantiable.abstract.ts:114](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L114)
 
 ---
 
@@ -200,7 +200,7 @@ Instantiable.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L129)
+[src/Instantiable.abstract.ts:129](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L129)
 
 ---
 
@@ -218,7 +218,7 @@ Instantiable.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:82](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L82)
+[src/Instantiable.abstract.ts:82](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L82)
 
 ---
 
@@ -305,7 +305,7 @@ Instantiable.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L98)
+[src/Instantiable.abstract.ts:98](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L98)
 
 ---
 
@@ -356,7 +356,7 @@ Instantiable.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:106](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L106)
+[src/Instantiable.abstract.ts:106](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L106)
 
 ## Methods
 
@@ -392,7 +392,7 @@ This method can be called when want to track the delegation of an agent to act o
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:163](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L163)
+[src/nevermined/api/ProvenanceApi.ts:163](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L163)
 
 ---
 
@@ -419,7 +419,7 @@ true if the call succeeded.
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:196](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L196)
+[src/nevermined/api/ProvenanceApi.ts:196](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L196)
 
 ---
 
@@ -443,7 +443,7 @@ A list of provenance events.
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:258](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L258)
+[src/nevermined/api/ProvenanceApi.ts:258](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L258)
 
 ---
 
@@ -467,7 +467,7 @@ Given a provenance id it returns the provenance details
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:28](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L28)
+[src/nevermined/api/ProvenanceApi.ts:28](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L28)
 
 ---
 
@@ -498,7 +498,7 @@ A list of provenance method events.
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:268](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L268)
+[src/nevermined/api/ProvenanceApi.ts:268](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L268)
 
 ---
 
@@ -522,7 +522,7 @@ Address of the provenance owner.
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:249](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L249)
+[src/nevermined/api/ProvenanceApi.ts:249](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L249)
 
 ---
 
@@ -547,7 +547,7 @@ true if the address is a delegate.
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:240](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L240)
+[src/nevermined/api/ProvenanceApi.ts:240](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L240)
 
 ---
 
@@ -574,7 +574,7 @@ true if the call succeeded.
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:219](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L219)
+[src/nevermined/api/ProvenanceApi.ts:219](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L219)
 
 ---
 
@@ -598,7 +598,7 @@ true if the call succeeded.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L164)
+[src/Instantiable.abstract.ts:164](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L164)
 
 ---
 
@@ -633,7 +633,7 @@ This method can be called when want to track the usage of a DID.
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:48](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L48)
+[src/nevermined/api/ProvenanceApi.ts:48](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L48)
 
 ---
 
@@ -667,7 +667,7 @@ This method can be called when want to track the association of an agent with a 
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:125](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L125)
+[src/nevermined/api/ProvenanceApi.ts:125](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L125)
 
 ---
 
@@ -702,7 +702,7 @@ This method can be called when want to track the derivation of a new DID from an
 
 #### Defined in
 
-[src/nevermined/api/ProvenanceApi.ts:87](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/api/ProvenanceApi.ts#L87)
+[src/nevermined/api/ProvenanceApi.ts:87](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/api/ProvenanceApi.ts#L87)
 
 ---
 
@@ -726,7 +726,7 @@ This method can be called when want to track the derivation of a new DID from an
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:151](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L151)
+[src/Instantiable.abstract.ts:151](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L151)
 
 ---
 
@@ -757,4 +757,4 @@ This method can be called when want to track the derivation of a new DID from an
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:155](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/Instantiable.abstract.ts#L155)
+[src/Instantiable.abstract.ts:155](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/Instantiable.abstract.ts#L155)

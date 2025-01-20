@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/nevermined/AccessService.ts:24](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/AccessService.ts#L24)
+[src/nevermined/AccessService.ts:24](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/AccessService.ts#L24)
 
 ---
 
@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[src/nevermined/AccessService.ts:25](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/AccessService.ts#L25)
+[src/nevermined/AccessService.ts:25](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/AccessService.ts#L25)
 
 ---
 
@@ -38,4 +38,4 @@
 
 #### Defined in
 
-[src/nevermined/AccessService.ts:23](https://github.com/nevermined-io/sdk-js/blob/1ce5860917b7655d893b7f6c0b24536829a7b839/src/nevermined/AccessService.ts#L23)
+[src/nevermined/AccessService.ts:23](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/nevermined/AccessService.ts#L23)
