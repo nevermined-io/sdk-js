@@ -149,7 +149,8 @@ export class NvmApp {
    * @returns An object containing the marketplace authentication token, user account, and zeroDev signer account (if applicable).
    */
   public async connect(
-    account: string | NvmAccount | SmartAccount<any>,
+    account: string | NvmAccount | any,
+    connectorType?: string,
     message?: string,
     config?: NeverminedOptions,
     initOptions?: NeverminedInitializationOptions,
@@ -180,7 +181,9 @@ export class NvmApp {
       this.loginCredentials = config.marketplaceAuthToken
     } else {
       const clientAssertion = await this.fullSDK.utils.jwt.generateClientAssertion(
-        this.userAccount,
+        connectorType && connectorType === 'Web3Auth'
+          ? this.userAccount
+          : NvmAccount.fromAddress(account.selectedAddress),
         message,
       )
 
