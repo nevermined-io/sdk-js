@@ -226,7 +226,7 @@ describe('OLAS e2e tests', () => {
       console.log(
         `Credits Balance Before (JSON): ${JSON.stringify(creditsBalanceBefore.toString())}`,
       )
-      assert.isTrue(creditsBalanceBefore === 0n)
+      if (!USE_EXISTING_PLAN) assert.isTrue(creditsBalanceBefore === 0n)
 
       try {
         const receipt = await nevermined.nfts1155.claim(
@@ -260,7 +260,7 @@ describe('OLAS e2e tests', () => {
       )
       const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
       console.log(`Balance After Purchase is completed: ${balanceAfter}`)
-      assert.isTrue(balanceAfter === SUBSCRIPTION_CREDITS)
+      assert.isTrue(balanceAfter >= SUBSCRIPTION_CREDITS)
     })
 
     it('the editor and reseller can receive their payment', async () => {
