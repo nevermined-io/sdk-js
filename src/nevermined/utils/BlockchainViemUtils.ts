@@ -555,7 +555,7 @@ export async function createKernelClient(
     },
     entryPoint: getEntryPoint(ENTRY_POINT_VERSION),
     kernelVersion: KERNEL_V2_4,
-    address,
+    address: address ? address : signer.selectedAddress,
   })
 
   return createKernelAccountClient({
