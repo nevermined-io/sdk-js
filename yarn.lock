@@ -1412,7 +1412,7 @@
   dependencies:
     "@noble/hashes" "1.4.0"
 
-"@noble/curves@^1.4.0", "@noble/curves@^1.6.0", "@noble/curves@~1.8.0":
+"@noble/curves@^1.6.0", "@noble/curves@~1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.8.0.tgz#fe035a23959e6aeadf695851b51a87465b5ba8f7"
   integrity sha512-j84kjAbzEnQHaSIhRPUmB3/eVXu2k3dKPl2LOrR8fSOIL+89U+7lV117EWHtq/GHM3ReGHM46iRBdZfpc4HRUQ==
@@ -2628,10 +2628,10 @@
   resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.4.1.tgz#bea10d0a3364414541e726a1299b68e2d3e2ee91"
   integrity sha512-tIf4PO6xVbxTG2wgHcKQGrMa/q8ldi1d7PbpElugXSzzVhUSaKNMxtpzHeAY+zYV7uFpzFYkqHcNs0aD1lvJ+Q==
 
-"@zerodev/sdk@^5.4.9":
-  version "5.4.9"
-  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.4.9.tgz#9b6fd2cb968bddf6515007201013d6076ee593c9"
-  integrity sha512-vFDj6bdwc7TGsDB2pHlHJTArfItaZxT+d6IJTj0lFWeURxVO3jXn2DSY3/3Lhvb226TZ4gxSX8qH2m1ApHiC6A==
+"@zerodev/sdk@^5.4.14":
+  version "5.4.14"
+  resolved "https://registry.yarnpkg.com/@zerodev/sdk/-/sdk-5.4.14.tgz#4eb5c75a31806c0fffd1534aed5274d042dff182"
+  integrity sha512-HafCTYtZSOGn1gHdTM9rf2HBi2/hYfcKBwBKWbGKcbjwSZhRchefIhg0LbLnUUL8IMIftD7iEtwEcRECn4xigg==
   dependencies:
     semver "^7.6.0"
 
@@ -8855,10 +8855,10 @@ ow@^0.28.1:
     lodash.isequal "^4.5.0"
     vali-date "^1.0.0"
 
-ox@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/ox/-/ox-0.6.0.tgz#ba8f89d68b5e8afe717c8a947ffacc0669ea155d"
-  integrity sha512-blUzTLidvUlshv0O02CnLFqBLidNzPoAZdIth894avUAotTuWziznv6IENv5idRuOSSP3dH8WzcYw84zVdu0Aw==
+ox@0.6.5:
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/ox/-/ox-0.6.5.tgz#e6506a589bd6af9b5fecfcb2c641b63c9882edb6"
+  integrity sha512-vmnH8KvMDwFZDbNY1mq2CBRBWIgSliZB/dFV0xKp+DfF/dJkTENt6nmA+DzHSSAgL/GO2ydjkXWvlndJgSY4KQ==
   dependencies:
     "@adraffy/ens-normalize" "^1.10.1"
     "@noble/curves" "^1.6.0"
@@ -11281,10 +11281,10 @@ vfile@^6.0.0, vfile@^6.0.1:
     unist-util-stringify-position "^4.0.0"
     vfile-message "^4.0.0"
 
-viem@^2.22.8:
-  version "2.22.8"
-  resolved "https://registry.yarnpkg.com/viem/-/viem-2.22.8.tgz#fbc51215133066b89730e9a2aa2c7c0cb975a8e8"
-  integrity sha512-iB3PW/a/qzpYbpjo3R662u6a/zo6piZHez/N/bOC25C79FYXBCs8mQDqwiHk3FYErUhS4KVZLabKV9zGMd+EgQ==
+viem@^2.22.10:
+  version "2.22.10"
+  resolved "https://registry.yarnpkg.com/viem/-/viem-2.22.10.tgz#64fdfdc6ded7e9f372da0caf30f781aca517b24a"
+  integrity sha512-amYq+bxD3k9gUx4JXzKtpKrnw1Mc3f4s32g6Axo8twpum+47r+9M2g+qh63gzrs0goTTVUsmg3n9ev+zELKRDw==
   dependencies:
     "@noble/curves" "1.7.0"
     "@noble/hashes" "1.6.1"
@@ -11292,8 +11292,7 @@ viem@^2.22.8:
     "@scure/bip39" "1.5.0"
     abitype "1.0.7"
     isows "1.0.6"
-    ox "0.6.0"
-    webauthn-p256 "0.0.10"
+    ox "0.6.5"
     ws "8.18.0"
 
 vm-browserify@^1.1.2:
@@ -11351,14 +11350,6 @@ web3-utils@^1.3.4:
     number-to-bn "1.7.0"
     randombytes "^2.1.0"
     utf8 "3.0.0"
-
-webauthn-p256@0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/webauthn-p256/-/webauthn-p256-0.0.10.tgz#877e75abe8348d3e14485932968edf3325fd2fdd"
-  integrity sha512-EeYD+gmIT80YkSIDb2iWq0lq2zbHo1CxHlQTeJ+KkCILWpVy3zASH3ByD4bopzfk0uCwXxLqKGLqp2W4O28VFA==
-  dependencies:
-    "@noble/curves" "^1.4.0"
-    "@noble/hashes" "^1.4.0"
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

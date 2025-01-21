@@ -53,7 +53,7 @@
     "@apollo/client": "^3.7.16",
     "@turnkey/viem": "0.4.16",
     "@zerodev/ecdsa-validator": "^5.4.1",
-    "@zerodev/sdk": "^5.4.9",
+    "@zerodev/sdk": "^5.4.14",
     "@zerodev/session-key": "^5.5.0",
     "assert": "^2.0.0",
     "cross-fetch": "^4.0.0",
@@ -76,7 +76,7 @@
     "stream-http": "^3.2.0",
     "url": "^0.11.0",
     "uuid": "^9.0.1",
-    "viem": "^2.22.8",
+    "viem": "^2.22.10",
     "vm-browserify": "^1.1.2",
     "whatwg-url": "^14.0.0"
   },
@@ -84,7 +84,7 @@
     "@zerodev/ecdsa-validator": "^5.4.1",
     "@zerodev/sdk": "^5.4.9",
     "@zerodev/session-key": "^5.5.0",
-    "viem": "^2.22.8"
+    "viem": "^2.22.10"
   },
   "devDependencies": {
     "@ambire/signature-validator": "^1.4.1",
