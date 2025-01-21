@@ -66,7 +66,7 @@ export async function getWeb3ViemClients(
   const walletClient = createWalletClient({
     // cacheTime: 0 as number,
     chain,
-    transport: config.zeroDevProjectId ? http() : providerTransport,
+    transport: providerTransport,
   })
 
   return {
