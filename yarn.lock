@@ -2623,10 +2623,10 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@zerodev/ecdsa-validator@^5.4.1":
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.4.1.tgz#bea10d0a3364414541e726a1299b68e2d3e2ee91"
-  integrity sha512-tIf4PO6xVbxTG2wgHcKQGrMa/q8ldi1d7PbpElugXSzzVhUSaKNMxtpzHeAY+zYV7uFpzFYkqHcNs0aD1lvJ+Q==
+"@zerodev/ecdsa-validator@^5.4.3":
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/@zerodev/ecdsa-validator/-/ecdsa-validator-5.4.3.tgz#b09acb23acd2276c6f85a91ceff5a496d288197b"
+  integrity sha512-nvIdfWZnbwfxzEmH/q5bLUy1ZNh2L0i/e8Ffz5ALY2NE4GRNZ6SsBpAG1O81XVX+PSjBlmF5pZLxYcQ9I57t9A==
 
 "@zerodev/sdk@^5.4.14":
   version "5.4.14"
@@ -2635,10 +2635,10 @@
   dependencies:
     semver "^7.6.0"
 
-"@zerodev/session-key@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@zerodev/session-key/-/session-key-5.5.0.tgz#2d78c65e16b976c1128451b123ff456ff0158c8d"
-  integrity sha512-gonHdGubD/9VKgAhD8WrYdNDIKJsRxIwufNqtP/+fdH0vcWhpyM6dBw7ntbw2OGjeSqC8+0Mf5eRrv9nIdIucQ==
+"@zerodev/session-key@^5.5.1":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@zerodev/session-key/-/session-key-5.5.1.tgz#4571ada5cf8de78f1d9a7b6cf7ff822668bf628b"
+  integrity sha512-mx9L/3F4u+1edvHMZo9fnuMXEu6x96WC1otC2NuGokOm8OsgBY0jWUwb/AqlUPKpbodnZAuj69ufns5C0ea/xw==
   dependencies:
     merkletreejs "^0.3.11"
 

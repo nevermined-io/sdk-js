@@ -5,7 +5,7 @@ import {
   createZeroDevPaymasterClient,
   getUserOperationGasPrice,
 } from '@zerodev/sdk'
-import { KERNEL_7702_DELEGATION_ADDRESS, KERNEL_V2_4, getEntryPoint } from '@zerodev/sdk/constants'
+import { KERNEL_V2_4, getEntryPoint } from '@zerodev/sdk/constants'
 import {
   deserializeSessionKeyAccount,
   oneAddress,
@@ -20,7 +20,6 @@ import {
   PublicClient,
   TransactionReceiptNotFoundError,
   createPublicClient,
-  createWalletClient,
   encodeAbiParameters,
   getAbiItem,
   getAddress,
@@ -52,7 +51,6 @@ import { KeeperError } from '../../errors/NeverminedErrors'
 import { NvmAccount } from '../../models/NvmAccount'
 import { didZeroX } from '../../utils/ConversionTypeHelpers'
 import { getChain } from '../../utils/Network'
-import { eip7702Actions } from 'viem/experimental'
 
 const ENTRY_POINT_VERSION = '0.6'
 
@@ -534,12 +532,7 @@ export const formatEther = (value: bigint): string => {
  * @param zeroDevProjectId the zero dev project id, you can get it from the ZeroDev dashboard
  * @returns the kernel client
  */
-export async function createKernelClient(
-  signer: any,
-  chainId: number,
-  zeroDevProjectId: string,
-  address?: any,
-) {
+export async function createKernelClient(signer: any, chainId: number, zeroDevProjectId: string) {
   const publicClient = createPublicClient({
     chain: getChain(chainId),
     transport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
@@ -551,26 +544,12 @@ export async function createKernelClient(
     kernelVersion: KERNEL_V2_4,
   })
 
-  const walletClient = createWalletClient({
-    account: signer,
-    chain: getChain(chainId),
-    transport: http(),
-  }).extend(eip7702Actions())
-
-  const authorization = await walletClient.signAuthorization({
-    account: signer,
-    contractAddress: KERNEL_7702_DELEGATION_ADDRESS,
-  })
-
   const account = await createKernelAccount(publicClient, {
     plugins: {
       sudo: ecdsaValidator,
     },
     entryPoint: getEntryPoint(ENTRY_POINT_VERSION),
     kernelVersion: KERNEL_V2_4,
-    address: address ? address : signer.selectedAddress,
-
-    eip7702Auth: authorization,
   })
 
   return createKernelAccountClient({

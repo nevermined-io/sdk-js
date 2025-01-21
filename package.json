@@ -1,6 +1,6 @@
 {
   "name": "@nevermined-io/sdk",
-  "version": "3.0.49-rc2",
+  "version": "3.0.49-rc3",
   "description": "Javascript SDK for connecting with Nevermined Data Platform ",
   "main": "./dist/node/sdk.js",
   "typings": "./dist/node/sdk.d.ts",
@@ -52,9 +52,9 @@
   "dependencies": {
     "@apollo/client": "^3.7.16",
     "@turnkey/viem": "0.4.16",
-    "@zerodev/ecdsa-validator": "^5.4.1",
+    "@zerodev/ecdsa-validator": "^5.4.3",
     "@zerodev/sdk": "^5.4.14",
-    "@zerodev/session-key": "^5.5.0",
+    "@zerodev/session-key": "^5.5.1",
     "assert": "^2.0.0",
     "cross-fetch": "^4.0.0",
     "crypto-browserify": "^3.12.0",
@@ -81,9 +81,9 @@
     "whatwg-url": "^14.0.0"
   },
   "peerDependencies": {
-    "@zerodev/ecdsa-validator": "^5.4.1",
-    "@zerodev/sdk": "^5.4.9",
-    "@zerodev/session-key": "^5.5.0",
+    "@zerodev/ecdsa-validator": "^5.4.3",
+    "@zerodev/sdk": "^5.4.14",
+    "@zerodev/session-key": "^5.5.1",
     "viem": "^2.22.10"
   },
   "devDependencies": {
