@@ -535,7 +535,7 @@ export const formatEther = (value: bigint): string => {
 export async function createKernelClient(signer: any, chainId: number, zeroDevProjectId: string) {
   const publicClient = createPublicClient({
     chain: getChain(chainId),
-    transport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
+    transport: http(),
   })
 
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
