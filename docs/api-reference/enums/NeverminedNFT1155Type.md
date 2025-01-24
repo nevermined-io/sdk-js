@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.48](../code-reference.md) / NeverminedNFT1155Type
+[@nevermined-io/sdk - v3.0.49](../code-reference.md) / NeverminedNFT1155Type
 
 # Enumeration: NeverminedNFT1155Type
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:27](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/types/GeneralTypes.ts#L27)
+[src/types/GeneralTypes.ts:27](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/types/GeneralTypes.ts#L27)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/GeneralTypes.ts:28](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/types/GeneralTypes.ts#L28)
+[src/types/GeneralTypes.ts:28](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/types/GeneralTypes.ts#L28)
