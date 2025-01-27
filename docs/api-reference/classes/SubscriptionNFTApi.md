@@ -105,7 +105,7 @@ Allows the interaction with external ERC-721 NFT contracts built on top of the N
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:27](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L27)
+[src/nevermined/api/nfts/NFT721Api.ts:27](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L27)
 
 ---
 
@@ -123,7 +123,7 @@ Allows the interaction with external ERC-721 NFT contracts built on top of the N
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/RegistryBaseApi.ts#L39)
+[src/nevermined/api/RegistryBaseApi.ts:39](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/RegistryBaseApi.ts#L39)
 
 ## Accessors
 
@@ -145,7 +145,7 @@ NFT721Api.address
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:60](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L60)
+[src/nevermined/api/nfts/NFT721Api.ts:60](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L60)
 
 ---
 
@@ -163,7 +163,7 @@ NFT721Api.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L136)
 
 ---
 
@@ -181,7 +181,7 @@ NFT721Api.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L140)
 
 ---
 
@@ -199,7 +199,7 @@ NFT721Api.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:88](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L88)
+[src/Instantiable.abstract.ts:88](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L88)
 
 ---
 
@@ -217,7 +217,7 @@ NFT721Api.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:119](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L119)
+[src/Instantiable.abstract.ts:119](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L119)
 
 ---
 
@@ -239,7 +239,7 @@ NFT721Api.getContract
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:68](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L68)
+[src/nevermined/api/nfts/NFT721Api.ts:68](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L68)
 
 ---
 
@@ -257,7 +257,7 @@ NFT721Api.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:144](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L144)
+[src/Instantiable.abstract.ts:144](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L144)
 
 ---
 
@@ -275,7 +275,7 @@ NFT721Api.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:112](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L112)
+[src/Instantiable.abstract.ts:112](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L112)
 
 ---
 
@@ -293,7 +293,7 @@ NFT721Api.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:127](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L127)
+[src/Instantiable.abstract.ts:127](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L127)
 
 ---
 
@@ -311,7 +311,7 @@ NFT721Api.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L80)
 
 ---
 
@@ -398,7 +398,7 @@ NFT721Api.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L96)
 
 ---
 
@@ -449,7 +449,7 @@ NFT721Api.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:104](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L104)
+[src/Instantiable.abstract.ts:104](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L104)
 
 ## Methods
 
@@ -492,7 +492,7 @@ assert.equal(details.owner, artist.getId())
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:152](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFTsBaseApi.ts#L152)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:152](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFTsBaseApi.ts#L152)
 
 ---
 
@@ -538,7 +538,7 @@ const result = await nevermined.nfts1155.access(ddo.id, collector, '/tmp/')
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:427](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFTsBaseApi.ts#L427)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:427](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFTsBaseApi.ts#L427)
 
 ---
 
@@ -571,7 +571,7 @@ Given a DID, it adds a vote to the asset curation information.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:564](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/RegistryBaseApi.ts#L564)
+[src/nevermined/api/RegistryBaseApi.ts:564](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/RegistryBaseApi.ts#L564)
 
 ---
 
@@ -605,7 +605,7 @@ const balance = await nevermined.nfts721.balance(artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:506](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L506)
+[src/nevermined/api/nfts/NFT721Api.ts:506](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L506)
 
 ---
 
@@ -645,7 +645,7 @@ await nevermined.nfts721.burn(tokenId, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:348](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L348)
+[src/nevermined/api/nfts/NFT721Api.ts:348](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L348)
 
 ---
 
@@ -688,7 +688,7 @@ Thrown if there is an error buying the NFT.
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:345](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFTsBaseApi.ts#L345)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:345](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFTsBaseApi.ts#L345)
 
 ---
 
@@ -735,7 +735,7 @@ const receipt = await nevermined.nfts721.claim(agreementId, editor.getId(), subs
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:198](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L198)
+[src/nevermined/api/nfts/NFT721Api.ts:198](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L198)
 
 ---
 
@@ -794,7 +794,7 @@ const receipt = await nevermined.nfts721.claim(
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFTsBaseApi.ts#L52)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFTsBaseApi.ts#L52)
 
 ---
 
@@ -850,7 +850,7 @@ ddo = await nevermined.nfts721.create(
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:102](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L102)
+[src/nevermined/api/nfts/NFT721Api.ts:102](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L102)
 
 ---
 
@@ -892,7 +892,7 @@ assert.equal(details.owner, artist.getId())
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:638](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L638)
+[src/nevermined/api/nfts/NFT721Api.ts:638](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L638)
 
 ---
 
@@ -930,7 +930,7 @@ assert.isDefined(response.neverminedProxyUri)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:490](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFTsBaseApi.ts#L490)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:490](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFTsBaseApi.ts#L490)
 
 ---
 
@@ -967,7 +967,7 @@ await nevermined.nfts721.grantOperatorRole(someoneElse, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:584](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L584)
+[src/nevermined/api/nfts/NFT721Api.ts:584](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L584)
 
 ---
 
@@ -1002,7 +1002,7 @@ await nevermined.nfts721.isApprovedForAll(someoneElse, artist.getId())
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:490](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L490)
+[src/nevermined/api/nfts/NFT721Api.ts:490](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L490)
 
 ---
 
@@ -1032,7 +1032,7 @@ operator status of address as a boolean
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:118](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFTsBaseApi.ts#L118)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:118](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFTsBaseApi.ts#L118)
 
 ---
 
@@ -1061,7 +1061,7 @@ true if the address is an operator of the NFT
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:648](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L648)
+[src/nevermined/api/nfts/NFT721Api.ts:648](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L648)
 
 ---
 
@@ -1094,7 +1094,7 @@ In a Nevermined environment, when an asset is unlisted, it is not possible to be
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:512](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/RegistryBaseApi.ts#L512)
+[src/nevermined/api/RegistryBaseApi.ts:512](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/RegistryBaseApi.ts#L512)
 
 ---
 
@@ -1146,7 +1146,7 @@ Thrown if there is an error listing the NFT.
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:262](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFTsBaseApi.ts#L262)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:262](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFTsBaseApi.ts#L262)
 
 ---
 
@@ -1184,7 +1184,7 @@ await nevermined.nfts721.mint(ddo.id, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:324](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L324)
+[src/nevermined/api/nfts/NFT721Api.ts:324](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L324)
 
 ---
 
@@ -1224,7 +1224,7 @@ await nevermined.nfts721.mintWithURL(receiverAddress, ddo.id, nftMetadata, artis
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:368](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L368)
+[src/nevermined/api/nfts/NFT721Api.ts:368](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L368)
 
 ---
 
@@ -1266,7 +1266,7 @@ const agreementId = await nevermined.nfts721.order(ddo.id, collector)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:139](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L139)
+[src/nevermined/api/nfts/NFT721Api.ts:139](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L139)
 
 ---
 
@@ -1298,7 +1298,7 @@ The agreement ID.
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:615](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/RegistryBaseApi.ts#L615)
+[src/nevermined/api/RegistryBaseApi.ts:615](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/RegistryBaseApi.ts#L615)
 
 ---
 
@@ -1332,7 +1332,7 @@ const nftContractOwner = new NvmAccount(await nevermined.nfts721.ownerOf())
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:417](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L417)
+[src/nevermined/api/nfts/NFT721Api.ts:417](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L417)
 
 ---
 
@@ -1366,7 +1366,7 @@ const owner = await nevermined.nfts721.ownerOfAsset(ddo.id, nftTokenAddress)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:451](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L451)
+[src/nevermined/api/nfts/NFT721Api.ts:451](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L451)
 
 ---
 
@@ -1401,7 +1401,7 @@ const owner = await nevermined.nfts721.ownerOfAssetByAgreement(ddo.id, agreement
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:468](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L468)
+[src/nevermined/api/nfts/NFT721Api.ts:468](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L468)
 
 ---
 
@@ -1435,7 +1435,7 @@ const owner = await nevermined.nfts721.ownerOfTokenId(tokenId)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:434](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L434)
+[src/nevermined/api/nfts/NFT721Api.ts:434](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L434)
 
 ---
 
@@ -1472,7 +1472,7 @@ The metadata of the asset created (DDO)
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/RegistryBaseApi.ts#L52)
+[src/nevermined/api/RegistryBaseApi.ts:52](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/RegistryBaseApi.ts#L52)
 
 ---
 
@@ -1519,7 +1519,7 @@ Thrown if there is an error releasing the rewards.
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:283](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L283)
+[src/nevermined/api/nfts/NFT721Api.ts:283](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L283)
 
 ---
 
@@ -1561,7 +1561,7 @@ Thrown if there is an error releasing the rewards.
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:529](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L529)
+[src/nevermined/api/nfts/NFT721Api.ts:529](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L529)
 
 ---
 
@@ -1591,7 +1591,7 @@ Depending of the resolution policy it prioritize fetching that Metadata from the
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:349](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/RegistryBaseApi.ts#L349)
+[src/nevermined/api/RegistryBaseApi.ts:349](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/RegistryBaseApi.ts#L349)
 
 ---
 
@@ -1628,7 +1628,7 @@ await nevermined.nfts721.revokeOperatorRole(someoneElse, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:610](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L610)
+[src/nevermined/api/nfts/NFT721Api.ts:610](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L610)
 
 ---
 
@@ -1665,7 +1665,7 @@ await nevermined.nfts721.setApprovalForAll(someoneElse, true, artist)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:396](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L396)
+[src/nevermined/api/nfts/NFT721Api.ts:396](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L396)
 
 ---
 
@@ -1689,7 +1689,7 @@ await nevermined.nfts721.setApprovalForAll(someoneElse, true, artist)
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L162)
 
 ---
 
@@ -1738,7 +1738,7 @@ Thrown if there is an error transferring the NFT
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:232](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L232)
+[src/nevermined/api/nfts/NFT721Api.ts:232](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L232)
 
 ---
 
@@ -1770,7 +1770,7 @@ Given a DID, updates the metadata associated to the asset. It also can upload th
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:392](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/RegistryBaseApi.ts#L392)
+[src/nevermined/api/RegistryBaseApi.ts:392](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/RegistryBaseApi.ts#L392)
 
 ---
 
@@ -1797,7 +1797,7 @@ The Subscription NFT API instance [SubscriptionNFTApi](SubscriptionNFTApi.md).
 
 #### Defined in
 
-[src/nevermined/api/nfts/SubscriptionNFTApi.ts:45](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/SubscriptionNFTApi.ts#L45)
+[src/nevermined/api/nfts/SubscriptionNFTApi.ts:45](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/SubscriptionNFTApi.ts#L45)
 
 ---
 
@@ -1832,7 +1832,7 @@ nfts721 = await Nft721Api.getInstance(instanceConfig, nftContractAddress)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFT721Api.ts:44](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFT721Api.ts#L44)
+[src/nevermined/api/nfts/NFT721Api.ts:44](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFT721Api.ts#L44)
 
 ---
 
@@ -1858,7 +1858,7 @@ The Subscription NFT API instance [SubscriptionNFTApi](SubscriptionNFTApi.md).
 
 #### Defined in
 
-[src/nevermined/api/nfts/SubscriptionNFTApi.ts:20](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/SubscriptionNFTApi.ts#L20)
+[src/nevermined/api/nfts/SubscriptionNFTApi.ts:20](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/SubscriptionNFTApi.ts#L20)
 
 ---
 
@@ -1893,7 +1893,7 @@ const nftContractAddress = NFT1155Api.getNFTContractAddress(ddo)
 
 #### Defined in
 
-[src/nevermined/api/nfts/NFTsBaseApi.ts:221](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/nfts/NFTsBaseApi.ts#L221)
+[src/nevermined/api/nfts/NFTsBaseApi.ts:221](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/nfts/NFTsBaseApi.ts#L221)
 
 ---
 
@@ -1928,7 +1928,7 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/nevermined/api/RegistryBaseApi.ts:670](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/nevermined/api/RegistryBaseApi.ts#L670)
+[src/nevermined/api/RegistryBaseApi.ts:670](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/api/RegistryBaseApi.ts#L670)
 
 ---
 
@@ -1959,4 +1959,4 @@ The Nevermined Service Plugin instance
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:153](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L153)
+[src/Instantiable.abstract.ts:153](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L153)

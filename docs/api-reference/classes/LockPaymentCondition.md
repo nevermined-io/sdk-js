@@ -85,7 +85,7 @@ ConsumerCondition\<ConditionContext\>.constructor
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L23)
+[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L23)
 
 ## Properties
 
@@ -99,7 +99,7 @@ ConsumerCondition.address
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L21)
+[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L21)
 
 ---
 
@@ -113,7 +113,7 @@ ConsumerCondition.contract
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L18)
+[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L18)
 
 ---
 
@@ -127,7 +127,7 @@ ConsumerCondition.contractName
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:17](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L17)
+[src/keeper/contracts/ContractBase.ts:17](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L17)
 
 ---
 
@@ -141,7 +141,7 @@ ConsumerCondition.events
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L19)
+[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L19)
 
 ---
 
@@ -155,7 +155,7 @@ ConsumerCondition.version
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L20)
+[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L20)
 
 ## Accessors
 
@@ -173,7 +173,7 @@ ConsumerCondition.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L136)
 
 ---
 
@@ -191,7 +191,7 @@ ConsumerCondition.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L140)
 
 ---
 
@@ -209,7 +209,7 @@ ConsumerCondition.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:88](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L88)
+[src/Instantiable.abstract.ts:88](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L88)
 
 ---
 
@@ -227,7 +227,7 @@ ConsumerCondition.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:119](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L119)
+[src/Instantiable.abstract.ts:119](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L119)
 
 ---
 
@@ -245,7 +245,7 @@ ConsumerCondition.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:144](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L144)
+[src/Instantiable.abstract.ts:144](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L144)
 
 ---
 
@@ -263,7 +263,7 @@ ConsumerCondition.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:112](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L112)
+[src/Instantiable.abstract.ts:112](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L112)
 
 ---
 
@@ -281,7 +281,7 @@ ConsumerCondition.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:127](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L127)
+[src/Instantiable.abstract.ts:127](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L127)
 
 ---
 
@@ -299,7 +299,7 @@ ConsumerCondition.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L80)
 
 ---
 
@@ -386,7 +386,7 @@ ConsumerCondition.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L96)
 
 ---
 
@@ -437,7 +437,7 @@ ConsumerCondition.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:104](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L104)
+[src/Instantiable.abstract.ts:104](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L104)
 
 ## Methods
 
@@ -463,7 +463,7 @@ ConsumerCondition.abortByTimeOut
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:75](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L75)
+[src/keeper/contracts/conditions/Condition.abstract.ts:75](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L75)
 
 ---
 
@@ -495,7 +495,7 @@ ConsumerCondition.call
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:91](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L91)
+[src/keeper/contracts/ContractBase.ts:91](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L91)
 
 ---
 
@@ -526,7 +526,7 @@ ConsumerCondition.fulfill
 
 #### Defined in
 
-[src/keeper/contracts/conditions/LockPaymentCondition.ts:42](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/LockPaymentCondition.ts#L42)
+[src/keeper/contracts/conditions/LockPaymentCondition.ts:42](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/LockPaymentCondition.ts#L42)
 
 ---
 
@@ -554,7 +554,7 @@ ConsumerCondition.fulfillInstance
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:139](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L139)
+[src/keeper/contracts/conditions/Condition.abstract.ts:139](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L139)
 
 ---
 
@@ -582,7 +582,7 @@ ConsumerCondition.fulfillPlain
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:47](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L47)
+[src/keeper/contracts/conditions/Condition.abstract.ts:47](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L47)
 
 ---
 
@@ -609,7 +609,7 @@ ConsumerCondition.fulfillWithNode
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:209](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L209)
+[src/keeper/contracts/conditions/Condition.abstract.ts:209](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L209)
 
 ---
 
@@ -634,7 +634,7 @@ ConsumerCondition.generateId
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:61](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L61)
+[src/keeper/contracts/conditions/Condition.abstract.ts:61](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L61)
 
 ---
 
@@ -659,7 +659,7 @@ ConsumerCondition.generateIdHash
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L57)
+[src/keeper/contracts/conditions/Condition.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L57)
 
 ---
 
@@ -684,7 +684,7 @@ ConsumerCondition.generateIdWithSeed
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:65](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L65)
+[src/keeper/contracts/conditions/Condition.abstract.ts:65](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L65)
 
 ---
 
@@ -708,7 +708,7 @@ ConsumerCondition.getConditionFulfilledEvent
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:79](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L79)
+[src/keeper/contracts/conditions/Condition.abstract.ts:79](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L79)
 
 ---
 
@@ -732,7 +732,7 @@ ConsumerCondition.getFromAddress
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:67](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L67)
+[src/keeper/contracts/ContractBase.ts:67](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L67)
 
 ---
 
@@ -757,7 +757,7 @@ ConsumerCondition.getTransactionLogs
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:75](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L75)
+[src/keeper/contracts/ContractBase.ts:75](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L75)
 
 ---
 
@@ -781,7 +781,7 @@ ConsumerCondition.hashValues
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:116](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L116)
+[src/keeper/contracts/conditions/Condition.abstract.ts:116](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L116)
 
 ---
 
@@ -805,7 +805,7 @@ ConsumerCondition.hashValuesPlain
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:122](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L122)
+[src/keeper/contracts/conditions/Condition.abstract.ts:122](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L122)
 
 ---
 
@@ -831,7 +831,7 @@ ConsumerCondition.init
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L28)
+[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L28)
 
 ---
 
@@ -856,7 +856,7 @@ ConsumerCondition.instance
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L163)
+[src/keeper/contracts/conditions/Condition.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L163)
 
 ---
 
@@ -882,7 +882,7 @@ ConsumerCondition.instanceFromDDO
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:131](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/Condition.abstract.ts#L131)
+[src/keeper/contracts/conditions/Condition.abstract.ts:131](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L131)
 
 ---
 
@@ -910,7 +910,7 @@ ConsumerCondition.params
 
 #### Defined in
 
-[src/keeper/contracts/conditions/LockPaymentCondition.ts:13](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/LockPaymentCondition.ts#L13)
+[src/keeper/contracts/conditions/LockPaymentCondition.ts:13](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/LockPaymentCondition.ts#L13)
 
 ---
 
@@ -934,7 +934,7 @@ ConsumerCondition.paramsFromDDO
 
 #### Defined in
 
-[src/keeper/contracts/conditions/LockPaymentCondition.ts:31](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/LockPaymentCondition.ts#L31)
+[src/keeper/contracts/conditions/LockPaymentCondition.ts:31](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/LockPaymentCondition.ts#L31)
 
 ---
 
@@ -961,7 +961,7 @@ ConsumerCondition.send
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:127](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L127)
+[src/keeper/contracts/ContractBase.ts:127](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L127)
 
 ---
 
@@ -988,7 +988,7 @@ ConsumerCondition.sendFrom
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:108](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L108)
+[src/keeper/contracts/ContractBase.ts:108](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L108)
 
 ---
 
@@ -1012,7 +1012,7 @@ ConsumerCondition.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L162)
 
 ---
 
@@ -1036,7 +1036,7 @@ ConsumerCondition.someLog
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:84](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/ContractBase.ts#L84)
+[src/keeper/contracts/ContractBase.ts:84](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L84)
 
 ---
 
@@ -1060,7 +1060,7 @@ ConsumerCondition.getInstance
 
 #### Defined in
 
-[src/keeper/contracts/conditions/LockPaymentCondition.ts:9](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/keeper/contracts/conditions/LockPaymentCondition.ts#L9)
+[src/keeper/contracts/conditions/LockPaymentCondition.ts:9](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/LockPaymentCondition.ts#L9)
 
 ---
 
@@ -1091,4 +1091,4 @@ ConsumerCondition.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:153](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/Instantiable.abstract.ts#L153)
+[src/Instantiable.abstract.ts:153](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L153)
