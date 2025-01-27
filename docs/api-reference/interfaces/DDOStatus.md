@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.48](../code-reference.md) / DDOStatus
+[@nevermined-io/sdk - v3.0.49](../code-reference.md) / DDOStatus
 
 # Interface: DDOStatus
 
@@ -26,7 +26,7 @@
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:25](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/services/metadata/MetadataService.ts#L25)
+[src/services/metadata/MetadataService.ts:25](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/services/metadata/MetadataService.ts#L25)
 
 ---
 
@@ -45,4 +45,4 @@
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:19](https://github.com/nevermined-io/sdk-js/blob/3dcdc40df4b696818df973436cd5db5f9720688a/src/services/metadata/MetadataService.ts#L19)
+[src/services/metadata/MetadataService.ts:19](https://github.com/nevermined-io/sdk-js/blob/46581d70d770c789e0a8545806449cccf988f6aa/src/services/metadata/MetadataService.ts#L19)
