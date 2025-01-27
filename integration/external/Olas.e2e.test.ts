@@ -26,6 +26,9 @@ describe('OLAS e2e tests', () => {
   const OLAS_MARKETPLACE_ADDRESS: string = process.env.OLAS_MARKETPLACE_ADDRESS || ZeroAddress
   const TOKEN_ADDRESS: string = process.env.TOKEN_ADDRESS || ZeroAddress
 
+  const PLAN_DID = process.env.PLAN_DID || undefined
+  const USE_EXISTING_PLAN = PLAN_DID && PLAN_DID.startsWith('did:nv')
+
   let IS_NATIVE_TOKEN = false
 
   // 10000
@@ -144,28 +147,33 @@ describe('OLAS e2e tests', () => {
       subscriptionNFT = await nevermined.contracts.loadNft1155(SUBSCRIPTION_NFT_ADDRESS)
 
       console.debug(`Using Subscription NFT address: ${subscriptionNFT.address}`)
-
       assert.equal(nevermined.nfts1155.getContract.address, subscriptionNFT.address)
 
-      const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
-        metadata: subscriptionMetadata,
-        services: [
-          {
-            serviceType: 'nft-sales',
-            price: planPrice,
-            nft: { amount: SUBSCRIPTION_CREDITS, nftTransfer },
-          },
-        ],
-        providers: [neverminedNodeAddress, OLAS_MARKETPLACE_ADDRESS],
-        nftContractAddress: subscriptionNFT.address,
-        preMint,
-      })
-      subscriptionDDO = await nevermined.nfts1155.create(nftAttributes, publisher)
+      if (USE_EXISTING_PLAN) {
+        console.log(`USING PLAN DID PASS BY PARAMETER: ${PLAN_DID}`)
+        subscriptionDDO = await nevermined.assets.resolve(PLAN_DID)
+      } else {
+        console.log(`PUBLISHING NEW PLAN`)
+        const nftAttributes = NFTAttributes.getCreditsSubscriptionInstance({
+          metadata: subscriptionMetadata,
+          services: [
+            {
+              serviceType: 'nft-sales',
+              price: planPrice,
+              nft: { amount: SUBSCRIPTION_CREDITS, nftTransfer },
+            },
+          ],
+          providers: [neverminedNodeAddress, OLAS_MARKETPLACE_ADDRESS],
+          nftContractAddress: subscriptionNFT.address,
+          preMint,
+        })
+        subscriptionDDO = await nevermined.nfts1155.create(nftAttributes, publisher)
+        assert.equal(await subscriptionNFT.balance(subscriptionDDO.id, publisher.getId()), 0n)
+      }
 
-      assert.equal(await subscriptionNFT.balance(subscriptionDDO.id, publisher.getId()), 0n)
       assert.isDefined(subscriptionDDO)
       console.log(`OLAS Plan DID: ${subscriptionDDO.id}`)
-      console.log(`  DID Providerss: ${neverminedNodeAddress} - ${OLAS_MARKETPLACE_ADDRESS}`)
+      console.log(`  DID Providers: ${neverminedNodeAddress} - ${OLAS_MARKETPLACE_ADDRESS}`)
     })
 
     it('should grant Nevermined the operator role', async () => {
@@ -181,7 +189,8 @@ describe('OLAS e2e tests', () => {
   describe('As a subscriber I want to buy the OLAS plan', () => {
     it('I check the details of the subscription NFT', async () => {
       const details = await nevermined.nfts1155.details(subscriptionDDO.id)
-      assert.equal(details.owner, publisher.getId())
+      if (USE_EXISTING_PLAN) assert.isDefined(details.owner)
+      else assert.equal(details.owner, publisher.getId())
     })
 
     it('I am ordering the subscription NFT', async () => {
@@ -217,7 +226,7 @@ describe('OLAS e2e tests', () => {
       console.log(
         `Credits Balance Before (JSON): ${JSON.stringify(creditsBalanceBefore.toString())}`,
       )
-      assert.isTrue(creditsBalanceBefore === 0n)
+      if (!USE_EXISTING_PLAN) assert.isTrue(creditsBalanceBefore === 0n)
 
       try {
         const receipt = await nevermined.nfts1155.claim(
@@ -251,7 +260,7 @@ describe('OLAS e2e tests', () => {
       )
       const balanceAfter = await subscriptionNFT.balance(subscriptionDDO.id, subscriber.getId())
       console.log(`Balance After Purchase is completed: ${balanceAfter}`)
-      assert.isTrue(balanceAfter === SUBSCRIPTION_CREDITS)
+      assert.isTrue(balanceAfter >= SUBSCRIPTION_CREDITS)
     })
 
     it('the editor and reseller can receive their payment', async () => {
