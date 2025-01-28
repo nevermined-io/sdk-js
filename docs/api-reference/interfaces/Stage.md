@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.49](../code-reference.md) / Stage
+[@nevermined-io/sdk - v3.1.0](../code-reference.md) / Stage
 
 # Interface: Stage
 
@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:54](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/types/DDOTypes.ts#L54)
+[src/types/DDOTypes.ts:54](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L54)
 
 ---
 
@@ -30,7 +30,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:56](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/types/DDOTypes.ts#L56)
+[src/types/DDOTypes.ts:56](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L56)
 
 ---
 
@@ -40,7 +40,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:58](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/types/DDOTypes.ts#L58)
+[src/types/DDOTypes.ts:58](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L58)
 
 ---
 
@@ -50,7 +50,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:55](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/types/DDOTypes.ts#L55)
+[src/types/DDOTypes.ts:55](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L55)
 
 ---
 
@@ -60,4 +60,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:57](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/types/DDOTypes.ts#L57)
+[src/types/DDOTypes.ts:57](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L57)

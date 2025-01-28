@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.49](../code-reference.md) / WebServiceConnector
+[@nevermined-io/sdk - v3.1.0](../code-reference.md) / WebServiceConnector
 
 # Class: WebServiceConnector
 
@@ -49,7 +49,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:26](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L26)
+[src/nevermined/utils/WebServiceConnector.ts:26](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L26)
 
 ## Properties
 
@@ -59,7 +59,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:24](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L24)
+[src/nevermined/utils/WebServiceConnector.ts:24](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L24)
 
 ## Methods
 
@@ -79,7 +79,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:238](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L238)
+[src/nevermined/utils/WebServiceConnector.ts:238](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L238)
 
 ---
 
@@ -101,7 +101,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:71](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L71)
+[src/nevermined/utils/WebServiceConnector.ts:71](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L71)
 
 ---
 
@@ -124,7 +124,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:86](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L86)
+[src/nevermined/utils/WebServiceConnector.ts:86](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L86)
 
 ---
 
@@ -145,7 +145,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:139](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L139)
+[src/nevermined/utils/WebServiceConnector.ts:139](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L139)
 
 ---
 
@@ -167,7 +167,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:221](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L221)
+[src/nevermined/utils/WebServiceConnector.ts:221](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L221)
 
 ---
 
@@ -187,7 +187,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:193](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L193)
+[src/nevermined/utils/WebServiceConnector.ts:193](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L193)
 
 ---
 
@@ -210,7 +210,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:165](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L165)
+[src/nevermined/utils/WebServiceConnector.ts:165](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L165)
 
 ---
 
@@ -231,7 +231,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:47](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L47)
+[src/nevermined/utils/WebServiceConnector.ts:47](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L47)
 
 ---
 
@@ -253,7 +253,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:113](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L113)
+[src/nevermined/utils/WebServiceConnector.ts:113](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L113)
 
 ---
 
@@ -275,7 +275,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:32](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L32)
+[src/nevermined/utils/WebServiceConnector.ts:32](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L32)
 
 ---
 
@@ -297,7 +297,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:56](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L56)
+[src/nevermined/utils/WebServiceConnector.ts:56](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L56)
 
 ---
 
@@ -319,7 +319,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:156](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L156)
+[src/nevermined/utils/WebServiceConnector.ts:156](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L156)
 
 ---
 
@@ -341,7 +341,7 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:147](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L147)
+[src/nevermined/utils/WebServiceConnector.ts:147](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L147)
 
 ---
 
@@ -355,4 +355,4 @@ Provides a common interface to web services.
 
 #### Defined in
 
-[src/nevermined/utils/WebServiceConnector.ts:211](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/nevermined/utils/WebServiceConnector.ts#L211)
+[src/nevermined/utils/WebServiceConnector.ts:211](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/utils/WebServiceConnector.ts#L211)

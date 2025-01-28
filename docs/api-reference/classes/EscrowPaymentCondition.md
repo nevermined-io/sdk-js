@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.49](../code-reference.md) / EscrowPaymentCondition
+[@nevermined-io/sdk - v3.1.0](../code-reference.md) / EscrowPaymentCondition
 
 # Class: EscrowPaymentCondition
 
@@ -86,7 +86,7 @@ ProviderCondition\<EscrowPaymentConditionContext\>.constructor
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L23)
+[src/keeper/contracts/ContractBase.ts:23](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L23)
 
 ## Properties
 
@@ -100,7 +100,7 @@ ProviderCondition.address
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L21)
+[src/keeper/contracts/ContractBase.ts:21](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L21)
 
 ---
 
@@ -114,7 +114,7 @@ ProviderCondition.contract
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L18)
+[src/keeper/contracts/ContractBase.ts:18](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L18)
 
 ---
 
@@ -128,7 +128,7 @@ ProviderCondition.contractName
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:17](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L17)
+[src/keeper/contracts/ContractBase.ts:17](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L17)
 
 ---
 
@@ -142,7 +142,7 @@ ProviderCondition.events
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L19)
+[src/keeper/contracts/ContractBase.ts:19](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L19)
 
 ---
 
@@ -156,7 +156,7 @@ ProviderCondition.version
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L20)
+[src/keeper/contracts/ContractBase.ts:20](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L20)
 
 ## Accessors
 
@@ -174,7 +174,7 @@ ProviderCondition.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L136)
 
 ---
 
@@ -192,7 +192,7 @@ ProviderCondition.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L140)
 
 ---
 
@@ -210,7 +210,7 @@ ProviderCondition.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:88](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L88)
+[src/Instantiable.abstract.ts:88](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L88)
 
 ---
 
@@ -228,7 +228,7 @@ ProviderCondition.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:119](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L119)
+[src/Instantiable.abstract.ts:119](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L119)
 
 ---
 
@@ -246,7 +246,7 @@ ProviderCondition.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:144](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L144)
+[src/Instantiable.abstract.ts:144](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L144)
 
 ---
 
@@ -264,7 +264,7 @@ ProviderCondition.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:112](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L112)
+[src/Instantiable.abstract.ts:112](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L112)
 
 ---
 
@@ -282,7 +282,7 @@ ProviderCondition.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:127](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L127)
+[src/Instantiable.abstract.ts:127](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L127)
 
 ---
 
@@ -300,7 +300,7 @@ ProviderCondition.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L80)
 
 ---
 
@@ -387,7 +387,7 @@ ProviderCondition.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L96)
 
 ---
 
@@ -438,7 +438,7 @@ ProviderCondition.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:104](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L104)
+[src/Instantiable.abstract.ts:104](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L104)
 
 ## Methods
 
@@ -464,7 +464,7 @@ ProviderCondition.abortByTimeOut
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:75](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L75)
+[src/keeper/contracts/conditions/Condition.abstract.ts:75](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L75)
 
 ---
 
@@ -496,7 +496,7 @@ ProviderCondition.call
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:91](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L91)
+[src/keeper/contracts/ContractBase.ts:91](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L91)
 
 ---
 
@@ -530,7 +530,7 @@ ProviderCondition.fulfill
 
 #### Defined in
 
-[src/keeper/contracts/conditions/EscrowPaymentCondition.ts:57](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/EscrowPaymentCondition.ts#L57)
+[src/keeper/contracts/conditions/EscrowPaymentCondition.ts:57](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/EscrowPaymentCondition.ts#L57)
 
 ---
 
@@ -558,7 +558,7 @@ ProviderCondition.fulfillInstance
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:139](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L139)
+[src/keeper/contracts/conditions/Condition.abstract.ts:139](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L139)
 
 ---
 
@@ -586,7 +586,7 @@ ProviderCondition.fulfillPlain
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:47](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L47)
+[src/keeper/contracts/conditions/Condition.abstract.ts:47](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L47)
 
 ---
 
@@ -613,7 +613,7 @@ ProviderCondition.fulfillWithNode
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:183](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L183)
+[src/keeper/contracts/conditions/Condition.abstract.ts:183](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L183)
 
 ---
 
@@ -638,7 +638,7 @@ ProviderCondition.generateId
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:61](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L61)
+[src/keeper/contracts/conditions/Condition.abstract.ts:61](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L61)
 
 ---
 
@@ -663,7 +663,7 @@ ProviderCondition.generateIdHash
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L57)
+[src/keeper/contracts/conditions/Condition.abstract.ts:57](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L57)
 
 ---
 
@@ -688,7 +688,7 @@ ProviderCondition.generateIdWithSeed
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:65](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L65)
+[src/keeper/contracts/conditions/Condition.abstract.ts:65](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L65)
 
 ---
 
@@ -712,7 +712,7 @@ ProviderCondition.getConditionFulfilledEvent
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:79](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L79)
+[src/keeper/contracts/conditions/Condition.abstract.ts:79](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L79)
 
 ---
 
@@ -736,7 +736,7 @@ ProviderCondition.getFromAddress
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:67](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L67)
+[src/keeper/contracts/ContractBase.ts:67](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L67)
 
 ---
 
@@ -761,7 +761,7 @@ ProviderCondition.getTransactionLogs
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:75](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L75)
+[src/keeper/contracts/ContractBase.ts:75](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L75)
 
 ---
 
@@ -785,7 +785,7 @@ ProviderCondition.hashValues
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:116](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L116)
+[src/keeper/contracts/conditions/Condition.abstract.ts:116](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L116)
 
 ---
 
@@ -809,7 +809,7 @@ ProviderCondition.hashValuesPlain
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:122](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L122)
+[src/keeper/contracts/conditions/Condition.abstract.ts:122](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L122)
 
 ---
 
@@ -835,7 +835,7 @@ ProviderCondition.init
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L28)
+[src/keeper/contracts/ContractBase.ts:28](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L28)
 
 ---
 
@@ -860,7 +860,7 @@ ProviderCondition.instance
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L163)
+[src/keeper/contracts/conditions/Condition.abstract.ts:163](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L163)
 
 ---
 
@@ -886,7 +886,7 @@ ProviderCondition.instanceFromDDO
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:131](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L131)
+[src/keeper/contracts/conditions/Condition.abstract.ts:131](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L131)
 
 ---
 
@@ -904,7 +904,7 @@ ProviderCondition.nodeMethod
 
 #### Defined in
 
-[src/keeper/contracts/conditions/Condition.abstract.ts:200](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/Condition.abstract.ts#L200)
+[src/keeper/contracts/conditions/Condition.abstract.ts:200](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/Condition.abstract.ts#L200)
 
 ---
 
@@ -935,7 +935,7 @@ ProviderCondition.params
 
 #### Defined in
 
-[src/keeper/contracts/conditions/EscrowPaymentCondition.ts:18](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/EscrowPaymentCondition.ts#L18)
+[src/keeper/contracts/conditions/EscrowPaymentCondition.ts:18](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/EscrowPaymentCondition.ts#L18)
 
 ---
 
@@ -961,7 +961,7 @@ ProviderCondition.paramsFromDDO
 
 #### Defined in
 
-[src/keeper/contracts/conditions/EscrowPaymentCondition.ts:37](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/EscrowPaymentCondition.ts#L37)
+[src/keeper/contracts/conditions/EscrowPaymentCondition.ts:37](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/EscrowPaymentCondition.ts#L37)
 
 ---
 
@@ -988,7 +988,7 @@ ProviderCondition.send
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:127](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L127)
+[src/keeper/contracts/ContractBase.ts:127](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L127)
 
 ---
 
@@ -1015,7 +1015,7 @@ ProviderCondition.sendFrom
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:108](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L108)
+[src/keeper/contracts/ContractBase.ts:108](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L108)
 
 ---
 
@@ -1039,7 +1039,7 @@ ProviderCondition.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L162)
 
 ---
 
@@ -1063,7 +1063,7 @@ ProviderCondition.someLog
 
 #### Defined in
 
-[src/keeper/contracts/ContractBase.ts:84](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/ContractBase.ts#L84)
+[src/keeper/contracts/ContractBase.ts:84](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/ContractBase.ts#L84)
 
 ---
 
@@ -1087,7 +1087,7 @@ ProviderCondition.getInstance
 
 #### Defined in
 
-[src/keeper/contracts/conditions/EscrowPaymentCondition.ts:14](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/keeper/contracts/conditions/EscrowPaymentCondition.ts#L14)
+[src/keeper/contracts/conditions/EscrowPaymentCondition.ts:14](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/keeper/contracts/conditions/EscrowPaymentCondition.ts#L14)
 
 ---
 
@@ -1118,4 +1118,4 @@ ProviderCondition.setInstanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:153](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L153)
+[src/Instantiable.abstract.ts:153](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L153)

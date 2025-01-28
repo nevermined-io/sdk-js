@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.49](../code-reference.md) / NvmAccountError
+[@nevermined-io/sdk - v3.1.0](../code-reference.md) / NvmAccountError
 
 # Class: NvmAccountError
 
@@ -49,7 +49,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:106](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/errors/NeverminedErrors.ts#L106)
+[src/errors/NeverminedErrors.ts:106](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/errors/NeverminedErrors.ts#L106)
 
 ## Properties
 

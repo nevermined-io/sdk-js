@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.0.49](../code-reference.md) / MetadataService
+[@nevermined-io/sdk - v3.1.0](../code-reference.md) / MetadataService
 
 # Class: MetadataService
 
@@ -75,7 +75,7 @@ Metadata provides an off-chain database store for metadata about data assets.
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:7](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MarketplaceAPI.ts#L7)
+[src/services/metadata/MarketplaceAPI.ts:7](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MarketplaceAPI.ts#L7)
 
 ## Accessors
 
@@ -93,7 +93,7 @@ MarketplaceApi.artifactsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L136)
+[src/Instantiable.abstract.ts:136](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L136)
 
 ---
 
@@ -111,7 +111,7 @@ MarketplaceApi.circuitsFolder
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L140)
+[src/Instantiable.abstract.ts:140](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L140)
 
 ---
 
@@ -129,7 +129,7 @@ MarketplaceApi.client
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:88](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L88)
+[src/Instantiable.abstract.ts:88](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L88)
 
 ---
 
@@ -147,7 +147,7 @@ MarketplaceApi.config
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:119](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L119)
+[src/Instantiable.abstract.ts:119](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L119)
 
 ---
 
@@ -165,7 +165,7 @@ MarketplaceApi.instanceConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:144](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L144)
+[src/Instantiable.abstract.ts:144](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L144)
 
 ---
 
@@ -183,7 +183,7 @@ MarketplaceApi.instantiableConfig
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:112](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L112)
+[src/Instantiable.abstract.ts:112](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L112)
 
 ---
 
@@ -201,7 +201,7 @@ MarketplaceApi.logger
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:127](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L127)
+[src/Instantiable.abstract.ts:127](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L127)
 
 ---
 
@@ -219,7 +219,7 @@ MarketplaceApi.nevermined
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L80)
+[src/Instantiable.abstract.ts:80](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L80)
 
 ---
 
@@ -306,7 +306,7 @@ MarketplaceApi.publicClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L96)
+[src/Instantiable.abstract.ts:96](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L96)
 
 ---
 
@@ -324,7 +324,7 @@ MarketplaceApi.url
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:12](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MarketplaceAPI.ts#L12)
+[src/services/metadata/MarketplaceAPI.ts:12](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MarketplaceAPI.ts#L12)
 
 ---
 
@@ -375,7 +375,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:104](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L104)
+[src/Instantiable.abstract.ts:104](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L104)
 
 ## Methods
 
@@ -399,7 +399,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:36](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MarketplaceAPI.ts#L36)
+[src/services/metadata/MarketplaceAPI.ts:36](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MarketplaceAPI.ts#L36)
 
 ---
 
@@ -419,7 +419,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:238](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L238)
+[src/services/metadata/MetadataService.ts:238](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L238)
 
 ---
 
@@ -440,7 +440,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:46](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L46)
+[src/services/metadata/MetadataService.ts:46](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L46)
 
 ---
 
@@ -460,7 +460,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:353](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L353)
+[src/services/metadata/MetadataService.ts:353](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L353)
 
 ---
 
@@ -474,7 +474,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:42](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L42)
+[src/services/metadata/MetadataService.ts:42](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L42)
 
 ---
 
@@ -498,7 +498,7 @@ MarketplaceApi.walletClient
 
 #### Defined in
 
-[src/services/metadata/MarketplaceAPI.ts:16](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MarketplaceAPI.ts#L16)
+[src/services/metadata/MarketplaceAPI.ts:16](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MarketplaceAPI.ts#L16)
 
 ---
 
@@ -522,7 +522,7 @@ A list of [QueryResult](../interfaces/QueryResult.md)s.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:74](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L74)
+[src/services/metadata/MetadataService.ts:74](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L74)
 
 ---
 
@@ -546,7 +546,7 @@ A list of [ServiceSecondary](../interfaces/ServiceSecondary.md).
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:106](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L106)
+[src/services/metadata/MetadataService.ts:106](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L106)
 
 ---
 
@@ -571,7 +571,7 @@ DDO of the asset.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:195](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L195)
+[src/services/metadata/MetadataService.ts:195](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L195)
 
 ---
 
@@ -591,7 +591,7 @@ DDO of the asset.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:249](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L249)
+[src/services/metadata/MetadataService.ts:249](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L249)
 
 ---
 
@@ -611,7 +611,7 @@ DDO of the asset.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:227](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L227)
+[src/services/metadata/MetadataService.ts:227](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L227)
 
 ---
 
@@ -636,7 +636,7 @@ Service object.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:288](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L288)
+[src/services/metadata/MetadataService.ts:288](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L288)
 
 ---
 
@@ -660,7 +660,7 @@ Service object.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L162)
+[src/Instantiable.abstract.ts:162](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L162)
 
 ---
 
@@ -685,7 +685,7 @@ DDO of the asset.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:258](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L258)
+[src/services/metadata/MetadataService.ts:258](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L258)
 
 ---
 
@@ -709,7 +709,7 @@ Final DDO.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:163](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L163)
+[src/services/metadata/MetadataService.ts:163](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L163)
 
 ---
 
@@ -732,7 +732,7 @@ the newly stored service object
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:321](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L321)
+[src/services/metadata/MetadataService.ts:321](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L321)
 
 ---
 
@@ -757,7 +757,7 @@ Final DDO.
 
 #### Defined in
 
-[src/services/metadata/MetadataService.ts:132](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/services/metadata/MetadataService.ts#L132)
+[src/services/metadata/MetadataService.ts:132](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/services/metadata/MetadataService.ts#L132)
 
 ---
 
@@ -781,7 +781,7 @@ Final DDO.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L149)
+[src/Instantiable.abstract.ts:149](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L149)
 
 ---
 
@@ -812,4 +812,4 @@ Final DDO.
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:153](https://github.com/nevermined-io/sdk-js/blob/8180ee1d53a2c732dcde9fa47eb88586f44827dd/src/Instantiable.abstract.ts#L153)
+[src/Instantiable.abstract.ts:153](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/Instantiable.abstract.ts#L153)
