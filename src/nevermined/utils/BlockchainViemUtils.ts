@@ -8,6 +8,7 @@ import {
 import { KERNEL_V2_4, getEntryPoint } from '@zerodev/sdk/constants'
 import {
   deserializeSessionKeyAccount,
+  deserializeSessionKeyAccountV0_2,
   oneAddress,
   serializeSessionKeyAccount,
   signerToSessionKeyValidator,
@@ -619,20 +620,31 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
  * @param serializedSessionKey - the serialized session key
  * @param zeroDevProjectId - the zero dev project id
  * @param publicClient - the blockchain client
+ * @param sessionKeyVersion - the session key version. Older sessionKeys are in version 0.2, and new ones use KERNEL_V2_4
  * @returns the NvmAccount represented by the session key
  */
 export async function getSessionKey(
   serializedSessionKey: string,
   zeroDevProjectId: string,
   publicClient: any,
+  sessionKeyVersion: string,
 ) {
   const chainId = await publicClient.getChainId()
-  const sessionKeyAccount = await deserializeSessionKeyAccount(
-    publicClient,
-    getEntryPoint(ENTRY_POINT_VERSION),
-    KERNEL_V2_4,
-    serializedSessionKey,
-  )
+
+  const sessionKeyAccount =
+    sessionKeyVersion === 'v2.4'
+      ? await deserializeSessionKeyAccount(
+          publicClient,
+          getEntryPoint(ENTRY_POINT_VERSION),
+          KERNEL_V2_4,
+          serializedSessionKey,
+        )
+      : await deserializeSessionKeyAccountV0_2(
+          publicClient,
+          getEntryPoint(ENTRY_POINT_VERSION),
+          serializedSessionKey,
+        )
+
   const kernelPaymaster = createZeroDevPaymasterClient({
     chain: getChain(chainId),
     transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
