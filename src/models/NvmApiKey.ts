@@ -80,6 +80,7 @@ export class NvmApiKey implements JWTPayload {
     receiverPublicKey: string,
     expirationTime: number | string = '1y',
     additionalParams = {},
+    sesionKeyVersion: string = 'v2.4',
   ): Promise<string> {
     const issuerAddress = getChecksumAddress(issuerAccount.getId())
     const chainId = signatureUtils.client.chain?.id || 0
@@ -93,7 +94,7 @@ export class NvmApiKey implements JWTPayload {
       iss: issuerAddress,
       aud: chainId.toString(),
       sub,
-      ver: 'v2',
+      ver: sesionKeyVersion,
       zsk: zeroDevSessionKey,
       nvt: marketplaceAuthToken,
       // eip712Data,
