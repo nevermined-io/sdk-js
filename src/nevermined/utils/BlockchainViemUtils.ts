@@ -627,7 +627,7 @@ export async function getSessionKey(
   serializedSessionKey: string,
   zeroDevProjectId: string,
   publicClient: any,
-  sessionKeyVersion: string,
+  sessionKeyVersion: string = 'v2.4',
 ) {
   const chainId = await publicClient.getChainId()
 
