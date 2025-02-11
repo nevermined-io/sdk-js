@@ -102,7 +102,7 @@ export abstract class RegistryBaseApi extends Instantiable {
             ? await this.getPriced(serviceAttributes.price)
             : undefined
 
-          if (serviceAttributes.serviceType === 'nft-sales') {
+          if (serviceAttributes.serviceType === 'nft-sales' && pricedData) {
             assetAttributes.metadata.additionalInformation = {
               ...assetAttributes.metadata.additionalInformation,
               customData: {
