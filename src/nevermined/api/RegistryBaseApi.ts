@@ -102,10 +102,16 @@ export abstract class RegistryBaseApi extends Instantiable {
             ? await this.getPriced(serviceAttributes.price)
             : undefined
 
-          assetAttributes.metadata.additionalInformation?.customData.token = {
-            address: pricedData?.attributes.additionalInformation.address,
-            decimals: pricedData?.attributes.additionalInformation.decimals,
-            symbol: pricedData?.attributes.additionalInformation.symbol,
+          assetAttributes.metadata.additionalInformation = {
+            ...assetAttributes.metadata.additionalInformation,
+            customData: {
+              ...assetAttributes.metadata.additionalInformation?.customData,
+              token: {
+                address: pricedData?.attributes.additionalInformation.address,
+                decimals: pricedData?.attributes.additionalInformation.decimals,
+                symbol: pricedData?.attributes.additionalInformation.symbol,
+              },
+            },
           }
 
           const serviceCreated = plugin.createService(
