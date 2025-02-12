@@ -799,6 +799,9 @@ export interface ServiceNFTSales extends ServiceCommon, PricedMetadataInformatio
     additionalInformation: {
       description: string
       priceHighestDenomination: number
+      symbol?: string
+      decimals?: string
+      erc20TokenAddress?: string
     }
   }
 }

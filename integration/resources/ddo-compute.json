@@ -75,7 +75,10 @@
         },
         "additionalInformation": {
           "description": "Compute execution agreement",
-          "priceHighestDenomination": 1e-18
+          "decimals": 18,
+          "erc20TokenAddress": "0x9eD1050E0054C38Ad431109D04f0c4Be8424Bf7b",
+          "priceHighestDenomination": 1e-18,
+          "symbol": "NVM"
         },
         "serviceAgreementTemplate": {
           "contractName": "EscrowComputeExecutionTemplate",

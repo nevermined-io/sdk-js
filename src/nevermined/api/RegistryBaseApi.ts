@@ -698,11 +698,14 @@ export abstract class RegistryBaseApi extends Instantiable {
     const erc20TokenAddress =
       assetPrice?.getTokenAddress() || this.nevermined.utils.token.getAddress()
     let decimals: number
+    let symbol: string
     if (erc20TokenAddress === ZeroAddress) {
       decimals = 18
+      symbol = 'ETH'
     } else {
       const token = await this.nevermined.contracts.loadErc20(erc20TokenAddress)
       decimals = await token.decimals()
+      symbol = await token.symbol()
     }
 
     const price = assetPrice.getTotalPrice().toString()
@@ -714,6 +717,9 @@ export abstract class RegistryBaseApi extends Instantiable {
         },
         additionalInformation: {
           priceHighestDenomination,
+          symbol,
+          decimals,
+          erc20TokenAddress,
         },
       },
     }
