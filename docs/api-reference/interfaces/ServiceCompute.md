@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.1.0](../code-reference.md) / ServiceCompute
+[@nevermined-io/sdk - v3.1.1](../code-reference.md) / ServiceCompute
 
 # Interface: ServiceCompute
 
@@ -47,7 +47,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:748](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L748)
+[src/types/DDOTypes.ts:748](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L748)
 
 ---
 
@@ -61,7 +61,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:682](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L682)
+[src/types/DDOTypes.ts:682](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L682)
 
 ---
 
@@ -75,7 +75,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:683](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L683)
+[src/types/DDOTypes.ts:683](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L683)
 
 ---
 
@@ -89,7 +89,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:747](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L747)
+[src/types/DDOTypes.ts:747](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L747)
 
 ---
 
@@ -103,4 +103,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:746](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L746)
+[src/types/DDOTypes.ts:746](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L746)

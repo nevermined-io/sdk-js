@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.1.0](../code-reference.md) / Authentication
+[@nevermined-io/sdk - v3.1.1](../code-reference.md) / Authentication
 
 # Interface: Authentication
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:9](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L9)
+[src/types/DDOTypes.ts:9](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L9)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L8)
+[src/types/DDOTypes.ts:8](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L8)

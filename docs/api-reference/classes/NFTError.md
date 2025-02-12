@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.1.0](../code-reference.md) / NFTError
+[@nevermined-io/sdk - v3.1.1](../code-reference.md) / NFTError
 
 # Class: NFTError
 
@@ -53,7 +53,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors/NeverminedErrors.ts:38](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/errors/NeverminedErrors.ts#L38)
+[src/errors/NeverminedErrors.ts:38](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/errors/NeverminedErrors.ts#L38)
 
 ## Properties
 

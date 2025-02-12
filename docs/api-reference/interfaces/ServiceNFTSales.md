@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.1.0](../code-reference.md) / ServiceNFTSales
+[@nevermined-io/sdk - v3.1.1](../code-reference.md) / ServiceNFTSales
 
 # Interface: ServiceNFTSales
 
@@ -30,9 +30,12 @@
 
 | Name                                             | Type                                                                                                                                                                                                                                                                                                                        |
 | :----------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `additionalInformation`                          | \{ `description`: `string` ; `priceHighestDenomination`: `number` }                                                                                                                                                                                                                                                         |
+| `additionalInformation`                          | \{ `decimals?`: `string` ; `description`: `string` ; `erc20TokenAddress?`: `string` ; `priceHighestDenomination`: `number` ; `symbol?`: `string` }                                                                                                                                                                          |
+| `additionalInformation.decimals?`                | `string`                                                                                                                                                                                                                                                                                                                    |
 | `additionalInformation.description`              | `string`                                                                                                                                                                                                                                                                                                                    |
+| `additionalInformation.erc20TokenAddress?`       | `string`                                                                                                                                                                                                                                                                                                                    |
 | `additionalInformation.priceHighestDenomination` | `number`                                                                                                                                                                                                                                                                                                                    |
+| `additionalInformation.symbol?`                  | `string`                                                                                                                                                                                                                                                                                                                    |
 | `main`                                           | \{ `creator`: `string` ; `datePublished`: `string` ; `ercType`: [`ERCType`](../enums/ERCType.md) ; `name`: `string` ; `nftAttributes?`: [`NFTServiceAttributes`](../classes/NFTServiceAttributes.md) ; `nftType`: [`NeverminedNFTType`](../code-reference.md#neverminednfttype) ; `price`: `string` ; `timeout`: `number` } |
 | `main.creator`                                   | `string`                                                                                                                                                                                                                                                                                                                    |
 | `main.datePublished`                             | `string`                                                                                                                                                                                                                                                                                                                    |
@@ -50,7 +53,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:787](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L787)
+[src/types/DDOTypes.ts:787](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L787)
 
 ---
 
@@ -64,7 +67,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:682](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L682)
+[src/types/DDOTypes.ts:682](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L682)
 
 ---
 
@@ -78,7 +81,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:683](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L683)
+[src/types/DDOTypes.ts:683](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L683)
 
 ---
 
@@ -92,7 +95,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:786](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L786)
+[src/types/DDOTypes.ts:786](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L786)
 
 ---
 
@@ -106,4 +109,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:785](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/DDOTypes.ts#L785)
+[src/types/DDOTypes.ts:785](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/DDOTypes.ts#L785)

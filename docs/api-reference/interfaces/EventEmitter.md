@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.1.0](../code-reference.md) / EventEmitter
+[@nevermined-io/sdk - v3.1.1](../code-reference.md) / EventEmitter
 
 # Interface: EventEmitter
 
@@ -32,7 +32,7 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:17](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/EventTypes.ts#L17)
+[src/types/EventTypes.ts:17](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/EventTypes.ts#L17)
 
 ---
 
@@ -56,4 +56,4 @@
 
 #### Defined in
 
-[src/types/EventTypes.ts:18](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/types/EventTypes.ts#L18)
+[src/types/EventTypes.ts:18](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/types/EventTypes.ts#L18)

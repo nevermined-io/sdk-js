@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.1.0](../code-reference.md) / MetadataValidationResults
+[@nevermined-io/sdk - v3.1.1](../code-reference.md) / MetadataValidationResults
 
 # Interface: MetadataValidationResults
 
@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:49](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/NvmApp.ts#L49)
+[src/nevermined/NvmApp.ts:49](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/nevermined/NvmApp.ts#L49)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/nevermined/NvmApp.ts:50](https://github.com/nevermined-io/sdk-js/blob/613e61d8e011d30fd229ab508635ef7f04ad97cb/src/nevermined/NvmApp.ts#L50)
+[src/nevermined/NvmApp.ts:50](https://github.com/nevermined-io/sdk-js/blob/9319fcdb83e6987b924bbe35233879f79a0603bc/src/nevermined/NvmApp.ts#L50)
