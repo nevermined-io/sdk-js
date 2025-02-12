@@ -102,20 +102,6 @@ export abstract class RegistryBaseApi extends Instantiable {
             ? await this.getPriced(serviceAttributes.price)
             : undefined
 
-          // if (serviceAttributes.serviceType === 'nft-sales' && pricedData) {
-          //   assetAttributes.metadata.additionalInformation = {
-          //     ...assetAttributes.metadata.additionalInformation,
-          //     customData: {
-          //       ...assetAttributes.metadata.additionalInformation?.customData,
-          //       token: {
-          //         address: pricedData?.attributes.additionalInformation.address,
-          //         decimals: pricedData?.attributes.additionalInformation.decimals,
-          //         symbol: pricedData?.attributes.additionalInformation.symbol,
-          //       },
-          //     },
-          //   }
-          // }
-
           const serviceCreated = plugin.createService(
             from,
             assetAttributes.metadata,
