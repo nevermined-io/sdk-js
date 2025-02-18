@@ -584,7 +584,12 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
  * @param permissions the permissions to configure in the session key
  * @returns the session key serialized
  */
-export async function createSessionKey(signer: any, publicClient: any, permissions: any[]) {
+export async function createSessionKey(
+  signer: any,
+  publicClient: any,
+  permissions: any[],
+  index?: bigint,
+) {
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
     entryPoint: getEntryPoint(ENTRY_POINT_VERSION),
     signer,
@@ -611,6 +616,7 @@ export async function createSessionKey(signer: any, publicClient: any, permissio
       sudo: ecdsaValidator,
       regular: sessionKeyValidator,
     },
+    index,
   })
   return serializeSessionKeyAccount(sessionKeyAccount, sessionPrivateKey)
 }
