@@ -73,6 +73,17 @@ if (process.env.NETWORK_NAME === 'base') {
   } as NeverminedOptions)
 }
 
+if (process.env.NETWORK_NAME === 'base-sepolia') {
+  Object.assign(configBase, {
+    chainId: 84532,
+    marketplaceUri: 'https://marketplace-api.base-sepolia.nevermined.app',
+    neverminedNodeUri: 'https://node.base-sepolia.nevermined.app',
+    web3ProviderUri: `https://base-sepolia.drpc.org`,
+    neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
+    graphHttpUri: undefined,
+  } as NeverminedOptions)
+}
+
 if (process.env.NETWORK_NAME === 'one-staging') {
   Object.assign(configBase, {
     chainId: 421614,
