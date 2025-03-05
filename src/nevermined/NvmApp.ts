@@ -10,6 +10,7 @@ import { NvmApiKey } from '../models/NvmApiKey'
 import {
   AppDeploymentArbitrum,
   AppDeploymentBase,
+  AppDeploymentBaseSepolia,
   AppDeploymentCelo,
   AppDeploymentGnosis,
   AppDeploymentLocal,
