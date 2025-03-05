@@ -533,7 +533,12 @@ export const formatEther = (value: bigint): string => {
  * @param zeroDevProjectId the zero dev project id, you can get it from the ZeroDev dashboard
  * @returns the kernel client
  */
-export async function createKernelClient(signer: any, chainId: number, zeroDevProjectId: string) {
+export async function createKernelClient(
+  signer: any,
+  chainId: number,
+  zeroDevProjectId: string,
+  provider?: string,
+) {
   const publicClient = createPublicClient({
     chain: getChain(chainId),
     transport: http(),
@@ -556,13 +561,17 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
   return createKernelAccountClient({
     account,
     chain: getChain(chainId),
-    bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
+    bundlerTransport: http(
+      `https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}?provider=${provider}`,
+    ),
     client: publicClient,
     paymaster: {
       getPaymasterData: (userOperation) => {
         const zerodevPaymaster = createZeroDevPaymasterClient({
           chain: getChain(chainId),
-          transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
+          transport: http(
+            `https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}?provider=${provider}`,
+          ),
         })
         return zerodevPaymaster.sponsorUserOperation({
           userOperation,

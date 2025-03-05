@@ -49,6 +49,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
       return 'peaq-mainnet'
     case 8453:
       return 'base'
+    case 84532:
+      return 'base-sepolia'
     case 10200:
       return 'chiado' // Gnosis testnet
     case 31337:
@@ -117,6 +119,8 @@ export function isTestnet(networkId: number): boolean {
       return false
     case 8453:
       return false
+    case 84532:
+      return true
     case 10200:
       return true
     case 31337:
