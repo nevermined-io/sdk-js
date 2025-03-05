@@ -146,7 +146,7 @@ export class AppDeploymentBaseSepolia extends NeverminedAppOptions {
   gasMultiplier = 0
   gasPriceMultiplier = 0
   nftContractTimeAddress = '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5'
-  nftContractCreditsAddress = '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5'
+  nftContractCreditsAddress = '0x075ecc3ab2b377eac6d9a1d9b2ad7c6893563ce1'
   tokenAddress = '0x036CbD53842c5426634e7929541eC2318f3dCF7e'
 }
 
