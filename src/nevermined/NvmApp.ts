@@ -38,6 +38,7 @@ export enum NVMAppEnvironments {
   Matic = 'matic',
   Gnosis = 'gnosis',
   Base = 'base',
+  BaseSepolia = 'base-sepolia',
   Celo = 'celo',
   Optimism = 'optimism',
   Peaq = 'peaq',
@@ -959,6 +960,8 @@ export class NvmApp {
         return new AppDeploymentGnosis()
       case NVMAppEnvironments.Base:
         return new AppDeploymentBase()
+      case NVMAppEnvironments.BaseSepolia:
+        return new AppDeploymentBaseSepolia()
       case NVMAppEnvironments.Celo:
         return new AppDeploymentCelo()
       case NVMAppEnvironments.Optimism:

@@ -132,6 +132,24 @@ export class AppDeploymentBase extends NeverminedAppOptions {
   tokenAddress = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
 }
 
+export class AppDeploymentBaseSepolia extends NeverminedAppOptions {
+  instanceName = 'appBaseSepolia'
+  appUrl = 'https://base-sepolia.nevermined.app'
+  chainId = 84532
+  web3ProviderUri = isWindowEthereumDefined() ? undefined : 'https://sepolia.base.org'
+  marketplaceUri = 'https://marketplace-api.base-sepolia.nevermined.app'
+  graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
+  neverminedNodeUri = 'https://node.base-sepolia.nevermined.app'
+  neverminedNodeAddress = '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc'
+  neverminedBackendUri = 'https://one-backend.base-sepolia.nevermined.app'
+  verbose = true
+  gasMultiplier = 0
+  gasPriceMultiplier = 0
+  nftContractTimeAddress = '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5'
+  nftContractCreditsAddress = '0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5'
+  tokenAddress = '0x036CbD53842c5426634e7929541eC2318f3dCF7e'
+}
+
 export class AppDeploymentCelo extends NeverminedAppOptions {
   instanceName = 'appCelo'
   appUrl = 'https://celo.nevermined.app'

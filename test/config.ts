@@ -43,6 +43,18 @@ if (process.env.NETWORK_NAME === 'geth-localnet') {
     artifactsFolder: './artifacts',
     circuitsFolder: './circuits',
   } as NeverminedOptions
+} else if (process.env.NETWORK_NAME === 'base-sepolia') {
+  config = {
+    chainId: 84532,
+    marketplaceUri: 'https://marketplace-api.base-sepolia.nevermined.app',
+    neverminedNodeUri: 'https://node.base-sepolia.nevermined.app',
+    neverminedNodeAddress: '0x5838B5512cF9f12FE9f2beccB20eb47211F9B0bc',
+    web3ProviderUri: `https://base-sepolia.infura.io/v3/${infuraToken}`,
+    graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
+    // verbose: LogLevel.Verbose,
+    artifactsFolder: './artifacts',
+    circuitsFolder: './circuits',
+  } as NeverminedOptions
 } else if (process.env.NETWORK_NAME === 'gnosis') {
   config = {
     chainId: 100,

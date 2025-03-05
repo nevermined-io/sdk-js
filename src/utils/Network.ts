@@ -6,6 +6,7 @@ import {
   aurora,
   auroraTestnet,
   base,
+  baseSepolia,
   celo,
   celoAlfajores,
   gnosis,
@@ -68,6 +69,8 @@ export async function getNetworkName(networkId: number): Promise<string> {
       return 'mumbai'
     case 42161:
       return 'arbitrum-one'
+    case 84532:
+      return 'base-sepolia'
     case 421613:
       return 'arbitrum-goerli'
     case 421614:
@@ -134,6 +137,8 @@ export function isTestnet(networkId: number): boolean {
       return true
     case 42161:
       return false
+    case 84532:
+      return true
     case 421613:
       return true
     case 421614:
@@ -176,6 +181,8 @@ export function getChain(networkId: number | undefined): Chain {
       })
     case 8453:
       return base as Chain
+    case 84532:
+      return baseSepolia as Chain
     case 42161:
       return arbitrum
     case 42220:
