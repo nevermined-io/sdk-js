@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.1.2-rc1](../code-reference.md) / PermissionType
+[@nevermined-io/sdk - v3.1.2](../code-reference.md) / PermissionType
 
 # Enumeration: PermissionType
 
@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:90](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/types/MetadataTypes.ts#L90)
+[src/types/MetadataTypes.ts:90](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/MetadataTypes.ts#L90)
 
 ---
 
@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:89](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/types/MetadataTypes.ts#L89)
+[src/types/MetadataTypes.ts:89](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/MetadataTypes.ts#L89)
 
 ---
 
@@ -39,7 +39,7 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:87](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/types/MetadataTypes.ts#L87)
+[src/types/MetadataTypes.ts:87](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/MetadataTypes.ts#L87)
 
 ---
 
@@ -49,4 +49,4 @@
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:88](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/types/MetadataTypes.ts#L88)
+[src/types/MetadataTypes.ts:88](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/MetadataTypes.ts#L88)

@@ -1,4 +1,4 @@
-[@nevermined-io/sdk - v3.1.2-rc1](../code-reference.md) / PublishOnChainOptions
+[@nevermined-io/sdk - v3.1.2](../code-reference.md) / PublishOnChainOptions
 
 # Enumeration: PublishOnChainOptions
 
@@ -19,7 +19,7 @@ It specifies if the DID will be published on-chain initially or not.
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:35](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/types/MetadataTypes.ts#L35)
+[src/types/MetadataTypes.ts:35](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/MetadataTypes.ts#L35)
 
 ---
 
@@ -29,4 +29,4 @@ It specifies if the DID will be published on-chain initially or not.
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:36](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/types/MetadataTypes.ts#L36)
+[src/types/MetadataTypes.ts:36](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/MetadataTypes.ts#L36)
