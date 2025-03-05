@@ -1,57 +1,57 @@
-[@nevermined-io/sdk - v3.1.2-rc1](../code-reference.md) / AppDeploymentStaging
+[@nevermined-io/sdk - v3.1.2-rc1](../code-reference.md) / AppDeploymentBaseSepolia
 
-# Class: AppDeploymentStaging
+# Class: AppDeploymentBaseSepolia
 
 ## Hierarchy
 
 - [`NeverminedAppOptions`](NeverminedAppOptions.md)
 
-  ↳ **`AppDeploymentStaging`**
+  ↳ **`AppDeploymentBaseSepolia`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](AppDeploymentStaging.md#constructor)
+- [constructor](AppDeploymentBaseSepolia.md#constructor)
 
 ### Properties
 
-- [accounts](AppDeploymentStaging.md#accounts)
-- [appUrl](AppDeploymentStaging.md#appurl)
-- [artifactsFolder](AppDeploymentStaging.md#artifactsfolder)
-- [chainId](AppDeploymentStaging.md#chainid)
-- [circuitsFolder](AppDeploymentStaging.md#circuitsfolder)
-- [contractsVersion](AppDeploymentStaging.md#contractsversion)
-- [gasMultiplier](AppDeploymentStaging.md#gasmultiplier)
-- [gasPriceMultiplier](AppDeploymentStaging.md#gaspricemultiplier)
-- [gasStationUri](AppDeploymentStaging.md#gasstationuri)
-- [graphHttpUri](AppDeploymentStaging.md#graphhttpuri)
-- [instanceName](AppDeploymentStaging.md#instancename)
-- [ipfsGateway](AppDeploymentStaging.md#ipfsgateway)
-- [ipfsProjectId](AppDeploymentStaging.md#ipfsprojectid)
-- [ipfsProjectSecret](AppDeploymentStaging.md#ipfsprojectsecret)
-- [marketplaceAuthToken](AppDeploymentStaging.md#marketplaceauthtoken)
-- [marketplaceUri](AppDeploymentStaging.md#marketplaceuri)
-- [neverminedBackendUri](AppDeploymentStaging.md#neverminedbackenduri)
-- [neverminedNodeAddress](AppDeploymentStaging.md#neverminednodeaddress)
-- [neverminedNodeUri](AppDeploymentStaging.md#neverminednodeuri)
-- [nftContractCreditsAddress](AppDeploymentStaging.md#nftcontractcreditsaddress)
-- [nftContractTimeAddress](AppDeploymentStaging.md#nftcontracttimeaddress)
-- [tokenAddress](AppDeploymentStaging.md#tokenaddress)
-- [verbose](AppDeploymentStaging.md#verbose)
-- [web3Provider](AppDeploymentStaging.md#web3provider)
-- [web3ProviderUri](AppDeploymentStaging.md#web3provideruri)
-- [zeroDevProjectId](AppDeploymentStaging.md#zerodevprojectid)
+- [accounts](AppDeploymentBaseSepolia.md#accounts)
+- [appUrl](AppDeploymentBaseSepolia.md#appurl)
+- [artifactsFolder](AppDeploymentBaseSepolia.md#artifactsfolder)
+- [chainId](AppDeploymentBaseSepolia.md#chainid)
+- [circuitsFolder](AppDeploymentBaseSepolia.md#circuitsfolder)
+- [contractsVersion](AppDeploymentBaseSepolia.md#contractsversion)
+- [gasMultiplier](AppDeploymentBaseSepolia.md#gasmultiplier)
+- [gasPriceMultiplier](AppDeploymentBaseSepolia.md#gaspricemultiplier)
+- [gasStationUri](AppDeploymentBaseSepolia.md#gasstationuri)
+- [graphHttpUri](AppDeploymentBaseSepolia.md#graphhttpuri)
+- [instanceName](AppDeploymentBaseSepolia.md#instancename)
+- [ipfsGateway](AppDeploymentBaseSepolia.md#ipfsgateway)
+- [ipfsProjectId](AppDeploymentBaseSepolia.md#ipfsprojectid)
+- [ipfsProjectSecret](AppDeploymentBaseSepolia.md#ipfsprojectsecret)
+- [marketplaceAuthToken](AppDeploymentBaseSepolia.md#marketplaceauthtoken)
+- [marketplaceUri](AppDeploymentBaseSepolia.md#marketplaceuri)
+- [neverminedBackendUri](AppDeploymentBaseSepolia.md#neverminedbackenduri)
+- [neverminedNodeAddress](AppDeploymentBaseSepolia.md#neverminednodeaddress)
+- [neverminedNodeUri](AppDeploymentBaseSepolia.md#neverminednodeuri)
+- [nftContractCreditsAddress](AppDeploymentBaseSepolia.md#nftcontractcreditsaddress)
+- [nftContractTimeAddress](AppDeploymentBaseSepolia.md#nftcontracttimeaddress)
+- [tokenAddress](AppDeploymentBaseSepolia.md#tokenaddress)
+- [verbose](AppDeploymentBaseSepolia.md#verbose)
+- [web3Provider](AppDeploymentBaseSepolia.md#web3provider)
+- [web3ProviderUri](AppDeploymentBaseSepolia.md#web3provideruri)
+- [zeroDevProjectId](AppDeploymentBaseSepolia.md#zerodevprojectid)
 
 ## Constructors
 
 ### constructor
 
-• **new AppDeploymentStaging**(): [`AppDeploymentStaging`](AppDeploymentStaging.md)
+• **new AppDeploymentBaseSepolia**(): [`AppDeploymentBaseSepolia`](AppDeploymentBaseSepolia.md)
 
 #### Returns
 
-[`AppDeploymentStaging`](AppDeploymentStaging.md)
+[`AppDeploymentBaseSepolia`](AppDeploymentBaseSepolia.md)
 
 #### Inherited from
 
@@ -75,7 +75,7 @@
 
 ### appUrl
 
-• **appUrl**: `string` = `'https://staging.nevermined.app'`
+• **appUrl**: `string` = `'https://base-sepolia.nevermined.app'`
 
 The Nevermined App URL.
 
@@ -85,7 +85,7 @@ The Nevermined App URL.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:29](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L29)
+[src/nevermined/resources/AppNetworks.ts:137](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L137)
 
 ---
 
@@ -107,7 +107,7 @@ The folder where the nevermined contract artifacts are located.
 
 ### chainId
 
-• **chainId**: `number` = `421614`
+• **chainId**: `number` = `84532`
 
 #### Overrides
 
@@ -115,7 +115,7 @@ The folder where the nevermined contract artifacts are located.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:30](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L30)
+[src/nevermined/resources/AppNetworks.ts:138](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L138)
 
 ---
 
@@ -164,7 +164,7 @@ Can be used to speed up the transactions.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:38](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L38)
+[src/nevermined/resources/AppNetworks.ts:146](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L146)
 
 ---
 
@@ -174,7 +174,7 @@ Can be used to speed up the transactions.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:39](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L39)
+[src/nevermined/resources/AppNetworks.ts:147](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L147)
 
 ---
 
@@ -196,7 +196,7 @@ Use a gas station to calculate transaction fees
 
 ### graphHttpUri
 
-• **graphHttpUri**: `string` = `'https://api.studio.thegraph.com/query/78072/public'`
+• **graphHttpUri**: `string` = `'https://api.studio.thegraph.com/query/78075/public'`
 
 Enpoint for the graph-node http query
 
@@ -206,13 +206,13 @@ Enpoint for the graph-node http query
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:33](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L33)
+[src/nevermined/resources/AppNetworks.ts:141](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L141)
 
 ---
 
 ### instanceName
 
-• **instanceName**: `string` = `'appStaging'`
+• **instanceName**: `string` = `'appBaseSepolia'`
 
 #### Overrides
 
@@ -220,7 +220,7 @@ Enpoint for the graph-node http query
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:28](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L28)
+[src/nevermined/resources/AppNetworks.ts:136](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L136)
 
 ---
 
@@ -288,7 +288,7 @@ Marketplace auth token.
 
 ### marketplaceUri
 
-• **marketplaceUri**: `string` = `'https://marketplace-api.staging.nevermined.app'`
+• **marketplaceUri**: `string` = `'https://marketplace-api.base-sepolia.nevermined.app'`
 
 URL to the MarketPlace API use to record some Nevermined assets metadata. In a Nevermined network there could be
 multiple Marketplace API instances. Each of them typically records the metadata of a specific domain/vertical deployed on a Nevermined network.
@@ -303,13 +303,13 @@ https://docs.nevermined.io/docs/architecture/marketplace-api/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:32](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L32)
+[src/nevermined/resources/AppNetworks.ts:140](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L140)
 
 ---
 
 ### neverminedBackendUri
 
-• **neverminedBackendUri**: `string` = `'https://one-backend.staging.nevermined.app'`
+• **neverminedBackendUri**: `string` = `'https://one-backend.base-sepolia.nevermined.app'`
 
 #### Overrides
 
@@ -317,7 +317,7 @@ https://docs.nevermined.io/docs/architecture/marketplace-api/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:36](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L36)
+[src/nevermined/resources/AppNetworks.ts:144](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L144)
 
 ---
 
@@ -337,13 +337,13 @@ The public address of the Nevermined Node.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:35](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L35)
+[src/nevermined/resources/AppNetworks.ts:143](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L143)
 
 ---
 
 ### neverminedNodeUri
 
-• **neverminedNodeUri**: `string` = `'https://node.staging.nevermined.app'`
+• **neverminedNodeUri**: `string` = `'https://node.base-sepolia.nevermined.app'`
 
 URL to an existing Nevermined Node. A Nevermined network can have multiple running Nodes.
 Each of them facilitate the access control and the data and infrastructure interaction with web2 elements.
@@ -358,13 +358,13 @@ https://docs.nevermined.io/docs/architecture/node/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:34](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L34)
+[src/nevermined/resources/AppNetworks.ts:142](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L142)
 
 ---
 
 ### nftContractCreditsAddress
 
-• **nftContractCreditsAddress**: `string` = `'0x8ad59c91ae13a63adaea23770a9c013c632ad648'`
+• **nftContractCreditsAddress**: `string` = `'0x1bcA156f746C6Eb8b18d61654293e2Fc5b653fF5'`
 
 #### Overrides
 
@@ -372,7 +372,7 @@ https://docs.nevermined.io/docs/architecture/node/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:41](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L41)
+[src/nevermined/resources/AppNetworks.ts:149](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L149)
 
 ---
 
@@ -386,13 +386,13 @@ https://docs.nevermined.io/docs/architecture/node/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:40](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L40)
+[src/nevermined/resources/AppNetworks.ts:148](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L148)
 
 ---
 
 ### tokenAddress
 
-• **tokenAddress**: `string` = `'0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d'`
+• **tokenAddress**: `string` = `'0x036CbD53842c5426634e7929541eC2318f3dCF7e'`
 
 #### Overrides
 
@@ -400,7 +400,7 @@ https://docs.nevermined.io/docs/architecture/node/
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:42](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L42)
+[src/nevermined/resources/AppNetworks.ts:150](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L150)
 
 ---
 
@@ -416,7 +416,7 @@ Log level.
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:37](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L37)
+[src/nevermined/resources/AppNetworks.ts:145](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L145)
 
 ---
 
@@ -450,7 +450,7 @@ It's possible to use a public available provider or a private/paid one like Infu
 
 #### Defined in
 
-[src/nevermined/resources/AppNetworks.ts:31](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L31)
+[src/nevermined/resources/AppNetworks.ts:139](https://github.com/nevermined-io/sdk-js/blob/a486bcf8f8c4d89a158ad167d49be25a65d17b56/src/nevermined/resources/AppNetworks.ts#L139)
 
 ---
 
