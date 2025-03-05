@@ -82,7 +82,8 @@ export class ContractEvent extends NeverminedEvent {
         chainId === 3338 ||
         chainId === 8453 ||
         chainId === 42220 ||
-        chainId === 80001
+        chainId === 80001 ||
+        chainId === 84532
       ) {
         const latestBlock = await this.client.public.getBlockNumber()
         options.fromBlock = latestBlock - 999n
