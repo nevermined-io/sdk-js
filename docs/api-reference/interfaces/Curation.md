@@ -33,7 +33,7 @@ true
 
 #### Defined in
 
-[src/types/DDOTypes.ts:412](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/DDOTypes.ts#L412)
+[src/types/DDOTypes.ts:412](https://github.com/nevermined-io/sdk-js/blob/13ea3fecbb7390165ec2f4641a0fe92a7537a21d/src/types/DDOTypes.ts#L412)
 
 ---
 
@@ -51,7 +51,7 @@ Number of votes. 0 is the default value.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:400](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/DDOTypes.ts#L400)
+[src/types/DDOTypes.ts:400](https://github.com/nevermined-io/sdk-js/blob/13ea3fecbb7390165ec2f4641a0fe92a7537a21d/src/types/DDOTypes.ts#L400)
 
 ---
 
@@ -69,7 +69,7 @@ Decimal value between 0 and 1. 0 is the default value.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:394](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/DDOTypes.ts#L394)
+[src/types/DDOTypes.ts:394](https://github.com/nevermined-io/sdk-js/blob/13ea3fecbb7390165ec2f4641a0fe92a7537a21d/src/types/DDOTypes.ts#L394)
 
 ---
 
@@ -87,4 +87,4 @@ Schema applied to calculate the rating.
 
 #### Defined in
 
-[src/types/DDOTypes.ts:406](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/DDOTypes.ts#L406)
+[src/types/DDOTypes.ts:406](https://github.com/nevermined-io/sdk-js/blob/13ea3fecbb7390165ec2f4641a0fe92a7537a21d/src/types/DDOTypes.ts#L406)

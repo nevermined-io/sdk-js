@@ -20,7 +20,7 @@ The type of royalty
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:49](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/MetadataTypes.ts#L49)
+[src/types/MetadataTypes.ts:49](https://github.com/nevermined-io/sdk-js/blob/13ea3fecbb7390165ec2f4641a0fe92a7537a21d/src/types/MetadataTypes.ts#L49)
 
 ---
 
@@ -30,7 +30,7 @@ The type of royalty
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:50](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/MetadataTypes.ts#L50)
+[src/types/MetadataTypes.ts:50](https://github.com/nevermined-io/sdk-js/blob/13ea3fecbb7390165ec2f4641a0fe92a7537a21d/src/types/MetadataTypes.ts#L50)
 
 ---
 
@@ -40,4 +40,4 @@ The type of royalty
 
 #### Defined in
 
-[src/types/MetadataTypes.ts:48](https://github.com/nevermined-io/sdk-js/blob/67dcc4309b61571f3cee221ec474b9c29e860b77/src/types/MetadataTypes.ts#L48)
+[src/types/MetadataTypes.ts:48](https://github.com/nevermined-io/sdk-js/blob/13ea3fecbb7390165ec2f4641a0fe92a7537a21d/src/types/MetadataTypes.ts#L48)
