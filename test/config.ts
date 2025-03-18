@@ -61,7 +61,7 @@ if (process.env.NETWORK_NAME === 'geth-localnet') {
     marketplaceUri: 'https://marketplace-api.base.nevermined.app',
     neverminedNodeUri: 'https://node.base.nevermined.app',
     neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
-    web3ProviderUri: `https://1rpc.io/base`,
+    web3ProviderUri: `https://mainnet.base.org`,
     graphHttpUri: undefined,
     // verbose: LogLevel.Verbose,
     artifactsFolder: './artifacts',
