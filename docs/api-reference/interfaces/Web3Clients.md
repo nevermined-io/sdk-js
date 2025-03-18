@@ -18,7 +18,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:28](https://github.com/nevermined-io/sdk-js/blob/6b4486ecca78fa881cb604506453077da39efd8e/src/Instantiable.abstract.ts#L28)
+[src/Instantiable.abstract.ts:28](https://github.com/nevermined-io/sdk-js/blob/2d22705038e42694103e3bb3986fa3024de924a6/src/Instantiable.abstract.ts#L28)
 
 ---
 
@@ -99,7 +99,7 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:26](https://github.com/nevermined-io/sdk-js/blob/6b4486ecca78fa881cb604506453077da39efd8e/src/Instantiable.abstract.ts#L26)
+[src/Instantiable.abstract.ts:26](https://github.com/nevermined-io/sdk-js/blob/2d22705038e42694103e3bb3986fa3024de924a6/src/Instantiable.abstract.ts#L26)
 
 ---
 
@@ -144,4 +144,4 @@
 
 #### Defined in
 
-[src/Instantiable.abstract.ts:27](https://github.com/nevermined-io/sdk-js/blob/6b4486ecca78fa881cb604506453077da39efd8e/src/Instantiable.abstract.ts#L27)
+[src/Instantiable.abstract.ts:27](https://github.com/nevermined-io/sdk-js/blob/2d22705038e42694103e3bb3986fa3024de924a6/src/Instantiable.abstract.ts#L27)

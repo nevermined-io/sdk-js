@@ -17,7 +17,7 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:620](https://github.com/nevermined-io/sdk-js/blob/6b4486ecca78fa881cb604506453077da39efd8e/src/types/DDOTypes.ts#L620)
+[src/types/DDOTypes.ts:620](https://github.com/nevermined-io/sdk-js/blob/2d22705038e42694103e3bb3986fa3024de924a6/src/types/DDOTypes.ts#L620)
 
 ---
 
@@ -27,4 +27,4 @@
 
 #### Defined in
 
-[src/types/DDOTypes.ts:621](https://github.com/nevermined-io/sdk-js/blob/6b4486ecca78fa881cb604506453077da39efd8e/src/types/DDOTypes.ts#L621)
+[src/types/DDOTypes.ts:621](https://github.com/nevermined-io/sdk-js/blob/2d22705038e42694103e3bb3986fa3024de924a6/src/types/DDOTypes.ts#L621)
