@@ -68,7 +68,7 @@ export class AppDeploymentArbitrum extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.arbitrum.nevermined.app'
   graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.arbitrum.nevermined.app'
-  neverminedNodeAddress = '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B'
+  neverminedNodeAddress = '0x6B16D0b334824581B4a24A49Fd7fcbD6509CE5da'
   neverminedBackendUri = 'https://one-backend.arbitrum.nevermined.app'
   verbose = true
   gasMultiplier = 0
@@ -86,7 +86,7 @@ export class AppDeploymentGnosis extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.gnosis.nevermined.app'
   graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.gnosis.nevermined.app'
-  neverminedNodeAddress = '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B'
+  neverminedNodeAddress = '0x6B16D0b334824581B4a24A49Fd7fcbD6509CE5da'
   neverminedBackendUri = 'https://one-backend.gnosis.nevermined.app'
   verbose = true
   gasMultiplier = 0
@@ -104,7 +104,7 @@ export class AppDeploymentMatic extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.matic.nevermined.app'
   graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.matic.nevermined.app'
-  neverminedNodeAddress = '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B'
+  neverminedNodeAddress = '0x6B16D0b334824581B4a24A49Fd7fcbD6509CE5da'
   neverminedBackendUri = 'https://one-backend.matic.nevermined.app'
   verbose = true
   gasMultiplier = 1.2
@@ -122,7 +122,7 @@ export class AppDeploymentBase extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.base.nevermined.app'
   graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.base.nevermined.app'
-  neverminedNodeAddress = '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B'
+  neverminedNodeAddress = '0x6B16D0b334824581B4a24A49Fd7fcbD6509CE5da'
   neverminedBackendUri = 'https://one-backend.base.nevermined.app'
   verbose = true
   gasMultiplier = 0
@@ -158,7 +158,7 @@ export class AppDeploymentCelo extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.celo.nevermined.app'
   graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.celo.nevermined.app'
-  neverminedNodeAddress = '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B'
+  neverminedNodeAddress = '0x6B16D0b334824581B4a24A49Fd7fcbD6509CE5da'
   neverminedBackendUri = 'https://one-backend.celo.nevermined.app'
   verbose = true
   gasMultiplier = 0
@@ -176,7 +176,7 @@ export class AppDeploymentOptimism extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.optimism.nevermined.app'
   graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.optimism.nevermined.app'
-  neverminedNodeAddress = '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B'
+  neverminedNodeAddress = '0x6B16D0b334824581B4a24A49Fd7fcbD6509CE5da'
   neverminedBackendUri = 'https://one-backend.optimism.nevermined.app'
   verbose = true
   gasMultiplier = 0
@@ -194,7 +194,7 @@ export class AppDeploymentPeaq extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.peaq.nevermined.app'
   graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.peaq.nevermined.app'
-  neverminedNodeAddress = '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B'
+  neverminedNodeAddress = '0x6B16D0b334824581B4a24A49Fd7fcbD6509CE5da'
   neverminedBackendUri = 'https://one-backend.peaq.nevermined.app'
   verbose = true
   gasMultiplier = 0
