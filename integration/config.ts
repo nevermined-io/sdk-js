@@ -46,7 +46,7 @@ if (process.env.NETWORK_NAME === 'matic') {
     marketplaceUri: 'https://marketplace-api.matic.nevermined.app',
     neverminedNodeUri: 'https://node.matic.nevermined.app',
     web3ProviderUri: `https://polygon-mainnet.infura.io/v3/${infuraToken}`,
-    neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
+    neverminedNodeAddress: '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B',
     graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
   } as NeverminedOptions)
 }
@@ -57,7 +57,7 @@ if (process.env.NETWORK_NAME === 'gnosis') {
     marketplaceUri: 'https://marketplace-api.gnosis.nevermined.app',
     neverminedNodeUri: 'https://node.gnosis.nevermined.app',
     web3ProviderUri: `https://rpc.gnosischain.com/`,
-    neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
+    neverminedNodeAddress: '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B',
     graphHttpUri: 'https://api.thegraph.com/subgraphs/name/nevermined-io/public',
   } as NeverminedOptions)
 }
@@ -68,7 +68,7 @@ if (process.env.NETWORK_NAME === 'base') {
     marketplaceUri: 'https://marketplace-api.base.nevermined.app',
     neverminedNodeUri: 'https://node.base.nevermined.app',
     web3ProviderUri: `https://mainnet.base.org`,
-    neverminedNodeAddress: '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1',
+    neverminedNodeAddress: '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B',
     graphHttpUri: undefined,
   } as NeverminedOptions)
 }
