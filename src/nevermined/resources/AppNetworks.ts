@@ -68,7 +68,7 @@ export class AppDeploymentArbitrum extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.arbitrum.nevermined.app'
   graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.arbitrum.nevermined.app'
-  neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  neverminedNodeAddress = '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B'
   neverminedBackendUri = 'https://one-backend.arbitrum.nevermined.app'
   verbose = true
   gasMultiplier = 0
@@ -86,7 +86,7 @@ export class AppDeploymentGnosis extends NeverminedAppOptions {
   marketplaceUri = 'https://marketplace-api.gnosis.nevermined.app'
   graphHttpUri = 'https://api.studio.thegraph.com/query/78075/public'
   neverminedNodeUri = 'https://node.gnosis.nevermined.app'
-  neverminedNodeAddress = '0x824dbcE5E9C96C5b8ce2A35a25a5ab87eD1D00b1'
+  neverminedNodeAddress = '0x3d6c431c48e6B3B989c26eE10e78df5DE827Ff7B'
   neverminedBackendUri = 'https://one-backend.gnosis.nevermined.app'
   verbose = true
   gasMultiplier = 0
