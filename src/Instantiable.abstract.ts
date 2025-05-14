@@ -1,4 +1,12 @@
-import { Chain, createWalletClient, custom, http, PublicClient, WalletClient } from 'viem'
+import {
+  Chain,
+  createPublicClient,
+  createWalletClient,
+  custom,
+  http,
+  PublicClient,
+  WalletClient,
+} from 'viem'
 import { Logger, LoggerInstance, LogLevel } from './models/Logger'
 import { NeverminedOptions } from './models/NeverminedOptions'
 import { Nevermined } from './nevermined/Nevermined'
@@ -50,10 +58,10 @@ export async function getWeb3ViemClients(
     ? custom(window.ethereum!)
     : http()
 
-  const publicClient = {
+  const publicClient = createPublicClient({
     chain,
     transport: http(),
-  }
+  })
 
   const walletClient = createWalletClient({
     // cacheTime: 0 as number,
