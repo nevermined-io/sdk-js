@@ -556,13 +556,13 @@ export async function createKernelClient(signer: any, chainId: number, zeroDevPr
   return createKernelAccountClient({
     account,
     chain: getChain(chainId),
-    bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
+    bundlerTransport: http(`https://rpc.zerodev.app/api/v3/${zeroDevProjectId}/chain/${chainId}`),
     client: publicClient,
     paymaster: {
       getPaymasterData: (userOperation) => {
         const zerodevPaymaster = createZeroDevPaymasterClient({
           chain: getChain(chainId),
-          transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
+          transport: http(`https://rpc.zerodev.app/api/v3/${zeroDevProjectId}/chain/${chainId}`),
         })
         return zerodevPaymaster.sponsorUserOperation({
           userOperation,
@@ -647,13 +647,13 @@ export async function getSessionKey(
 
   const kernelPaymaster = createZeroDevPaymasterClient({
     chain: getChain(chainId),
-    transport: http(`https://rpc.zerodev.app/api/v2/paymaster/${zeroDevProjectId}`),
+    transport: http(`https://rpc.zerodev.app/api/v3/${zeroDevProjectId}/chain/${chainId}`),
   })
 
   const kernelClient = createKernelAccountClient({
     account: sessionKeyAccount,
     chain: getChain(chainId),
-    bundlerTransport: http(`https://rpc.zerodev.app/api/v2/bundler/${zeroDevProjectId}`),
+    bundlerTransport: http(`https://rpc.zerodev.app/api/v3/${zeroDevProjectId}/chain/${chainId}`),
     paymaster: {
       getPaymasterData(userOperation) {
         return kernelPaymaster.sponsorUserOperation({ userOperation })
