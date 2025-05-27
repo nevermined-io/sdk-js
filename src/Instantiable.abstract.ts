@@ -52,15 +52,16 @@ export async function getWeb3ViemClients(
   config: Partial<NeverminedOptions> = {},
 ): Promise<Web3Clients> {
   const chain = getChain(config.chainId)
-  const providerTransport = config.web3ProviderUri
-    ? http(config.web3ProviderUri)
-    : window && window.ethereum
-    ? custom(window.ethereum!)
-    : http()
+  const providerTransport =
+    typeof window !== 'undefined' && window.ethereum
+      ? custom(window.ethereum!)
+      : config.web3ProviderUri
+      ? http(config.web3ProviderUri)
+      : http()
 
   const publicClient = createPublicClient({
     chain,
-    transport: http(),
+    transport: providerTransport,
   })
 
   const walletClient = createWalletClient({
